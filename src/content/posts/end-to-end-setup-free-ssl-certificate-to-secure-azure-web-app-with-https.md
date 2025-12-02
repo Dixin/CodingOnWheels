@@ -70,6 +70,7 @@ To verify your domain ownership, Let’s Encrypt requests your-domain.com/.well-
 
 In your ASP.NET Core website, you may want to enable HSTS, and redirect HTTP request to HTTPS:
 
+```cs
 public class Startup
 {
     public void ConfigureServices(IServiceCollection services) // Container.
@@ -93,6 +94,7 @@ public class Startup
         // Other configuration.
     }
 }
+```
 
 You also want to look up the hyperlinks and resources (images, etc.), and replace their URIs with HTTPS.
 

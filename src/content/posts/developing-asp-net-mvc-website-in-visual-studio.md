@@ -15,39 +15,37 @@ Sometimes I send ASP.NET MVC project to some senior friends, and ask them for co
 
 The difference is, when removing the code-behind file of ViewPage, the C# generic syntax cannot work:
 
-```csharp
+```
 <%@ Page Language="C#" Inherits="WebOS.Website.Views.ViewPageBase<DesktopViewModel>" %>
 ```
 
 The above code only works in ASP.NET MVC project. In normal web application project, the CLR syntax is needed:
 
-```csharp
+```
 <%@ Page Language="C#" Inherits="WebOS.Website.Views.ViewPageBase`1[[WebOS.Website.ViewModels.DesktopViewModel, WebOS.Website]]" %>
 ```
 
 This way works for developing, debugging, and deploy. And the intellisense also works. [CoolWebOS.com](http://www.coolwebos.com) has being developed in this way.
 
-[](http://www.coolwebos.com/)
-
 Please do notice that, this way works in Visual Studio 2008 and Visual Studio 2008 SP1, but in some builds of 2010, when you press F5, your Visual Studio crashes. To resolve this, in your Web project properties, click the “Web” tab, and choose “Use Local IIS Web server”.
 
 ## Web application project vs. ASP.NET MVC project
 
-In the .csproj project files of normal Web project and MVC project, the different is the <ProjectTypeGuids> node.
+In the `.csproj` project files of normal Web project and MVC project, the different is the `<ProjectTypeGuids>` node.
 
 In normal Web application project, it is:
 
-```csharp
+```xml
 <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
 ```
 
 While in MVC project, it is:
 
-```csharp
+```xml
 <ProjectTypeGuids>{603c0e0b-db56-11dc-be95-000d561079b0};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
 ```
 
-An extra GUID {603c0e0b-db56-11dc-be95-000d561079b0} is added to indicate this is an ASP.NET MVC project. So when ASP.NET MVC add-on is not installed for Visual Studio , Visual Studio cannot recognize ASP.NET MVC project.
+An extra GUID `{603c0e0b-db56-11dc-be95-000d561079b0}` is added to indicate this is an ASP.NET MVC project. So when ASP.NET MVC add-on is not installed for Visual Studio , Visual Studio cannot recognize ASP.NET MVC project.
 
 ## Developing ASP.NET MVC website in Visual Studio 2010
 

@@ -31,13 +31,14 @@ After SQL Server LocalDB 2017/2019 is installed, connecting with SSNS may fail w
 
 In command line, trying to manage it with the sqllocaldb command may also fail with an error:
 
-> D:\\ λ sqllocaldb info MSSQLLocalDB
-> 
-> D:\\ λ sqllocaldb info MSSQLLocalDB Printing of LocalDB instance "MSSQLLocalDB" information failed because of the following error: Unexpected error occurred inside a LocalDB instance API method call. See the Windows Application event log for error details.
+```console
+D:\ λ sqllocaldb info MSSQLLocalDB 
+Printing of LocalDB instance "MSSQLLocalDB" information failed because of the following error: Unexpected error occurred inside a LocalDB instance API method call. See the Windows Application event log for error details.
 
 This is caused by engine versioning issue, which can be viewed in Windows Event Viewer:
 
-> LocalDB parent instance version is invalid: MSSQL13E.LOCALDB
+LocalDB parent instance version is invalid: MSSQL13E.LOCALDB
+```
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/89ee21b2c263_49AE/image_thumb_5.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/89ee21b2c263_49AE/image_12.png)
 
@@ -45,16 +46,30 @@ Apparently “MSSQL13E” is incorrect. SQL Server 2016 is v13, SQL Server 2017 
 
 The default instance can be deleted and recreated:
 
-> sqllocaldb stop mssqllocaldb sqllocaldb delete mssqllocaldb sqllocaldb create MSSQLLocalDB
+```bash
+sqllocaldb stop mssqllocaldb 
+sqllocaldb delete mssqllocaldb 
+sqllocaldb create MSSQLLocalDB
+```
 
-Or the version info can be manually updated in Registry: Computer\\HKEY\_CURRENT\_USER\\Software\\Microsoft\\Microsoft SQL Server\\UserInstances\\{2DD3D445-34C1-4251-B67D-7DFEED432A87}
+Or the version info can be manually updated in Registry: `Computer\HKEY\_CURRENT\_USER\Software\Microsoft\Microsoft SQL Server\UserInstances\{2DD3D445-34C1-4251-B67D-7DFEED432A87}`.
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/89ee21b2c263_49AE/image_thumb_2.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/89ee21b2c263_49AE/image_6.png)
 
-Just change ParentInstance to MSSQL14E.LOCALDB or MSSQL15E.LOCALDB.
+Just change `ParentInstance` to `MSSQL14E.LOCALDB` or `MSSQL15E.LOCALDB`.
 
 Then SQL Server LocalDB can be managed by command line or SSMS:
 
-> D:\\ λ sqllocaldb info MSSQLLocalDB Name: MSSQLLocalDB Version: 15.0.2000.5 Shared name: Owner: PC\\dixin Auto-create: Yes State: Stopped Last start time: 4/28/2020 5:31:14 PM Instance pipe name:
+```console
+D:\ λ sqllocaldb info MSSQLLocalDB 
+Name: MSSQLLocalDB 
+Version: 15.0.2000.5 
+Shared name: 
+Owner: PC\dixin 
+Auto-create: Yes 
+State: Stopped 
+Last start time: 4/28/2020 5:31:14 PM 
+Instance pipe name:
+```
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/89ee21b2c263_49AE/image_thumb_8.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/89ee21b2c263_49AE/image_18.png)

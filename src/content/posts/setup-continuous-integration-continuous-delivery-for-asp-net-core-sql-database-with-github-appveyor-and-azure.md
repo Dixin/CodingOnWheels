@@ -64,7 +64,7 @@ AppVeyor has a [Build Configuration](https://www.appveyor.com/docs/build-configu
 
 My project is built with ASP.NET Core 2.0, so I used the build worker image “Visual Studio 2017”, and turned on .NET Core patching:
 
-```csharp
+```yml
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
@@ -77,7 +77,7 @@ dotnet_csproj:
 
 I also used WebPack for the website UI, so I need install Node.js and NPM:
 
-```csharp
+```yml
 install:
 - ps: >-
     Install-Product node 8
@@ -85,7 +85,7 @@ install:
 
 By default, AppVeyor runs msbuild to build the solution. So before build, dotnet restore is needed to install all the NuGet packages. npm install is also needed to install all the NPM packages.
 
-```csharp
+```yml
 before_build:
 - cmd: >-
     dotnet restore
@@ -108,7 +108,7 @@ I am using MSTest framework. After build, the tests will be automatically discov
 
 My tests needs to connect to Azure SQL database to run. In this case, we can hide the secretes in connection string with secure variables. The following is the settings file containing the connection string:
 
-```csharp
+```js
 {
   "ConnectionStrings": {
     "Etymology": "Server=tcp:{server}.database.windows.net,1433;Initial Catalog={database};Persist Security Info=False;User ID={user};Password={password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
@@ -122,7 +122,7 @@ This file is committed to repository and exposed to public. Now encrypt the real
 
 Now these encrypted secretes can go to appveyor.yml and expose to public, along with other [environment variables](https://www.appveyor.com/docs/environment-variables/):
 
-```csharp
+```yml
 environment:
   Server:
     secure: TvXoVEeYYNoo2cXBZTeGuQ==
@@ -139,7 +139,7 @@ environment:
 
 In AppVeyor, these secure variables can be access just like othernormal environment variables. So before build, just replace the connection string with decrypted values:
 
-```csharp
+```yml
 install:
 - ps: >-
     Install-Product node 8
@@ -158,7 +158,7 @@ On the Azure side, go to the SQL database’s server, in the firewall settings, 
 
 What if on-premise SQL Server is used? I have an .NET Framework project using .mdf and ldf files with SQL Server LocalDB. In AppVeyor, I just enable SQL Server, attach the .mdf and ldf files, and update the connection string:
 
-```csharp
+```yml
 services: mssql2016
 before_test:
 - ps: >-
@@ -217,7 +217,7 @@ And specify the Azure deployment credential user name and password created just 
 
 The YAML will be like this:
 
-```csharp
+```yml
 build:
   publish_wap_xcopy: true
   parallel: true

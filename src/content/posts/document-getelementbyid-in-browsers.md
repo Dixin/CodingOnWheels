@@ -9,7 +9,7 @@ draft: false
 lang: ""
 ---
 
-For non-form elements, like <div>, etc., document.getElementById() usually works stably, except Opera:
+For non-form elements, like `<div>`, etc., document.getElementById() usually works stably, except Opera:
 
 ```html
 <div name="userName">1</div>

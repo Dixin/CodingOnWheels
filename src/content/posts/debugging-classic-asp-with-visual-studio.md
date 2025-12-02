@@ -20,20 +20,20 @@ I have [Windows 8.1](http://en.wikipedia.org/wiki/Windows_8.1) and [Visual Studi
 After searching and trying things around, using Visual Studio and [IIS Express](http://en.wikipedia.org/wiki/Internet_Information_Services#IIS_Express) seems to be the easiest way to run and debug ASP websites:
 
 1.  Modify IIS Express configuration. Open %USERPROFILE%\\Documents\\IISExpress\\config\\applicationhost.config. Under [<system.webServer>](http://www.iis.net/configreference/system.webserver), find [<asp>](http://www.iis.net/configreference/system.webserver/asp):
-    ```csharp
-    <asp scriptErrorSentToBrowser="true">
-        <cache diskTemplateCacheDirectory="%TEMP%\iisexpress\ASP Compiled Templates" />
-        <limits />
-    </asp>
-    ```
-    and change it to:
-    ```csharp
-    <asp scriptErrorSentToBrowser="true" enableParentPaths="true" bufferingOn="true" errorsToNTLog="true" appAllowDebugging="true" appAllowClientDebug="true">
-        <cache diskTemplateCacheDirectory="%TEMP%\iisexpress\ASP Compiled Templates" />
-        <session allowSessionState="true" />
-        <limits />
-    </asp>
-    ```
+```xml
+<asp scriptErrorSentToBrowser="true">
+    <cache diskTemplateCacheDirectory="%TEMP%\iisexpress\ASP Compiled Templates" />
+    <limits />
+</asp>
+```
+and change it to:
+```xml
+<asp scriptErrorSentToBrowser="true" enableParentPaths="true" bufferingOn="true" errorsToNTLog="true" appAllowDebugging="true" appAllowClientDebug="true">
+    <cache diskTemplateCacheDirectory="%TEMP%\iisexpress\ASP Compiled Templates" />
+    <session allowSessionState="true" />
+    <limits />
+</asp>
+```
     
 2.  In Visual Studio, add existing website to the solution (or open a website), point to the ASP website folder.
 3.  Start the website without debugging (Ctrl+F5).I will explain why.

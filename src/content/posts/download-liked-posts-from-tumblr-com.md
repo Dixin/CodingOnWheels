@@ -36,7 +36,7 @@ Also, [Q](https://github.com/kriskowal/q) can be installed for promise-based asy
 
 The plan is to download the pictures/video in each post, so a download utility function is needed. Node.js does not have such a built-in API, but it is easy to create one in a common module (common.js):
 
-```csharp
+```js
 var http = require("http"),
     fs = require("fs"),
     Q = require("q"),
@@ -62,7 +62,7 @@ It simply downloads the specified URL to the specified file system path. And Q i
 
 To save the downloaded file to local, a file name is needed. The easiest way is to directly use the file name from the URL. But it would be nice if the file name can have more semantics, which will be very helpful for search. So the post id and the post summary text can be used as the local file name. Notice not all the characters in the text can be used in file names. So another utility function is needed to remove those [reversed and disallowed characters](https://msdn.microsoft.com/en-us/library/windows/desktop/aa365247.aspx#file_and_directory_names) from text:
 
-```csharp
+```js
 removeReservedCharactersFromFileName = function (fileName) {
         // https://en.wikipedia.org/wiki/Filename#Reserved_characters_and_words
         // https://msdn.microsoft.com/en-us/library/windows/desktop/aa365247.aspx#file_and_directory_names
@@ -72,7 +72,7 @@ removeReservedCharactersFromFileName = function (fileName) {
 
 Then export these 2 functions:
 
-```csharp
+```js
 module.exports = {
     download: download,
     removeReservedCharactersFromFileName: removeReservedCharactersFromFileName,
@@ -84,7 +84,7 @@ module.exports = {
 
 Now a tumblr module (tumblr.js) can be created. The first step is to create a tumblr client, with tumblr-auto-auth, this is extremely simple:
 
-```csharp
+```js
 var path = require("path"),
     util = require("util"),
     Q = require("q"),
@@ -115,7 +115,7 @@ Q is consistently used for asynchrony.
 
 Then the created client can be used to pull the liked posts of the specified user from tumblr. Just call client.likes:
 
-```csharp
+```js
 getLikes = function (options) {
         var deferred = Q.defer();
         options.client.likes(options, function (error, data) {
@@ -141,7 +141,7 @@ Now it is time to download the contents of each post. A post can have:
 
 All files will be downloaded by calling common.download, which was defined a moment ago:
 
-```csharp
+```js
 downloadPost = function (post, directory, getFileName) {
         var downloads = [];
         console.log("Processing " + post.post_url);
@@ -175,7 +175,7 @@ Since common.download returns a promise object, all these promise objects can be
 
 Also a getFileName function is used to generate file name with post id and file URL (either URL of a picture, or URL of a video):
 
-```csharp
+```js
 getFileName = function (post, url, index) {
         var summary = post.summary ? common.removeReservedCharactersFromFileName(post.summary).trim() : "",
             extension = url.split(".").pop();
@@ -190,7 +190,7 @@ Unfortunately, Node.js Tools for Visual Studio does not support [ECMAScript 2015
 
 After finishing downloading all files in a post, this post can be removed from liked posts list. Tumblr client has a unlike API for this:
 
-```csharp
+```js
 unlikePost = function (options) {
         var deferred = Q.defer();
         console.log("Unliking post " + options.post.post_url);
@@ -207,7 +207,7 @@ unlikePost = function (options) {
 
 Now it is time to composite these steps together. They all return a promise, so it is quite easy and straightforword:
 
-```csharp
+```js
 downloadAllAndUnlike = function (options) {
         getClient(options) // Get tumblr client.
             .then(getLikes) // Get tumblr liked post.
@@ -249,7 +249,7 @@ When calling tumblr API to get liked posts, the API returns 50 posts even when t
 
 And finally, export downloadAllAndUnlike function:
 
-```csharp
+```js
 module.exports = {
     downloadAllAndUnlike: downloadAllAndUnlike
 };
@@ -263,7 +263,7 @@ To start downloading, specify a startup file for this Node.js application:
 
 In the startup file (main.js), just call downloadAllAndUnlike function of the tumblr module:
 
-```csharp
+```js
 var tumblr = require("./tumblr");
 
 tumblr.downloadAllAndUnlike({
