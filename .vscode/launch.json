@@ -1,0 +1,15 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Launch Astro Dev",
+			"type": "node",
+			"request": "launch",
+			"runtimeArgs": ["dev"],
+			"runtimeExecutable": "pnpm",
+			"port": 4321,
+			"console": "integratedTerminal",
+			"internalConsoleOptions": "neverOpen"
+		}
+	]
+}
