@@ -1,6 +1,6 @@
 ---
 title: "Category Theory via C# (8) Advanced LINQ to Monads"
-published: 2024-12-31
+published: 2025-12-31
 description: "Monad is a powerful structure, with the LINQ support in C# language, monad enables chaining operations to build fluent workflow, which can be pure. With these features, monad can be used to manage I/O"
 image: ""
 tags: [".NET", "C#", "Category Theory", "Functional Programming", "LINQ", "LINQ via C#", "Monads"]

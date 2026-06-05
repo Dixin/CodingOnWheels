@@ -143,6 +143,7 @@ internal static void Where()
     categories.ForEach(category => Trace.WriteLine(category.Name)); // Execute query.
 }
 ```
+
 ```sql
 SELECT 
     [Extent1].[ProductCategoryID] AS [ProductCategoryID], 
@@ -162,6 +163,7 @@ internal static void WhereWithOr()
     categories.ForEach(category => Trace.WriteLine(category.Name)); // Execute query.
 }
 ```
+
 ```sql
 SELECT 
     [Extent1].[ProductCategoryID] AS [ProductCategoryID], 

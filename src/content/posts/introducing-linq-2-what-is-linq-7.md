@@ -187,7 +187,7 @@ In this example, the data source is XML data loaded in memory. It queries all <i
 
 .NET Framework provides **System.Data.DataSet** type to cache data in memory. Each **DataSet** instance contains **System.Data.DataTable** instances, and each **DataTable** instance contains **System.Data.DataRow** instances. **DataSet**s are frequently used to cache tabular data from relational database. When working with relational database, this tutorial uses Microsoft SQL database and Microsoft AdventureWorks sample database for demonstration. In the following example, data is read from the **AdventureWorks** database’s **Production.Product** table, and cached in a **DataSet** instance. This LINQ query use this cached data in memory (not the data stored in database) as data source, and queries the products in the specified subcategory, and get the products’ names, in ascending order of products’ list prices.
 
-```sql
+```csharp
 internal static void LinqToDataSets(string connectionString)
 {
     using (DataSet dataSet = new DataSet())
@@ -500,7 +500,7 @@ internal static partial class Imperative
 
 For SQL database, the traditional programming model implements the above LINQ to Entities query logic by calling ADO.NET data access APIs to execute query statement in SQL language:
 
-```sql
+```csharp
 internal static void Sql(string connectionString)
 {
     using (DbConnection connection = new SqlConnection(connectionString))

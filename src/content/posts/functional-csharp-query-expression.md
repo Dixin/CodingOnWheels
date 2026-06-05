@@ -113,7 +113,7 @@ Some tools, like [Resharper](https://www.jetbrains.com/resharper), a powerful [e
 
 To enable all the query keywords for a certain type, a set of query methods are required to be provided. The following interfaces demonstrate the signatures of the required methods for a locally queryable type:
 
-```typescript
+```csharp
 public interface ILocal
 {
     ILocal<T> Cast<T>();
@@ -166,7 +166,7 @@ public interface ILocalGroup<TKey, T> : ILocal<T>
 
 All above methods return ILocalSource<T>, so these methods or query expression clauses can be easily composed. The above query methods are represented as instance methods. As fore mentioned, extension methods work too. This is called the query expression pattern. Similarly, the following interfaces demonstrate the signatures of the required query methods for a remotely queryable type, which replaces all function parameters with expression tree parameters:
 
-```typescript
+```csharp
 public interface IRemote
 {
     IRemote<T> Cast<T>();

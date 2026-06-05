@@ -1339,37 +1339,20 @@ There are also a few other APIs covered with other EF Core components. For examp
 
 Apparently EF Core can only compile the supported .NET API calls, like the above string.Length call. It cannot compile arbitrary API calls. The following example wraps the string.Length call and result comparison with constant into a custom predicate:
 
+```csharp
 private static bool FilterName(string name) => name.Length > 10;
 
-```csharp
 internal static void WhereAndSelectWithCustomPredicate(AdventureWorks adventureWorks)
-```
-```csharp
 {
-```
-```csharp
 IQueryable<Product>source = adventureWorks.Products;
-```
-```csharp
 IQueryable<string>products = source
-```
-```csharp
 .Where(product => FilterName(product.Name))
-```
-```csharp
 .Select(product => product.Name); // Define query.
-```
-```csharp
 products.WriteLines(); // Execute query.
-```
-```sql
 // SELECT [product].[Name]
-```
-```sql
 // FROM [Production].[Product] AS [product]
-```
-
 }
+```
 
 At compile time, the predicate expression tree has a MethodCallExpression node representing FilterName call, which apparently cannot be compiled to SQL by EF Core. In this case, EF Core execute FilterName locally.
 
@@ -1459,68 +1442,34 @@ public static int DateDiffDay(this DbFunctions _, DateTime startDate, DateTime e
 
 The following example filters the product’s names with a pattern. In the following LINQ to Entities query expression tree, the MethodCallExpression node representing Like call is compiled to a LikeExpression node representing the LIKE operator:
 
+```csharp
 internal static void DatabaseOperator(AdventureWorks adventureWorks)
-
-```csharp
 {
-```
-```csharp
 IQueryable<string>products = adventureWorks.Products
-```
-```csharp
 .Select(product => product.Name)
-```
-```csharp
 .Where(name => EF.Functions.Like(name, "%Touring%50%")); // Define query.
-```
-```csharp
 products.WriteLines(); // Execute query.
-```
-```sql
 // SELECT [product].[Name]
-```
-```sql
 // FROM [Production].[Product] AS [product]
-```
-```sql
 // WHERE [product].[Name] LIKE N'%Touring%50%'
-```
-
 }
+```
 
 The following LINQ to Entities query calculates the number of days between current time and photo’s last modified time. In the following LINQ to Entities query expression tree, the MethodCallExpression node representing DateDiffDay call can be compiled to a SqlFunctionExpression node representing DATEDIFF call:
 
+```csharp
 internal static void DatabaseFunction(AdventureWorks adventureWorks)
-
-```csharp
 {
-```
-```csharp
 var photos = adventureWorks.ProductPhotos.Select(photo => new
-```
-```csharp
 {
-```
-```csharp
 LargePhotoFileName = photo.LargePhotoFileName,
-```
-```csharp
 UnmodifiedDays = EF.Functions.DateDiffDay(photo.ModifiedDate, DateTime.UtcNow)
-```
-```csharp
 }); // Define query.
-```
-```csharp
 photos.WriteLines(); // Execute query.
-```
-```sql
 // SELECT [photo].[LargePhotoFileName], DATEDIFF(DAY, [photo].[ModifiedDate], GETUTCDATE()) AS [UnmodifiedDays]
-```
-```sql
 // FROM [Production].[ProductPhoto] AS [photo]
-```
-
 }
+```
 
 ### Database expression tree to database query
 
@@ -1622,62 +1571,28 @@ return sqlGenerator.GetCommand(databaseExpression);
 
 The above WhereAndSelectDatabaseExpressions and SelectAndFirstDatabaseExpressions functions build database expression trees from scratch. Take them as an example to generate SQL:
 
+```csharp
 internal static void WhereAndSelectSql(AdventureWorks adventureWorks)
-
-```csharp
 {
-```
-```csharp
 SelectExpression databaseExpression = WhereAndSelectDatabaseExpressions(
-```
-```csharp
 adventureWorks);
-```
-```csharp
 IRelationalCommand sql = adventureWorks.Generate(
-```
-```csharp
 databaseExpression: databaseExpression, parameters: null);
-```
-```csharp
 sql.CommandText.WriteLine();
-```
-```sql
 // SELECT [product].[Name]
-```
-```sql
 // FROM [Production].[ProductCategory] AS [product]
-```
-```sql
 // WHERE CAST(LEN([product].[Name]) AS int)> 10
-```
-```csharp
 }
-```
 
-```csharp
 internal static void SelectAndFirstSql(AdventureWorks adventureWorks)
-```
-```csharp
 {
-```
-```csharp
 SelectExpression databaseExpression = SelectAndFirstDatabaseExpressions(adventureWorks);
-```
-```csharp
 IRelationalCommand sql = adventureWorks.Generate(databaseExpression: databaseExpression, parameters: null);
-```
-```csharp
 sql.CommandText.WriteLine();
-```
-```sql
 // SELECT TOP(1) [product].[Name]
-```
-```sql
 // FROM [Production].[Product] AS [product]
-```
-
 }
+```
 
 SQL generator traverses the command tree nodes, a specific Visit overloads is called for each supported node type. It generates SELECT clause from DbProjectionExpression node, FROM clause from DbScanExpression node, WHERE clause from DbFilterExpression node, LIKE operator from DbLikeExpression, etc.
 

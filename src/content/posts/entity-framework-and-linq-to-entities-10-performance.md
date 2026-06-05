@@ -242,7 +242,7 @@ After the metadata is initialized, they are cached, so that the initialization o
 
 As fore mentioned, by default, the entities queried from repository are cached and tracked. This behavior can be demonstrated by the following example:
 
-```sql
+```csharp
 internal static void CachedEntity()
 {
     using (AdventureWorks adventureWorks = new AdventureWorks())
@@ -271,7 +271,7 @@ In this example, the first query reads data from the repository and materialize 
 
 Entity is not cached when tracking is turned off, or entity is not queried from the repository. Each of the following queries materializes a new entity:
 
-```sql
+```csharp
 internal static void UncachedEntity()
 {
     using (AdventureWorks adventureWorks = new AdventureWorks())
@@ -588,7 +588,7 @@ internal static async Task Async()
 
 Entity Framework and ADO.NET async APIs also work with DbContextTransaction and DbTransaction naturally:
 
-```sql
+```csharp
 internal static async Task DbContextTransactionAsync()
 {
     using (AdventureWorks adventureWorks = new AdventureWorks())
@@ -659,7 +659,7 @@ internal static async Task DbTransactionAsync()
 
 TransactionScope by default does not support across thread transaction flow. Using the the async/await syntactic sugar for TransactionScope causes InvalidOperationException: A TransactionScope must be disposed on the same thread that it was created.. To resolved this, .NET 4.5.1+ introduced a new constructor for TransactionScope to explicitly enable transaction flow across thread continuations:
 
-```sql
+```csharp
 internal static async Task TransactionScopeAsync()
 {
     using (TransactionScope scope = new TransactionScope(

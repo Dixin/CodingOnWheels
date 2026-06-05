@@ -172,7 +172,7 @@ Here await is used for each async function call, and the code structure remains 
 
 So the await keyword can be viewed as virtually waiting for the task’s underlying async operation to finish. If the task fails, exception is thrown. If the task is completed successfully, the continuation right after the await expression is called back. If the task has a result, await can extract the result. Therefore,, the async workflow keeps the same looking of sync workflow. There is no ContinueWith call needed to build the continuation. The following example is a more complex database query workflow of sync function calls, and a int value is returned as the query result:
 
-```sql
+```csharp
 internal static int Query(DbConnection connection, StreamWriter logWriter)
 {
     try
@@ -201,7 +201,7 @@ internal static int Query(DbConnection connection, StreamWriter logWriter)
 
 Here the DbConnection.Open, DbCommand.ExecuteReader, DbDataReader.Read, StreamWriter.WriteLine methods have async version provided as DbConnection.OpenAsync, DbCommand.ExecuteReaderAsync, DbDataReader.ReadAsync, StreamWriter.WriteLineAsync. They either return Task, or Task<TResult>. With the async and await keywords, it it easy to call these async functions:
 
-```sql
+```csharp
 internal static async Task<int> QueryAsync(DbConnection connection, StreamWriter logWriter)
 {
     try
@@ -361,7 +361,7 @@ Task not started yet is called cold task, and task already started is called hot
 
 C# compiles the await expression with the awaitable-awaiter pattern. Besides Task and Task<TResult>, the await keyword can be used with any awaitable type. A awaitable type has a GetAwaiter instance or extension method to return a awaiter. A awaiter type implements System.Runtime.CompilerServices.INotifyCompletion interface, also has a IsCompleted property returning a bool value, and a GetResult instance method returning either void or a result value. The following IAwaitable and IAwaiter interfaces demonstrate the awaitable-awaiter pattern for operations with no result:
 
-```typescript
+```csharp
 public interface IAwaitable
 {
     IAwaiter GetAwaiter();
@@ -377,7 +377,7 @@ public interface IAwaiter : INotifyCompletion
 
 And the following IAwaitable<TResult> and IAwaiter<TResult> interfaces demonstrate the awaitable-awaiter pattern for operations with a result:
 
-```typescript
+```csharp
 public interface IAwaitable<TResult>
 {
     IAwaiter<TResult> GetAwaiter();
@@ -1067,7 +1067,7 @@ Here these 2 async lambda expressions are compiled as display class methods, in 
 
 Since task can be constructed with anonymous function returning any type, it can be constructed with async anonymous function returning task too:
 
-```typescript
+```csharp
 internal static async Task AsyncAnonymous(string readPath, string writePath)
 {
     Task<Task<string>> task1 = new Task<Task<string>>(async () => await ReadAsync(readPath));

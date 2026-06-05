@@ -510,7 +510,7 @@ OptionalParameter(true, '@', 1);
 ```csharp
 OptionalParameter(true, '@', 1, string.Empty);
 ```
-```typescript
+```csharp
 OptionalParameter(true, '@', optional2: string.Empty);
 ```
 ```csharp

@@ -31,7 +31,7 @@ After SQL Server LocalDB 2017/2019 is installed, connecting with SSNS may fail w
 
 In command line, trying to manage it with the sqllocaldb command may also fail with an error:
 
-```console
+```batch
 D:\ λ sqllocaldb info MSSQLLocalDB 
 Printing of LocalDB instance "MSSQLLocalDB" information failed because of the following error: Unexpected error occurred inside a LocalDB instance API method call. See the Windows Application event log for error details.
 
@@ -60,7 +60,7 @@ Just change `ParentInstance` to `MSSQL14E.LOCALDB` or `MSSQL15E.LOCALDB`.
 
 Then SQL Server LocalDB can be managed by command line or SSMS:
 
-```console
+```batch
 D:\ λ sqllocaldb info MSSQLLocalDB 
 Name: MSSQLLocalDB 
 Version: 15.0.2000.5 

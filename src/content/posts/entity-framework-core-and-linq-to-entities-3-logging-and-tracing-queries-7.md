@@ -74,7 +74,7 @@ public partial class AdventureWorks
 
 The following is a simple example of LINQ to Entities query. It pulls all ProductCategory entities from AdventureWorks.ProductCategories data source:
 
-```sql
+```csharp
 internal static partial class Tracing
 {
     internal static void TraceLogger()
@@ -125,7 +125,7 @@ The logs uncovers that a SELECT statement is executed in database to query all c
 > 
 > In EF, the easiest way is to call the query’s ToString method. In EF, LINQ to Entities query represented by IQueryable<T> is actually implemented with System.Data.Entity.Infrastructure.DbQuery<T>. The fore mentioned DbSet<T> type representing table is derived from DbQuery<T> too. For example:
 > 
-> ```sql
+> ```csharp
 > internal static partial class Tracing
 > {
 >     internal static void DbQueryToString()
@@ -167,7 +167,7 @@ The logs uncovers that a SELECT statement is executed in database to query all c
 > 
 > The logger function is called with message for all database operations:
 > 
-> ```sql
+> ```csharp
 > internal static void DatabaseLog()
 > {
 >     using (AdventureWorks adventureWorks = new AdventureWorks())
@@ -211,7 +211,7 @@ The logs uncovers that a SELECT statement is executed in database to query all c
 > 
 > EF provides a number of built-in interceptor implementations. For example, the DatabaseLogFormatter type under the same namespace implements IDbCommandInterceptor, IDbConnectionInterceptor and IDbTransactionInterceptor. And it has a lot of virtual members to be overridden with custom logging logic. An interceptor has to be registered with DbInterception.Add:
 > 
-> ```sql
+> ```csharp
 > internal static void Interceptor()
 > {
 >     DatabaseLogFormatter interceptor = new DatabaseLogFormatter(writeAction: log => Trace.WriteLine(log));

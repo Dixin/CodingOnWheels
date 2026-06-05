@@ -34,7 +34,7 @@ and satisfies the functor laws:
 
 So the general functor should be like:
 
-```typescript
+```csharp
 // Cannot be compiled.
 public interface IFunctor<in TSourceCategory, out TTargetCategory, TFunctor<>>
     where TSourceCategory : ICategory<TSourceCategory>
@@ -56,7 +56,7 @@ A C# functor can select (maps) a morphism in [DotNet category](/posts/category-t
 
 A endofunctor can be defined as:
 
-```typescript
+```csharp
 // Cannot be compiled.
 public interface IEndofunctor<TCategory, TEndofunctor<>>
     : IFunctor<TCategory, TCategory, TEndofunctor<>>

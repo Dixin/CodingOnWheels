@@ -369,7 +369,7 @@ internal static partial class DataExtensions
 
 This syntax works for interface explicit implementation too:
 
-```typescript
+```csharp
 internal partial class Data : IComparable<Data>
 {
     int IComparable<Data>.CompareTo(Data other) => this.value.CompareTo(other.value); // Explicit interface implementation.

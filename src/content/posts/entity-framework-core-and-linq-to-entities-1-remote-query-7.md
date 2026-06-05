@@ -280,7 +280,7 @@ internal class InfixVisitor : BinaryArithmeticExpressionVisitor<string>
 
 It can traverse an arithmetic expression tree, and compile it to a SQL SELECT statement with infix arithmetic expression:
 
-```sql
+```csharp
 internal static partial class ExpressionTree
 {
     internal static void Sql()

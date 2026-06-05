@@ -1,6 +1,6 @@
 ---
 title: "Lambda Calculus via C# (8) Undecidability of Equivalence"
-published: 2024-11-28
+published: 2025-11-28
 description: "All the previous parts demonstrated what  can do – defining functions to model the computing, applying functions to execute the computing"
 image: ""
 tags: ["C#", "C# 3.0", "Functional Programming", "Lambda Calculus", "LINQ via C# Series"]

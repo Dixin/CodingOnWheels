@@ -331,76 +331,32 @@ In this example, the data source is XML data loaded in memory. It queries all <i
 
 .NET Framework provides System.Data.DataSet type to cache tabular data from relational database. When working with relational database, this book uses Microsoft SQL database and Microsoft AdventureWorks sample database. In the following example, data is read from the AdventureWorks database’s Production.Product table, and cached in a DataSet instance. The following example queries the products in the specified subcategory, and get the products’ names, in ascending order of products’ list prices.
 
+```csharp
 internal static void LinqToDataSets(string connectionString)
-
-```csharp
 {
-```
-```csharp
 using (DataSet dataSet = new DataSet())
-```
-```csharp
 using (DataAdapter dataAdapter = new SqlDataAdapter(
-```
-```sql
 @"SELECT [Name], [ListPrice], [ProductSubcategoryID] FROM [Production].[Product]", connectionString))
-```
-```csharp
 {
-```
-```csharp
 dataAdapter.Fill(dataSet);
-```
-```csharp
 EnumerableRowCollection<DataRow> source = dataSet.Tables[0].AsEnumerable(); // Get source.
-```
-```csharp
 EnumerableRowCollection<string> query =
-```
-```csharp
 from product in source
-```
-```csharp
 where product.Field<int>("ProductSubcategoryID") == 1
-```
-```csharp
 orderby product.Field<decimal>("ListPrice")
-```
-```csharp
 select product.Field<string>("Name"); // Define query.
-```
-```csharp
 // Equivalent to:
-```
-```csharp
 // EnumerableRowCollection<string> query = source
-```
-```csharp
 // .Where(product => product.Field<int>("ProductSubcategoryID") == 1)
-```
-```csharp
 // .OrderBy(product => product.Field<decimal>("ListPrice"))
-```
-```csharp
 // .Select(product => product.Field<string>("Name"));
-```
-```csharp
 foreach (string result in query) // Execute query.
-```
-```csharp
 {
-```
-```csharp
 Trace.WriteLine(result);
-```
-```csharp
+}
+}
 }
 ```
-```csharp
-}
-```
-
-}
 
 Here the query is created to filter the products in the DataSet object, and only keeps the products under the specified subcategory, then sort the products by their list price fields, then get the products’ name fields. Later, when pulling the results from the query with a foreach loop, the query is executed.
 
@@ -1023,91 +979,37 @@ Trace.WriteLine(node);
 
 For SQL database, the traditional programming model implements the above LINQ to Entities query logic by calling ADO.NET data access APIs to execute query statement in SQL language:
 
+```csharp
 internal static void Sql(string connectionString)
-
-```csharp
 {
-```
-```csharp
 using (DbConnection connection = new SqlConnection(connectionString))
-```
-```csharp
 using (DbCommand command = connection.CreateCommand())
-```
-```csharp
 {
-```
-```csharp
 command.CommandText =
-```
-```sql
 @"SELECT [Product].[Name]
-```
-```sql
 FROM [Production].[Product] AS [Product]
-```
-```csharp
 LEFT OUTER JOIN [Production].[ProductSubcategory] AS [Subcategory]
-```
-```csharp
 ON [Subcategory].[ProductSubcategoryID] = [Product].[ProductSubcategoryID]
-```
-```csharp
 LEFT OUTER JOIN [Production].[ProductCategory] AS [Category]
-```
-```csharp
 ON [Category].[ProductCategoryID] = [Subcategory].[ProductCategoryID]
-```
-```sql
 WHERE [Category].[Name] = @categoryName
-```
-```csharp
 ORDER BY [Product].[ListPrice] DESC";
-```
-```csharp
 DbParameter parameter = command.CreateParameter();
-```
-```csharp
 parameter.ParameterName = "@categoryName";
-```
-```csharp
 parameter.Value = "Bikes";
-```
-```csharp
 command.Parameters.Add(parameter);
-```
-```csharp
 connection.Open();
-```
-```csharp
 using (DbDataReader reader = command.ExecuteReader())
-```
-```csharp
 {
-```
-```csharp
 while (reader.Read())
-```
-```csharp
 {
-```
-```csharp
 string productName = (string)reader["Name"];
-```
-```csharp
 Trace.WriteLine(productName);
-```
-```csharp
+}
+}
+}
 }
 ```
-```csharp
-}
-```
-```csharp
-}
-```
-
-}
 
 Similarly, for Twitter data, there are network APIs to query Twitter’s REST endpoints, etc. LINQ implements a unified and consistent language syntax and programming model for many different data domains. Above examples demonstrated the same C# syntax builds filter-sort-map query flows for .NET objects, XML data, cached tabular data, SQL database, NoSQL database, JSON, Twitter data. This capability makes LINQ a powerful and productive solution for working with data.
 

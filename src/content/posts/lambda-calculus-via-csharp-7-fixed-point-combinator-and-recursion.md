@@ -1,6 +1,6 @@
 ---
 title: "Lambda Calculus via C# (7) Fixed Point Combinator and Recursion"
-published: 2024-11-23
+published: 2025-11-23
 description: "p is the ) (aka invariant point) of function f :"
 image: ""
 tags: [".NET", "C#", "Combinators", "Combinatory Logic", "Fixed Point Combinator", "Functional Programming", "Lambda Calculus", "LINQ via C#", "Y Combinator"]

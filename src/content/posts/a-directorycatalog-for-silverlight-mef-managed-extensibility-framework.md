@@ -32,7 +32,7 @@ There are scenarios that Silverlight application may need to load all XAP files 
 -   If the Silverlight application is extensible and supports plug-ins, there would be something like a Plugins folder in the web server, and each pluin would be an individual XAP file in the folder. In this scenario, after the application is loaded and started up, it would like to load all XAP files in Plugins folder.
 -   If the aplication supports themes, there would be something like a Themes folder, and each theme would be an individual XAP file too. The application would also need to load all XAP files in Themes.
 
-It is useful if we have a DirectoryCatalog:
+It is useful if we have a `DirectoryCatalog`:
 
 ```csharp
 DirectoryCatalog catalog = new DirectoryCatalog("/Plugins");
@@ -40,7 +40,7 @@ catalog.DownloadCompleted += (sender, e) => { };
 catalog.DownloadAsync();
 ```
 
-Obviously, the implementation of DirectoryCatalog is easy. It is just a collection of DeploymentCatalog class.
+Obviously, the implementation of `DirectoryCatalog` is easy. It is just a collection of `DeploymentCatalog` class.
 
 ## Retrieve file list from a directory
 
@@ -127,7 +127,7 @@ private IEnumerable<Uri> GetFilesFromDirectory(string html)
 }
 ```
 
-Please notice the folders' links end with a slash. They are filtered by the second Where() query.
+Please notice the folders' links end with a slash. They are filtered by the second `Where()` query.
 
 The above method can find files' URIs from the specified IIS folder, or ASP.NET Deployment Server folder while debugging. To support other formats of file list, a constructor is needed to pass into a customized method:
 
@@ -154,7 +154,7 @@ public DirectoryCatalog(Uri uri, Func<string, IEnumerable<Uri>> getFilesFromDire
 }
 ```
 
-When the getFilesFromDirectory parameter is null, the above GetFilesFromDirectory() method will be used as default.
+When the `getFilesFromDirectory` parameter is null, the above `GetFilesFromDirectory()` method will be used as default.
 
 ## Download the directory's XAP file list
 
@@ -181,11 +181,11 @@ public void DownloadAsync()
 }
 ```
 
-Here the HandleOpenReadCompleted() method is invoked when the file list HTML is downloaded.
+Here the `HandleOpenReadCompleted()` method is invoked when the file list HTML is downloaded.
 
 ## Download all XAP files
 
-After retrieving all files' URIs, the next thing becomes even easier. HandleOpenReadCompleted() just uses built in DeploymentCatalog to download the XAPs, and aggregate them into one AggregateCatalog:
+After retrieving all files' URIs, the next thing becomes even easier. `HandleOpenReadCompleted()` just uses built in `DeploymentCatalog` to download the XAPs, and aggregate them into one `AggregateCatalog`:
 
 ```csharp
 private void HandleOpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
@@ -230,7 +230,7 @@ private void HandleOpenReadCompleted(object sender, OpenReadCompletedEventArgs e
 }
 ```
 
-In HandleDownloadCompleted(), if all XAPs are downloaded without exception, OnDownloadCompleted() callback method will be invoked.
+In `HandleDownloadCompleted()`, if all XAPs are downloaded without exception, `OnDownloadCompleted()` callback method will be invoked.
 
 ```csharp
 private void HandleDownloadCompleted(object sender, AsyncCompletedEventArgs e)
@@ -244,7 +244,7 @@ private void HandleDownloadCompleted(object sender, AsyncCompletedEventArgs e)
 
 ## Exception handling
 
-Whether this DirectoryCatelog can work only if the directory browsing feature is enabled. It is important to inform caller when directory cannot be browsed for XAP downloading.
+Whether this `DirectoryCatelog` can work only if the directory browsing feature is enabled. It is important to inform caller when directory cannot be browsed for XAP downloading.
 
 ```csharp
 private void HandleOpenReadCompleted(object sender, OpenReadCompletedEventArgs e)
@@ -312,8 +312,8 @@ So in above code, exceptions in 2 modes are handled differently.
 
 ## Conclusion
 
-Here is the whole DirectoryCatelog's looking:
+Here is the whole `DirectoryCatelog`'s looking:
 
 ![image](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_263C405B.png "image")
 
-Please [click here to download the source code](https://aspblogs.blob.core.windows.net/media/dixin/Media/SilverlightMefExtensions.zip), a simple unit test is included. This is a rough implementation. And, for convenience, some design and coding are just following the built in AggregateCatalog class and Deployment class. Please feel free to modify the code, and please kindly tell me if any issue is found.
+Please [click here to download the source code](https://aspblogs.blob.core.windows.net/media/dixin/Media/SilverlightMefExtensions.zip), a simple unit test is included. This is a rough implementation. And, for convenience, some design and coding are just following the built in `AggregateCatalog` class and `Deployment` class. Please feel free to modify the code, and please kindly tell me if any issue is found.

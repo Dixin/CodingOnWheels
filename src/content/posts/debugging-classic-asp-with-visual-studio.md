@@ -20,13 +20,16 @@ I have [Windows 8.1](http://en.wikipedia.org/wiki/Windows_8.1) and [Visual Studi
 After searching and trying things around, using Visual Studio and [IIS Express](http://en.wikipedia.org/wiki/Internet_Information_Services#IIS_Express) seems to be the easiest way to run and debug ASP websites:
 
 1.  Modify IIS Express configuration. Open %USERPROFILE%\\Documents\\IISExpress\\config\\applicationhost.config. Under [<system.webServer>](http://www.iis.net/configreference/system.webserver), find [<asp>](http://www.iis.net/configreference/system.webserver/asp):
+
 ```xml
 <asp scriptErrorSentToBrowser="true">
     <cache diskTemplateCacheDirectory="%TEMP%\iisexpress\ASP Compiled Templates" />
     <limits />
 </asp>
 ```
+
 and change it to:
+
 ```xml
 <asp scriptErrorSentToBrowser="true" enableParentPaths="true" bufferingOn="true" errorsToNTLog="true" appAllowDebugging="true" appAllowClientDebug="true">
     <cache diskTemplateCacheDirectory="%TEMP%\iisexpress\ASP Compiled Templates" />
@@ -34,13 +37,13 @@ and change it to:
     <limits />
 </asp>
 ```
-    
-2.  In Visual Studio, add existing website to the solution (or open a website), point to the ASP website folder.
-3.  Start the website without debugging (Ctrl+F5).I will explain why.
-4.  In Visual Studio, open the “Attach to Process” dialog (Ctrl+Alt+P). Notice the “Attach to” has the default option “Automatic: Native code” [![image_thumb9](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb9_thumb.png "image_thumb9")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb9_2.png)
-5.  Click the “Select…” button, change it to “Script”: [![image_thumb10](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb10_thumb.png "image_thumb10")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb10_2.png)
-6.  Now attach to IIS Express: [![image_thumb11](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb11_thumb.png "image_thumb11")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb11_2.png)
-7.  If IIS Express is running multiple websites, there will be multiple iisexpress.exe processes in the “Available Processes”. The current website’s process ID can be found from the IIS Express site list: [![image_thumb13](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb13_thumb.png "image_thumb13")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb13_2.png)
+
+1. In Visual Studio, add existing website to the solution (or open a website), point to the ASP website folder.
+2. Start the website without debugging (Ctrl+F5).I will explain why.
+3. In Visual Studio, open the “Attach to Process” dialog (Ctrl+Alt+P). Notice the “Attach to” has the default option “Automatic: Native code” [![image_thumb9](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb9_thumb.png "image_thumb9")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb9_2.png)
+4. Click the “Select…” button, change it to “Script”: [![image_thumb10](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb10_thumb.png "image_thumb10")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb10_2.png)
+5. Now attach to IIS Express: [![image_thumb11](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb11_thumb.png "image_thumb11")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb11_2.png)
+6. If IIS Express is running multiple websites, there will be multiple iisexpress.exe processes in the “Available Processes”. The current website’s process ID can be found from the IIS Express site list: [![image_thumb13](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb13_thumb.png "image_thumb13")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb13_2.png)
 
 Now the website can be debugged in Visual Studio:
 

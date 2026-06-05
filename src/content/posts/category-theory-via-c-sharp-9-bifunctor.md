@@ -37,7 +37,7 @@ and satisfies the functor laws:
 
 Remember the pseudo C# definition of functor:
 
-```typescript
+```csharp
 // Cannot be compiled.
 public interface IFunctor<in TSourceCategory, out TTargetCategory, TFunctor<>>
     where TSourceCategory : ICategory<TSourceCategory>
@@ -51,7 +51,7 @@ public interface IFunctor<in TSourceCategory, out TTargetCategory, TFunctor<>>
 
 Similarly, bifunctor can be defined as:
 
-```typescript
+```csharp
 // Cannot be compiled
 public interface IBinaryFunctor<in TSourceCategory1, in TSourceCategory2, out TTargetCategory, TBinaryFunctor< , >>
     where TSourceCategory1 : ICategory<TSourceCategory1>

@@ -64,7 +64,7 @@ Similar to the other kinds of LINQ, LINQ to Entities implements deferred executi
 
 EF/Core translates Where query method call to WHERE clause in SQL, and translates the predicate expression tree (again, not predicate function) to the condition in WHERE clause. The following example queries categories with ProductCategoryID greater than 0:
 
-```sql
+```csharp
 internal static void Where(AdventureWorks adventureWorks)
 {
     IQueryable<ProductCategory> source = adventureWorks.ProductCategories;
@@ -80,7 +80,7 @@ When WriteLines executes, it pulls the results from the query represented by IQu
 
 The C# || operator in the predicate expression tree is translated to SQL OR operator in WHERE clause:
 
-```sql
+```csharp
 internal static void WhereWithOr(AdventureWorks adventureWorks)
 {
     IQueryable<ProductCategory> source = adventureWorks.ProductCategories;
@@ -95,7 +95,7 @@ internal static void WhereWithOr(AdventureWorks adventureWorks)
 
 Similarly, the C# && operator is translated to SQL AND operator:
 
-```sql
+```csharp
 internal static void WhereWithAnd(AdventureWorks adventureWorks)
 {
     IQueryable<ProductCategory> source = adventureWorks.ProductCategories;
@@ -110,7 +110,7 @@ internal static void WhereWithAnd(AdventureWorks adventureWorks)
 
 Multiple Where calls are also translated to one single WHERE clause with AND:
 
-```sql
+```csharp
 internal static void WhereAndWhere(AdventureWorks adventureWorks)
 {
     IQueryable<ProductCategory> source = adventureWorks.ProductCategories;
@@ -126,7 +126,7 @@ internal static void WhereAndWhere(AdventureWorks adventureWorks)
 
 The other filtering method, OfType, can be used for entity types in inheritance hierarchy. And it is equivalent to Where query with is operator. The following examples both query sales transactions from all transactions:
 
-```sql
+```csharp
 internal static void WhereWithIs(AdventureWorks adventureWorks)
 {
     IQueryable<TransactionHistory> source = adventureWorks.Transactions;
@@ -150,7 +150,7 @@ internal static void OfTypeEntity(AdventureWorks adventureWorks)
 
 When primitive type is specified for OfType, it works locally. The following example queries products with ProductSubcategoryID not null:
 
-```sql
+```csharp
 internal static void OfTypePrimitive(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -169,7 +169,7 @@ In EF Core, the above query is translated to a basic SELECT statement without fi
 
 In above queries, Queryable.Select is not called, and the query results are entities. So in the translated SQL, the SELECT clause queries all the mapped columns in order to construct the result entities. When Select is called, the selector expression tree is translated into SELECT clause. The following example queries persons’ full names by concatenating the first name and last name:
 
-```sql
+```csharp
 internal static void Select(AdventureWorks adventureWorks)
 {
     IQueryable<Person> source = adventureWorks.People;
@@ -183,7 +183,7 @@ internal static void Select(AdventureWorks adventureWorks)
 
 In EF/Core, Select also work with anonymous type. For example:
 
-```sql
+```csharp
 internal static void SelectAnonymousType(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -200,7 +200,7 @@ internal static void SelectAnonymousType(AdventureWorks adventureWorks)
 
 In EF Core, Select supports entity type too:
 
-```sql
+```csharp
 internal static void SelectEntity(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -224,7 +224,7 @@ internal static void SelectEntity(AdventureWorks adventureWorks)
 
 As fore mentioned, DefaultIfEmpty is the only built-in generation method:
 
-```sql
+```csharp
 internal static void DefaultIfEmptyEntity(AdventureWorks adventureWorks)
 {
     IQueryable<ProductCategory> source = adventureWorks.ProductCategories;
@@ -249,7 +249,7 @@ In the above query, Where method is translated to SQL query with WHERE clause. S
 
 The other DefaultIfEmpty overload accepts a specified default value. EF Core does not translate it to SQL, but execute the query logic locally. For example:
 
-```sql
+```csharp
 internal static void DefaultIfEmptyEntity(AdventureWorks adventureWorks)
 {
     ProductCategory @default = new ProductCategory() { Name = nameof(ProductCategory) };
@@ -269,7 +269,7 @@ Here the source query for DefaultIfEmpty is translated to SQL and executed, then
 
 > In EF, DefaultIfEmpty without default value works with entity type and primitive type. In both cases it is translated to a similar left outer join with a single row. Since EF executes query remotely, the overload with specified default value does not work with entity type, and throws NotSupportedException: Unable to create a constant value of type 'ProductCategory'. Only primitive types or enumeration types are supported in this context. This overload works with specified default primitive value:
 > 
-> ```sql
+> ```csharp
 > internal static void DefaultIfEmptyWithDefaultPrimitive(AdventureWorks adventureWorks)
 > {
 >     IQueryable<ProductCategory> source = adventureWorks.ProductCategories;
@@ -303,7 +303,7 @@ Just like in LINQ to Objects, DefaultIfEmpty can also be used to implement outer
 
 EF Core execute grouping locally. For example. The following is a simple example that groups the subcategories by category:
 
-```sql
+```csharp
 internal static void GroupBy(AdventureWorks adventureWorks)
 {
     IQueryable<ProductSubcategory> source = adventureWorks.ProductSubcategories;
@@ -342,7 +342,7 @@ EF Core only translates GroupBy an additional ORDER BY clause with the grouping 
 > 
 > When GroupBy returns flattened results (sequence of results), it is translated to GROUP BY clause. This can be done with a GroupBy overload accepting a result selector, or equivalently an additional Select query. The following examples call aggregation query method Count to flatten the results, and they have identical translation:
 > 
-> ```sql
+> ```csharp
 > internal static void GroupByWithResultSelector(AdventureWorks adventureWorks)
 > {
 >     IQueryable<ProductSubcategory> source = adventureWorks.ProductSubcategories;
@@ -382,7 +382,7 @@ EF Core only translates GroupBy an additional ORDER BY clause with the grouping 
 > 
 > SelectMany can flatten hierarchical results too. The following GroupBy example does not have aggregation subquery, so it cannot be translated to GROUP BY. It is translated to INNER JOIN::
 > 
-> ```sql
+> ```csharp
 > internal static void GroupByAndSelectMany(AdventureWorks adventureWorks)
 > {
 >     IQueryable<ProductSubcategory> source = adventureWorks.ProductSubcategories;
@@ -409,7 +409,7 @@ EF Core only translates GroupBy an additional ORDER BY clause with the grouping 
 
 GroupBy’s key selector can return anonymous type to support grouping by multiple keys, still locally in EF Core:
 
-```sql
+```csharp
 internal static void GroupByMultipleKeys(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -451,7 +451,7 @@ internal static void GroupByMultipleKeys(AdventureWorks adventureWorks)
 
 Similar to LINQ to Objects, Join is provided for inner join. The following example simply join the subcategories and categories with foreign key:
 
-```sql
+```csharp
 internal static void InnerJoinWithJoin(AdventureWorks adventureWorks)
 {
     IQueryable<ProductCategory> outer = adventureWorks.ProductCategories;
@@ -476,7 +476,7 @@ internal static void InnerJoinWithJoin(AdventureWorks adventureWorks)
 
 Join’s key selectors can return anonymous type to join with multiple keys:
 
-```sql
+```csharp
 internal static void InnerJoinWithMultipleKeys(AdventureWorks adventureWorks)
 {
     IQueryable<Product> outer = adventureWorks.Products;
@@ -504,7 +504,7 @@ internal static void InnerJoinWithMultipleKeys(AdventureWorks adventureWorks)
 
 Just like LINQ to Objects, inner join can be done by SelectMany, Select, and GroupJoin as well. In the following example, Select returns hierarchical data, so an additional SelectMany can flatten the result:
 
-```sql
+```csharp
 internal static void InnerJoinWithSelect(AdventureWorks adventureWorks)
 {
     IQueryable<ProductCategory> outer = adventureWorks.ProductCategories;
@@ -642,7 +642,7 @@ internal static void InnerJoinWithGroupJoinAndSelectMany(AdventureWorks adventur
 
 Navigation property makes it very easy to join entities with relationship. The following example inner joins 3 entity types, where 2 entity types have many-to-many relationship with a junction entity type:
 
-```sql
+```csharp
 internal static void MultipleInnerJoinsWithRelationship(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -669,7 +669,7 @@ internal static void MultipleInnerJoinsWithRelationship(AdventureWorks adventure
 
 GroupJoin is provided for left outer join. The following example have categories to left outer join subcategories with foreign key, and the results have all categories with or without matching subcategories. It is translated to LEFT JOIN:
 
-```sql
+```csharp
 internal static void LeftOuterJoinWithGroupJoin(AdventureWorks adventureWorks)
 {
     IQueryable<ProductCategory> outer = adventureWorks.ProductCategories;
@@ -728,7 +728,7 @@ internal static void LeftOuterJoinWithGroupJoinAndSelectMany(AdventureWorks adve
 
 Similar to inner join, left outer join can be done with Select and SelectMany too, with a DefaultIfEmpty subquery. The following queries have the same SQL translation:
 
-```sql
+```csharp
 internal static void LeftOuterJoinWithSelect(AdventureWorks adventureWorks)
 {
     IQueryable<ProductCategory> outer = adventureWorks.ProductCategories;
@@ -799,7 +799,7 @@ In EF Core, the above 2 queries are both translated to CROSS APPLY, but this is 
 
 As demonstrated for inner join, in the above Select and SelectMany queries, the Where subquery is equivalent to collection navigation property. EF/Core support collection navigation property for left outer join with Select and SelectMany. The following queries are translated to the same LEFT JOIN query:
 
-```sql
+```csharp
 internal static void LeftOuterJoinWithSelectAndRelationship(AdventureWorks adventureWorks)
 {
     IQueryable<ProductCategory> outer = adventureWorks.ProductCategories;
@@ -841,7 +841,7 @@ internal static void LeftOuterJoinWithSelectManyAndRelationship(AdventureWorks a
 
 Just like LINQ to Objects, cross join can be done with SelectMany and Join. The following example queries the expensive products (list price greater than 2000) and cheap products (list price less than 100), and then cross join them to get all possible product bundles, where each bundle has one expensive product and one cheap product:
 
-```sql
+```csharp
 internal static void CrossJoinWithSelectMany(AdventureWorks adventureWorks)
 {
     IQueryable<Product> outer = adventureWorks.Products.Where(product => product.ListPrice > 2000);
@@ -864,7 +864,7 @@ internal static void CrossJoinWithSelectMany(AdventureWorks adventureWorks)
 
 The following implementation with Join is equivalent, just have the 2 key selectors always return equal values:
 
-```sql
+```csharp
 internal static void CrossJoinWithJoin(AdventureWorks adventureWorks)
 {
     IQueryable<Product> outer = adventureWorks.Products.Where(product => product.ListPrice > 2000);
@@ -900,7 +900,7 @@ EF Core does not support Concat for entity.
 
 > EF translates Concat to UNION ALL. The following example concatenates the cheap products and the expensive products, and query the products’ names:
 > 
-> ```sql
+> ```csharp
 > internal static void ConcatEntity(AdventureWorks adventureWorks)
 > {
 >     IQueryable<Product> first = adventureWorks.Products.Where(product => product.ListPrice < 100);
@@ -929,7 +929,7 @@ EF Core does not support Concat for entity.
 
 EF Core supports Concat for primitive type, locally. In the above example, Select is called after Concat. It is logically equivalent to call Select before Concat, which works in EF Core:
 
-```sql
+```csharp
 internal static void ConcatPrimitive(AdventureWorks adventureWorks)
 {
     IQueryable<string> first = adventureWorks.Products
@@ -958,7 +958,7 @@ EF Core translates Concat’s 2 data sources to 2 SQL queries, reads the query r
 
 Distinct works with entity type and primitive type. It is translated to the DISTINCT keyword:
 
-```sql
+```csharp
 internal static void DistinctEntity(AdventureWorks adventureWorks)
 {
     IQueryable<ProductSubcategory> source = adventureWorks.ProductSubcategories;
@@ -984,7 +984,7 @@ internal static void DistinctPrimitive(AdventureWorks adventureWorks)
 
 GroupBy returns groups with distinct keys, so in theory it can be used to query the same result as Distinct:
 
-```sql
+```csharp
 internal static void DistinctWithGroupBy(AdventureWorks adventureWorks)
 {
     IQueryable<ProductSubcategory> source = adventureWorks.ProductSubcategories;
@@ -1004,7 +1004,7 @@ However, as fore mentioned, in EF Core, GroupBy executes locally. The above exam
 
 GroupBy can also be used for more complex scenarios. The following example queries the full product entities with distinct list price:
 
-```sql
+```csharp
 internal static void DistinctWithGroupByAndFirstOrDefault(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1044,7 +1044,7 @@ EF Core supports Union for entity and primitive types locally.
 
 > EF translates Union to Union ALL with SELECT DISTINCT, so eventually each result is unique.
 > 
-> ```sql
+> ```csharp
 > internal static void UnionEntity(AdventureWorks adventureWorks)
 > {
 >     IQueryable<Product> first = adventureWorks.Products
@@ -1141,7 +1141,7 @@ EF Core executes Intersect and Except locally as well.
 
 > EF translates Intersect to INTERSECT operator, and translates Except to EXCEPT operator:
 > 
-> ```sql
+> ```csharp
 > internal static void IntersectEntity(AdventureWorks adventureWorks)
 > {
 >     IQueryable<Product> first = adventureWorks.Products
@@ -1225,7 +1225,7 @@ EF Core executes Intersect and Except locally as well.
 
 Skip is translate to OFFSET filter:
 
-```sql
+```csharp
 internal static void Skip(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1258,7 +1258,7 @@ In SQL, OFFSET is considered to be a part of the ORDER BY clause, so here EF Cor
 
 When Take is called without Skip, it is translate to TOP filter:
 
-```sql
+```csharp
 internal static void Take(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1276,7 +1276,7 @@ internal static void Take(AdventureWorks adventureWorks)
 
 When Take is called with Skip, they are translated to FETCH and OFFSET filters:
 
-```sql
+```csharp
 internal static void SkipAndTake(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1302,7 +1302,7 @@ internal static void SkipAndTake(AdventureWorks adventureWorks)
 
 OrderBy/OrderByDescending are translated to ORDER BY clause with without/with DESC, for example:
 
-```sql
+```csharp
 internal static void OrderBy(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1330,7 +1330,7 @@ internal static void OrderByDescending(AdventureWorks adventureWorks)
 
 To sort with multiple keys, call OrderBy/OrderByDescending and ThenBy/ThenByDescending:
 
-```sql
+```csharp
 internal static void OrderByAndThenBy(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1347,7 +1347,7 @@ internal static void OrderByAndThenBy(AdventureWorks adventureWorks)
 
 In EF Core, when the key selector returns anonymous type to sort by multiple keys, the sorting is executed locally:
 
-```sql
+```csharp
 internal static void OrderByMultipleKeys(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1379,7 +1379,7 @@ internal static void OrderByMultipleKeys(AdventureWorks adventureWorks)
 
 Multiple OrderBy/OrderByDescending calls are translated to SQL reversely. The following example sort all products by list price, then sort all products again by subcategory, which is equivalent to sort all products by subcategory first, then sort products in the same subcategory by list price:
 
-```sql
+```csharp
 internal static void OrderByAndOrderBy(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1405,7 +1405,7 @@ internal static void OrderByAndOrderBy(AdventureWorks adventureWorks)
 
 Cast can work with entity type. The following example casts base entity to derived entity:
 
-```sql
+```csharp
 internal static void CastEntity(AdventureWorks adventureWorks)
 {
     IQueryable<TransactionHistory> source = adventureWorks.Transactions;
@@ -1424,7 +1424,7 @@ EF Core does not support Cast for primitive type.
 
 > EF does not support casting entity type. The above query throws NotSupportedException: Unable to cast the type 'TransactionHistory' to type 'SalesTransactionHistory'. LINQ to Entities only supports casting EDM primitive or enumeration types. EF supports casting primitive type. The following example casts decimal to string, which is translated to CAST function call, casting money to (nvarchar(MAX)):
 > 
-> ```sql
+> ```csharp
 > internal static void CastPrimitive(AdventureWorks adventureWorks)
 > {
 >     IQueryable<Product> source = adventureWorks.Products;
@@ -1462,7 +1462,7 @@ namespace System.Linq
 
 AsQueryable accepts an IEnumerable<T> source. If the source is indeed an IQueryable<T> source, then do nothing and just return it; if not, wrap the source into an System.Linq.EnumerableQuery<T> instance, and return it. EnumerableQuery<T> is a special implementation of IQueryable<T>. If an IQueryable<T> query is an EnumerableQuery<T> instance, when this query is executed, it internally calls System.Linq.EnumerableRewriter to translate itself to local query, then execute the translated query locally. For example, AdventureWorks.Products return IQueryable<Product>, which is actually a DbSet<T> instance, so calling AsQueryable with AdventureWorks.Products does nothing and returns the DbSet<Product> instance itself, which can have its following query method calls to be translated to SQL by EF Core. In contrast, calling AsQueryable with a T\[\] array returns an EnumerableQuery<T> wrapper, which is a local mocking of remote query and can have its following query methods to be translated to local queries, As a result, AsEnumerable can always convert a remote LINQ to Entities query to local LINQ to Objects query, but AsQueryable cannot always convert arbitrary local LINQ to Objects query to a remote LINQ to Entities query (and logically, an arbitrary local .NET data source cannot be converted to a remote data source like SQL database). For example:
 
-```sql
+```csharp
 internal static void AsEnumerableAsQueryable(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1505,7 +1505,7 @@ The second query is a special case, where AsEnumerable is chained with AsQueryab
 
 > In EF, AsEnumerable can be useful for special case. As fore mentioned, in EF, Select does not support entity type. With AsEnumerable, this can be done with LINQ to Objects:
 > 
-> ```sql
+> ```csharp
 > internal static void SelectLocalEntity(AdventureWorks adventureWorks)
 > {
 >     IQueryable<Product> source = adventureWorks.Products;
@@ -1534,7 +1534,7 @@ Query methods in this category accepts an IQueryable<T> source and returns a sin
 
 First and FirstOrDefault execute the LINQ to Entities queries immediately. They are translated to TOP(1) filter in the SELECT clause. If a predicate is provided, the predicate is translated to WHERE clause. For example:
 
-```sql
+```csharp
 internal static void First(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1561,7 +1561,7 @@ internal static void FirstOrDefault(AdventureWorks adventureWorks)
 
 As discussed in LINQ to Objects, Single and SingleOrDefault are more strict. They are translated to TOP(2) filter, so that, if there are 0 or more than 1 results, InvalidOperationException is thrown. Similar to First and FirstOrDefault, if a predicate is provided, it is translated to WHERE clause:
 
-```sql
+```csharp
 internal static void Single(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1589,7 +1589,7 @@ internal static void SingleOrDefault(AdventureWorks adventureWorks)
 
 EF Core supports Last and LastOrDefault, locally. Again, if a predicate is provided, it is translated to WHERE clause:
 
-```sql
+```csharp
 internal static void Last(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1620,7 +1620,7 @@ The above examples can read many results from remote database to locally, and tr
 
 Count/LongCount are translated to SQL aggregate functions COUNT/COUNT\_BIG. if a is provided, it is translated to WHERE clause. The following examples query the System.Int32 count of categories, and the System.Int64 count of the products with list price greater than 0:
 
-```sql
+```csharp
 internal static void Count(AdventureWorks adventureWorks)
 {
     IQueryable<ProductCategory> source = adventureWorks.ProductCategories;
@@ -1641,7 +1641,7 @@ internal static void LongCount(AdventureWorks adventureWorks)
 
 Max/Min/Sum are translated to MAX/MIN/SUM functions. The following examples query the latest ModifiedDate of photos, the lowest list price of products, and the total cost of transactions:
 
-```sql
+```csharp
 internal static void Max(AdventureWorks adventureWorks)
 {
     IQueryable<ProductPhoto> source = adventureWorks.ProductPhotos;
@@ -1670,7 +1670,7 @@ internal static void Sum(AdventureWorks adventureWorks)
 
 EF Core support Average locally.
 
-```sql
+```csharp
 internal static void Average(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1695,7 +1695,7 @@ internal static void Average(AdventureWorks adventureWorks)
 
 EF Core supports Contains for entity type, locally.
 
-```sql
+```csharp
 internal static void ContainsEntity(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1716,7 +1716,7 @@ internal static void ContainsEntity(AdventureWorks adventureWorks)
 
 EF/Core both support Contains for primitive types. In this case, Contains is translated to EXISTS predicate:
 
-```sql
+```csharp
 internal static void ContainsPrimitive(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1735,7 +1735,7 @@ internal static void ContainsPrimitive(AdventureWorks adventureWorks)
 
 Any is also translated to EXISTS. If predicate is provided, it is translated to WHERE clause:
 
-```sql
+```csharp
 internal static void Any(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;
@@ -1764,7 +1764,7 @@ internal static void AnyWithPredicate(AdventureWorks adventureWorks)
 
 All is translated to NOT EXISTS, with the predicate translated to reverted condition in WHERE clause:
 
-```sql
+```csharp
 internal static void AllWithPredicate(AdventureWorks adventureWorks)
 {
     IQueryable<Product> source = adventureWorks.Products;

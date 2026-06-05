@@ -370,7 +370,7 @@ To change the data in the database, just create a DbContext instance, change the
 
 To create new entities into the repository, call DbSet<T>.Add or DbSet<T>.AddRange. The following example creates a new category, and a new related subcategory, and add to repositories:
 
-```sql
+```csharp
 internal static partial class Changes
 {
     internal static ProductCategory Create()
@@ -431,7 +431,7 @@ DbSet<T>.AddRange can be called with multiple entities. AddRange only triggers c
 
 To update entities in the repositories, just change their properties, including navigation properties. The following example updates a subcategory entity’s name, and related category entity, which is translated to UPDATE statement:
 
-```sql
+```csharp
 internal static void Update(int categoryId, int subcategoryId)
 {
     using (AdventureWorks adventureWorks = new AdventureWorks())
@@ -460,7 +460,7 @@ internal static void Update(int categoryId, int subcategoryId)
 
 The above example first call Find to read the entities with a SELECT query, then execute the UPDATE statement. Here the row to update is located by primary key, so, if the primary key is known, then it can be used directly:
 
-```sql
+```csharp
 internal static void UpdateWithoutRead(int categoryId)
 {
     using (AdventureWorks adventureWorks = new AdventureWorks())
@@ -511,7 +511,7 @@ internal static void SaveNoChanges(int categoryId)
 
 To delete entities from the repositories, call DbSet<T>.Remove or DbSet<T>.RemoveRange. The following example read an entity then delete it:
 
-```sql
+```csharp
 internal static void Delete(int subcategoryId)
 {
     using (AdventureWorks adventureWorks = new AdventureWorks())
@@ -535,7 +535,7 @@ internal static void Delete(int subcategoryId)
 
 Here, the row to delete is also located with primary key. So again, when primary key is known, reading entity can be skipped:
 
-```sql
+```csharp
 internal static void DeleteWithoutRead(int categoryId)
 {
     using (AdventureWorks adventureWorks = new AdventureWorks())
@@ -560,7 +560,7 @@ internal static void DeleteWithoutRead(int categoryId)
 
 If a principal entity is loaded with its dependent entities, deleting the principal entity becomes cascade deletion:
 
-```sql
+```csharp
 internal static void DeleteCascade(int categoryId)
 {
     using (AdventureWorks adventureWorks = new AdventureWorks())
@@ -686,7 +686,7 @@ internal static partial class Transactions
 
 EF Core provides Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction to represent a transaction. It can be created by DbContext.Database.BeginTransaction, where the transaction’s [isolation level](https://technet.microsoft.com/en-us/library/ms189122.aspx) can be optionally specified. The following example executes a entity change and custom SQL with one EF/Core transaction:
 
-```sql
+```csharp
 internal static void DbContextTransaction(AdventureWorks adventureWorks)
 {
     adventureWorks.Database.CreateExecutionStrategy().Execute(() =>
@@ -719,7 +719,7 @@ internal static void DbContextTransaction(AdventureWorks adventureWorks)
 
 EF/Core transaction wraps ADO.NET transaction. When the EF/Core transaction begins, The specified isolation level is written to a packet (represented by System.Data.SqlClient.SNIPacket type), and sent to SQL database via TDS protocol. There is no SQL statement like [SET TRANSACTION ISOLATION LEVEL](https://msdn.microsoft.com/en-us/library/ms173763.aspx) executed, so the actual isolation level cannot be logged by EF/Core, or traced by SQL Profiler. In above example, CurrentIsolationLevel is called to verify the current transaction’s isolation level. It is an extension method of DbContext. It queries the dynamic management view [sys.dm\_exec\_sessions](https://msdn.microsoft.com/en-us/library/ms176013.aspx) with current session id, which can be retrieved with [@@SPID](https://msdn.microsoft.com/en-us/library/ms189535.aspx) function:
 
-```sql
+```csharp
 public static partial class DbContextExtensions
 {
     public static readonly string CurrentIsolationLevelSql = $@"
@@ -760,7 +760,7 @@ When DbContext.SaveChanges is called to create entity. it detects a transaction 
 
 EF/Core can also use the ADO.NET transaction, represented by System.Data.Common.DbTransaction. The following example execute the same entity change and custom SQL command with one ADO.NET transaction. To use an existing ADO.NET transaction, call DbContext.Database.UseTransaction:
 
-```sql
+```csharp
 internal static void DbTransaction()
 {
     using (DbConnection connection = new SqlConnection(ConnectionStrings.AdventureWorks))
@@ -808,7 +808,7 @@ internal static void DbTransaction()
 
 > The EF transaction only work with its source DbContext, and the ADO.NET transaction only work with its source DbConnection. Since EF work with .NET Framework, where System.Transactions.TransactionScope is provided, TransactionScope can be used with EF to have a transaction that work across the lifecycle of multiple DbContext or DbConnection instances:
 > 
-> ```sql
+> ```csharp
 > internal static void TransactionScope()
 > {
 >     new ExecutionStrategy().Execute(() =>

@@ -9,7 +9,7 @@ draft: false
 lang: ""
 ---
 
-Recently I needed to demonstrate some code with reflection, but I felt it inconvenient and tedious. To simplify the reflection coding, I created a ToDynamic() extension method. The source code can be downloaded from [here](https://aspblogs.blob.core.windows.net/media/dixin/Media/DynamicWrapper.zip).
+Recently I needed to demonstrate some code with reflection, but I felt it inconvenient and tedious. To simplify the reflection coding, I created a `ToDynamic()` extension method. The source code can be downloaded from [here](https://aspblogs.blob.core.windows.net/media/dixin/Media/DynamicWrapper.zip).
 
 - [Problem](#problem)
 - [C# 4.0 dynamic](#c-40-dynamic)
@@ -22,7 +22,7 @@ Recently I needed to demonstrate some code with reflection, but I felt it inconv
 
 ## Problem
 
-One example for complex reflection is in LINQ to SQL. The DataContext class has a property Privider, and this Provider has an Execute() method, which executes the query expression and returns the result. Assume this Execute() needs to be invoked to query SQL Server database, then the following code will be expected:
+One example for complex reflection is in LINQ to SQL. The `DataContext` class has a property `Privider`, and this `Provider` has an `Execute()` method, which executes the query expression and returns the result. Assume this `Execute()` needs to be invoked to query SQL Server database, then the following code will be expected:
 
 ```csharp
 using (NorthwindDataContext database = new NorthwindDataContext())
@@ -81,7 +81,7 @@ using (NorthwindDataContext database = new NorthwindDataContext())
 }
 ```
 
-This may be not straight forward enough. So here is a solution implementing fluent reflection with a ToDynamic() extension method:
+This may be not straight forward enough. So here is a solution implementing fluent reflection with a `ToDynamic()` extension method:
 
 ```csharp
 IEnumerable<Product> results = database.ToDynamic() // Starts fluent reflection. 
@@ -116,21 +116,15 @@ Here dynamic is able find the specified member. So the next thing is just writin
 
 Where to put the custom code for dynamic? The answer is DynamicObject’s derived class. I first heard of DynamicObject from [Anders Hejlsberg's video in PDC2008](http://channel9.msdn.com/pdc2008/TL16/). It is very powerful, providing useful virtual methods to be overridden, like:
 
--   TryGetMember()
--   TrySetMember()
--   TryInvokeMember()
+-   `TryGetMember()`
+-   `TrySetMember()`
+-   `TryInvokeMember()`
 
-etc. (In 2008 they are called GetMember, SetMember, etc., with different signature.)
+etc. (In 2008 they are called `GetMember`, `SetMember`, etc., with different signature.)
 
-For example, if dynamicDatabase is a DynamicObject, then the following code:
+For example, if dynamicDatabase is a DynamicObject, then `dynamicDatabase.Provider` will invoke `dynamicDatabase.TryGetMember()` to do the actual work, where custom code can be put into.
 
-```csharp
-dynamicDatabase.Provider
-```
-
-will invoke dynamicDatabase.TryGetMember() to do the actual work, where custom code can be put into.
-
-Now create a type to inherit DynamicObject:
+Now create a type to inherit `DynamicObject`:
 
 ```csharp
 public class DynamicWrapper<T> : DynamicObject
@@ -204,7 +198,7 @@ public class DynamicWrapper<T> : DynamicObject
 }
 ```
 
-In the above code, GetTypeProperty(), GetInterfaceMethod(), GetTypeField(), GetBaseProperty(), and GetBaseField() are extension methods for Type class. For example:
+In the above code, `GetTypeProperty()`, `GetInterfaceMethod()`, `GetTypeField()`, `GetBaseProperty()`, and `GetBaseField()` are extension methods for `Type` class. For example:
 
 ```csharp
 internal static class TypeExtensions
@@ -267,7 +261,7 @@ internal static class TypeExtensions
 }
 ```
 
-So now, when invoked, TryGetMember() searches the specified member and invoke it. The code can be written like this:
+So now, when invoked, `TryGetMember()` searches the specified member and invoke it. The code can be written like this:
 
 ```csharp
 dynamic dynamicDatabase = new DynamicWrapper<NorthwindDataContext>(ref database);
@@ -276,9 +270,9 @@ dynamic dynamicReturnValue = dynamicDatabase.Provider.Execute(query.Expression).
 
 This greatly simplified reflection.
 
-## ToDynamic() and fluent reflection
+## `ToDynamic()` and fluent reflection
 
-To make it even more straight forward, A ToDynamic() method is provided:
+To make it even more straight forward, A `ToDynamic()` method is provided:
 
 ```csharp
 public static class DynamicWrapperExtensions
@@ -290,7 +284,7 @@ public static class DynamicWrapperExtensions
 }
 ```
 
-and a ToStatic() method is provided to unwrap the value:
+and a `ToStatic()` method is provided to unwrap the value:
 
 ```csharp
 public class DynamicWrapper<T> : DynamicObject
@@ -302,7 +296,7 @@ public class DynamicWrapper<T> : DynamicObject
 }
 ```
 
-In the above TryGetMember() method, please notice it does not output the member’s value, but output a wrapped member value (that is, memberValue.ToDynamic()). This is very important to make the reflection fluent.
+In the above `TryGetMember()` method, please notice it does not output the member’s value, but output a wrapped member value (that is, `memberValue.ToDynamic()`). This is very important to make the reflection fluent.
 
 Now the code becomes:
 
@@ -312,7 +306,7 @@ IEnumerable<Product> results = database.ToDynamic() // Here starts fluent reflec
                                        .ToStatic(); // Unwraps to get the static value.
 ```
 
-With the help of TryConvert():
+With the help of `TryConvert()`:
 
 ```csharp
 public class DynamicWrapper<T> : DynamicObject
@@ -325,7 +319,7 @@ public class DynamicWrapper<T> : DynamicObject
 }
 ```
 
-ToStatic() can be omitted:
+`ToStatic()` can be omitted:
 
 ```csharp
 IEnumerable<Product> results = database.ToDynamic() 
@@ -337,11 +331,11 @@ Take a look at the reflection code at the beginning of this post again. Now it i
 
 ## Special scenarios
 
-In 90% of the scenarios ToDynamic() is enough. But there are some special scenarios.
+In 90% of the scenarios `ToDynamic()` is enough. But there are some special scenarios.
 
 ### Access static members
 
-Using extension method ToDynamic() for accessing static members does not make sense. Instead, DynamicWrapper<T> has a parameterless constructor to handle these scenarios:
+Using extension method `ToDynamic()` for accessing static members does not make sense. Instead, `DynamicWrapper<T>` has a parameterless constructor to handle these scenarios:
 
 ```csharp
 public class DynamicWrapper<T> : DynamicObject
@@ -368,9 +362,9 @@ So accessing static member is also simple, and fluent of course.
 
 Value type is much more complex. The main problem is, value type is copied when passing to a method as a parameter.
 
-This is why ref keyword is used for the constructor. That is, if a value type instance is passed to DynamicWrapper<T>, the instance itself will be stored in this.\_value of DynamicWrapper<T>. Without the ref keyword, when this.\_value is changed, the value type instance itself does not change.
+This is why ref keyword is used for the constructor. That is, if a value type instance is passed to `DynamicWrapper<T>`, the instance itself will be stored in `this._value` of `DynamicWrapper<T>`. Without the ref keyword, when `this._value` is changed, the value type instance itself does not change.
 
-Consider FieldInfo.SetValue(). In the value type scenarios, invoking FieldInfo.SetValue(this.\_value, value) does not change this.\_value, because it changes the copy of this.\_value.
+Consider `FieldInfo.SetValue()`. In the value type scenarios, invoking FieldInfo.SetValue(`this._value`, value) does not change `this._value`, because it changes the copy of `this._value`.
 
 I searched the Web and found a solution for setting the value of field:
 
@@ -391,9 +385,9 @@ internal static class FieldInfoExtensions
 }
 ```
 
-Here \_\_makeref is a undocumented keyword of C#.
+Here `__makeref` is a undocumented keyword of C#.
 
-But method invocation has problem. This is the source code of TryInvokeMember():
+But method invocation has problem. This is the source code of `TryInvokeMember()`:
 
 ```csharp
 public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
@@ -421,18 +415,18 @@ public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, o
 }
 ```
 
-If the returned value is of value type, it will definitely copied, because MethodInfo.Invoke() does return object. If changing the value of the result, the copied struct is changed instead of the original struct. And so is the property and index accessing. They are both actually method invocation. For less confusion, setting property and index are not allowed on struct.
+If the returned value is of value type, it will definitely copied, because `MethodInfo.Invoke()` does return object. If changing the value of the result, the copied struct is changed instead of the original struct. And so is the property and index accessing. They are both actually method invocation. For less confusion, setting property and index are not allowed on struct.
 
 ## Conclusions
 
-The DynamicWrapper<T> provides a simplified solution for reflection programming. It works for normal classes (reference types), accessing both instance and static members.
+The `DynamicWrapper<T>` provides a simplified solution for reflection programming. It works for normal classes (reference types), accessing both instance and static members.
 
-In most of the scenarios, just remember to invoke ToDynamic() method, and access whatever you want:
+In most of the scenarios, just remember to invoke `ToDynamic()` method, and access whatever you want:
 
 ```csharp
 StaticType result = someValue.ToDynamic()._field.Method().Property[index];
 ```
 
-In some special scenarios which requires changing the value of a struct (value type), this DynamicWrapper<T> does not work perfectly. Only changing struct’s field value is supported.
+In some special scenarios which requires changing the value of a struct (value type), this `DynamicWrapper<T>` does not work perfectly. Only changing struct’s field value is supported.
 
 The source code can be downloaded from [here](https://aspblogs.blob.core.windows.net/media/dixin/Media/DynamicWrapper.zip), including a few unit test code.

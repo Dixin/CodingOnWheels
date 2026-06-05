@@ -26,8 +26,7 @@ EF Core implements a provider model, so that LINQ to Entities can be implemented
 To demonstrate LINQ to Entities queries and other database operations, this book uses the classic sample SQL database AdventureWorks provided by Microsoft as the data source, because this sample database has a very intuitive structure, it also works with Azure SQL Database and all SQL Server editions. The full sample database provided by Microsoft is relatively large, so a trimmed version is provided in the code samples repo of this book:
 
 · The AdventureWorks.bacpac file is for Azure SQL Database
-
-· The AdventureWorks\_Data.mdf and AdventureWorks\_Log.ldf files are for SQL Server
+· The `AdventureWorks\_Data.mdf `and `AdventureWorks\_Log.ldf` files are for SQL Server
 
 There are many free options to setup SQL database. To setup in the cloud, follow these steps:
 
@@ -73,38 +72,24 @@ o Azure Data Studio, a free cross-platform tool to manage data and edit query.
 
 To connect to the sample database, its connection string can be saved in the configuration of application or service during development and test. For .NET Core, the connection string can be saved for the application as a JSON file, for example, as app.json file:
 
+```json
 {
-
-```csharp
 "ConnectionStrings": {
-```
-```csharp
 "AdventureWorks": "Server=tcp:dixin.database.windows.net,1433;Initial Catalog=AdventureWorks;Persist Security Info=False;User ID=***;Password=***;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-```
-```csharp
+}
 }
 ```
-
-}
 
 For .NET Framework, the connection string can be saved in the application’s app.config file:
 
+```xml
 <?xml version\="1.0" encoding\="utf-8"?>
-
-```csharp
 <configuration>
-```
-```csharp
 <connectionStrings>
-```
-```csharp
 <add name="AdventureWorks" connectionString="Server=tcp:dixin.database.windows.net,1433;Initial Catalog=AdventureWorks;Persist Security Info=False;User ID=***;Password=***;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" />
-```
-```csharp
 </connectionStrings>
-```
-
 </configuration\>
+```
 
 Then the connection string can be loaded and used in C# code:
 
@@ -173,15 +158,15 @@ IQueryProvider Provider { get; }
 }
 ```
 
-```typescript
+```csharp
 public interface IOrderedQueryable : IQueryable, IEnumerable { }
 ```
 
-```typescript
+```csharp
 public interface IQueryable<out T> : IEnumerable<T>, IEnumerable, IQueryable { }
 ```
 
-```typescript
+```csharp
 public interface IOrderedQueryable<out T> : IQueryable<T>, IEnumerable<T>, IOrderedQueryable, IQueryable, IEnumerable { }
 ```
 
@@ -375,108 +360,52 @@ Queryable also provides an additional query AsQueryable, as the paraty with AsEn
 
 Enumerable queries accept iteratee functions, and Queryable queries accept expression trees. As discussed in the lamda expression chapter, functions are executable .NET code, and expression trees are data structures representing the abstract syntax tree of functions, which can be translated to other domain-specific language. The lambda expression chapter also demonstrates compiling an arithmetic expression tree to CIL code at runtime, and executing it dynamically. The same approach can be used to translate arithmetic expression tree to SQL query, and execute it in a remote SQL database. The following function traverses an arithmetic expression tree with +, -, \*, / operators, and compile it to a SQL SELECT statement with infix arithmetic expression:
 
+```csharp
 internal static string InOrder(this LambdaExpression expression)
-
-```csharp
 {
-```
-```csharp
 string VisitNode(Expression node)
-```
-```csharp
 {
-```
-```csharp
 switch (node.NodeType)
-```
-```csharp
 {
-```
-```csharp
 case ExpressionType.Constant when node is ConstantExpression constant:
-```
-```csharp
 return constant.Value.ToString();
-```
 
-```csharp
 case ExpressionType.Parameter when node is ParameterExpression parameter:
-```
-```csharp
 return $"@{parameter.Name}";
-```
 
-```csharp
 // In-order output: left child, current node, right child.
-```
-```csharp
 case ExpressionType.Add when node is BinaryExpression binary:
-```
-```csharp
 return $"({VisitNode(binary.Left)} + {VisitNode(binary.Right)})";
-```
 
-```csharp
 case ExpressionType.Subtract when node is BinaryExpression binary:
-```
-```csharp
 return $"({VisitNode(binary.Left)} - {VisitNode(binary.Right)})";
-```
 
-```csharp
 case ExpressionType.Multiply when node is BinaryExpression binary:
-```
-```csharp
 return $"({VisitNode(binary.Left)} * {VisitNode(binary.Right)})";
-```
 
-```csharp
 case ExpressionType.Divide when node is BinaryExpression binary:
-```
-```csharp
 return $"({VisitNode(binary.Left)} / {VisitNode(binary.Right)})";
-```
 
-```csharp
 default:
-```
-```csharp
 throw new ArgumentOutOfRangeException(nameof(expression));
-```
-```csharp
 }
-```
-```csharp
 }
-```
-
-```sql
 return $"SELECT {VisitNode(expression.Body)};";
-```
-
 }
+```
 
 Here @ is prepended to each parameter name, which is the SQL syntax. The following code demonstrates the compilation:
 
+```csharp
 internal static void Infix()
-
-```csharp
 {
-```
-```csharp
-Expression<Func<double, double, double, double, double, double>> expression =
-```
-```csharp
-(a, b, c, d, e) => a + b - c * d / 2D + e * 3D;
-```
-```csharp
-string sql = expression.InOrder();
-```
-```sql
-sql.WriteLine(); // SELECT (((@a + @b) - ((@c * @d) / 2)) + (@e * 3));
-```
 
+Expression<Func<double, double, double, double, double, double>> expression =
+(a, b, c, d, e) => a + b - c * d / 2D + e * 3D;
+string sql = expression.InOrder();
+sql.WriteLine(); // SELECT (((@a + @b) - ((@c * @d) / 2)) + (@e * 3));
 }
+```
 
 The following ExecuteSql function is defined to execute the compiled SQL statement with SQL parameters and SQL database connection string provided, and return the execution result from SQL database:
 

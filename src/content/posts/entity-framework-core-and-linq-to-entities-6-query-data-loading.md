@@ -234,11 +234,9 @@ internal static void ExplicitLoading(AdventureWorks adventureWorks)
 ```
 ```csharp
 ProductSubcategory subcategory = adventureWorks.ProductSubcategories.First(); // Execute query.
-```
-```sql
+
 // SELECT TOP(1) [p].[ProductSubcategoryID], [p].[Name], [p].[ProductCategoryID]
-```
-```sql
+
 // FROM [Production].[ProductSubcategory] AS [p]
 ```
 ```csharp
@@ -256,14 +254,11 @@ adventureWorks
 ```
 ```csharp
 .Load(); // Execute query.
-```
-```sql
+
 // exec sp_executesql N'SELECT [e].[ProductCategoryID], [e].[Name]
-```
-```sql
+
 // FROM [Production].[ProductCategory] AS [e]
-```
-```sql
+
 // WHERE [e].[ProductCategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
 ```
 ```csharp
@@ -281,14 +276,9 @@ adventureWorks
 ```
 ```csharp
 .Load(); // Execute query.
-```
-```sql
+
 // exec sp_executesql N'SELECT [e].[ProductID], [e].[ListPrice], [e].[Name], [e].[ProductSubcategoryID]
-```
-```sql
 // FROM [Production].[Product] AS [e]
-```
-```sql
 // WHERE [e].[ProductSubcategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
 ```
 ```csharp
@@ -306,11 +296,8 @@ internal static void ExplicitLoadingWithQuery(AdventureWorks adventureWorks)
 ```
 ```csharp
 ProductSubcategory subcategory = adventureWorks.ProductSubcategories.First(); // Execute query.
-```
-```sql
+
 // SELECT TOP(1) [p].[ProductSubcategoryID], [p].[Name], [p].[ProductCategoryID]
-```
-```sql
 // FROM [Production].[ProductSubcategory] AS [p]
 ```
 ```csharp
@@ -327,14 +314,9 @@ string categoryName = adventureWorks
 ```
 ```csharp
 .Select(category => category.Name).Single(); // Execute query.
-```
-```sql
+
 // exec sp_executesql N'SELECT TOP(2) [e].[Name]
-```
-```sql
 // FROM [Production].[ProductCategory] AS [e]
-```
-```sql
 // WHERE [e].[ProductCategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
 ```
 ```csharp
@@ -352,14 +334,9 @@ IQueryable<string>products = adventureWorks
 ```
 ```csharp
 .Select(product => product.Name); // Execute query.
-```
-```sql
+
 // exec sp_executesql N'SELECT [e].[Name]
-```
-```sql
 // FROM [Production].[Product] AS [e]
-```
-```sql
 // WHERE [e].[ProductSubcategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
 ```
 ```csharp
@@ -372,145 +349,66 @@ products.WriteLines();
 
 In explicit loading, after an entity is queried, its related entities are loaded separately. In eager loading, when an entity is queried, its related entities are loaded during the same query. To enable eager loading, call Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions’ Include method, which is an extension method for IQueryable<T>:
 
+```csharp
 internal static void EagerLoadingWithInclude(AdventureWorks adventureWorks)
-
-```csharp
 {
-```
-```csharp
 IQueryable<ProductSubcategory> subcategoriesWithCategory = adventureWorks.ProductSubcategories
-```
-```csharp
 .Include(subcategory => subcategory.ProductCategory);
-```
-```csharp
 subcategoriesWithCategory.WriteLines(subcategory =>
-```
-```csharp
 $"{subcategory.ProductCategory.Name}: {subcategory.Name}");
-```
-```sql
+
 // SELECT [subcategory].[ProductSubcategoryID], [subcategory].[Name], [subcategory].[ProductCategoryID], [p].[ProductCategoryID], [p].[Name]
-```
-```sql
 // FROM [Production].[ProductSubcategory] AS [subcategory]
-```
-```csharp
 // INNER JOIN [Production].[ProductCategory] AS [p] ON [subcategory].[ProductCategoryID] = [p].[ProductCategoryID]
-```
 
-```csharp
 IQueryable<ProductSubcategory> subcategoriesWithProducts = adventureWorks.ProductSubcategories
-```
-```csharp
 .Include(subcategory => subcategory.Products);
-```
-```csharp
 subcategoriesWithProducts.WriteLines(subcategory => $@"{subcategory.Name}: {string.Join(
-```
-```csharp
 ", ", subcategory.Products.Select(product => product.Name))}");
-```
-```sql
+
 // SELECT [subcategory].[ProductSubcategoryID], [subcategory].[Name], [subcategory].[ProductCategoryID]
-```
-```sql
 // FROM [Production].[ProductSubcategory] AS [subcategory]
-```
-```csharp
 // ORDER BY [subcategory].[ProductSubcategoryID]
-```
 
-```sql
 // SELECT [p].[ProductID], [p].[ListPrice], [p].[Name], [p].[ProductSubcategoryID], [p].[RowVersion]
-```
-```sql
 // FROM [Production].[Product] AS [p]
-```
-```sql
 // WHERE EXISTS (
-```
-```sql
 // SELECT 1
-```
-```sql
 // FROM [Production].[ProductSubcategory] AS [subcategory]
-```
-```sql
 // WHERE [p].[ProductSubcategoryID] = [subcategory].[ProductSubcategoryID])
-```
-```csharp
 // ORDER BY [p].[ProductSubcategoryID]
-```
-
 }
+```
 
 Eager loading related entity through reference navigation property is translated to INNER JOIN. Eager loading through collection navigation property is translated to 2 SQL queries for 2 types of entities. More queries can be chained after calling Include.
 
 In EF Core, ThenInclude can be called for eager loading of multiple levels of related entities:
 
+```csharp
 internal static void EagerLoadingMultipleLevels(AdventureWorks adventureWorks)
-
-```csharp
 {
-```
-```csharp
 IQueryable<Product>products = adventureWorks.Products
-```
-```csharp
 .Include(product => product.ProductProductPhotos)
-```
-```csharp
 .ThenInclude(productProductPhoto => productProductPhoto.ProductPhoto);
-```
-```csharp
 products.WriteLines(product => $@"{product.Name}: {string.Join(
-```
-```csharp
 ", ",
-```
-```csharp
 product.ProductProductPhotos.Select(productProductPhoto =>
-```
-```csharp
 productProductPhoto.ProductPhoto.LargePhotoFileName))}");
-```
-```sql
+
 // SELECT [product].[ProductID], [product].[ListPrice], [product].[Name], [product].[ProductSubcategoryID], [product].[RowVersion]
-```
-```sql
 // FROM [Production].[Product] AS [product]
-```
-```csharp
 // ORDER BY [product].[ProductID]
-```
 
-```sql
 // SELECT [p].[ProductID], [p].[ProductPhotoID], [p0].[ProductPhotoID], [p0].[LargePhotoFileName], [p0].[ModifiedDate]
-```
-```sql
 // FROM [Production].[ProductProductPhoto] AS [p]
-```
-```csharp
 // INNER JOIN [Production].[ProductPhoto] AS [p0] ON [p].[ProductPhotoID] = [p0].[ProductPhotoID]
-```
-```sql
 // WHERE EXISTS (
-```
-```sql
 // SELECT 1
-```
-```sql
 // FROM [Production].[Product] AS [product]
-```
-```sql
 // WHERE [p].[ProductID] = [product].[ProductID])
-```
-```csharp
 // ORDER BY [p].[ProductID]
-```
-
 }
+```
 
 ### Lazy loading
 
@@ -579,11 +477,9 @@ internal static void LazyLoading(AdventureWorks adventureWorks)
 ```
 ```csharp
 ProductSubcategory subcategory = adventureWorks.ProductSubcategories.First(); // Execute query.
-```
-```sql
+
 // SELECT TOP(1) [p].[ProductSubcategoryID], [p].[Name], [p].[ProductCategoryID]
-```
-```sql
+
 // FROM [Production].[ProductSubcategory] AS [p]
 ```
 ```csharp
@@ -592,14 +488,9 @@ subcategory.Name.WriteLine();
 
 ```csharp
 ProductCategory category = subcategory.ProductCategory; // Execute query.
-```
-```sql
+
 // exec sp_executesql N'SELECT [e].[ProductCategoryID], [e].[Name]
-```
-```sql
 // FROM [Production].[ProductCategory] AS [e]
-```
-```sql
 // WHERE [e].[ProductCategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
 ```
 ```csharp
@@ -608,14 +499,9 @@ category.Name.WriteLine();
 
 ```csharp
 ICollection<Product> products = subcategory.Products; // Execute query.
-```
-```sql
+
 // exec sp_executesql N'SELECT [e].[ProductID], [e].[ListPrice], [e].[Name], [e].[ProductSubcategoryID], [e].[RowVersion]
-```
-```sql
 // FROM [Production].[Product] AS [e]
-```
-```sql
 // WHERE [e].[ProductSubcategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
 ```
 ```csharp
@@ -628,52 +514,28 @@ products.WriteLines(product => product.Name);
 
 Sometimes lazy loading can cause the “N + 1 queries” problem. The following example queries the subcategories, and pulls each subcategory’s information:
 
+```csharp
 internal static void MultipleLazyLoading(AdventureWorks adventureWorks)
-
-```csharp
 {
-```
-```csharp
 ProductSubcategory[] subcategories = adventureWorks.ProductSubcategories.ToArray(); // Execute query.
-```
-```sql
+
 // SELECT [p].[ProductSubcategoryID], [p].[Name], [p].[ProductCategoryID]
-```
-```sql
 // FROM [Production].[ProductSubcategory] AS [p]
-```
 
-```csharp
 subcategories.WriteLines(subcategory =>
-```
-```csharp
 $"{subcategory.Name} ({subcategory.ProductCategory.Name})"); // Execute query.
-```
-```sql
+
 // exec sp_executesql N'SELECT [e].[ProductCategoryID], [e].[Name]
-```
-```sql
 // FROM [Production].[ProductCategory] AS [e]
-```
-```sql
 // WHERE [e].[ProductCategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
-```
 
-```sql
 // exec sp_executesql N'SELECT [e].[ProductCategoryID], [e].[Name]
-```
-```sql
 // FROM [Production].[ProductCategory] AS [e]
-```
-```sql
 // WHERE [e].[ProductCategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=2
-```
 
-```csharp
 // ...
-```
-
 }
+```
 
 When loading the subcategories, 1 database query is executed. When each subcategory’s related category is pulled through the navigation property, it is loaded instantly, if not loaded yet. So in total there are N queries for related categories + 1 query for subcategories executed. For better performance in this kind of scenario, eager loading or inner join should be used to load all entities and related entities with 1 single query.
 

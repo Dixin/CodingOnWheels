@@ -3341,57 +3341,26 @@ public static IEnumerable<TResult\> Cast<TResult\>(this IEnumerable source);
 
 Unlike other query methods, Cast is an extension method of non-generic sequence, so it can work with types implementing either IEnumerable or IEnumerable<T>. So it can enable LINQ query for legacy types. The following example calls Microsoft Team Foundation Service (TFS) client APIs to query work items, where Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection is returned. WorkItemCollection is a collection of Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem, but it only implements IEnumerable, so it can be cast to a generic IEnumerable<WorkItem> safely, and further LINQ query can be applied. The following example execute a WIQL (Work Item Query Language of TFS) statement to query work items from TFS. Since WIQL does not support GROUP BY clause, the work items can be grouped locally with LINQ:
 
+```csharp
 #if NETFX
-
-```csharp
 internal static void CastNonGeneric(VssCredentials credentials)
-```
-```csharp
 {
-```
-```csharp
 using (TfsTeamProjectCollection projectCollection = new TfsTeamProjectCollection(
-```
-```csharp
 new Uri("https://dixin.visualstudio.com/DefaultCollection"), credentials))
-```
-```csharp
 {
-```
-```csharp
 // WorkItemCollection implements IEnumerable.
-```
-```sql
 const string Wiql = "SELECT * FROM WorkItems WHERE [Work Item Type] = 'Bug' AND State != 'Closed'"; // WIQL does not support GROUP BY.
-```
-```csharp
 WorkItemStore workItemStore = (WorkItemStore)projectCollection.GetService(typeof(WorkItemStore));
-```
-```csharp
 WorkItemCollection workItems = workItemStore.Query(Wiql);
-```
 
-```csharp
 IEnumerable<WorkItem>genericWorkItems = workItems.Cast<WorkItem>(); // Define query.
-```
-```csharp
 IEnumerable<IGrouping<string, WorkItem>> workItemGroups = genericWorkItems
-```
-```csharp
 .GroupBy(workItem => workItem.CreatedBy); // Group work items locally.
-```
-```csharp
 // ...
-```
-```csharp
 }
-```
-```csharp
 }
-```
-
 #endif
-
+```
 The other non-generic sequences, like System.Resources.ResourceSet, System.Resources.ResourceReader, can be cast in the same way:
 
 internal static void CastMoreNonGeneric()
@@ -3438,112 +3407,46 @@ IEnumerable<DictionaryEntry>entries2 = resourceReader.Cast<DictionaryEntry>();
 
 In query expression syntax, just specify the type in from clause before the value name:
 
+```csharp
 #if NETFX
-
-```csharp
 internal static void CastNonGeneric(VssCredentials credentials)
-```
-```csharp
 {
-```
-```csharp
 // WorkItemCollection implements IEnumerable.
-```
-```csharp
 using (TfsTeamProjectCollection projectCollection = new TfsTeamProjectCollection(
-```
-```csharp
 new Uri("https://dixin.visualstudio.com/DefaultCollection"), credentials))
-```
-```csharp
 {
-```
-```sql
 const string Wiql = "SELECT * FROM WorkItems WHERE [Work Item Type] = 'Bug' AND State != 'Closed'"; // WIQL does not support GROUP BY.
-```
-```csharp
 WorkItemStore workItemStore = (WorkItemStore)projectCollection.GetService(typeof(WorkItemStore));
-```
-```csharp
 WorkItemCollection workItems = workItemStore.Query(Wiql);
-```
 
-```csharp
 IEnumerable<IGrouping<string, WorkItem>>workItemGroups =
-```
-```csharp
 from WorkItem workItem in workItems // Cast.
-```
-```csharp
 group workItem by workItem.CreatedBy; // Group work items in local memory.
-```
-```csharp
 // ...
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 #endif
-```
 
-```csharp
 internal static void CastMoreNonGenericI()
-```
-```csharp
 {
-```
-```csharp
 // ResourceSet implements IEnumerable.
-```
-```csharp
 ResourceSet resourceSet = new ResourceManager(typeof(Resources))
-```
-```csharp
 .GetResourceSet(CultureInfo.CurrentCulture, createIfNotExists: true, tryParents: true);
-```
-```csharp
 IEnumerable<DictionaryEntry>entries1 =
-```
-```csharp
 from DictionaryEntry entry in resourceSet // Cast.
-```
-```csharp
 select entry;
-```
 
-```csharp
 // ResourceReader implements IEnumerable.
-```
-```csharp
 Assembly assembly = typeof(QueryMethods).Assembly;
-```
-```csharp
 using (Stream stream = assembly.GetManifestResourceStream(assembly.GetManifestResourceNames()[0]))
-```
-```csharp
 using (ResourceReader resourceReader = new ResourceReader(stream))
-```
-```csharp
 {
-```
-```csharp
 IEnumerable<DictionaryEntry>entries2 =
-```
-```csharp
 from DictionaryEntry entry in resourceReader // Cast.
-```
-```csharp
 select entry;
-```
-```csharp
+}
 }
 ```
-
-}
 
 And of course Cast can be used to generic IEnumerable<T>:
 

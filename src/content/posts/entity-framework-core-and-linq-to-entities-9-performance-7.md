@@ -37,7 +37,7 @@ This part continues the discussion of performance.
 > 
 > The following example simply pulls categories from the repository, with one LINQ to Entities query:’
 > 
-> ```sql
+> ```csharp
 > internal static partial class Performance
 > {
 >     internal static void Initialize()
@@ -198,7 +198,7 @@ After the object-relational mapping metadata is initialized, they are cached, so
 
 As fore mentioned, by default, the entities queried from repository are cached and tracked. This behavior can be demonstrated by the following example:
 
-```sql
+```csharp
 internal static void CachedEntity(AdventureWorks adventureWorks)
 {
     ProductCategory categoryCopy1 = adventureWorks.ProductCategories
@@ -228,7 +228,7 @@ In this example, the first query reads data from the repository and materialize 
 
 Entity is not cached when tracking is turned off, or entity is not queried from the repository. Each of the following queries materializes a new entity:
 
-```sql
+```csharp
 internal static void UncachedEntity(AdventureWorks adventureWorks)
 {
     ProductCategory categoryCopy1 = adventureWorks.ProductCategories
@@ -515,7 +515,7 @@ internal static async Task Async(AdventureWorks adventureWorks)
 
 These async APIs work in EF/Core transaction. In this tutorial, connection resiliency is enabled because cloud SQL database is used, so call the retry strategy’s ExecuteAsync method:
 
-```sql
+```csharp
 internal static async Task DbContextTransactionAsync(AdventureWorks adventureWorks)
 {
     await adventureWorks.Database.CreateExecutionStrategy().ExecuteAsync(async () =>
@@ -556,7 +556,7 @@ internal static async Task DbContextTransactionAsync(AdventureWorks adventureWor
 
 These async APIs also work in ADO.NET transaction:
 
-```sql
+```csharp
 internal static async Task DbTransactionAsync()
 {
     using (SqlConnection connection = new SqlConnection(ConnectionStrings.AdventureWorks))
@@ -607,7 +607,7 @@ internal static async Task DbTransactionAsync()
 
 TransactionScope by default does not support across thread transaction flow. Using the the async/await syntactic sugar for TransactionScope causes InvalidOperationException: A TransactionScope must be disposed on the same thread that it was created.. To resolved this, Since .NET 4.5.1, a new constructor for TransactionScope is provided to explicitly enable transaction flow across thread continuations:
 
-```sql
+```csharp
 internal static async Task TransactionScopeAsync()
 {
     await new ExecutionStrategy().ExecuteAsync(async () =>

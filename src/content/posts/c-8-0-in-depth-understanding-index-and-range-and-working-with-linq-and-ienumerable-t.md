@@ -9,7 +9,7 @@ draft: false
 lang: ""
 ---
 
-C# 8.0 introduces index and range for array. This part discussed the index and range types, syntax, compilation, and how to apply them with LINQ for any type that implements IEnumerable<T>.
+C# 8.0 introduces index and range for array. This part discussed the index and range types, syntax, compilation, and how to apply them with LINQ for any type that implements `IEnumerable<T>`.
 
 ## Index and Range types and C# syntax
 
@@ -118,14 +118,14 @@ Array.Copy(sourceArray: array, sourceIndex: startIndex, destinationArray: slice,
 
 ## LINQ queries - Index and Range for IEnumerable<T>
 
-Currently (v3.0.0-preview2/SDK 3.0.100-preview-010184), the index and range work with array, and do not work with other types, like List<T>. It is natural and convenient to support index and range in LINQ, so they can work with any type that implements IEnumerable<T>. The goals of these LINQ APIs are:
+Currently (v3.0.0-preview2/SDK 3.0.100-preview-010184), the index and range work with array, and do not work with other types, like `List<T>`. It is natural and convenient to support index and range in LINQ, so they can work with any type that implements `IEnumerable<T>`. The goals of these LINQ APIs are:
 
 -   Use index to locate an element in sequence, use range to slice sequence. The usage is the same as index/range for array, but with deferred execution for slice with range.
 -   Use range to start fluent LINQ query.
 
-This enables the index and range to work with any type that implements IEnumerable<T>.
+This enables the index and range to work with any type that implements `IEnumerable<T>`.
 
-LINQ already has ElementAt(int index) and ElementOrDefault(int index) query operator. It would be natural to have a overload for System.Index: ElementAt(Index index) and ElementOrDefault(Index index), and a new method ElementsIn(Range range), so that LINQ can seamlessly work with C# 8.0:
+LINQ already has `ElementAt(int index)` and `ElementOrDefault(int index)` query operator. It would be natural to have a overload for System.Index: `ElementAt(Index index)` and `ElementOrDefault(Index index)`, and a new method ElementsIn(Range range), so that LINQ can seamlessly work with C# 8.0:
 
 ```csharp
 Index index = ...;
@@ -191,7 +191,7 @@ namespace System.Linq
 
 These APIs' implementation is self-contained so that the code can be just copied to use.
 
-The implementation of ElementAt(Index), ElementOrDefault(Index) and ElementsIn(Range) for IQueryable<T> is straightforward. They just create an expression tree.
+The implementation of `ElementAt(Index)`, `ElementOrDefault(Index)` and `ElementsIn(Range)` for `IQueryable<T>` is straightforward. They just create an expression tree.
 
 ```csharp
 internal static class QueryableExtensions
@@ -261,9 +261,9 @@ internal static class CachedReflectionInfo
 }
 ```
 
-These methods for IEnumerable<T> are straightforward as well, I just followed the behavior and exceptions of array with range. See unit tests [https://github.com/Dixin/CodeSnippets/blob/master/Linq.Range/Linq.Range.Tests/ElementsInTests.cs](https://github.com/Dixin/CodeSnippets/blob/master/Linq.Range/Linq.Range.Tests/ElementsInTests.cs).
+These methods for `IEnumerable<T>` are straightforward as well, I just followed the behavior and exceptions of array with range. See unit tests [https://github.com/Dixin/CodeSnippets/blob/master/Linq.Range/Linq.Range.Tests/ElementsInTests.cs](https://github.com/Dixin/CodeSnippets/blob/master/Linq.Range/Linq.Range.Tests/ElementsInTests.cs).
 
-ElementAt(Index) and ElementAtOrDefault(Index):
+`ElementAt(Index)` and `ElementAtOrDefault(Index)`:
 
 ```csharp
 public static TSource ElementAt<TSource>(this IEnumerable<TSource> source, Index index)
@@ -370,7 +370,7 @@ public static TSource ElementAtOrDefault<TSource>(this IEnumerable<TSource> sour
 }
 ```
 
-ElementsIn(Range):
+`ElementsIn(Range)`:
 
 ```csharp
 public static IEnumerable<TSource> ElementsIn<TSource>(this IEnumerable<TSource> source, Range range)
@@ -580,12 +580,12 @@ private static IEnumerable<TSource> ElementsInIterator<TSource>(IEnumerable<TSou
 }
 ```
 
-For Range(Range) and AsEnumerable(Range), the question is: what does Range's start Index and end Index mean when the index is from the end? For example, 10..20 can be easily converted to a sequence of 10, 11,12, ... 19, but how about ^20...^10? In my current implementation, regarding Index's value can be from 0 to int.MaxValue, I assume a virtual "full range" 0..2147483648, and any Range instance is a slice of that "full range". So:
+For `Range(Range)` and `AsEnumerable(Range)`, the question is: what does Range's start Index and end Index mean when the index is from the end? For example, 10..20 can be easily converted to a sequence of 10, 11,12, ... 19, but how about `^20...^10`? In my current implementation, regarding Index's value can be from 0 to `int.MaxValue`, I assume a virtual "full range" 0..2147483648, and any Range instance is a slice of that "full range". So:
 
--   Ranges .. and 0.. and ..^0 and 0..^0 are converted to "full sequence" 0, 1, .. 2147483647
--   Range 100..^47 is converted to sequence 100, 101, .. 2147483600
--   Range ^48..^40 is converted to sequence 2147483600, 2147483601 .. 2147483607
--   Range 10..10 is converted to empty sequence
+-   Ranges `..` and `0..` and .`.^0` and `0..^0` are converted to "full sequence" 0, 1, .. 2147483647
+-   Range `100..^47` is converted to sequence 100, 101, .. 2147483600
+-   Range `^48..^40` is converted to sequence 2147483600, 2147483601 .. 2147483607
+-   Range `10..10` is converted to empty sequence
 
 etc.
 

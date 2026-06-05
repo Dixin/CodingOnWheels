@@ -41,7 +41,7 @@ and satisfies 2 category laws:
 
 To make above general definitions more intuitive, category and its morphism can be represented by:
 
-```typescript
+```csharp
 public interface ICategory<TCategory> where TCategory : ICategory<TCategory>
 {
     // o = (m2, m1) -> composition

@@ -56,7 +56,7 @@ Now restart Windows, then Windows will have WSL and the wsl command line tool. R
 
 Then manually install this patch: [https://wslstorestorage.blob.core.windows.net/wslblob/wsl\_update\_x64.msi](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi"). And then run the following command as administrator to update the kernel to the latest version:
 
-```console
+```batch
 C:\\WINDOWS\\system32>wsl --update 
 Checking for updates... 
 Downloading updates... 
@@ -70,7 +70,7 @@ Now go to Microsoft Store, install a Linux distribution. I installed the first o
 
 When the installation is done, use the following command to set the default version to 2 and verify:
 
-```console
+```batch
 C:\WINDOWS\system32>wsl --set-default-version 2 
 For information on key differences with WSL 2 please visit https://aka.ms/wsl2
 The operation completed successfully.
@@ -83,7 +83,7 @@ C:\WINDOWS\system32>wsl --list --verbose
 ```
 WSL version can also be set for a specific distribution:
 
-```console
+```batch
 C:\WINDOWS\system32>wsl --set-version ubuntu 2 
 Conversion in progress, this may take a few minutes... For information on key differences with WSL 2 please visit https://aka.ms/wsl2
 The distribution is already the requested version.
@@ -117,7 +117,7 @@ make
 ./concurrentKernels
 ```
 If everything is successful, it should find the GPU and show the test output:
-```console
+```batch
 [./concurrentKernels] - Starting... 
 GPU Device 0: "Turing" with compute capability 7.5 
 
@@ -159,7 +159,7 @@ Now it is ready to run CUDA container:
 docker run --gpus all nvcr.io/nvidia/k8s/cuda-sample:nbody nbody -gpu -benchmark
 ```
 It should give output like this:
-```console
+```batch
 GPU Device 0: "GeForce GTX 1650 SUPER" with compute capability 7.5 
 > Compute 7.5 CUDA device: [GeForce GTX 1650 SUPER] 20480 bodies, total time for 10 iterations: 30.007 ms 
 = 139.776 billion interactions per second 
@@ -168,7 +168,7 @@ GPU Device 0: "GeForce GTX 1650 SUPER" with compute capability 7.5
 ### Troubleshoot
 
 Here Windows, WSL 2, Nvidia driver are all in preview. Sometimes when you run container, docker gives error:
-```console
+```batch
 docker: Error response from daemon: cgroups: cannot find cgroup mount destination: unknown. ERRO[0000] error waiting for container: context canceled
 ```
 Then WSL has to be restarted. In Windows command prompt:
@@ -176,18 +176,21 @@ Then WSL has to be restarted. In Windows command prompt:
 wsl –shutdown wsl
 ```
 If Docker gives the following error:
-```console
-Error response from daemon: could not select device driver "" with capabilities: [[gpu]]
-```
+
+> Error response from daemon: could not select device driver "" with capabilities: [[gpu]]
+
 Then [install nvidia-container-toolkit](https://github.com/NVIDIA/nvidia-docker/issues/1243):
+
 ```bash
 sudo apt install -y nvidia-container-toolkit
 ```
+
 If Docker gives error message:
-```console
-Error response from daemon: cgroups: cannot find cgroup mount destination: unknown.
-```
+
+> Error response from daemon: cgroups: cannot find cgroup mount destination: unknown.
+
 Then this is [the fix](https://github.com/microsoft/WSL/issues/4189):
+
 ```bash
 sudo mkdir /sys/fs/cgroup/systemd sudo mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
 ```
@@ -202,7 +205,7 @@ Here container’s port 8888 is mapped to WSL’s port 8889, because on Windows 
 
 Dock shows the following messages:
 
-```console
+```batch
 ________                               _______________
 ___  __/__________________________________  ____/__  /________      __
 __  /  _  _ \_  __ \_  ___/  __ \_  ___/_  /_   __  /_  __ \_ | /| / /

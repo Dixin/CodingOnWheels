@@ -690,14 +690,9 @@ adventureWorks.SaveChanges().WriteLine(); // 2
 ```
 ```csharp
 // VALUES (@p0);
-```
-```sql
+
 // SELECT [ProductCategoryID]
-```
-```sql
 // FROM [Production].[ProductCategory]
-```
-```sql
 // WHERE @@ROWCOUNT = 1 AND [ProductCategoryID] = scope_identity();
 ```
 ```csharp
@@ -714,14 +709,9 @@ adventureWorks.SaveChanges().WriteLine(); // 2
 ```
 ```csharp
 // VALUES (@p0);
-```
-```sql
+
 // SELECT [ProductCategoryID]
-```
-```sql
 // FROM [Production].[ProductCategory]
-```
-```sql
 // WHERE @@ROWCOUNT = 1 AND [ProductCategoryID] = scope_identity();
 ```
 ```csharp
@@ -817,11 +807,7 @@ adventureWorks.SaveChanges().WriteLine(); // 1
 ```
 ```csharp
 // UPDATE [Production].[ProductSubcategory] SET [Name] = @p0, [ProductCategoryID] = @p1
-```
-```sql
 // WHERE [ProductSubcategoryID] = @p2;
-```
-```sql
 // SELECT @@ROWCOUNT;
 ```
 ```csharp
@@ -887,11 +873,7 @@ adventureWorks.SaveChanges().WriteLine(); // 1
 ```
 ```csharp
 // UPDATE [Production].[ProductCategory] SET [Name] = @p0
-```
-```sql
 // WHERE [ProductCategoryID] = @p1;
-```
-```sql
 // SELECT @@ROWCOUNT;
 ```
 ```csharp
@@ -989,14 +971,8 @@ adventureWorks.SaveChanges().WriteLine(); // 1
 ```
 ```csharp
 // exec sp_executesql N'SET NOCOUNT ON;
-```
-```sql
 // DELETE FROM [Production].[ProductSubcategory]
-```
-```sql
 // WHERE [ProductSubcategoryID] = @p0;
-```
-```sql
 // SELECT @@ROWCOUNT;
 ```
 ```csharp
@@ -1050,14 +1026,8 @@ adventureWorks.SaveChanges().WriteLine(); // 1
 ```
 ```csharp
 // exec sp_executesql N'SET NOCOUNT ON;
-```
-```sql
 // DELETE FROM [Production].[ProductCategory]
-```
-```sql
 // WHERE [ProductCategoryID] = @p0;
-```
-```sql
 // SELECT @@ROWCOUNT;
 ```
 ```csharp
@@ -1120,14 +1090,8 @@ adventureWorks.SaveChanges().WriteLine(); // 2
 ```
 ```csharp
 // exec sp_executesql N'SET NOCOUNT ON;
-```
-```sql
 // DELETE FROM [Production].[ProductSubcategory]
-```
-```sql
 // WHERE [ProductSubcategoryID] = @p0;
-```
-```sql
 // SELECT @@ROWCOUNT;
 ```
 ```csharp
@@ -1136,14 +1100,8 @@ adventureWorks.SaveChanges().WriteLine(); // 2
 
 ```csharp
 // exec sp_executesql N'SET NOCOUNT ON;
-```
-```sql
 // DELETE FROM [Production].[ProductCategory]
-```
-```sql
 // WHERE [ProductCategoryID] = @p1;
-```
-```sql
 // SELECT @@ROWCOUNT;
 ```
 ```csharp
@@ -1230,8 +1188,6 @@ adventureWorks.SaveChanges().WriteLine(); // 1
 
 ```csharp
 adventureWorks.Database
-```
-```sql
 .ExecuteSqlCommand($@"DELETE FROM [Production].[ProductCategory] WHERE [Name] = {nameof(ProductCategory)}")
 ```
 ```csharp
@@ -1285,8 +1241,6 @@ using (DbCommand command = connection.CreateCommand())
 ```
 ```csharp
 command.CommandText =
-```
-```sql
 @"SELECT transaction_isolation_level FROM sys.dm_exec_sessions WHERE session_id = @@SPID";
 ```
 ```csharp
@@ -1410,8 +1364,6 @@ using (DbCommand command = connection.CreateCommand())
 ```
 ```csharp
 {
-```
-```sql
 command.CommandText = "DELETE FROM [Production].[ProductCategory] WHERE [Name] = @Name";
 ```
 ```csharp
@@ -1655,11 +1607,7 @@ readerWriter1.Write(() => categoryCopy1.Name = nameof(readerWriter1));
 ```
 ```csharp
 // UPDATE [Production].[ProductCategory] SET [Name] = @p0
-```
-```sql
 // WHERE [ProductCategoryID] = @p1;
-```
-```sql
 // SELECT @@ROWCOUNT;
 ```
 ```csharp
@@ -1673,11 +1621,7 @@ readerWriter2.Write(() => categoryCopy2.Name = nameof(readerWriter2)); // Last c
 ```
 ```csharp
 // UPDATE [Production].[ProductCategory] SET [Name] = @p0
-```
-```sql
 // WHERE [ProductCategoryID] = @p1;
-```
-```sql
 // SELECT @@ROWCOUNT;
 ```
 ```csharp
@@ -1762,11 +1706,9 @@ photoCopy1.ModifiedDate = DateTime.Now;
 ```
 ```csharp
 // UPDATE [Production].[ProductPhoto] SET [LargePhotoFileName] = @p0, [ModifiedDate] = @p1
-```
-```sql
+
 // WHERE [ProductPhotoID] = @p2 AND [ModifiedDate] = @p3;
-```
-```sql
+
 // SELECT @@ROWCOUNT;
 ```
 ```csharp
@@ -1792,11 +1734,7 @@ photoCopy2.ModifiedDate = DateTime.Now;
 ```
 ```csharp
 // UPDATE [Production].[ProductPhoto] SET [LargePhotoFileName] = @p0, [ModifiedDate] = @p1
-```
-```sql
 // WHERE [ProductPhotoID] = @p2 AND [ModifiedDate] = @p3;
-```
-```sql
 // SELECT @@ROWCOUNT;
 ```
 ```csharp
@@ -1889,17 +1827,9 @@ readerWriter1.Write(() => productCopy1.Name = nameof(readerWriter1));
 ```
 ```csharp
 // UPDATE [Production].[Product] SET [Name] = @p0
-```
-```sql
 // WHERE [ProductID] = @p1 AND [RowVersion] = @p2;
-```
-```sql
 // SELECT [RowVersion]
-```
-```sql
 // FROM [Production].[Product]
-```
-```sql
 // WHERE @@ROWCOUNT = 1 AND [ProductID] = @p1;
 ```
 ```csharp
@@ -1913,14 +1843,8 @@ readerWriter2.Write(() => readerWriter2.Set<Product>().Remove(productCopy2));
 ```
 ```csharp
 // exec sp_executesql N'SET NOCOUNT ON;
-```
-```sql
 // DELETE FROM [Production].[Product]
-```
-```sql
 // WHERE [ProductID] = @p0 AND [RowVersion] = @p1;
-```
-```sql
 // SELECT @@ROWCOUNT;
 ```
 ```csharp
@@ -2322,8 +2246,6 @@ UpdateProduct(readerWriter1, readerWriter2, readerWriter3, resolveConflicts: tra
 ```
 ```csharp
 PropertyValues databaseValues = tracking.GetDatabaseValues();
-```
-```sql
 // Refresh original values, which go to WHERE clause of UPDATE statement.
 ```
 ```csharp
@@ -2399,8 +2321,6 @@ PropertyValues databaseValues = tracking.GetDatabaseValues(); // Execute query.
 ```
 ```csharp
 PropertyValues originalValues = tracking.OriginalValues.Clone();
-```
-```sql
 // Refresh original values, which go to WHERE clause.
 ```
 ```csharp
@@ -2710,14 +2630,11 @@ else
 ```
 ```csharp
 {
-```
-```sql
+
 // When entity is already updated in database, refresh original values, which go to in WHERE clause.
 ```
 ```csharp
 tracking.OriginalValues.SetValues(databaseValues);
-```
-```sql
 // Hereafter, SaveChanges executes UPDATE/DELETE for this entity, with refreshed values in WHERE clause.
 ```
 ```csharp
@@ -2764,8 +2681,6 @@ else
 ```
 ```csharp
 {
-```
-```sql
 // When entity is already updated, refresh original values, which go to WHERE clause.
 ```
 ```csharp
@@ -2785,8 +2700,6 @@ databaseValues.Properties // Navigation properties are not included.
 ```
 ```csharp
 .ForEach(property => tracking.Property(property.Name).IsModified = false);
-```
-```sql
 // Hereafter, SaveChanges executes UPDATE/DELETE for this entity, with refreshed values in WHERE clause.
 ```
 ```csharp

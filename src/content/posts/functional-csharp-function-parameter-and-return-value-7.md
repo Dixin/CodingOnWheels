@@ -292,7 +292,7 @@ The default value for optional parameter must be compile time constant, or defau
 
 And function with optional parameters can be called with the named argument syntax too:
 
-```typescript
+```csharp
 internal static void CallOptional()
 {
     Optional(true, '@');

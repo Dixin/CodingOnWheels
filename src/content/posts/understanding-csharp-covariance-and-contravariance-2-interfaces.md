@@ -61,7 +61,7 @@ public interface IOut<out TOut> // TOut is covariant for all members of interfac
 
 Then the following interface binding (assignment) works:
 
-```typescript
+```csharp
 public static partial class GenericInterfaceWithVariances
 {
     public static void Covariance()
@@ -120,7 +120,7 @@ public interface IIn<in TIn> // TIn is contravariant for all members of interfac
 
 Then the following interface binding works:
 
-```typescript
+```csharp
 public static partial class GenericInterfaceWithVariances
 {
     public static void Contravariance()

@@ -236,7 +236,7 @@ The new code is shorter and more intuitive:
 
 Besides XDocument, XElement, XAttribute, and XComment in above example, some other XML structures can also can declaratively constructed too:
 
-```xml
+```csharp
 internal static void Construction()
 {
     XDeclaration declaration = new XDeclaration("1.0", null, "no");
@@ -351,7 +351,7 @@ In LINQ to XML, XML can be easily read or deserialized to XNode/XElement/XDocume
 
 The APIs accepting URI, for example:
 
-```xml
+```csharp
 internal static void Read()
 {
     using (XmlReader reader = XmlReader.Create("https://weblogs.asp.net/dixin/rss"))

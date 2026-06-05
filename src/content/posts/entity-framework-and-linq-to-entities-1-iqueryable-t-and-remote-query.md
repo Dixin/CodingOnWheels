@@ -214,7 +214,7 @@ internal static partial class ExpressionTree
 
 Notice @ is prepended to parameter name, so that the result expression string can be used in SQL query as SELECT expression:
 
-```sql
+```csharp
 public static partial class BinaryArithmeticTranslator
 {
     [SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")]

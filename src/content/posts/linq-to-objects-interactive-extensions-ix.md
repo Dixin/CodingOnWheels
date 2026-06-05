@@ -1041,7 +1041,7 @@ namespace System.Linq
 ```csharp
 {
 ```
-```typescript
+```csharp
 public interface IBuffer<out T> : IEnumerable<T>, IEnumerable, IDisposable { }
 ```
 

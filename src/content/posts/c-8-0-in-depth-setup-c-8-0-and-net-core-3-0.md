@@ -17,14 +17,14 @@ One way to setup the environment is to install Visual Studio 2019 preview ([http
 
 First, install the latest SDK of .NET Core 3.0 for your operating system from the official website: [https://dotnet.microsoft.com/download/dotnet-core/3.0](https://dotnet.microsoft.com/download/dotnet-core/3.0 "https://dotnet.microsoft.com/download/dotnet-core/3.0"). Currently v3.0.0-preview2/SDK 3.0.100-preview-010184 is the latest. Then run the following command to verify the installation:
 
-```console
+```batch
 dotnet --version
 3.0.100-preview-010184
 ```
 
 By default, the dotnet CLI uses the latest SDK installed for dotnet build and dotnet new, etc.. If you want to go back to the previous stable SDK, use the global.json to specify the stable SDK version for your directory. First, run dotnet –list-sdks to view all the installed SDKs, then run dotnet new globaljson –skd-version {version} to create the global.json file. Then run dotnet –version to verify the changed SDK version:
 
-```console
+```batch
 C:\Users\dixin>dotnet --list-sdks
 2.1.202 [C:\Program Files\dotnet\sdk]
 2.1.503 [C:\Program Files\dotnet\sdk]

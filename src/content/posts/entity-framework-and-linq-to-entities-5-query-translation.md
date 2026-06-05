@@ -1100,7 +1100,7 @@ Inside the last method call of CreateCommand, a SqlGenerator object is construct
 
 The above WhereAndSelectDbExpressions methods build command tree from scratch. Take it as an example:
 
-```sql
+```csharp
 internal static void WhereAndSelectDbExpressionsToSql()
 {
     DbQueryCommandTree commandTree = WhereAndSelectDbExpressions();
@@ -1117,7 +1117,7 @@ SqlGenerator traverses the command tree nodes, a specific Visit overloads is cal
 
 In the other example, SelectAndFirstDbExpressions also builds command tree, so:
 
-```sql
+```csharp
 internal static void SelectAndFirstDbExpressionsToSql()
 {
     DbQueryCommandTree commandTree = SelectAndFirstDbExpressions();
@@ -1133,7 +1133,7 @@ SqlGenerator generates TOP expression from DbLimitExpression node. Here SQL data
 
 Other command trees above can be used to generate SQL in the same way:
 
-```sql
+```csharp
 internal static void StringIsNullOrEmptySql()
 {
     string sql = AdventureWorks.Generate(StringIsNullOrEmptyDbExpressions()).CommandText;

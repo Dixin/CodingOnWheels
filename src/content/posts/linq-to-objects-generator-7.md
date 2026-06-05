@@ -544,7 +544,7 @@ internal static IEnumerable<TSource> WhereGenerator<TSource>(
 
 The C# compiler actually goes a little further when compiling function with yield syntactic sugar. Such a function with yield statement must return either sequence (represented by IEnumerable or IEnumerable<T>) or iterator (represented by IEnumerator or IEnumerator<T>). When such function returns IEnumerable<T> sequence, the entire function body is compiled to [generator](https://en.wikipedia.org/wiki/Generator_\(computer_programming\)) creation. A generator is both a sequence and a iterator:
 
-```typescript
+```csharp
 public interface IGenerator<out T> : IEnumerable<T>, IEnumerator<T> { }
 ```
 

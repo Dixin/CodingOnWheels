@@ -438,7 +438,7 @@ Later, when readerWriter3 reads the product again, product has database values, 
 
 Another simple option, called “client wins”, is to disregard values in database, and overwrite them with whatever data submitted from client.
 
-```sql
+```csharp
 internal static void ClientWins() =>
     UpdateProduct(resolveProductConflict: tracking =>
         {
@@ -482,7 +482,7 @@ A more complex option, is to merge the client values and database values. For ea
 -   If original value is different from database value, which means database value is already updated by other concurrent client, then give up updating this property, and retain the database value
 -   If original value is the same as database value, which means no concurrency conflict for this property, then process normally
 
-```sql
+```csharp
 internal static void MergeClientAndDatabase() =>
     UpdateProduct(resolveProductConflict: tracking =>
         {
@@ -626,7 +626,7 @@ public static partial class DbContextExtensions
 
 Entity Framework already provides a System.Data.Entity.Core.Objects.RefreshMode enumeration, but it only has 2 members: StoreWins and ClientWins. So a RefreshConflict enumeration has to be defined with 3 members. And here the Refresh method is an extension method for DbEntityEntry:
 
-```sql
+```csharp
 public static partial class DbEntutyEntryExtensions
 {
     public static DbEntityEntry Refresh(this DbEntityEntry tracking, RefreshConflict refreshMode)

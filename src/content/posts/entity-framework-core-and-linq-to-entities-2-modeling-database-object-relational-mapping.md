@@ -200,48 +200,27 @@ Here when database connection is not provided to the constructor, a new database
 
 There are tens of tables in the AdventureWorks database, but don’t panic, this book only involves a few tables, and a few columns of these tables. In EF Core, a table definition can be mapped to an entity type definition, where each column is mapped to a entity property. For example, the AdventureWorks database has a Production.ProductCategory table. Its definition can be virtually viewed as:
 
-CREATE SCHEMA \[Production\];
-
-```csharp
-GO
-```
-
 ```sql
+CREATE SCHEMA \[Production\];
+GO
+
 CREATE TYPE [dbo].[Name] FROM nvarchar(50) NULL;
-```
-```csharp
 GO
-```
 
-```csharp
 CREATE TABLE [Production].[ProductCategory](
-```
-```csharp
 [ProductCategoryID] int IDENTITY(1,1) NOT NULL
-```
-```csharp
 CONSTRAINT [PK_ProductCategory_ProductCategoryID] PRIMARY KEY CLUSTERED,
-```
 
-```csharp
 [Name] [dbo].[Name] NOT NULL, -- nvarchar(50).
-```
 
-```csharp
 [rowguid] uniqueidentifier ROWGUIDCOL NOT NULL -- Ignored in mapping.
-```
-```csharp
 CONSTRAINT [DF_ProductCategory_rowguid] DEFAULT (NEWID()),
-```
 
-```csharp
 [ModifiedDate] datetime NOT NULL -- Ignored in mapping.
-```
-```csharp
 CONSTRAINT [DF_ProductCategory_ModifiedDate] DEFAULT (GETDATE()));
-```
 
 GO
+```
 
 This table definition can be mapped to a ProductCategory entity definition:
 
@@ -1133,43 +1112,21 @@ public DbSet<WorkTransactionHistory>WorkTransactions { get; set; }
 
 A view can also be mapped as if it is a table, if the view has one or more columns which can be virtually viewed as primary key. Take the Production.vEmployee view as example, its definition can be virtually viewed as:
 
-CREATE VIEW \[HumanResources\].\[vEmployee\]
-
-```csharp
-AS
-```
-```csharp
-SELECT
-```
-```csharp
-e.[BusinessEntityID],
-```
-```csharp
-p.[FirstName],
-```
-```csharp
-p.[LastName],
-```
-```csharp
-e.[JobTitle]
-```
-```csharp
--- Other columns.
-```
 ```sql
+CREATE VIEW \[HumanResources\].\[vEmployee\]
+AS
+SELECT
+e.[BusinessEntityID],
+p.[FirstName],
+p.[LastName],
+e.[JobTitle]
+-- Other columns.
 FROM [HumanResources].[Employee] e
-```
-```csharp
 INNER JOIN [Person].[Person] p
-```
-```csharp
 ON p.[BusinessEntityID] = e.[BusinessEntityID]
-```
-```csharp
 /* Other tables. */;
-```
-
 GO
+```
 
 The BusinessEntityID is unique and can be the virtual primary key. So it can be mapped as the following entity:
 

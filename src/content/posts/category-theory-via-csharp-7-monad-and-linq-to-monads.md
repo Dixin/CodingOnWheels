@@ -1,6 +1,6 @@
 ---
 title: "Category Theory via C# (7) Monad and LINQ to Monads"
-published: 2024-12-26
+published: 2025-12-26
 description: "As fore mentioned endofunctor category can be monoidal (the entire category. Actually, an endofunctor In the endofunctor category can be monoidal too. This kind of endofunctor is called monad. Monad i"
 image: ""
 tags: [".NET", "C#", "Category Theory", "Functional Programming", "LINQ", "LINQ via C#", "Monads"]
@@ -31,7 +31,7 @@ So that, the following diagram commutes:
 
 In DotNet category, monad can be defined as:
 
-```typescript
+```csharp
 // Cannot be compiled.
 public partial interface IMonad<TMonad<>> : IFunctor<TMonad<>> where TMonad<> : IMonad<TMonad<>>
 {
@@ -97,7 +97,7 @@ internal static void MonoidLaws()
 
 As discussed in LINQ to Object chapter, for IEnumerable<>, there is already a query method SelectMany providing the same ability to flatten hierarchy an IEnumerable<IEnumerable<T>> sequence to an IEnumerable<T> sequence. Actually, monad can be alternatively defined with SelectMany and η/Wrap:
 
-```typescript
+```csharp
 public partial interface IMonad<TMonad> where TMonad<> : IMonad<TMonad<>>
 {
     // SelectMany: (TMonad<TSource>, TSource -> TMonad<TSelector>, (TSource, TSelector) -> TResult) -> TMonad<TResult>
@@ -461,7 +461,7 @@ public static partial class MonadExtensions // Monad (Multiply, Unit) implements
 
 So the monad definition can be updated to implement monoidal functor and applicative functor too:
 
-```typescript
+```csharp
 // Cannot be compiled.
 public partial interface IMonad<TMonad<>> : IMonoidalFunctor<TMonad<>>, IApplicativeFunctor<TMonad<>>
 {

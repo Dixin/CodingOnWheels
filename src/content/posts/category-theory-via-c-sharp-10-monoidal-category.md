@@ -47,7 +47,7 @@ The existence of bifunctor ⊗ makes it possible to ⊗ (can be read as multiply
 
 In pseudo C#:
 
-```typescript
+```csharp
 public interface IMonoidalCategory<TMonoidalCategory, out TBinaryFunctor< , >> 
     : ICategory<TMonoidalCategory>
     where TBinaryFunctor< , > : IBinaryFunctor<TMonoidalCategory, TMonoidalCategory, TMonoidalCategory, TBinaryFunctor< , >>
@@ -60,7 +60,7 @@ public interface IMonoidalCategory<TMonoidalCategory, out TBinaryFunctor< , >>
 
 In above definition, x represents ⊗ (multiple). However, this cannot be expressed in real C# because IBinaryFunctor<…> is involved, which requires C# language to have higher-kinded polymorphism:
 
-```typescript
+```csharp
 // Cannot be compiled.
 public interface IBinaryFunctor<in TSourceCategory1, in TSourceCategory2, out TTargetCategory, TBinaryFunctor< , >>
     where TSourceCategory1 : ICategory<TSourceCategory1>

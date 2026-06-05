@@ -1,6 +1,6 @@
 ---
 title: "Category Theory via C# (5) Bifunctor"
-published: 2024-12-15
+published: 2025-12-15
 description: "A functor is the mapping from 1 object to another object, with a “Select” ability to map 1 morphism to another morphism. A [bifunctor](http://en.wikipedia.org/wiki/Functor#Bifunctors_and_multifunctors"
 image: ""
 tags: [".NET", "Bifunctors", "C#", "Categories", "Category Theory", "Functional Programming", "LINQ", "LINQ via C#", "Monadal Categories"]
@@ -24,7 +24,7 @@ A functor is the mapping from 1 object to another object, with a “Select” ab
 
 In DotNet category, bifunctors are binary endofunctors, and can be defined as:
 
-```typescript
+```csharp
 // Cannot be compiled.
 public interface IBifunctor<TBifunctor<,>> where TBifunctor<,> : IBifunctor<TBifunctor<,>>
 {
@@ -110,7 +110,7 @@ Here for monoidal category, the above ⊙ (general multiplication operator) beco
 
 Monoidal category can be simply defined as:
 
-```typescript
+```csharp
 public interface IMonoidalCategory<TObject, TMorphism> : ICategory<TObject, TMorphism>, IMonoid<TObject> { }
 ```
 

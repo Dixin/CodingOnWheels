@@ -1,6 +1,6 @@
 ---
 title: "Category Theory via C# (4) Natural Transformation"
-published: 2024-12-14
+published: 2025-12-14
 description: "If F: C → D and G: C → D are both functors from categories C to category D, the mapping from F to G is called  and denoted"
 image: ""
 tags: [".NET", "C#", "Categories", "Category Theory", "Functional Programming", "Functors", "LINQ", "LINQ via C#", "Natural Transformation"]

@@ -32,7 +32,7 @@ The α, λ, ρ are the fore mentioned natural transformations of monoidal catego
 
 The definition of monoidal functor in pseudo C# is:
 
-```typescript
+```csharp
 // Cannot be compiled.
 public interface IMonoidalFunctor<in TSourceCategory, out TTargetCategory, TSourceBinaryFunctor< , >, TTargetBinaryFunctor< , >, TSourceUnit, TTargetUnit, TMonoidalFunctor<>> 
     : IFunctor<TSourceCategory, TTargetCategory, TMonoidalFunctor<>>
@@ -67,7 +67,7 @@ Lax monoidal endofunctor is a little long for a name. In the rest of this post, 
 
 So:
 
-```typescript
+```csharp
 // Cannot be compiled.
 public interface IDotNetMonoidalFunctor<T> // F<>
     : IMonoidalFunctor<DotNet, DotNet, Lazy< , >, Lazy< , >, Unit, Unit, IDotNetMonoidalFunctor<>>
@@ -351,7 +351,7 @@ Notice the tricky [cross join](https://msdn.microsoft.com/en-us/library/bb882533
 
 As above code demonstrated, besides the standard (Binary + Unit) definition, a monoidal functor MonoidalFunctor can also be defined by (Apply + MonoidalFunctor). Actually, in [Haskell](http://en.wikipedia.org/wiki/Haskell_\(programming_language\)), the latter way is used, and monoidal functor is called [applicative functor](https://wiki.haskell.org/Applicative_functor). The pseudo C# is:
 
-```typescript
+```csharp
 // Cannot be compiled.
 public interface IApplicativeFunctor<TApplicativeFunctor<>> // Lax monoidal endofunctor in DotNet category.
     : IFunctor<DotNet, DotNet, TApplicativeFunctor<>>

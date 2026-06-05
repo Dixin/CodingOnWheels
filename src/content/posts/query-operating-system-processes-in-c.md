@@ -211,7 +211,7 @@ public partial class Win32Process
 
 Now it is to define methods to query process information from MWI:
 
-```sql
+```csharp
 public static partial class ProcessHelper
 {
     public static IEnumerable<Win32Process> All
@@ -263,7 +263,7 @@ public static partial class ProcessHelper
 
 The following ChildProcesses method queries the direct child processes. And the AllChildProcesses method queries all child processes in the tree:
 
-```sql
+```csharp
 public static partial class ProcessHelper
 {
     public static IEnumerable<Win32Process> ChildProcesses

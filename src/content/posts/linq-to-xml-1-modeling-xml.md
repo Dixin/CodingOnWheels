@@ -459,50 +459,26 @@ The new APIs is shorter and more intuitive:
 
 Besides XDocument, XElement, XAttribute, and XComment in above example, some other XML structures can also can declaratively constructed too:
 
+```csharp
 internal static void Construction()
-
-```csharp
 {
-```
-```csharp
 XDeclaration declaration = new XDeclaration("1.0", null, "no");
-```
-```xml
 declaration.WriteLine(); // <?xml version="1.0" standalone="no"?>
-```
 
-```csharp
 XDocumentType documentType = new XDocumentType("html", null, null, null);
-```
-```csharp
 documentType.WriteLine(); // <!DOCTYPE html>
-```
 
-```csharp
 XText text = new XText("<p>text</p>");
-```
-```csharp
 text.WriteLine(); // & lt;p&gt;text&lt;/p&gt;
-```
 
-```csharp
 XCData cData = new XCData("cdata");
-```
-```csharp
 cData.WriteLine(); // <![CDATA[cdata]]>
-```
 
-```csharp
 XProcessingInstruction processingInstruction = new XProcessingInstruction(
-```
-```csharp
 "xml-stylesheet", @"type=""text/xsl"" href=""Style.xsl""");
-```
-```csharp
 processingInstruction.WriteLine(); //< ?xml-stylesheet type="text/xsl" href="Style.xsl"?>
-```
-
 }
+```
 
 XName is different. LINQ to XML provides 2 equivalent ways to instantiate XName:
 
@@ -672,48 +648,24 @@ In LINQ to XML, XML can be easily read or deserialized to XNode/XElement/XDocume
 
 The APIs accepting URI, for example:
 
+```csharp
 internal static void Read()
-
-```csharp
 {
-```
-```csharp
 using (XmlReader reader = XmlReader.Create("https://weblogs.asp.net/dixin/rss"))
-```
-```csharp
 {
-```
-```csharp
 reader.MoveToContent();
-```
-```csharp
 XNode node = XNode.ReadFrom(reader);
-```
-```csharp
 }
-```
 
-```xml
 XElement element1 = XElement.Parse("<html><head></head><body></body></html>");
-```
-```csharp
 XElement element2 = XElement.Load("https://weblogs.asp.net/dixin/rss");
-```
 
-```xml
 XDocument document1 = XDocument.Parse("<html><head></head><body></body></html>");
-```
-```csharp
 XDocument document2 = XDocument.Load("https://microsoft.com"); // Succeed.
-```
-```csharp
 XDocument document3 = XDocument.Load("https://asp.net"); // Fail.
-```
-```csharp
 // System.Xml.XmlException: The 'ul' start tag on line 68 position 116 does not match the end tag of 'div'. Line 154, position 109.
-```
-
 }
+```
 
 Reading an RSS feed to construct an XML tree usually work smoothly, since RSS is just XML. Reading a web page usually has bigger chance to fail, because in the real world, a HTML document may be not strictly structured.
 

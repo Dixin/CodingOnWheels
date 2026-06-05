@@ -92,7 +92,7 @@ SELECT TOP (1)
 
 In Entity Framework, there are some options to customize or control the transaction. Database.BeginTransaction method can start a transaction, and returns a System.Data.Entity.DbContextTransaction object.
 
-```sql
+```csharp
 internal static partial class Transactions
 {
     internal static void DbContextTransaction()
@@ -146,7 +146,7 @@ namespace System.Data.SqlClient
 
 Then value 3 (ReadUncommitted) is written to a packet (represented by System.Data.SqlClient.SNIPacket class), and sent to SQL database via TDS protocol. There is no SQL statement like [SET TRANSACTION ISOLATION LEVEL](https://msdn.microsoft.com/en-us/library/ms173763.aspx) executed, so the actual isolation level cannot be logged by Entity Framework, or traced by SQL Profiler. In above example, QueryCurrentIsolationLevel is called to verify the current transaction’s isolation level. It is an extension method of DbContext:
 
-```sql
+```csharp
 public static partial class DbContextExtensions
 {
     public const string CurrentIsolationLevelSql = @"
@@ -213,7 +213,7 @@ public partial class AdventureWorks
 
 Now the DbContext can use an existing connection by calling above constructor, and it can use an existing transaction by calling Database.UseTransaction:
 
-```sql
+```csharp
 internal static void DbTransaction()
 {
     using (DbConnection connection = new SqlConnection(ConnectionStrings.AdventureWorks))
@@ -261,7 +261,7 @@ In this example, an DbConnection object is explicitly constructed. Similar to Da
 
 The DbContextTransaction object only work with its source DbContext object, and DbTransaction object only work with its source DbConnection object. .NET provides System.Transactions.TransactionScope to work across the lifecycle of multiple DbContext or DbConnection objects:
 
-```sql
+```csharp
 internal static void TransactionScope()
 {
     using (TransactionScope scope = new TransactionScope(

@@ -1,6 +1,6 @@
 ---
 title: "Category Theory via C# (6) Monoidal Functor and Applicative Functor"
-published: 2024-12-25
+published: 2025-12-25
 description: "Given monoidal categories (C, ⊗, IC) and (D, ⊛, ID), a strong lax monoidal functor is a functor F: C → D equipped with:"
 image: ""
 tags: [".NET", "Applicative Functors", "C#", "Category Theory", "Functional Programming", "LINQ", "LINQ via C#", "Monadal Functors"]
@@ -27,7 +27,7 @@ F preserves the monoid laws in D:
 
 In this tutorial, strong lax monoidal functor is called monoidal functor for short. In DotNet category, monoidal functors are monoidal endofunctors. In the definition, (C, ⊗, IC) and (D, ⊛, ID) are both (DotNet, ValueTuple<,>, Unit), so monoidal functor can be IEnumerable<T1>, IEnumerable<T2>defined as:
 
-```typescript
+```csharp
 public interface IMonoidalFunctor<TMonoidalFunctor<>> : IFunctor<TMonoidalFunctor<>>
     where TMonoidalFunctor : IMonoidalFunctor<TMonoidalFunctor<>>
 {
@@ -47,7 +47,7 @@ public interface IMonoidalFunctor<TMonoidalFunctor<>> : IFunctor<TMonoidalFuncto
 
 Multiply accepts a ValueTuple<IEnumerable<T1>, IEnumerable<T2>> bifunctor, which is literally a 2-tuple (IEnumerable<T1>, IEnumerable<T2>). For convenience, the explicit ValueTuple<,> parameter can be represented by an implicit tuple, a pair of parameters. So the monoidal functor definition is equivalent to:
 
-```typescript
+```csharp
 public interface IMonoidalFunctor<TMonoidalFunctor<>> : IFunctor<TMonoidalFunctor<>>
     where TMonoidalFunctor : IMonoidalFunctor<TMonoidalFunctor<>>
 {
@@ -197,7 +197,7 @@ internal static void Apply(IEnumerable<int> xs, IEnumerable<long> ys, IEnumerabl
 
 A functor, with the above ability to apply functor-wrapped functions with functor-wrapped values, is also called applicative functor. The following is the definition of applicative functor:
 
-```typescript
+```csharp
 // Cannot be compiled.
 public interface IApplicativeFunctor<TApplicativeFunctor<>> : IFunctor<TApplicativeFunctor<>>
     where TApplicativeFunctor<> : IApplicativeFunctor<TApplicativeFunctor<>>

@@ -1,6 +1,6 @@
 ---
 title: "Functional Programming and LINQ via C#"
-published: 2024-08-14
+published: 2025-08-14
 description: "!"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "C# 8.0", "Functional Programming", "LINQ", "LINQ via C#"]

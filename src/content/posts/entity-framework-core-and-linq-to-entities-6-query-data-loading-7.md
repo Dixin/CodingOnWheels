@@ -123,7 +123,7 @@ When retry logic is specified for connection resiliency, EF/Core become eager ev
 
 After an entity is queried, its related entities can be loaded through the navigation property. DbContext.Entry method accepts an entity of type TEntity, and returns Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<TEntity>, which represents that entity’s tracking and loading information. EntityEntry<TEntity> provides a Reference method to return Microsoft.EntityFrameworkCore.ChangeTracking.ReferenceEntry<TEntity, TProperty> instance, which represents the tracking and loading information of a single related entity from reference navigation property. EntityEntry<TEntity> also provides a Collection method to return Microsoft.EntityFrameworkCore.ChangeTracking.ReferenceEntry.CollectionEntry<TEntity, TProperty>, which represents the tracking and loading information of multiple related entities from collection navigation property. These related entities in the navigation properties can be manually loaded by calling ReferenceEntry<TEntity, TProperty>.Load and CollectionEntry<TEntity, TProperty>.Load:
 
-```sql
+```csharp
 internal static void ExplicitLoading(AdventureWorks adventureWorks)
 {
     ProductSubcategory subcategory = adventureWorks.ProductSubcategories.First(); // Execute query.
@@ -153,7 +153,7 @@ internal static void ExplicitLoading(AdventureWorks adventureWorks)
 
 When the Load method is called, the related entities are queried, and become available through the navigation properties. Besides loading the full entities, explicit lazy loading also support custom query. The following example uses the reference navigation property and collection navigation property as LINQ to Entities data sources, by calling ReferenceEntry<TEntity, TProperty>.Query and CollectionEntry<TEntity, TProperty>.Query:
 
-```sql
+```csharp
 internal static void ExplicitLoadingWithQuery(AdventureWorks adventureWorks)
 {
     ProductSubcategory subcategory = adventureWorks.ProductSubcategories.First(); // Execute query.
@@ -186,7 +186,7 @@ internal static void ExplicitLoadingWithQuery(AdventureWorks adventureWorks)
 
 In explicit loading, after an entity is queried, its related entities are loaded separately. In eager loading, when an entity is queried, its related entities are loaded during the same query. To enable eager loading, call Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions’ Include method, which is an extension method for IQueryable<T>:
 
-```sql
+```csharp
 internal static void EagerLoadingWithInclude(AdventureWorks adventureWorks)
 {
     IQueryable<ProductSubcategory> subcategoriesWithCategory = adventureWorks.ProductSubcategories
@@ -221,7 +221,7 @@ Eager loading related entity through reference navigation property is translated
 
 In EF Core, ThenInclude can be called for eager loading of multiple levels of related entities:
 
-```sql
+```csharp
 internal static void EagerLoadingMultipleLevels(AdventureWorks adventureWorks)
 {
     IQueryable<Product> products = adventureWorks.Products
@@ -248,7 +248,7 @@ internal static void EagerLoadingMultipleLevels(AdventureWorks adventureWorks)
 
 > In EF, Include with Select subquery can load multiple levels of related entities:
 > 
-> ```sql
+> ```csharp
 > internal static void EagerLoadingMultipleLevels(AdventureWorks adventureWorks)
 > {
 >     IQueryable<Product> products = adventureWorks.Products
@@ -295,7 +295,7 @@ internal static void EagerLoadingMultipleLevels(AdventureWorks adventureWorks)
 
 > EF also supports lazy loading. When an entity’s navigation property is accessed, the related entities are queried and loaded automatically:
 > 
-> ```sql
+> ```csharp
 > internal static void LazyLoading(AdventureWorks adventureWorks)
 > {
 >     ProductSubcategory subcategory = adventureWorks.ProductSubcategories.First(); // Execute query.
@@ -330,7 +330,7 @@ internal static void EagerLoadingMultipleLevels(AdventureWorks adventureWorks)
 
 > Sometimes lazy loading can cause the “N + 1 queries” problem. The following example queries the subcategories, and pulls each subcategory’s information:
 > 
-> ```sql
+> ```csharp
 > internal static void MultipleLazyLoading(AdventureWorks adventureWorks)
 > {
 >     ProductSubcategory[] subcategories = adventureWorks.ProductSubcategories.ToArray(); // Execute query.

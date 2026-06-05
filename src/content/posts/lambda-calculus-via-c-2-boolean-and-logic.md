@@ -1,6 +1,6 @@
 ---
 title: "Lambda Calculus via C# (2) Church Encoding: Boolean and Logic"
-published: 2024-11-04
+published: 2025-11-04
 description: "Lambda calculus is a formal system for function definition and function application, so in lambda calculus, the only primitive is anonymous function. Anonymous function is actually very powerful. With"
 image: ""
 tags: [".NET", "C#", "Church Booleans", "Church Encoding", "Functional Programming", "Lambda Calculus", "LINQ via C#"]

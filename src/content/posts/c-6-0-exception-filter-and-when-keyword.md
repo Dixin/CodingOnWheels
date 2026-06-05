@@ -9,7 +9,7 @@ draft: false
 lang: ""
 ---
 
-C# 6.0 introduces a new feature exception filter and a new keyword when. [Many C# features/keywords are syntactic sugars](/archive/?tag=C%23%20Features), but exception filter/when keyword is not.
+C# 6.0 introduces a new feature exception filter and a new keyword when. [Many C# features/keywords are syntactic sugars](/archive/?tag=C%23%20Features), but exception filter/`when` keyword is not.
 
 To examine this feature, a few helper methods can be created:
 

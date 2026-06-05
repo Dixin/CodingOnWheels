@@ -1,6 +1,6 @@
 ---
 title: "Lambda Calculus via C# (4) Tuple and Signed Numeral"
-published: 2024-11-10
+published: 2025-11-10
 description: "Besides modeling values like Boolean and numeral, anonymous function can also model data structures. In Church encoding, Church pair is an approach to use functions to represent a tuple of 2 items."
 image: ""
 tags: [".NET", "C#", "Church Encoding", "Church Pairs", "Functional Programming", "Lambda Calculus", "LINQ via C#"]

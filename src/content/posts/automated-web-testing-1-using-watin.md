@@ -112,11 +112,11 @@ Now we know how to write automated web testing code against web products, no mat
 
 The 2.0 CTP2 supports Firefox, with a lot of problems of course.
 
-First of all, download the 2.0 CTP2 package from [here](http://sourceforge.net/project/showfiles.php?group_id=167632&package_id=266951&release_id=654071), and extract the WatiN-2.0.1.754-net-2.0 folder to somewhere, like C:\\Program Files\\WatiN.
+First of all, download the 2.0 CTP2 package from [here](http://sourceforge.net/project/showfiles.php?group_id=167632&package_id=266951&release_id=654071), and extract the WatiN-2.0.1.754-net-2.0 folder to somewhere, like `C:\Program Files\WatiN`.
 
 ![webtest-watin4](https://aspblogs.z22.web.core.windows.net/dixin/Media/webtestwatin4_2072C820.gif "webtest-watin4")
 
-Then, pay attention to the path of Firefox.exe. WatiN uses Firefox.GetExecutablePath() method to find Firefox.exe. For example, I am using a green version of Firefox, so I have to modify the source code to make it return "E:\\Software\\Firefox\\FireFox.exe", which is the path of my Firefox 3.0.6. If you installed your Firefox normally, you can just ignore this step.
+Then, pay attention to the path of Firefox.exe. WatiN uses Firefox.GetExecutablePath() method to find Firefox.exe. For example, I am using a green version of Firefox, so I have to modify the source code to make it return `E:\Software\Firefox\FireFox.exe`, which is the path of my Firefox 3.0.6. If you installed your Firefox normally, you can just ignore this step.
 
 And an [Firefox](http://www.firefox.com) add-on, [jssh](http://www.croczilla.com/jssh), need to be installed. It can be found in the WatiN-2.0.1.754-net-2.0\\Mozilla folder. For example, if using [Firefox](http://www.firefox.com) 3.0, I should install jssh-WINNT-3.x.xpi.
 
@@ -163,7 +163,7 @@ internal class Program
 }
 ```
 
-There is a sample folder in the WatiN-2.0.1.754-net-2.0. When trying, exceptions are thrown from CrossBrowserTest.ExecuteTest(). So a Thread.Sleep(5000) has to be added between two Firefox test cases, so that WatiN works.
+There is a sample folder in the WatiN-2.0.1.754-net-2.0. When trying, exceptions are thrown from `CrossBrowserTest.ExecuteTest()`. So a `Thread.Sleep(5000)` has to be added between two Firefox test cases, so that WatiN works.
 
 ```csharp
 // Simple method

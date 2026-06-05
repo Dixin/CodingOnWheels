@@ -49,7 +49,7 @@ After the server is started, we can see its information:
 
 ![webtest-selenium2](https://aspblogs.z22.web.core.windows.net/dixin/Media/webtestselenium2_53DBF378.gif "webtest-selenium2")
 
-Then in Visual Studio, add a reference to selenium-dotnet-client-driver-1.0-beta-2\\ ThoughtWorks.Selenium.Core.dll, and add a test class “SeleniumTest.cs” to our test project. So that we can write a test:
+Then in Visual Studio, add a reference to `selenium-dotnet-client-driver-1.0-beta-2\ThoughtWorks.Selenium.Core.dll`, and add a test class `SeleniumTest.cs` to our test project. So that we can write a test:
 
 ```csharp
 using Microsoft.VisualStudio.TestTools.UnitTesting;

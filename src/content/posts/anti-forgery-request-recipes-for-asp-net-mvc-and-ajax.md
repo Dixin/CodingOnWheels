@@ -34,7 +34,7 @@ To secure websites from [cross-site request forgery](http://en.wikipedia.org/wik
 -   When the form is submitted to server, token in cookie and token inside the form are sent in the HTTP request;
 -   Server validates the tokens.
 
-To print tokens to browser, just invoke HtmlHelper.AntiForgeryToken():
+To print tokens to browser, just invoke `HtmlHelper.AntiForgeryToken()`:
 
 ```csharp
 <% using (Html.BeginForm())
@@ -49,7 +49,7 @@ To print tokens to browser, just invoke HtmlHelper.AntiForgeryToken():
 
 This invocation generates a token and writes it inside the form:
 
-```csharp
+```html
 <form action="..." method="post">
     <input name="__RequestVerificationToken" type="hidden" value="J56khgCvbE3bVcsCSZkNVuH9Cclm9SSIT/ywruFsXEgmV8CL2eW5C/gGsQUf/YuP" />
  
@@ -65,7 +65,7 @@ and also writes it into the cookie:
 
 When the above form is submitted, they are both sent to server.
 
-In the server side, \[ValidateAntiForgeryToken\] attribute is used to specify the controllers or actions to validate them:
+In the server side, `[ValidateAntiForgeryToken]` attribute is used to specify the controllers or actions to validate them:
 
 ```csharp
 [HttpPost]
@@ -80,11 +80,11 @@ This is very productive for form scenarios. But recently, when resolving securit
 
 ## Turn on validation on controller (not on each action)
 
-The server side problem is, one single \[ValidateAntiForgeryToken\] attribute is expected to declare on controller, but actually a lot of attributes have be to declared on controller's each POST actions. Because POST actions are usually much more then controllers, the work would be a little crazy.
+The server side problem is, one single `[ValidateAntiForgeryToken]` attribute is expected to declare on controller, but actually a lot of attributes have be to declared on controller's each POST actions. Because POST actions are usually much more then controllers, the work would be a little crazy.
 
 ### Problem
 
-Usually a controller contains both actions for HTTP GET requests and actions for POST, and, usually validations are expected for only HTTP POST requests. So, if the \[ValidateAntiForgeryToken\] is declared on the controller, the HTTP GET requests become invalid:
+Usually a controller contains both actions for HTTP GET requests and actions for POST, and, usually validations are expected for only HTTP POST requests. So, if the `[ValidateAntiForgeryToken]` is declared on the controller, the HTTP GET requests become invalid:
 
 ```csharp
 [ValidateAntiForgeryToken(Salt = Constants.AntiForgeryTokenSalt)]
@@ -112,9 +112,9 @@ public class ProductController : Controller // One [ValidateAntiForgeryToken] at
 }
 ```
 
-If browser sends an HTTP GET request by clicking a link: http://Site/Product/Index, validation definitely fails, because no token is provided (by http://Site/Product/Index?\_\_RequestVerificationToken=???, for example).
+If browser sends an HTTP GET request by clicking a link: `http://Site/Product/Index`, validation definitely fails, because no token is provided (by `http://Site/Product/Index?__RequestVerificationToken=???`, for example).
 
-As a result, many \[ValidateAntiForgeryToken\] attributes have be distributed to each POST action:
+As a result, many `[ValidateAntiForgeryToken]` attributes have be distributed to each POST action:
 
 ```csharp
 public class ProductController : Controller // Many [ValidateAntiForgeryToken] attributes.
@@ -147,7 +147,7 @@ This would be a little bit crazy, because one Web product can have a lot of POST
 
 ### Solution
 
-To avoid a large number of \[ValidateAntiForgeryToken\] attributes (one for each POST action), the following ValidateAntiForgeryTokenWrapperAttribute wrapper class can be helpful, where HTTP verbs can be specified:
+To avoid a large number of `[ValidateAntiForgeryToken]` attributes (one for each POST action), the following ValidateAntiForgeryTokenWrapperAttribute wrapper class can be helpful, where HTTP verbs can be specified:
 
 ```csharp
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method,
@@ -196,11 +196,11 @@ public class ProductController : Controller
 
 Now one single attribute on a controller turns on validation for all POST actions in that controller.
 
-It would be nice if HTTP verbs can be specified on the built-in \[ValidateAntiForgeryToken\] attribute. And, this is very easy to implement.
+It would be nice if HTTP verbs can be specified on the built-in `[ValidateAntiForgeryToken]` attribute. And, this is very easy to implement.
 
 ## Specify non-constant salt in runtime
 
-By default, the salt should be a compile time constant, so it can be used for the \[ValidateAntiForgeryToken\] or \[ValidateAntiForgeryTokenWrapper\] attribute.
+By default, the salt should be a compile time constant, so it can be used for the `[ValidateAntiForgeryToken]` or `[ValidateAntiForgeryTokenWrapper]` attribute.
 
 ### Problem
 
@@ -208,7 +208,7 @@ One Web product might be sold to many clients. If a constant salt is evaluated i
 
 ### Solution
 
-In the above \[ValidateAntiForgeryToken\] and \[ValidateAntiForgeryTokenWrapper\] attributes, the salt is passed through constructor. So one solution is to remove that parameter:
+In the above `[ValidateAntiForgeryToken]` and `[ValidateAntiForgeryTokenWrapper]` attributes, the salt is passed through constructor. So one solution is to remove that parameter:
 
 ```csharp
 public class ValidateAntiForgeryTokenWrapperAttribute : FilterAttribute, IAuthorizationFilter
@@ -257,7 +257,7 @@ public abstract class AntiForgeryControllerBase : Controller
 }
 ```
 
-Then just make controller classes inheriting from this AntiForgeryControllerBase class. Now the salt is no long required to be a compile time constant.
+Then just make controller classes inheriting from this `AntiForgeryControllerBase` class. Now the salt is no long required to be a compile time constant.
 
 ## Submit token via AJAX
 
@@ -267,7 +267,7 @@ For browser side, once server side turns on anti-forgery validation for HTTP POS
 
 In AJAX scenarios, the HTTP POST request is not sent by form. Take jQuery as an example:
 
-```csharp
+```js
 $.post(url, {
     productName: "Tofu",
     categoryId: 1 // Token is not posted.
@@ -282,7 +282,7 @@ Basically, the tokens must be printed to browser then sent back to server. So fi
 
 Then jQuery must find the printed token in the HTML, and append token to the data before sending:
 
-```csharp
+```js
 $.post(url, {
     productName: "Tofu",
     categoryId: 1,
@@ -292,7 +292,7 @@ $.post(url, {
 
 To be reusable, this can be encapsulated into a tiny jQuery plugin:
 
-```csharp
+```js
 /// <reference path="jquery-1.4.2.js" />
 
 (function ($) {
@@ -351,24 +351,24 @@ To be reusable, this can be encapsulated into a tiny jQuery plugin:
 
 In most of the scenarios, it is Ok to just replace $.post() invocation with $.postAntiForgery(), and replace $.ajax() with $.ajaxAntiForgery():
 
-```csharp
+```js
 $.postAntiForgery(url, {
     productName: "Tofu",
     categoryId: 1
 }, callback); // The same usage as $.post(), but token is posted.
 ```
 
-There might be some scenarios of custom token, where $.appendAntiForgeryToken() is useful:
+There might be some scenarios of custom token, where `$.appendAntiForgeryToken()` is useful:
 
-```csharp
+```js
 data = $.appendAntiForgeryToken(data, token);
 // Token is already in data. No need to invoke $.postAntiForgery().
 $.post(url, data, callback);
 ```
 
-or $.ajaxAntiForgery() can be used:
+or `$.ajaxAntiForgery()` can be used:
 
-```csharp
+```js
 $.ajaxAntiForgery({
     type: "POST",
     url: url,
@@ -383,20 +383,20 @@ $.ajaxAntiForgery({
 
 And there are special scenarios that the token is not in the current window. For example:
 
--   An HTTP POST request can be sent from an iframe, while the token is in the parent window or top window;
--   An HTTP POST request can be sent from an popup window or a dialog, while the token is in the opener window;
+- An HTTP POST request can be sent from an iframe, while the token is in the parent window or top window;
+- An HTTP POST request can be sent from an popup window or a dialog, while the token is in the opener window;
 
-etc. Here, token's container window can be specified for $.getAntiForgeryToken():
+etc. Here, token's container window can be specified for `$.getAntiForgeryToken()`:
 
-```csharp
+```js
 data = $.appendAntiForgeryToken(data, $.getAntiForgeryToken(window.parent));
 // Token is already in data. No need to invoke $.postAntiForgery().
 $.post(url, data, callback);
 ```
 
-or $.ajaxAntiForgery() can be used:
+or `$.ajaxAntiForgery()` can be used:
 
-```csharp
+```js
 $.ajaxAntiForgery({
     type: "POST",
     url: url,
@@ -409,4 +409,4 @@ $.ajaxAntiForgery({
 });
 ```
 
-If you have better solution, please do tell me.
+If you have better solution, please share in the comments.

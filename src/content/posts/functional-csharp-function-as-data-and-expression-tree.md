@@ -946,7 +946,7 @@ internal static TDelegate CompileToCil<TDelegate>(this Expression<TDelegate> exp
 ```csharp
 DynamicMethod dynamicFunction = new DynamicMethod(
 ```
-```typescript
+```csharp
 name: string.Empty,
 ```
 ```csharp

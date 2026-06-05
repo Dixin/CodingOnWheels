@@ -25,7 +25,7 @@ An individual monoid (T, ⊙, I) can be a category M:
 
 Representing a monoid itself as category is straightforward:
 
-```typescript
+```csharp
 public partial interface IMonoid<T> : ICategory<IMonoid<T>>
 {
 }

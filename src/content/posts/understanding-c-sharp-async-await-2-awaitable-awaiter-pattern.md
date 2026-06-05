@@ -95,7 +95,7 @@ By observing different awaitable / awaiter types, we can tell that an object is 
 
 So apparently this awaitable-awaiter pattern is very similar to [the iteratable-iterator pattern](/posts/understanding-linq-to-objects-4-iterator-pattern). Here is the interface definitions of iteratable / iterator:
 
-```typescript
+```csharp
 public interface IEnumerable
 {
     IEnumerator GetEnumerator();
@@ -127,7 +127,7 @@ In case the out keyword does not sound familiar, please find detailed explanatio
 
 Similar to IEnumerable and IEnumerator interfaces, awaitable / awaiter can be visualized by IAwaitable / IAwaiter interfaces too. This is the non-generic version:
 
-```typescript
+```csharp
 public interface IAwaitable
 {
     IAwaiter GetAwaiter();
@@ -150,7 +150,7 @@ Please notice GetResult() returns void here. Task.GetAwaiter() / TaskAwaiter.Get
 
 And here comes the generic version:
 
-```typescript
+```csharp
 public interface IAwaitable<out TResult>
 {
     IAwaiter<TResult> GetAwaiter();

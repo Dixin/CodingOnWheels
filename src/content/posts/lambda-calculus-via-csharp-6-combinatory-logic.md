@@ -1,6 +1,6 @@
 ---
 title: "Lambda Calculus via C# (6) Combinatory Logic"
-published: 2024-11-19
+published: 2025-11-19
 description: "In lambda calculus, the primitive is function, which can have free variables and bound variables.  was introduced by [Moses Schönfink"
 image: ""
 tags: [".NET", "C#", "Combinators", "Combinatory Logic", "Functional Programming", "Iota", "Lambda Calculus", "LINQ via C#", "SKI"]

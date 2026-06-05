@@ -122,7 +122,7 @@ WebClient.ncoding has to be specified as UTF8, otherwise the downloaded HTML wil
 
 Above code constructs and returns a Html object, representing all chapters and all sections of the tutorial. The Html type is actually a [T4 template (Text Template Transformation Toolkit)](https://en.wikipedia.org/wiki/Text_Template_Transformation_Toolkit) for the entire tutorial:
 
-```xml
+```razor
 <#@ template language="C#" debug="true" visibility="internal" linePragmas="false" #>
 <#@ import namespace="System.Linq" #>
 <html>

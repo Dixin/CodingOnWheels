@@ -19,7 +19,7 @@ Programming paradigm is the fundamental style of programming.
 
 This is the fore mentioned example of collection processing:
 
-```typescript
+```csharp
 public partial class Imperative
 {
     public static List<Person> FilterAndOrderByAge(IEnumerable<Person> source)

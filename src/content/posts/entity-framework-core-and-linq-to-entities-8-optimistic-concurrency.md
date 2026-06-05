@@ -46,7 +46,7 @@ internal partial class DbReaderWriter : IDisposable
 
 Multiple DbReaderWriter instances can be be used to read and write data concurrently. For example:
 
-```sql
+```csharp
 internal static partial class Concurrency
 {
     internal static void NoCheck(
@@ -98,7 +98,7 @@ public partial class ProductPhoto
 
 This property is also called the concurrency token. When EF/Core translate changes of a photo, ModifiedDate property is checked along with the primary key to locate the photo:
 
-```sql
+```csharp
 internal static void ConcurrencyCheck(DbReaderWriter readerWriter1, DbReaderWriter readerWriter2)
 {
     int id = 1;
@@ -162,7 +162,7 @@ public partial class Product
 
 Now RowVersion property is the concurrency token. Regarding database automatically increases the RowVersion value, Rowversion also has the \[DatabaseGenerated(DatabaseGeneratedOption.Computed)\] attribute. The other RowVersionString property returns a readable representation of the byte array returned by RowVersion. It is not a part of the object-relational mapping, so it has a \[NotMapped\] attribute. The following example updates and and deletes the same product concurrently:
 
-```sql
+```csharp
 internal static void RowVersion(DbReaderWriter readerWriter1, DbReaderWriter readerWriter2)
 {
     int id = 995;
@@ -367,7 +367,7 @@ Later, when readerWriter3 reads the product again, product has all values update
 
 Another simple option, called “client wins”, is to disregard values in database, and overwrite them with whatever data submitted from client.
 
-```sql
+```csharp
 internal static void ClientWins(
     DbReaderWriter readerWriter1, DbReaderWriter readerWriter2, DbReaderWriter readerWriter3)
 {
@@ -405,7 +405,7 @@ A more complex but useful option, is to merge the client values and database val
 -   If original value is different from database value, which means database value is already updated by other concurrent client, then give up updating this property, and retain the database value
 -   If original value is the same as database value, which means no concurrency conflict for this property, then process normally to submit the change
 
-```sql
+```csharp
 internal static void MergeClientAndDatabase(
     DbReaderWriter readerWriter1, DbReaderWriter readerWriter2, DbReaderWriter readerWriter3)
 {
@@ -538,7 +538,7 @@ public static partial class DbContextExtensions
 
 A RefreshConflict enumeration has to be defined with 3 members to represent the 3 options discussed above: database wins, client wind, merge client and database.. And here the Refresh method is an extension method for EntityEntry:
 
-```sql
+```csharp
 public static EntityEntry Refresh(this EntityEntry tracking, RefreshConflict refreshMode)
 {
     switch (refreshMode)

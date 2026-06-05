@@ -969,7 +969,7 @@ EF Core does not support database function call.
 > 
 > The following LINQ to Entities query calculates the number of days between current time and photo’s last modified time. In the following LINQ to Entities query expression tree, the MethodCallExpression node representing DbFunctions.DiffDays call can be compiled by EF, and is converted to a DbFunctionExpression node representing canonical function Edm.DiffDays call:
 > 
-> ```sql
+> ```csharp
 > internal static void DbFunction(AdventureWorks adventureWorks)
 > {
 >     var photos = adventureWorks.ProductPhotos.Select(photo => new
@@ -989,7 +989,7 @@ EF Core does not support database function call.
 > 
 > The following example filters the product’s names with a pattern. The SqlFunction.PatIndex call is compiled by EF, and converted to SQL database function SqlServer.PATINDEX call:
 > 
-> ```sql
+> ```csharp
 > internal static void SqlFunction(AdventureWorks adventureWorks)
 > {
 >     IQueryable<string> products = adventureWorks.Products
@@ -1110,7 +1110,7 @@ public static IRelationalCommand Generate(
 
 The above WhereAndSelectDatabaseExpressions and SelectAndFirstDatabaseExpressions method builds database expression trees from scratch. Take them as an example to generate SQL:
 
-```sql
+```csharp
 internal static void WhereAndSelectSql(AdventureWorks adventureWorks)
 {
     SelectExpression databaseExpression = WhereAndSelectDatabaseExpressions(adventureWorks);
@@ -1135,7 +1135,7 @@ SQL generator traverses the command tree nodes, a specific Visit overloads is ca
 
 > In EF, SQL can be generated in similar way:
 > 
-> ```sql
+> ```csharp
 > internal static void WhereAndSelectSql(AdventureWorks adventureWorks)
 > {
 >     DbQueryCommandTree databaseExpressionAndParameters = WhereAndSelectDatabaseExpressions(adventureWorks);

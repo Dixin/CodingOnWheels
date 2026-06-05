@@ -15,7 +15,7 @@ Recently I need to batch process some compressed files in several hard disk driv
 
 - [C# options for compression archive (RAR, ISO, 7z, zip, …) processing](#c-options-for-compression-archive-rar-iso-7z-zip--processing)
   - [The entry name encoding/decoding problem](#the-entry-name-encodingdecoding-problem)
-- [Prepare to use 7z.exe command line tool](#prepare-to-use-7zexe-command-line-tool)
+- [Prepare to use `7z.exe` command line tool](#prepare-to-use-7zexe-command-line-tool)
 - [Extract entries from RAR/ISO/7z/… archive](#extract-entries-from-rariso7z-archive)
 - [Create zip archive](#create-zip-archive)
 - [Delete a file/directory](#delete-a-filedirectory)
@@ -26,13 +26,9 @@ Recently I need to batch process some compressed files in several hard disk driv
 
 ## C# options for compression archive (RAR, ISO, 7z, zip, …) processing
 
-For compression archive processing, there are some nice .NET libraries, like [SharpCompress](https://github.com/adamhathcock/sharpcompress). For example, it provides an easy way to programmatically extract an archive:
+For compression archive processing, there are some nice .NET libraries, like [SharpCompress](https://github.com/adamhathcock/sharpcompress). For example, it provides an easy way to programmatically extract an archive `ArchiveFactory.WriteToDirectory(rarFile, destinationDirectory)`.
 
-```csharp
-ArchiveFactory.WriteToDirectory(rarFile, destinationDirectory);
-```
-
-So there creates an possibility to convert RAR to zip, by extracting RAR then re-compressing to zip.
+So it creates an possibility to convert RAR to zip, by extracting RAR then re-compressing to zip.
 
 To create or extract zip files, now it seems much easier, since .NET has a built-in [ZipFile class](http://msdn.microsoft.com/en-us/library/system.io.compression.zipfile\(v=vs.110\).aspx) since [4.5](http://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_4.5):
 
@@ -86,7 +82,7 @@ private byte[] EncodeEntryName(string entryName, out bool isUTF8)
 }
 ```
 
-The underlined Encoding.GetEncoding(0) [is the flaky part](http://msdn.microsoft.com/en-us/library/wzsz3bk3%28v=vs.110%29.aspx):
+The underlined `Encoding.GetEncoding(0)` [is the flaky part](http://msdn.microsoft.com/en-us/library/wzsz3bk3%28v=vs.110%29.aspx):
 
 > The ANSI code pages can be different on different computers, or can be changed for a single computer, leading to data corruption. For this reason, encoding and decoding data using the default code page returned by Encoding.GetEncoding(0) is not recommended.
 
@@ -130,13 +126,13 @@ So finally, 7-Zip seems to be the choice, regarding:
 
 [![Quality-and-Efficient-File-Compression-to-Suit-Your-Needs](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Batch-processing-RAR-and-Zip_13247/Quality-and-Efficient-File-Compression-to-Suit-Your-Needs_5.png "Quality-and-Efficient-File-Compression-to-Suit-Your-Needs")](http://zip-7.com/wp-content/uploads/2014/11/Quality-and-Efficient-File-Compression-to-Suit-Your-Needs.png)
 
-## Prepare to use 7z.exe command line tool
+## Prepare to use `7z.exe` command line tool
 
 On 7-Zip’s website, [the latest SDK](http://sourceforge.net/projects/sevenzip/files/LZMA%20SDK/lzma922.tar.bz2/download) is released in 2011, and [the latest binary](http://sourceforge.net/projects/sevenzip/files/7-Zip/9.34/7z934-x64.msi/download) is released in Nov 2014. So the plan is to go with the binary.
 
-To invoke the 7z.exe command line tool, a helper function is needed to:
+To invoke the `7z.exe` command line tool, a helper function is needed to:
 
--   invoke 7z.exe command line tool.
+-   invoke `7z.exe` command line tool.
 -   Wait for 7z.exe to finish executing.
 -   Grab all messages and errors from 7z.exe.
 
@@ -180,7 +176,7 @@ public static class ProcessHelper
 
 When there is output message/error message from the created process, the outputReceived/errorReceived callback functions will be invoked.
 
-Also the implementation starts with an empty 7Z.exe wrapper:
+Also the implementation starts with an empty `7Z.exe` wrapper:
 
 ```csharp
 public class SevenZip
@@ -212,7 +208,9 @@ Now some basic functions can be added to SevenZip class.
 
 To extract an archive, [the command format](http://sevenzip.sourceforge.jp/chm/cmdline/commands/extract_full.htm) is:
 
-> 7z.exe x {archiveFileName} -y -r -o{destinationDirectoryName}
+```batch
+7z.exe x {archiveFileName} -y -r -o{destinationDirectoryName}
+```
 
 So the code is straightforward:
 
@@ -256,9 +254,11 @@ sevenZip.Extract(@"D:\Temp\a.rar"); // D:\Temp\a.rar -> D:\Temp\a\.
 
 To create zip archive from a file/directory, [the command format](http://sevenzip.sourceforge.jp/chm/cmdline/commands/add.htm) is:
 
-> 7z.exe a {zipFileName} {sourceFile} -tzip -r -mx={compressionLevel} -mmt={threadCount} -p{password}
-> 
-> 7z.exe a {zipFileName} {sourceDirectory}\\\* -tzip -r -mx={compressionLevel} -mmt={threadCount} -p{password}
+```batch
+7z.exe a {zipFileName} {sourceFile} -tzip -r -mx={compressionLevel} -mmt={threadCount} -p{password}
+ 
+7z.exe a {zipFileName} {sourceDirectory}\\\* -tzip -r -mx={compressionLevel} -mmt={threadCount} -p{password}
+```
 
 So a general function will be:
 
@@ -503,4 +503,4 @@ With the help of 7z.exe, I have programmatically extracted many archives, and al
 
 The complete code can be downloaded [here](https://aspblogs.blob.core.windows.net/media/dixin/Windows-Live-Writer/Batch-processing-RAR-and-Zip_13247/SevenZip.cs) - including the SevenZip class and all extension methods/helper classes used above.
 
-If you have a better approach to encrypt/hide entry names in zip archives, please share :)
+If you have a better approach to encrypt/hide entry names in zip archives, please share in the commments.

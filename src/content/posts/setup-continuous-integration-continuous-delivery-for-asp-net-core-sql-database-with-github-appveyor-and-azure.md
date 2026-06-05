@@ -108,7 +108,7 @@ I am using MSTest framework. After build, the tests will be automatically discov
 
 My tests needs to connect to Azure SQL database to run. In this case, we can hide the secretes in connection string with secure variables. The following is the settings file containing the connection string:
 
-```js
+```json
 {
   "ConnectionStrings": {
     "Etymology": "Server=tcp:{server}.database.windows.net,1433;Initial Catalog={database};Persist Security Info=False;User ID={user};Password={password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"

@@ -1,6 +1,6 @@
 ---
 title: "Category Theory via C# (3) Functor and LINQ to Functors"
-published: 2024-12-13
+published: 2025-12-13
 description: "In category theory,  is a ) from category to category. Giving category C and D, functor F from"
 image: ""
 tags: [".NET", "C#", "Category Theory", "Functional Programming", "Functors", "LINQ", "LINQ via C#"]
@@ -31,7 +31,7 @@ And F must satisfy the following functor laws:
 
 When a functor F’s source category and target category are the same category C, it is called [endofunctor](http://en.wikipedia.org/wiki/Functor#Examples), denoted F: C → C. In the DotNet category, there are endofunctors mapping objects (types) and morphisms (functions) in DotNet category to other objects and morphisms in itself. In C#, endofunctor in DotNet can be defined as:
 
-```typescript
+```csharp
 // Cannot be compiled.
 public interface IFunctor<TFunctor<>> where TFunctor<> : IFunctor<TFunctor>
 {
@@ -58,7 +58,7 @@ In above IFunctor<TFunctor<>> generic type definition, its type parameter TFunct
 
 IEnumerable<> is a built-in functor of DotNet category, which can be viewed as virtually implementing above IFunctor<TFunctor<>> interface:
 
-```typescript
+```csharp
 public interface IEnumerable<T> : IFunctor<IEnumerable<>>, IEnumerable
 {
     // Func<IEnumerable<TSource>, IEnumerable<TResult>> Select<TSource, TResult>(Func<TSource, TResult> selector);
@@ -69,7 +69,7 @@ public interface IEnumerable<T> : IFunctor<IEnumerable<>>, IEnumerable
 
 Endofunctor IEnumerable<> in DotNet category maps each T object (type) to IEnumerable<T> object (type), and its Select method maps TSource→ TResult morphism (function) to IEnumerable<TSource> → IEnumerable<TResult> morphism (function). So its Select method is of type (TSource –> TResult) –> (IEnumerable<TSource> –> IEnumerable<TResult>), which can be uncurried to (TSource –> TResult, IEnumerable<TSource>) –> IEnumerable<TResult>:
 
-```typescript
+```csharp
 public interface IEnumerable<T> : IFunctor<IEnumerable<T>>, IEnumerable
 {
     // Func<IEnumerable<TSource>, IEnumerable<TResult>> Select<TSource, TResult>(Func<TSource, TResult> selector);
@@ -82,7 +82,7 @@ public interface IEnumerable<T> : IFunctor<IEnumerable<T>>, IEnumerable
 
 Now swap the 2 parameters of the uncurried Select, then its type becomes (IEnumerable<TSource>, TSource –> TResult) –> IEnumerable<TResult>:
 
-```typescript
+```csharp
 public interface IEnumerable<T> : IFunctor<IEnumerable<T>>, IEnumerable
 {
     // Func<IEnumerable<TSource>, IEnumerable<TResult>> Select<TSource, TResult>(Func<TSource, TResult> selector);

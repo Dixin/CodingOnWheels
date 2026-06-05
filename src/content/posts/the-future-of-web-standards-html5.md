@@ -37,7 +37,7 @@ In the [HTML 5 differences from HTML 4](http://dev.w3.org/html5/html4-difference
 
 HTML 5 can be declared via HTML grammar:
 
-```xml
+```html
 <!doctype html>
 <html>
     <head>

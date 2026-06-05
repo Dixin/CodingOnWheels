@@ -240,7 +240,7 @@ public static partial class IOExtensions
 
 Select has to be implemented so that [let clause](https://msdn.microsoft.com/en-us/library/bb383976.aspx) can be used in LINQ query:
 
-```typescript
+```csharp
 // 1. Read file name from console.
 IO<Tuple<bool, string>> query1 = from fileName in IO.Func(Console.ReadLine)
                                  // 2. Write confirmation message to console.
@@ -264,7 +264,7 @@ Tuple<bool, string> result = query1(); // Execution.
 
 Another example:
 
-```typescript
+```csharp
 // 1. Read URL from console.
 IO<Unit> query2 = from url in IO.Func(Console.ReadLine)
                   // 2. Download string from Internet.

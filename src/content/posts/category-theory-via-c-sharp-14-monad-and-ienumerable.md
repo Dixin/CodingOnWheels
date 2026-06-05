@@ -44,7 +44,7 @@ commute.
 
 So, monad (F, μ, η) is monoid (M, ⊙, I). Its representation in pseudo C#:
 
-```typescript
+```csharp
 // Cannot be compiled.
 public interface IMonad<TCategory, TBinaryFunctor< , >, TUnit, TMonad<>>
     : IMonoidalFunctor<TCategory, TCategory, TBinaryFunctor< , >, TBinaryFunctor< , >, TUnit, TUnit, TMonad<>>
@@ -73,7 +73,7 @@ Monad is monoidal functor, which will be explained later.
 
 A previous part has explained DotNet category is monoid category. So monad in DotNet category will be like:
 
-```typescript
+```csharp
 // Cannot be compiled.
 public interface IDotNetMonad<TDotNetMonad<>> 
     : IMonad<DotNet, Lazy< , >, Unit, TDotNetMonad<>>

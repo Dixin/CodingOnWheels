@@ -23,7 +23,7 @@ As fore mentioned, this tutorial will use SQL Profiler to trace the remote SQL q
 
 For queries, the easiest way is to call ToString method on the IQueryable<T> object. In LINQ to Entities query, the IQueryable<T> is actually implemented with System.Data.Entity.Infrastructure.DbQuery<T>. DbQuery<T>.ToString returns its SQL translation:
 
-```sql
+```csharp
 internal static partial class Log
 {
     internal static void DbQueryToString()
@@ -68,7 +68,7 @@ namespace System.Data.Entity
 
 The Log action will be called for all database operations:
 
-```sql
+```csharp
 internal static void DatabaseLog()
 {
     using (AdventureWorks adventureWorks = new AdventureWorks())
@@ -166,7 +166,7 @@ internal class DbCommandInterceptor : IDbCommandInterceptor
 
 An interceptor has to be registered with System.Data.Entity.Infrastructure.Interception.DbInterception.Add:
 
-```sql
+```csharp
 internal static void DbCommandInterceptor()
 {
     DbCommandInterceptor dbCommandTrace = new DbCommandInterceptor(message => Trace.WriteLine(message));

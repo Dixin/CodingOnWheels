@@ -1702,7 +1702,7 @@ public static IEnumerable<TResult> Cast<TResult>(this IEnumerable source);
 
 Unlike other query methods, Cast is an extension method of non-generic sequence, so it can work with types implementing either IEnumerable or IEnumerable<T>. So it can enable LINQ query for legacy types. The following example calls Microsoft Team Foundation Service (TFS) client APIs to query work items, where Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection is returned. WorkItemCollection is a collection of Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem, but it only implements IEnumerable, so it can be casted to a generic IEnumerable<WorkItem> safely, and further LINQ query can be applied. The following example execute a WIQL (Work Item Query Language of TFS) statement to query work items from TFS. Since WIQL does not support GROUP BY clause, the work items can be grouped locally with LINQ:
 
-```sql
+```csharp
 #if NETFX
 internal static void CastNonGeneric(VssCredentials credentials)
 {
@@ -1745,7 +1745,7 @@ internal static void CastMoreNonGeneric()
 
 In query expression syntax, just specify the type in from clause before the value name:
 
-```sql
+```csharp
 #if NETFX
 internal static void CastNonGeneric(VssCredentials credentials)
 {

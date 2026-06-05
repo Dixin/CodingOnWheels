@@ -1,6 +1,6 @@
 ---
 title: "Understanding (all) JavaScript module formats and tools"
-published: 2025-02-09
+published: 2026-02-09
 description: "When you build an application with JavaScript, you always want to modularize your code. However, JavaScript language was initially invented for simple form manipulation, with no built-in features like module or namespace. In years, tons of technologies are invented to modularize JavaScript. This article discusses all mainstream terms, patterns, libraries, syntax, and tools for JavaScript modules."
 image: ""
 tags: ["AMD", "Babel", "CommonJS", "JavaScript", "Node.js", "TypeScript", "UMD", "Web", "Webpack"]
@@ -616,7 +616,7 @@ module.exports = {
 
 Now run the following command to transpile and bundle all 4 files, which are in different syntax:
 
-```cmd
+```batch
 npm install webpack webpack-cli --save-dev
 npx webpack --config webpack.config.js
 ```
@@ -800,7 +800,7 @@ This is the default transpilation. Babel can also work with other tools.
 
 SystemJS can be used as a plugin for Babel:
 
-```cmd
+```batch
 npm install --save-dev @babel/plugin-transform-modules-systemjs
 ```
 
@@ -824,7 +824,7 @@ And it should be added to the Babel configuration `babel.config.json`:
 
 Now Babel can work with SystemJS to transpile CommonJS/Node.js module, AMD/RequireJS module, and ES module:
 
-```cmd
+```batch
 npx babel src --out-dir lib
 ```
 
@@ -933,7 +933,7 @@ System.register(["./esCounterModule"], function (_export, _context) {
 
 TypeScript supports all JavaScript syntax, including the ES6 module syntax <https://www.typescriptlang.org/docs/handbook/modules.html>. When TypeScript transpiles, the ES module code can either be kept as ES6, or transpiled to other formats, including CommonJS/Node.js, AMD/RequireJS, UMD/UmdJS, or System/SystemJS, according to the specified transpiler options in `tsconfig.json`:
 
-```js
+```json
 {
     "compilerOptions": {
         "module": "ES2020", // None, CommonJS, AMD, System, UMD, ES6, ES2015, ES2020, ESNext.
