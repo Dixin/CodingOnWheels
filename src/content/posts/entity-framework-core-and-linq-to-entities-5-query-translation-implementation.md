@@ -198,33 +198,20 @@ iterator.Current.WriteLine();
 
 Here are the steps how the fluent query builds its query expression tree:
 
-· Build data source:
-
-o The initial source IQueryable<T> is a DbSet<T> instance given by EF Core. It wraps an expression and a query provider:
-
-§ The expression is a ConstantExpression expression representing the data source.
-
-§ The query provider is an EntityQueryProvider instance automatically created by EF Core.
-
-· Build Where query:
-
-o A predicate expression is built for Where,
-
-o Where accepts the IQueryable<T> source. But actually Where only needs the source’s expression and query provider. A MethodCallExpression expression is built to represent a call of Where itself with 2 arguments, the source and the predicate expression. Then source query provider’s CreateQuery method is called with the MethodCallExpression expression just built, and return an IQueryable<T> query, which wraps:
-
-§ The MethodCallExpression expression representing current Where call
-
-§ The same query privider from its source.
-
-· Build Select query:
-
-o A selector expression is built for Select
-
-o Select accepts the IQueryable<T> returned by Where as source. Again, Select only needs the expression and query provider from source. A MethodCallExpression expression is built to represent a call to Select itself with 2 arguments, the source and the selector expression. Then source query provider’s CreateQuery method is called with the MethodCallExpression expression just built, and return an IQueryable<T> query, which wraps:
-
-§ The MethodCallExpression expression representing current Select call
-
-§ The same query privider from its source.
+-   Build data source:
+    -   The initial source IQueryable<T> is a DbSet<T> instance given by EF Core. It wraps an expression and a query provider:
+        -   The expression is a ConstantExpression expression representing the data source.
+        -   The query provider is an EntityQueryProvider instance automatically created by EF Core.
+-   Build Where query:
+    -   A predicate expression is built for Where,
+    -   Where accepts the IQueryable<T> source. But actually Where only needs the source’s expression and query provider. A MethodCallExpression expression is built to represent a call of Where itself with 2 arguments, the source and the predicate expression. Then source query provider’s CreateQuery method is called with the MethodCallExpression expression just built, and return an IQueryable<T> query, which wraps:
+        -   The MethodCallExpression expression representing current Where call
+        -   The same query privider from its source.
+-   Build Select query:
+    -   A selector expression is built for Select
+    -   Select accepts the IQueryable<T> returned by Where as source. Again, Select only needs the expression and query provider from source. A MethodCallExpression expression is built to represent a call to Select itself with 2 arguments, the source and the selector expression. Then source query provider’s CreateQuery method is called with the MethodCallExpression expression just built, and return an IQueryable<T> query, which wraps:
+        -   The MethodCallExpression expression representing current Select call
+        -   The same query privider from its source.
 
 So, the final IQueryable<T> query’s Expression property is the final abstract syntactic tree, which represents the entire LINQ to Entities query logic:
 
@@ -397,71 +384,39 @@ public override Type Type { get; }
 
 The following are are all the database expressions provided by EF Core and the Remotion.Linq library used by EF Core, which are all derived from the Expression type:
 
-· AggregateExpression
-
-o MaxExpression
-
-o MinExpression
-
-o SumExpression
-
-· AliasExpression
-
-· ColumnExpression
-
-· CountExpression
-
-· DatePartExpression
-
-· DiscriminatorPredicateExpression
-
-· ExistsExpression
-
-· ExplicitCastExpression
-
-· InExpression
-
-· IsNullExpression
-
-· LikeExpression
-
-· NotNullableExpression
-
-· NullConditionalExpression
-
-· PartialEvaluationExceptionExpression
-
-· PropertyParameterExpression
-
-· QuerySourceReferenceExpression
-
-· RowNumberExpression
-
-· SqlFunctionExpression
-
-· StringCompareExpression
-
-· SubQueryExpression
-
-· TableExpressionBase
-
-o CrossJoinExpression
-
-o FromSqlExpression
-
-o JoinExpressionBase
-
-§ InnerJoinExpression
-
-§ LeftOuterJoinExpression
-
-o LateralJoinExpression
-
-o SelectExpression
-
-o TableExpression
-
-· VBStringComparisonExpression
+-   AggregateExpression
+    -   MaxExpression
+    -   MinExpression
+    -   SumExpression
+-   AliasExpression
+-   ColumnExpression
+-   CountExpression
+-   DatePartExpression
+-   DiscriminatorPredicateExpression
+-   ExistsExpression
+-   ExplicitCastExpression
+-   InExpression
+-   IsNullExpression
+-   LikeExpression
+-   NotNullableExpression
+-   NullConditionalExpression
+-   PartialEvaluationExceptionExpression
+-   PropertyParameterExpression
+-   QuerySourceReferenceExpression
+-   RowNumberExpression
+-   SqlFunctionExpression
+-   StringCompareExpression
+-   SubQueryExpression
+-   TableExpressionBase
+    -   CrossJoinExpression
+    -   FromSqlExpression
+    -   JoinExpressionBase
+        -   InnerJoinExpression
+        -   LeftOuterJoinExpression
+    -   LateralJoinExpression
+    -   SelectExpression
+    -   TableExpression
+-   VBStringComparisonExpression
 
 ### Compile LINQ expressions to database expressions
 
@@ -620,19 +575,15 @@ SelectExpression (NodeType = Extension, Type = string)
 
 EF Core first calls Remotion.Linq library to compile LINQ query function call nodes to QueryModel. Under Remotion.Linq.Parsing.Structure.IntermediateModel namespace, Remotion.Linq provides IExpressionNode interface, and many types implementing that interface, where each type can process a certain kind of query function call, for example:
 
-· MethodCallExpression node representing Queryable.Where call is processed by WhereExpressionNode, and converted to Remotion.Linq.Clauses.WhereClause, which is a part of QueryModel
-
-· MethodCallExpression node representing Queryable.Select call is processed by SelectExpressionNode, and converted to Remotion.Linq.Clauses.SelectClause, which is a part of QueryModel
-
-· MethodCallExpression node representing Queryable.First or Queryable.FirstOrDefault call is processed by FirstExpressionNode, and converted to Remotion.Linq.Clauses.ResultOperators.FirstResultOperator, which is a part of QueryModel
+-   MethodCallExpression node representing Queryable.Where call is processed by WhereExpressionNode, and converted to Remotion.Linq.Clauses.WhereClause, which is a part of QueryModel
+-   MethodCallExpression node representing Queryable.Select call is processed by SelectExpressionNode, and converted to Remotion.Linq.Clauses.SelectClause, which is a part of QueryModel
+-   MethodCallExpression node representing Queryable.First or Queryable.FirstOrDefault call is processed by FirstExpressionNode, and converted to Remotion.Linq.Clauses.ResultOperators.FirstResultOperator, which is a part of QueryModel
 
 etc. Then EF Core continues to compile QueryModel to SelectExpression. For example:
 
-· WhereClause is converted to predicate child nodes of the SelectExpression
-
-· SelectClause is converted to projection child nodes of the SelectExpression
-
-· FirstResultOperator is converted to limit child node of the SelectExpression
+-   WhereClause is converted to predicate child nodes of the SelectExpression
+-   SelectClause is converted to projection child nodes of the SelectExpression
+-   FirstResultOperator is converted to limit child node of the SelectExpression
 
 etc.
 
@@ -657,13 +608,10 @@ memberExpression.Expression != null
 
 There are many other translators to cover other basic .NET APIs of System.String, System.Enum, System.DateTime, System.Guid, System.Math, for example:
 
-· MethodCallExpression node representing string.Contains call (e.g. product.Name.Contains(“M”)) is processed by SqlServerContainsOptimizedTranslator, and converted to a BinaryExpression node representing SQL database int comparison, where the left child node is a SqlFunctionExpression node representing SQL database function CHARINDEX call, and the right child node is a ConstantExpression node representing 0 (e.g. CHARINDEX(N'M', product.Name) > 0)
-
-· MethodCallExpression node representing Math.Ceiling call is processed by SqlServerMathCeilingTranslator, and converted to SqlFunctionExpression node representing SQL database function CEILING call
-
-· MemberExpression node representing DateTime.Now or DateTime.UtcNow property access, is processed by SqlServerDateTimeNowTranslator, and converted to SqlFunctionExpression node representing SQL database function GETDATE or GETUTCDATE call
-
-· The extension methods for EF.Functions are also translated to SQL database function calls or operators. For example, EF.Functions.Like is processed by LikeTranslator, and converted to LikeExpression node representing LIKE operator.
+-   MethodCallExpression node representing string.Contains call (e.g. product.Name.Contains(“M”)) is processed by SqlServerContainsOptimizedTranslator, and converted to a BinaryExpression node representing SQL database int comparison, where the left child node is a SqlFunctionExpression node representing SQL database function CHARINDEX call, and the right child node is a ConstantExpression node representing 0 (e.g. CHARINDEX(N'M', product.Name) > 0)
+-   MethodCallExpression node representing Math.Ceiling call is processed by SqlServerMathCeilingTranslator, and converted to SqlFunctionExpression node representing SQL database function CEILING call
+-   MemberExpression node representing DateTime.Now or DateTime.UtcNow property access, is processed by SqlServerDateTimeNowTranslator, and converted to SqlFunctionExpression node representing SQL database function GETDATE or GETUTCDATE call
+-   The extension methods for EF.Functions are also translated to SQL database function calls or operators. For example, EF.Functions.Like is processed by LikeTranslator, and converted to LikeExpression node representing LIKE operator.
 
 etc.
 

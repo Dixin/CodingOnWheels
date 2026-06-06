@@ -334,7 +334,7 @@ With this syntax, above paradigm looks functional. Func<int, int, int> is the fu
 The above functional paradigm is actually implemented by wrapping imperative object-oriented programming. For each delegate type definition, C# compiler generates a class definition. For example, System.Func<T1, T2, TResult> delegate type is compiled to the following class derived from System.MulticastDelegate class:
 
 ```csharp
-public sealed class CompiledFunc<in T1, in T2, out TResult\> : MulticastDelegate
+public sealed class CompiledFunc<in T1, in T2, out TResult> : MulticastDelegate
 {
 public CompiledFunc(object @object, IntPtr method);
 
@@ -594,7 +594,7 @@ Downloader downloader = new Downloader();
 downloader.Completed += SaveContent;
 downloader.Completed += TraceContent;
 downloader.Completed -= SaveContent;
-downloader.Start("https://weblogs.asp.net/dixin");
+downloader.Start("https://CodingOnWheels.com");
 }
 ```
 
@@ -670,23 +670,19 @@ SimplifiedDownloader downloader = new SimplifiedDownloader();
 downloader.add_Completed(SaveContent);
 downloader.add_Completed(TraceContent);
 downloader.remove_Completed(SaveContent);
-downloader.Start("https://weblogs.asp.net/dixin");
+downloader.Start("https://CodingOnWheels.com");
 }
 ```
 
 So, the C# event/event handler model is quite straightforward from functional programming perspective. It is all about function type, function, and function group:
 
-· An event is a member of class or structure, as a C#/.NET programming convention, it should be of function type (object, TEventArgs) –> void. If the event is an instance member of a class or structure, the object parameter is the instance of that class or structure which raises the event; if the event is static member, the object parameter should be null. The other TEventArgs parameter should derive from System.EventArgs class, and wraps the information of the event, like the downloaded content of a download complete event, the cursor’s position for a mouse click event, etc.
+-   An event is a member of class or structure, as a C#/.NET programming convention, it should be of function type (object, TEventArgs) –> void. If the event is an instance member of a class or structure, the object parameter is the instance of that class or structure which raises the event; if the event is static member, the object parameter should be null. The other TEventArgs parameter should derive from System.EventArgs class, and wraps the information of the event, like the downloaded content of a download complete event, the cursor’s position for a mouse click event, etc.
+-   As a convention, event member’s type is usually represented by EventHandler<TEventArgs> delegate type, which is equivalent to Action<object, TEventArgs>.
+-   Compiler generates 3 members for an event member: a field member, which is a delegate instance as function group to store event handler function, along with 2 helper method members to add/remove event handler function.
+-   An event’s event handler is a function of the same (object, TEventArgs) –> void type.
+-   To handle an event, use the += operator to add the event handler function to the event function group.
 
-· As a convention, event member’s type is usually represented by EventHandler<TEventArgs> delegate type, which is equivalent to Action<object, TEventArgs>.
-
-· Compiler generates 3 members for an event member: a field member, which is a delegate instance as function group to store event handler function, along with 2 helper method members to add/remove event handler function.
-
-· An event’s event handler is a function of the same (object, TEventArgs) –> void type.
-
-· To handle an event, use the += operator to add the event handler function to the event function group.
-
-· To raise an event, just call the function group, as a result, all the event handler functions stored in the group are called to handle the event.
+-   To raise an event, just call the function group, as a result, all the event handler functions stored in the group are called to handle the event.
 
 This compilation of event member is similar to an auto property member, which can be compiled to a backing field, a getter and a setter. Actually, C# has an event add/remove accessor syntax similar to property getter/setter:
 

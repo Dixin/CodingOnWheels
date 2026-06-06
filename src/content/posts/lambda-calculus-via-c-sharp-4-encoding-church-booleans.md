@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/lambda-calculus-via-c-2-boolean-and-logic](/posts/lambda-calculus-via-c-2-boolean-and-logic "https://weblogs.asp.net/dixin/lambda-calculus-via-c-2-boolean-and-logic")**
+## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-2-boolean-and-logic](/posts/lambda-calculus-via-c-2-boolean-and-logic "https://CodingOnWheels.com/posts/lambda-calculus-via-c-2-boolean-and-logic")**
 
 After clarifying the concepts and terms, a lot of implementation coding starts from this part.
 
@@ -87,7 +87,7 @@ Several things need to be noticed here:
 
 Also in C#, function/lambda expressions cannot be created globally. So here they have to stay as a member of a class. In F#, this is allowed:
 
-```csharp
+```fsharp
 let True t f = t
 let False t f = f
 ```

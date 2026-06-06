@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/category-theory-via-csharp-3-functor-and-linq-to-functors](/posts/category-theory-via-csharp-3-functor-and-linq-to-functors "https://weblogs.asp.net/dixin/category-theory-via-csharp-3-functor-and-linq-to-functors")**
+## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-3-functor-and-linq-to-functors](/posts/category-theory-via-csharp-3-functor-and-linq-to-functors "https://CodingOnWheels.com/posts/category-theory-via-csharp-3-functor-and-linq-to-functors")**
 
 ## Lazy<> functor
 

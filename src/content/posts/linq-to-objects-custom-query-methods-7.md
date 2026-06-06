@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/linq-to-objects-custom-query-methods](/posts/linq-to-objects-custom-query-methods "https://weblogs.asp.net/dixin/linq-to-objects-custom-query-methods")**
+## **Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-custom-query-methods](/posts/linq-to-objects-custom-query-methods "https://CodingOnWheels.com/posts/linq-to-objects-custom-query-methods")**
 
 After discussing the query methods provided by .NET, this part demonstrates how to define custom query methods:
 

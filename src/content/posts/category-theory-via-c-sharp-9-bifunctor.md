@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/category-theory-via-csharp-5-bifunctor](/posts/category-theory-via-csharp-5-bifunctor "https://weblogs.asp.net/dixin/category-theory-via-csharp-5-bifunctor")**
+## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-5-bifunctor](/posts/category-theory-via-csharp-5-bifunctor "https://CodingOnWheels.com/posts/category-theory-via-csharp-5-bifunctor")**
 
 ## Bifunctor
 

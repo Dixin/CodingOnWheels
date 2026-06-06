@@ -15,7 +15,7 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## **EF Core version of this article:** [**https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions**](/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions")
+## **EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions**](/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions")
 
 Besides LINQ to Entities queries, Entity Framework also provides rich APIs for data changes.
 

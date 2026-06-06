@@ -17,53 +17,33 @@ lang: ""
 
 This part discusses how to query SQL database with the defined mapping entities. In EF Core, LINQ to Entities supports most of the standard queries provided by Queryable:
 
-1\. Sequence queries: return a new IQueryable<T> source
+1. Sequence queries: return a new IQueryable<T> source
+    -   Filtering (restriction): Where, OfType\*
+    -   Mapping (projection): Select
+    -   Generation: DefaultIfEmpty\*
+    -   Grouping: GroupBy\*
+    -   Join: Join, GroupJoin, SelectMany, Select
+    -   Concatenation: Concat\*
+    -   Set: Distinct, GroupBy\*, Union\*, Intersect\*, Except\*
+    -   Convolution: ~Zip~
+    -   Partitioning: Take, Skip, ~TakeWhile~, ~SkipWhile~
+    -   Ordering: OrderBy\*, ThenBy, OrderByDescending\*, ThenByDescending, ~Reverse~
+    -   Conversion: Cast, AsQueryable
+1. Value queries: return a single value
+    -   Element: First, FirstOrDefault, Last\*, LastOrDefault\*, ~ElementAt~, ~ElementAtOrDefault~, Single, SingleOrDefault
 
-o Filtering (restriction): Where, OfType\*
-
-o Mapping (projection): Select
-
-o Generation: DefaultIfEmpty\*
-
-o Grouping: GroupBy\*
-
-o Join: Join, GroupJoin, SelectMany, Select
-
-o Concatenation: Concat\*
-
-o Set: Distinct, GroupBy\*, Union\*, Intersect\*, Except\*
-
-o Convolution: ~Zip~
-
-o Partitioning: Take, Skip, ~TakeWhile~, ~SkipWhile~
-
-o Ordering: OrderBy\*, ThenBy, OrderByDescending\*, ThenByDescending, ~Reverse~
-
-o Conversion: Cast, AsQueryable
-
-2\. Value queries: return a single value
-
-o Element: First, FirstOrDefault, Last\*, LastOrDefault\*, ~ElementAt~, ~ElementAtOrDefault~, Single, SingleOrDefault
-
-o Aggregation: ~Aggregate~, Count, LongCount, Min, Max, Sum, Average\*
-
-o Quantifier: All, Any, Contains
-
-o Equality: ~SequenceEqual~
+    -   Aggregation: ~Aggregate~, Count, LongCount, Min, Max, Sum, Average\*
+    -   Quantifier: All, Any, Contains
+    -   Equality: ~SequenceEqual~
 
 In above list:
 
-· The crossed queries are not supported by LINQ to Entities ([the list provided by MDSN](https://msdn.microsoft.com/en-us/library/bb738550.aspx) is not up to date), because they cannot be translated to proper SQL database operations. For example, SQL database has no built-in Zip operation support. Calling these crossed queries throws NotSupportedException at runtime
-
-· The underlined queries have some overloads supported by LINQ to Entities, and other overloads not supported:
-
-o For GroupBy, Join, GroupJoin, Distinct, Union, Intersect, Except, Contains, the overloads accepting IEqualityComparer<T> parameter are not supported, because apparently IEqualityComparer<T> has no equivalent SQL translation
-
-o For OrderBy, ThenBy, OrderByDescending, ThenByDescending, the overloads with IComparer<T> parameter are not supported
-
-o For Where, Select, SelectMany, the indexed overloads are not supported
-
-· In EF Core, the queries marked with \* can execute the query locally in some cases, without being translated to SQL.
+-   The crossed queries are not supported by LINQ to Entities ([the list provided by MDSN](https://msdn.microsoft.com/en-us/library/bb738550.aspx) is not up to date), because they cannot be translated to proper SQL database operations. For example, SQL database has no built-in Zip operation support. Calling these crossed queries throws NotSupportedException at runtime
+-   The underlined queries have some overloads supported by LINQ to Entities, and other overloads not supported:
+    -   For GroupBy, Join, GroupJoin, Distinct, Union, Intersect, Except, Contains, the overloads accepting IEqualityComparer<T> parameter are not supported, because apparently IEqualityComparer<T> has no equivalent SQL translation
+    -   For OrderBy, ThenBy, OrderByDescending, ThenByDescending, the overloads with IComparer<T> parameter are not supported
+    -   For Where, Select, SelectMany, the indexed overloads are not supported
+-   In EF Core, the queries marked with \* can execute the query locally in some cases, without being translated to SQL.
 
 For LINQ to Entities, apparently these queries enable fluent chaining, implement the same LINQ query expression pattern as LINQ to Objects and Parallel LINQ. So in this part, most of the LINQ to Entities queries are demonstrated with queries.
 
@@ -1945,17 +1925,12 @@ remote.WriteLines();
 
 In the first query, the LINQ to Entities source is chained with Select, then AsEnumerable returns IEnumerable<T>, so the following Where is Enumerable.Where, and it returns a generator. Then AsQueryable detects if the generator is IQueryable<T>. Since the generator is not IQueryable<T>, AsQueryable returns a EnumerableQuery<T> wrapper, which can have the following OrderBy translated to local query. So in this entire query chaining, only Select, which is before AsEnumerable, can be translated to SQL and executed remotely, all the other queries are executed locally.
 
-· The source is a DbSet<T> instance, which implements IQueryable<T> and represents the LINQ to Entities data source - rows in remote SQL database table.
-
-· Queryable.Select is called on DbSet<T> source, in this case it returns a Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable<T> instance in EF Core, which implements IQueryable<T> and represents LINQ to Entities query.
-
-· Enumerable.AsEnumerable does nothing and directly returns its source, the EntityQueryable<T> instance
-
-· Enumerable.Where is called, since AsEnumerable returns IEnumerable<T> type. Where returns a generator wrapping its source, the EntityQueryable<T> instance.
-
-· Queryable.AsQueryable is called. Its source, the generator from Where, implements IEnumerable<T>, not IQueryable<T>, so AsQueryable return an EnumerableQuery<T> instance wrapping the generator. As fore mentioned, EnumerableQuery<T> has nothing to do with database.
-
-· Queryable.OrderBy is called with EnumerableQuery<T> instance, in this case it returns another EnumerableQuery<T> instance, which has nothing to do with database either.
+-   The source is a DbSet<T> instance, which implements IQueryable<T> and represents the LINQ to Entities data source - rows in remote SQL database table.
+-   Queryable.Select is called on DbSet<T> source, in this case it returns a Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable<T> instance in EF Core, which implements IQueryable<T> and represents LINQ to Entities query.
+-   Enumerable.AsEnumerable does nothing and directly returns its source, the EntityQueryable<T> instance
+-   Enumerable.Where is called, since AsEnumerable returns IEnumerable<T> type. Where returns a generator wrapping its source, the EntityQueryable<T> instance.
+-   Queryable.AsQueryable is called. Its source, the generator from Where, implements IEnumerable<T>, not IQueryable<T>, so AsQueryable return an EnumerableQuery<T> instance wrapping the generator. As fore mentioned, EnumerableQuery<T> has nothing to do with database.
+-   Queryable.OrderBy is called with EnumerableQuery<T> instance, in this case it returns another EnumerableQuery<T> instance, which has nothing to do with database either.
 
 So the first query is a hybrid query. When it is executed, only Select is remote LINQ to Entities query and is translated to SQL. After AsEnumerable, Where goes local, then AsQueryable cannot convert back to remote LINQ to Entities query anymore. So, Where and OrderBy are both local queries, and not translated to SQL.
 

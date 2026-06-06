@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/functional-csharp-asynchronous-function](/posts/functional-csharp-asynchronous-function "https://weblogs.asp.net/dixin/functional-csharp-asynchronous-function")**[](/posts/functional-csharp-fundamentals "https://weblogs.asp.net/dixin/functional-csharp-fundamentals")
+## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-asynchronous-function](/posts/functional-csharp-asynchronous-function "https://CodingOnWheels.com/posts/functional-csharp-asynchronous-function")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
 
 Asynchronous function can improve the responsiveness and scalability of the application and service. C# 5.0 introduces async and await keywords to greatly simplify the async programming model.
 
@@ -826,7 +826,7 @@ The runtime context capture can be also demonstrated by SynchronizationContext. 
 
 Take Windows Universal application as example. In Visual Studio, create a Windows Universal application, add a button to its UI:
 
-```csharp
+```xml
 <Button x:Name="Button" Content="Button" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ButtonClick" />
 ```
 

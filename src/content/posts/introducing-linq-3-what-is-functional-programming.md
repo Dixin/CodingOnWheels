@@ -17,51 +17,32 @@ Object-oriented programming and functional programming are programming paradigms
 
 There are many programming paradigms. The following list shows a few common paradigms and their subparadigms:
 
-· [Declarative programming:](https://en.wikipedia.org/wiki/Declarative_programming) designs what is the logic of operations, without describing its control flow (SQL, XQuery, etc.)
-
-o [Functional programming](https://en.wikipedia.org/wiki/Functional_programming): uses expressions to describe operations, which are treated as call of functions (Erlang, F#, etc.)
-
-§ [Purely functional programming](https://en.wikipedia.org/wiki/Purely_functional_programming): does not rely on mutable state (Haskell, Clean, etc.)
-
-o [Logic programming](https://en.wikipedia.org/wiki/Logic_programming): designs the program with facts and rules in logical form (Prolog, Datalog, etc.)
-
-· [Dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming_language): executes compile time behaviors at runtime (Python, PHP, etc.)
-
-· [Event-driven programming](https://en.wikipedia.org/wiki/Event-driven_programming): drives the operations with events (JavaScript, TypeScript, etc.)
-
-· [Generic programming](https://en.wikipedia.org/wiki/Generic_programming): supports type parameters for data structures and operations (Swift, VB.NET, etc.)
-
-· [Imperative programming:](https://en.wikipedia.org/wiki/Imperative_programming) uses commands/statements to specify how the program operates (Assembly language, Fortran, etc.)
-
-o [Object-oriented programming:](https://en.wikipedia.org/wiki/Object-oriented_programming) designs the program in objects, containing data in the form of fields, and behaviors in the form of methods
-
-§ [Class-based programming](https://en.wikipedia.org/wiki/Class-based_programming): defines the data structure and behaviors as classes, and implements inheritance for classes (C++, Java, etc.)
-
-§ [Prototype-based programming](https://en.wikipedia.org/wiki/Prototype-based_programming): implements classless prototypal inheritance and behavior reuse (Self, Lua, etc.)
-
-o [Procedural programming](https://en.wikipedia.org/wiki/Procedural_programming): designs program in procedures and sub-procedures (C, Pascal, etc.)
-
-· [Metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming): accesses program code as data (Lisp, Ruby, etc.)
-
-o [Reflective programming](https://en.wikipedia.org/wiki/Reflection_\(computer_programming\)): accesses the structure and behavior of the program itself at runtime (Delphi, Go, etc.)
+-   [Declarative programming:](https://en.wikipedia.org/wiki/Declarative_programming) designs what is the logic of operations, without describing its control flow (SQL, XQuery, etc.)
+    -   [Functional programming](https://en.wikipedia.org/wiki/Functional_programming): uses expressions to describe operations, which are treated as call of functions (Erlang, F#, etc.)
+        -   [Purely functional programming](https://en.wikipedia.org/wiki/Purely_functional_programming): does not rely on mutable state (Haskell, Clean, etc.)
+    -   [Logic programming](https://en.wikipedia.org/wiki/Logic_programming): designs the program with facts and rules in logical form (Prolog, Datalog, etc.)
+-   [Dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming_language): executes compile time behaviors at runtime (Python, PHP, etc.)
+-   [Event-driven programming](https://en.wikipedia.org/wiki/Event-driven_programming): drives the operations with events (JavaScript, TypeScript, etc.)
+-   [Generic programming](https://en.wikipedia.org/wiki/Generic_programming): supports type parameters for data structures and operations (Swift, VB.NET, etc.)
+-   [Imperative programming:](https://en.wikipedia.org/wiki/Imperative_programming) uses commands/statements to specify how the program operates (Assembly language, Fortran, etc.)
+    -   [Object-oriented programming:](https://en.wikipedia.org/wiki/Object-oriented_programming) designs the program in objects, containing data in the form of fields, and behaviors in the form of methods
+        -   [Class-based programming](https://en.wikipedia.org/wiki/Class-based_programming): defines the data structure and behaviors as classes, and implements inheritance for classes (C++, Java, etc.)
+        -   [Prototype-based programming](https://en.wikipedia.org/wiki/Prototype-based_programming): implements classless prototypal inheritance and behavior reuse (Self, Lua, etc.)
+    -   [Procedural programming](https://en.wikipedia.org/wiki/Procedural_programming): designs program in procedures and sub-procedures (C, Pascal, etc.)
+-   [Metaprogramming](https://en.wikipedia.org/wiki/Metaprogramming): accesses program code as data (Lisp, Ruby, etc.)
+    -   [Reflective programming](https://en.wikipedia.org/wiki/Reflection_\(computer_programming\)): accesses the structure and behavior of the program itself at runtime (Delphi, Go, etc.)
 
 C# is a sophisticated language with a lot of language features. Following the above paradigm descriptions, C# is declarative (C# has attribute, etc.), dynamic (has dynamic type), functional (has first class function), event-driven (has event), generic (supports generics), imperative (has statement, control flow), object-oriented (has first class object), class-based (has class), and can be procedural (with static method). C# also supports metaprogramming (supports code DOM, expression tree, CIL emit, compiler as a service) and is reflective (supports reflection).
 
 So how functional is C#? C#’s initial release supports important functional features, and since then Microsoft keeps adding many more functional features to C# in each release, from small functional syntactic sugar for convenience to prominent functional features like LINQ:
 
-· C# 1.0: delegate, higher-order function
-
-· C# 2.0: generic delegate, anonymous method, closure, covariance and contravariance
-
-· C# 3.0: extension method, lambda expression, LINQ query expression
-
-· C# 4.0: covariance and contravariance for generics
-
-· C# 5.0: asynchronous function
-
-· C# 6.0: expression-bodied function members
-
-· C# 7.0-7.3: local function, tuple, pattern matching, more expression-bodied members
+-   C# 1.0: delegate, higher-order function
+-   C# 2.0: generic delegate, anonymous method, closure, covariance and contravariance
+-   C# 3.0: extension method, lambda expression, LINQ query expression
+-   C# 4.0: covariance and contravariance for generics
+-   C# 5.0: asynchronous function
+-   C# 6.0: expression-bodied function members
+-   C# 7.0-7.3: local function, tuple, pattern matching, more expression-bodied members
 
 So that C# has been a very functional language. All these language features are discussed in detail in each aspect of functional programming.
 
@@ -73,11 +54,9 @@ The topics of object-oriented programming (encapsulation, inheritance, polymorph
 
 Functional programming is declarative, which means it focus on expressing what to do; Object-oriented programming is imperative, which means it specifies the detailed commands and steps of how to do. To compare these 2 paradigms, a task can be implemented to query the delegate types from the .NET core library:
 
-· filter all the types to get delegate types
-
-· group the delegate types by their namespaces
-
-· sort the groups by each group’s delegate type count in descending order, and if 2 groups have identical delegate type count, then sort them by namespace in ascending order
+-   filter all the types to get delegate types
+-   group the delegate types by their namespaces
+-   sort the groups by each group’s delegate type count in descending order, and if 2 groups have identical delegate type count, then sort them by namespace in ascending order
 
 The following example implements this query with traditional C# imperative programming:
 
@@ -172,19 +151,16 @@ Trace.Write(Environment.NewLine);
 
 So imperative programming and declarative programming are very different styles and approaches. The imperative example specifies how to accomplish the task step by step:
 
-· How to filter and group: use a dictionary of key value pairs to store the grouped delegate types, where each key is namespace, and each value is a list of delegate types under that namespace; Scan the types, if a type is a delegate type, then check whether its namespace is in dictionary as a key, if yes, get its type list, if not, add a key value pair to the dictionary, where key is the namespace, and value is an empty list of types; then add the delegate type to the existing or newly added type list.
-
-· How to sort: copy each group from the dictionary to another sorted list. For each group, scan the groups already in the sorted list to compare delegate type counts, if equal then compare their namespaces; When the right position is found, insert each group to the sorted list.
+-   How to filter and group: use a dictionary of key value pairs to store the grouped delegate types, where each key is namespace, and each value is a list of delegate types under that namespace; Scan the types, if a type is a delegate type, then check whether its namespace is in dictionary as a key, if yes, get its type list, if not, add a key value pair to the dictionary, where key is the namespace, and value is an empty list of types; then add the delegate type to the existing or newly added type list.
+-   How to sort: copy each group from the dictionary to another sorted list. For each group, scan the groups already in the sorted list to compare delegate type counts, if equal then compare their namespaces; When the right position is found, insert each group to the sorted list.
 
 The code here is a detailed control flow of statements and commands, including frequent data mutation (variables’ reassignment) and state change (collections’ item change). The business logic is less intuitive in the code.
 
 The other example simply declares what is the task to accomplish:
 
-· what is filtering logic: keep delegate types
-
-· what is grouping logic: group delegate types by namespaces
-
-· what is sorting logic: sort the groups in descending order of delegate type count, then in ascending order of namespace
+-   what is filtering logic: keep delegate types
+-   what is grouping logic: group delegate types by namespaces
+-   what is sorting logic: sort the groups in descending order of delegate type count, then in ascending order of namespace
 
 Here an expression of clauses makes the business logic very clear. And there are no details needed, like data mutation or state change involved, at all.
 
@@ -200,13 +176,10 @@ Besides functional programming and LINQ, C# and .NET Standards provide other dec
 
 In object-oriented programming, object can have behaviours in the form of method, comparing to function in functional programming, they are both modularized reusable code block. They are different in multiple aspects:
 
-· As fore mentioned, functional programming is more declarative. It encourages expression rather than statement, focuses on what to do, and avoids how to do, especially avoids how to mutate data or change state.
-
-· Function in functional programming is treated as first class citizen, just like first class object in object-oriented programming. For example, a function can be passed around like a data value, or used as input/output of another function.
-
-· Functional programming encourages pure function. First, pure function works like mathematics function that simply maps from a set of input to a set of output, and each certain input always leads to a certain output. In another word, a pure function’s output only depends on the input. This is different from object-oriented programming, where method’s execution result can commonly depend on local object’s state or global state. Second, pure function has no side effects, which means no interaction with the outside world of the function. For example, LINQ APIs use deferred execution to implement purity. This is also different from object-oriented programming, where method’s execution can commonly change local object’s state or global state, or produce I/O.
-
-· Functional programming also emphasizes function composition, rather than object inheritance/composition in object-oriented programming.
+-   As fore mentioned, functional programming is more declarative. It encourages expression rather than statement, focuses on what to do, and avoids how to do, especially avoids how to mutate data or change state.
+-   Function in functional programming is treated as first class citizen, just like first class object in object-oriented programming. For example, a function can be passed around like a data value, or used as input/output of another function.
+-   Functional programming encourages pure function. First, pure function works like mathematics function that simply maps from a set of input to a set of output, and each certain input always leads to a certain output. In another word, a pure function’s output only depends on the input. This is different from object-oriented programming, where method’s execution result can commonly depend on local object’s state or global state. Second, pure function has no side effects, which means no interaction with the outside world of the function. For example, LINQ APIs use deferred execution to implement purity. This is also different from object-oriented programming, where method’s execution can commonly change local object’s state or global state, or produce I/O.
+-   Functional programming also emphasizes function composition, rather than object inheritance/composition in object-oriented programming.
 
 In the previous example, LINQ query expression is actually implemented with the following function calls (In practice, LINQ code can be written with either syntax. They are totally equivalent. The previous query syntax is compiled to the following query, and the compilation is discussed in detail later):
 
@@ -236,9 +209,8 @@ Here Where, GroupBy, OrderBy, ThenBy are functions composed together by fluent c
 
 To further demonstrate, a task can be implemented to process document:
 
-· Download a source file from the specified URI
-
-· Convert the source file to another format with the specified template file.
+-   Download a source file from the specified URI
+-   Convert the source file to another format with the specified template file.
 
 The following example designs the task with object-oriented paradigm:
 

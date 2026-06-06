@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/category-theory-via-csharp-1-fundamentals](/posts/category-theory-via-csharp-1-fundamentals "https://weblogs.asp.net/dixin/category-theory-via-csharp-1-fundamentals")**
+## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-1-fundamentals](/posts/category-theory-via-csharp-1-fundamentals "https://CodingOnWheels.com/posts/category-theory-via-csharp-1-fundamentals")**
 
 This post and the following posts will introduce category theory and its important concepts via C# and LINQ, including functor, applicative functor, monoid, monad, etc. Categories were first introduced by [Samuel Eilenberg](http://en.wikipedia.org/wiki/Samuel_Eilenberg) and [Saunders Mac Lane](http://en.wikipedia.org/wiki/Saunders_Mac_Lane) in 1942–45. It might be tedious, as Wikipedia pointed:
 

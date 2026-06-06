@@ -76,11 +76,9 @@ bool result = isPositive(0);
 
 Its compilation is identical to above anonymous method example. The => operator is called lambda operator and reads “go to”. Lambda expression can be further shortened:
 
-· if the type of parameter can be inferred (for example, from the specified function type), the type of parameter can be omitted. In above example, the lambda expression’s parameter type can be inferred to be int from the provided function type int –> bool, so it can be simplified to (int32) => { return int32 > 0; }.
-
-· if lambda expression has one parameter, the parentheses for the parameter can be omitted. So, the above lambda expression can be simplified to int32 => { return int32 > 0; }.
-
-· if the body of the lambda expression has only one statement, the curly brackets for the body and the return keyword can be omitted, which is call expression body syntax. So, the above lambda expression can be just int32 => int32 > 0.
+-   if the type of parameter can be inferred (for example, from the specified function type), the type of parameter can be omitted. In above example, the lambda expression’s parameter type can be inferred to be int from the provided function type int –> bool, so it can be simplified to (int32) => { return int32 > 0; }.
+-   if lambda expression has one parameter, the parentheses for the parameter can be omitted. So, the above lambda expression can be simplified to int32 => { return int32 > 0; }.
+-   if the body of the lambda expression has only one statement, the curly brackets for the body and the return keyword can be omitted, which is call expression body syntax. So, the above lambda expression can be just int32 => int32 > 0.
 
 Lambda expression with expression body are called expression lambda, for example:
 

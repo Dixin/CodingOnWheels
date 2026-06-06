@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/lambda-calculus-via-c-1-fundamentals](/posts/lambda-calculus-via-c-1-fundamentals "https://weblogs.asp.net/dixin/lambda-calculus-via-c-1-fundamentals")**
+## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals](/posts/lambda-calculus-via-c-1-fundamentals "https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals")**
 
 The C# lambda expression [has been discussed in detail](/posts/understanding-csharp-3-0-features-6-lambda-expression). This post will explain lambda expression and other concepts in lambda calculus.
 

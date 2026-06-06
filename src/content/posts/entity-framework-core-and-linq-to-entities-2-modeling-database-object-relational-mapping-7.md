@@ -15,9 +15,9 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## Latest EF Core version of this article: [https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping](/posts/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping")
+## Latest EF Core version of this article: [https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping](/posts/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping")
 
-## **EF version of this article:** [**https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-3-logging**](/posts/entity-framework-and-linq-to-entities-3-logging "https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-3-logging")
+## **EF version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-3-logging**](/posts/entity-framework-and-linq-to-entities-3-logging "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-3-logging")
 
 .NET and SQL database and have 2 different data type systems. For example, .NET has System.Int64 and System.String, while SQL database has bigint and nvarchar; .NET has sequences and objects, while SQL database has tables and rows;, etc. Object-relational mapping is a popular technology to map and convert between application data objects and database relational data. In LINQ to Entities, the queries are based on Object-relational mapping.
 
@@ -756,4 +756,4 @@ public partial class AdventureWorks
 > -   Niladic functions
 > -   Model defined functions
 > 
-> These contents are covered by a separate article: [EntityFramework.Functions: Code First Functions for Entity Framework](https://weblogs.asp.net/Dixin/EntityFramework.Functions).
+> These contents are covered by a separate article: [EntityFramework.Functions: Code First Functions for Entity Framework](https://CodingOnWheels.com/posts/EntityFramework.Functions).

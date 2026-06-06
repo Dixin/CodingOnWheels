@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate "https://weblogs.asp.net/dixin/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate")**
+## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate")**
 
 ## Operators
 

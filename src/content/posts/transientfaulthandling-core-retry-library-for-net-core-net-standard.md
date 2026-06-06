@@ -65,7 +65,7 @@ It also supports JSON/XML/INI configuration:
 
 ## Document
 
-[https://weblogs.asp.net/dixin/transientfaulthandling-core-retry-library-for-net-core-net-standard](/posts/transientfaulthandling-core-retry-library-for-net-core-net-standard "https://weblogs.asp.net/dixin/transientfaulthandling-core-retry-library-for-net-core-net-standard")
+[https://CodingOnWheels.com/posts/transientfaulthandling-core-retry-library-for-net-core-net-standard](/posts/transientfaulthandling-core-retry-library-for-net-core-net-standard "https://CodingOnWheels.com/posts/transientfaulthandling-core-retry-library-for-net-core-net-standard")
 
 ## Source
 

@@ -122,21 +122,14 @@ With this design, the fluent function chaining and the LINQ query expression pat
 
 Besides the parities with Enumerable queries, ParallelEnumerable also provides additional queries and additional overloads for Aggregate query:
 
-· Sequence queries
-
-o Conversion: AsParallel, AsSequential
-
-o Query settings: WithCancellation, WithDegreeOfParallelism, WithExecutionMode, WithMergeOptions
-
-o Ordering: AsOrdered, AsUnordered
-
-· Value queries
-
-o Aggregation: Aggregate
-
-· Void queries
-
-o Iteration: ForAll
+-   Sequence queries
+    -   Conversion: AsParallel, AsSequential
+    -   Query settings: WithCancellation, WithDegreeOfParallelism, WithExecutionMode, WithMergeOptions
+    -   Ordering: AsOrdered, AsUnordered
+-   Value queries
+    -   Aggregation: Aggregate
+-   Void queries
+    -   Iteration: ForAll
 
 ### Parallel query vs. sequential query
 
@@ -168,7 +161,7 @@ public static ParallelQuery<TSource\> AsParallel<TSource\>(this IEnumerable<TSou
 For example,
 
 ```csharp
-internal static void AsParallel(IEnumerable<int\> source1, IEnumerable source2)
+internal static void AsParallel(IEnumerable<int> source1, IEnumerable source2)
 {
 ParallelQuery<int>parallelQuery1 = source1 // IEnumerable<int>.
 .AsParallel(); // Output ParallelQuery<int>.

@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/functional-csharp-pure-function](/posts/functional-csharp-pure-function "https://weblogs.asp.net/dixin/functional-csharp-pure-function")**[](/posts/functional-csharp-fundamentals "https://weblogs.asp.net/dixin/functional-csharp-fundamentals")
+## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-pure-function](/posts/functional-csharp-pure-function "https://CodingOnWheels.com/posts/functional-csharp-pure-function")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
 
 Functional programming encourages modeling operations with pure functions.
 

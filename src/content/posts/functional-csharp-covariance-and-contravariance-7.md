@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/functional-csharp-covariance-and-contravariance](/posts/functional-csharp-covariance-and-contravariance "https://weblogs.asp.net/dixin/functional-csharp-covariance-and-contravariance")**[](/posts/functional-csharp-fundamentals "https://weblogs.asp.net/dixin/functional-csharp-fundamentals")
+## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-covariance-and-contravariance](/posts/functional-csharp-covariance-and-contravariance "https://CodingOnWheels.com/posts/functional-csharp-covariance-and-contravariance")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
 
 In [covariance and contravariance](https://en.wikipedia.org/wiki/Covariance_and_contravariance_\(computer_science\)), variance means the capability to substitute a type with a more derived type or less derived type in a context. The following is a simple [inheritance hierarchy](https://msdn.microsoft.com/en-us/library/27db6csx.aspx):
 

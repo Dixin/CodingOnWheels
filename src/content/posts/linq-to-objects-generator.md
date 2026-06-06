@@ -155,19 +155,13 @@ IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
 The above iterator encapsulates 5 functions (start, moveNext, getCurrent, end, dispose) in the iteration control flow, and manages 5 states:
 
-· Create: if an iterator is constructed on the fly, its initial state is Create.
-
-· Start: if an iterator is created by sequence’s factory method, its state is Start. Later, if its MoveNext is called for the first time, the start function is called to do the initialization work. Then, the state changes to MoveNext
-
-· MoveNext: After its MoveNext method being called for the first time, its state is MoveNext. Each time its MoveNext method is called, the moveNext function is called to output a bool value
-
-o If the output is true, the iterator has a value available for the caller, and getCurrent function can be called through its Current property to pull that value; The state remains MoveNext.
-
-o If false, there is no value available. The state changes to End, and the dispose function is called to release resources, then end functions is called to do the cleanup work;
-
-· End: if its MoveNext method is called and the state is End, false is directly returned to indicate caller that the sequential traversal ended, there is no value available to pull.
-
-· Error: if its MoveNext method throws an exception, the state changes to Error. Then its Dispose method is called to do the cleanup work, and eventually its state is changed to End.
+-   Create: if an iterator is constructed on the fly, its initial state is Create.
+-   Start: if an iterator is created by sequence’s factory method, its state is Start. Later, if its MoveNext is called for the first time, the start function is called to do the initialization work. Then, the state changes to MoveNext
+-   MoveNext: After its MoveNext method being called for the first time, its state is MoveNext. Each time its MoveNext method is called, the moveNext function is called to output a bool value
+    -   If the output is true, the iterator has a value available for the caller, and getCurrent function can be called through its Current property to pull that value; The state remains MoveNext.
+    -   If false, there is no value available. The state changes to End, and the dispose function is called to release resources, then end functions is called to do the cleanup work;
+-   End: if its MoveNext method is called and the state is End, false is directly returned to indicate caller that the sequential traversal ended, there is no value available to pull.
+-   Error: if its MoveNext method throws an exception, the state changes to Error. Then its Dispose method is called to do the cleanup work, and eventually its state is changed to End.
 
 Now Sequence<T> and Iterator<T> can be used to implement Repeat with improved performance:
 
@@ -600,7 +594,7 @@ finally { }
 The above try-finally statement, state checking and mutation are not needed. It is the same control flow as the following:
 
 ```csharp
-internal static IEnumerable<TSource\> FromValue<TSource\>(TSource value)
+internal static IEnumerable<TSource> FromValue<TSource>(TSource value)
 {
 yield return value;
 }

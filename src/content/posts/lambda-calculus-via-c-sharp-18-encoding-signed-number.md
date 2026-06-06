@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/lambda-calculus-via-csharp-4-tuple-and-signed-numeral](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral "https://weblogs.asp.net/dixin/lambda-calculus-via-csharp-4-tuple-and-signed-numeral")**
+## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral")**
 
 In lambda calculus, a signed number (integer) can be represented by a [Church pair (2-tuple)](/posts/lambda-calculus-via-c-sharp-13-encoding-church-pairs-2-tuples-and-generic-church-booleans) of [Church numerals](/posts/lambda-calculus-via-c-sharp-7-encoding-church-numerals) (natural numbers):
 

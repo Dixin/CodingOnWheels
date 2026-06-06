@@ -296,35 +296,21 @@ ParallelEnumerable
 
 In PLINQ, many queries are order sensitive. If the source is unordered, the following queries output indeterministic results:
 
-· Sequence queries:
-
-o Reverse: does nothing
-
-o SequenceEqual: compares values in arbitrary order
-
-o Skip: skips arbitrary values
-
-o SkipWhile: skips arbitrary values
-
-o Take: takes arbitrary values
-
-o TakeWhile: takes arbitrary values with the predicate
-
-o Zip: zips unordered values
-
-· Value queries:
-
-o ElementAt: returns arbitrary value
-
-o ElementAtOrDefault: returns arbitrary value or default
-
-o First: returns arbitrary value
-
-o FirstOrDefault: returns arbitrary value or default
-
-o Last: returns arbitrary value
-
-o LastOrDefault: returns arbitrary value or default
+-   Sequence queries:
+    -   Reverse: does nothing
+    -   SequenceEqual: compares values in arbitrary order
+    -   Skip: skips arbitrary values
+    -   SkipWhile: skips arbitrary values
+    -   Take: takes arbitrary values
+    -   TakeWhile: takes arbitrary values with the predicate
+    -   Zip: zips unordered values
+-   Value queries:
+    -   ElementAt: returns arbitrary value
+    -   ElementAtOrDefault: returns arbitrary value or default
+    -   First: returns arbitrary value
+    -   FirstOrDefault: returns arbitrary value or default
+    -   Last: returns arbitrary value
+    -   LastOrDefault: returns arbitrary value or default
 
 These queries must be used with ordered source to have the correct query results.
 

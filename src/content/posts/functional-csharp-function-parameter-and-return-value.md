@@ -28,10 +28,10 @@ value = 10;
 
 internal static void CallInputByCopy()
 {
-Uri reference = new Uri("https://weblogs.asp.net/dixin");
+Uri reference = new Uri("https://CodingOnWheels.com");
 int value = 1;
 InputByCopy(reference, value); // Copied.
-reference.WriteLine(); // https://weblogs.asp.net/dixin
+reference.WriteLine(); // https://CodingOnWheels.com
 value.WriteLine(); // 1
 }
 ```
@@ -49,7 +49,7 @@ value = 10;
 
 internal static void CallInputByAlias()
 {
-Uri reference = new Uri("https://weblogs.asp.net/dixin");
+Uri reference = new Uri("https://CodingOnWheels.com");
 int value = 1;
 InputByAlias(ref reference, ref value); // Not copied.
 reference.WriteLine(); // https://flickr.com/dixin
@@ -128,7 +128,7 @@ _ = OutputParameter(out _, out _);
 Array parameter with params modifier is called parameter array:
 
 ```csharp
-internal static int Sum(params int\[\] values)
+internal static int Sum(params int[] values)
 // Compiled to: Sum([ParamArray] int[] values)
 {
 int sum = 0;
@@ -339,7 +339,7 @@ At compile time, these omitted arguments are generated for the caller.
 By default, function return result by making a copy (also called returning by value). Which is similar to input by copy by default. The following functions retrieve the first item from the specified array:
 
 ```csharp
-internal static int FirstValueByCopy(int\[\] values)
+internal static int FirstValueByCopy(int[] values)
 {
 return values[0];
 }
@@ -360,17 +360,17 @@ int firstValue = FirstValueByCopy(values); // Copy of values[0].
 firstValue = 10;
 values[0].WriteLine(); // 0
 
-Uri[] references = new Uri[] { new Uri("https://weblogs.asp.net/dixin") };
+Uri[] references = new Uri[] { new Uri("https://CodingOnWheels.com") };
 Uri firstReference = FirstReferenceByCopy(references); // Copy of references[0].
 firstReference = new Uri("https://flickr.com/dixin");
-references[0].WriteLine(); // https://weblogs.asp.net/dixin
+references[0].WriteLine(); // https://CodingOnWheels.com
 }
 ```
 
 C# 7.0 introduces output by alias (also called returning by reference). Similar to input by alias, returned result with a ref modifier is not copied:
 
 ```csharp
-internal static ref int FirstValueByAlias(int\[\] values)
+internal static ref int FirstValueByAlias(int[] values)
 {
 return ref values[0];
 }
@@ -391,7 +391,7 @@ ref int firstValue = ref FirstValueByAlias(values); // Alias of values[0].
 firstValue = 10;
 values[0].WriteLine(); // 10
 
-Uri[] references = new Uri[] { new Uri("https://weblogs.asp.net/dixin") };
+Uri[] references = new Uri[] { new Uri("https://CodingOnWheels.com") };
 ref Uri firstReference = ref FirstReferenceByAlias(references); // Alias of references[0].
 firstReference = new Uri("https://flickr.com/dixin");
 references[0].WriteLine(); // https://flickr.com/dixin
@@ -403,7 +403,7 @@ references[0].WriteLine(); // https://flickr.com/dixin
 To prevent caller from modifying the returned alias, ref can be used with the readonly modifier since C# 7.2:
 
 ```csharp
-internal static ref readonly int FirstValueByImmutableAlias(int\[\] values)
+internal static ref readonly int FirstValueByImmutableAlias(int[] values)
 {
 return ref values[0];
 }
@@ -424,7 +424,7 @@ ref readonly int firstValue = ref FirstValueByImmutableAlias(values); // Immutab
 #if DEMO
 firstValue = 10; // Cannot be compiled.
 #endif
-Uri[] references = new Uri[] { new Uri("https://weblogs.asp.net/dixin") };
+Uri[] references = new Uri[] { new Uri("https://CodingOnWheels.com") };
 ref readonly Uri firstReference = ref FirstReferenceByImmutableAlias(references); // Immutable alias of references[0].
 #if DEMO
 firstReference = new Uri("https://flickr.com/dixin"); // Cannot be compiled.

@@ -327,9 +327,8 @@ When loading the subcategories, 1 database query is executed. When each subcateg
 
 There are some scenarios where lazy loading needs to be disabled, like entity serialization. There are several ways to disable lazy loading for different scopes
 
-· To globally disable lazy loading for specific navigation properties, just do not mark it as virtual, so that the derived proxy entity cannot override it with the lazy load implementation.
-
-· To disable lazy loading for specific DbContext or specific query, call DbContext.Configuration to get a DbConfiguration instance, and set its LazyLoadingEnabled property to false.
+-   To globally disable lazy loading for specific navigation properties, just do not mark it as virtual, so that the derived proxy entity cannot override it with the lazy load implementation.
+-   To disable lazy loading for specific DbContext or specific query, call DbContext.Configuration to get a DbConfiguration instance, and set its LazyLoadingEnabled property to false.
 
 ```csharp
 internal static void DisableLazyLoading()

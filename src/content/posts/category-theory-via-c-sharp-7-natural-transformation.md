@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/category-theory-via-csharp-4-natural-transformation](/posts/category-theory-via-csharp-4-natural-transformation "https://weblogs.asp.net/dixin/category-theory-via-csharp-4-natural-transformation")**
+## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-4-natural-transformation](/posts/category-theory-via-csharp-4-natural-transformation "https://CodingOnWheels.com/posts/category-theory-via-csharp-4-natural-transformation")**
 
 ## Natural transformation
 

@@ -54,7 +54,7 @@ public static partial class ChurchBoolean
 
 C# does not support defining function directly in the global scope, so True and False are defined as static filed member of a type. In other functional languages like F#, functions can directly defined:
 
-```csharp
+```fsharp
 let True t f = t
 let False t f = f
 ```

@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion](/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion "https://weblogs.asp.net/dixin/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion")**
+## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion](/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion")**
 
 ## Fix point
 

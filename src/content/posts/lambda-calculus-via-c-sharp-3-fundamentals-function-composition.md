@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/lambda-calculus-via-c-1-fundamentals](/posts/lambda-calculus-via-c-1-fundamentals "https://weblogs.asp.net/dixin/lambda-calculus-via-c-1-fundamentals")**
+## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals](/posts/lambda-calculus-via-c-1-fundamentals "https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals")**
 
 It may not be the best place to discuss function composition in the lambda calculus series. However, function composition will be used a lot in later articles, so here is a brief introduction.
 
@@ -66,13 +66,13 @@ f2 . f1 = \x -> f2 (f1 x)
 
 And F# has [\>>](https://msdn.microsoft.com/en-us/library/dd233228.aspx):
 
-```csharp
+```fsharp
 let inline (>>) f1 f2 x = f2 (f1 x)
 ```
 
 It is called forward composition. So there is also a backward composition operator [<<](https://msdn.microsoft.com/en-us/library/dd233228.aspx):
 
-```csharp
+```fsharp
 let inline (<<) f2 f1 x = f2 (f1 x)
 ```
 

@@ -15,9 +15,9 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## Latest EF Core version of this article: [https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-1-remote-query](/posts/entity-framework-core-and-linq-to-entities-1-remote-query "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-1-remote-query")
+## Latest EF Core version of this article: [https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-1-remote-query](/posts/entity-framework-core-and-linq-to-entities-1-remote-query "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-1-remote-query")
 
-## **EF version of this article:** [**https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-1-remote-query**](/posts/entity-framework-and-linq-to-entities-1-remote-query "https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-1-remote-query")
+## **EF version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-1-remote-query**](/posts/entity-framework-and-linq-to-entities-1-remote-query "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-1-remote-query")
 
 ## Entity Framework and Entity Framework Core
 

@@ -25,8 +25,8 @@ EF Core implements a provider model, so that LINQ to Entities can be implemented
 
 To demonstrate LINQ to Entities queries and other database operations, this book uses the classic sample SQL database AdventureWorks provided by Microsoft as the data source, because this sample database has a very intuitive structure, it also works with Azure SQL Database and all SQL Server editions. The full sample database provided by Microsoft is relatively large, so a trimmed version is provided in the code samples repo of this book:
 
-· The AdventureWorks.bacpac file is for Azure SQL Database
-· The `AdventureWorks\_Data.mdf `and `AdventureWorks\_Log.ldf` files are for SQL Server
+-   The AdventureWorks.bacpac file is for Azure SQL Database
+-   The `AdventureWorks\_Data.mdf `and `AdventureWorks\_Log.ldf` files are for SQL Server
 
 There are many free options to setup SQL database. To setup in the cloud, follow these steps:
 
@@ -40,35 +40,23 @@ There are many free options to setup SQL database. To setup in the cloud, follow
 
 As a alternative to cloud, SQL Server on premise can also be installed locally, then the above mdf and ldf files can be attached:
 
-· On Windows, there are several free options to install SQL Server:
-
-o SQL Server LocalDB: the easiest option, with no configuration required for setup.
-
-o SQL Server Express Core
-
-o SQL Server Express with Advanced Services
-
-o SQL Server Developer Edition: free after signing up [Visual Studio Dev Essentials](https://www.visualstudio.com/dev-essentials/) program
-
-o SQL Server Evaluation for the next version
-
-· On Linux, SQL Server Express, Developer, and Evaluation editions are freely licensed.
-
-· On Mac, SQL Server can be installed using a Windows/Linux virtual machine, or Docker
+-   On Windows, there are several free options to install SQL Server:
+    -   SQL Server LocalDB: the easiest option, with no configuration required for setup.
+    -   SQL Server Express Core
+    -   SQL Server Express with Advanced Services
+    -   SQL Server Developer Edition: free after signing up [Visual Studio Dev Essentials](https://www.visualstudio.com/dev-essentials/) program
+    -   SQL Server Evaluation for the next version
+-   On Linux, SQL Server Express, Developer, and Evaluation editions are freely licensed.
+-   On Mac, SQL Server can be installed using a Windows/Linux virtual machine, or Docker
 
 After setting up, tools can be optionally installed to connect to and manage the SQL database:
 
-· On Windows, there are rich tools:
-
-o [SQL Server Data Tools](https://msdn.microsoft.com/en-us/library/mt204009.aspx) for Visual Studio, a free Visual Studio extension enabling SQL database management inside Visual Studio
-
-o [SQL Server Management Tools](https://msdn.microsoft.com/en-us/library/mt238290.aspx), which includes [SQL Server Management Studio](https://en.wikipedia.org/wiki/SQL_Server_Management_Studio) (a free integration environment to manage SQL database), [SQL Server Profiler](https://msdn.microsoft.com/en-us/library/ms181091.aspx) (a free tracing tool for SQL Server on premise), and other tools.
-
-· On Windows, Linux, and macOS:
-
-o SQL Server (mssql) for Visual Studio Code, an extension for Visual Studio Code to execute SQL
-
-o Azure Data Studio, a free cross-platform tool to manage data and edit query.
+-   On Windows, there are rich tools:
+    -   [SQL Server Data Tools](https://msdn.microsoft.com/en-us/library/mt204009.aspx) for Visual Studio, a free Visual Studio extension enabling SQL database management inside Visual Studio
+    -   [SQL Server Management Tools](https://msdn.microsoft.com/en-us/library/mt238290.aspx), which includes [SQL Server Management Studio](https://en.wikipedia.org/wiki/SQL_Server_Management_Studio) (a free integration environment to manage SQL database), [SQL Server Profiler](https://msdn.microsoft.com/en-us/library/ms181091.aspx) (a free tracing tool for SQL Server on premise), and other tools.
+-   On Windows, Linux, and macOS:
+    -   SQL Server (mssql) for Visual Studio Code, an extension for Visual Studio Code to execute SQL
+    -   Azure Data Studio, a free cross-platform tool to manage data and edit query.
 
 To connect to the sample database, its connection string can be saved in the configuration of application or service during development and test. For .NET Core, the connection string can be saved for the application as a JSON file, for example, as app.json file:
 
@@ -218,13 +206,10 @@ With this design, the fluent function chaining and the LINQ query expression pat
 
 Queryable does not provide the following queries:
 
-· Empty/Range/Repeat: it does not make sense for .NET to locally generate a remote data source or remote query on the fly; the other generation query DefaultIfEmpty is available, because DefaultIfEmpty works with an existing IQueryable<T> source.
-
-· AsEnumerable: Enumerable.AsEnumerable types any IEnumerable<T> source just as IEnumerable<T>. Since IQueryable<T> implements IEnumerable<T>, Enumerable.AsEnumerable also works for IQueryanle<T>.
-
-· ToArray/ToDictionary/ToList/ToLookup: LINQ to Objects provides these colection queries to pull values from any IEnumerable<T> source and create local .NET collections. Since IQueryable<T> implements IEnumerable<T>, these queries provided by LINQ to Objects also works for IQueryanle<T>.
-
-· Max/Min overloads for .NET primary types: these are specific types of local .NET application, not the remote data domain.
+-   Empty/Range/Repeat: it does not make sense for .NET to locally generate a remote data source or remote query on the fly; the other generation query DefaultIfEmpty is available, because DefaultIfEmpty works with an existing IQueryable<T> source.
+-   AsEnumerable: Enumerable.AsEnumerable types any IEnumerable<T> source just as IEnumerable<T>. Since IQueryable<T> implements IEnumerable<T>, Enumerable.AsEnumerable also works for IQueryanle<T>.
+-   ToArray/ToDictionary/ToList/ToLookup: LINQ to Objects provides these colection queries to pull values from any IEnumerable<T> source and create local .NET collections. Since IQueryable<T> implements IEnumerable<T>, these queries provided by LINQ to Objects also works for IQueryanle<T>.
+-   Max/Min overloads for .NET primary types: these are specific types of local .NET application, not the remote data domain.
 
 Queryable also provides an additional query AsQueryable, as the paraty with AsEnumerable. However, unlike AsSequential/AsParallel switching between sequential and parallel query, AsEnumerable/AsQueryable cannot freely switch between local and remote query. This query is discussed later.
 

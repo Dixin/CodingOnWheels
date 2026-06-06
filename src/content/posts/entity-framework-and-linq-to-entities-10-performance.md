@@ -15,7 +15,7 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## **EF Core version of this article:** [**https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-9-performance**](/posts/entity-framework-core-and-linq-to-entities-9-performance "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-9-performance")
+## **EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-9-performance**](/posts/entity-framework-core-and-linq-to-entities-9-performance "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-9-performance")
 
 The previous parts has discussed a few aspects that can impact the performance of Entity Framework and LINQ to Entities, and here is a summary:
 

@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/linq-to-objects-query-methods-implementation](/posts/linq-to-objects-query-methods-implementation "https://weblogs.asp.net/dixin/linq-to-objects-query-methods-implementation")**
+## **Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-query-methods-implementation](/posts/linq-to-objects-query-methods-implementation "https://CodingOnWheels.com/posts/linq-to-objects-query-methods-implementation")**
 
 Understanding of internals of query methods is very helpful for using them accurately and effectively, and is also helpful for defining custom query methods, which is discussed later in this chapter. Just like the usage discussion part, here query methods are still categorized by returned type, but in a different order:
 

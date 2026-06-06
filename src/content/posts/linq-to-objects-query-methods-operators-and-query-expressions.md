@@ -16,42 +16,24 @@ lang: ""
 As fore mentioned, LINQ to Objects standard query methods (also called standard query operators) are provided as static methods of System.Linq.Enumerable type, most of which are IEnumerable<T> extension methods. They can be categorized by output type:
 
 1. Sequence queries: output a new IEnumerable<T> sequence:
-
-o Generation: Empty , Range, Repeat, DefaultIfEmpty
-
-o Filtering (restriction): Where\*, OfType
-
-o Mapping (projection): Select\*, SelectMany\*
-
-o Grouping: GroupBy\*
-
-o Join: SelectMany, Join\*, GroupJoin\*
-
-o Concatenation: Concat, Append, Prepend
-
-o Set: Distinct, Union, Intersect, Except
-
-o Convolution: Zip
-
-o Partitioning: Take, Skip, TakeWhile, SkipWhile
-
-o Ordering: OrderBy\*, ThenBy\*, OrderByDescending\*, ThenByDescending\*, Reverse\*
-
-o Conversion: Cast\*, AsEnumerable
-
-2. Collection queries: output a new collection:
-
-o Conversion: ToArray, ToList, ToDictionary, ToLookup
-
-3. Value queries: output a single value:
-
-o Element: First, FirstOrDefault, Last, LastOrDefault, ElementAt, ElementAtOrDefault, Single, SingleOrDefault
-
-o Aggregation: Aggregate, Count, LongCount, Min, Max, Sum, Average
-
-o Quantifier: All, Any, Contains
-
-o Equality: SequenceEqual
+    -   Generation: Empty , Range, Repeat, DefaultIfEmpty
+    -   Filtering (restriction): Where\*, OfType
+    -   Mapping (projection): Select\*, SelectMany\*
+    -   Grouping: GroupBy\*
+    -   Join: SelectMany, Join\*, GroupJoin\*
+    -   Concatenation: Concat, Append, Prepend
+    -   Set: Distinct, Union, Intersect, Except
+    -   Convolution: Zip
+    -   Partitioning: Take, Skip, TakeWhile, SkipWhile
+    -   Ordering: OrderBy\*, ThenBy\*, OrderByDescending\*, ThenByDescending\*, Reverse\*
+    -   Conversion: Cast\*, AsEnumerable
+1. Collection queries: output a new collection:
+    -   Conversion: ToArray, ToList, ToDictionary, ToLookup
+1. Value queries: output a single value:
+    -   Element: First, FirstOrDefault, Last, LastOrDefault, ElementAt, ElementAtOrDefault, Single, SingleOrDefault
+    -   Aggregation: Aggregate, Count, LongCount, Min, Max, Sum, Average
+    -   Quantifier: All, Any, Contains
+    -   Equality: SequenceEqual
 
 These LINQ query methods are very functional. They are functions that can be composed by fluent chaining. Many of them are higher-order functions accepting function parameters, so anonymous functions (lambda expressions) or named functions can be passed to them. The query methods with IEnumerable<T> output are pure functions. They are referential transparency and side effect free. When they are called, they only create and output a new sequence wrapping the input sequence and the query logic, with the query logic not executed, so there are no state changes, data mutation, I/O, etc. The query logic execution is deferred until the result values are pulled from the output sequence. The other query methods that output a new collection or a single value are impure functions. When they are called, they immediately execute the query and pull the results.
 
@@ -291,7 +273,7 @@ Query expression must end with either a select clause, or group clause (discusse
 The following is an example of the indexed overload:
 
 ```csharp
-internal static IEnumerable<string\> Words() => new string\[\] { "Zero", "one", "Two", "three", "four" };
+internal static IEnumerable<string> Words() => new string[] { "Zero", "one", "Two", "three", "four" };
 internal static void SelectWithIndex()
 {
 IEnumerable<string>source = Words();
@@ -348,7 +330,7 @@ this IEnumerable<TSource> source, Func<TSource, int, IEnumerable<TResult>>select
 In contrast with Select, SelectMany’s selector is a one to many mapping. If there are N values from the source sequence, then they are mapped to N sequences. And eventually, SelectMany concatenates these N sequences into one single sequence. The following example calls SelectMany to query all members of all types in .NET core library, then filter the obsolete members (members with \[Obsolete\]):
 
 ```csharp
-internal static MemberInfo\[\] GetDeclaredMembers(this Type type) =>
+internal static MemberInfo[] GetDeclaredMembers(this Type type) =>
 type.GetMembers(
 BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
@@ -1034,7 +1016,7 @@ Environment.NewLine.Write();
 Notice here the Where subquery filters all inner values for each outer value. Generally, left outer join can be implemented with mapping query and filtering subquery:
 
 ```csharp
-internal static IEnumerable<TResult\> LeftOuterJoinWithSelect<TOuter, TInner, TKey, TResult\>(
+internal static IEnumerable<TResult> LeftOuterJoinWithSelect<TOuter, TInner, TKey, TResult>(
 this IEnumerable<TOuter> outer,
 IEnumerable<TInner>inner,
 Func<TOuter, TKey> outerKeySelector,
@@ -1092,7 +1074,7 @@ The difference is, for N outer values, GroupJoin pull all inner values once and 
 Cross join 2 sequences is to return the Cartesian product of values in those 2 sequences. The easiest way for cross join is SelectMany:
 
 ```csharp
-private static readonly int\[\] Rows = { 1, 2, 3 };
+private static readonly int[] Rows = { 1, 2, 3 };
 private static readonly string[] Columns = { "A", "B", "C", "D" };
 
 internal static void CrossJoin()
@@ -1130,7 +1112,7 @@ select $"{column}{row}";
 A general CrossJoin query method can be implemented as:
 
 ```csharp
-internal static IEnumerable<TResult\> CrossJoin<TOuter, TInner, TResult\>(
+internal static IEnumerable<TResult> CrossJoin<TOuter, TInner, TResult>(
 this IEnumerable<TOuter> outer,
 IEnumerable<TInner>inner,
 Func<TOuter, TInner, TResult>resultSelector) =>
@@ -1167,7 +1149,7 @@ Environment.NewLine.Write();
 And generally, cross join can be implemented by Join as:
 
 ```csharp
-internal static IEnumerable<TResult\> CrossJoinWithJoin<TOuter, TInner, TResult\>(
+internal static IEnumerable<TResult> CrossJoinWithJoin<TOuter, TInner, TResult>(
 this IEnumerable<TOuter> outer,
 IEnumerable<TInner>inner,
 Func<TOuter, TInner, TResult>resultSelector) =>
@@ -1229,7 +1211,7 @@ innerJoin.WriteLines(); // Execute query.
 Generally, inner join and be implemented with cross join and filtering:
 
 ```csharp
-internal static IEnumerable<TResult\> InnerJoinWithSelectMany<TOuter, TInner, TKey, TResult\>(
+internal static IEnumerable<TResult> InnerJoinWithSelectMany<TOuter, TInner, TKey, TResult>(
 this IEnumerable<TOuter> outer,
 IEnumerable<TInner>inner,
 Func<TOuter, TKey> outerKeySelector,
@@ -1293,7 +1275,7 @@ this IEnumerable<TSource\> first, IEnumerable<TSource\> second);
 For example:
 
 ```csharp
-internal static int\[\] First() => new int\[\] { 1, 2, 3, 4, 4 };
+internal static int[] First() => new int[] { 1, 2, 3, 4, 4 };
 internal static int[] Second() => new int[] { 3, 4, 5, 6 };
 
 internal static void Concat()
@@ -1490,7 +1472,7 @@ partition2.WriteLines(); // Execute query. -1 4 5
 Just like Where and Select, SkipWhile/TakeWhile also have the indexed overload:
 
 ```csharp
-public static IEnumerable<TSource\> SkipWhile<TSource>(
+public static IEnumerable<TSource> SkipWhile<TSource>(
 this IEnumerable<TSource> source, Func<TSource, int, bool> predicate);
 
 public static IEnumerable<TSource> TakeWhile<TSource>(
@@ -2095,7 +2077,7 @@ Dictionary<string, string>dictionary = new string[] { "a", "b", null }
 ToDictionary/ToLookup has other overloads to accept a key comparer:
 
 ```csharp
-public static Dictionary<TKey, TSource\> ToDictionary<TSource, TKey\>(
+public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(
 this IEnumerable<TSource> source, Func<TSource, TKey>keySelector, IEqualityComparer<TKey> comparer);
 
 public static ILookup<TKey, TSource> ToLookup<TSource, TKey>(
@@ -2150,7 +2132,7 @@ public static TSource Last<TSource\>(this IEnumerable<TSource\> source);
 And InvalidOperationException is thrown if the source sequence is empty.
 
 ```csharp
-internal static IEnumerable<int\> Int32Source() => new int\[\] { -1, 1, 2, 3, -4 };
+internal static IEnumerable<int> Int32Source() => new int[] { -1, 1, 2, 3, -4 };
 internal static IEnumerable<int>SingleInt32Source() => Enumerable.Repeat(5, 1);
 
 internal static IEnumerable<int>EmptyInt32Source() => Enumerable.Empty<int>();
@@ -2368,7 +2350,7 @@ func: (currentSumOfSquares, int32) => currentSumOfSquares + int32 * int32)
 The last overload accepts an additional result selector function, which is called with the last result of accumulate function:
 
 ```csharp
-internal static TResult Aggregate<TSource, TAccumulate, TResult\>(
+internal static TResult Aggregate<TSource, TAccumulate, TResult>(
 this IEnumerable<TSource> source,
 TAccumulate seed,
 Func<TAccumulate, TSource, TAccumulate>func, Func<TAccumulate, TResult> resultSelector);
@@ -2526,7 +2508,7 @@ public static TSource Min<TSource\>(this IEnumerable<TSource\> source);
 They use Comparer<TSource>.Default to compare values in source sequence to determine the minimum/maximum value. Comparer<TSource>.Default requires TSource to implement at least one of IComparable and IComparable<TSource>; otherwise ArgumentException is thrown at runtime. Still take Character type as example:
 
 ```csharp
-internal partial class Character : IComparable<Character\>
+internal partial class Character : IComparable<Character>
 {
 public int CompareTo(Character other) =>
 string.Compare(this.Name, other.Name, StringComparison.Ordinal);
@@ -2689,11 +2671,9 @@ Similar to other query methods, the first overload without comparer uses Equalit
 
 .NET has many ways to determine equality for objects:
 
-· [Reference equality](https://msdn.microsoft.com/en-us/library/dd183759.aspx)/identity: object.ReferenceEquals, == operator without override
-
-· [Value equality](https://msdn.microsoft.com/en-us/library/dd183755.aspx)/equivalence: static object.Equals, instance object.Equals, object.GetHashCode, overridden == operator, IEquatable<T>.Equals, IEqualityComparer.Equals, IEqualityComparer<T>.Equals, IComparable.Compare, IComparable<T>.Compare, IComparer.Compare, IComparer<T>.Compare
-
-· Sequential equality: Enumerable.SequentialEqual
+-   [Reference equality](https://msdn.microsoft.com/en-us/library/dd183759.aspx)/identity: object.ReferenceEquals, == operator without override
+-   [Value equality](https://msdn.microsoft.com/en-us/library/dd183755.aspx)/equivalence: static object.Equals, instance object.Equals, object.GetHashCode, overridden == operator, IEquatable<T>.Equals, IEqualityComparer.Equals, IEqualityComparer<T>.Equals, IComparable.Compare, IComparable<T>.Compare, IComparer.Compare, IComparer<T>.Compare
+-   Sequential equality: Enumerable.SequentialEqual
 
 SequentialEqual query method is provided to compares the sequential equality of 2 IEnumerable<T> sequences:
 

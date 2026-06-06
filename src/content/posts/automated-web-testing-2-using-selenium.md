@@ -36,7 +36,7 @@ Since the remote control is written in Java. We also need to install JRE from [h
 
 First of all, start up server, the remote control. We can create a batch file like this:
 
-```csharp
+```batch
 java -jar E:\Software\selenium\selenium-server-1.0-beta-2\selenium-server.jar
 ```
 

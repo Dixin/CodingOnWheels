@@ -15,57 +15,34 @@ lang: ""
 
 Besides creating and querying XML, LINQ to XML also provides APIs for other XML manipulations, including cloning, deleting, replacing, and updating XML structures:
 
-· Clone
-
-o Explicit Clone: constructors of XAttribute, XCData, XComment, XDeclaration, XDocument, XElement, XProcessingInstruction, XText
-
-· Add
-
-o Add annotations: XObject.AddAnnotation
-
-o Add children: XContainer.Add, XContainer.AddFirst, XStreamingElement.Add
-
-o Add siblings: XNode.AddAfterSelf, XNode.AddBeforeSelf
-
-· Delete
-
-o Delete annotations: XObject.RemoveAnnotations
-
-o Delete attributes: XElement.RemoveAttributes, XAttribute.Remove
-
-o Delete self: XNode.Remove
-
-o Delete children: XContainer.RemoveNodes, XElement.RemoveAll
-
-· Replace
-
-o Replace attributes: XElement.ReplaceAttributes
-
-o Replace self: XNode.ReplaceWith
-
-o Replace children: XContainer.ReplaceNodes, XElement.ReplaceAll
-
-· Update
-
-o Update attribute: XAttribute.Value
-
-o Update comment: XComment.Value
-
-o Update declaration: XDeclaration.Encoding, XDeclaration.Standalone, XDeclaration.Version
-
-o Update document: XDocument.XDeclaration, XDocumentType.InternalSubset, XDocumentType.Name, XDocumentType.PublicId, XDocumentType.SystemId
-
-o Update element: XElement.Name, XElement.Value, XElement.SetAttributeValue, XElement.SetElementValue, XElement.SetValue
+-   Clone
+    -   Explicit Clone: constructors of XAttribute, XCData, XComment, XDeclaration, XDocument, XElement, XProcessingInstruction, XText
+-   Add
+    -   Add annotations: XObject.AddAnnotation
+    -   Add children: XContainer.Add, XContainer.AddFirst, XStreamingElement.Add
+    -   Add siblings: XNode.AddAfterSelf, XNode.AddBeforeSelf
+-   Delete
+    -   Delete annotations: XObject.RemoveAnnotations
+    -   Delete attributes: XElement.RemoveAttributes, XAttribute.Remove
+    -   Delete self: XNode.Remove
+    -   Delete children: XContainer.RemoveNodes, XElement.RemoveAll
+-   Replace
+    -   Replace attributes: XElement.ReplaceAttributes
+    -   Replace self: XNode.ReplaceWith
+    -   Replace children: XContainer.ReplaceNodes, XElement.ReplaceAll
+-   Update
+    -   Update attribute: XAttribute.Value
+    -   Update comment: XComment.Value
+    -   Update declaration: XDeclaration.Encoding, XDeclaration.Standalone, XDeclaration.Version
+    -   Update document: XDocument.XDeclaration, XDocumentType.InternalSubset, XDocumentType.Name, XDocumentType.PublicId, XDocumentType.SystemId
+    -   Update element: XElement.Name, XElement.Value, XElement.SetAttributeValue, XElement.SetElementValue, XElement.SetValue
 
 .NET Framework also provides APIs for validating and transforming XML:
 
-· Validate with XSD
-
-o Query schema: XAttribute.GetSchemaInfo\*, XElement.GetSchemaInfo\*
-
-o Validate schema: XAttribute.Validate\*, XDocument.Validate\*, XElement.Validate\*
-
-· Transform with XSL: XslCompiledTransform.Transform
+-   Validate with XSD
+    -   Query schema: XAttribute.GetSchemaInfo\*, XElement.GetSchemaInfo\*
+    -   Validate schema: XAttribute.Validate\*, XDocument.Validate\*, XElement.Validate\*
+-   Transform with XSL: XslCompiledTransform.Transform
 
 The APIs with \* are extension methods provided by System.Xml.Schema.Extensions.
 
@@ -82,7 +59,7 @@ XElement clonedElement = new XElement(sourceElement);
 XText sourceText = new XText("text");
 XText clonedText = new XText(sourceText);
 
-XDocument sourceDocument = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+XDocument sourceDocument = XDocument.Load("https://CodingOnWheels.com/rss.xml");
 XDocument clonedDocument = new XDocument(sourceDocument);
 object.ReferenceEquals(sourceDocument, clonedDocument).WriteLine(); // False
 object.Equals(sourceDocument, clonedDocument).WriteLine(); // False
@@ -184,11 +161,9 @@ There are many APIs to manipulate XML, but there are only 4 kinds of Changing/Ch
 
 XElement.SetAttributeValue and XElement.SetElementValue are different from other APIs. They can
 
-· add a new attribute/child element if it does not exist
-
-· update the attribute/child element value if it exists:
-
-· remove the attribute/child element if it exists and the provided value to null.
+-   add a new attribute/child element if it does not exist
+-   update the attribute/child element value if it exists:
+-   remove the attribute/child element if it exists and the provided value to null.
 
 ```csharp
 internal static void SetAttributeValue()
@@ -350,7 +325,7 @@ Now, this RSS feed’s schema, represented by XmlSchemaSet, can be used to valid
 ```csharp
 internal static void Validate()
 {
-XDocument aspNetRss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+XDocument aspNetRss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
 XmlSchemaSet schemaSet = aspNetRss.InferSchema();
 
 XDocument flickrRss = XDocument.Load("https://www.flickr.com/services/feeds/photos_public.gne?id=64715861@N07&format=rss2");
@@ -371,7 +346,7 @@ Validate has another overload accepting a bool parameter addSchemaInfo. When it 
 ```csharp
 internal static void GetSchemaInfo()
 {
-XDocument aspNetRss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+XDocument aspNetRss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
 XmlSchemaSet schemaSet = aspNetRss.InferSchema();
 
 XDocument flickrRss = XDocument.Load("https://www.flickr.com/services/feeds/photos_public.gne?id=64715861@N07&format=rss2");
@@ -426,7 +401,7 @@ The following example transforms RSS to HTML, the most recent 5 items in RSS are
 ```csharp
 internal static void XslTransform()
 {
-XDocument rss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+XDocument rss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
 XDocument xsl = XDocument.Parse(@"
 <xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
 <xsl:template match='/rss/channel'>
@@ -469,7 +444,7 @@ The above transformation can also be done with LINQ to Objects/XML query:
 ```csharp
 internal static void Transform()
 {
-XDocument rss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+XDocument rss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
 XDocument html = rss
 .Element("rss")
 .Element("channel")

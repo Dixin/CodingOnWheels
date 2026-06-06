@@ -35,7 +35,7 @@ const int ImmutableInt32Sum = ImmutableInt32 + 2;
 // Constant expression ImmutableInt32 + 2 is compiled to: 3.
 const DayOfWeek ImmutableDayOfWeek = DayOfWeek.Saturday;
 const decimal ImmutableDecimal = (1M + 2M) * 3M;
-const string ImmutableString = "https://weblogs.asp.net/dixin";
+const string ImmutableString = "https://CodingOnWheels.com";
 const string ImmutableStringConcat = "https://" + "flickr.com/dixin";
 const Uri ImmutableUri = null;
 // Reassignment to above constant locals cannot be compiled.
@@ -43,7 +43,7 @@ const Uri ImmutableUri = null;
 int variableInt32 = Math.Max(ImmutableInt32, ImmutableInt32Sum);
 // Compiled to: Math.Max(1, 3).
 Trace.WriteLine(ImmutableString);
-// Compiled to: Trace.WriteLine("https://weblogs.asp.net/dixin").
+// Compiled to: Trace.WriteLine("https://CodingOnWheels.com").
 }
 ```
 
@@ -112,7 +112,7 @@ aliasOfValue = 10; // After the reassignment, value mutates.
 ref readonly int immutableAliasOfValue = ref value; // Immutable alias.
 // Reassignment to immutableAliasOfValue cannot be compiled.
 
-Uri reference = new Uri("https://weblogs.asp.net/dixin");
+Uri reference = new Uri("https://CodingOnWheels.com");
 Uri copyOfReference = reference; // Copy.
 copyOfReference = new Uri("https://flickr.com/dixin"); // After the assignment, reference does not mutate.
 ref Uri aliasOfReference = ref reference; // Mutable alias.
@@ -127,7 +127,7 @@ ref readonly Uri immutableAliasOfReference = ref reference; // Immutable alias.
 As discussed in the function input and output chapter, the in modifier enables function input by immutable alias (in parameter), and the readonly modifier can be used with ref modifier to enable output by immutable alias (ref readonly return):
 
 ```csharp
-internal static void ParameterAndReturn<T\>(Span<T> span)
+internal static void ParameterAndReturn<T>(Span<T> span)
 {
 ref readonly T First(in Span<T> immutableInput)
 {
@@ -473,7 +473,7 @@ Here the source array is inferred to be of AnonymousType0<string, decimal>\[\] t
 C# compiler utilizes anonymous type for let clause in LINQ query expression. The let clause is compiled to Select query method call with a selector function. The selector function outputs anonymous type, where each property is a range variable in the context. For example:
 
 ```csharp
-internal static void Let(IEnumerable<int\> source)
+internal static void Let(IEnumerable<int> source)
 {
 IEnumerable<double> query =
 from immutable1 in source
@@ -496,7 +496,7 @@ The full details of query expression compilation are discussed in the LINQ to Ob
 Besides local variable of anonymous type, the var keyword can be also used to initialize local variable of existing type:
 
 ```csharp
-internal static void LocalVariable(IEnumerable<int\> source, string path)
+internal static void LocalVariable(IEnumerable<int> source, string path)
 {
 var a = default(int); // int.
 var b = 1M; // decimal.
@@ -591,7 +591,7 @@ List<string>list = new List<string>() { "Surface Book", "1199M" };
 Tuple type and anonymous type are conceptually similar to each other, they are both a list of values of arbitrary types. At design time, tuple type is defined, and anonymous type is not defined yet. Therefore, anonymous type (var keyword) can only be used for local variable with immediate instantiation to infer the types of the values, and cannot be used as function input type, function output type, type argument, etc.:
 
 ```csharp
-internal static ValueTuple<string, decimal\> Function(ValueTuple<string, decimal\> values)
+internal static ValueTuple<string, decimal> Function(ValueTuple<string, decimal> values)
 {
 ValueTuple<string, decimal> variable1;
 ValueTuple<string, decimal> variable2 = default;

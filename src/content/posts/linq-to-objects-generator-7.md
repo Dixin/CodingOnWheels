@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/linq-to-objects-generator](/posts/linq-to-objects-generator "https://weblogs.asp.net/dixin/linq-to-objects-generator")**
+## **Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-generator](/posts/linq-to-objects-generator "https://CodingOnWheels.com/posts/linq-to-objects-generator")**
 
 After understanding how to use LINQ to Objects, starting from this part, the implementation of query methods is discussed. Most LINQ to Object query methods are implemented with iteration pattern and generators.
 

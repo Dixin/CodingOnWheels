@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/lambda-calculus-via-c-2-boolean-and-logic](/posts/lambda-calculus-via-c-2-boolean-and-logic "https://weblogs.asp.net/dixin/lambda-calculus-via-c-2-boolean-and-logic")**
+## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-2-boolean-and-logic](/posts/lambda-calculus-via-c-2-boolean-and-logic "https://CodingOnWheels.com/posts/lambda-calculus-via-c-2-boolean-and-logic")**
 
 After defining Boolean values True and False with functions, now the Boolean logics can be encoded, by functions too.
 

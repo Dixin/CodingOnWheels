@@ -15,135 +15,71 @@ lang: ""
 
 As fore mentioned, LINQ to XML is just a specialized LINQ to Objects, so all the LINQ to Objects queries can be used in LINQ to XML queries. LINQ to XML provides many additional functions and queries for XML tree navigation, ordering, XPath querying, etc. The following list shows these functions and their return types:
 
-· Navigation queries
-
-o Query direct parent element
-
-§ XObject.Parent -> XElement
-
-o Query all ancestor elements:
-
-§ XNode.Ancestors -> IEnumerable<XElement>
-
-§ XElement.AncestorsAndSelf -> IEnumerable<XElement>
-
-§ IEnumerable<T>.Ancestors\* -> IEnumerable<XElement>, where T : XNode
-
-§ IEnumerable<XElement>.AncestorsAndSelf\* -> IEnumerable<XElement>
-
-o Query direct child elements
-
-§ XDocument.Root-> XElement
-
-§ XContainer.Element -> XElement
-
-§ XContainer.Elements ->IEnumerable<XElement>
-
-§ IEnumerable<T>.Elements\* -> IEnumerable<XElement>, where T : XContainer
-
-o Query direct child nodes
-
-§ XContainer.FirstNode -> XNode
-
-§ XContainer.LastNode -> XNode
-
-§ XContainer.Nodes -> IEnumerable<XNode>
-
-§ IEnumerable<T>.Nodes\* -> IEnumerable<XNode>, where T : XContainer
-
-o Query all descendant elements
-
-§ XContainer.Descendants ->IEnumerable<XElement>
-
-§ XElement.DescendantsAndSelf -> IEnumerable<XElement>
-
-§ IEnumerable<T>.Descendants\* -> IEnumerable<XElement>, where T : XContainer
-
-§ IEnumerable<XElement>.DescendantsAndSelf\* -> IEnumerable<XElement>
-
-o Query all descendant nodes
-
-§ XContainer.DescendantNodes -> IEnumerable<XNode>
-
-§ XElement.DescendantNodesAndSelf -> IEnumerable<XNode>
-
-§ IEnumerable<T>.DescendantNodes\* -> IEnumerable<XNode>, where T : XContainer
-
-§ IEnumerable<XElement>.DescendantNodesAndSelf\* -> IEnumerable<XNode>
-
-o Query sibling elements
-
-§ XNode.ElementsAfterSelf -> IEnumerable<XElement>
-
-§ XNode.ElementsBeforeSelf -> IEnumerable<XElement>
-
-o Query sibling nodes
-
-§ XNode.PreviousNode -> XNode
-
-§ XNode.NextNode -> XNode
-
-§ XNode.NodesBeforeSelf ->IEnumerable<XNode>
-
-§ XNode.NodesAfterSelf ->IEnumerable<XNode>
-
-o Query attributes
-
-§ XAttribute.PreviousAttribute –> XAttribute
-
-§ XAttribute.NextAttribute -> XAttribute
-
-§ XElement.FirstAttribute -> XAttribute
-
-§ XElement.LastAttribute -> XAttribute
-
-§ XElement.Attribute -> XAttribute
-
-§ XElement.Attributes ->IEnumerable<XAttribute>
-
-§ IEnumerable<XElement>.Attributes\* -> IEnumerable<XAttribute>
-
-o Query document
-
-§ XObject.Document –> XDocument
-
-o Query annotations
-
-§ XObject.Annotation<T> –> T, where T : class
-
-§ XObject.Annotations –>IEnumerable<object>
-
-· Ordering queries
-
-o XNode.CompareDocumentOrder -> int
-
-o XNode.IsAfter -> bool
-
-o XNode.IsBefore -> bool
-
-o XNodeDocumentOrderComparer.Compare -> int
-
-o IEnumerable<T>.InDocumentOrder\* -> IEnumerable<T>, where T : XNode
-
-· Comparison queries
-
-o XNode.DocumentOrderComparer –> XNodeDocumentOrderComparer
-
-o XNodeDocumentOrderComparer.Compare –> int
-
-o XNode.EqualityComparer –> XNodeEqualityComparer
-
-o XNodeEqualityComparer.Equals –> bool
-
-· XPath queries
-
-o XNode.CreateNavigator\*\* –> XPathNavigator
-
-o XNode.XPathSelectElement\*\* –> XElement
-
-o XNode.XPathSelectElements\*\* –> IEnumerable<XElement>
-
-o XNode.XPathEvaluate\*\* –> object
+-   Navigation queries
+    -   Query direct parent element
+        -   XObject.Parent -> XElement
+    -   Query all ancestor elements:
+        -   XNode.Ancestors -> IEnumerable<XElement>
+        -   XElement.AncestorsAndSelf -> IEnumerable<XElement>
+        -   IEnumerable<T>.Ancestors\* -> IEnumerable<XElement>, where T : XNode
+        -   IEnumerable<XElement>.AncestorsAndSelf\* -> IEnumerable<XElement>
+    -   Query direct child elements
+        -   XDocument.Root-> XElement
+        -   XContainer.Element -> XElement
+        -   XContainer.Elements ->IEnumerable<XElement>
+        -   IEnumerable<T>.Elements\* -> IEnumerable<XElement>, where T : XContainer
+    -   Query direct child nodes
+        -   XContainer.FirstNode -> XNode
+        -   XContainer.LastNode -> XNode
+        -   XContainer.Nodes -> IEnumerable<XNode>
+        -   IEnumerable<T>.Nodes\* -> IEnumerable<XNode>, where T : XContainer
+    -   Query all descendant elements
+        -   XContainer.Descendants ->IEnumerable<XElement>
+        -   XElement.DescendantsAndSelf -> IEnumerable<XElement>
+        -   IEnumerable<T>.Descendants\* -> IEnumerable<XElement>, where T : XContainer
+        -   IEnumerable<XElement>.DescendantsAndSelf\* -> IEnumerable<XElement>
+    -   Query all descendant nodes
+        -   XContainer.DescendantNodes -> IEnumerable<XNode>
+        -   XElement.DescendantNodesAndSelf -> IEnumerable<XNode>
+        -   IEnumerable<T>.DescendantNodes\* -> IEnumerable<XNode>, where T : XContainer
+        -   IEnumerable<XElement>.DescendantNodesAndSelf\* -> IEnumerable<XNode>
+    -   Query sibling elements
+        -   XNode.ElementsAfterSelf -> IEnumerable<XElement>
+        -   XNode.ElementsBeforeSelf -> IEnumerable<XElement>
+    -   Query sibling nodes
+        -   XNode.PreviousNode -> XNode
+        -   XNode.NextNode -> XNode
+        -   XNode.NodesBeforeSelf ->IEnumerable<XNode>
+        -   XNode.NodesAfterSelf ->IEnumerable<XNode>
+    -   Query attributes
+        -   XAttribute.PreviousAttribute –> XAttribute
+        -   XAttribute.NextAttribute -> XAttribute
+        -   XElement.FirstAttribute -> XAttribute
+        -   XElement.LastAttribute -> XAttribute
+        -   XElement.Attribute -> XAttribute
+        -   XElement.Attributes ->IEnumerable<XAttribute>
+        -   IEnumerable<XElement>.Attributes\* -> IEnumerable<XAttribute>
+    -   Query document
+        -   XObject.Document –> XDocument
+    -   Query annotations
+        -   XObject.Annotation<T> –> T, where T : class
+        -   XObject.Annotations –>IEnumerable<object>
+-   Ordering queries
+    -   XNode.CompareDocumentOrder -> int
+    -   XNode.IsAfter -> bool
+    -   XNode.IsBefore -> bool
+    -   XNodeDocumentOrderComparer.Compare -> int
+    -   IEnumerable<T>.InDocumentOrder\* -> IEnumerable<T>, where T : XNode
+-   Comparison queries
+    -   XNode.DocumentOrderComparer –> XNodeDocumentOrderComparer
+    -   XNodeDocumentOrderComparer.Compare –> int
+    -   XNode.EqualityComparer –> XNodeEqualityComparer
+    -   XNodeEqualityComparer.Equals –> bool
+-   XPath queries
+    -   XNode.CreateNavigator\*\* –> XPathNavigator
+    -   XNode.XPathSelectElement\*\* –> XElement
+    -   XNode.XPathSelectElements\*\* –> IEnumerable<XElement>
+    -   XNode.XPathEvaluate\*\* –> object
 
 The functions with \* are extension methods provided in static type System.Xml.Linq.Extensions. The functions with \*\* are extension methods provided in static type System.Xml.XPath.Extensions. The other unmarked methods are instance methods or properties.
 
@@ -177,7 +113,7 @@ The following example queries direct child elements. In RSS feed, each <item> ca
 ```csharp
 internal static void ChildElements()
 {
-XDocument rss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+XDocument rss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
 IEnumerable<string>categories = rss
 .Root // <rss>.
 .Element("channel") // Single< channel> under <rss>.
@@ -249,13 +185,13 @@ Regarding all the X\* types are reference types, when querying the same XML tree
 ```csharp
 internal static void ResultReferences()
 {
-XDocument rss1 = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+XDocument rss1 = XDocument.Load("https://CodingOnWheels.com/rss.xml");
 XElement[] items1 = rss1.Descendants("item").ToArray();
 XElement[] items2 = rss1.Element("rss").Element("channel").Elements("item").ToArray();
 object.ReferenceEquals(items1.First(), items2.First()).WriteLine(); // True
 items1.SequenceEqual(items2).WriteLine(); // True
 
-XDocument rss2 = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+XDocument rss2 = XDocument.Load("https://CodingOnWheels.com/rss.xml");
 XElement[] items3 = rss2.Root.Descendants("item").ToArray();
 object.ReferenceEquals(items1.First(), items3.First()).WriteLine(); // False
 items1.SequenceEqual(items3).WriteLine(); // False
@@ -367,9 +303,8 @@ Notice in the inline XML string, single quotes are used for attribute values, in
 
 LINQ to Objects provides many queries accepting IComparer<T> or IEqualityComparer<T> parameter. To use those queries with XML, LINQ to XML provides 2 built-in comparers:
 
-· XNodeDocumentOrderComparer, which implements IComparer<XNode>. Its Compare method simply calls XNode.CompareDocumentOrder. Its instance is provided by XNode.DocumentOrderComparer property.
-
-· XNodeEqualityComparer, which implements IEqualityComparer<XNode>. Its Equals method simply calls XNode.DeepEquals. Its instance is provided by XNode.EqualityComparer property.
+-   XNodeDocumentOrderComparer, which implements IComparer<XNode>. Its Compare method simply calls XNode.CompareDocumentOrder. Its instance is provided by XNode.DocumentOrderComparer property.
+-   XNodeEqualityComparer, which implements IEqualityComparer<XNode>. Its Equals method simply calls XNode.DeepEquals. Its instance is provided by XNode.EqualityComparer property.
 
 For example, above InDocumentOrder query simply calls OrderBy with XNodeDocumentOrderComparer. Its implementation is equivalent to:
 
@@ -414,7 +349,7 @@ As fore mentioned, XObject can be either node or attribute. So, in the query, If
 The following SelfAndDescendantObjects query is intuitive by name and straightforward to implement:
 
 ```csharp
-public static IEnumerable<XObject\> SelfAndDescendantObjects(this XObject source) =>
+public static IEnumerable<XObject> SelfAndDescendantObjects(this XObject source) =>
 EnumerableEx
 .Return(source)
 .Concat(source.DescendantObjects());
@@ -423,7 +358,7 @@ EnumerableEx
 The following Names query finds a XContainer source for all elements’ and attributes’ names:
 
 ```csharp
-public static IEnumerable<XName\> Names(this XContainer source) =>
+public static IEnumerable<XName> Names(this XContainer source) =>
 (source is XElement element
 ? element.DescendantsAndSelf()
 : source.Descendants())
@@ -440,7 +375,7 @@ As fore mentioned, XName instances are cached, so Distinct is called to remove t
 Above built-in Attributes query finds an element’s attributes. The following AllAttributes queries an XContainer source’s attributes (if it is an element) and all its descendant elements’ attributes:
 
 ```csharp
-public static IEnumerable<XAttribute\> AllAttributes(this XContainer source) =>
+public static IEnumerable<XAttribute> AllAttributes(this XContainer source) =>
 (source is XElement element
 ? element.DescendantsAndSelf()
 : source.Descendants())
@@ -476,25 +411,16 @@ This function is used later when working with XPath.
 
 XPath is a simple query language to select or evaluate objects from an XML tree. It consists of 3 parts:
 
-· axis, e.g.:
-
-o / is to select root node (either a document node, or an element node on the fly)
-
-o /rss/channel/item is to select root node, then select root node’s all <rss> direct child elements, then select each < rss> element’s all <channel> child elements, then select each < channel> element’s all <item> child elements
-
-o /rss/@version is to select root node, then select root node’s all <rss> direct child elements, then select each< rss> element’s version attribute
-
-· node test
-
-o text() is to select all text nodes, comment() is to select all comment nodes, etc.
-
-o /element/text() is to select root node, then select all <element> child elements, then select each <element> element’s all child text nodes.
-
-· predicate:
-
-o \[1\] means select the first node, etc.
-
-o /rss\[1\]/text()\[2\] means to select root node, then select the first <rss> child element, then select that <rss> element’s second child text node.
+-   axis, e.g.:
+    -   / is to select root node (either a document node, or an element node on the fly)
+    -   /rss/channel/item is to select root node, then select root node’s all <rss> direct child elements, then select each < rss> element’s all <channel> child elements, then select each < channel> element’s all <item> child elements
+    -   /rss/@version is to select root node, then select root node’s all <rss> direct child elements, then select each< rss> element’s version attribute
+-   node test
+    -   text() is to select all text nodes, comment() is to select all comment nodes, etc.
+    -   /element/text() is to select root node, then select all <element> child elements, then select each <element> element’s all child text nodes.
+-   predicate:
+    -   \[1\] means select the first node, etc.
+    -   /rss\[1\]/text()\[2\] means to select root node, then select the first <rss> child element, then select that <rss> element’s second child text node.
 
 LINQ to XML also provides a few extension methods to work with XPath. The latest XPath version is 3.0, .NET Standard and LINQ to XML implements XPath 1.0.
 
@@ -503,7 +429,7 @@ The CreateNavigator method creates a XmlXPathNavigator, which can be used for na
 ```csharp
 internal static void XPathNavigator()
 {
-XDocument rss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+XDocument rss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
 XPathNavigator rssNavigator = rss.CreateNavigator();
 rssNavigator.NodeType.WriteLine(); // Root
 rssNavigator.MoveToFirstChild().WriteLine(); // True
@@ -534,7 +460,7 @@ The XPathSelectElements method is a shortcut of calling CreateNavigator to get a
 ```csharp
 internal static void XPathQuery()
 {
-XDocument rss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+XDocument rss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
 rss
 .XPathSelectElements("/rss/channel/item[guid/@isPermaLink='true']/category")
 .GroupBy(
@@ -557,7 +483,7 @@ XPathEvaluate also calls CreateNavigator and then Evaluate, but it is more flexi
 ```csharp
 internal static void XPathEvaluateValue()
 {
-XDocument rss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+XDocument rss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
 double average1 = (double)rss.XPathEvaluate("count(/rss/channel/item/category) div count(/rss/channel/item)");
 average1.WriteLine(); // 4.65
 
@@ -575,7 +501,7 @@ When the XPath is evaluated to a sequence of values, XPathEvaluate outputs IEnum
 ```csharp
 internal static void XPathEvaluateSequence()
 {
-XDocument rss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+XDocument rss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
 ((IEnumerable<object>)rss
 .XPathEvaluate("/rss/channel/item[guid/@isPermaLink='true']/category/text()"))
 .Cast<XText>()
@@ -658,20 +584,13 @@ rss.CreateNamespaceManager()))
 To leverage LINQ to XML, one example is to generate XPath expression for a specified XObject instance, which can be either XAttribute or XNode. The XPath expression can be calculated with the following 3 segments are needed:
 
 1. the XPath of current object’s parent Element, which can be either calculated recursively, or be provided by caller.
-
-2. the XPath of current object, which can be
-
-o @attributeName if it is an attribute
-
-o elementName if it is an element
-
-o node test like text(), comment(), etc., if it is any other type of node.
-
-3. a predicate for current object, which can simply be the position:
-
-o For example, \[2\] can be used to identify a comment node, if there is another sibling comment node before itself
-
-o also, the position predicate can be omitted if current object has no ambiguous sibling objects, so that XPath of parent object combining XPath of current object selects one single object. For example, if current node is a comment node with no sibling comment node, then parentElement/comment() without position predicate is good enough
+1. the XPath of current object, which can be
+    -   @attributeName if it is an attribute
+    -   elementName if it is an element
+    -   node test like text(), comment(), etc., if it is any other type of node.
+1. a predicate for current object, which can simply be the position:
+    -   For example, \[2\] can be used to identify a comment node, if there is another sibling comment node before itself
+    -   also, the position predicate can be omitted if current object has no ambiguous sibling objects, so that XPath of parent object combining XPath of current object selects one single object. For example, if current node is a comment node with no sibling comment node, then parentElement/comment() without position predicate is good enough
 
 First of all, a helper function is needed to calculate the current element or attribute’s name, which should be in simple localName format if the XName instance is not under any namespace, and should be in prefix:localName format if the XName instance is under a namespace. XName.ToString does not work for this requirement, because it returns the {namespaceUri}localName format, as already demonstrated. So, the following XPath extension method can be defined for name:
 
@@ -697,7 +616,7 @@ string.Equals(xPath1, "/", StringComparison.Ordinal) || string.IsNullOrEmpty(xPa
 Regarding XObject can be either one type of attribute, or several types of nodes, apparently attribute does not need the position predicate, while the different types of nodes all share similar logic to identify the position and the ambiguous siblings. So, the following helper function can be defined for XNode:
 
 ```csharp
-private static string XPath<TSource\>(
+private static string XPath<TSource>(
 this TSource source,
 string parentXPath,
 string selfXPath = null,
@@ -734,11 +653,9 @@ sibling => sibling.Name == source.Name);
 
 There is a special case for element. As fore mentioned, an element can be constructed on the fly, and it is the root node of its XML tree. In this case, just outputs XPath root expression /. For other cases, just call above XPath extension method for XNode, with:
 
-· XPath of parent element, if not provided then calculate recursively
-
-· XPath of element name, which can be generated by calling above XPath extension method for XName
-
-· A lambda expression to identify ambiguous sibling elements with the same element name, so that the proper XPath predicate can be generated
+-   XPath of parent element, if not provided then calculate recursively
+-   XPath of element name, which can be generated by calling above XPath extension method for XName
+-   A lambda expression to identify ambiguous sibling elements with the same element name, so that the proper XPath predicate can be generated
 
 The XPath overloads for comment/text/processing instruction nodes are straightforward:
 
@@ -767,7 +684,7 @@ Here are some examples of using these extension methods:
 ```csharp
 internal static void GenerateXPath()
 {
-XDocument aspNetRss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+XDocument aspNetRss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
 XElement element1 = aspNetRss
 .Root
 .Element("channel")

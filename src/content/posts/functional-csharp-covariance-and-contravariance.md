@@ -252,7 +252,7 @@ Variant type parameter is not syntactic sugar, but a runtime feature. The out/in
 Besides generic function types, C# 4.0 also supports variances for generic interfaces. An interface can be viewed as a group of function types of named function members. For example:
 
 ```csharp
-internal interface IOutput<out TOutput\> // TOutput is covariant for all members using TOutput.
+internal interface IOutput<out TOutput> // TOutput is covariant for all members using TOutput.
 {
 TOutput ToOutput(); // TOutput is covariant.
 
@@ -285,7 +285,7 @@ IOutput<Derived> interface does not implement IOutput<Base> interface, but with 
 Similarly, generic interface can also have contravariant type parameter, with in modifier:
 
 ```csharp
-internal interface IInput<in TInput\> // TInput is contravariant for all members using TInput.
+internal interface IInput<in TInput> // TInput is contravariant for all members using TInput.
 {
 void InputToVoid(TInput input); // TInput is contravariant.
 
@@ -318,7 +318,7 @@ IInput<Base> interface does not implement IInput<Derived> interface, but with in
 Similar to generic delegate type, generic interface can have covariant type parameter and contravariant type parameter at the same time:
 
 ```csharp
-internal interface IInputOutput<in TInput, out TOutput\> // TInput is contravariant for all members using TInput, TOutput is covariant for all members usingTOutput.
+internal interface IInputOutput<in TInput, out TOutput> // TInput is contravariant for all members using TInput, TOutput is covariant for all members usingTOutput.
 {
 void InputToVoid(TInput input); // TInput is contravariant.
 
@@ -352,7 +352,7 @@ Base output2 = inputDerivedOutputBase.Output; // .get_Output();
 Not all type parameters can be variant for generic interface. For example:
 
 ```csharp
-internal interface IInvariant<T\>
+internal interface IInvariant<T>
 {
 T Output(); // T is covariant.
 

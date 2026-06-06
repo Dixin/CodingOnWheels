@@ -23,64 +23,43 @@ XML (eXtensible Markup Language) is widely used to represent, store, and transfe
 
 The XML DOM APIs are provided since .NET Framework 1.0. There a set of Xml\* types in System.Xml namespace representing XML structures. The following list shows their inheritance hierarchy:
 
-· XmlNamedNodeMap
-
-o XmlAttributeCollection
-
-· XmlNode
-
-o XmlAttribute
-
-o XmlDocument
-
-o XmlDocumentFragment
-
-o XmlEntity
-
-o XmlLinkedNode
-
-§ XmlCharacterData
-
-§ XmlCDataSection
-
-§ XmlComment
-
-§ XmlSignificantWhitespace
-
-§ XmlText
-
-§ XmlWhitespace
-
-§ XmlDeclaration
-
-§ XmlDocumentType
-
-§ XmlElement
-
-§ XmlEntityReference
-
-§ XmlProcessingInstruction
-
-o XmlNotation
-
-· XmlNodeList
-
-· XmlQualifiedName
+-   XmlNamedNodeMap
+    -   XmlAttributeCollection
+-   XmlNode
+    -   XmlAttribute
+    -   XmlDocument
+    -   XmlDocumentFragment
+    -   XmlEntity
+    -   XmlLinkedNode
+        -   XmlCharacterData
+        -   XmlCDataSection
+        -   XmlComment
+        -   XmlSignificantWhitespace
+        -   XmlText
+        -   XmlWhitespace
+        -   XmlDeclaration
+        -   XmlDocumentType
+        -   XmlElement
+        -   XmlEntityReference
+        -   XmlProcessingInstruction
+    -   XmlNotation
+-   XmlNodeList
+-   XmlQualifiedName
 
 These DOM APIs for XML can be used to model and manipulate XML structures in imperative paradigm. Take the following XML fragment as example:
 
-<rss version\="2.0" xmlns:dixin\="https://weblogs.asp.net/dixin"\>
+<rss version\="2.0" xmlns:dixin\="https://CodingOnWheels.com"\>
 
 ```csharp
 <channel>
 <item>
 <title>LINQ via C#</title>
-<link>https://weblogs.asp.net/dixin/linq-via-csharp</link>
+<link>https://CodingOnWheels.com/posts/linq-via-csharp</link>
 <description>
 <p>This is a tutorial of LINQ and functional programming. Hope it helps.</p>
 </description>
 <pubDate>Mon, 07 Sep 2009 00:00:00 GMT</pubDate>
-<guid isPermaLink="true">https://weblogs.asp.net/dixin/linq-via-csharp</guid>
+<guid isPermaLink="true">https://CodingOnWheels.com/posts/linq-via-csharp</guid>
 <category>C#</category>
 <category>LINQ</category>
 <!--Comment.-->
@@ -98,7 +77,7 @@ internal static void CreateAndSerializeWithDom()
 {
 XmlNamespaceManager namespaceManager = new XmlNamespaceManager(new NameTable());
 const string NamespacePrefix = "dixin";
-namespaceManager.AddNamespace(NamespacePrefix, "https://weblogs.asp.net/dixin");
+namespaceManager.AddNamespace(NamespacePrefix, "https://CodingOnWheels.com");
 
 XmlDocument document = new XmlDocument(namespaceManager.NameTable);
 
@@ -121,7 +100,7 @@ title.InnerText = "LINQ via C#";
 item.AppendChild(title);
 
 XmlElement link = document.CreateElement("link");
-link.InnerText = "https://weblogs.asp.net/dixin/linq-via-csharp";
+link.InnerText = "https://CodingOnWheels.com/posts/linq-via-csharp";
 item.AppendChild(link);
 
 XmlElement description = document.CreateElement("description");
@@ -133,7 +112,7 @@ pubDate.InnerText = new DateTime(2009, 9, 7).ToString("r");
 item.AppendChild(pubDate);
 
 XmlElement guid = document.CreateElement("guid");
-guid.InnerText = "https://weblogs.asp.net/dixin/linq-via-csharp";
+guid.InnerText = "https://CodingOnWheels.com/posts/linq-via-csharp";
 guid.SetAttribute("isPermaLink", "true");
 item.AppendChild(guid);
 
@@ -173,52 +152,52 @@ xmlString.WriteLine();
 
 These APIs have a few disadvantages:
 
-· Any XML structure has to be created with a XmlDocument instance.
+-   Any XML structure has to be created with a XmlDocument instance.
 
-· XML tree has to be built imperatively, node by node.
+-   XML tree has to be built imperatively, node by node.
 
-· Additional work is needed to manage namespaces and prefixes.
+-   Additional work is needed to manage namespaces and prefixes.
 
-· Some operations, like serialization, is not straightforward.
+-   Some operations, like serialization, is not straightforward.
 
 Fortunately, LINQ to XML does not work with these Xml\* types. It redesigns a bunch of X\* types under System.Xml.Linq namespace, and enables LINQ queries for these objects. The following list shows the inheritance hierarchy of all the X\* types, as well as each type’s conversion from/to other types, and their overloaded operators:
 
-· XDeclaration
+-   XDeclaration
 
-· XName: implicit convertible from string, ==, !=
+-   XName: implicit convertible from string, ==, !=
 
-· XNamespace: implicit convertible from string, + string, ==, !=
+-   XNamespace: implicit convertible from string, + string, ==, !=
 
-· XObject
+-   XObject
 
-o XAttribute: explicit convertible to string/bool/bool?/int/int?/uint/uint?/long/long?/ulong/ulong?/float/float?/double/double?/decimal/decimal?/DateTime/DateTime?/TimeSpan/TimeSpan?/Guid/Guid?
+    -   XAttribute: explicit convertible to string/bool/bool?/int/int?/uint/uint?/long/long?/ulong/ulong?/float/float?/double/double?/decimal/decimal?/DateTime/DateTime?/TimeSpan/TimeSpan?/Guid/Guid?
 
-o XNode: DeepEquals
+    -   XNode: DeepEquals
 
-§ XComment
+        -   XComment
 
-§ XContainer
+        -   XContainer
 
-§ XDocument
+        -   XDocument
 
-§ XElement: explicit convertible to string/bool/bool?/int/int?/uint/uint?/long/long?/ulong/ulong?/float/float?/double/double?/decimal/decimal?/DateTime/DateTime?/TimeSpan/TimeSpan?/Guid/Guid?
+        -   XElement: explicit convertible to string/bool/bool?/int/int?/uint/uint?/long/long?/ulong/ulong?/float/float?/double/double?/decimal/decimal?/DateTime/DateTime?/TimeSpan/TimeSpan?/Guid/Guid?
 
-§ XDocumentType
+        -   XDocumentType
 
-§ XProcessingInstruction
+        -   XProcessingInstruction
 
-§ XText
+        -   XText
 
-§ XCData
+        -   XCData
 
-· XStreamingElement
+-   XStreamingElement
 
 As the names suggest, e.g., XNode represents a XML node, XDocument represents a XML document, XName represents XML element name or XML attribute name, etc. And apparently, An XML element/attribute name is essentially a string, so XName implements implicit conversion from string, which provides great convenience. The following example builds the same XML tree with the new LINQ to XML types:
 
 ```csharp
 internal static void CreateAndSerializeWithLinq()
 {
-XNamespace @namespace = "https://weblogs.asp.net/dixin";
+XNamespace @namespace = "https://CodingOnWheels.com";
 XElement rss = new XElement(
 "rss",
 new XAttribute("version", "2.0"),
@@ -228,7 +207,7 @@ new XElement(
 new XElement(
 "item", // Implicitly converted to XName.
 new XElement("title", "LINQ via C#"),
-new XElement("link", "https://weblogs.asp.net/dixin/linq-via-csharp"),
+new XElement("link", "https://CodingOnWheels.com/posts/linq-via-csharp"),
 new XElement(
 "description",
 XElement.Parse("<p>This is a tutorial of LINQ and functional programming. Hope it helps.</p>")),
@@ -236,7 +215,7 @@ new XElement("pubDate", new DateTime(2009, 9, 7).ToString("r")),
 new XElement(
 "guid",
 new XAttribute("isPermaLink", "true"), // "isPermaLink" is implicitly converted to XName.
-"https://weblogs.asp.net/dixin/linq-via-csharp"),
+"https://CodingOnWheels.com/posts/linq-via-csharp"),
 new XElement("category", "C#"),
 new XElement("category", "LINQ"),
 new XComment("Comment."),
@@ -249,13 +228,13 @@ rss.ToString().WriteLine(); // Serialize XDocument to string.
 
 The new APIs is shorter and more intuitive:
 
-· XML structure can be created on the fly, XDocument is not involved in the entire example.
+-   XML structure can be created on the fly, XDocument is not involved in the entire example.
 
-· XML tree can be built declaratively.
+-   XML tree can be built declaratively.
 
-· Easier namespace management, with prefix automatically taken care of.
+-   Easier namespace management, with prefix automatically taken care of.
 
-· To serialize an XML tree, simply call ToString.
+-   To serialize an XML tree, simply call ToString.
 
 ### Types, conversions and operators
 
@@ -284,9 +263,9 @@ processingInstruction.WriteLine(); //< ?xml-stylesheet type="text/xsl" href="Sty
 
 XName is different. LINQ to XML provides 2 equivalent ways to instantiate XName:
 
-· calling XName.Get
+-   calling XName.Get
 
-· implicitly converting from string (which is implemented with XName.Get as well).
+-   implicitly converting from string (which is implemented with XName.Get as well).
 
 The constructor is not exposed, because LINQ to XML caches all the constructed XName instances at runtime, so a XName instance is constructed only once for a specific name. LINQ to XML also implements the == and != operator by checking the reference equality:
 
@@ -313,11 +292,11 @@ XNamespace namespace3 = XNamespace.Get("http://www.w3.org/2000/xmlns/");
 (namespace1 == namespace2).WriteLine(); // True
 (namespace1 != namespace3).WriteLine(); // True
 
-XNamespace @namespace = "https://weblogs.asp.net/dixin";
+XNamespace @namespace = "https://CodingOnWheels.com";
 XName name = @namespace + "localName"; // + operator.
-name.WriteLine(); // {https://weblogs.asp.net/dixin}localName
+name.WriteLine(); // {https://CodingOnWheels.com}localName
 XElement element = new XElement(name, new XAttribute(XNamespace.Xmlns + "dixin", @namespace)); // + operator.
-element.WriteLine(); // <dixin:localName xmlns:dixin="https://weblogs.asp.net/dixin" />
+element.WriteLine(); // <dixin:localName xmlns:dixin="https://CodingOnWheels.com" />
 }
 ```
 
@@ -370,27 +349,27 @@ Here element2’s child element is constructed with null content, so it is an em
 
 In LINQ to XML, XML can be easily read or deserialized to XNode/XElement/XDocument instances in memory. with the following APIs:
 
-· XmlReader (under System.Xml namespace)
+-   XmlReader (under System.Xml namespace)
 
-· XNode.CreateReader, XNode.ReadFrom
+-   XNode.CreateReader, XNode.ReadFrom
 
-· XDocument.Load, XDocument.Parse
+-   XDocument.Load, XDocument.Parse
 
-· XElement.Load, XElement.Parse
+-   XElement.Load, XElement.Parse
 
 The APIs accepting URI, for example:
 
 ```csharp
 internal static void Read()
 {
-using (XmlReader reader = XmlReader.Create("https://weblogs.asp.net/dixin/rss"))
+using (XmlReader reader = XmlReader.Create("https://CodingOnWheels.com/rss.xml"))
 {
 reader.MoveToContent();
 XNode node = XNode.ReadFrom(reader);
 }
 
 XElement element1 = XElement.Parse("<html><head></head><body></body></html>");
-XElement element2 = XElement.Load("https://weblogs.asp.net/dixin/rss");
+XElement element2 = XElement.Load("https://CodingOnWheels.com/rss.xml");
 
 XDocument document1 = XDocument.Parse("<html><head></head><body></body></html>");
 XDocument document2 = XDocument.Load("https://microsoft.com"); // Succeed.
@@ -404,7 +383,7 @@ Reading an RSS feed to construct an XML tree usually work smoothly, since RSS is
 The above example reads entire XML document and deserialize the string to XML tree in the memory. Regarding the specified XML can have arbitrary size, XmlReader and XNode.ReadFrom can also read XML fragment by fragment:
 
 ```csharp
-internal static IEnumerable<XElement\> RssItems(string rssUri)
+internal static IEnumerable<XElement> RssItems(string rssUri)
 {
 using (XmlReader reader = XmlReader.Create(rssUri))
 {
@@ -426,26 +405,26 @@ As discussed in the LINQ to Objects chapter, function with yield return statemen
 
 The following APIs are provided to serialize XML to string, or write XML to somewhere (file system, memory, etc.):
 
-· XmlWriter
+-   XmlWriter
 
-· XObject.ToString
+-   XObject.ToString
 
-· XNode.ToString, XNode.WriteTo
+-   XNode.ToString, XNode.WriteTo
 
-· XContainer.CreateWriter
+-   XContainer.CreateWriter
 
-· XDocument.Save
+-   XDocument.Save
 
-· XElement.Save
+-   XElement.Save
 
-· XStramingElement.Save, XStramingElement.ToString, XStreamingElement.WriteTo
+-   XStramingElement.Save, XStramingElement.ToString, XStreamingElement.WriteTo
 
 For example:
 
 ```csharp
 internal static void Write()
 {
-XDocument document1 = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+XDocument document1 = XDocument.Load("https://CodingOnWheels.com/rss.xml");
 using (FileStream stream = File.OpenWrite(Path.GetTempFileName()))
 {
 document1.Save(stream);

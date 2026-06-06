@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/lambda-calculus-via-csharp-5-list](/posts/lambda-calculus-via-csharp-5-list "https://weblogs.asp.net/dixin/lambda-calculus-via-csharp-5-list")**
+## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list](/posts/lambda-calculus-via-csharp-5-list "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list")**
 
 This part will demonstrate how to use lambda expressions to encode another data structure - list (Church list in [lambda calculus](http://en.wikipedia.org/wiki/Lambda_calculus) or [LinkedList<T>](https://msdn.microsoft.com/en-us/library/he2s3bh7.aspx) in .NET).
 

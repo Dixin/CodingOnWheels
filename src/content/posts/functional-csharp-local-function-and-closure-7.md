@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/functional-csharp-local-function-and-closure](/posts/functional-csharp-local-function-and-closure "https://weblogs.asp.net/dixin/functional-csharp-local-function-and-closure")**[](/posts/functional-csharp-fundamentals "https://weblogs.asp.net/dixin/functional-csharp-fundamentals")
+## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-local-function-and-closure](/posts/functional-csharp-local-function-and-closure "https://CodingOnWheels.com/posts/functional-csharp-local-function-and-closure")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
 
 ## Local function
 

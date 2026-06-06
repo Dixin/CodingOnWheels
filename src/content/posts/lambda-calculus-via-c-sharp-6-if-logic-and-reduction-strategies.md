@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/lambda-calculus-via-c-2-boolean-and-logic](/posts/lambda-calculus-via-c-2-boolean-and-logic "https://weblogs.asp.net/dixin/lambda-calculus-via-c-2-boolean-and-logic")**
+## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-2-boolean-and-logic](/posts/lambda-calculus-via-c-2-boolean-and-logic "https://CodingOnWheels.com/posts/lambda-calculus-via-c-2-boolean-and-logic")**
 
 The if logic is already built in [Church Booleans](/posts/lambda-calculus-via-c-sharp-4-encoding-church-booleans).
 

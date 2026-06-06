@@ -408,9 +408,9 @@ private static async Task<string> AwaitObservable2()
 {
     IObservable<string> observable = new string[]
         {
-            "https://weblogs.asp.net/dixin/understanding-c-sharp-async-await-1-compilation",
-            "https://weblogs.asp.net/dixin/understanding-c-sharp-async-await-2-awaitable-awaiter-pattern",
-            "https://weblogs.asp.net/dixin/understanding-c-sharp-async-await-3-runtime-context",
+            "https://CodingOnWheels.com/posts/understanding-c-sharp-async-await-1-compilation",
+            "https://CodingOnWheels.com/posts/understanding-c-sharp-async-await-2-awaitable-awaiter-pattern",
+            "https://CodingOnWheels.com/posts/understanding-c-sharp-async-await-3-runtime-context",
         }
         .ToObservable<string>()
         .SelectMany(async url => await new WebClient().DownloadStringTaskAsync(url))

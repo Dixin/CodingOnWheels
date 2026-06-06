@@ -15,7 +15,7 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## **EF Core version of this article:** [**https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-6-query-data-loading**](/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-6-query-data-loading")
+## **EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading**](/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading")
 
 In LINQ to Objects, query methods returning IEnumerable<T> implements deferred execution. Similarly, in LINQ to Entities, query methods returning IQueryable<T> implements deferred execution too.
 

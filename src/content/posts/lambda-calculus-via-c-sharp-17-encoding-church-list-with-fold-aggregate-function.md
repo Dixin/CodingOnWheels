@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/lambda-calculus-via-csharp-5-list](/posts/lambda-calculus-via-csharp-5-list "https://weblogs.asp.net/dixin/lambda-calculus-via-csharp-5-list")**
+## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list](/posts/lambda-calculus-via-csharp-5-list "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list")**
 
 A third way to encode Church list, is to use [fold function](http://en.wikipedia.org/wiki/Fold_\(higher-order_function\)) (also called [aggregate in C#/.NET](https://msdn.microsoft.com/en-us/library/vstudio/bb549218.aspx)):
 

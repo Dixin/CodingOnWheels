@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Parallel LINQ in Depth series](/archive/?tag=Parallel%20LINQ)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/parallel-linq-2-partitioning](/posts/parallel-linq-2-partitioning "https://weblogs.asp.net/dixin/parallel-linq-2-partitioning")**
+## **Latest version: [https://CodingOnWheels.com/posts/parallel-linq-2-partitioning](/posts/parallel-linq-2-partitioning "https://CodingOnWheels.com/posts/parallel-linq-2-partitioning")**
 
 The first step of Parallel LINQ is partitioning. The source values is split into several partitions, so that multiple threads can execute the query logic in parallel.
 

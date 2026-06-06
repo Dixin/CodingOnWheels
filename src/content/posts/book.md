@@ -9,7 +9,7 @@ draft: false
 lang: ""
 ---
 
-### \[Latest version: [https://weblogs.asp.net/dixin/linq-via-csharp](/posts/linq-via-csharp)\]
+### \[Latest version: [https://CodingOnWheels.com/posts/linq-via-csharp](/posts/linq-via-csharp)\]
 
 ### Keywords
 

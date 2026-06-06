@@ -34,7 +34,7 @@ internal class HelperMethods
     {
         using (WebClient client = new WebClient())
         {
-            Enumerable.Repeat("http://weblogs.asp.net/dixin", 10).Select(client.DownloadString).ToArray();
+            Enumerable.Repeat("http://CodingOnWheels.com", 10).Select(client.DownloadString).ToArray();
         }
     }
 

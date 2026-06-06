@@ -15,7 +15,7 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## EF Core version of this article: [https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-4-query-methods](/posts/entity-framework-core-and-linq-to-entities-4-query-methods "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-4-query-methods")
+## EF Core version of this article: [https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-4-query-methods](/posts/entity-framework-core-and-linq-to-entities-4-query-methods "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-4-query-methods")
 
 This part discusses how to query SQL database with the defined mapping classes. Entity Framework and LINQ to Entities supports most of the extension methods provided by Queryable class:
 

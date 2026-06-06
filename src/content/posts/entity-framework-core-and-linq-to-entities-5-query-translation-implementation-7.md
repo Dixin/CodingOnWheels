@@ -15,9 +15,9 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## **Latest EF Core version of this article:** [**https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-5-query-translation-implementation**](/posts/entity-framework-core-and-linq-to-entities-5-query-translation-implementation "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-5-query-translation-implementation")
+## **Latest EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-5-query-translation-implementation**](/posts/entity-framework-core-and-linq-to-entities-5-query-translation-implementation "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-5-query-translation-implementation")
 
-## **EF version of this article:** [https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-5-query-translation](/posts/entity-framework-and-linq-to-entities-5-query-translation "https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-5-query-translation")
+## **EF version of this article:** [https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-5-query-translation](/posts/entity-framework-and-linq-to-entities-5-query-translation "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-5-query-translation")
 
 The previous part demonstrated what are the SQL translations of the LINQ to Entities queries. This part discusses how the translation is implemented. Regarding different database systems can have different query languages or different query APIs, EF/Core implement a provider model to work with different kinds of databases. In EF Core, the base libraries are the Microsoft.EntityFrameworkCore and Microsoft.EntityFrameworkCore.Relational NuGet packages. Microsoft.EntityFrameworkCore provides the database provider contracts as Microsoft.EntityFrameworkCore.Storage.IDatabaseProviderServices interface. And the SQL database support is implemented by the Microsoft.EntityFrameworkCore,SqlServer NuGet package, which provides Microsoft.EntityFrameworkCore.Storage.Internal.SqlServerDatabaseProviderServices type to implement IDatabaseProviderServices. There are other libraries for different databases, like Microsoft.EntityFrameworkCore.SQLite NuGet package for SQLite, etc.
 

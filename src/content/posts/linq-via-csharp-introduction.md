@@ -25,9 +25,8 @@ In 2002, C# 1.0 was initially released along with .NET Framework 1.0 on Windows 
 
 Microsoft .NET (pronounced “dot net”) Framework is a free development framework on Windows, widely used to build applications and services with simple programming model and good productivity. .NET Framework is based on Common Intermediate Language (CIL), an object-oriented assembly language. It mainly consists of Framework Class Library (FCL) and Common Language Runtime (CLR):
 
-· FCL is a set of built-in libraries of rich APIs implemented as classes, interfaces, and structures, etc. It is the fundamental used by .NET applications and services to access system functionality. FCL provides primitive types, exceptions, collections, I/O, threading, reflection, text processing, database access, and LINQ queries, etc.
-
-· CLR is the runtime environment that works like a virtual machine. All .NET applications and services are executed by CLR. CLR provides features including [automatic memory management](https://msdn.microsoft.com/en-us/library/f144e03t.aspx), thread management, structured exception handling, type safety, security, just-in-time (JIT) compiler, etc.
+-   FCL is a set of built-in libraries of rich APIs implemented as classes, interfaces, and structures, etc. It is the fundamental used by .NET applications and services to access system functionality. FCL provides primitive types, exceptions, collections, I/O, threading, reflection, text processing, database access, and LINQ queries, etc.
+-   CLR is the runtime environment that works like a virtual machine. All .NET applications and services are executed by CLR. CLR provides features including [automatic memory management](https://msdn.microsoft.com/en-us/library/f144e03t.aspx), thread management, structured exception handling, type safety, security, just-in-time (JIT) compiler, etc.
 
 C# language (pronounced “c sharp”) is a general purpose high level language designed for .NET Framework. It is type-safe, generic, component-based, object-oriented and functional. It was standardized as ECMA 334 in 2002 and approved as ISO/IEC 23270 in 2003. Microsoft’s C# compiler is an implementation of these standards. It compiles C# code to CIL code, so that the CIL code is JIT-compiled to machine code by CLR, and the machine code is executed by CLR.
 
@@ -37,9 +36,9 @@ C# is designed to be an object-oriented programming language from the beginning,
 
 The real-world programs work with data in many different forms, like data objects in local memory, data in XML format, data stored in cloud database, etc. Traditionally, a specific programming model is required to work with each data format. For example, traditionally, querying a sequence of data objects in local memory can be very different from querying data rows from database table. For .NET languages and .NET Framework, Microsoft provides a unified functional programming model to query different data sources, that is LINQ (pronounced “link”), standing for “Language-INtegrated Query”. LINQ consists of language syntax and library APIs:
 
-· New keywords and new syntax are introduced to the .NET languages. C# has got important functional language features, including extension methods, lambda expression, query expression, etc.
+-   New keywords and new syntax are introduced to the .NET languages. C# has got important functional language features, including extension methods, lambda expression, query expression, etc.
 
-· New APIs are implemented in .NET FCL, including interfaces and classes to represent the data sources, query methods to implement the query logic, etc.
+-   New APIs are implemented in .NET FCL, including interfaces and classes to represent the data sources, query methods to implement the query logic, etc.
 
 Microsoft implements LINQ syntax in .NET languages like C#, VB.NET, F#, as well as LINQ APIs in FCL to work with .NET objects, XML data, and database. At compile time, LINQ data queries written in native language keywords and syntax are compiled to regular calls of LINQ APIs; At runtime, the LINQ API calls are executed by CLR to get the work done with the specified data sources. The model of LINQ is extensible. The language syntax can work both built-in FCL APIs and custom APIs, which enables LINQ working with many data sources.
 
@@ -69,17 +68,12 @@ The following table summarizes these frameworks’ languages, base API surface, 
 
 As fore mentioned, C# has been standardized since its beginning. For years, the same C# language works on multiple frameworks, but each framework used to provide its own base API surface. Since 2016, Microsoft released .NET Standard specification to provide a consistent development experience, prevent the API fragmentation of different frameworks or platforms, and enable better code sharing. .NET Standard is a unified list of APIs, which should be implemented as base API surface by any framework in the .NET family. .NET Standard is represented by NuGet package NETStandard.Library, which has a reference assembly netstandard.dll. The latest major release of .NET Standard is 2.0. It has 32k+ APIs. It is supported since:
 
-· .NET Framework 4.6.1/4.6.2/4.7 (support with additional files), .NET Framework 4.7.1 (built-in support)
-
-· .NET Core 2.0
-
-· Mono 5.4
-
-· UWP 10.0.16299
-
-· Xamarin.Forms 2.4, Xamarin.Mac 3.8, Xamarin.Android 8.0, Xamarin.iOS 10.14
-
-· Unity 2018
+-   .NET Framework 4.6.1/4.6.2/4.7 (support with additional files), .NET Framework 4.7.1 (built-in support)
+-   .NET Core 2.0
+-   Mono 5.4
+-   UWP 10.0.16299
+-   Xamarin.Forms 2.4, Xamarin.Mac 3.8, Xamarin.Android 8.0, Xamarin.iOS 10.14
+-   Unity 2018
 
 [![clip_image002[9]](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Introducing-LINQ-1-What-Is-LINQ_10D64/clip_image002[9]_thumb.gif "clip_image002[9]")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Introducing-LINQ-1-What-Is-LINQ_10D64/clip_image002[9].gif)
 
@@ -113,79 +107,45 @@ After reading this book, you should be able to learn internal detailsmaster the 
 
 The contents31 chapters are organized as the following chaptersinto 3 distinct parts: code, data, and theories:
 
-· Part 1 Code - covers functional programming via C#, and fundamentals of LINQ.
-
-o Chapter 1CODE: Functional programming and LINQ paradigm
-
-§ What is LINQ, how LINQ uses language to work with many different data domains.
-
-· Programming paradigm, imperative vs. declarative programming, object-oriented vs. functional programmingand LINQ Paradigm.
-
-o Chapter 1-2 Getting started: Introduce the basic concepts of .NET, C#, LINQ, gives an overview of functional programming and LINQ programming for different data domains, and warms up the basic syntax of C# language.
-
-o Chapter 2 C#3-14 functional programming in-depth
-
-§ C# fundamentals for beginners.
-
-o C#: Aspects of functional programming via C#, including named function type, named/anonymous/, function polymorphism, local function, closure, function input/output, delegate, function group, lambda expression, higher-order function, currying, partial application, first class function, function. Function composition, LINQ query expression, covariance/contravariance, immutability, tuple, purity, asyncasynchronous function, pattern matching, etc., including how C# is processed at compile time and runtime.
-
-· Part 2 Data - covers how to use functionalDATA: Using Functional LINQ to workWork with different data domains in the real world, and how LINQ works internally.Data.
-
-o Chapter 315-18 LINQ to Objects
-
-§ : How to use functional LINQ queries to work with objects, covering all LINQ and Ix.
-
-o How built-in standard queries and queries in interactive extension, how the LINQ to Objects query methods are implemented internally, how to implement useful custom LINQ queries.
-
-o Chapter 419 LINQ to XML
-
-§ : How to modelingmodel XML data, andhow to use functional LINQ queries to work with XML data.
-
-o How, how to use the other LINQ to XML APIs to manipulate XML data.
-
-o Chapter 520-21 Parallel LINQ
-
-§ : How to use parallelized functional LINQ queries to work with objects.
-
-o Performance analysis for , internal partitioning, and parallel/sequential LINQ queries query performance.
-
-o Chapter 622-25 Entity Framework/ Core and LINQ to Entities
-
-§ : How to model database with object-relational mapping, and use functional LINQ queries to work with relational data in database.
-
-§ How, how the C# LINQ to Entities queries are implemented to work with database.
-
-o Howinternally translated and executed, how to change data in database, and handle concurrent conflicts.
-
-§ Performance tips and asynchrony.
-
-· Part 3 Theories - demystifies the abstract mathematics theories, which are the rationale and foundationsDemystifying the essentials of LINQFunctional Programming and functional programmingLINQ.
-
-o Chapter 726-28 Lambda Calculus via C#
-
-§ : Core concepts of lambda calculus, bound and free variables, reduction (α-conversion, β-reduction, η-conversion), etc.
-
-§ How to use lambda functions to represent values, data structures and computation, including Church Boolean, Church numbers, Church pair, Church list, and their operations.
-
-o Combinators and combinatory logic, including SKI combinator calculus, fixed point combinator for function recursion, etc.
-
-o Chapter 829-31 Category Theory via C#
-
-§ : Core concepts of category theory, including category, object, morphism, monoid, functor, natural transformation, applicative functor, monad, and their laws.
-
-§ How these concepts are applied in functional programming and LINQ.
-
-o How to manage I/O, state, exception handling, shared environment, logging, and continuation, etc., in functional programming.
+-   Part 1 Code - covers functional programming via C#, and fundamentals of LINQ.
+    -   Chapter 1CODE: Functional programming and LINQ paradigm
+        -   What is LINQ, how LINQ uses language to work with many different data domains.
+-   Programming paradigm, imperative vs. declarative programming, object-oriented vs. functional programmingand LINQ Paradigm.
+    -   Chapter 1-2 Getting started: Introduce the basic concepts of .NET, C#, LINQ, gives an overview of functional programming and LINQ programming for different data domains, and warms up the basic syntax of C# language.
+    -   Chapter 2 C#3-14 functional programming in-depth
+        -   C# fundamentals for beginners.
+    -   C#: Aspects of functional programming via C#, including named function type, named/anonymous/, function polymorphism, local function, closure, function input/output, delegate, function group, lambda expression, higher-order function, currying, partial application, first class function, function. Function composition, LINQ query expression, covariance/contravariance, immutability, tuple, purity, asyncasynchronous function, pattern matching, etc., including how C# is processed at compile time and runtime.
+-   Part 2 Data - covers how to use functionalDATA: Using Functional LINQ to workWork with different data domains in the real world, and how LINQ works internally.Data.
+    -   Chapter 315-18 LINQ to Objects
+        -   : How to use functional LINQ queries to work with objects, covering all LINQ and Ix.
+    -   How built-in standard queries and queries in interactive extension, how the LINQ to Objects query methods are implemented internally, how to implement useful custom LINQ queries.
+    -   Chapter 419 LINQ to XML
+        -   : How to modelingmodel XML data, andhow to use functional LINQ queries to work with XML data.
+    -   How, how to use the other LINQ to XML APIs to manipulate XML data.
+    -   Chapter 520-21 Parallel LINQ
+        -   : How to use parallelized functional LINQ queries to work with objects.
+    -   Performance analysis for , internal partitioning, and parallel/sequential LINQ queries query performance.
+    -   Chapter 622-25 Entity Framework/ Core and LINQ to Entities
+        -   : How to model database with object-relational mapping, and use functional LINQ queries to work with relational data in database.
+        -   How, how the C# LINQ to Entities queries are implemented to work with database.
+    -   Howinternally translated and executed, how to change data in database, and handle concurrent conflicts.
+        -   Performance tips and asynchrony.
+-   Part 3 Theories - demystifies the abstract mathematics theories, which are the rationale and foundationsDemystifying the essentials of LINQFunctional Programming and functional programmingLINQ.
+    -   Chapter 726-28 Lambda Calculus via C#
+        -   : Core concepts of lambda calculus, bound and free variables, reduction (α-conversion, β-reduction, η-conversion), etc.
+        -   How to use lambda functions to represent values, data structures and computation, including Church Boolean, Church numbers, Church pair, Church list, and their operations.
+    -   Combinators and combinatory logic, including SKI combinator calculus, fixed point combinator for function recursion, etc.
+    -   Chapter 829-31 Category Theory via C#
+        -   : Core concepts of category theory, including category, object, morphism, monoid, functor, natural transformation, applicative functor, monad, and their laws.
+        -   How these concepts are applied in functional programming and LINQ.
+    -   How to manage I/O, state, exception handling, shared environment, logging, and continuation, etc., in functional programming.
 
 This tutorial delivers highly reusable knowledge:
 
-· It covers C# knowledge in detail, which can be generally used in any programming paradigms other than functional programming.
-
-· It is a cross platform tutorial, covering both .NET Framework for Windows and .NET Core for Windows, macOS, Linux
-
-· It delivers LINQ usage and implementation for mainstream data domains, which also enables developer to use the LINQ technologies for other data domains, or build custom LINQ APIs for specific data scenarios.
-
-· It also demystifies the abstract mathematics knowledge for functional programming, which applies to all functional languages, so it greatly helps understanding any other functional languages too.
+-   It covers C# knowledge in detail, which can be generally used in any programming paradigms other than functional programming.
+-   It is a cross platform tutorial, covering both .NET Framework for Windows and .NET Core for Windows, macOS, Linux
+-   It delivers LINQ usage and implementation for mainstream data domains, which also enables developer to use the LINQ technologies for other data domains, or build custom LINQ APIs for specific data scenarios.
+-   It also demystifies the abstract mathematics knowledge for functional programming, which applies to all functional languages, so it greatly helps understanding any other functional languages too.
 
 ### Code examples
 
@@ -201,13 +161,10 @@ To save the space and paper, all code examples in this tutorial omit argument nu
 
 All tools, libraries, services involvedused in this tutorialbook are either free, or withhaving free option available. In theory, any text editor can be used for C# programming, but a powerpowerful tools can greatly improve the productivity. The following are the free tools provided by Microsoft:
 
-· [Visual Studio Community Edition](https://www.visualstudio.com/en-us/products/vs-2015-product-editions.aspx): the free and fully featured Visual Studio for Windows, the powerful and productive is the flagship integrated development environment (IDE) for C#/.NET and other development# with .NET Core, .NET Framework, UWP, Xamarin, etc. Its Community Edition is free for induvial developers or open source projects.
-
-· [Visual Studio Code](https://code.visualstudio.com/):[Visual Studio for Mac](https://docs.microsoft.com/en-us/visualstudio/mac/) Community Edition is the Visual Studio IDE available for macOS with the free Community Edition, supporting C# with .NET Core, Xamarin, etc.
-
-· [Visual Studio Code](https://code.visualstudio.com/) is a free and rich code editor for Windows, macOS and Linux, supporting codingwith full support of C# and other languages with extensionswith .NET Core, as well as limited support of C# with .NET Framework on Windows.
-
-· [Visual Studio for Mac](https://docs.microsoft.com/en-us/visualstudio/mac/): the free and sophisticated IDE for macOS, supporting development of .NET Core, Xamarin, etc.
+-   [Visual Studio Community Edition](https://www.visualstudio.com/en-us/products/vs-2015-product-editions.aspx): the free and fully featured Visual Studio for Windows, the powerful and productive is the flagship integrated development environment (IDE) for C#/.NET and other development# with .NET Core, .NET Framework, UWP, Xamarin, etc. Its Community Edition is free for induvial developers or open source projects.
+-   [Visual Studio Code](https://code.visualstudio.com/):[Visual Studio for Mac](https://docs.microsoft.com/en-us/visualstudio/mac/) Community Edition is the Visual Studio IDE available for macOS with the free Community Edition, supporting C# with .NET Core, Xamarin, etc.
+-   [Visual Studio Code](https://code.visualstudio.com/) is a free and rich code editor for Windows, macOS and Linux, supporting codingwith full support of C# and other languages with extensionswith .NET Core, as well as limited support of C# with .NET Framework on Windows.
+-   [Visual Studio for Mac](https://docs.microsoft.com/en-us/visualstudio/mac/): the free and sophisticated IDE for macOS, supporting development of .NET Core, Xamarin, etc.
 
 ### Start codingCoding with Visual Studio (Windows)
 
@@ -251,25 +208,16 @@ Then right click the project, in the context menu click Properties. In the proje
 
 Now right click the project again, in the context menu click “Manage NuGet Packages” to install the NuGet packages used in this tutorialbook:
 
-· FSharp.Core
-
-· linqtotwitter
-
-· Microsoft.Azure.DocumentDB.Core
-
-· Microsoft.EntityFrameworkCore.SqlServer
-
-· Microsoft.Extensions.Configuration.Json
-
-· Mono.Cecil
-
-· System.Interactive
-
-· System.Memory
-
-· System.Reflection.Emit.Lightweight
-
-· System.Threading.Tasks.Extensions
+-   FSharp.Core
+-   linqtotwitter
+-   Microsoft.Azure.DocumentDB.Core
+-   Microsoft.EntityFrameworkCore.SqlServer
+-   Microsoft.Extensions.Configuration.Json
+-   Mono.Cecil
+-   System.Interactive
+-   System.Memory
+-   System.Reflection.Emit.Lightweight
+-   System.Threading.Tasks.Extensions
 
 [![clip_image016[9]](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Introducing-LINQ-1-What-Is-LINQ_10D64/clip_image016[9]_thumb.gif "clip_image016[9]")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Introducing-LINQ-1-What-Is-LINQ_10D64/clip_image016[9].gif)
 
@@ -283,33 +231,22 @@ For .NET Framework, create a console application ofapp under Visual WindowsC#, W
 
 Change the language version to latest as well, and install the following packages:
 
-· ConcurrencyVisualizer
-
-· EntityFramework
-
-· FSharp.Core
-
-· linqtotwitter
-
-· Microsoft.Azure.DocumentDB
-
-· Microsoft.TeamFoundationServer.ExtendedClient
-
-· Mono.Cecil
-
-· System.Collections.Immutable
-
-· System.Interactive
-
-· System.Memory
-
-· System.Threading.Tasks.Extensions
+-   ConcurrencyVisualizer
+-   EntityFramework
+-   FSharp.Core
+-   linqtotwitter
+-   Microsoft.Azure.DocumentDB
+-   Microsoft.TeamFoundationServer.ExtendedClient
+-   Mono.Cecil
+-   System.Collections.Immutable
+-   System.Interactive
+-   System.Memory
+-   System.Threading.Tasks.Extensions
 
 Then right click the created project’s References child node, in the context menu click Add Reference…, and add the following framework assemblies:
 
-· System.Configuration
-
-· System.Transactions
+-   System.Configuration
+-   System.Transactions
 
 ThisThe Parallel LINQ chapterchapters also usesuse a free Visual Studio extensionsextension for .NET Framework, Concurrent Visualizer, provided by Microsoft. it can be installed from Tools => Extensions and Updates….
 

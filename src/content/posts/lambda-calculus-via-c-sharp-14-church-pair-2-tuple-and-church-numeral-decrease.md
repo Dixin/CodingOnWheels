@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/lambda-calculus-via-csharp-4-tuple-and-signed-numeral](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral "https://weblogs.asp.net/dixin/lambda-calculus-via-csharp-4-tuple-and-signed-numeral")**
+## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral")**
 
 In the [Church numeral arithmetic](/posts/lambda-calculus-via-c-sharp-9-wrapping-church-numerals-and-arithmetic) part, the Decrease was defined as:
 

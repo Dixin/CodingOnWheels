@@ -11,7 +11,7 @@ lang: ""
 
 ## \[[LINQ via C# series](/posts/linq-via-csharp)\]
 
-## **Latest version:** https://weblogs.asp.net/dixin/introducing-linq-2-what-is-linq
+## **Latest version:** https://CodingOnWheels.com/posts/introducing-linq-2-what-is-linq
 
 As fore mentioned, LINQ consists of syntax in languages and APIs in libraries:
 
@@ -131,7 +131,7 @@ The query creation syntax is exactly the same as sequential LINQ to Objects. The
 
 ### LINQ to XML
 
-LINQ to XML queries XML data. Take an ASP.NET blog RSS feed [https://weblogs.asp.net/dixin/rss](/posts/rss "https://weblogs.asp.net/dixin/rss") as example:
+LINQ to XML queries XML data. Take an ASP.NET blog RSS feed [https://CodingOnWheels.com/rss.xml](/posts/rss "https://CodingOnWheels.com/rss.xml") as example:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -142,10 +142,10 @@ LINQ to XML queries XML data. Take an ASP.NET blog RSS feed [https://weblogs.asp
     <description>https://weblogs.asp.net:443/dixin/</description>
     <item>
       <title>EntityFramework.Functions: Code First Functions for Entity Framework</title>
-      <link>https://weblogs.asp.net/dixin/entityframework.functions</link>
+      <link>https://CodingOnWheels.com/posts/entityframework.functions</link>
       <description><!-- Description. --></description>
       <pubDate>Mon Dec 17, 2015 06:27:56 GMT</pubDate>
-      <guid isPermaLink="true">https://weblogs.asp.net/dixin/entityframework.functions</guid>
+      <guid isPermaLink="true">https://CodingOnWheels.com/posts/entityframework.functions</guid>
       <category>.NET</category>
       <category>LINQ</category>
       <category>Entity Framework</category>
@@ -162,7 +162,7 @@ It is a XML document, and can be the source of LINQ to XML. This following examp
 ```csharp
 internal static void LinqToXml()
 {
-    XDocument feed = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument feed = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     IEnumerable<XElement> source = feed.Descendants("item"); // Get source.
     IEnumerable<string> query =
         from item in source
@@ -484,7 +484,7 @@ internal static partial class Imperative
 {
     internal static void Xml()
     {
-        XPathDocument feed = new XPathDocument("https://weblogs.asp.net/dixin/rss");
+        XPathDocument feed = new XPathDocument("https://CodingOnWheels.com/rss.xml");
         XPathNavigator navigator = feed.CreateNavigator();
         XPathExpression selectExpression = navigator.Compile("//item[guid/@isPermaLink='true']/title/text()");
         XPathExpression sortExpression = navigator.Compile("../../pubDate/text()");

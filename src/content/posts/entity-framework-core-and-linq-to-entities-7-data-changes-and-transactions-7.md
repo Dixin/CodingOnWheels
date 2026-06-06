@@ -15,9 +15,9 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## **Latest EF Core version of this article:** [**https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions**](/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions")
+## **Latest EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions**](/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions")
 
-## EF version of this article: [https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-7-data-changes](/posts/entity-framework-and-linq-to-entities-7-data-changes "https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-7-data-changes") and [https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-8-transactions](/posts/entity-framework-and-linq-to-entities-8-transactions "https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-8-transactions")
+## EF version of this article: [https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-7-data-changes](/posts/entity-framework-and-linq-to-entities-7-data-changes "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-7-data-changes") and [https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-8-transactions](/posts/entity-framework-and-linq-to-entities-8-transactions "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-8-transactions")
 
 Besides LINQ to Entities queries, EF/Core also provides rich APIs for data changes, with imperative paradigm.
 

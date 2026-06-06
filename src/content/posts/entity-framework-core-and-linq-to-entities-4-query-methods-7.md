@@ -15,9 +15,9 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## Latest EF Core version of this article: [https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-4-query-methods](/posts/entity-framework-core-and-linq-to-entities-4-query-methods "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-4-query-methods")
+## Latest EF Core version of this article: [https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-4-query-methods](/posts/entity-framework-core-and-linq-to-entities-4-query-methods "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-4-query-methods")
 
-## EF version of this article: [https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-4-query-methods](/posts/entity-framework-and-linq-to-entities-4-query-methods "https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-4-query-methods")
+## EF version of this article: [https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-4-query-methods](/posts/entity-framework-and-linq-to-entities-4-query-methods "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-4-query-methods")
 
 This part discusses how to query SQL database with the defined mapping entities. In EF/Core, LINQ to Entities supports most of the methods provided by Queryable:
 

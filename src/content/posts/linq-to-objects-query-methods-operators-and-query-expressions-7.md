@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/linq-to-objects-query-methods-operators-and-query-expressions](/posts/linq-to-objects-query-methods-operators-and-query-expressions "https://weblogs.asp.net/dixin/linq-to-objects-query-methods-operators-and-query-expressions")**
+## **Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-query-methods-operators-and-query-expressions](/posts/linq-to-objects-query-methods-operators-and-query-expressions "https://CodingOnWheels.com/posts/linq-to-objects-query-methods-operators-and-query-expressions")**
 
 This part discusses the usages of built-in LINQ to Objects query methods and query expressions. As fore mentioned, these query methods (also called [standard query operators](http://msdn.microsoft.com/en-us/library/bb397896.aspx)) are provided in System.Linq.Enumerable type, most of which are IEnumerable<T> extension methods. They can be categorized by return type:
 

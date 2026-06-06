@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[LINQ to XML in Depth series](/archive/?tag=LINQ%20to%20XML)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/linq-to-xml-2-query-methods](/posts/linq-to-xml-2-query-methods "https://weblogs.asp.net/dixin/linq-to-xml-2-query-methods")**
+## **Latest version: [https://CodingOnWheels.com/posts/linq-to-xml-2-query-methods](/posts/linq-to-xml-2-query-methods "https://CodingOnWheels.com/posts/linq-to-xml-2-query-methods")**
 
 As fore mentioned, LINQ to XML is just a specialized LINQ to Objects, so all the LINQ to Objects query methods can be used in LINQ to XML queries. LINQ to XML provides many function members and other methods for XML tree navigation, ordering, XPath querying, etc. The following list shows these functions and their return types:
 
@@ -146,7 +146,7 @@ The following example queries direct child elements. In RSS feed, each <item> ca
 ```csharp
 internal static void ChildElements()
 {
-    XDocument rss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument rss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     IEnumerable<string> categories = rss
         .Root // <rss>.
         .Element("channel") // Single <channel> under <rss>.
@@ -218,13 +218,13 @@ Regarding all the X\* types are reference types, when querying the same XML tree
 ```csharp
 internal static void ResultReferences()
 {
-    XDocument rss1 = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument rss1 = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     XElement[] items1 = rss1.Descendants("item").ToArray();
     XElement[] items2 = rss1.Element("rss").Element("channel").Elements("item").ToArray();
     object.ReferenceEquals(items1.First(), items2.First()).WriteLine(); // True
     items1.SequenceEqual(items2).WriteLine(); // True
 
-    XDocument rss2 = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument rss2 = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     XElement[] items3 = rss2.Root.Descendants("item").ToArray();
     object.ReferenceEquals(items1.First(), items3.First()).WriteLine(); // False
     items1.SequenceEqual(items3).WriteLine(); // False
@@ -474,7 +474,7 @@ The CreateNavigator methods creates a XmlXPathNavigator, which can be used for n
 ```csharp
 internal static void XPathNavigator()
 {
-    XDocument rss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument rss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     XPathNavigator rssNavigator = rss.CreateNavigator();
     rssNavigator.NodeType.WriteLine(); // Root
     rssNavigator.MoveToFirstChild().WriteLine(); // True
@@ -505,7 +505,7 @@ The XPathSelectElements method is a shortcut of calling CreateNavigator to get a
 ```csharp
 internal static void XPathQuery()
 {
-    XDocument rss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument rss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     rss
         .XPathSelectElements("/rss/channel/item[guid/@isPermaLink='true']/category")
         .GroupBy(
@@ -528,7 +528,7 @@ XPathEvaluate also calls CreateNavigator and then Evaluate, but it is more flexi
 ```csharp
 internal static void XPathEvaluateValue()
 {
-    XDocument rss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument rss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     double average1 = (double)rss.XPathEvaluate("count(/rss/channel/item/category) div count(/rss/channel/item)");
     average1.WriteLine(); // 4.65
 
@@ -546,7 +546,7 @@ When the XPath is evaluated to a sequence of values, XPathEvaluate returns IEnum
 ```csharp
 internal static void XPathEvaluateSequence()
 {
-    XDocument rss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument rss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     ((IEnumerable<object>)rss
         .XPathEvaluate("/rss/channel/item[guid/@isPermaLink='true']/category/text()"))
         .Cast<XText>()
@@ -731,7 +731,7 @@ Here are some examples of using these methods:
 ```csharp
 internal static void GenerateXPath()
 {
-    XDocument aspNetRss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument aspNetRss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     XElement element1 = aspNetRss
         .Root
         .Element("channel")

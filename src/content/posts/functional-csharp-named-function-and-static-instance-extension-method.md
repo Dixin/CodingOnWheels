@@ -192,7 +192,7 @@ int result = DataExtensions.ExtensionAdd(data, 1, 2L);
 If a real instance method and an extension name are both defined for the same type with equivalent signature:
 
 ```csharp
-internal partial class Data : IEquatable<Data\>
+internal partial class Data : IEquatable<Data>
 {
 public override bool Equals(object obj)
 {
@@ -302,7 +302,7 @@ return value;
 The WriteLine and Write extension methods are available for any value, and WriteLines is available for any IEnumerable<T> sequence:
 
 ```csharp
-internal static void TraceValueAndSequence(Uri value, IEnumerable<Uri\> values)
+internal static void TraceValueAndSequence(Uri value, IEnumerable<Uri> values)
 {
 value.WriteLine(); // Equivalent to: Trace.WriteLine(value);
 value.Write(); // Equivalent to: Trace.Write(value);
@@ -632,7 +632,7 @@ internal static void SwapInt32(ref int value1, ref int value2)
 The above syntax is called tuple assignment, which is a new feature of C# 7.0, and is discussed in the tuple chapter. To reuse this code for values of any other type, just define a generic method, by replacing int with a type parameter. Similar to generic types, generic method’s type parameters are also declared in angle brackets following the method name:
 
 ```csharp
-internal static void Swap<T\>(ref T value1, ref T value2)
+internal static void Swap<T>(ref T value1, ref T value2)
 {
 (value1, value2) = (value2, value1);
 }
@@ -641,7 +641,7 @@ internal static void Swap<T\>(ref T value1, ref T value2)
 Generic type parameter’s constraints syntax also works for generic method. For example:
 
 ```csharp
-internal static IStack<T\> PushValue<T\>(IStack<T\> stack) where T : new()
+internal static IStack<T> PushValue<T>(IStack<T> stack) where T : new()
 {
 stack.Push(new T());
 return stack;
@@ -665,7 +665,7 @@ Swap(ref value1, ref value2);
 Swap is called with string values, so C# compiler infers type argument string is passed to the method’s type parameter T. C# compiler can only infer type arguments from type of arguments, not from type of return value. Take the following generic methods as example:
 
 ```csharp
-internal static T Generic1<T\>(T value)
+internal static T Generic1<T>(T value)
 {
 Trace.WriteLine(value);
 return default(T);
@@ -704,11 +704,11 @@ Generic1(file);
 
 there are some options:
 
-· Provide the type argument
+-   Provide the type argument
 
-· Explicitly convert null to the expected argument type
+-   Explicitly convert null to the expected argument type
 
-· Create a temporary variable of the expected argument type, pass the value to the generic method
+-   Create a temporary variable of the expected argument type, pass the value to the generic method
 
 Type argument inference is not supported for generic type’s constructor. Take the following generic type as example:
 
@@ -722,7 +722,7 @@ internal Generic(T input) { } // T cannot be inferred.
 When calling above constructor, type arguments must be provided:
 
 ```csharp
-internal static Generic<IEnumerable<IGrouping<int, string\>>>GenericConstructor(
+internal static Generic<IEnumerable<IGrouping<int, string>>>GenericConstructor(
 IEnumerable<IGrouping<int, string>>input)
 {
 return new Generic<IEnumerable<IGrouping<int, string>>>(input);
@@ -743,7 +743,7 @@ internal static Generic<T> Create<T>(T input) => new Generic<T>(input); // T can
 Now the instance can be constructed without type argument:
 
 ```csharp
-internal static Generic<IEnumerable<IGrouping<int, string\>>>GenericCreate(
+internal static Generic<IEnumerable<IGrouping<int, string>>>GenericCreate(
 IEnumerable<IGrouping<int, string>>input)
 {
 return Generic.Create(input);

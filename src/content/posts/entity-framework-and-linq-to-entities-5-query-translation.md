@@ -15,7 +15,7 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## **EF Core version of this article:** [**https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-5-query-translation-implementation**](/posts/entity-framework-core-and-linq-to-entities-5-query-translation-implementation "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-5-query-translation-implementation")
+## **EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-5-query-translation-implementation**](/posts/entity-framework-core-and-linq-to-entities-5-query-translation-implementation "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-5-query-translation-implementation")
 
 The previous part discussed what SQL queries are the LINQ to Entities queries translated to. This part discusses how the LINQ to Entities queries are translated to SQL queries. As fore mentioned, IQueryable<T> query methods work with expression trees. Internally, these methods build expression trees too, then these expression trees are translated. In Entity Framework, .NET expression tree is not directly translated to SQL query. As mentioned at the beginning of this chapter, Entity Framework implements a provider model to work with different kinds of databases like Oracle, MySQL, PostgreSQL, etc., and different database system can have different query languages. So Entity Framework breaks the translation into 2 parts:
 

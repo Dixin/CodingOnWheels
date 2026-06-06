@@ -98,7 +98,7 @@ button.Click += this.Submit;
 
 with the following XAML:
 
-```csharp
+```xml
 <Button Content="Submit" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="75" Click="Submit" />
 ```
 
@@ -122,7 +122,7 @@ img.title = "Microsoft Way";
 
 with HTML:
 
-```csharp
+```html
 <img src="https://farm3.staticflickr.com/2875/9215169916_f8fa57c3da_b.jpg" style="width: 300px; height: 200px;" title="Microsoft Way" />
 ```
 

@@ -92,7 +92,7 @@ namespace WpfAsync
             this.InitializeComponent();
             this.Button.Click += async (sender, e) =>
             {
-                string html = await new WebClient().DownloadStringTaskAsync("https://weblogs.asp.net/dixin");
+                string html = await new WebClient().DownloadStringTaskAsync("https://CodingOnWheels.com");
                 this.TextBox.Text = html;
             };
         }
@@ -107,8 +107,8 @@ Of course this code works. But if it is rewritten in callback style with Task.Co
 ```csharp
 this.Button.Click += (sender, e) =>
 {
-    // string html = await new WebClient().DownloadStringTaskAsync("https://weblogs.asp.net/dixin");
-    new WebClient().DownloadStringTaskAsync("https://weblogs.asp.net/dixin").ContinueWith(await => { string html = await.Result;
+    // string html = await new WebClient().DownloadStringTaskAsync("https://CodingOnWheels.com");
+    new WebClient().DownloadStringTaskAsync("https://CodingOnWheels.com").ContinueWith(await => { string html = await.Result;
     this.TextBox.Text = html; });
 };
 ```
@@ -324,8 +324,8 @@ So the above WPF code can be easily fixed as:
 ```csharp
 this.Button.Click += (sender, e) =>
 {
-    // string html = await new WebClient().DownloadStringTaskAsync("https://weblogs.asp.net/dixin");
-    new WebClient().DownloadStringTaskAsync("https://weblogs.asp.net/dixin").ContinueWithContext(await => { string html = await.Result;
+    // string html = await new WebClient().DownloadStringTaskAsync("https://CodingOnWheels.com");
+    new WebClient().DownloadStringTaskAsync("https://CodingOnWheels.com").ContinueWithContext(await => { string html = await.Result;
     this.TextBox.Text = html; });
 };
 ```

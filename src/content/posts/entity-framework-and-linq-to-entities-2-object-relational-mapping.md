@@ -15,7 +15,7 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## EF Core version of this article: [https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping](/posts/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping")
+## EF Core version of this article: [https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping](/posts/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping")
 
 .NET and SQL database and have 2 different data type systems. For example:
 
@@ -624,4 +624,4 @@ Entity Framework code first does not have built-in support to map stored procedu
 -   Niladic functions
 -   Model defined functions
 
-These contents are covered by a separate article: [EntityFramework.Functions: Code First Functions for Entity Framework](https://weblogs.asp.net/Dixin/EntityFramework.Functions).
+These contents are covered by a separate article: [EntityFramework.Functions: Code First Functions for Entity Framework](https://CodingOnWheels.com/posts/EntityFramework.Functions).

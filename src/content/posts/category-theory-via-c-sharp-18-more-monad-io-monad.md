@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/category-theory-via-csharp-8-more-linq-to-monads](/posts/category-theory-via-csharp-8-more-linq-to-monads "https://weblogs.asp.net/dixin/category-theory-via-csharp-8-more-linq-to-monads")**
+## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-8-more-linq-to-monads](/posts/category-theory-via-csharp-8-more-linq-to-monads "https://CodingOnWheels.com/posts/category-theory-via-csharp-8-more-linq-to-monads")**
 
 As mentioned in a previous part, in purely functional programming, functions cannot have side effects. For example, when defining LINQ queries, laziness and purity are expected. So, how should the impure actions be managed in purely functional programming or LINQ? For example:
 

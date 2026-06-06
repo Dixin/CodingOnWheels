@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/lambda-calculus-via-csharp-6-combinatory-logic](/posts/lambda-calculus-via-csharp-6-combinatory-logic "https://weblogs.asp.net/dixin/lambda-calculus-via-csharp-6-combinatory-logic")**
+## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-6-combinatory-logic](/posts/lambda-calculus-via-csharp-6-combinatory-logic "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-6-combinatory-logic")**
 
 The [previous part](/posts/lambda-calculus-via-c-sharp-20-combinators) shows SKI calculus is untyped and strongly typed C# implementation does not work. So here comes the SKI in untyped C#:
 

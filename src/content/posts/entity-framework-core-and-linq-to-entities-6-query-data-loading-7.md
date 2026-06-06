@@ -15,9 +15,9 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## **Latest EF Core version of this article:** [**https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-6-query-data-loading**](/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-6-query-data-loading")
+## **Latest EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading**](/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading")
 
-## EF Version of this article: [https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-6-deferred-execution-laziness-loading-and-eager-loading](/posts/entity-framework-and-linq-to-entities-6-deferred-execution-laziness-loading-and-eager-loading "https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-6-deferred-execution-laziness-loading-and-eager-loading")
+## EF Version of this article: [https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-6-deferred-execution-laziness-loading-and-eager-loading](/posts/entity-framework-and-linq-to-entities-6-deferred-execution-laziness-loading-and-eager-loading "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-6-deferred-execution-laziness-loading-and-eager-loading")
 
 After translated to SQL, in LINQ to Entities, sequence queries returning IQueryable<T> implements deferred execution too.
 

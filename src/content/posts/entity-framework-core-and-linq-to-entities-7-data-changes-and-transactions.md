@@ -114,19 +114,13 @@ public virtual void Reload();
 
 Besides the loading information APIs discussed in previous part, EntityEntry also provides rich APIs for entity’s tracking information and state management:
 
-· State returns the entity’s tracking state: Detached, Unchanged, Added, Deleted, or Modified.
-
-· Entity property returns the tracked entity
-
-· Property returns the specified property’s tracking information.
-
-· CurrentValues returns the tracked entity’s current property values.
-
-· OriginalValues returns the tracked entity’s original property values
-
-· GetDatabaseValues instantly execute a SQL query to read entity’s property values from database, without updating current entity’s property values and tracking information.
-
-· Reload also executes a SQL query to read the database values, and also update current entity’s property values, and all tracking information
+-   State returns the entity’s tracking state: Detached, Unchanged, Added, Deleted, or Modified.
+-   Entity property returns the tracked entity
+-   Property returns the specified property’s tracking information.
+-   CurrentValues returns the tracked entity’s current property values.
+-   OriginalValues returns the tracked entity’s original property values
+-   GetDatabaseValues instantly execute a SQL query to read entity’s property values from database, without updating current entity’s property values and tracking information.
+-   Reload also executes a SQL query to read the database values, and also update current entity’s property values, and all tracking information
 
 The generic EntityEntry<TEntity> is just stronger typing:
 
@@ -731,9 +725,8 @@ scope.Complete();
 
 Conflicts can occur if the same data is read and changed concurrently. Generally, there are 2 concurrency control approaches:
 
-· Pessimistic concurrency: one database client can lock the data being accessed, in order to prevent other database clients to change that same data concurrently.
-
-· Optimistic concurrency: Data is not locked in the database for client to CRUD. Any database client is allowed to read and change any data concurrently. As a result, concurrency conflicts can happen. This is how EF Core work with database.
+-   Pessimistic concurrency: one database client can lock the data being accessed, in order to prevent other database clients to change that same data concurrently.
+-   Optimistic concurrency: Data is not locked in the database for client to CRUD. Any database client is allowed to read and change any data concurrently. As a result, concurrency conflicts can happen. This is how EF Core work with database.
 
 To demonstrate the behavior of EF Core for concurrency, the following DbReaderWriter type is defined as database CRUD client:
 
@@ -1035,11 +1028,9 @@ This is how it works with concurrency conflicts:
 
 As a result, the handleException function specified for readWriter2 is called, it retrieves the conflicting product’s tracking information from DbUpdateConcurrencyException.Entries, and logs these information:
 
-· product’s original property values read by readerWriter2 before the changes
-
-· product’s property values in database at this moment, which are already updated readerWriter1
-
-· product’s current property values after changes, which readerWriter2 fails to save to database.
+-   product’s original property values read by readerWriter2 before the changes
+-   product’s property values in database at this moment, which are already updated readerWriter1
+-   product’s current property values after changes, which readerWriter2 fails to save to database.
 
 Then handleException calls resolveConflicts function to actually resolve the conflict. Then readerWriter2 retries to save the product changes again. This time, SaveChanges should succeed, because there is no conflicts anymore (In this example, there are only 2 database clients reading/writing data concurrently. In reality, the concurrency can be higher, an appropriate retry count or retry strategy should be specified.). Eventually, readerWriter3 reads the product from database, verify its property values.
 
@@ -1142,9 +1133,8 @@ Later, when readerWriter3 reads the product again, product has all values update
 
 A more complex but useful option, is to merge the client values and database values. For each property:
 
-· If original value is different from database value, which means database value is already updated by other concurrent client, then give up updating this property, and retain the database value
-
-· If original value is the same as database value, which means no concurrency conflict for this property, then process normally to submit the change
+-   If original value is different from database value, which means database value is already updated by other concurrent client, then give up updating this property, and retain the database value
+-   If original value is the same as database value, which means no concurrency conflict for this property, then process normally to submit the change
 
 ```csharp
 internal static void MergeClientAndDatabase(

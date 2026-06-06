@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/functional-csharp-function-parameter-and-return-value](/posts/functional-csharp-function-parameter-and-return-value "https://weblogs.asp.net/dixin/functional-csharp-function-parameter-and-return-value")**[](/posts/functional-csharp-fundamentals "https://weblogs.asp.net/dixin/functional-csharp-fundamentals")
+## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-function-parameter-and-return-value](/posts/functional-csharp-function-parameter-and-return-value "https://CodingOnWheels.com/posts/functional-csharp-function-parameter-and-return-value")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
 
 ## Pass by value vs. pass by reference (ref parameter)
 
@@ -30,10 +30,10 @@ internal static partial class Functions
 
     internal static void CallPassByValue()
     {
-        Uri reference = new Uri("https://weblogs.asp.net/dixin");
+        Uri reference = new Uri("https://CodingOnWheels.com");
         int value = 1;
         PassByValue(reference, value); // Copied.
-        reference.WriteLine(); // https://weblogs.asp.net/dixin
+        reference.WriteLine(); // https://CodingOnWheels.com
         value.WriteLine(); // 1
     }
 }
@@ -52,7 +52,7 @@ internal static void PassByReference(ref Uri reference, ref int value)
 
 internal static void CallPassByReference()
 {
-    Uri reference = new Uri("https://weblogs.asp.net/dixin");
+    Uri reference = new Uri("https://CodingOnWheels.com");
     int value = 1;
     PassByReference(ref reference, ref value); // Not copied.
     reference.WriteLine(); // https://flickr.com/dixin
@@ -391,10 +391,10 @@ internal static void ReturnByValue()
     lastValue = 10;
     Trace.WriteLine(values[values.Length - 1]); // 4
 
-    Uri[] references = new Uri[] { new Uri("https://weblogs.asp.net/dixin") };
+    Uri[] references = new Uri[] { new Uri("https://CodingOnWheels.com") };
     Uri lastReference = LastReference(references); // Copied.
     lastReference = new Uri("https://flickr.com/dixin");
-    Trace.WriteLine(references[references.Length - 1]); // https://weblogs.asp.net/dixin
+    Trace.WriteLine(references[references.Length - 1]); // https://CodingOnWheels.com
 }
 ```
 
@@ -432,7 +432,7 @@ internal static void ReturnByReference()
     lastValue = 10;
     Trace.WriteLine(values[values.Length - 1]); // 10
 
-    Uri[] references = new Uri[] { new Uri("https://weblogs.asp.net/dixin") };
+    Uri[] references = new Uri[] { new Uri("https://CodingOnWheels.com") };
     ref Uri lastReference = ref RefLastReference(references); // Not copied.
     lastReference = new Uri("https://flickr.com/dixin");
     Trace.WriteLine(references[references.Length - 1]); // https://flickr.com/dixin
@@ -475,7 +475,7 @@ internal static void ReturnByRedOnlyReference()
     lastValue = 10; // Cannot be compiled.
     Trace.WriteLine(values[values.Length - 1]); // 10
 
-    Uri[] references = new Uri[] { new Uri("https://weblogs.asp.net/dixin") };
+    Uri[] references = new Uri[] { new Uri("https://CodingOnWheels.com") };
     ref readonly Uri lastReference = ref RefReadOnlyLastReference(references); // Not copied.
     lastReference = new Uri("https://flickr.com/dixin"); // Cannot be compiled.
     Trace.WriteLine(references[references.Length - 1]); // https://flickr.com/dixin

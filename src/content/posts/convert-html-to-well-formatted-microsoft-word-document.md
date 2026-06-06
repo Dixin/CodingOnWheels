@@ -40,7 +40,7 @@ It is a [jQuery](http://jquery.com/)\-like library for DOM process via C#. So Th
 
 The first steps are to download everything from this blog:
 
-1.  Download HTML string from index page: [http://weblogs.asp.net/dixin/linq-via-csharp](/posts/linq-via-csharp), which is easy by just calling WebClient.DownloadString.
+1.  Download HTML string from index page: [https://CodingOnWheels.com/posts/linq-via-csharp](/posts/linq-via-csharp), which is easy by just calling WebClient.DownloadString.
 2.  In the downloaded HTML string, get the title of the tutorial from the <title> tag of the downloaded HTML string: indexPage\["title"\].Text()
 3.  Get the article content of the index page (get rid of HTML page header, footer, sidebar, article comments …): indexPage\["article.blog-post"\]
 4.  In the page content, the title of each chapter, which is so easy with jQuery-style API: indexPage\["article.blog-post"\].Children("ol").Children("li")
@@ -56,7 +56,7 @@ The first steps are to download everything from this blog:
 Here is the crawler code:
 
 ```csharp
-private static Html DownloadHtml(string indexUrl = @"http://weblogs.asp.net/dixin/linq-via-csharp")
+private static Html DownloadHtml(string indexUrl = @"https://CodingOnWheels.com/posts/linq-via-csharp")
 {
     using (WebClient webClient = new WebClient() { Encoding = Encoding.UTF8 })
     {

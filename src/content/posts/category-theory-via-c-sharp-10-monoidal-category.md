@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/category-theory-via-csharp-6-monoidal-functor-and-applicative-functor](/posts/category-theory-via-csharp-6-monoidal-functor-and-applicative-functor "https://weblogs.asp.net/dixin/category-theory-via-csharp-6-monoidal-functor-and-applicative-functor")**
+## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-6-monoidal-functor-and-applicative-functor](/posts/category-theory-via-csharp-6-monoidal-functor-and-applicative-functor "https://CodingOnWheels.com/posts/category-theory-via-csharp-6-monoidal-functor-and-applicative-functor")**
 
 ## Monoidal category
 

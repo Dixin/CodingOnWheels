@@ -15,39 +15,23 @@ lang: ""
 
 The previous 2 chapters discussed the LINQ to Objects standard queries. Besides these built-in queries provided by System.Linq.Enumerable type in .NET Standard, Microsoft also provides additional LINQ to Objects queries through the System.Interactive NuGet package (aka Interactive Extensions library, or Ix). Ix has a System.Linq.EnumerableEx type with the following queries:
 
-· Sequence queries: output a new IEnumerable<T> sequence (deferred execution)
-
-o Generation: Defer, Create, Return, Repeat
-
-o Filtering: IgnoreElements\*, DistinctUntilChanged
-
-o Mapping: SelectMany, Scan, Expand
-
-o Concatenation: Concat, StartWith
-
-o Set: Distinct
-
-o Partitioning: TakeLast\*, SkipLast\*\*
-
-o Conversion: Hide
-
-o Buffering: Buffer\*, Share, Publish, Memoize
-
-o Exception handling: Throw, Catch, Finally, OnErrorResumeNext, Retry
-
-o Control flow: If, Case, Using, While, DoWhile, Generate, For
-
-o Iteration: Do
-
-· Value queries: output a single value (immediate execution)
-
-o Aggregation: Min, Max, MinBy, MaxBy
-
-o Quantifiers: isEmpty
-
-· Void queries: no output (immediate execution)
-
-o Iteration: ForEach
+-   Sequence queries: output a new IEnumerable<T> sequence (deferred execution)
+    -   Generation: Defer, Create, Return, Repeat
+    -   Filtering: IgnoreElements\*, DistinctUntilChanged
+    -   Mapping: SelectMany, Scan, Expand
+    -   Concatenation: Concat, StartWith
+    -   Set: Distinct
+    -   Partitioning: TakeLast\*, SkipLast\*\*
+    -   Conversion: Hide
+    -   Buffering: Buffer\*, Share, Publish, Memoize
+    -   Exception handling: Throw, Catch, Finally, OnErrorResumeNext, Retry
+    -   Control flow: If, Case, Using, While, DoWhile, Generate, For
+    -   Iteration: Do
+-   Value queries: output a single value (immediate execution)
+    -   Aggregation: Min, Max, MinBy, MaxBy
+    -   Quantifiers: isEmpty
+-   Void queries: no output (immediate execution)
+    -   Iteration: ForEach
 
 Many of these queries are handy and useful. However, there is not much documentation provided from Microsoft, except the APIs’ XML comments. This chapter discusses these queries by either providing examples and/or demonstrating their internal implementation, whichever is more intuitive.
 
@@ -62,7 +46,7 @@ Similar to the standard sequence queries, the Ix sequence queries follow iterato
 Defer accepts a sequence factory function:
 
 ```csharp
-public static IEnumerable<TResult\> Defer<TResult\>(
+public static IEnumerable<TResult> Defer<TResult>(
 Func<IEnumerable<TResult>> enumerableFactory)
 {
 foreach (TResult value in enumerableFactory())
@@ -94,7 +78,7 @@ IEnumerable<string> distinct2 = EnumerableEx.Defer(Distinct) // Hash set is not 
 Similarly, Create accepts an iterator factory function, and delays its execution:
 
 ```csharp
-public static IEnumerable<TResult\> Create<TResult\>(
+public static IEnumerable<TResult> Create<TResult>(
 Func<IEnumerator<TResult>> getEnumerator)
 {
 using (IEnumerator<TResult> iterator = getEnumerator())
@@ -114,7 +98,7 @@ public static IEnumerable<T\> Create<T\>(Action<IYielder<T\>> create);
 It accepts a callback function of type System.Linq.IYielder<T> –> void. IYielder<T> has 2 methods, Return and Break, representing the 2 forms of yield statement.
 
 ```csharp
-public interface IYielder<in T\>
+public interface IYielder<in T>
 {
 IAwaitable Return(T value);
 
@@ -178,7 +162,7 @@ sequence.WriteLines(); // 0 1
 Return just wraps value in a singleton sequence:
 
 ```csharp
-public static IEnumerable<TResult\> Return<TResult\>(TResult value)
+public static IEnumerable<TResult> Return<TResult>(TResult value)
 {
 yield return value; // Deferred execution.
 }
@@ -189,7 +173,7 @@ It is called Return, because “return” is a term used in functional languages
 Repeat generates an infinite sequence by repeating a value forever:
 
 ```csharp
-public static IEnumerable<TResult\> Repeat<TResult\>(TResult value)
+public static IEnumerable<TResult> Repeat<TResult>(TResult value)
 {
 while (true)
 {
@@ -201,7 +185,7 @@ yield return value; // Deferred execution.
 Another overload repeats values in the specified sequence. Its implementation is equivalent to:
 
 ```csharp
-public static IEnumerable<TSource\> Repeat<TSource\>(this IEnumerable<TSource\> source, int? count = null)
+public static IEnumerable<TSource> Repeat<TSource>(this IEnumerable<TSource> source, int? count = null)
 {
 if (count == null)
 {
@@ -231,7 +215,7 @@ When count is not provided, it repeats the values of the source sequence forever
 IgnoreElements filters out all values from the source sequence:
 
 ```csharp
-public static IEnumerable<TSource\> IgnoreElements<TSource\>(this IEnumerable<TSource\> source)
+public static IEnumerable<TSource> IgnoreElements<TSource>(this IEnumerable<TSource> source)
 {
 foreach (TSource value in source) { } // Eager evaluation.
 yield break; // Deferred execution.
@@ -241,7 +225,7 @@ yield break; // Deferred execution.
 DistinctUntilChanged removes the continuous duplication:
 
 ```csharp
-public static IEnumerable<TSource\> DistinctUntilChanged<TSource\>(this IEnumerable<TSource\> source);
+public static IEnumerable<TSource> DistinctUntilChanged<TSource>(this IEnumerable<TSource> source);
 public static IEnumerable<TSource> DistinctUntilChanged<TSource>(
 this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer);
 
@@ -270,7 +254,7 @@ source.DistinctUntilChanged().WriteLines(); // 0 1 0 2 1
 A SelectMany overload is provided to map source sequence’s each value to the other sequence:
 
 ```csharp
-public static IEnumerable<TOther\> SelectMany<TSource, TOther\>(
+public static IEnumerable<TOther> SelectMany<TSource, TOther>(
 this IEnumerable<TSource> source, IEnumerable<TOther> other) =>
 source.SelectMany(value => other);
 ```
@@ -278,7 +262,7 @@ source.SelectMany(value => other);
 Scan accepts the same parameters as Aggregate. The difference is, Aggregate outputs one final accumulation step’s result, Scan returns a sequence of all accumulation steps’ results. Its implementation is equivalent to:
 
 ```csharp
-public static IEnumerable<TSource\> Scan<TSource\>(
+public static IEnumerable<TSource> Scan<TSource>(
 this IEnumerable<TSource> source, Func<TSource, TSource, TSource> func)
 {
 using (IEnumerator<TSource> iterator = source.GetEnumerator())
@@ -371,12 +355,12 @@ Enumerable
 2 more overloads of Concat is provided to concatenate any number of sequences:
 
 ```csharp
-public static IEnumerable<TSource\> Concat<TSource\>(
+public static IEnumerable<TSource> Concat<TSource>(
 this IEnumerable<IEnumerable<TSource>> sources) =>
 sources.SelectMany(source => source);
 
 public static IEnumerable<TSource> Concat<TSource>(
-params IEnumerable<TSource>\[] sources) => sources.Concat();
+params IEnumerable<TSource>[] sources) => sources.Concat();
 ```
 
 By concatenating the sequences one after another, Concat flattens a hierarchical 2-level-sequence into a flat 1-level-sequence, which works the same as SelectMany.
@@ -392,7 +376,7 @@ this IEnumerable<TSource\> source, params TSource\[\] values) => values.Concat(s
 An overload of Distinct is provided to accept a key selector function:
 
 ```csharp
-public static IEnumerable<TSource\> Distinct<TSource, TKey\>(
+public static IEnumerable<TSource> Distinct<TSource, TKey>(
 this IEnumerable<TSource> source, Func<TSource, TKey>keySelector, IEqualityComparer<TKey> comparer = null)
 {
 HashSet<TKey>hashSet = new HashSet<TKey>(comparer);
@@ -429,7 +413,7 @@ int[] takeLast2 = Enumerable.Range(0, 5).TakeLast(2).ToArray(); // 3 4.
 The implementation of SkipLast/TakeLast is very interesting. As already discussed, Take implements lazy evaluation. However, TakeLast has to pull all values to know which are the tail values of the source sequence. So TakeLast implements eager evaluation, and uses a queue to store the tail values:
 
 ```csharp
-public static IEnumerable<TSource\> TakeLast<TSource\>(this IEnumerable<TSource\> source, int count)
+public static IEnumerable<TSource> TakeLast<TSource>(this IEnumerable<TSource> source, int count)
 {
 if (count < 0)
 {
@@ -464,7 +448,7 @@ return TakeLastGGenerator();
 SkipLast also uses a queue to store the tail values:
 
 ```csharp
-public static IEnumerable<TSource\> SkipLast<TSource\>(this IEnumerable<TSource\> source, int count)
+public static IEnumerable<TSource> SkipLast<TSource>(this IEnumerable<TSource> source, int count)
 {
 if (count < 0)
 {
@@ -494,7 +478,7 @@ It uses count as the max length of the queue. When SkipLast starts to execute, i
 Hide has the same signature as AsEnumerable. As previously demonstrated, AsEnumerable simply outputs the source sequence itself to caller. Hide returns a new generator to hide the source sequence from the caller:
 
 ```csharp
-public static IEnumerable<TSource\> Hide<TSource\>(this IEnumerable<TSource\> source)
+public static IEnumerable<TSource> Hide<TSource>(this IEnumerable<TSource> source)
 {
 foreach (TSource value in source)
 {
@@ -607,7 +591,7 @@ When pulling values with multiple independent iterators, each value can be pulle
 The other overload accepts a selector function:
 
 ```csharp
-public static IEnumerable<TResult\> Share<TSource, TResult\>(
+public static IEnumerable<TResult> Share<TSource, TResult>(
 this IEnumerable<TSource> source,
 Func<IEnumerable<TSource>, IEnumerable<TResult>> selector) =>
 Create(() => selector(source.Share()).GetEnumerator());
@@ -634,7 +618,7 @@ source3.Share(source => source.Concat(source)).WriteLines(); // 0 1 2 3 4
 The above 2 kinds of Share usage are equivalent. As already discussed, Concat can be desugared as:
 
 ```csharp
-public static IEnumerable<TSource\> Concat<TSource\>(
+public static IEnumerable<TSource> Concat<TSource>(
 IEnumerable<TSource>first, IEnumerable<TSource> second)
 {
 using (IEnumerator<TSource> iterator1 = first.GetEnumerator())
@@ -802,7 +786,7 @@ Zip3().WriteLines();
 Publish has the same signatures as Share:
 
 ```csharp
-public static IBuffer<TSource\> Publish<TSource\>(this IEnumerable<TSource\> source);
+public static IBuffer<TSource> Publish<TSource>(this IEnumerable<TSource> source);
 public static IEnumerable<TResult> Publish<TSource, TResult>(
 this IEnumerable<TSource> source, Func<IEnumerable<TSource>, IEnumerable<TResult>>selector);
 ```
@@ -835,7 +819,7 @@ remainderIteratorC.MoveNext(); remainderIteratorC.Current.WriteLine(); // | |4
 Memoize (not Memorize) simply buffers all values:
 
 ```csharp
-public static IBuffer<TSource\> Memoize<TSource\>(this IEnumerable<TSource\> source);
+public static IBuffer<TSource> Memoize<TSource>(this IEnumerable<TSource> source);
 public static IEnumerable<TResult> Memoize<TSource, TResult>(
 this IEnumerable<TSource> source, Func<IEnumerable<TSource>, IEnumerable<TResult>>selector);
 ```
@@ -871,7 +855,7 @@ bufferIteratorB.MoveNext(); bufferIteratorB.Current.WriteLine(); // |2|
 There 2 more overloads accept a readerCount to specify how many times can the buffered values be reused:
 
 ```csharp
-public static IBuffer<TSource\> Memoize<TSource\>(
+public static IBuffer<TSource> Memoize<TSource>(
 this IEnumerable<TSource> source, int readerCount);
 
 public static IEnumerable<TResult> Memoize<TSource, TResult>(
@@ -906,7 +890,7 @@ selector: source => source // First full iteration.
 The exception queries address some exception related scenarios for IEnumerable<T>. Throw query just throws the specified exception when executed:
 
 ```csharp
-public static IEnumerable<TResult\> Throw<TResult\>(Exception exception)
+public static IEnumerable<TResult> Throw<TResult>(Exception exception)
 {
 throw exception;
 yield break; // Deferred execution.
@@ -964,7 +948,7 @@ yield return value; // Deferred execution.
 However, C# does not support yield statement inside try-catch statement. The above code cannot be compiled. The solution is to desugar the foreach statement to a while loop for iterator. Then the try-catch statement can go inside the loop, and only contains iterator’s MoveNext and Current calls, and the yield statement can go outside the try-catch statement.
 
 ```csharp
-public static IEnumerable<TSource\> Catch<TSource, TException\>(
+public static IEnumerable<TSource> Catch<TSource, TException>(
 this IEnumerable<TSource> source, Func<TException, IEnumerable<TSource>> handler)
 where TException : Exception
 {
@@ -1052,7 +1036,7 @@ throw lastException;
 Again, the above code cannot be compiled because yield statement cannot be used with try-catch statement. So previous desugared while-try-catch-yield pattern can be used:
 
 ```csharp
-public static IEnumerable<TSource\> Catch<TSource\>(
+public static IEnumerable<TSource> Catch<TSource>(
 this IEnumerable<IEnumerable<TSource>> sources)
 {
 Exception lastException = null;
@@ -1099,7 +1083,7 @@ params IEnumerable<TSource>[] sources) => sources.Catch();
 
 public static IEnumerable<TSource> Catch<TSource>(
 this IEnumerable<TSource> first, IEnumerable<TSource> second) =>
-new IEnumerable<TSource>\[] { first, second }.Catch();
+new IEnumerable<TSource>[] { first, second }.Catch();
 ```
 
 For example:
@@ -1138,7 +1122,7 @@ exception.WriteLine(); // System.InvalidCastException: Specified cast is not val
 Besides Throw and Catch, there is also Finally query. Finally is very intuitive:
 
 ```csharp
-public static IEnumerable<TSource\> Finally<TSource\>(this IEnumerable<TSource\> source, Action finalAction)
+public static IEnumerable<TSource> Finally<TSource>(this IEnumerable<TSource> source, Action finalAction)
 {
 try
 {
@@ -1181,7 +1165,7 @@ catch { }
 Once again, this can be implemented with the desugared while-try-catch-yield pattern:
 
 ```csharp
-public static IEnumerable<TSource\> OnErrorResumeNext<TSource\>(
+public static IEnumerable<TSource> OnErrorResumeNext<TSource>(
 this IEnumerable<IEnumerable<TSource>> sources)
 {
 foreach (IEnumerable<TSource> source in sources)
@@ -1214,13 +1198,13 @@ params IEnumerable<TSource>[] sources) => sources.OnErrorResumeNext();
 
 public static IEnumerable<TSource> OnErrorResumeNext<TSource>(
 this IEnumerable<TSource> first, IEnumerable<TSource> second) =>
-new IEnumerable<TSource>\[] { first, second }.OnErrorResumeNext();
+new IEnumerable<TSource>[] { first, second }.OnErrorResumeNext();
 ```
 
 Retry query tries to yield the source values. If there is an exception thrown, it retries to yield the values again from the beginning of the source sequence. Its implementation is equivalent to:
 
 ```csharp
-public static IEnumerable<TSource\> Retry<TSource\>(
+public static IEnumerable<TSource> Retry<TSource>(
 this IEnumerable<TSource> source, int? retryCount = null) =>
 Return(source).Repeat(retryCount).Catch();
 ```
@@ -1232,7 +1216,7 @@ If retryCount is not provided, it retries forever.
 The If/Case/Using/While/DoWhile/Generate/For queries implements the control flows as fluent LINQ query. If represents the if-else statement. Its implementation is equivalent to:
 
 ```csharp
-public static IEnumerable<TResult\> If<TResult\>(
+public static IEnumerable<TResult> If<TResult>(
 Func<bool>condition, IEnumerable<TResult> thenSource, IEnumerable<TResult> elseSource = null) =>
 Defer(() => condition() ? thenSource : elseSource ?? Enumerable.Empty<TResult>());
 ```
@@ -1240,7 +1224,7 @@ Defer(() => condition() ? thenSource : elseSource ?? Enumerable.Empty<TResult>()
 Case represents the switch-case statement. It accepts a selector function as the key factory, and a dictionary of key-sequence pairs, where each key represents a case label of the switch statement. When Case query is executed, the selector function is called to get a key. If the dictionary contains that key, then the matching sequence is the query output; otherwise, a default sequence is the query output:
 
 ```csharp
-public static IEnumerable<TResult\> Case<TValue, TResult\>(
+public static IEnumerable<TResult> Case<TValue, TResult>(
 Func<TValue>selector,
 IDictionary<TValue, IEnumerable<TResult>>sources,
 IEnumerable<TResult>defaultSource = null) =>
@@ -1252,7 +1236,7 @@ Defer(() => sources.TryGetValue(selector(), out IEnumerable<TResult>result)
 Using represents the using statement:
 
 ```csharp
-public static IEnumerable<TSource\> Using<TSource, TResource\>(
+public static IEnumerable<TSource> Using<TSource, TResource>(
 Func<TResource>resourceFactory, Func<TResource, IEnumerable<TSource>> enumerableFactory)
 where TResource : IDisposable
 {
@@ -1269,7 +1253,7 @@ yield return value; // Deferred execution.
 While represents the while loop:
 
 ```csharp
-public static IEnumerable<TResult\> While<TResult\>(Func<bool\> condition, IEnumerable<TResult\> source)
+public static IEnumerable<TResult> While<TResult>(Func<bool> condition, IEnumerable<TResult> source)
 {
 while (condition())
 {
@@ -1284,7 +1268,7 @@ yield return value; // Deferred execution.
 DoWhile represents the do-while loop:
 
 ```csharp
-public static IEnumerable<TResult\> DoWhile<TResult\>(
+public static IEnumerable<TResult> DoWhile<TResult>(
 this IEnumerable<TResult> source, Func<bool> condition) =>
 source.Concat(While(condition, source));
 ```
@@ -1292,7 +1276,7 @@ source.Concat(While(condition, source));
 Generate represents the for loop:
 
 ```csharp
-public static IEnumerable<TResult\> Generate<TState, TResult\>(
+public static IEnumerable<TResult> Generate<TState, TResult>(
 TState initialState,
 Func<TState, bool> condition,
 Func<TState, TState> iterate,
@@ -1308,7 +1292,7 @@ yield return resultSelector(state); // Deferred execution.
 For also works the same as SelectMany. Its implementation is equivalent to:
 
 ```csharp
-public static IEnumerable<TResult\> For<TSource, TResult\>(
+public static IEnumerable<TResult> For<TSource, TResult>(
 IEnumerable<TSource>source, Func<TSource, IEnumerable<TResult>>resultSelector) =>
 source.SelectMany(resultSelector);
 ```
@@ -1344,7 +1328,7 @@ onCompleted?.Invoke();
 Once again, the yield statement does not work with try-catch statement. The above idea can be implemented with the desugared while-try-catch-yield pattern:
 
 ```csharp
-public static IEnumerable<TSource\> Do<TSource\>(
+public static IEnumerable<TSource> Do<TSource>(
 this IEnumerable<TSource> source,
 Action<TSource>onNext, Action<Exception>onError = null, Action onCompleted = null)
 {
@@ -1445,7 +1429,7 @@ Ix provides a few queries for finding the extremum as well as empty test:
 The additional overloads of Max/Min accept a comparer function, and return the first maximum/minimum value:
 
 ```csharp
-public static TSource Max<TSource\>(
+public static TSource Max<TSource>(
 this IEnumerable<TSource> source, IComparer<TSource> comparer);
 
 public static TSource Min<TSource>(
@@ -1479,7 +1463,7 @@ character1.Name, character2.Name, StringComparison.OrdinalIgnoreCase)));
 MaxBy/MinBy accept key selector and key comparer functions, and their output is a list of all maximum/minimum values:
 
 ```csharp
-public static IList<TSource\> MaxBy<TSource, TKey\>(
+public static IList<TSource> MaxBy<TSource, TKey>(
 this IEnumerable<TSource> source, Func<TSource, TKey> keySelector);
 
 public static IList<TSource> MaxBy<TSource, TKey>(
@@ -1531,7 +1515,7 @@ Ix provides a ForEach query to iterate the source sequence, which is similar to 
 ForEach represents the foreach loop, with a non-indexed overload and an indexed overload, which can be fluently used at the end of LINQ query. This is probably the handiest query in LINQ programming, because it executes the LINQ query and process the query results:
 
 ```csharp
-public static void ForEach<TSource\>(
+public static void ForEach<TSource>(
 this IEnumerable<TSource> source, Action<TSource> onNext)
 {
 foreach (TSource value in source)

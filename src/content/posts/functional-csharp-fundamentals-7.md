@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version:** [**https://weblogs.asp.net/dixin/functional-csharp-fundamentals**](/posts/functional-csharp-fundamentals "https://weblogs.asp.net/dixin/functional-csharp-fundamentals")
+## **Latest version:** [**https://CodingOnWheels.com/posts/functional-csharp-fundamentals**](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
 
 C# 1.0 was initially released in 2002, as its first language specification says at the beginning, C# is a “simple, modern, object oriented, and type-safe” programming language for general purpose. Now C# has evolved to 7.2. During the years, a lot of great language features, especially rich functional programming features, has been added to C#. Now C# language has been productive and elegant, imperative and declarative, object-oriented and functional. With frameworks like .NET Framework, .NET Core, Mono, Xamarin, Unity, etc., C# is used by millions of people cross different platforms, including Windows, Linux, Mac, iOS, Android, etc.
 
@@ -558,7 +558,7 @@ internal static void Stack()
     string value2 = stack2.Pop();
 
     Stack<Uri> stack3 = new Stack<Uri>();
-    stack3.Push(new Uri("https://weblogs.asp.net/dixin"));
+    stack3.Push(new Uri("https://CodingOnWheels.com"));
     Uri value3 = stack3.Pop();
 }
 ```
@@ -1028,7 +1028,7 @@ internal static void CatchFilterRethrow(WebClient webClient)
 {
     try
     {
-        string html = webClient.DownloadString("http://weblogs.asp.net/dixin");
+        string html = webClient.DownloadString("http://CodingOnWheels.com");
     }
     catch (WebException exception)
     {
@@ -1051,7 +1051,7 @@ internal static void ExceptionFilter(WebClient webClient)
 {
     try
     {
-        string html = webClient.DownloadString("http://weblogs.asp.net/dixin");
+        string html = webClient.DownloadString("http://CodingOnWheels.com");
     }
     catch (WebException exception) when ((exception.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.BadRequest)
     {
@@ -1067,7 +1067,7 @@ Exception filter is not a syntactic sugar, but a CLR feature. The above exceptio
 {
   .try
   {
-    // string html = webClient.DownloadString("http://weblogs.asp.net/dixin");
+    // string html = webClient.DownloadString("http://CodingOnWheels.com");
   }
   filter
   {

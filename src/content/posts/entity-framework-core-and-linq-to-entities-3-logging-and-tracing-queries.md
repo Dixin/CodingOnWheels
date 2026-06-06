@@ -204,7 +204,7 @@ SELECT
 [event].value('(data[@name="message"]/value)[1]', 'nvarchar(MAX)') AS [message]
 FROM @target_data.nodes('//RingBufferTarget/event') AS [Rows]([event])
 WHERE [event].value('(action[@name="client_app_name"]/value)[1]', 'nvarchar(MAX)') = N'Core .Net SqlClient Data Provider' -- N'.Net SqlClient Data Provider' for .NET Framework.
-ORDER BY \[timestamp\];
+ORDER BY [timestamp];
 ```
 
 The following is an example of how the traced database operations look like:

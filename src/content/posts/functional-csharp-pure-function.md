@@ -19,47 +19,35 @@ The previous chapter discusses that functional programming encourages modelling 
 
 A function is pure if:
 
-· Its output only depends on input, and does not depend on anything outside the function, like global variable, input from outside world to the hardware, etc. In another word, given the same input, it always gives the same output.
-
-· It does not have obvious interaction with the environment outside the function or the world outside the hardware when it is called. In another word, the function has no side effect. Here are some examples of side effect:
-
-o Mutate state
-
-o Mutate arguments, free variable, or global variable, etc.
-
-o Produce I/O (input/output between the hardware running the function and the outside world of that hardware)
+-   Its output only depends on input, and does not depend on anything outside the function, like global variable, input from outside world to the hardware, etc. In another word, given the same input, it always gives the same output.
+-   It does not have obvious interaction with the environment outside the function or the world outside the hardware when it is called. In another word, the function has no side effect. Here are some examples of side effect:
+    -   Mutate state
+    -   Mutate arguments, free variable, or global variable, etc.
+    -   Produce I/O (input/output between the hardware running the function and the outside world of that hardware)
 
 So pure function is like mathematics function, which is a deterministic mapping between a set of input and a set of output. Other functions are called impure functions.
 
 For example, the following functions are not deterministic, and they are impure:
 
-· Console.Read, Console.ReadLine, Console.ReadKey: give unpredictable output when called each time, since the functions’ output totally depends on the input from outside world to the hardware.
-
-· Random.Next, Guid.NewGuid, System.IO.Path.GetRandomFileName: give random output when called each time.
-
-· DateTime.Now, DateTimeOffset.Now: give different output when called at different time.
+-   Console.Read, Console.ReadLine, Console.ReadKey: give unpredictable output when called each time, since the functions’ output totally depends on the input from outside world to the hardware.
+-   Random.Next, Guid.NewGuid, System.IO.Path.GetRandomFileName: give random output when called each time.
+-   DateTime.Now, DateTimeOffset.Now: give different output when called at different time.
 
 And the following functions have side effects and they are impure:
 
-· Property setter: usually mutate state.
-
-· System.Threading.Thread.Start, Thread.Abort: mutate thread state and hardware state.
-
-· int.TryParse, Interlocked.Increase: mutate argument through out/ref parameter.
-
-· Console.Read, Console.ReadLine, Console.ReadKey, Console.Write, Console.WriteLine: produce console I/O.
-
-· System.IO.Directory.Create, Directory.Move, Directory.Delete, File.Create, File.Move, File.Delete, File.ReadAllBytes, File.WriteAllBytes: produce file system I/O.
-
-· System.Net.Http.HttpClient.GetAsync, HttpClient.PostAsync, HttpClinet.PutAsync, HttpClient.DeleteAsync: produce network I/O.
-
-· IDisposable.Dispose: interact with environment to release unmanaged resources, and usually mutate the current state to disposed.
+-   Property setter: usually mutate state.
+-   System.Threading.Thread.Start, Thread.Abort: mutate thread state and hardware state.
+-   int.TryParse, Interlocked.Increase: mutate argument through out/ref parameter.
+-   Console.Read, Console.ReadLine, Console.ReadKey, Console.Write, Console.WriteLine: produce console I/O.
+-   System.IO.Directory.Create, Directory.Move, Directory.Delete, File.Create, File.Move, File.Delete, File.ReadAllBytes, File.WriteAllBytes: produce file system I/O.
+-   System.Net.Http.HttpClient.GetAsync, HttpClient.PostAsync, HttpClinet.PutAsync, HttpClient.DeleteAsync: produce network I/O.
+-   IDisposable.Dispose: interact with environment to release unmanaged resources, and usually mutate the current state to disposed.
 
 Strictly speaking, any function can interact with the outside world. A function call can at least have the hardware consuming electric energy from outside world and producing heat to outside world. When identifying function’s purity, only explicit interactions are considered.
 
 In contrast, the following examples are pure functions because they are both deterministic and side effect free:
 
-· Most mathematics functions, like numeric primitive types and decimal’s arithmetic operators, most of System.Math type’s static methods, etc. Take Math.Max and Math.Min as examples, their computed output only depends on the input, and they do not produce any side effect, like mutating state/argument/global variable, producing I/O, etc.:
+-   Most mathematics functions, like numeric primitive types and decimal’s arithmetic operators, most of System.Math type’s static methods, etc. Take Math.Max and Math.Min as examples, their computed output only depends on the input, and they do not produce any side effect, like mutating state/argument/global variable, producing I/O, etc.:
 
 ```csharp
 namespace System
@@ -73,13 +61,10 @@ public static int Min(int val1, int val2) => (val1 <= val2) ? val1 : val2;
 }
 ```
 
-· object’s methods, like GetHashCode, GetType, Equals, ReferenceEquals, ToString, etc.
-
-· System.Convert type’ conversion methods, like ToBoolean, ToInt32, etc.
-
-· Property getter to simply output a state without mutating any state or producing other side effect, like string.Length, Nullable<T>.HasValue, Console.Error, etc.
-
-· Immutable type’s function members for transformation, like string.Concat, string.Substring, string.Insert, string.Replace, string.Trim, string.ToUpper, string.ToLower, etc.
+-   object’s methods, like GetHashCode, GetType, Equals, ReferenceEquals, ToString, etc.
+-   System.Convert type’ conversion methods, like ToBoolean, ToInt32, etc.
+-   Property getter to simply output a state without mutating any state or producing other side effect, like string.Length, Nullable<T>.HasValue, Console.Error, etc.
+-   Immutable type’s function members for transformation, like string.Concat, string.Substring, string.Insert, string.Replace, string.Trim, string.ToUpper, string.ToLower, etc.
 
 Since pure function is deterministic and side effect free, a pure function call expression and a constant expression of the result can always replace each other. This is called referential transparency.
 
@@ -112,13 +97,10 @@ internal static int Decrease(int int32) => int32 - 1; // Pure.
 
 Looks great. Unfortunately, this attribute is provided not for general purpose but only for Code Contracts, a .NET tool provided (and now discontinued) by Microsoft. Code Contracts tool consists of:
 
-· Code contracts APIs under System.Diagnostics.Contracts namespace to specify preconditions, post conditions, invariant, purity, etc., including the above PureAttribute.
-
-· Contracts assemblies for most commonly used FCL assemblies
-
-· Compile time rewriter and analyzer
-
-· Runtime analyzer
+-   Code contracts APIs under System.Diagnostics.Contracts namespace to specify preconditions, post conditions, invariant, purity, etc., including the above PureAttribute.
+-   Contracts assemblies for most commonly used FCL assemblies
+-   Compile time rewriter and analyzer
+-   Runtime analyzer
 
 In a function member, the contracts for its code can be specified declaratively with System.Diagnostics.Contracts.Contract type’s static methods. These contracts can be analysed at compile time and runtime. Apparently, they must be referential transparent and cannot rely on any side effect. So, only pure function (function with \[Pure\] contract) are allowed to be called with contracts APIs, like the above IsPositive function:
 

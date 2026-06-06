@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/category-theory-via-csharp-2-monoid](/posts/category-theory-via-csharp-2-monoid)**
+## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-2-monoid](/posts/category-theory-via-csharp-2-monoid)**
 
 ## One monoid, one category
 

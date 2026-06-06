@@ -608,21 +608,14 @@ continuationClauses\]
 
 A query expression must start with a from clause, and end with either a select clause or a group clause. In the middle, it can have from/join/let/where/orderby clauses. These query expression clauses introduce new language keywords to C#, which are called query keywords:
 
-· from
-
-· join, on, equals
-
-· let
-
-· where
-
-· orderby, ascending, descending
-
-· select
-
-· group, by
-
-· into
+-   from
+-   join, on, equals
+-   let
+-   where
+-   orderby, ascending, descending
+-   select
+-   group, by
+-   into
 
 Query expression is just syntactic sugar, it is compiled to query method calls:
 
@@ -994,11 +987,9 @@ TKey Key { get; }
 
 .NET Standard provides 3 sets of built-in query APIs, implementing the above query expression pattern:
 
-· The IEnumerable, IEnumerable<T>, IOrderedEnumerable<T> and IGrouping<TKey, TElement> types follow the above type designs, and Enumerable’s function members follow the above query method designs and implement local sequential queries.
-
-· The ParallelQuery, ParallelQuery<TSource>, OrderedParallelQuery<TSource> and IGrouping<TKey, TElement> types follow the above type designs, and System.Linq.ParallelEnumerable’s function members follow the above query method designs and implement local parallel queries.
-
-· The IQueryable, IQueryable<T>, IOrderedQueryable<T> and IGrouping<TKey, TElement> types follow the above type designs, and Queryable’s function members follow the above query method designs and are used for remote queries.
+-   The IEnumerable, IEnumerable<T>, IOrderedEnumerable<T> and IGrouping<TKey, TElement> types follow the above type designs, and Enumerable’s function members follow the above query method designs and implement local sequential queries.
+-   The ParallelQuery, ParallelQuery<TSource>, OrderedParallelQuery<TSource> and IGrouping<TKey, TElement> types follow the above type designs, and System.Linq.ParallelEnumerable’s function members follow the above query method designs and implement local parallel queries.
+-   The IQueryable, IQueryable<T>, IOrderedQueryable<T> and IGrouping<TKey, TElement> types follow the above type designs, and Queryable’s function members follow the above query method designs and are used for remote queries.
 
 The details of local sequential queries are discussed in LINQ to Objects chapters, local parallel queries are discussed in the Parallel LINQ chapters, and the remote queries are discussed in the LINQ to Entities chapters.
 

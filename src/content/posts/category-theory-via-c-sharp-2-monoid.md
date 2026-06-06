@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/category-theory-via-csharp-2-monoid](/posts/category-theory-via-csharp-2-monoid)**
+## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-2-monoid](/posts/category-theory-via-csharp-2-monoid)**
 
 ## Monoid and monoid laws
 
@@ -116,7 +116,7 @@ However, C# compiler does not allow System.Void to be used like this. There are 
 
 [F#’s unit](https://msdn.microsoft.com/en-us/library/dd483472.aspx) is equivalent to [C#’s void](https://msdn.microsoft.com/en-us/library/yah0tteb.aspx), and Microsoft.FSharp.Core.Unit is semantically close to System.Void. Unit’s [source code](https://github.com/fsharp/fsharp/blob/master/src/fsharp/FSharp.Core/prim-types.fs) is:
 
-```csharp
+```fsharp
 type Unit() =
     override x.GetHashCode() = 0
     override x.Equals(obj:obj) = 

@@ -15,7 +15,7 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## **EF Core version of this article:** [**https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-8-optimistic-concurrency**](/posts/entity-framework-core-and-linq-to-entities-8-optimistic-concurrency "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-8-optimistic-concurrency")
+## **EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-8-optimistic-concurrency**](/posts/entity-framework-core-and-linq-to-entities-8-optimistic-concurrency "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-8-optimistic-concurrency")
 
 Conflicts can occur if the same piece of data is read and changed concurrently. Generally, there are 2 [concurrency control](https://en.wikipedia.org/wiki/Concurrency_control) approaches:
 

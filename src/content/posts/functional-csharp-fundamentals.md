@@ -559,16 +559,15 @@ return value;
 
 This code is not very reusable. Later, if stacks are needed for values of other data types, like string, decimal, etc., then there are some options:
 
-· For each new data type, make a copy of above code and modify the int type information. So IStringStack and StringStack can be defined for string, IDecimalStack and DecimalStack for decimal, and so on and on. Apparently this way is not feasible.
-
-· Since every type is derived from object, a general stack for object can be defined, which is IObjectStack and ObjectStack. The Push method accepts object, and Pop method returns object, so the stack can be used for values of any data type. However, this design loses the compile time type checking. Calling Push with any argument can be compiled. Also, at runtime, whenever Pop is called, the returned object has to be casted to the expected type, which is a performance overhead and a chance to fail.
+-   For each new data type, make a copy of above code and modify the int type information. So IStringStack and StringStack can be defined for string, IDecimalStack and DecimalStack for decimal, and so on and on. Apparently this way is not feasible.
+-   Since every type is derived from object, a general stack for object can be defined, which is IObjectStack and ObjectStack. The Push method accepts object, and Pop method returns object, so the stack can be used for values of any data type. However, this design loses the compile time type checking. Calling Push with any argument can be compiled. Also, at runtime, whenever Pop is called, the returned object has to be casted to the expected type, which is a performance overhead and a chance to fail.
 
 ### Type parameter
 
 With generics, a much better option is to replace the concrete type int with a type parameter T, which is declared in angle brackets following the stack type name:
 
 ```csharp
-internal interface IStack<T\>
+internal interface IStack<T>
 {
 void Push(T value);
 
@@ -612,7 +611,7 @@ stack2.Push(Environment.MachineName);
 string value2 = stack2.Pop();
 
 Stack<Uri>stack3 = new Stack<Uri>();
-stack3.Push(new Uri("https://weblogs.asp.net/dixin"));
+stack3.Push(new Uri("https://CodingOnWheels.com"));
 Uri value3 = stack3.Pop();
 }
 ```
@@ -652,7 +651,7 @@ T value1 = null;
 Here T must be reference type, for example, Constraint<string> is allowed by compiler, and Constraint<int> causes a compiler error. Here are some more examples of constraints syntax:
 
 ```csharp
-internal partial class Constraints<T1, T2, T3, T4, T5, T6, T7\>
+internal partial class Constraints<T1, T2, T3, T4, T5, T6, T7>
 where T1 : struct
 where T2 : class
 where T3 : DbConnection
@@ -665,24 +664,18 @@ where T7 : T2, T3, T4, IDisposable, new() { }
 
 The above generic type has 7 type parameters:
 
-· T1 must be value type (structure)
-
-· T2 must be reference type (class)
-
-· T3 must be the specified type, or derive from the specified type
-
-· T4 must be the specified interface, or implement the specified interface
-
-· T5 must be value type (structure), and must implement all the specified interfaces
-
-· T6 must have a public parameterless constructor
-
-· T7 must be or derive from or implement T2, T3, T4, and must implement the specified interface, and must have a public parameterless constructor
+-   T1 must be value type (structure)
+-   T2 must be reference type (class)
+-   T3 must be the specified type, or derive from the specified type
+-   T4 must be the specified interface, or implement the specified interface
+-   T5 must be value type (structure), and must implement all the specified interfaces
+-   T6 must have a public parameterless constructor
+-   T7 must be or derive from or implement T2, T3, T4, and must implement the specified interface, and must have a public parameterless constructor
 
 Take T3 as example:
 
 ```csharp
-internal partial class Constraints<T1, T2, T3, T4, T5, T6, T7\>
+internal partial class Constraints<T1, T2, T3, T4, T5, T6, T7>
 {
 internal static void Method(T3 connection)
 {
@@ -707,19 +700,13 @@ Constraints<bool, object, DbConnection, IDbConnection, int, Exception, SqlConnec
 
 Here:
 
-· bool is value type
-
-· object is reference type
-
-· DbConnection is DbConnection
-
-· System.Data.Common.IDbConnection implements IDisposable
-
-· int is value type, implements System.IComparable, and implements System.IComparable<int> too
-
-· System.Exception has a public parameterless constructor
-
-· System.Data.SqlClient.SqlConnection derives from object, derives from DbConnection, implements IDbConnection, and has a public parameterless constructor
+-   bool is value type
+-   object is reference type
+-   DbConnection is DbConnection
+-   System.Data.Common.IDbConnection implements IDisposable
+-   int is value type, implements System.IComparable, and implements System.IComparable<int> too
+-   System.Exception has a public parameterless constructor
+-   System.Data.SqlClient.SqlConnection derives from object, derives from DbConnection, implements IDbConnection, and has a public parameterless constructor
 
 ### Nullable value type
 
@@ -1060,7 +1047,7 @@ ValuePoint valuePoint = nullableValue ?? ValuePoint.Default;
 It is also very common to check null before member or indexer access:
 
 ```csharp
-internal static void NullCheck(Category category, Device\[\] devices)
+internal static void NullCheck(Category category, Device[] devices)
 {
 string categoryText = null;
 if (category != null)
@@ -1082,7 +1069,7 @@ firstDeviceName = firstDevice.Name;
 To simplify the nested if statement for null check with an expression, C# 6.0 introduces null conditional operators (also called null propagation operators), including ?. for member access and ?\[\] for indexer access:
 
 ```csharp
-internal static void NullCheckWithNullConditional(Category category, Device\[\] devices)
+internal static void NullCheckWithNullConditional(Category category, Device[] devices)
 {
 string categoryText = category?.ToString();
 string firstDeviceName = devices?[0]?.Name;
@@ -1143,7 +1130,7 @@ internal static void CatchFilterRethrow(WebClient webClient)
 {
 try
 {
-string html = webClient.DownloadString("http://weblogs.asp.net/dixin");
+string html = webClient.DownloadString("http://CodingOnWheels.com");
 }
 catch (WebException exception)
 {
@@ -1166,7 +1153,7 @@ internal static void ExceptionFilter(WebClient webClient)
 {
 try
 {
-string html = webClient.DownloadString("http://weblogs.asp.net/dixin");
+string html = webClient.DownloadString("http://CodingOnWheels.com");
 }
 catch (WebException exception) when ((exception.Response as HttpWebResponse)?.StatusCode == HttpStatusCode.BadRequest)
 {
@@ -1183,7 +1170,7 @@ Exception filter is not a syntactic sugar to replace if statement with declarati
 {
 .try
 {
-// string html = webClient.DownloadString("http://weblogs.asp.net/dixin");
+// string html = webClient.DownloadString("http://CodingOnWheels.com");
 }
 filter
 {

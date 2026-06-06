@@ -11,7 +11,7 @@ lang: ""
 
 ## \[[LINQ via C# series](/posts/linq-via-csharp)\]
 
-## **Latest version:** [**https://weblogs.asp.net/dixin/linq-via-csharp-introduction**](/posts/linq-via-csharp-introduction "https://weblogs.asp.net/dixin/linq-via-csharp-introduction")
+## **Latest version:** [**https://CodingOnWheels.com/posts/linq-via-csharp-introduction**](/posts/linq-via-csharp-introduction "https://CodingOnWheels.com/posts/linq-via-csharp-introduction")
 
 This is a tutorial of functional programming and LINQ in C# language. The contents was initially based on my [LINQ via C# talks](/posts/linq-via-csharp-events-posters-design). Hope it helps.
 

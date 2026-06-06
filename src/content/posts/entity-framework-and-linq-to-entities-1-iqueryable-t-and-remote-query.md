@@ -15,7 +15,7 @@ lang: ""
 
 ## **\[**[**Entity Framework series**](/archive/?tag=Entity%20Framework)**\]**
 
-## **EF Core version of this article:** [**https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-1-remote-query**](/posts/entity-framework-core-and-linq-to-entities-1-remote-query "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-1-remote-query")
+## **EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-1-remote-query**](/posts/entity-framework-core-and-linq-to-entities-1-remote-query "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-1-remote-query")
 
 The previous chapters discussed LINQ to Objects, LINQ to XML (objects), and Parallel LINQ (to Objects). All of these APIs query in memory objects managed by .NET. This chapter discusses Entity Framework, a Microsoft library providing a different kind of LINQ technology, LINQ to Entities. LINQ to Entities can access and query relational data managed by different kinds of databases, e.g.:
 

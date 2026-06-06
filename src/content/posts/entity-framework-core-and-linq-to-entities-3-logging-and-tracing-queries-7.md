@@ -15,9 +15,9 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## Latest EF Core version of this article: [https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries](/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries")
+## Latest EF Core version of this article: [https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries](/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries")
 
-## **EF version of this article:** [**https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-3-logging**](/posts/entity-framework-and-linq-to-entities-3-logging "https://weblogs.asp.net/dixin/entity-framework-and-linq-to-entities-3-logging")
+## **EF version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-3-logging**](/posts/entity-framework-and-linq-to-entities-3-logging "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-3-logging")
 
 EF version of this i
 

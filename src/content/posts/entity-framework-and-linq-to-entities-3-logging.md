@@ -15,7 +15,7 @@ lang: ""
 
 ## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
 
-## EF Core version of this article: [https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries](/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries "https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries")
+## EF Core version of this article: [https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries](/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries")
 
 As fore mentioned, this tutorial will use SQL Profiler to trace the remote SQL queries, which are translated from the LINQ to Entities queries. This is most close the the truth, because the tracing uncovers the actual SQL query executed in SQL database. Entity Framework also provides several options to log the translated SQL database operations programmatically.
 

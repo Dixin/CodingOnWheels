@@ -16,42 +16,24 @@ lang: ""
 Understanding of internal implementation of LINQ to Objects queries is the ultimate way to master them and use them accurately and effectively, and is also helpful for defining custom query methods, which is discussed later in the custom queries chapter. Just like the usage discussion part, here query methods are still categorized by output type, but in a different order:
 
 1. Collection queries: output a new collection (immediate execution):
-
-o Conversion: ToArray, ToList, ToDictionary, ToLookup
-
-2. Sequence queries: output a new IEnumerable<T> sequence (deferred execution, underlined are eager evaluation):
-
-o Conversion: Cast, AsEnumerable
-
-o Generation: Empty, Range, Repeat, DefaultIfEmpty
-
-o Filtering (restriction): Where, OfType
-
-o Mapping (projection): Select, SelectMany
-
-o Grouping: GroupBy\*
-
-o Join: SelectMany, Join\*, GroupJoin\*
-
-o Concatenation: Concat
-
-o Set: Distinct, Union, Intersect\*, Except\*
-
-o Convolution: Zip
-
-o Partitioning: Take, Skip, TakeWhile, SkipWhile
-
-o Ordering: OrderBy\*, ThenBy\*, OrderByDescending\*, ThenByDescending\*, Reverse\*
-
-3. Value queries: output a single value (immediate execution):
-
-o Element: First, FirstOrDefault, Last, LastOrDefault, ElementAt, ElementAtOrDefault, Single, SingleOrDefault
-
-o Aggregation: Aggregate, Count, LongCount, Min, Max, Sum, Average
-
-o Quantifier: All, Any, Contains
-
-o Equality: SequenceEqual
+    -   Conversion: ToArray, ToList, ToDictionary, ToLookup
+1. Sequence queries: output a new IEnumerable<T> sequence (deferred execution, underlined are eager evaluation):
+    -   Conversion: Cast, AsEnumerable
+    -   Generation: Empty, Range, Repeat, DefaultIfEmpty
+    -   Filtering (restriction): Where, OfType
+    -   Mapping (projection): Select, SelectMany
+    -   Grouping: GroupBy\*
+    -   Join: SelectMany, Join\*, GroupJoin\*
+    -   Concatenation: Concat
+    -   Set: Distinct, Union, Intersect\*, Except\*
+    -   Convolution: Zip
+    -   Partitioning: Take, Skip, TakeWhile, SkipWhile
+    -   Ordering: OrderBy\*, ThenBy\*, OrderByDescending\*, ThenByDescending\*, Reverse\*
+1. Value queries: output a single value (immediate execution):
+    -   Element: First, FirstOrDefault, Last, LastOrDefault, ElementAt, ElementAtOrDefault, Single, SingleOrDefault
+    -   Aggregation: Aggregate, Count, LongCount, Min, Max, Sum, Average
+    -   Quantifier: All, Any, Contains
+    -   Equality: SequenceEqual
 
 The LINQ to Objects queries are functional as APIs, but their implementation is imperative. Again, the collection queries and value queries implement immediate execution, and the sequence queries implements deferred execution. For the sequential queries, the ones marked with \* implements eager evaluation, and the other ones without mark implements lazy evaluation.
 
@@ -186,7 +168,7 @@ bool Remove(T item);
 Also, the array does not need to be resized for each value. The built-in implementation has the arrays grow in the same way of List<T>. First, an initial length is used to construct the array; when pulling values from source and storing to array, if array gets full, then double its length; After all values are pulled, the array resized to the actual length. The following is an equivalent implementation, optimized for readability:
 
 ```csharp
-public static TSource\[\] ToArray<TSource\>(this IEnumerable<TSource\> source)
+public static TSource[] ToArray<TSource>(this IEnumerable<TSource> source)
 {
 if (source is ICollection<TSource> genericCollection)
 {
@@ -241,7 +223,7 @@ new List<TSource\>(source);
 ToDictionary is also easy, because Dictionary<TKey, TValue> has an Add method:
 
 ```csharp
-public static Dictionary<TKey, TSource\> ToDictionary<TSource, TKey\>(
+public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(
 this IEnumerable<TSource> source,
 Func<TSource, TKey> keySelector,
 IEqualityComparer<TKey>comparer = null) =>
@@ -266,7 +248,7 @@ return dictionary;
 As previously discussed, a lookup is a dictionary of key and sequence pairs, and each key and sequence pair are just a group represented by IGrouping<TKey, TElement>, which can be implemented as:
 
 ```csharp
-public class Grouping<TKey, TElement\> : IGrouping<TKey, TElement\>
+public class Grouping<TKey, TElement> : IGrouping<TKey, TElement>
 {
 private readonly List<TElement> values = new List<TElement>();
 
@@ -318,7 +300,7 @@ IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 The built-in API object.GetHashCode is not directly used to get each group key’s hash code, because it does not handle null value very well in some cases. System.Nullable<T>.GetHashCode is such an example. ((int?)0).GetHashCode() and ((int?)null).GetHashCode() both return 0. So, the above GetHashCode method reserves -1 for null. And any non-null value’s hash code is converted to a positive int by a bitwise and operation with int.MaxValue (0b\_01111111\_11111111\_11111111\_11111111). Also notice the indexer getter outputs an empty sequence when the specified key does not exist. Similar to Grouping<TKey, TElement>.Add, the following Lookup<TKey, TElement>.AddRange is defined to add data:
 
 ```csharp
-public partial class Lookup<TKey, TElement\>
+public partial class Lookup<TKey, TElement>
 {
 public Lookup<TKey, TElement> AddRange<TSource>(
 IEnumerable<TSource>source,
@@ -351,7 +333,7 @@ return this;
 Now, ToLookup can be implemented by creating a lookup and adding all data:
 
 ```csharp
-public static ILookup<TKey, TElement\> ToLookup<TSource, TKey, TElement\>(
+public static ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement>(
 this IEnumerable<TSource> source,
 Func<TSource, TKey> keySelector,
 Func<TSource, TElement> elementSelector,
@@ -382,7 +364,7 @@ With an IEnumerable<T> output, it just makes the source’s non-sequence methods
 Cast is very easy to implement with the generator syntactic sugar. Just yield each cast value:
 
 ```csharp
-public static IEnumerable<TResult\> Cast<TResult\>(this IEnumerable source)
+public static IEnumerable<TResult> Cast<TResult>(this IEnumerable source)
 {
 foreach (object value in source)
 {
@@ -413,7 +395,7 @@ yield return (TResult)value; // Deferred execution.
 The above code cannot be compiled. The yield statement indicates the entire function body should be compiled to a generator, so the return statement cannot be used with yield statement. Similar to argument check, the solution is to isolate the iteration control flow with yield statement into another method or local function:
 
 ```csharp
-public static IEnumerable<TResult\> Cast<TResult\>(this IEnumerable source)
+public static IEnumerable<TResult> Cast<TResult>(this IEnumerable source)
 {
 IEnumerable<TResult>CastGenerator()
 {
@@ -435,7 +417,7 @@ Cast also implements deferred execution. When it is called, its output is either
 Empty can be implemented with a single yield break statement, which is compiled to an empty generator:
 
 ```csharp
-public static IEnumerable<TResult\> EmptyGenerator<TResult\>()
+public static IEnumerable<TResult> EmptyGenerator<TResult>()
 {
 yield break;
 }
@@ -448,7 +430,7 @@ public static IEnumerable<TResult\> Empty<TResult\>() => Array.Empty<TResult\>()
 Range can be simply implemented with a loop:
 
 ```csharp
-public static IEnumerable<int\> Range(int start, int count)
+public static IEnumerable<int> Range(int start, int count)
 {
 if (count < 0 || (((long)start) + count - 1L) > int.MaxValue)
 {
@@ -496,7 +478,7 @@ return RepeatGenerator();
 DefaultIfEmpty can be implemented with a desugared foreach loop to detect and iterate the source sequence:
 
 ```csharp
-public static IEnumerable<TSource\> DefaultIfEmpty<TSource\>(
+public static IEnumerable<TSource> DefaultIfEmpty<TSource>(
 this IEnumerable<TSource> source, TSource defaultValue = default)
 {
 using (IEnumerator<TSource> iterator = source.GetEnumerator())
@@ -526,7 +508,7 @@ The first MoveNext call detects if the source sequence is empty. If so, just yie
 Where is already discussed. The following are the non-indexed overload and index overload equivalent to the built-in implementation:
 
 ```csharp
-public static IEnumerable<TSource\> Where<TSource\>(
+public static IEnumerable<TSource> Where<TSource>(
 this IEnumerable<TSource> source,
 Func<TSource, bool> predicate)
 {
@@ -557,7 +539,7 @@ yield return value; // Deferred execution.
 Similarly, OfType has a type test to filter the source:
 
 ```csharp
-public static IEnumerable<TResult\> OfType<TResult\>(this IEnumerable source)
+public static IEnumerable<TResult> OfType<TResult>(this IEnumerable source)
 {
 foreach (object value in source)
 {
@@ -574,7 +556,7 @@ yield return (TResult)value; // Deferred execution.
 Select has also been discussed. The following are the non-indexed overload and index overload equivalent to the built-in implementation:
 
 ```csharp
-public static IEnumerable<TResult\> Select<TSource, TResult\>(
+public static IEnumerable<TResult> Select<TSource, TResult>(
 this IEnumerable<TSource> source, Func<TSource, TResult>selector)
 {
 foreach (TSource value in source)
@@ -598,7 +580,7 @@ yield return selector(value, index); // Deferred execution.
 The implementation of SelectMany is also straightforward:
 
 ```csharp
-public static IEnumerable<TResult\> SelectMany<TSource, TResult\>(
+public static IEnumerable<TResult> SelectMany<TSource, TResult>(
 this IEnumerable<TSource> source,
 Func<TSource, IEnumerable<TResult>>selector)
 {
@@ -615,7 +597,7 @@ yield return result; // Deferred execution.
 Above code intuitively shows its capacity to flatten a hierarchical 2-level-sequence to a flat 1-level-sequence. The following is the overload with collection selector and result selector:
 
 ```csharp
-public static IEnumerable<TResult\> SelectMany<TSource, TCollection, TResult\>(
+public static IEnumerable<TResult> SelectMany<TSource, TCollection, TResult>(
 this IEnumerable<TSource> source,
 Func<TSource, IEnumerable<TCollection>> collectionSelector,
 Func<TSource, TCollection, TResult>resultSelector)
@@ -633,7 +615,7 @@ yield return resultSelector(sourceValue, collectionValue); // Deferred execution
 And the following are the indexed overloads:
 
 ```csharp
-public static IEnumerable<TResult\> SelectMany<TSource, TResult\>(
+public static IEnumerable<TResult> SelectMany<TSource, TResult>(
 this IEnumerable<TSource> source,
 Func<TSource, int, IEnumerable<TResult>> selector)
 {
@@ -670,7 +652,7 @@ yield return resultSelector(sourceValue, collectionValue); // Deferred execution
 GroupBy’s work is similar to ToLookup, but with deferred execution. To implement deferred execution with ToLookup, the easiest way is to involve yield statement:
 
 ```csharp
-public static IEnumerable<IGrouping<TKey, TSource\>> GroupBy<TSource, TKey\>(
+public static IEnumerable<IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(
 this IEnumerable<TSource> source,
 Func<TSource, TKey> keySelector,
 IEqualityComparer<TKey>comparer = null)
@@ -686,7 +668,7 @@ yield return group; // Deferred execution.
 When starting to pull the first value from the returned generator, ToLookup is called to evaluate all source values and group them, so that the first group can be yielded. Apparently GroupBy implements eager evaluation. The overloads with element selector and resultSelector can all be implemented in the same pattern:
 
 ```csharp
-public static IEnumerable<IGrouping<TKey, TElement\>> GroupBy<TSource, TKey, TElement\>(
+public static IEnumerable<IGrouping<TKey, TElement>> GroupBy<TSource, TKey, TElement>(
 this IEnumerable<TSource> source,
 Func<TSource, TKey> keySelector,
 Func<TSource, TElement> elementSelector,
@@ -732,7 +714,7 @@ yield return resultSelector(group.Key, group); // Deferred execution.
 Similar to GroupBy, GroupJoin for outer join can be simply implemented with the same pattern of ToLookup and yield:
 
 ```csharp
-public static IEnumerable<TResult\> GroupJoinWithLookup<TOuter, TInner, TKey, TResult\>(
+public static IEnumerable<TResult> GroupJoinWithLookup<TOuter, TInner, TKey, TResult>(
 this IEnumerable<TOuter> outer,
 IEnumerable<TInner>inner,
 Func<TOuter, TKey> outerKeySelector,
@@ -751,7 +733,7 @@ yield return resultSelector(outerValue, innerLookup[outerKeySelector(outerValue)
 When trying to pull the first value from the returned generator, the inner values are grouped by the keys, and stored in the inner lookup. Then, for each outer value, query the inner lookup by key. Remember when a lookup is queried with a key, it always outputs a sequence, even when the key does not exist, it returns an empty sequence. So that in GroupJoin, each outer value is always paired with a group of inner values. The above implementation is straightforward, but the inner source is always pulled, even when the outer source is empty. This can be avoided by a little optimization:
 
 ```csharp
-public static IEnumerable<TResult\> GroupJoin<TOuter, TInner, TKey, TResult\>(
+public static IEnumerable<TResult> GroupJoin<TOuter, TInner, TKey, TResult>(
 this IEnumerable<TOuter> outer,
 IEnumerable<TInner> inner,
 Func<TOuter, TKey> outerKeySelector,
@@ -781,7 +763,7 @@ Similar to DefaultIfEmpty, the first MoveNext call detects if the outer source i
 Join for inner join can also be implemented with the similar pattern:
 
 ```csharp
-public static IEnumerable<TResult\> JoinWithToLookup<TOuter, TInner, TKey, TResult\>(
+public static IEnumerable<TResult> JoinWithToLookup<TOuter, TInner, TKey, TResult>(
 this IEnumerable<TOuter> outer,
 IEnumerable<TInner>inner,
 Func<TOuter, TKey> outerKeySelector,
@@ -807,7 +789,7 @@ yield return resultSelector(outerValue, innerValue); // Deferred execution.
 It calls the ILookup<TKey, TElement>.Contains filter, because in inner join each outer value has to be paired with a matching inner value. Again, the above implementation can be optimized, so that the inner values are not pulled and converted to lookup when the outer source is empty:
 
 ```csharp
-public static IEnumerable<TResult\> Join<TOuter, TInner, TKey, TResult\>(
+public static IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(
 this IEnumerable<TOuter> outer,
 IEnumerable<TInner>inner,
 Func<TOuter, TKey> outerKeySelector,
@@ -847,7 +829,7 @@ while (outerIterator.MoveNext());
 Concat’s implementation is equivalent to yield values from the first source sequence, then yield values from the from the second:
 
 ```csharp
-public static IEnumerable<TSource\> Concat<TSource\>(
+public static IEnumerable<TSource> Concat<TSource>(
 this IEnumerable<TSource> first, IEnumerable<TSource> second)
 {
 foreach (TSource value in first)
@@ -864,7 +846,7 @@ yield return value; // Deferred execution.
 Append and Prepend’s implementation is equivalent to the following, with similar pattern:
 
 ```csharp
-public static IEnumerable<TSource\> Append<TSource\>(this IEnumerable<TSource\> source, TSource element)
+public static IEnumerable<TSource> Append<TSource>(this IEnumerable<TSource> source, TSource element)
 {
 foreach (TSource value in source)
 {
@@ -888,7 +870,7 @@ yield return value;
 All the set queries need to remove duplicate values in the result sequence. So, the following hash set is defined to represent a collection of distinct values. The duplication of values can be identified by their hash codes, so a dictionary can be used to store distinct hash code and value pairs:
 
 ```csharp
-public partial class HashSet<T\> : IEnumerable<T\>
+public partial class HashSet<T> : IEnumerable<T>
 {
 private readonly IEqualityComparer<T> equalityComparer;
 
@@ -906,7 +888,7 @@ IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 Then, the following Add and AddRange methods can be defined:
 
 ```csharp
-public partial class HashSet<T\>
+public partial class HashSet<T>
 {
 private int GetHashCode(T value) => value == null
 ? -1
@@ -938,7 +920,7 @@ return this;
 When Add is called with a specified value, if there is already a duplicate hash code in the internal dictionary, the specified value is not stored in the dictionary and false is returned; otherwise, the specified value and its hash code are added to the internal dictionary, and true is returned. With above hash set, it is very easy to implement Distinct.
 
 ```csharp
-public static IEnumerable<TSource\> Distinct<TSource\>(
+public static IEnumerable<TSource> Distinct<TSource>(
 this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer = null)
 {
 HashSet<TSource>hashSet = new HashSet<TSource>(comparer);
@@ -955,7 +937,7 @@ yield return value; // Deferred execution.
 Union can be implemented by filtering the first source sequence with HashSet<T>.Add, then filter the second source sequence with HashSet<T>.Add:
 
 ```csharp
-public static IEnumerable<TSource\> Union<TSource\>(
+public static IEnumerable<TSource> Union<TSource>(
 this IEnumerable<TSource> first,
 IEnumerable<TSource>second,
 IEqualityComparer<TSource>comparer = null)
@@ -981,7 +963,7 @@ yield return secondValue; // Deferred execution.
 Except can be implemented with the same pattern of filtering with HashSet<T>.Add:
 
 ```csharp
-public static IEnumerable<TSource\> Except<TSource\>(
+public static IEnumerable<TSource> Except<TSource>(
 this IEnumerable<TSource> first,
 IEnumerable<TSource>second,
 IEqualityComparer<TSource>comparer = null)
@@ -1002,7 +984,7 @@ When trying to pull the first value from the returned generator, values in the s
 And Intersect can also be implemented with this pattern:
 
 ```csharp
-public static IEnumerable<TSource\> IntersectWithAdd<TSource\>(
+public static IEnumerable<TSource> IntersectWithAdd<TSource>(
 this IEnumerable<TSource> first,
 IEnumerable<TSource>second,
 IEqualityComparer<TSource>comparer = null)
@@ -1026,7 +1008,7 @@ yield return firstValue; // Deferred execution.
 To simplify above implementation, A Remove method can be defined for hash set:
 
 ```csharp
-public partial class HashSet<T\>
+public partial class HashSet<T>
 {
 public bool Remove(T value)
 {
@@ -1044,7 +1026,7 @@ return false;
 Similar to Add, here if a value is found and removed, Remove outputs true; otherwise, Remove outputs false. So, Intersect can be implemented by filtering with Remove:
 
 ```csharp
-public static IEnumerable<TSource\> Intersect<TSource\>(
+public static IEnumerable<TSource> Intersect<TSource>(
 this IEnumerable<TSource> first,
 IEnumerable<TSource>second,
 IEqualityComparer<TSource>comparer = null)
@@ -1065,7 +1047,7 @@ yield return firstValue; // Deferred execution.
 Zip is easy to implement with a desugared foreach:
 
 ```csharp
-public static IEnumerable<TResult\> Zip<TFirst, TSecond, TResult\>(
+public static IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(
 this IEnumerable<TFirst> first,
 IEnumerable<TSecond>second,
 Func<TFirst, TSecond, TResult>resultSelector)
@@ -1088,7 +1070,7 @@ It stops yielding result when one of those 2 source sequences reaches the end.
 Skip is easy to implement:
 
 ```csharp
-public static IEnumerable<TSource\> Skip<TSource\>(this IEnumerable<TSource\> source, int count)
+public static IEnumerable<TSource> Skip<TSource>(this IEnumerable<TSource> source, int count)
 {
 foreach (TSource value in source)
 {
@@ -1107,7 +1089,7 @@ yield return value;
 It can be optimized a little bit by desugaring the foreach loop, so that when a value should be skipped, only the source iterator’s MoveNext method is called.
 
 ```csharp
-public static IEnumerable<TSource\> Skip<TSource\>(this IEnumerable<TSource\> source, int count)
+public static IEnumerable<TSource> Skip<TSource>(this IEnumerable<TSource> source, int count)
 {
 using (IEnumerator<TSource> iterator = source.GetEnumerator())
 {
@@ -1129,7 +1111,7 @@ yield return iterator.Current; // Deferred execution.
 In contrast, SkipWhile has to pull each value from source sequence to call predicate, so there is no need to desugar foreach. The following are the non-index overload and indexed overload:
 
 ```csharp
-public static IEnumerable<TSource\> SkipWhile<TSource\>(
+public static IEnumerable<TSource> SkipWhile<TSource>(
 this IEnumerable<TSource> source, Func<TSource, bool>predicate)
 {
 bool skip = true;
@@ -1169,7 +1151,7 @@ yield return value; // Deferred execution.
 Take is also straightforward:
 
 ```csharp
-public static IEnumerable<TSource\> Take<TSource\>(this IEnumerable<TSource\> source, int count)
+public static IEnumerable<TSource> Take<TSource>(this IEnumerable<TSource> source, int count)
 {
 if (count > 0)
 {
@@ -1188,7 +1170,7 @@ break;
 And the following are TakeWhile’s non-indexed overload and indexed overload:
 
 ```csharp
-public static IEnumerable<TSource\> TakeWhile<TSource\>(
+public static IEnumerable<TSource> TakeWhile<TSource>(
 this IEnumerable<TSource> source, Func<TSource, bool>predicate)
 {
 foreach (TSource value in source)
@@ -1222,7 +1204,7 @@ yield return value; // Deferred execution.
 Reverse has been discussed:
 
 ```csharp
-public static IEnumerable<TSource\> Reverse<TSource\>(this IEnumerable<TSource\> source)
+public static IEnumerable<TSource> Reverse<TSource>(this IEnumerable<TSource> source)
 {
 TSource[] array = ToArray(source); // Eager evaluation.
 for (int index = array.Length - 1; index >= 0; index--)
@@ -1382,7 +1364,7 @@ return compareResult == 0
 Now the ordering queries can be implemented by constructing the above ordered sequence:
 
 ```csharp
-public static IOrderedEnumerable<TSource\> OrderBy<TSource, TKey\>(
+public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(
 this IEnumerable<TSource> source,
 Func<TSource, TKey> keySelector,
 IComparer<TKey>comparer = null) =>
@@ -1409,27 +1391,20 @@ source.CreateOrderedEnumerable(keySelector, comparer, descending: true);
 
 They implement deferred execution since constructing ordered sequence does not pull any value from the source. The OrderedSequence<T> type wraps the source data and iteration algorithm of ordering, including:
 
-· the source sequence,
-
-· the keySelector function,
-
-· a bool value indicating the ordering should be descending or ascending
-
-· a previousGetComparison function, which identifies whether current OrderedSequence<T> is created by OrderBy/OrderByDescending, or by ThenBy/ThenByDescending
-
-o When OrderBy/OrderByDescending are called, they directly instantiate an OrderedSequence<T> with a null previousGetComparison function.
-
-o When ThenBy/ThenByDescending are called, they call CreateOrderedEnumerable to instantiate OrderedSequence<T>, and pass its OrderedSequence<T>’s GetComparison method as the previousGetComparison function for the new OrderedSequence<T>.
+-   the source sequence,
+-   the keySelector function,
+-   a bool value indicating the ordering should be descending or ascending
+-   a previousGetComparison function, which identifies whether current OrderedSequence<T> is created by OrderBy/OrderByDescending, or by ThenBy/ThenByDescending
+    -   When OrderBy/OrderByDescending are called, they directly instantiate an OrderedSequence<T> with a null previousGetComparison function.
+    -   When ThenBy/ThenByDescending are called, they call CreateOrderedEnumerable to instantiate OrderedSequence<T>, and pass its OrderedSequence<T>’s GetComparison method as the previousGetComparison function for the new OrderedSequence<T>.
 
 OrderedSequence<T>’s GetEnumerator method uses yield statement to return an iterator (not generator this time). Eager evaluation is implemented, because it has to pull all values in the source sequence and sort them, in order to know which value is the first one to yield. For performance consideration, instead of sorting the values from source sequence, here the indexes of values are sorted. For example, in the values array, if indexes { 0, 1, 2 } become { 2, 0, 1 } after sorting, then the values are yielded in the order of { values\[2\], values\[0\], values\[1\] }.
 
 When the eager evaluation starts, GetComparison is called. It evaluates all keys of the values, and returns a comparison function:
 
-· If previousGetComparison function is null, it returns a comparison function to represent an OrderBy/OrderByDescending query, which just compares the keys.
-
-· if previousGetComparison function is not null, it returns a comparison function to represent a ThenBy/ThenByDescending query, which first check the previous compare result, and only compare the keys when previous compare result is equal.
-
-· In both cases, comparison function calls CompareKeys to compare 2 keys. CompareKeys calls IComparer<TKey>.Compare, and format the compare result to 0, -1, or 1 to represent less then, equal to, greater than. If the descending field is true, 1 and -1 are swapped.
+-   If previousGetComparison function is null, it returns a comparison function to represent an OrderBy/OrderByDescending query, which just compares the keys.
+-   if previousGetComparison function is not null, it returns a comparison function to represent a ThenBy/ThenByDescending query, which first check the previous compare result, and only compare the keys when previous compare result is equal.
+-   In both cases, comparison function calls CompareKeys to compare 2 keys. CompareKeys calls IComparer<TKey>.Compare, and format the compare result to 0, -1, or 1 to represent less then, equal to, greater than. If the descending field is true, 1 and -1 are swapped.
 
 Eventually, the returned comparison function is used during GetEnumerator’s eager evaluation, to sort the indexes of values. When comparing keys for index1 and index2, index1 is always less than index2. In another word, values\[index1\] is before values\[index2\] before the ordering query execution. If the result from comparison function is equal, index1 - index2 is used instead of 0. So that the relative positions of values at index1 and index2 are preserved, values\[index1\] is still before values\[index2\] after the ordering query execution.
 
@@ -1460,7 +1435,7 @@ void RemoveAt(int index);
 As fore mentioned, IList<T> is implemented by T\[\] array, List<T>, and Collection<T>, etc. So, the following is an optimized implementation of First:
 
 ```csharp
-public static TSource First<TSource\>(this IEnumerable<TSource\> source)
+public static TSource First<TSource>(this IEnumerable<TSource> source)
 {
 if (source is IList<TSource>list)
 {
@@ -1483,7 +1458,7 @@ throw new InvalidOperationException("Sequence contains no elements.");
 The other overload with predicate is also easy to implement:
 
 ```csharp
-public static TSource First<TSource\>(this IEnumerable<TSource\> source, Func<TSource, bool\> predicate)
+public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
 {
 foreach (TSource value in source)
 {
@@ -1499,7 +1474,7 @@ throw new InvalidOperationException("Sequence contains no matching element.");
 The implementation of FirstOrDefault is very similar. When source is empty, just output the default value instead of throwing exception:
 
 ```csharp
-public static TSource FirstOrDefault<TSource\>(this IEnumerable<TSource\> source)
+public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source)
 {
 if (source is IList<TSource>list)
 {
@@ -1535,7 +1510,7 @@ return default;
 Last and LastOrDefault can be implemented in the similar pattern, with desugared foreach loop:
 
 ```csharp
-public static TSource Last<TSource\>(this IEnumerable<TSource\> source)
+public static TSource Last<TSource>(this IEnumerable<TSource> source)
 {
 if (source is IList<TSource>list)
 {
@@ -1661,7 +1636,7 @@ return last;
 And ElementAt and ElementAtOrDefault too:
 
 ```csharp
-public static TSource ElementAt<TSource\>(this IEnumerable<TSource\> source, int index)
+public static TSource ElementAt<TSource>(this IEnumerable<TSource> source, int index)
 {
 if (source is IList<TSource>list)
 {
@@ -1719,7 +1694,7 @@ return default;
 Single and SingleOrDefault are stricter:
 
 ```csharp
-public static TSource Single<TSource\>(this IEnumerable<TSource\> source)
+public static TSource Single<TSource>(this IEnumerable<TSource> source)
 {
 if (source is IList<TSource>list)
 {
@@ -1838,7 +1813,7 @@ return default;
 Aggregate pulls all values from source and accumulate them:
 
 ```csharp
-public static TResult Aggregate<TSource, TAccumulate, TResult\>(
+public static TResult Aggregate<TSource, TAccumulate, TResult>(
 this IEnumerable<TSource> source,
 TAccumulate seed,
 Func<TAccumulate, TSource, TAccumulate>func,
@@ -1886,7 +1861,7 @@ return accumulate;
 Count can be implemented by iterating the source sequence. And if the source sequence is a collection, then it has a Count property:
 
 ```csharp
-public static int Count<TSource\>(this IEnumerable<TSource\> source)
+public static int Count<TSource>(this IEnumerable<TSource> source)
 {
 switch (source)
 {
@@ -1911,7 +1886,7 @@ return count;
 And the overload with predicate can be implemented by filtering with the predicate function:
 
 ```csharp
-public static int Count<TSource\>(
+public static int Count<TSource>(
 this IEnumerable<TSource> source, Func<TSource, bool>predicate)
 {
 int count = 0;
@@ -1929,7 +1904,7 @@ return count;
 LongCount cannot use collections’ Count property because it has int output. It simply counts the values:
 
 ```csharp
-public static long LongCount<TSource\>(this IEnumerable<TSource\> source)
+public static long LongCount<TSource>(this IEnumerable<TSource> source)
 {
 long count = 0L;
 using (IEnumerator<TSource> iterator = source.GetEnumerator())
@@ -1966,7 +1941,7 @@ It would be more consistent if LongCount was named as Int64Count, just like Conv
 Min has 22 overloads; the following is the overload for decimal:
 
 ```csharp
-public static decimal Min(this IEnumerable<decimal\> source)
+public static decimal Min(this IEnumerable<decimal> source)
 {
 decimal min;
 using (IEnumerator<decimal> iterator = source.GetEnumerator())

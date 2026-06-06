@@ -134,7 +134,7 @@ It calls Partitioner.Create with EnumerablePartitionerOptions.NoBuffering, to en
 To demonstrate the I/O bound operation, the following function first visualizes sequential download, then visualizes parallel download with PLINQ, and finally visualizes parallel download with above ForceParallel function. Again, assuming a quad core CPU, the degree of parallelism is specified as 10, which is higher than the core count:
 
 ```csharp
-internal static void DownloadTest(string\[\] uris)
+internal static void DownloadTest(string[] uris)
 {
 byte[] Download(string uri)
 {
@@ -195,21 +195,14 @@ This time PLINQ still utilizes 5 threads from the beginning, then decides to sta
 
 This part and the previous parts have demonstrated many aspects that can have performance impact for PLINQ, and here is a summary:
 
-· The partitioning strategy can impact performance, because different partitioning algorithms introduce different synchronization and load balance.
-
-· The 2 execution modes, Default (sequential or parallel) and ForceParallel, can result different performance
-
-· The degree of parallelism can impact performance, when degree of parallelism is set to 1, PLINQ works like sequential LINQ to Object.
-
-· The merge option can also impact performance, smaller buffer size can have the early value results available faster, but can also make the query execute longer.
-
-· The order preservation can impact the performance, query as unordered can have better performance, but can lead to incorrect results.
-
-· The source size can impact performance, for source with smaller size, the overhead of parallelization can be more significant, and result even lower performance than sequential query.
-
-· The iteratee function provided to query can impact performance, more expensive iteratee functions can have better performance with parallel queries.
-
-· The type of operation can impact performance, utilize more CPU cores can improve the performance of compute bound operation, but I/O bound operations can also depend on the I/O hardware.
+-   The partitioning strategy can impact performance, because different partitioning algorithms introduce different synchronization and load balance.
+-   The 2 execution modes, Default (sequential or parallel) and ForceParallel, can result different performance
+-   The degree of parallelism can impact performance, when degree of parallelism is set to 1, PLINQ works like sequential LINQ to Object.
+-   The merge option can also impact performance, smaller buffer size can have the early value results available faster, but can also make the query execute longer.
+-   The order preservation can impact the performance, query as unordered can have better performance, but can lead to incorrect results.
+-   The source size can impact performance, for source with smaller size, the overhead of parallelization can be more significant, and result even lower performance than sequential query.
+-   The iteratee function provided to query can impact performance, more expensive iteratee functions can have better performance with parallel queries.
+-   The type of operation can impact performance, utilize more CPU cores can improve the performance of compute bound operation, but I/O bound operations can also depend on the I/O hardware.
 
 In the real world, the performance of each PLINQ query has to be measured and optimized accordingly.
 

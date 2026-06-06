@@ -19,9 +19,8 @@ The delegate chapter and other previous chapters have demonstrated that in C#, f
 
 Higher-order function is a function that accept one or more function parameters as input, or output a function. In contrast, function does not input or output any function is called first-order function. C# supports higher-order function from the beginning, because C# function can have almost any data type and function type as its input and output, except:
 
-· Static classes, like System.Convert, System.Math, etc., because they cannot be instantiated.
-
-· Special type System.Void.
+-   Static classes, like System.Convert, System.Math, etc., because they cannot be instantiated.
+-   Special type System.Void.
 
 This chapter use the following simple data type and simple function type for demonstration:
 
@@ -143,7 +142,7 @@ public static T[] FindAll<T>(T[] array, Predicate<T>match);
 It iterates all values in the input array, and call the match function for each value. If match function returns true, the value is added to the result array:
 
 ```csharp
-internal static void FilterArray(Data\[\] array)
+internal static void FilterArray(Data[] array)
 {
 Data[] filtered = Array.FindAll(array, data => data != null);
 }

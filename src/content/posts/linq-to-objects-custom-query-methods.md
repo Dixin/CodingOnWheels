@@ -15,37 +15,22 @@ lang: ""
 
 With the understanding of standard queries in .NET Standard and the additional queries provided by Microsoft, it is easy to define custom LINQ queries for objects. This chapter demonstrates how to define the following useful LINQ to Object queries:
 
-· Sequence queries: output a new IEnumerable<T> sequence (deferred execution)
-
-o Generation: Create, Guid, RandomInt32, RandomDouble, FromValue, EmptyIfNull
-
-o Concatenation: ConcatJoin
-
-o Partitioning: Subsequence, Pagination
-
-o Ordering: OrderBy\*, OrderByDescending\*, ThenBy\*, ThenByDescending\*
-
-o Grouping, Join, Set: GroupBy\*, Join\*, GroupJoin\*, Distinct, Union, Intersect\*, Except\*
-
-o List: Insert, Remove, RemoveAll, RemoveAt
-
-· Collection queries: output a new collection (immediate execution)
-
-o Conversion: ToDictionary, ToLookup
-
-· Value queries: output a single value (immediate execution)
-
-o Aggregation: PercentileExclusive, PercentileInclusive, Percentile
-
-o Quantifiers: IsNullOrEmpty, Contains
-
-o Equality: SequenceEqual
-
-o List: IndexOf, LastIndexOf
-
-· Void queries: no output (immediate execution)
-
-o Iteration: ForEach
+-   Sequence queries: output a new IEnumerable<T> sequence (deferred execution)
+    -   Generation: Create, Guid, RandomInt32, RandomDouble, FromValue, EmptyIfNull
+    -   Concatenation: ConcatJoin
+    -   Partitioning: Subsequence, Pagination
+    -   Ordering: OrderBy\*, OrderByDescending\*, ThenBy\*, ThenByDescending\*
+    -   Grouping, Join, Set: GroupBy\*, Join\*, GroupJoin\*, Distinct, Union, Intersect\*, Except\*
+    -   List: Insert, Remove, RemoveAll, RemoveAt
+-   Collection queries: output a new collection (immediate execution)
+    -   Conversion: ToDictionary, ToLookup
+-   Value queries: output a single value (immediate execution)
+    -   Aggregation: PercentileExclusive, PercentileInclusive, Percentile
+    -   Quantifiers: IsNullOrEmpty, Contains
+    -   Equality: SequenceEqual
+    -   List: IndexOf, LastIndexOf
+-   Void queries: no output (immediate execution)
+    -   Iteration: ForEach
 
 Just like the standard and Ix queries, all the above sequence queries implement deferred execution, where the sequence queries marked with \* implements eager evaluation, and other unmarked sequence queries implements lazy evaluation. All the other collection queries, value queries, and void queries implement immediate execution.
 
@@ -60,7 +45,7 @@ public static partial class EnumerableX { }
 Ix provides a Create query to execute sequence factory function once. In contrast, the following Create overload is defined to generate a sequence of values by repeatedly calling a value factory:
 
 ```csharp
-public static IEnumerable<TResult\> Create<TResult\>(
+public static IEnumerable<TResult> Create<TResult>(
 Func<TResult>valueFactory, int? count = null)
 {
 if (count < 0)
@@ -120,7 +105,7 @@ source ?? Enumerable.Empty<TSource\>();
 For example:
 
 ```csharp
-internal static void EmptyIfNull(IEnumerable<int\> source1, IEnumerable<int\> source2)
+internal static void EmptyIfNull(IEnumerable<int> source1, IEnumerable<int> source2)
 {
 IEnumerable<int>positive = source1.EmptyIfNull()
 .Union(source2.EmptyIfNull())
@@ -145,7 +130,7 @@ public static string Join(string separator, IEnumerable<string> values);
 It concatenates the string values with a single separator between each 2 adjacent string values. Similarly, a general ConcatJoin query can be defined as:
 
 ```csharp
-public static IEnumerable<TSource\> ConcatJoin<TSource\>(
+public static IEnumerable<TSource> ConcatJoin<TSource>(
 this IEnumerable<TSource> source, TSource separator)
 {
 using (IEnumerator<TSource> iterator = source.GetEnumerator())
@@ -192,7 +177,7 @@ source.Prepend(value);
 Similar to string.Substring, a general Subsequence query can be defined as:
 
 ```csharp
-public static IEnumerable<TSource\> Subsequence<TSource\>(
+public static IEnumerable<TSource> Subsequence<TSource>(
 this IEnumerable<TSource> source, int startIndex, int count) =>
 source.Skip(startIndex).Take(count);
 ```
@@ -235,7 +220,7 @@ Comparer<T\>.Create(new Comparison<T\>(compare));
 It simply calls a .NET Standard built-in API Comparer<T>.Create for the IComparer<T\> instantiation. Now the ordering queries’ overloads can be defined as a higher-order functions to accept a (T, T) –> int function instead of IComparer<T> interface:
 
 ```csharp
-public static IOrderedEnumerable<TSource\> OrderBy<TSource, TKey\>(
+public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(
 this IEnumerable<TSource> source,
 Func<TSource, TKey> keySelector,
 Func<TKey, TKey, int>compare) =>
@@ -287,7 +272,7 @@ new EqualityComparerWrapper<T>(equals, getHashCode);
 The getHashCode function is optional, because any type already inherits a GetHashCode method from object. Similar to ordering queries, the following functional overloads can be defined for GroupBy, Join, GroupJoin, Distinct, Union, Intersect, Except:
 
 ```csharp
-public static IEnumerable<TResult\> GroupBy<TSource, TKey, TElement, TResult\>(
+public static IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(
 this IEnumerable<TSource> source,
 Func<TSource, TKey> keySelector,
 Func<TSource, TElement> elementSelector,
@@ -359,7 +344,7 @@ first.Except(second, ToEqualityComparer(equals, getHashCode));
 The List<T> type provides handy methods, which can be implemented for sequence too. The following Insert query is similar to List<T>.Insert, it outputs a new sequence with the specified value is inserted at the specified index:
 
 ```csharp
-public static IEnumerable<TSource\> Insert<TSource\>(
+public static IEnumerable<TSource> Insert<TSource>(
 this IEnumerable<TSource> source, int index, TSource value)
 {
 if (index< 0)
@@ -399,7 +384,7 @@ The above Insert query is more functional than List<T>.Insert. List<T>.Insert ha
 RemoveAt outputs a new sequence with a value removed at the specified index:
 
 ```csharp
-public static IEnumerable<TSource\> RemoveAt<TSource\>(
+public static IEnumerable<TSource> RemoveAt<TSource>(
 this IEnumerable<TSource> source, int index)
 {
 if (index< 0)
@@ -430,7 +415,7 @@ return RemoveAtGenerator();
 Remove outputs a new sequence with the first occurrence of the specified value removed. Besides being deferred and lazy, it also accepts an optional equality comparer:
 
 ```csharp
-public static IEnumerable<TSource\> Remove<TSource\>(
+public static IEnumerable<TSource> Remove<TSource>(
 this IEnumerable<TSource>source,
 TSource value,
 IEqualityComparer<TSource> comparer = null)
@@ -454,7 +439,7 @@ yield return sourceValue; // Deferred execution.
 RemoveAll outputs a new sequence with all occurrences of the specified value removed:
 
 ```csharp
-public static IEnumerable<TSource\> RemoveAll<TSource\>(
+public static IEnumerable<TSource> RemoveAll<TSource>(
 this IEnumerable<TSource>source,
 TSource value,
 IEqualityComparer<TSource> comparer = null)
@@ -495,7 +480,7 @@ source.RemoveAll(value, ToEqualityComparer(@equals, getHashCode));
 ToDictionary and ToLookup accept IEqualityComparer<T> parameter to test the equality of keys. Their functional overloads can be defined:
 
 ```csharp
-public static Dictionary<TKey, TElement\> ToDictionary<TSource, TKey, TElement\>(
+public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(
 this IEnumerable<TSource> source,
 Func<TSource, TKey> keySelector,
 Func<TSource, TElement> elementSelector,
@@ -519,7 +504,7 @@ source.ToLookup(keySelector, elementSelector, ToEqualityComparer(equals, getHash
 .NET provides basic aggregation queries, including Sum/Average/Max/Min queries. In reality, it is also common to calculate the variance, standard deviation, and percentile. The following VariancePopulation/VarianceSample/Variance queries are equivalent to Excel VAR.P/VAR.S/VAR functions:
 
 ```csharp
-public static double VariancePopulation<TSource, TKey\>( // Excel VAR.P function.
+public static double VariancePopulation<TSource, TKey>( // Excel VAR.P function.
 this IEnumerable<TSource> source,
 Func<TSource, TKey> keySelector,
 IFormatProvider formatProvider = null)
@@ -552,7 +537,7 @@ source.VarianceSample(keySelector, formatProvider);
 And the following StandardDeviationPopulation/StabdardDeviationSample/StabdardDeviation queries implements Excel STDEV.P/STDEV.S/STDEV functions:
 
 ```csharp
-public static double StandardDeviationPopulation<TSource, TKey\>( // Excel STDEV.P function.
+public static double StandardDeviationPopulation<TSource, TKey>( // Excel STDEV.P function.
 this IEnumerable<TSource> source,
 Func<TSource, TKey> keySelector,
 IFormatProvider formatProvider = null)
@@ -577,7 +562,7 @@ Math.Sqrt(source.Variance(keySelector, formatProvider));
 And the following PercentileExclusive/PercentileInclusive/Percentile implement Excel PERCENTILE.EXC/PERCENTILE.INC/PERCENTILE functions:
 
 ```csharp
-public static double PercentileExclusive<TSource, TKey\>( // Excel PERCENTILE.EXC function.
+public static double PercentileExclusive<TSource, TKey>( // Excel PERCENTILE.EXC function.
 this IEnumerable<TSource> source,
 Func<TSource, TKey> keySelector,
 double percentile,
@@ -668,7 +653,7 @@ source == null || !source.Any();
 Contains compares the objects to determine the existance, so it can accept IEqualityComparer<T> parameter. It can be overloaded with functions for convenience:
 
 ```csharp
-public static bool Contains<TSource\>(
+public static bool Contains<TSource>(
 this IEnumerable<TSource>source,
 TSource value,
 Func<TSource, TSource, bool> equals,
@@ -681,7 +666,7 @@ source.Contains(value, ToEqualityComparer(equals, getHashCode));
 SequentialEqual compares the objects as well, so it also accepts IEqualityComparer<T>. It can be overloaded with functions:
 
 ```csharp
-public static bool SequenceEqual<TSource\>(
+public static bool SequenceEqual<TSource>(
 this IEnumerable<TSource> first,
 IEnumerable<TSource>second,
 Func<TSource, TSource, bool>equals,
@@ -694,7 +679,7 @@ first.SequenceEqual(second, ToEqualityComparer(equals, getHashCode));
 IndexOf is similar to List<T>.IndexOf. It finds the index of first occurrence of the specified value. –1 is returned if the specified value is not found:
 
 ```csharp
-public static int IndexOf<TSource\>(
+public static int IndexOf<TSource>(
 this IEnumerable<TSource>source,
 TSource value,
 IEqualityComparer<TSource> comparer = null)
@@ -716,7 +701,7 @@ return -1;
 LastIndexOf is similar to List<T>.LastIndexOf. It finds the index of last occurrence of the specified value:
 
 ```csharp
-public static int LastIndexOf<TSource\>(
+public static int LastIndexOf<TSource>(
 this IEnumerable<TSource>source,
 TSource value,
 IEqualityComparer<TSource> comparer = null)
@@ -761,7 +746,7 @@ source.LastIndexOf(value, ToEqualityComparer(equals, getHashCode));
 EnumerableEx.ForEach from Ix is very handy. It can fluently execute the query and process the results. It works like foreach statement, but it does not support breaking the iterations like the break statement in foreach statement. So here is an improved EnumerableX.ForEach, with a slightly different callback function:
 
 ```csharp
-public static void ForEach<TSource\>(
+public static void ForEach<TSource>(
 this IEnumerable<TSource> source, Func<TSource, bool> onNext)
 {
 foreach (TSource value in source)
@@ -777,7 +762,7 @@ break;
 The callback function is of type TSource -> bool. When its output is true, the iteration continues; when its output is false, ForEach stops execution. And the indexed overload is:
 
 ```csharp
-public static void ForEach<TSource\>(
+public static void ForEach<TSource>(
 this IEnumerable<TSource> source, Func<TSource, int, bool> onNext)
 {
 int index = 0;

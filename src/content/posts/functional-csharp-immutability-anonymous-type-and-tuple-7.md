@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/functional-csharp-immutability-anonymous-type-and-tuple](/posts/functional-csharp-immutability-anonymous-type-and-tuple "https://weblogs.asp.net/dixin/functional-csharp-immutability-anonymous-type-and-tuple")**[](/posts/functional-csharp-fundamentals "https://weblogs.asp.net/dixin/functional-csharp-fundamentals")
+## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-immutability-anonymous-type-and-tuple](/posts/functional-csharp-immutability-anonymous-type-and-tuple "https://CodingOnWheels.com/posts/functional-csharp-immutability-anonymous-type-and-tuple")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
 
 Immutability is an important aspect of functional paradigm. As fore mentioned, imperative/object-oriented programming is usually stateful, and functional programming encourages immutability without state change. In C# programming, there are [many kinds of immutability](https://blogs.msdn.microsoft.com/ericlippert/2007/11/13/immutability-in-c-part-one-kinds-of-immutability/), but they can be categorized into 2 levels: immutability of some value, and immutability of some value’s internal state. Take local variable as example, a local variable can be called immutable, if once it is assigned, there is no way to reassign to it; a local variable can also be called immutable, if once its internal state is initialized, there is no way to modify its state to different state.
 
@@ -23,11 +23,11 @@ Generally, immutability can make programming easier in many cases, since it gets
 
 Many functional languages support immutable value. In contrast to variable. Once a value is assigned with something, it cannot be reassigned so that it cannot be changed to anything else. For example, in F#, a value is immutable by default, unless the mutable keyword is specified:
 
-```csharp
-let value = new Uri("https://weblogs.asp.net/dixin") // Immutable value.
+```fsharp
+let value = new Uri("https://CodingOnWheels.com") // Immutable value.
 value <- null // Cannot be compiled. Cannot reassign to value.
 
-let mutable variable = new Uri("https://weblogs.asp.net/dixin") // Mutable variable.
+let mutable variable = new Uri("https://CodingOnWheels.com") // Mutable variable.
 variable <- null // Can reassign to variable.
 ```
 
@@ -43,7 +43,7 @@ internal static partial class Immutability
     internal static void Const()
     {
         const int immutable1 = 1;
-        const string immutable2 = "https://weblogs.asp.net/dixin";
+        const string immutable2 = "https://CodingOnWheels.com";
         const object immutale3 = null;
         const Uri immutable4 = null;
         const Uri immutable5 = new Uri(immutable2); // Cannot be compiled.
@@ -131,7 +131,7 @@ internal static void ReadOnlyReference()
     ref readonly int immutableRefOfValue = ref value; // Assign by readonly reference.
     immutableRefOfValue = 0; // Cannot be compiled. Cannot reassign to immutableRefOfValue.
 
-    Uri reference = new Uri("https://weblogs.asp.net/dixin");
+    Uri reference = new Uri("https://CodingOnWheels.com");
     Uri copyOfReference = reference; // Assign by copy.
     copyOfReference = new Uri("https://flickr.com/dixin"); // After the assignment, reference does not change.
     ref Uri mutableRefOfReference = ref reference; // Assign by reference.

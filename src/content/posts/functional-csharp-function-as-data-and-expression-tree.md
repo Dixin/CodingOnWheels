@@ -134,19 +134,13 @@ Expression<Func<int, bool>> isPositiveExpression = int32 => int32> 0; // Data.
 
 are:
 
-· isPositive variable is a function represented by delegate instance, and can be called. The lambda expression int32 => int32 > 0 is compiled to executable code. When isPositive is called, this code is executed.
-
-· isPositiveExpression variable is an abstract syntax tree data structure. So apparently it cannot be called like an executable function. The lambda expression int32 => int32 > 0 is compiled to the building of an expression tree, where each node is an Expression instance. This entire tree represents the syntactic structure and logic of function int32 => int32 > 0. This tree’s top node is an Expression<Func<int, bool>> instance, since this is a lambda expression. It has 2 child nodes:
-
-o A Parameters node which is a ParameterExpression collection, representing all the parameters of the lambda expression. The above lambda expression has 1 parameter, so this collection contains one node:
-
-§ A ParameterExpression instance, representing the int parameter named “int32”.
-
-o A Body node representing the lambda expression’s body, which is a BinaryExpression instance, representing the body is a “>” (greater than) comparison operation of 2 operands. So it has 2 child nodes:
-
-§ Its Left child node is a reference of above ParameterExpression instance, representing the left operand of > operator.
-
-§ Its Right child node is a ConstantExpression instance with value 0, representing the right operand of > operator.
+-   isPositive variable is a function represented by delegate instance, and can be called. The lambda expression int32 => int32 > 0 is compiled to executable code. When isPositive is called, this code is executed.
+-   isPositiveExpression variable is an abstract syntax tree data structure. So apparently it cannot be called like an executable function. The lambda expression int32 => int32 > 0 is compiled to the building of an expression tree, where each node is an Expression instance. This entire tree represents the syntactic structure and logic of function int32 => int32 > 0. This tree’s top node is an Expression<Func<int, bool>> instance, since this is a lambda expression. It has 2 child nodes:
+    -   A Parameters node which is a ParameterExpression collection, representing all the parameters of the lambda expression. The above lambda expression has 1 parameter, so this collection contains one node:
+        -   A ParameterExpression instance, representing the int parameter named “int32”.
+    -   A Body node representing the lambda expression’s body, which is a BinaryExpression instance, representing the body is a “>” (greater than) comparison operation of 2 operands. So it has 2 child nodes:
+        -   Its Left child node is a reference of above ParameterExpression instance, representing the left operand of > operator.
+        -   Its Right child node is a ConstantExpression instance with value 0, representing the right operand of > operator.
 
 Automatically generating expression tree from function-like code provides great convenience for metaprogramming in C#. As mentioned in the introduction chapter, metaprogramming is to generate or manipulate program code as data. With the generated expression tree, since each node is strong typed with rich information, the nodes can be traversed to obtain the information of the represented function’s C# source code, and process the information, like generating code of the same logic in another language. Here isPositiveExpression represents the function logic to predicate whether an int value is greater than a constant 0, and it can be used to generate equivalent CIL code, or a WHERE clause with greater-than-0 predicate in SQL code, etc.
 
@@ -154,59 +148,33 @@ Automatically generating expression tree from function-like code provides great 
 
 Besides above ParameterExpression, ConstantExpression, BinaryExpression, LambdaExpression, .NET Standard provides a rich collection of expressions nodes. The following is their inheritance hierarchy:
 
-· Expression
-
-o BinaryExpression
-
-o BlockExpression
-
-o ConditionalExpression
-
-o ConstantExpression
-
-o DebugInfoExpression
-
-o DefaultExpression
-
-o DynamicExpression
-
-o GotoExpression
-
-o IndexExpression
-
-o InvocationExpression
-
-o LabelExpression
-
-o LambdaExpression
-
-§ Expression<TDelegate>
-
-o ListInitExpression
-
-o LoopExpression
-
-o MemberExpression
-
-o MemberInitExpression
-
-o MethodCallExpression
-
-o NewArrayExpression
-
-o NewExpression
-
-o ParameterExpression
-
-o RuntimeVariablesExpression
-
-o SwitchExpression
-
-o TryExpression
-
-o TypeBinaryExpression
-
-o UnaryExpression
+-   Expression
+    -   BinaryExpression
+    -   BlockExpression
+    -   ConditionalExpression
+    -   ConstantExpression
+    -   DebugInfoExpression
+    -   DefaultExpression
+    -   DynamicExpression
+    -   GotoExpression
+    -   IndexExpression
+    -   InvocationExpression
+    -   LabelExpression
+    -   LambdaExpression
+        -   Expression<TDelegate>
+    -   ListInitExpression
+    -   LoopExpression
+    -   MemberExpression
+    -   MemberInitExpression
+    -   MethodCallExpression
+    -   NewArrayExpression
+    -   NewExpression
+    -   ParameterExpression
+    -   RuntimeVariablesExpression
+    -   SwitchExpression
+    -   TryExpression
+    -   TypeBinaryExpression
+    -   UnaryExpression
 
 And, as demonstrated above, expression can be instantiated by calling the factory methods of Expression type:
 
@@ -256,9 +224,8 @@ public static BlockExpression Block(params Expression[] expressions);
 
 One expression node type can have different possible NodeType values. For example:
 
-· UnaryExpression represents any unary operation with an operator and an operand. Its NodeType can be ArrayLength, Negate, Not, Convert, Decrement, Increment, Throw, UnaryPlus, etc.
-
-· BinaryExpression represents any binary operation with an operator, a left operand, and a right operand, its NodeType can be Add, And, Assign, Divide, Equal, .GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, Modulo, Multiply, NotEqual, Or, Power, Subtract, etc.
+-   UnaryExpression represents any unary operation with an operator and an operand. Its NodeType can be ArrayLength, Negate, Not, Convert, Decrement, Increment, Throw, UnaryPlus, etc.
+-   BinaryExpression represents any binary operation with an operator, a left operand, and a right operand, its NodeType can be Add, And, Assign, Divide, Equal, .GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, Modulo, Multiply, NotEqual, Or, Power, Subtract, etc.
 
 So far C# compiler only implements this “function as data” syntactic sugar for expression lambda, and it is not available to statement lambda yet. The following code cannot be compiled:
 
@@ -354,23 +321,17 @@ Expression<Func<double, double, double, double, double, double>> (NodeType = Lam
 
 This is a very simple syntax tree, where:
 
-· each internal node is a binary node (BinaryExpression instance) representing add, subtract, multiply, or divide binary operations;
-
-· each leaf node is either a parameter (ParameterExpression instance), or a constant (ConstantExpression instance).
+-   each internal node is a binary node (BinaryExpression instance) representing add, subtract, multiply, or divide binary operations;
+-   each leaf node is either a parameter (ParameterExpression instance), or a constant (ConstantExpression instance).
 
 In total there are 6 kinds of nodes in this tree:
 
-· add: BinaryExpression { NodeType = ExpressionType.Add }
-
-· subtract: BinaryExpression { NodeType = ExpressionType.Subtract }
-
-· multiply: BinaryExpression { NodeType = ExpressionType.Multiply }
-
-· divide: BinaryExpression { NodeType = ExpressionType.Divide}
-
-· constant: ParameterExpression { NodeType = ExpressionType.Constant }
-
-· parameter: ConstantExpression { NodeType = ExpressionType.Parameter }
+-   add: BinaryExpression { NodeType = ExpressionType.Add }
+-   subtract: BinaryExpression { NodeType = ExpressionType.Subtract }
+-   multiply: BinaryExpression { NodeType = ExpressionType.Multiply }
+-   divide: BinaryExpression { NodeType = ExpressionType.Divide}
+-   constant: ParameterExpression { NodeType = ExpressionType.Constant }
+-   parameter: ConstantExpression { NodeType = ExpressionType.Parameter }
 
 ### Traverse expression tree
 

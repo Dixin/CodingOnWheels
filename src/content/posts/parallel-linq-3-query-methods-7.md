@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Parallel LINQ in Depth series](/archive/?tag=Parallel%20LINQ)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/parallel-linq-3-query-methods](/posts/parallel-linq-3-query-methods "https://weblogs.asp.net/dixin/parallel-linq-3-query-methods")**
+## **Latest version: [https://CodingOnWheels.com/posts/parallel-linq-3-query-methods](/posts/parallel-linq-3-query-methods "https://CodingOnWheels.com/posts/parallel-linq-3-query-methods")**
 
 Parallel LINQ provides additional query methods and additional overrides for Aggregate method:
 

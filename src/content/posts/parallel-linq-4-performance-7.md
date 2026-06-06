@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Parallel LINQ in Depth series](/archive/?tag=Parallel%20LINQ)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/parallel-linq-4-performance](/posts/parallel-linq-4-performance "https://weblogs.asp.net/dixin/parallel-linq-4-performance")**
+## **Latest version: [https://CodingOnWheels.com/posts/parallel-linq-4-performance](/posts/parallel-linq-4-performance "https://CodingOnWheels.com/posts/parallel-linq-4-performance")**
 
 Parallel LINQ is powerful, but also can be more complex. This part discusses Parallel LINQ query performance in different cases.
 

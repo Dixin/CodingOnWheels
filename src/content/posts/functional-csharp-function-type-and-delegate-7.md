@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/functional-csharp-function-type-and-delegate](/posts/functional-csharp-function-type-and-delegate "https://weblogs.asp.net/dixin/functional-csharp-function-type-and-delegate")**[](/posts/functional-csharp-fundamentals "https://weblogs.asp.net/dixin/functional-csharp-fundamentals")
+## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-function-type-and-delegate](/posts/functional-csharp-function-type-and-delegate "https://CodingOnWheels.com/posts/functional-csharp-function-type-and-delegate")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
 
 ## Delegate type as function type
 
@@ -612,7 +612,7 @@ internal static void HandleEvent()
     Downloader downloader = new Downloader();
     downloader.Completed += TraceContent;
     downloader.Completed += SaveContent;
-    downloader.Start("https://weblogs.asp.net/dixin");
+    downloader.Start("https://CodingOnWheels.com");
 }
 ```
 
@@ -687,7 +687,7 @@ internal static void CompiledHandleEvent()
     SimplifiedDownloader downloader = new SimplifiedDownloader();
     downloader.add_Completed(TraceContent);
     downloader.add_Completed(SaveContent);
-    downloader.Start("https://weblogs.asp.net/dixin");
+    downloader.Start("https://CodingOnWheels.com");
 }
 ```
 

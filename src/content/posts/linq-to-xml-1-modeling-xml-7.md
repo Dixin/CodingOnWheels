@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[LINQ to XML in Depth series](/archive/?tag=LINQ%20to%20XML)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/linq-to-xml-1-modeling-xml](/posts/linq-to-xml-1-modeling-xml "https://weblogs.asp.net/dixin/linq-to-xml-1-modeling-xml")**
+## **Latest version: [https://CodingOnWheels.com/posts/linq-to-xml-1-modeling-xml](/posts/linq-to-xml-1-modeling-xml "https://CodingOnWheels.com/posts/linq-to-xml-1-modeling-xml")**
 
 [XML](https://en.wikipedia.org/wiki/XML) (eXtensible Markup Language) is widely used to represent, store, and transfer data. Since .NET 3.5, the built in LINQ to XML APIs are provided to enable LINQ queries for XML data source. These APIs are located in System.Xml.XDocument NuGet package for .NET Core, and System.Xml.Linq.dll for .NET Framework. LINQ to XML can be viewed as specialized LINQ to Objects, where the objects in memory represents XML structures.
 
@@ -55,16 +55,16 @@ The XML DOM APIs are provided since .NET Framework 1.0. There a set of Xml\* typ
 These DOM APIs for XML can be used to model and manipulate XML structures in imperative paradigm. Take the following XML fragment as example:
 
 ```csharp
-<rss version="2.0" xmlns:dixin="https://weblogs.asp.net/dixin">
+<rss version="2.0" xmlns:dixin="https://CodingOnWheels.com">
   <channel>
     <item>
       <title>LINQ via C#</title>
-      <link>https://weblogs.asp.net/dixin/linq-via-csharp</link>
+      <link>https://CodingOnWheels.com/posts/linq-via-csharp</link>
       <description>
         <p>This is a tutorial of LINQ and functional programming. Hope it helps.</p>
       </description>
       <pubDate>Mon, 07 Sep 2009 00:00:00 GMT</pubDate>
-      <guid isPermaLink="true">https://weblogs.asp.net/dixin/linq-via-csharp</guid>
+      <guid isPermaLink="true">https://CodingOnWheels.com/posts/linq-via-csharp</guid>
       <category>C#</category>
       <category>LINQ</category>
       <!--Comment.-->
@@ -83,7 +83,7 @@ internal static class Dom
     {
         XmlNamespaceManager namespaceManager = new XmlNamespaceManager(new NameTable());
         const string NamespacePrefix = "dixin";
-        namespaceManager.AddNamespace(NamespacePrefix, "https://weblogs.asp.net/dixin");
+        namespaceManager.AddNamespace(NamespacePrefix, "https://CodingOnWheels.com");
 
         XmlDocument document = new XmlDocument(namespaceManager.NameTable);
 
@@ -106,7 +106,7 @@ internal static class Dom
         item.AppendChild(title);
 
         XmlElement link = document.CreateElement("link");
-        link.InnerText = "https://weblogs.asp.net/dixin/linq-via-csharp";
+        link.InnerText = "https://CodingOnWheels.com/posts/linq-via-csharp";
         item.AppendChild(link);
 
         XmlElement description = document.CreateElement("description");
@@ -118,7 +118,7 @@ internal static class Dom
         item.AppendChild(pubDate);
 
         XmlElement guid = document.CreateElement("guid");
-        guid.InnerText = "https://weblogs.asp.net/dixin/linq-via-csharp";
+        guid.InnerText = "https://CodingOnWheels.com/posts/linq-via-csharp";
         guid.SetAttribute("isPermaLink", "true");
         item.AppendChild(guid);
 
@@ -195,7 +195,7 @@ internal static partial class Modeling
 {
     internal static void CreateAndSerialize()
     {
-        XNamespace @namespace = "https://weblogs.asp.net/dixin";
+        XNamespace @namespace = "https://CodingOnWheels.com";
         XElement rss = new XElement(
             "rss",
             new XAttribute("version", "2.0"),
@@ -205,7 +205,7 @@ internal static partial class Modeling
                 new XElement(
                     "item", // Implicitly converted to XName.
                     new XElement("title", "LINQ via C#"),
-                    new XElement("link", "https://weblogs.asp.net/dixin/linq-via-csharp"),
+                    new XElement("link", "https://CodingOnWheels.com/posts/linq-via-csharp"),
                     new XElement(
                         "description",
                         XElement.Parse("<p>This is a tutorial of LINQ and functional programming. Hope it helps.</p>")),
@@ -213,7 +213,7 @@ internal static partial class Modeling
                     new XElement(
                         "guid",
                         new XAttribute("isPermaLink", "true"), // "isPermaLink" is implicitly converted to XName.
-                        "https://weblogs.asp.net/dixin/linq-via-csharp"),
+                        "https://CodingOnWheels.com/posts/linq-via-csharp"),
                     new XElement("category", "C#"),
                     new XElement("category", "LINQ"),
                     new XComment("Comment."),
@@ -287,11 +287,11 @@ internal static void Namespace()
     (namespace1 == namespace2).WriteLine(); // True
     (namespace1 != namespace3).WriteLine(); // True
 
-    XNamespace @namespace = "https://weblogs.asp.net/dixin";
+    XNamespace @namespace = "https://CodingOnWheels.com";
     XName name = @namespace + "localName"; // + operator.
-    name.WriteLine(); // {https://weblogs.asp.net/dixin}localName
+    name.WriteLine(); // {https://CodingOnWheels.com}localName
     XElement element = new XElement(name, new XAttribute(XNamespace.Xmlns + "dixin", @namespace)); // + operator.
-    element.WriteLine(); // <dixin:localName xmlns:dixin="https://weblogs.asp.net/dixin" />
+    element.WriteLine(); // <dixin:localName xmlns:dixin="https://CodingOnWheels.com" />
 }
 ```
 
@@ -354,14 +354,14 @@ The APIs accepting URI, for example:
 ```csharp
 internal static void Read()
 {
-    using (XmlReader reader = XmlReader.Create("https://weblogs.asp.net/dixin/rss"))
+    using (XmlReader reader = XmlReader.Create("https://CodingOnWheels.com/rss.xml"))
     {
         reader.MoveToContent();
         XNode node = XNode.ReadFrom(reader);
     }
 
     XElement element1 = XElement.Parse("<html><head></head><body></body></html>");
-    XElement element2 = XElement.Load("https://weblogs.asp.net/dixin/rss");
+    XElement element2 = XElement.Load("https://CodingOnWheels.com/rss.xml");
 
     XDocument document1 = XDocument.Parse("<html><head></head><body></body></html>");
     XDocument document2 = XDocument.Load("https://microsoft.com"); // Succeed.
@@ -410,7 +410,7 @@ For example:
 ```csharp
 internal static void Write()
 {
-    XDocument document1 = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument document1 = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     using (FileStream stream = File.OpenWrite(Path.GetTempFileName()))
     {
         document1.Save(stream);

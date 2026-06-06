@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/functional-csharp-higher-order-function-currying-and-first-class-function](/posts/functional-csharp-higher-order-function-currying-and-first-class-function "https://weblogs.asp.net/dixin/functional-csharp-higher-order-function-currying-and-first-class-function")**[](/posts/functional-csharp-fundamentals "https://weblogs.asp.net/dixin/functional-csharp-fundamentals")
+## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-higher-order-function-currying-and-first-class-function](/posts/functional-csharp-higher-order-function-currying-and-first-class-function "https://CodingOnWheels.com/posts/functional-csharp-higher-order-function-currying-and-first-class-function")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
 
 ## First order and higher-order function
 

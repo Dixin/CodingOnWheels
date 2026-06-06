@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[LINQ to XML in Depth series](/archive/?tag=LINQ%20to%20XML)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/linq-to-xml-3-manipulating-xml](/posts/linq-to-xml-3-manipulating-xml "https://weblogs.asp.net/dixin/linq-to-xml-3-manipulating-xml")**
+## **Latest version: [https://CodingOnWheels.com/posts/linq-to-xml-3-manipulating-xml](/posts/linq-to-xml-3-manipulating-xml "https://CodingOnWheels.com/posts/linq-to-xml-3-manipulating-xml")**
 
 Besides creating and querying XML, LINQ to XML also provides APIs for other XML manipulations, including cloning, deleting, replacing, and updating XML structures:
 
@@ -72,7 +72,7 @@ internal static void ExplicitClone()
     XText sourceText = new XText("text");
     XText clonedText = new XText(sourceText);
 
-    XDocument sourceDocument = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument sourceDocument = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     XDocument clonedDocument = new XDocument(sourceDocument);
     object.ReferenceEquals(sourceDocument, clonedDocument).WriteLine(); // False
     object.Equals(sourceDocument, clonedDocument).WriteLine(); // False
@@ -338,7 +338,7 @@ Now, this RSS feed’s schema, represented by XmlSchemaSet, can be used to valid
 ```csharp
 internal static void Validate()
 {
-    XDocument aspNetRss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument aspNetRss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     XmlSchemaSet schemaSet = aspNetRss.InferSchema();
 
     XDocument flickrRss = XDocument.Load("https://www.flickr.com/services/feeds/photos_public.gne?id=64715861@N07&format=rss2");
@@ -359,7 +359,7 @@ Validate has another overload accepting a bool parameter addSchemaInfo. When it 
 ```csharp
 internal static void GetSchemaInfo()
 {
-    XDocument aspNetRss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument aspNetRss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     XmlSchemaSet schemaSet = aspNetRss.InferSchema();
 
     XDocument flickrRss = XDocument.Load("https://www.flickr.com/services/feeds/photos_public.gne?id=64715861@N07&format=rss2");
@@ -414,7 +414,7 @@ The following example transforms RSS to HTML, the most recent 5 items in RSS are
 ```csharp
 internal static void XslTransform()
 {
-    XDocument rss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument rss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     XDocument xsl = XDocument.Parse(@"
         <xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
             <xsl:template match='/rss/channel'>
@@ -457,7 +457,7 @@ The above transformation can also be done with LINQ to Objects/XML query:
 ```csharp
 internal static void Transform()
 {
-    XDocument rss = XDocument.Load("https://weblogs.asp.net/dixin/rss");
+    XDocument rss = XDocument.Load("https://CodingOnWheels.com/rss.xml");
     XDocument html = rss
         .Element("rss")
         .Element("channel")

@@ -13,7 +13,7 @@ lang: ""
 
 ## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
 
-## **Latest version: [https://weblogs.asp.net/dixin/lambda-calculus-via-c-1-fundamentals](/posts/lambda-calculus-via-c-1-fundamentals "https://weblogs.asp.net/dixin/lambda-calculus-via-c-1-fundamentals")**
+## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals](/posts/lambda-calculus-via-c-1-fundamentals "https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals")**
 
 C# [lambda expression](/posts/understanding-csharp-3-0-features-6-lambda-expression) is discussed in detail used everywhere in the [LINQ via C# series](/posts/linq-via-csharp). This post and the following few posts will focus on functions and disregard lambda expression for [expression tree](/posts/understanding-linq-to-sql-3-expression-tree). These articles will be a deeper dive about [lambda expression](/posts/understanding-csharp-3-0-features-6-lambda-expression) and [lambda calculus](http://en.wikipedia.org/wiki/Lambda_calculus) - how it comes, what it does, and [why it matters](http://www.cs.kent.ac.uk/people/staff/dat/miranda/whyfp90.pdf). And - functions and anonymous functions will always be the only primitive.
 

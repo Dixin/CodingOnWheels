@@ -11,7 +11,7 @@ lang: ""
 
 ## \[[LINQ via C# series](/posts/linq-via-csharp)\]
 
-## Latest version: [https://weblogs.asp.net/dixin/introducing-linq-3-what-is-functional-programming](/posts/introducing-linq-3-what-is-functional-programming)
+## Latest version: [https://CodingOnWheels.com/posts/introducing-linq-3-what-is-functional-programming](/posts/introducing-linq-3-what-is-functional-programming)
 
 Programming paradigm is the fundamental style of programming. There are [many paradigms for programming](https://en.wikipedia.org/wiki/Programming_paradigm), for example:
 
