@@ -27,14 +27,12 @@ The previous chapters discussed LINQ to Objects, LINQ to XML (objects), and Para
 etc. This tutorial uses Microsoft [SQL Server LocalDB](https://msdn.microsoft.com/en-us/library/hh510202.aspx) with the Microsoft AdventureWorks sample database as the data source. SQL Server LocalDB is a free, lightweight SQL Server [edition](http://download.microsoft.com/download/D/7/D/D7D64E12-C8E5-4A8C-A104-C945C188FA99/SQL_Server_2014_Datasheet.pdf). It is [extremely easy to install/use, but with rich programmability](https://blogs.msdn.microsoft.com/sqlexpress/2011/07/12/introducing-localdb-an-improved-sql-express/). Please follow these step to setup:
 
 1.  [Download SQL Server LocalDB](https://www.microsoft.com/en-in/download/details.aspx?id=52679), and use the installer to download SQL Server LocalDB and install. Zero configuration is required for installation. [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Entity-Framework-1_13528/image_thumb_2.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Entity-Framework-1_13528/image_14.png)
-2.  [Download SQL Server Management Tools](https://msdn.microsoft.com/en-us/library/mt238290.aspx) and install. [This includes](https://msdn.microsoft.com/en-us/library/hh213248.aspx):
-
--   [SQL Server Management Studio](https://en.wikipedia.org/wiki/SQL_Server_Management_Studio), a free integration environment to manage SQL Server and SQL database.
--   [SQL Server Profiler](https://msdn.microsoft.com/en-us/library/ms181091.aspx), a free trace tool. This tutorial will use it to uncover how Entity Framework works with the SQL data source.
-
-4.  (Optional) [Download SQL Server Data Tools](https://msdn.microsoft.com/en-us/library/mt204009.aspx) and install. It is a free Visual Studio extension, and enables SQL database management inside Visual Studio.
-5.  Download and install Microsoft SQL Server sample databases AdventureWorks. The [full database from Microsoft](http://msftdbprodsamples.codeplex.com/) will be about 205MB, so a compacted and shrunk version of the AdventureWorks database is provided for this tutorial. It is only 34MB, and is available from [GitHub](https://github.com/Dixin/CodeSnippets/tree/master/Data). Just download the [AdventureWorks\_Data.mdf](https://github.com/Dixin/CodeSnippets/blob/master/Data/AdventureWorks_Data.mdf) file and the [AdventureWorks\_Log.ldf](https://github.com/Dixin/CodeSnippets/blob/master/Data/AdventureWorks_Log.ldf) file to the same directory.
-6.  Install Entity Framework library to code project:
+1.  [Download SQL Server Management Tools](https://msdn.microsoft.com/en-us/library/mt238290.aspx) and install. [This includes](https://msdn.microsoft.com/en-us/library/hh213248.aspx):
+    -   [SQL Server Management Studio](https://en.wikipedia.org/wiki/SQL_Server_Management_Studio), a free integration environment to manage SQL Server and SQL database.
+    -   [SQL Server Profiler](https://msdn.microsoft.com/en-us/library/ms181091.aspx), a free trace tool. This tutorial will use it to uncover how Entity Framework works with the SQL data source.
+1.  (Optional) [Download SQL Server Data Tools](https://msdn.microsoft.com/en-us/library/mt204009.aspx) and install. It is a free Visual Studio extension, and enables SQL database management inside Visual Studio.
+1.  Download and install Microsoft SQL Server sample databases AdventureWorks. The [full database from Microsoft](http://msftdbprodsamples.codeplex.com/) will be about 205MB, so a compacted and shrunk version of the AdventureWorks database is provided for this tutorial. It is only 34MB, and is available from [GitHub](https://github.com/Dixin/CodeSnippets/tree/master/Data). Just download the [AdventureWorks\_Data.mdf](https://github.com/Dixin/CodeSnippets/blob/master/Data/AdventureWorks_Data.mdf) file and the [AdventureWorks\_Log.ldf](https://github.com/Dixin/CodeSnippets/blob/master/Data/AdventureWorks_Log.ldf) file to the same directory.
+1.  Install Entity Framework library to code project:
     ```powershell
     Install-Package EntityFramework
     ```

@@ -338,8 +338,8 @@ For example, the following is a kind of UMD pattern to make module definition wo
 
 It is more complex but it is just an IIFE. The anonymous function detects if AMD’s `define` function exists.
 
-- If yes, call the module factory with AMD’s `define` function.
-- If not, it calls the module factory directly. At this moment,  the `root` argument is actually the browser’s `window` object. It gets dependency modules from global variables (properties of `window` object). When `factory` returns the module, the returned module is also assigned to a global variable (property of `window` object).
+-   If yes, call the module factory with AMD’s `define` function.
+-   If not, it calls the module factory directly. At this moment,  the `root` argument is actually the browser’s `window` object. It gets dependency modules from global variables (properties of `window` object). When `factory` returns the module, the returned module is also assigned to a global variable (property of `window` object).
 
 ### UMD for both AMD (RequireJS) and CommonJS (Node.js)
 
@@ -373,8 +373,8 @@ The following is another kind of UMD pattern to make module definition work with
 
 Again, don’t be scared. It is just another IIFE. When the anonymous function is called, its argument is evaluated. The argument evaluation detects the environment (check the module variable and `exports` variable of CommonJS/Node.js, as well as the `define` function of AMD/RequireJS).
 
-- If the environment is CommonJS/Node.js, the anonymous function’s argument is a manually created `define` function.
-- If the environment is AMD/RequireJS, the anonymous function’s argument is just AMD’s `define` function. So when the anonymous function is executed, it is guaranteed to have a working `define` function. Inside the anonymous function, it simply calls the `define` function to create the module.
+-   If the environment is CommonJS/Node.js, the anonymous function’s argument is a manually created `define` function.
+-   If the environment is AMD/RequireJS, the anonymous function’s argument is just AMD’s `define` function. So when the anonymous function is executed, it is guaranteed to have a working `define` function. Inside the anonymous function, it simply calls the `define` function to create the module.
 
 ## ES module: ECMAScript 2015, or ES6 module
 
@@ -589,15 +589,15 @@ counterModule.reset();
 
 Webpack can bundle all the above file, even they are in 3 different module systems, into a single file `main.js`:
 
-- root
-  - dist
-    - main.js (Bundle of all files under src)
-  - src
-    - amdDependencyModule1.js
-    - commonJSDependencyModule2.js
-    - esCounterModule.js
-    - index.js
-  - webpack.config.js
+-   root
+    -   dist
+        -   main.js (Bundle of all files under src)
+    -   src
+        -   amdDependencyModule1.js
+        -   commonJSDependencyModule2.js
+        -   esCounterModule.js
+        -   index.js
+    -   webpack.config.js
 
 Since Webpack is based on Node.js, Webpack uses CommonJS module syntax for itself. In `webpack.config.js`:
 
@@ -830,18 +830,18 @@ npx babel src --out-dir lib
 
 The result is:
 
-- root
-  - lib
-    - amdDependencyModule1.js (Transpiled with SystemJS)
-    - commonJSDependencyModule2.js (Transpiled with SystemJS)
-    - esCounterModule.js (Transpiled with SystemJS)
-    - index.js (Transpiled with SystemJS)
-  - src
-    - amdDependencyModule1.js
-    - commonJSDependencyModule2.js
-    - esCounterModule.js
-    - index.js
-  - babel.config.json
+-   root
+    -   lib
+        -   amdDependencyModule1.js (Transpiled with SystemJS)
+        -   commonJSDependencyModule2.js (Transpiled with SystemJS)
+        -   esCounterModule.js (Transpiled with SystemJS)
+        -   index.js (Transpiled with SystemJS)
+    -   src
+        -   amdDependencyModule1.js
+        -   commonJSDependencyModule2.js
+        -   esCounterModule.js
+        -   index.js
+    - babel.config.json
 
 Now all the ADM, CommonJS, and ES module syntax are transpiled to SystemJS syntax:
 
@@ -1121,16 +1121,16 @@ var Counter;
 
 Welcome to JavaScript, which has so much drama - 10+ systems/formats just for modularization/namespace:
 
-1. IIFE module: JavaScript **module pattern**
-1. Revealing module: JavaScript **revealing module pattern**
-1. **CJS module**: CommonJS module, or Node.js module
-1. **AMD module**: Asynchronous Module Definition, or RequireJS module
-1. **UMD module**: Universal Module Definition, or UmdJS module
-1. **ES module**: ECMAScript 2015, or ES6 module
-1. **ES dynamic module**: ECMAScript 2020, or ES11 dynamic module
-1. **System module**: SystemJS module
-1. **Webpack module**: transpile and bundle of CJS, AMD, ES modules
-1. **Babel module**: transpile ES module
-1. **TypeScript module** and namespace
+1.  IIFE module: JavaScript **module pattern**
+1.  Revealing module: JavaScript **revealing module pattern**
+1.  **CJS module**: CommonJS module, or Node.js module
+1.  **AMD module**: Asynchronous Module Definition, or RequireJS module
+1.  **UMD module**: Universal Module Definition, or UmdJS module
+1.  **ES module**: ECMAScript 2015, or ES6 module
+1.  **ES dynamic module**: ECMAScript 2020, or ES11 dynamic module
+1.  **System module**: SystemJS module
+1.  **Webpack module**: transpile and bundle of CJS, AMD, ES modules
+1.  **Babel module**: transpile ES module
+1.  **TypeScript module** and namespace
 
 Fortunately, now JavaScript has standard built-in language features for modules, and it is supported by Node.js and all the latest modern browsers. For the older environments, you can still code with the new ES module syntax, then use Webpack/Babel/SystemJS/TypeScript to transpile to older or compatible syntax.

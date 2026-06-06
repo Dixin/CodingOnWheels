@@ -29,8 +29,8 @@ A previous part showed endofunctor category is a monoid (the entire category its
 satisfying the monoid laws:
 
 1.  Left unit law λ: μ(η ◎ F) ≌ F
-2.  Right unit law ρ: F ≌ μ(F ◎ η)
-3.  Associative law α: μ(F ◎ F) ◎ F) ≌ F ◎ μ(F ◎ F)
+1.  Right unit law ρ: F ≌ μ(F ◎ η)
+1.  Associative law α: μ(F ◎ F) ◎ F) ≌ F ◎ μ(F ◎ F)
 
 so that, similar to Monoid diagrams, there are:
 
@@ -422,14 +422,14 @@ Because monad is such an important but psychedelic concept, later parts will con
 As fore mentioned, a monad is a monoid in the endofunctor category, so monad follows the monoid laws:
 
 1.  Left unit law: μ(η ◎ T) ≌ T
-2.  Right unit law: T ≌ μ(T ◎ η)
-3.  Associative law: μ(T ◎ T) ◎ T) ≌ T ◎ μ(T ◎ T)
+1.  Right unit law: T ≌ μ(T ◎ η)
+1.  Associative law: μ(T ◎ T) ◎ T) ≌ T ◎ μ(T ◎ T)
 
 Now in C#, after introducing Monad (Here Enumerable) as η, SelectMany as a more powerful μ, above general monad law becomes following C# [monad laws](http://en.wikipedia.org/wiki/Monad_\(functional_programming\)#Monad_laws):
 
 1.  Left unit law: m.Monad().SelectMany(f) == f(m)
-2.  Right unit law: M.SelectMany(Monad) == M
-3.  Associative law: M.SelectMany(f1).SelectMany(f2) == M.SelectMany(x => f1(x).SelectMany(f2))
+1.  Right unit law: M.SelectMany(Monad) == M
+1.  Associative law: M.SelectMany(f1).SelectMany(f2) == M.SelectMany(x => f1(x).SelectMany(f2))
 
 where M is a monad (here a IEnumerable<>), Monad is the “constructor” function (here Enumerable).
 

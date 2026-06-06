@@ -37,7 +37,7 @@ A [category](http://en.wikipedia.org/wiki/Category_\(mathematics\)) C consists o
 and satisfies 2 category laws:
 
 1.  The ability to compose the morphisms [associatively](http://en.wikipedia.org/wiki/Associativity): For m1: W → X, m2: X → Y and m3: Y → Z, there is (m3 ∘ m2) ∘ m1 ≌ m3 ∘ (m2 ∘ m1). [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb_1.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_4.png)
-2.  The existence of an [identity](http://en.wikipedia.org/wiki/Identity_function) morphism for each object: idx : X → X. For m: X → Y, there is idY ∘ m ≌ m ≌ m ∘ idX. [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb_3.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_9.png)
+1.  The existence of an [identity](http://en.wikipedia.org/wiki/Identity_function) morphism for each object: idx : X → X. For m: X → Y, there is idY ∘ m ≌ m ≌ m ∘ idX. [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb_3.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_9.png)
 
 To make above general definitions more intuitive, category and its morphism can be represented by:
 
@@ -123,4 +123,4 @@ And the DotNet category satisfies the category laws:
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb_4.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_11.png)
 
 1.  The associativity of morphisms’ (C# functions’) composition is already [proven before](/posts/lambda-calculus-via-c-sharp-3-fundamentals-function-composition).
-2.  The morphism returned by Id() is a wrapper of generic function (@object => @object), but it can be compiled to a copy for each closed type (each object ∈ ob(DotNet)), like Id<string>, Id<int>(), id<bool>(), etc. (This is also called [code explosion](https://www.safaribooksonline.com/library/view/clr-via-c/9780735668737/ch12.html#code_explosion) in .NET):
+1.  The morphism returned by Id() is a wrapper of generic function (@object => @object), but it can be compiled to a copy for each closed type (each object ∈ ob(DotNet)), like Id<string>, Id<int>(), id<bool>(), etc. (This is also called [code explosion](https://www.safaribooksonline.com/library/view/clr-via-c/9780735668737/ch12.html#code_explosion) in .NET):

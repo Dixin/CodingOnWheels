@@ -19,7 +19,7 @@ Understanding of internals of query methods is very helpful for using them accur
 
 1.  Collection queries: return a new collection (immediate execution):
     -   Conversion: ToArray, ToList, ToDictionary, ToLookup
-2.  Sequence queries: return a new IEnumerable<T> sequence (deferred execution, underlined are eager evaluation):
+1.  Sequence queries: return a new IEnumerable<T> sequence (deferred execution, underlined are eager evaluation):
     -   Conversion: Cast, AsEnumerable
     -   Generation: Empty , Range, Repeat, DefaultIfEmpty
     -   Filtering (restriction): Where, OfType
@@ -31,7 +31,7 @@ Understanding of internals of query methods is very helpful for using them accur
     -   Convolution: Zip
     -   Partitioning: Take, Skip, TakeWhile, SkipWhile
     -   Ordering: OrderBy\*, ThenBy\*, OrderByDescending\*, ThenByDescending\*, Reverse\*
-3.  Value queries: return a single value (immediate execution):
+1.  Value queries: return a single value (immediate execution):
     -   Element: First, FirstOrDefault, Last, LastOrDefault, ElementAt, ElementAtOrDefault, Single, SingleOrDefault
     -   Aggregation: Aggregate, Count, LongCount, Min, Max, Sum, Average
     -   Quantifier: All, Any, Contains

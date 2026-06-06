@@ -127,6 +127,6 @@ Here monoid (T, ⊙, I), as a category now, has 2 kinds of morphisms
 
 1.  Each element of T can be associated with a morphism: ∀ x ∈ T, there is a mx: I → T
     -   For example, in (int, +, 0) or addInt32Monoid implementation, it has a family of η morphisms (functions) - from unit to each element of int, apparently those morphisms (+ arithmetic) can be composited.
-2.  id: the normal IdT morphism.
+1.  id: the normal IdT morphism.
 
 Thus it satisfies the category laws.

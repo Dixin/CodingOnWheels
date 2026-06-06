@@ -15,9 +15,9 @@ lang: ""
 
 Understanding of internal implementation of LINQ to Objects queries is the ultimate way to master them and use them accurately and effectively, and is also helpful for defining custom query methods, which is discussed later in the custom queries chapter. Just like the usage discussion part, here query methods are still categorized by output type, but in a different order:
 
-1. Collection queries: output a new collection (immediate execution):
+1.  Collection queries: output a new collection (immediate execution):
     -   Conversion: ToArray, ToList, ToDictionary, ToLookup
-1. Sequence queries: output a new IEnumerable<T> sequence (deferred execution, underlined are eager evaluation):
+1.  Sequence queries: output a new IEnumerable<T> sequence (deferred execution, underlined are eager evaluation):
     -   Conversion: Cast, AsEnumerable
     -   Generation: Empty, Range, Repeat, DefaultIfEmpty
     -   Filtering (restriction): Where, OfType
@@ -29,7 +29,7 @@ Understanding of internal implementation of LINQ to Objects queries is the ultim
     -   Convolution: Zip
     -   Partitioning: Take, Skip, TakeWhile, SkipWhile
     -   Ordering: OrderBy\*, ThenBy\*, OrderByDescending\*, ThenByDescending\*, Reverse\*
-1. Value queries: output a single value (immediate execution):
+1.  Value queries: output a single value (immediate execution):
     -   Element: First, FirstOrDefault, Last, LastOrDefault, ElementAt, ElementAtOrDefault, Single, SingleOrDefault
     -   Aggregation: Aggregate, Count, LongCount, Min, Max, Sum, Average
     -   Quantifier: All, Any, Contains

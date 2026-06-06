@@ -15,7 +15,7 @@ lang: ""
 
 As fore mentioned, LINQ to Objects standard query methods (also called standard query operators) are provided as static methods of System.Linq.Enumerable type, most of which are IEnumerable<T> extension methods. They can be categorized by output type:
 
-1. Sequence queries: output a new IEnumerable<T> sequence:
+1.  Sequence queries: output a new IEnumerable<T> sequence:
     -   Generation: Empty , Range, Repeat, DefaultIfEmpty
     -   Filtering (restriction): Where\*, OfType
     -   Mapping (projection): Select\*, SelectMany\*
@@ -27,9 +27,9 @@ As fore mentioned, LINQ to Objects standard query methods (also called standard 
     -   Partitioning: Take, Skip, TakeWhile, SkipWhile
     -   Ordering: OrderBy\*, ThenBy\*, OrderByDescending\*, ThenByDescending\*, Reverse\*
     -   Conversion: Cast\*, AsEnumerable
-1. Collection queries: output a new collection:
+1.  Collection queries: output a new collection:
     -   Conversion: ToArray, ToList, ToDictionary, ToLookup
-1. Value queries: output a single value:
+1.  Value queries: output a single value:
     -   Element: First, FirstOrDefault, Last, LastOrDefault, ElementAt, ElementAtOrDefault, Single, SingleOrDefault
     -   Aggregation: Aggregate, Count, LongCount, Min, Max, Sum, Average
     -   Quantifier: All, Any, Contains

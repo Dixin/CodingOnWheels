@@ -20,21 +20,19 @@ lang: ""
 This part discusses how to query SQL database with the defined mapping classes. Entity Framework and LINQ to Entities supports most of the extension methods provided by Queryable class:
 
 1.  Return a new IQueryable<T> source:
-
--   Generation: DefaultIfEmpty
--   Filtering (restriction): Where, OfType
--   Mapping (projection): Select
--   Grouping: GroupBy
--   Join: Join, GroupJoin, SelectMany, Select
--   Apply: GroupBy, GroupJoin, Select
--   Concatenation: Concat
--   Set: Distinct, GroupBy, Union, Intersect, Except
--   Convolution: ~Zip~
--   Partitioning: Take, Skip, ~TakeWhile~, ~SkipWhile~
--   Ordering: OrderBy, ThenBy, OrderByDescending, ThenByDescending, ~Reverse~
--   Conversion: Cast, AsQueryable
-
-3.  Return a single value:
+    -   Generation: DefaultIfEmpty
+    -   Filtering (restriction): Where, OfType
+    -   Mapping (projection): Select
+    -   Grouping: GroupBy
+    -   Join: Join, GroupJoin, SelectMany, Select
+    -   Apply: GroupBy, GroupJoin, Select
+    -   Concatenation: Concat
+    -   Set: Distinct, GroupBy, Union, Intersect, Except
+    -   Convolution: ~Zip~
+    -   Partitioning: Take, Skip, ~TakeWhile~, ~SkipWhile~
+    -   Ordering: OrderBy, ThenBy, OrderByDescending, ThenByDescending, ~Reverse~
+    -   Conversion: Cast, AsQueryable
+1.  Return a single value:
     -   Element: First, FirstOrDefault, ~Last~, ~LastOrDefault~, ~ElementAt~, ~ElementAtOrDefault~, Single, SingleOrDefault
     -   Aggregation: ~Aggregate~, Count, LongCount, Min, Max, Sum, Average
     -   Quantifier: All, Any, Contains
@@ -44,7 +42,6 @@ If a Queryable method has no proper target SQL translation, this method is not s
 
 -   The crossed methods are not supported ([the list in MDSN](https://msdn.microsoft.com/en-us/library/bb738550.aspx) is not up to date), because there is no general translation to SQL, e.g. SQL database has no built-in Zip operation, etc..
 -   The underlined methods have some overloads not supported:
-
 -   For GroupBy, Join, GroupJoin, Distinct, Union, Intersect, Except, Contains, the overloads with IEqualityComparer<T> parameter are not supported, because apparently IEqualityComparer<T> has no equivalent SQL translation
 -   For OrderBy, ThenBy, OrderByDescending, ThenByDescending, the overloads with IComparer<T> parameter are not supported
 -   For Where, Select, SelectMany, the indexed overloads are not supported

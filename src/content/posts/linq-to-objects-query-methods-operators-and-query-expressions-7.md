@@ -29,9 +29,9 @@ This part discusses the usages of built-in LINQ to Objects query methods and que
     -   Partitioning: Take, Skip, TakeWhile, SkipWhile
     -   Ordering: OrderBy\*, ThenBy\*, OrderByDescending\*, ThenByDescending\*, Reverse\*
     -   Conversion: Cast\*, AsEnumerable
-2.  Collection queries: return a new collection:
+1.  Collection queries: return a new collection:
     -   Conversion: ToArray, ToList, ToDictionary, ToLookup
-3.  Value queries: return a single value:
+1.  Value queries: return a single value:
     -   Element: First, FirstOrDefault, Last, LastOrDefault, ElementAt, ElementAtOrDefault, Single, SingleOrDefault
     -   Aggregation: Aggregate, Count, LongCount, Min, Max, Sum, Average
     -   Quantifier: All, Any, Contains

@@ -38,12 +38,12 @@ and change it to:
 </asp>
 ```
 
-1. In Visual Studio, add existing website to the solution (or open a website), point to the ASP website folder.
-2. Start the website without debugging (Ctrl+F5).I will explain why.
-3. In Visual Studio, open the “Attach to Process” dialog (Ctrl+Alt+P). Notice the “Attach to” has the default option “Automatic: Native code” [![image_thumb9](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb9_thumb.png "image_thumb9")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb9_2.png)
-4. Click the “Select…” button, change it to “Script”: [![image_thumb10](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb10_thumb.png "image_thumb10")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb10_2.png)
-5. Now attach to IIS Express: [![image_thumb11](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb11_thumb.png "image_thumb11")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb11_2.png)
-6. If IIS Express is running multiple websites, there will be multiple iisexpress.exe processes in the “Available Processes”. The current website’s process ID can be found from the IIS Express site list: [![image_thumb13](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb13_thumb.png "image_thumb13")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb13_2.png)
+1.  In Visual Studio, add existing website to the solution (or open a website), point to the ASP website folder.
+1.  Start the website without debugging (Ctrl+F5).I will explain why.
+1.  In Visual Studio, open the “Attach to Process” dialog (Ctrl+Alt+P). Notice the “Attach to” has the default option “Automatic: Native code” [![image_thumb9](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb9_thumb.png "image_thumb9")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb9_2.png)
+1.  Click the “Select…” button, change it to “Script”: [![image_thumb10](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb10_thumb.png "image_thumb10")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb10_2.png)
+1.  Now attach to IIS Express: [![image_thumb11](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb11_thumb.png "image_thumb11")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb11_2.png)
+1.  If IIS Express is running multiple websites, there will be multiple iisexpress.exe processes in the “Available Processes”. The current website’s process ID can be found from the IIS Express site list: [![image_thumb13](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb13_thumb.png "image_thumb13")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb13_2.png)
 
 Now the website can be debugged in Visual Studio:
 
@@ -66,11 +66,11 @@ As the second last picture shows, the index.asp has a \[dynamic\] tag. Visual St
 Here are the steps:
 
 1.  Open IIS manager, change ASP configurations to enable debugging: [![image_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb_thumb.png "image_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb_9.png)
-2.  Run Visual Studio as administrator.
-3.  Create an empty web application. In Visual Studio 2015, click File –> New –> Project…, then in the new project dialog, search “ASP.NET Web Application”. A WebApplication.csproj file and Web.config file will be created in the web application directory. [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb_1.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_4.png) [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_2.png)
-4.  Merge website folder to Visual Studio web application folder. In Visual Studio, include all website files into the created empty web application.
-5.  In web application project’s properties, go to Web tab, choose “Local IIS”, create virtual directory in local IIS for this web application.
-6.  In the “Attach to Process” dialog, attach Visual Studio to “Script Code” of IIS process (w3wp.exe). [![image_thumb1](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb1_thumb.png "image_thumb1")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb1_2.png)
-7.  Manually start a browser, input the URI of the created virtual directory. Now the breakpoint set in the static .asp file triggers.
+1.  Run Visual Studio as administrator.
+1.  Create an empty web application. In Visual Studio 2015, click File –> New –> Project…, then in the new project dialog, search “ASP.NET Web Application”. A WebApplication.csproj file and Web.config file will be created in the web application directory. [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb_1.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_4.png) [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_2.png)
+1.  Merge website folder to Visual Studio web application folder. In Visual Studio, include all website files into the created empty web application.
+1.  In web application project’s properties, go to Web tab, choose “Local IIS”, create virtual directory in local IIS for this web application.
+1.  In the “Attach to Process” dialog, attach Visual Studio to “Script Code” of IIS process (w3wp.exe). [![image_thumb1](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb1_thumb.png "image_thumb1")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Debugging_13D39/image_thumb1_2.png)
+1.  Manually start a browser, input the URI of the created virtual directory. Now the breakpoint set in the static .asp file triggers.
 
 With this approach, the created WebApplication.csproj file and Web.config file pollute the website folder. Instead of web application, If creating/opening website in Visual Studio, it works the same as IIS Express. Web application has to be created so that Visual Studio can map to the static .asp files in file system during debugging.

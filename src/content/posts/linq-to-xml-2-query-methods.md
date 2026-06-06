@@ -583,12 +583,12 @@ rss.CreateNamespaceManager()))
 
 To leverage LINQ to XML, one example is to generate XPath expression for a specified XObject instance, which can be either XAttribute or XNode. The XPath expression can be calculated with the following 3 segments are needed:
 
-1. the XPath of current object’s parent Element, which can be either calculated recursively, or be provided by caller.
-1. the XPath of current object, which can be
+1.  the XPath of current object’s parent Element, which can be either calculated recursively, or be provided by caller.
+1.  the XPath of current object, which can be
     -   @attributeName if it is an attribute
     -   elementName if it is an element
     -   node test like text(), comment(), etc., if it is any other type of node.
-1. a predicate for current object, which can simply be the position:
+1.  a predicate for current object, which can simply be the position:
     -   For example, \[2\] can be used to identify a comment node, if there is another sibling comment node before itself
     -   also, the position predicate can be omitted if current object has no ambiguous sibling objects, so that XPath of parent object combining XPath of current object selects one single object. For example, if current node is a comment node with no sibling comment node, then parentElement/comment() without position predicate is good enough
 

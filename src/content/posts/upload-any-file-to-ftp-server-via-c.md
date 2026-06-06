@@ -27,48 +27,48 @@ It uses StreamReader to read a string from a text file, then encode the string t
 
 This document’s title has a general title “Upload Files with FTP". However, this approach with StreamReader only works with text file. If the above code is used to upload a binary file, like a picture, the uploaded file on FTP server becomes corrupted. The general options are:
 
-1\. Call File.ReadAllBytes to read the bytes, and write to request stream:
+1.  Call File.ReadAllBytes to read the bytes, and write to request stream:
 
-```csharp
-byte[] fileContents = File.ReadAllBytes(filePath);
-using (Stream requestStream = request.GetRequestStream())
-{
-    requestStream.Write(fileContents, 0, fileContents.Length);
-}
-```
-
-2\. Use FileStream to read the file, and copy the file stream to request stream:
-
-```csharp
-public static async Task<FtpStatusCode> FtpUploadAsync(string uri, string userName, string password, string filePath)
-{
-    FtpWebRequest request = (FtpWebRequest)WebRequest.Create(uri);
-    request.Method = WebRequestMethods.Ftp.UploadFile;
-    request.Credentials = new NetworkCredential(userName, password);
-    // request.UsePassive is true by default.
-
-    using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+    ```csharp
+    byte[] fileContents = File.ReadAllBytes(filePath);
     using (Stream requestStream = request.GetRequestStream())
     {
-        await fileStream.CopyToAsync(requestStream);
+        requestStream.Write(fileContents, 0, fileContents.Length);
     }
+    ```
 
-    using (FtpWebResponse response = (FtpWebResponse)await request.GetResponseAsync())
+1.  Use FileStream to read the file, and copy the file stream to request stream:
+
+    ```csharp
+    public static async Task<FtpStatusCode> FtpUploadAsync(string uri, string userName, string password, string filePath)
     {
-        return response.StatusCode;
+        FtpWebRequest request = (FtpWebRequest)WebRequest.Create(uri);
+        request.Method = WebRequestMethods.Ftp.UploadFile;
+        request.Credentials = new NetworkCredential(userName, password);
+        // request.UsePassive is true by default.
+
+        using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+        using (Stream requestStream = request.GetRequestStream())
+        {
+            await fileStream.CopyToAsync(requestStream);
+        }
+
+        using (FtpWebResponse response = (FtpWebResponse)await request.GetResponseAsync())
+        {
+            return response.StatusCode;
+        }
     }
-}
-```
+    ```
 
-3\. Use WebClient, which wraps all the above work flow:
+1.  Use WebClient, which wraps all the above work flow:
 
-```csharp
-public static async Task FtpUploadAsync(string uri, string userName, string password, string filePath)
-{
-    using (WebClient webClient = new WebClient())
+    ```csharp
+    public static async Task FtpUploadAsync(string uri, string userName, string password, string filePath)
     {
-        webClient.Credentials = new NetworkCredential(userName, password);
-        await webClient.UploadFileTaskAsync(uri, WebRequestMethods.Ftp.UploadFile, filePath);
+        using (WebClient webClient = new WebClient())
+        {
+            webClient.Credentials = new NetworkCredential(userName, password);
+            await webClient.UploadFileTaskAsync(uri, WebRequestMethods.Ftp.UploadFile, filePath);
+        }
     }
-}
-```
+    ```

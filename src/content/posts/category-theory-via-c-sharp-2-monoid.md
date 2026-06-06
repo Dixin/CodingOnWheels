@@ -27,8 +27,8 @@ A [monoid](http://en.wikipedia.org/wiki/Monoid_\(category_theory\)), denoted a 3
 satisfying:
 
 1.  left unit law λX: I ⊙ X ≌ X
-2.  right unit law ρX: X ≌ X ⊙ I
-3.  associative law αX, Y, Z: (X ⊙ Y) ⊙ Z ≌ X ⊙ (Y ⊙ Z)
+1.  right unit law ρX: X ≌ X ⊙ I
+1.  associative law αX, Y, Z: (X ⊙ Y) ⊙ Z ≌ X ⊙ (Y ⊙ Z)
 
 so that:
 
@@ -39,8 +39,8 @@ so that:
 This is quite general and abstract. A intuitive example is the set of all integers, with operator + and unit 0. So this 3-tuple (integer, +, 0) satisfies:
 
 1.  0 + x ≌ x
-2.  x ≌ x + 0
-3.  (x + y) + z ≌ x + (y + z)
+1.  x ≌ x + 0
+1.  (x + y) + z ≌ x + (y + z)
 
 where x, y, z are elements of the set of integers. Therefore (integer, +, 0) is a monoid.
 

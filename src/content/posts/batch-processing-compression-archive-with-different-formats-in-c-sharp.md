@@ -13,16 +13,16 @@ lang: ""
 
 Recently I need to batch process some compressed files in several hard disk drives - Some [RAR](http://en.wikipedia.org/wiki/RAR)/[ISO](http://en.wikipedia.org/wiki/ISO_image)/[7z](http://en.wikipedia.org/wiki/7z) files need to unified to [zip](http://en.wikipedia.org/wiki/Zip_\(file_format\)) format; And some compression archives has to be extracted; etc..
 
-- [C# options for compression archive (RAR, ISO, 7z, zip, …) processing](#c-options-for-compression-archive-rar-iso-7z-zip--processing)
+-   [C# options for compression archive (RAR, ISO, 7z, zip, …) processing](#c-options-for-compression-archive-rar-iso-7z-zip--processing)
   - [The entry name encoding/decoding problem](#the-entry-name-encodingdecoding-problem)
-- [Prepare to use `7z.exe` command line tool](#prepare-to-use-7zexe-command-line-tool)
-- [Extract entries from RAR/ISO/7z/… archive](#extract-entries-from-rariso7z-archive)
-- [Create zip archive](#create-zip-archive)
-- [Delete a file/directory](#delete-a-filedirectory)
-- [Convert RAR, ISO, 7z, … archives to zip](#convert-rar-iso-7z--archives-to-zip)
-- [Batch process](#batch-process)
-- [Encrypt/hide file names in zip](#encrypthide-file-names-in-zip)
-- [Conclusion](#conclusion)
+-   [Prepare to use `7z.exe` command line tool](#prepare-to-use-7zexe-command-line-tool)
+-   [Extract entries from RAR/ISO/7z/… archive](#extract-entries-from-rariso7z-archive)
+-   [Create zip archive](#create-zip-archive)
+-   [Delete a file/directory](#delete-a-filedirectory)
+-   [Convert RAR, ISO, 7z, … archives to zip](#convert-rar-iso-7z--archives-to-zip)
+-   [Batch process](#batch-process)
+-   [Encrypt/hide file names in zip](#encrypthide-file-names-in-zip)
+-   [Conclusion](#conclusion)
 
 ## C# options for compression archive (RAR, ISO, 7z, zip, …) processing
 
@@ -198,9 +198,9 @@ public class SevenZip
 Instead of developing a direct conversion algorithm between RAR/ISO/… and zip format, I would [keep it simple stupid](http://en.wikipedia.org/wiki/KISS_principle):
 
 1.  Extract RAR archive entries to a temp folder (x command)
-2.  Compress temp folder entries to zip archive (a command).
-3.  Delete the temp folder.
-4.  Delete the RAR archive.
+1.  Compress temp folder entries to zip archive (a command).
+1.  Delete the temp folder.
+1.  Delete the RAR archive.
 
 Now some basic functions can be added to SevenZip class.
 
@@ -475,7 +475,7 @@ public void ExtractAll(
 After converting RAR to zip, there is a big disadvantage. RAR can encrypt/hide entry names in the archive, but zip cannot. Again, a [simple stupid](http://en.wikipedia.org/wiki/KISS_principle) way is to [double zip](http://kb.winzip.com/kb/entry/147/):
 
 1.  First pass: zip entries into an archive without encryption
-2.  Second pass: zip that archive with encryption
+1.  Second pass: zip that archive with encryption
 
 ```csharp
 public void DoubleZip(

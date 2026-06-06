@@ -74,8 +74,8 @@ Other tools, like [MiniTool Partition Manager](http://www.partitionwizard.com/),
 This is the most tricky part. There are several options:
 
 1.  Use built-in Hyper-v Manager to shrink VHD/VHDX files of a virtual machine. [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Shrink-a_D28C/image_thumb_16.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Shrink-a_D28C/image_35.png)
-2.  Use [VHD Resizer](http://www.bursky.net/wp-content/uploads/2012/07/VhdResizerSetup.zip) to change the size. It only works for VHD, not VHDX.
-3.  Use PowerShell command to shrink VHD/VHDX files:
+1.  Use [VHD Resizer](http://www.bursky.net/wp-content/uploads/2012/07/VhdResizerSetup.zip) to change the size. It only works for VHD, not VHDX.
+1.  Use PowerShell command to shrink VHD/VHDX files:
     ```csharp
     Resize-VHD –Path .\dixinyan-vmxp.vhdx –ToMinimumSize
     ```

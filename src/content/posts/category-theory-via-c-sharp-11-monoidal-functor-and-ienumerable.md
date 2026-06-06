@@ -25,8 +25,8 @@ Given monoidal categories (C, ⊗, IC) and (D, ⊛, ID), a [monoidal functor](ht
 satisfying the monoid laws:
 
 1.  Left unit law in D, denoted λD: [![image](https://mscblogs.blob.core.windows.net/media/dixin/Windows-Live-Writer/c89f78dd27b4_ABC1/image_thumb.png "image")](https://mscblogs.blob.core.windows.net/media/dixin/Windows-Live-Writer/c89f78dd27b4_ABC1/image_2.png)
-2.  Right unit law in D, denoted ρD: [![Untitled-3..fw](https://mscblogs.blob.core.windows.net/media/dixin/Windows-Live-Writer/c89f78dd27b4_ABC1/Untitled-3..fw_thumb.png "Untitled-3..fw")](https://mscblogs.blob.core.windows.net/media/dixin/Windows-Live-Writer/c89f78dd27b4_ABC1/Untitled-3..fw_2.png)
-3.  Associativity law in D, denoted αD: [![Untitled-4.fw](https://mscblogs.blob.core.windows.net/media/dixin/Windows-Live-Writer/c89f78dd27b4_ABC1/Untitled-4.fw_thumb_1.png "Untitled-4.fw")](https://mscblogs.blob.core.windows.net/media/dixin/Windows-Live-Writer/c89f78dd27b4_ABC1/Untitled-4.fw_4.png)
+1.  Right unit law in D, denoted ρD: [![Untitled-3..fw](https://mscblogs.blob.core.windows.net/media/dixin/Windows-Live-Writer/c89f78dd27b4_ABC1/Untitled-3..fw_thumb.png "Untitled-3..fw")](https://mscblogs.blob.core.windows.net/media/dixin/Windows-Live-Writer/c89f78dd27b4_ABC1/Untitled-3..fw_2.png)
+1.  Associativity law in D, denoted αD: [![Untitled-4.fw](https://mscblogs.blob.core.windows.net/media/dixin/Windows-Live-Writer/c89f78dd27b4_ABC1/Untitled-4.fw_thumb_1.png "Untitled-4.fw")](https://mscblogs.blob.core.windows.net/media/dixin/Windows-Live-Writer/c89f78dd27b4_ABC1/Untitled-4.fw_4.png)
 
 The α, λ, ρ are the fore mentioned natural transformations of monoidal category D.
 

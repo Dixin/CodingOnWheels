@@ -12,9 +12,9 @@ lang: ""
 Recently I wanted to convert my [LINQ via C# tutorial](/posts/linq-via-csharp) into a Word document (.doc). The tasks are:
 
 1.  Download the content of index page of the entire tutorial.
-2.  Interpret the index page and get the title/URI of each chapter and its sections.
-3.  Download the content of each chapter/section.
-4.  Merge all contents as one well formatted document, with:
+1.  Interpret the index page and get the title/URI of each chapter and its sections.
+1.  Download the content of each chapter/section.
+1.  Merge all contents as one well formatted document, with:
     -   title
     -   table of contents
     -   header
@@ -30,7 +30,7 @@ There might be several possible solutions, e.g.:
 
 After searching around, I found [CsQuery library](https://www.nuget.org/packages/CsQuery/), which is available from [Nuget](https://www.nuget.org/packages/CsQuery/):
 
-```csharp
+```powershell
 Install-Package CsQuery
 ```
 
@@ -41,17 +41,17 @@ It is a [jQuery](http://jquery.com/)\-like library for DOM process via C#. So Th
 The first steps are to download everything from this blog:
 
 1.  Download HTML string from index page: [https://CodingOnWheels.com/posts/linq-via-csharp](/posts/linq-via-csharp), which is easy by just calling WebClient.DownloadString.
-2.  In the downloaded HTML string, get the title of the tutorial from the <title> tag of the downloaded HTML string: indexPage\["title"\].Text()
-3.  Get the article content of the index page (get rid of HTML page header, footer, sidebar, article comments …): indexPage\["article.blog-post"\]
-4.  In the page content, the title of each chapter, which is so easy with jQuery-style API: indexPage\["article.blog-post"\].Children("ol").Children("li")
+1.  In the downloaded HTML string, get the title of the tutorial from the `<title>` tag of the downloaded HTML string: `indexPage["title"].Text()`
+1.  Get the article content of the index page (get rid of HTML page header, footer, sidebar, article comments …): `indexPage["article.blog-post"]`
+1.  In the page content, the title of each chapter, which is so easy with jQuery-style API: `indexPage["article.blog-post"].Children("ol").Children("li")`
     1.  Get the title of each section.
-    2.  Get the URI of each section from the HTML hyperlink.
+    1.  Get the URI of each section from the HTML hyperlink.
         1.  Download HTML string from each section.
-        2.  Get the article content of the section page (get rid of HTML page header, footer, sidebar, article comments …)
-        3.  In the contents, downgrade the <h1>, <h2>, <h3>, … tags: replace <h7> to <h9>, <h6> to <h8>, … <h2> to <h4>, <h1> to <h3>. This is a must, because later when merge all contents, chapter title will be <h1> and section title will be <h2>. The headings inside each section must downgrade 2 levels. Again, fortunately, this is very easy with jQuery-style API.
-        4.  Remove unnecessary hyperlinks.
-    3.  Merge all section’s HTML.
-5.  Merge all chapters’ HTML.
+        1.  Get the article content of the section page (get rid of HTML page header, footer, sidebar, article comments …)
+        1.  In the contents, downgrade the `<h1>`, `<h2>`, `<h3>`, … tags: replace `<h7>` to `<h9>`, `<h6>` to `<h8>`, … `<h2>` to `<h4>`, `<h1>` to `<h3>`. This is a must, because later when merge all contents, chapter title will be `<h1>` and section title will be `<h2>`. The headings inside each section must downgrade 2 levels. Again, fortunately, this is very easy with jQuery-style API.
+        1.  Remove unnecessary hyperlinks.
+    1.  Merge all section’s HTML.
+1.  Merge all chapters’ HTML.
 
 Here is the crawler code:
 
@@ -116,7 +116,7 @@ private static Html DownloadHtml(string indexUrl = @"https://CodingOnWheels.com/
 }
 ```
 
-WebClient.ncoding has to be specified as UTF8, otherwise the downloaded HTML will be messy. Also above Grouping class is under Microsoft.FSharp.Linq.RuntimeHelpers namespace. This is the only IGrouping<TKey, TElement> implementation that can be found in .NET libraries.
+WebClient.ncoding has to be specified as UTF8, otherwise the downloaded HTML will be messy. Also above Grouping class is under Microsoft.FSharp.Linq.RuntimeHelpers namespace. This is the only `IGrouping<TKey, TElement>` implementation that can be found in .NET libraries.
 
 ## Represent entire tutorial as one single piece of HTML via T4 template
 
@@ -158,7 +158,7 @@ foreach (IGrouping<string, Tuple<string, string>> chapter in this.Chapters)
 </html>
 ```
 
-As fore mentioned. <h1> represents each chapter title, and <h2> represents each section title. A little CSS is used to unify all tables with 1 pixel solid border. This Html.tt file will automatically generate a Html.cs file, containing above Html type.
+As fore mentioned. `<h1>` represents each chapter title, and `<h2>` represents each section title. A little CSS is used to unify all tables with 1 pixel solid border. This Html.tt file will automatically generate a Html.cs file, containing above Html type.
 
 The generated Html class is a partial class, so that some custom code can be appended to make is more intuitive:
 
@@ -183,7 +183,7 @@ Straightforward. To get the HTML string, just need to call Html.TransformText me
 
 As fore mentioned, one possible way is to using Microsoft’s Open XML SDK. It is extremely easy with a third party helper [HtmlToOpenXml](https://html2openxml.codeplex.com/), which is also available from [Nuget](https://www.nuget.org/packages/HtmlToOpenXml.dll):
 
-```csharp
+```powershell
 Install-Package HtmlToOpenXml.dll
 ```
 
@@ -221,9 +221,9 @@ Unfortunately, the result document’s format is totally messed up. There is no 
 Microsoft word is a powerful application. It can directly open HTML document, and save it as Word document. So the task becomes:
 
 1.  Save above Html object as a HTML document.
-2.  Use Word application to open the saved HTML document.
-3.  Format the document.
-4.  Save the document as word document.
+1.  Use Word application to open the saved HTML document.
+1.  Format the document.
+1.  Save the document as word document.
 
 ```csharp
 private static void ConvertDocument(
@@ -258,19 +258,19 @@ private static void ConvertDocument(
 
 The task has the following steps (in order):
 
-1.  Download all referenced pictures (<img> tags in HTML), and save them along with the Word document, so that the document can be viewed offline.
-2.  Apply a specified template (.dot) to the Word document. This is the easiest way to format document’s
+1.  Download all referenced pictures (`<img>` tags in HTML), and save them along with the Word document, so that the document can be viewed offline.
+1.  Apply a specified template (.dot) to the Word document. This is the easiest way to format document’s
     -   title
     -   table of contents
     -   header
     -   footer (page number)
     -   etc.
-3.  Insert a detailed table of contents to the Word document, which shows all headings of the tutorial.
-4.  Insert a abstract table of contents to the Word document, which only shows chapter titles (“Heading 1” fields in Word, or <h1> tags in HTM).
-5.  Insert a title to the Word document (“Title” field in word, or <title> tag in HTML)
-6.  Insert author next to the title.
-7.  Insert page numbers to the Word document footer.
-8.  Insert chapter (fields with “Heading 1”) to Word document header via FieldStyleRef.
+1.  Insert a detailed table of contents to the Word document, which shows all headings of the tutorial.
+1.  Insert a abstract table of contents to the Word document, which only shows chapter titles (“Heading 1” fields in Word, or `<h1>` tags in HTM).
+1.  Insert a title to the Word document (“Title” field in word, or `<title>` tag in HTML)
+1.  Insert author next to the title.
+1.  Insert page numbers to the Word document footer.
+1.  Insert chapter (fields with “Heading 1”) to Word document header via FieldStyleRef.
 
 And the code:
 
@@ -365,8 +365,8 @@ By default the document is saved to my local OneDrive directory, so that readers
 
 To get the OneDrive local path:
 
-1.  First lookup the registry: HKEY\_CURRENT\_USER\\Software\\Microsoft\\OneDrive
-2.  If not found, then lookup a .ini file in %LocalApplicationData%\\Microsoft\\OneDrive\\Settings\\Personal
+1.  First lookup the registry: `HKEY_CURRENT_USER\Software\Microsoft\OneDrive`
+1.  If not found, then lookup a .ini file in `%LocalApplicationData%\Microsoft\OneDrive\Settings\Personal`
 
 The last line of the .ini file contains the local OneDrive path, e.g.:
 

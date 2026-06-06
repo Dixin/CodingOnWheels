@@ -33,7 +33,7 @@ As above diagram represented, F:
 and satisfies the functor laws:
 
 1.  Select(idX, idY) ≌ idF(X, Y) [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-9-Functor-Category_8A55/image_thumb.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-9-Functor-Category_8A55/image_2.png)
-2.  Select(m2 ∘ m1, n2 ∘ n1) ≌ Select(m2, n2) ∘ F(m1, n1) [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-9-Functor-Category_8A55/image3_thumb.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-9-Functor-Category_8A55/image3.png)
+1.  Select(m2 ∘ m1, n2 ∘ n1) ≌ Select(m2, n2) ∘ F(m1, n1) [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-9-Functor-Category_8A55/image3_thumb.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-9-Functor-Category_8A55/image3.png)
 
 Remember the pseudo C# definition of functor:
 

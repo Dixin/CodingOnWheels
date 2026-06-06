@@ -30,7 +30,7 @@ As above diagram represented, F:
 and satisfies the functor laws:
 
 1.  F(idX) ≌ idF(X), see above image
-2.  Select(m2 ∘ m1) ≌ Select(m2) ∘ Select(m1)[![image3_thumb_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/32db27394385_12912/image3_thumb_thumb_thumb.png "image3_thumb_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/32db27394385_12912/image3_thumb_thumb_2.png)
+1.  Select(m2 ∘ m1) ≌ Select(m2) ∘ Select(m1)[![image3_thumb_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/32db27394385_12912/image3_thumb_thumb_thumb.png "image3_thumb_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/32db27394385_12912/image3_thumb_thumb_2.png)
 
 So the general functor should be like:
 

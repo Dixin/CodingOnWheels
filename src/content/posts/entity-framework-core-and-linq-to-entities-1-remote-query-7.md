@@ -46,51 +46,40 @@ using IDbContextTransaction = System.Data.Entity.DbContextTransaction;
 
 To demonstrate LINQ to Entities queries and other database operations, this tutorial uses the classic sample SQL database AdventureWorks provided by Microsoft as the data source, because this sample database has a very intuitive structure, it also works with Azure SQL Database and all SQL Server [editions](http://download.microsoft.com/download/D/7/D/D7D64E12-C8E5-4A8C-A104-C945C188FA99/SQL_Server_2014_Datasheet.pdf). The full sample database provided by Microsoft is relatively large, so a trimmed version is provided for this tutorial in the code samples repo:
 
--   AdventureWorks.bacpac: about 3M, for Azure SQL Database
--   AdventureWorks\_Data.mdf and AdventureWorks\_Log.ldf: about 30M, for SQL Server
+-   `AdventureWorks.bacpac`: about 3M, for Azure SQL Database
+-   `AdventureWorks_Data.mdf` and `AdventureWorks_Log.ldf`: about 30M, for SQL Server
 
 Microsoft SQL database is available in the cloud, and on premise (Windows and Linux). There are many free options to setup, just follow any one of them:
 
 -   Azure SQL Database in the cloud
-
-1.  Sign up [Azure free trial](https://azure.com/free) program, or sign up [Visual Studio Dev Essentials](https://www.visualstudio.com/dev-essentials/) program, to get free Azure account and free credits.
-2.  Sign in to Azure portal, create a storage account, then create a container, and upload the AdventureWorks.bacpac file into the container.
-3.  In Azure portal, create a SQL Database server, then add local IP address to the server’s firewall settings to enable access.
-4.  In Azure portal, import the uploaded AdventureWorks.bacpac from the storage account to the server, and create a SQL database. There the many pricing tier options for the database creation, where the Basic tier only costs about $5 per months, which is totally covered by the free credit.
-
+    1.  Sign up [Azure free trial](https://azure.com/free) program, or sign up [Visual Studio Dev Essentials](https://www.visualstudio.com/dev-essentials/) program, to get free Azure account and free credits.
+    1.  Sign in to Azure portal, create a storage account, then create a container, and upload the AdventureWorks.bacpac file into the container.
+    1.  In Azure portal, create a SQL Database server, then add local IP address to the server’s firewall settings to enable access.
+    1.  In Azure portal, import the uploaded AdventureWorks.bacpac from the storage account to the server, and create a SQL database. There the many pricing tier options for the database creation, where the Basic tier only costs about $5 per months, which is totally covered by the free credit.
 -   SQL Server on Windows [![image_thumb111](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/e1962de25213_106EC/image_thumb111_thumb.png "image_thumb111")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/e1962de25213_106EC/image_thumb111_2.png)
-
-1.  There are several free options to install SQL Server:
-
--   SQL Server LocalDB: the easiest option, since no configuration is required for setup.
--   SQL Server Express Core
--   SQL Server Express with Advanced Services
--   SQL Server Developer Edition: free after signing up [Visual Studio Dev Essentials](https://www.visualstudio.com/dev-essentials/) program
-
-3.  Install free tools. Microsoft provides rich tools on Windows, any tool of the following works:
-
--   [SQL Server Data Tools](https://msdn.microsoft.com/en-us/library/mt204009.aspx) for Visual Studio is a free Visual Studio extension enabling SQL database management inside Visual Studio
--   [SQL Server Management Tools](https://msdn.microsoft.com/en-us/library/mt238290.aspx), which includes [SQL Server Management Studio](https://en.wikipedia.org/wiki/SQL_Server_Management_Studio) (a free integration environment to manage SQL Server and SQL database), [SQL Server Profiler](https://msdn.microsoft.com/en-us/library/ms181091.aspx) (a free tracing tool), and other tools.
--   [mssql extension](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql) for Visual Studio Code
-
-5.  Use the installed ool to attach AdventureWorks\_Data.mdf and AdventureWorks\_Log.ldf to SQL Server
-
+    1.  There are several free options to install SQL Server:
+        -   SQL Server LocalDB: the easiest option, since no configuration is required for setup.
+        -   SQL Server Express Core
+        -   SQL Server Express with Advanced Services
+        -   SQL Server Developer Edition: free after signing up [Visual Studio Dev Essentials](https://www.visualstudio.com/dev-essentials/) program
+    1.  Install free tools. Microsoft provides rich tools on Windows, any tool of the following works:
+        -   [SQL Server Data Tools](https://msdn.microsoft.com/en-us/library/mt204009.aspx) for Visual Studio is a free Visual Studio extension enabling SQL database management inside Visual Studio
+        -   [SQL Server Management Tools](https://msdn.microsoft.com/en-us/library/mt238290.aspx), which includes [SQL Server Management Studio](https://en.wikipedia.org/wiki/SQL_Server_Management_Studio) (a free integration environment to manage SQL Server and SQL database), [SQL Server Profiler](https://msdn.microsoft.com/en-us/library/ms181091.aspx) (a free tracing tool), and other tools.
+        -   [mssql extension](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql) for Visual Studio Code
+    1.  Use the installed ool to attach `AdventureWorks_Data.mdf` and `AdventureWorks_Log.ldf` to SQL Server
 -   SQL Server on Linux
-
-1.  Install SQL Server for Linux evaluation edition, which is free and available for Red Hat and Ubuntu
-2.  Install SQL Server Tools for Linux, or [mssql extension](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql) for Visual Studio Code
-3.  Use the installed tool to attach AdventureWorks\_Data.mdf and AdventureWorks\_Log.ldf to SQL Server.
-
+    1.  Install SQL Server for Linux evaluation edition, which is free and available for Red Hat and Ubuntu
+    1.  Install SQL Server Tools for Linux, or [mssql extension](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql) for Visual Studio Code
+    1.  Use the installed tool to attach `AdventureWorks_Data.mdf` and `AdventureWorks_Log.ldf` to SQL Server.
 -   SQL Server Docker image on Linux, Mac, or Windows
-
-1.  Install Docker, then in preferences, [change the memory](https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-setup-docker) to 4GB or more
-2.  Pull the SQL Server Docker image (microsoft/mssql-server-linux or microsoft/mssql-server-windows), and run
-3.  For Linux or Windows, install tools mentioned above; For Mac, install [sql-cli](https://www.npmjs.com/package/sql-cli) tool from npm, or [mssql extension](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql) for Visual Studio Code.
-4.  Use the tool to attach AdventureWorks\_Data.mdf and AdventureWorks\_Log.ldf to SQL Server.
+    1.  Install Docker, then in preferences, [change the memory](https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-setup-docker) to 4GB or more
+    1.  Pull the SQL Server Docker image (microsoft/mssql-server-linux or microsoft/mssql-server-windows), and run
+    1.  For Linux or Windows, install tools mentioned above; For Mac, install [sql-cli](https://www.npmjs.com/package/sql-cli) tool from npm, or [mssql extension](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql) for Visual Studio Code.
+    1.  Use the tool to attach AdventureWorks\_Data.mdf and AdventureWorks\_Log.ldf to SQL Server.
 
 When the sample database is ready, save the database connection string. For .NET Core, the connection string can be saved for the application as a JSON file, for example, App.json:
 
-```csharp
+```json
 {
   "ConnectionStrings": {
     "AdventureWorks": "Server=tcp:dixin.database.windows.net,1433;Initial Catalog=AdventureWorks;Persist Security Info=False;User ID=***;Password=***;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"

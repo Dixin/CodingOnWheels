@@ -383,8 +383,8 @@ $.ajaxAntiForgery({
 
 And there are special scenarios that the token is not in the current window. For example:
 
-- An HTTP POST request can be sent from an iframe, while the token is in the parent window or top window;
-- An HTTP POST request can be sent from an popup window or a dialog, while the token is in the opener window;
+-   An HTTP POST request can be sent from an iframe, while the token is in the parent window or top window;
+-   An HTTP POST request can be sent from an popup window or a dialog, while the token is in the opener window;
 
 etc. Here, token's container window can be specified for `$.getAntiForgeryToken()`:
 

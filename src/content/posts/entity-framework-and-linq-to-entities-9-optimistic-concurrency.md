@@ -79,24 +79,22 @@ internal static partial class Concurrency
 Here 2 DbReaderWriter objects read and write data concurrently:
 
 1.  readerWriter1 reads category with Name “Bikes”
-2.  readerWriter1 reads category with Name “Bikes”. As fore mentioned, these 2 entities are independent 2 objects because they are are from different DbContext objects.
-3.  readerWriter1 updates category’s Name from “Bikes” to “readerWriter1”:
+1.  readerWriter1 reads category with Name “Bikes”. As fore mentioned, these 2 entities are independent 2 objects because they are are from different DbContext objects.
+1.  readerWriter1 updates category’s Name from “Bikes” to “readerWriter1”:
     ```sql
     exec sp_executesql N'UPDATE [Production].[ProductCategory]
     SET [Name] = @0
     WHERE ([ProductCategoryID] = @1)
     ',N'@0 nvarchar(50),@1 int',@0=N'readerWriter1',@1=1
     ```
-    
-4.  At this moment, in database, this category’s Name is no longer “Bikes”
-5.  readerWriter2 updates category’s Name from “Bikes” to “readerWriter2”:
+1.  At this moment, in database, this category’s Name is no longer “Bikes”
+1.  readerWriter2 updates category’s Name from “Bikes” to “readerWriter2”:
     ```sql
     exec sp_executesql N'UPDATE [Production].[ProductCategory]
     SET [Name] = @0
     WHERE ([ProductCategoryID] = @1)
     ',N'@0 nvarchar(50),@1 int',@0=N'readerWriter2',@1=1
     ```
-    
 
 As discussed before, by default, when DbContext translates changes to UPDATE statements, primary key is used to locate the row. Apparently, above 2 UPDATE statements can both execute successfully, without concurrency conflict. This is the default behavior of Entity Framework, the last database client wins. So later when readerWriter3 reads the entity with the same primary key, the category entity’s Name is “readerWriter2”.
 
@@ -143,24 +141,22 @@ internal static void ConcurrencyCheck()
 In the translated SQL statement, the WHERE clause contains primary key ProductID and also original ModifiedDate value:
 
 1.  readerWriter1 reads product with ModifiedDate “2008-04-30 00:00:00”
-2.  readerWriter1 reads product with ModifiedDate “2008-04-30 00:00:00”
-3.  readerWriter1 locates the product with primary key and ModifiedDate, and update its Name and ModifiedDate:
+1.  readerWriter1 reads product with ModifiedDate “2008-04-30 00:00:00”
+1.  readerWriter1 locates the product with primary key and ModifiedDate, and update its Name and ModifiedDate:
     ```sql
     exec sp_executesql N'UPDATE [Production].[ProductPhoto]
     SET [LargePhotoFileName] = @0, [ModifiedDate] = @1
     WHERE (([ProductPhotoID] = @2) AND ([ModifiedDate] = @3))
     ',N'@0 nvarchar(50),@1 datetime2(7),@2 int,@3 datetime2(7)',@0=N'readerWriter1',@1='2016-07-04 23:24:24.6053455',@2=1,@3='2008-04-30 00:00:00'
     ```
-    
-4.  At this moment, in database the product’s ModifiedDate is no longer “2008-04-30 00:00:00”
-5.  Then readerWriter2 tries to locate the product with primary key and ModifiedDate, and update its Name and ModifiedDate:
+1.  At this moment, in database the product’s ModifiedDate is no longer “2008-04-30 00:00:00”
+1.  Then readerWriter2 tries to locate the product with primary key and ModifiedDate, and update its Name and ModifiedDate:
     ```sql
     exec sp_executesql N'UPDATE [Production].[ProductPhoto]
     SET [LargePhotoFileName] = @0, [ModifiedDate] = @1
     WHERE (([ProductPhotoID] = @2) AND ([ModifiedDate] = @3))
     ',N'@0 nvarchar(50),@1 datetime2(7),@2 int,@3 datetime2(7)',@0=N'readerWriter1',@1='2016-07-04 23:24:24.6293420',@2=1,@3='2008-04-30 00:00:00'
     ```
-    
 
 This time readerWriter2 fails. Between readerWriter2 reads and writers a photo, this photo is changed by readerWriter1. So in readerWrtier2’s UPDATE statement cannot locate any row to update. Entity Framework detects that 0 row is updated, and throws System.Data.Entity.Infrastructure.DbUpdateConcurrencyException.
 
@@ -217,8 +213,8 @@ public static string ToRowVersionString(this byte[] rowVersion) =>
 When updating and deleting photo entities, its auto generated RowVersion property value is checked too. So this is how it works:
 
 1.  readerWriter1 reads photo with RowVersion 0x0000000000000803
-2.  readerWriter2 reads photo with RowVersion 0x0000000000000803
-3.  readerWriter1 locates the photo with primary key and RowVersion, and update its RowVersion. Regarding database will automatically increase the RowVersion value, Entity Framework also queries the increased RowVersion value with the primary key:
+1.  readerWriter2 reads photo with RowVersion 0x0000000000000803
+1.  readerWriter1 locates the photo with primary key and RowVersion, and update its RowVersion. Regarding database will automatically increase the RowVersion value, Entity Framework also queries the increased RowVersion value with the primary key:
     ```sql
     exec sp_executesql N'UPDATE [Production].[Product]
     SET [Name] = @0
@@ -227,14 +223,12 @@ When updating and deleting photo entities, its auto generated RowVersion propert
     FROM [Production].[Product]
     WHERE @@ROWCOUNT > 0 AND [ProductID] = @1',N'@0 nvarchar(50),@1 int,@2 binary(8)',@0=N'readerWriter1',@1=999,@2=0x0000000000000803
     ```
-    
-4.  At this moment, in database the product’s RowVersion is no longer 0x0000000000000803.
-5.  Then readerWriter2 tries to locate the product with primary key and RowVersion, and delete it
+1.  At this moment, in database the product’s RowVersion is no longer 0x0000000000000803.
+1.  Then readerWriter2 tries to locate the product with primary key and RowVersion, and delete it
     ```sql
     exec sp_executesql N'DELETE [Production].[Product]
     WHERE (([ProductID] = @0) AND ([RowVersion] = @1))',N'@0 int,@1 binary(8)',@0=999,@1=0x0000000000000803
     ```
-    
 
 The deletion fails because the concurrent update changes the RowVersion, and the row cannot be located with the primary key and RowVersion. Again, Entity Framework detects 0 row is deleted, and throws DbUpdateConcurrencyException.
 
@@ -342,7 +336,7 @@ internal static void UpdateProduct(Action<DbEntityEntry> resolveProductConflict)
 Here the concurrency conflict happens:
 
 1.  readerWriter2 reads product, the RowVersion is 0x00000000000007D1
-2.  readerWriter1 locates product with primary key ProductID and original RowVersion 0x00000000000007D1, and updates product’s Name and ListPrice. After the update, in database, product’s Rowversion is increased to 0x0000000000036335
+1.  readerWriter1 locates product with primary key ProductID and original RowVersion 0x00000000000007D1, and updates product’s Name and ListPrice. After the update, in database, product’s Rowversion is increased to 0x0000000000036335
     ```sql
     exec sp_executesql N'UPDATE [Production].[Product]
     SET [Name] = @0, [ListPrice] = @1
@@ -351,8 +345,7 @@ Here the concurrency conflict happens:
     FROM [Production].[Product]
     WHERE @@ROWCOUNT > 0 AND [ProductID] = @2',N'@0 nvarchar(50),@1 decimal(18,2),@2 int,@3 binary(8)',@0=N'readerWriter1',@1=100.00,@2=950,@3=0x00000000000007D1
     ```
-    
-3.  readerWriter2 tries to locate product with primary key and original RowVersion 0x00000000000007D1, and update product’s Name and ProductSubcategoryID.
+1.  readerWriter2 tries to locate product with primary key and original RowVersion 0x00000000000007D1, and update product’s Name and ProductSubcategoryID.
     ```sql
     exec sp_executesql N'UPDATE [Production].[Product]
     SET [Name] = @0, [ProductSubcategoryID] = @1
@@ -361,8 +354,7 @@ Here the concurrency conflict happens:
     FROM [Production].[Product]
     WHERE @@ROWCOUNT > 0 AND [ProductID] = @2',N'@0 nvarchar(50),@1 int,@2 int,@3 binary(8)',@0=N'readerWriter2',@1=1,@2=950,@3=0x00000000000007D1
     ```
-    
-4.  readerWriter2 fails to update product, because it cannot locate the product with original RowVersion 0x00000000000007D1. In ReaderWriter.Write, SaveChanges throws handleDbUpdateConcurrencyException.
+1.  readerWriter2 fails to update product, because it cannot locate the product with original RowVersion 0x00000000000007D1. In ReaderWriter.Write, SaveChanges throws handleDbUpdateConcurrencyException.
 
 As a result, the provided handleDbUpdateConcurrencyException function is called, it retrieves the conflicting product’s tracking information from DbUpdateConcurrencyException.Entries, and logs these information:
 
@@ -422,15 +414,13 @@ internal static void DatabaseWins() =>
 UpdateProduct is called with a resolveProductConflict function, which resolves the conflict by calling Reload method on the DbEntityEntry object representing the conflicting product’s tracking information:
 
 1.  As fore mentioned, DbEntityEntry.Reload executes a SELECT statement to read the product’s property values from database
-2.  Reload also refresh the product entity and all tracking information:
-
--   product entity’s property values are refreshed to the queried database values
--   the tracked original property values, represented by tracking.OriginalValues, are refreshed to the queried database values
--   the tracked current property values, represented by tracking.CurrentValues, are refreshed to the queried database values
--   tracking.State is also refreshed to Unchanged.
-
-4.  At this moment, product entity is refurnished, as if it is just initially read from database.
-5.  When DbReaderWriter.Write’s retry logic calls SaveChanges again, no changed entity is detected. SaveChanges succeeds without executing any SQL, and returns 0. As a result, readerWriter2 gives up updating any value to database, and whatever values in database are retained.
+1.  Reload also refresh the product entity and all tracking information:
+    -   product entity’s property values are refreshed to the queried database values
+    -   the tracked original property values, represented by tracking.OriginalValues, are refreshed to the queried database values
+    -   the tracked current property values, represented by tracking.CurrentValues, are refreshed to the queried database values
+    -   tracking.State is also refreshed to Unchanged.
+1.  At this moment, product entity is refurnished, as if it is just initially read from database.
+1.  When DbReaderWriter.Write’s retry logic calls SaveChanges again, no changed entity is detected. SaveChanges succeeds without executing any SQL, and returns 0. As a result, readerWriter2 gives up updating any value to database, and whatever values in database are retained.
 
 Later, when readerWriter3 reads the product again, product has database values, with Name and ListPrice updated by readerWrtier1.
 
@@ -460,9 +450,9 @@ internal static void ClientWins() =>
 The same conflict is resolved differently:
 
 1.  As fore mentioned, DbEntityEntry.GetDatabaseValues executes a SELECT statement to read the product’s property values from database, and it does not impact the product entity or its tracking information. At this moment, since readerWriter2 updated product’s Name and ProductSubcategoryID, these 2 properties are still tracked as modified, and ListPrice is still tracked as unmodified.
-2.  Manually refresh conflict.OriginalValues, the tracked original property values, to the queried database values.
-3.  At this moment, tracking.State is still Modified. However, for the Name, ListPrice and ProductSubcategoryID properties of product, their values in tracking.OriginalValues are different from the values in tracking.CurrentValue. Now these 3 properties are all tracked as modified.
-4.  When DbReaderWriter.Write’s retry logic calls SaveChanges again, product entity is detected to be updated. So Entity Framework translates the product change to a UPDATE statement. In the SET clause, since there are 3 properties tracked as modified, 3 columns are set. In the WHERE clause to locate the product with primary key and RowVersion again, and the RowVersion property value in updated tracking.OriginalValues is used. This time product can be located, and all 3 properties are updated. SaveChanges succeeds and returns 1
+1.  Manually refresh conflict.OriginalValues, the tracked original property values, to the queried database values.
+1.  At this moment, tracking.State is still Modified. However, for the Name, ListPrice and ProductSubcategoryID properties of product, their values in tracking.OriginalValues are different from the values in tracking.CurrentValue. Now these 3 properties are all tracked as modified.
+1.  When DbReaderWriter.Write’s retry logic calls SaveChanges again, product entity is detected to be updated. So Entity Framework translates the product change to a UPDATE statement. In the SET clause, since there are 3 properties tracked as modified, 3 columns are set. In the WHERE clause to locate the product with primary key and RowVersion again, and the RowVersion property value in updated tracking.OriginalValues is used. This time product can be located, and all 3 properties are updated. SaveChanges succeeds and returns 1
     ```sql
     exec sp_executesql N'UPDATE [Production].[Product]
     SET [Name] = @0, [ListPrice] = @1, [ProductSubcategoryID] = @2
@@ -510,9 +500,9 @@ internal static void MergeClientAndDatabase() =>
 With this approach:
 
 1.  Again, DbEntityEntry.GetDatabaseValues executes a SELECT statement to read the product’s property values from database
-2.  Backup tracking.Original values, then refresh conflict.OriginalValues to the database values, so that these values can go to the translated WHERE clause. For Name and ListPrice, the backup original value is different from the database value, which is concurrently updated by readerWriter1. So their property state is refreshed to unmodified, and they will not go to the translated SET clause.
-3.  At this moment, tracking.State is still Modified, but only ProductSubcategoryID does not conflict with database value, and will be updated normally
-4.  When DbReaderWriter.Write’s retry logic calls SaveChanges again, Entity Framework translates the product change to a UPDATE statement, which has refreshed RowVersion in WHERE clause, and only ProductSubcategoryID in SET clause. And SaveChanges should successfully execute and return 1
+1.  Backup tracking.Original values, then refresh conflict.OriginalValues to the database values, so that these values can go to the translated WHERE clause. For Name and ListPrice, the backup original value is different from the database value, which is concurrently updated by readerWriter1. So their property state is refreshed to unmodified, and they will not go to the translated SET clause.
+1.  At this moment, tracking.State is still Modified, but only ProductSubcategoryID does not conflict with database value, and will be updated normally
+1.  When DbReaderWriter.Write’s retry logic calls SaveChanges again, Entity Framework translates the product change to a UPDATE statement, which has refreshed RowVersion in WHERE clause, and only ProductSubcategoryID in SET clause. And SaveChanges should successfully execute and return 1
     ```sql
     exec sp_executesql N'UPDATE [Production].[Product]
     SET [ProductSubcategoryID] = @0

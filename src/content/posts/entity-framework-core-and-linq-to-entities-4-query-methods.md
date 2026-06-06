@@ -17,7 +17,7 @@ lang: ""
 
 This part discusses how to query SQL database with the defined mapping entities. In EF Core, LINQ to Entities supports most of the standard queries provided by Queryable:
 
-1. Sequence queries: return a new IQueryable<T> source
+1.  Sequence queries: return a new IQueryable<T> source
     -   Filtering (restriction): Where, OfType\*
     -   Mapping (projection): Select
     -   Generation: DefaultIfEmpty\*
@@ -29,7 +29,7 @@ This part discusses how to query SQL database with the defined mapping entities.
     -   Partitioning: Take, Skip, ~TakeWhile~, ~SkipWhile~
     -   Ordering: OrderBy\*, ThenBy, OrderByDescending\*, ThenByDescending, ~Reverse~
     -   Conversion: Cast, AsQueryable
-1. Value queries: return a single value
+1.  Value queries: return a single value
     -   Element: First, FirstOrDefault, Last\*, LastOrDefault\*, ~ElementAt~, ~ElementAtOrDefault~, Single, SingleOrDefault
 
     -   Aggregation: ~Aggregate~, Count, LongCount, Min, Max, Sum, Average\*

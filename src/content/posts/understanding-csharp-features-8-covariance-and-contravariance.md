@@ -397,16 +397,16 @@ To examine the variance for higher-order functions:
 
 -   Func<T> can be made higher order, by just replacing T with Func<T>. Then:
     1.  Derived “is a” Base
-    2.  \=> Func<Derived> “is a” Func<Base> (In Func<T>, replaces T with Derived/Base. Comparing to 1, T is covariant for Func<T>.)
-    3.  \=> Func<Func<Derived>> “is a” Func<Func<Derived>> (In Func<T>, replaces T with Func<Derived>/Func<Base>. Comparing to 1, T is covariant for Func<Func<T>>.)
-    4.  \=> Func<Func<Func<Derived>>> “is a” Func<Func<Func<Base>>> (In Func<T>, replaces T with Func<Func<Derived>> /Func<Func<Base>> . Comparing to 1, T is covariant for Func<Func<Func<T>>>.)
-    5.  \=> …
+    1.  \=> Func<Derived> “is a” Func<Base> (In Func<T>, replaces T with Derived/Base. Comparing to 1, T is covariant for Func<T>.)
+    1.  \=> Func<Func<Derived>> “is a” Func<Func<Derived>> (In Func<T>, replaces T with Func<Derived>/Func<Base>. Comparing to 1, T is covariant for Func<Func<T>>.)
+    1.  \=> Func<Func<Func<Derived>>> “is a” Func<Func<Func<Base>>> (In Func<T>, replaces T with Func<Func<Derived>> /Func<Func<Base>> . Comparing to 1, T is covariant for Func<Func<Func<T>>>.)
+    1.  \=> …
 -   Action<T> can be made higher order, by just replacing T with Action<T>. Then:
     1.  Derived “is a” Base
-    2.  \=> Action<Base> “is a” Action<Derived> (In Action<T>, replaces T with Base/Derived. the direction of “Is-a” relationship reverses. Comparing to 1, T is contravariant for Action<T>.)
-    3.  \=> Action<Action<Derived>> “is a” Action<Action<Base>> (In Action<T>, replaces T with Action<Derived>/Action<Base>. the direction of “Is-a” relationship reverses again, so that Derived goes back to left, and Base goes back to right. Comparing to 1, T is covariant for Action<Action<T>>.)
-    4.  \=> Action<Action<Action<Base>>> “is a” Action<Action<Action<Derived>>> (In Action<T>, replaces T with Action<Action<Base>> /Action<Action<Derived>>. Comparing to 1, T is contravariant for Action<Action<Action<T>>>.)
-    5.  \=> …
+    1.  \=> Action<Base> “is a” Action<Derived> (In Action<T>, replaces T with Base/Derived. the direction of “Is-a” relationship reverses. Comparing to 1, T is contravariant for Action<T>.)
+    1.  \=> Action<Action<Derived>> “is a” Action<Action<Base>> (In Action<T>, replaces T with Action<Derived>/Action<Base>. the direction of “Is-a” relationship reverses again, so that Derived goes back to left, and Base goes back to right. Comparing to 1, T is covariant for Action<Action<T>>.)
+    1.  \=> Action<Action<Action<Base>>> “is a” Action<Action<Action<Derived>>> (In Action<T>, replaces T with Action<Action<Base>> /Action<Action<Derived>>. Comparing to 1, T is contravariant for Action<Action<Action<T>>>.)
+    1.  \=> …
 
 In above code, ActionIn<T> is equivalent to Action<Action<T>>. So, T is covariant for Action<Action<T>>/ActionIn<T>, not contravariant. The fix is to use out keyword to decorate T, and swap the binding:
 
@@ -473,16 +473,16 @@ Variances are straightforward for first-order functions:
 For higher-order functions:
 
 -   Output is always covariant:
-    -   Derived “is a” Base
-    -   \=> Func<Derived> “is a” Func<Base>
-    -   \=> Func<Func<Derived>> “is a” Func<Func<Derived>>
-    -   \=> …
+    1.  Derived “is a” Base
+    1.  \=> Func<Derived> “is a” Func<Base>
+    1.  \=> Func<Func<Derived>> “is a” Func<Func<Derived>>
+    1.  \=> …
 -   Input can be either contravariant or covariant, depends on how many times the direction of “is-a” relationship reverses:
     1.  Derived “is a” Base
-    2.  \=> Action<Base> “is a” Action<Derived> (contravariance)
-    3.  \=> Action<Action<Derived>> “is a” Action<Action<Base>> (covariance)
-    4.  \=> Action<Action<Action<Base>>> “is a” Action<Action<Action<Derived>>> (contravariance)
-    5.  \=> …
+    1.  \=> Action<Base> “is a” Action<Derived> (contravariance)
+    1.  \=> Action<Action<Derived>> “is a” Action<Action<Base>> (covariance)
+    1.  \=> Action<Action<Action<Base>>> “is a” Action<Action<Action<Derived>>> (contravariance)
+    1.  \=> …
 
 ```csharp
 public static class OutputCovarianceForHigherOrder

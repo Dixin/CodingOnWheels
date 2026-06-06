@@ -93,10 +93,10 @@ SELECT
 Only the last SELECT query is the expected LINQ to Entities query translation. Actually, before a database’s first operation at runtime (e.g., querying Production.ProductCategory table here), Entity Framework does a lot of work to initialize its object-relational mapping:
 
 1.  Initialize provider manifest
-2.  Initialize the entity data model. Entity framework automatically builds the object models (CLR models, not above entities), conceptual models, storage models, object-conceptual model mappings, conceptual-storage model mappings, etc..
-3.  Initialize the database, if needed.
-4.  Initialize mapping views, which are the mapping information for entity sets.
-5.  Initialize a dynamic assembly "EntityFrameworkDynamicProxies-{OriginalAssemblyName}, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", and define proxy classes in it.
+1.  Initialize the entity data model. Entity framework automatically builds the object models (CLR models, not above entities), conceptual models, storage models, object-conceptual model mappings, conceptual-storage model mappings, etc..
+1.  Initialize the database, if needed.
+1.  Initialize mapping views, which are the mapping information for entity sets.
+1.  Initialize a dynamic assembly "EntityFrameworkDynamicProxies-{OriginalAssemblyName}, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", and define proxy classes in it.
 
 The above initialization steps executes only once at runtime, and they can be improved from the default behavior.
 

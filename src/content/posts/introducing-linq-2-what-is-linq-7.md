@@ -52,8 +52,8 @@ C# developer can use a single LINQ language syntax to work with different data. 
 When using any LINQ technology to work with data, there are usually 3 steps:
 
 1.  Get the data source for LINQ query
-2.  Define the LINQ query
-3.  Execute the LINQ query
+1.  Define the LINQ query
+1.  Execute the LINQ query
 
 LINQ to Objects queries .NET objects in memory. The following example queries positive integers from the integer array in memory, and get the integers’ square roots in ascending order:
 

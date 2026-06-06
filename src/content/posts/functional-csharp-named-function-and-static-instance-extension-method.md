@@ -230,13 +230,10 @@ bool result3 = DataExtensions.Equals(data1, data2); // DataExtensions.Equals.
 
 When compiling instance style method call, C# compiler looks up methods in the following order:
 
-1. instance method defined in the type
-
-2. extension method defined in the current namespace
-
-3. extension method defined in the current namespace’s parent namespaces
-
-4. extension method defined in the other namespaces imported by using directives
+1.  instance method defined in the type
+1.  extension method defined in the current namespace
+1.  extension method defined in the current namespace’s parent namespaces
+1.  extension method defined in the other namespaces imported by using directives
 
 Extension method can be viewed as if instance method “added” to the specified type. For example, as fore mentioned, enumeration types cannot have method member. However, extension method can be defined for enumeration type:
 

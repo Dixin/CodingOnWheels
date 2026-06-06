@@ -37,11 +37,9 @@ For a certain language, like C#, there is only 1 set of LINQ query syntax workin
 
 C# developer can use a single LINQ language syntax to work with different data. At compile time, the LINQ syntax can be compiled to different API calls according to different contexts. At runtime, these specific API calls work with specific data domains. To use LINQ to work with data, there are usually 3 steps:
 
-1. Get the data source for LINQ query
-
-2. Define the LINQ query
-
-3. Execute the LINQ query
+1.  Get the data source for LINQ query
+1.  Define the LINQ query
+1.  Execute the LINQ query
 
 ### LINQ to Objects
 

@@ -28,8 +28,8 @@ A previous part demonstrated endofunctor category is monoidal. Now with the help
 so that C satisfies the monoid laws:
 
 1.  Left unit law λX: I ⊗ X ⇒ X (according to definition)
-2.  and right unit law ρX: X ⊗ I ⇒ X (definition)
-3.  Associative law αX, Y, Z: (X ⊗ Y) ⊗ Z ⇒ X ⊗ (Y ⊗ Z) (definition)
+1.  and right unit law ρX: X ⊗ I ⇒ X (definition)
+1.  Associative law αX, Y, Z: (X ⊗ Y) ⊗ Z ⇒ X ⊗ (Y ⊗ Z) (definition)
 
 The following triangle identity and pentagon identity diagrams copied from the monoid part still commute for monoidal category:
 
@@ -42,8 +42,8 @@ Just read the ⊙ (general binary operator) as ⊗ (bifunctor).
 The existence of bifunctor ⊗ makes it possible to ⊗ (can be read as multiply) any 2 elements in the category, and get another element still in the category (the [Cartesian product](http://en.wikipedia.org/wiki/Cartesian_product) represented by that bifunctor). So, bifunctor ⊗ and unit I forms the monoid structure of the category, and the 3 natural transformations make sure this binary “multiply” operation satisfies the monoidal rules:
 
 1.  left unit law: λX(I ⊗ X) ≌ X
-2.  right unit law: ρX(X ⊗ I) ≌ X
-3.  associative law: αX, Y, Z((X ⊗ Y) ⊗ Z) ≌ X ⊗ (Y ⊗ Z)
+1.  right unit law: ρX(X ⊗ I) ≌ X
+1.  associative law: αX, Y, Z((X ⊗ Y) ⊗ Z) ≌ X ⊗ (Y ⊗ Z)
 
 In pseudo C#:
 

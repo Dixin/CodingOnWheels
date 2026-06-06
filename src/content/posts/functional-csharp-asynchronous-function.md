@@ -796,12 +796,12 @@ When start executing `ConfigureRuntimeContextCapture`, the initial task schedule
 
 The runtime context capture can be also demonstrated by `SynchronizationContext`. `SynchronizationContext` is inherited by different implementations in different application models, for example:
 
-- ASP.NET: System.Web.AspNetSynchronizationContext
-- WPF: System.Windows.Threading.DispatcherSynchronizationContext
-- WinForms: System.Windows.Forms.WindowsFormsSynchronizationContext
-- Windows Universal: System.Threading.WinRTCoreDispatcherBasedSynchronizationContext
-- Xamarin.Android: Android.App.SyncContext
-- Xamarin.iOS: UIKit.UIKitSynchronizationContext
+-   ASP.NET: System.Web.AspNetSynchronizationContext
+-   WPF: System.Windows.Threading.DispatcherSynchronizationContext
+-   WinForms: System.Windows.Forms.WindowsFormsSynchronizationContext
+-   Windows Universal: System.Threading.WinRTCoreDispatcherBasedSynchronizationContext
+-   Xamarin.Android: Android.App.SyncContext
+-   Xamarin.iOS: UIKit.UIKitSynchronizationContext
 
 Take Windows Universal application as example. In Visual Studio on Windows, create a Windows Universal application, add a button to its UI:
 

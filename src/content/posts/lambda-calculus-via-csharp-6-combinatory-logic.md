@@ -317,11 +317,11 @@ public static partial class SkiCalculus
 The S, K, I combinators can be composed to new combinator that equivalent to any lambda calculus expression. An arbitrary expression in lambda calculus can be converted to combinator in SKI calculus. Assume v is a variable in lambda calculus, and E is an expression in lambda calculus, the conversion ToSki is defined as:
 
 1.  ToSki (v) => v
-2.  ToSki (E1 E2) => (ToSki (E1) (ToSki (E2)))
-3.  ToSki (λv.E) => (K (ToSki (E))), if x does not occur free in E
-4.  ToSki (λv.v) => I
-5.  ToSki (λv1.λv2.E) => ToSki (λv1.ToSki (λv2.E))
-6.  ToSki (λv.(E1 E2)) => (S (ToSki (λ.v.E1)) (ToSki (λv.E2)))
+1.  ToSki (E1 E2) => (ToSki (E1) (ToSki (E2)))
+1.  ToSki (λv.E) => (K (ToSki (E))), if x does not occur free in E
+1.  ToSki (λv.v) => I
+1.  ToSki (λv1.λv2.E) => ToSki (λv1.ToSki (λv2.E))
+1.  ToSki (λv.(E1 E2)) => (S (ToSki (λ.v.E1)) (ToSki (λv.E2)))
 
 Based on these rules, a compiler can be implemented to compile a expression in lambda calculus to combinator in SKI calculus. As mentioned before, the C# lambda expression can be compiled as function, and also expression tree data representing the logic of that function:
 

@@ -30,13 +30,10 @@ To demonstrate LINQ to Entities queries and other database operations, this book
 
 There are many free options to setup SQL database. To setup in the cloud, follow these steps:
 
-1. Sign up [Azure free trial](https://azure.com/free) program, or sign up [Visual Studio Dev Essentials](https://www.visualstudio.com/dev-essentials/) program, to get free Azure account and free credits.
-
-2. Sign in to Azure portal, create a storage account, then create a container, and upload the above bacpac file into the container.
-
-3. In Azure portal, create a SQL Database server, then add local IP address to the server’s firewall settings to enable access.
-
-4. In Azure portal, import the uploaded bacpac file from the storage account to the server, and create a SQL database. There the many pricing tier options for the database creation, where the Basic tier starts from about $5 per month, which can be covered by the free credit.
+1.  Sign up [Azure free trial](https://azure.com/free) program, or sign up [Visual Studio Dev Essentials](https://www.visualstudio.com/dev-essentials/) program, to get free Azure account and free credits.
+1.  Sign in to Azure portal, create a storage account, then create a container, and upload the above bacpac file into the container.
+1.  In Azure portal, create a SQL Database server, then add local IP address to the server’s firewall settings to enable access.
+1.  In Azure portal, import the uploaded bacpac file from the storage account to the server, and create a SQL database. There the many pricing tier options for the database creation, where the Basic tier starts from about $5 per month, which can be covered by the free credit.
 
 As a alternative to cloud, SQL Server on premise can also be installed locally, then the above mdf and ldf files can be attached:
 

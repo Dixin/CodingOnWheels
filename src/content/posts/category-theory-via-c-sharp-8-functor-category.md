@@ -73,8 +73,8 @@ An endofunctor category C is a monoid (C, ∘, Id):
 Apparently, Monoid (hom(CC), ∘, Id) satisfies the monoid laws:
 
 1.  left unit law: IdF: F ⇒ F ∘ T: F ⇒ G ≌ T: F ⇒ G, T ∈ ob(End(C))
-2.  right unit law: T: F ⇒ G ≌ T: F ⇒ G ∘ IdG: G ⇒ G, T ∈ ob(End(C))
-3.  associative law: (T1 ∘ T2) ∘ T3 ≌ T1 ∘ (T2 ∘ T3)
+1.  right unit law: T: F ⇒ G ≌ T: F ⇒ G ∘ IdG: G ⇒ G, T ∈ ob(End(C))
+1.  associative law: (T1 ∘ T2) ∘ T3 ≌ T1 ∘ (T2 ∘ T3)
 
 Take the transformations above and in previous part as example, the following test shows how natural transformations Lazy<> ⇒ Func<>, Func<> ⇒ Nullable<>, Nullable<> ⇒ => IEnumerable<> composite associatively:
 
