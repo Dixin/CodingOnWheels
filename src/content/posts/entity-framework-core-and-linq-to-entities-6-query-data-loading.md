@@ -25,82 +25,33 @@ As previous part discussed, when defining a LINQ to Entities query represented b
 
 IQueryable<T> implements IEnumerable<T>, so values can be pulled from IQueryable<T> with the standard iterator pattern. When trying to pull the first value, EF Core translates LINQ to Entities query to SQL, and execute SQL in the database. The implementation can be demonstrated with the Iterator<T> type from the LINQ to Objects chapter:
 
+```csharp
 public static IEnumerator<TEntity> GetEntityIterator<TEntity>(
-
-```csharp
 this IQueryable<TEntity> query, DbContext dbContext) where TEntity : class
-```
-```csharp
 {
-```
-```csharp
 "| |_Compile LINQ expression tree to database expression tree.".WriteLine();
-```
-```csharp
 (SelectExpression DatabaseExpression, IReadOnlyDictionary<string, object> Parameters) compilation = dbContext.Compile(query.Expression);
-```
 
-```csharp
 IEnumerator<TEntity> entityIterator = null;
-```
-```csharp
 return new Iterator<TEntity>(
-```
-```csharp
 start: () =>
-```
-```csharp
 {
-```
-```csharp
 "| |_Generate SQL from database expression tree.".WriteLine();
-```
-```csharp
 IRelationalCommand sql = dbContext.Generate(compilation.DatabaseExpression);
-```
-```csharp
 IEnumerable<TEntity> sqlQuery = dbContext.Set<TEntity>().FromRawSql(
-```
-```csharp
 sql: sql.CommandText,
-```
-```csharp
 parameters: compilation.Parameters
-```
-```csharp
 .Select(parameter => new SqlParameter(parameter.Key, parameter.Value)).ToArray());
-```
-```csharp
 entityIterator = sqlQuery.GetEnumerator();
-```
-```csharp
 "| |_Execute generated SQL.".WriteLine();
-```
-```csharp
 },
-```
-```csharp
 moveNext: () => entityIterator.MoveNext(),
-```
-```csharp
 getCurrent: () =>
-```
-```csharp
 {
-```
-```csharp
 $"| |_Materialize data row to {typeof(TEntity).Name} entity.".WriteLine();
-```
-```csharp
 return entityIterator.Current;
-```
-```csharp
 },
-```
-```csharp
 dispose: () => entityIterator.Dispose(),
-```
-```csharp
 end: () => " |_End.".WriteLine()).Start();
 ```
 
@@ -108,108 +59,41 @@ end: () => " |_End.".WriteLine()).Start();
 
 The following example executes Where and Take query to load 3 products with more than 10 characters in name. It demonstrates how to pull the results from IQueryable<T> with the iterator pattern:
 
+```csharp
 internal static void DeferredExecution(AdventureWorks adventureWorks)
-
-```csharp
 {
-```
-```csharp
 IQueryable<Product> categories = adventureWorks.Products
-```
-```csharp
 .Where(product => product.Name.Length > 100)
-```
-```csharp
 .Take(3);
-```
-```csharp
 "Iterator - Create from LINQ to Entities query.".WriteLine();
-```
-```csharp
 using (IEnumerator<Product> iterator = categories.GetEntityIterator(adventureWorks)) // Compile query.
-```
-```csharp
 {
-```
-```csharp
 int index = 0;
-```
-```csharp
 while (new Func<bool>(() =>
-```
-```csharp
 {
-```
-```csharp
 bool moveNext = iterator.MoveNext();
-```
-```csharp
 $"|_Iterator - [{index++}] {nameof(IEnumerator<Product>.MoveNext)}: {moveNext}.".WriteLine();
-```
-```csharp
 return moveNext; // Generate SQL when first time called.
-```
-```csharp
 })())
-```
-```csharp
 {
-```
-```csharp
 Product product = iterator.Current;
-```
-```csharp
 $"| |_Iterator - [{index}] {nameof(IEnumerator<Product>.Current)}: {product.Name}.".WriteLine();
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 // Iterator - Create from LINQ to Entities query.
-```
-```csharp
 // | |_Compile LINQ expression tree to database expression tree.
-```
-```csharp
 // |_Iterator - [0] MoveNext: True.
-```
-```csharp
 // | |_Generate SQL from database expression tree.
-```
-```csharp
 // | |_Execute generated SQL.
-```
-```csharp
 // | |_Materialize data row to Product entity.
-```
-```csharp
 // | |_Iterator - [0] Current: ML Crankset.
-```
-```csharp
 // |_Iterator - [1] MoveNext: True.
-```
-```csharp
 // | |_Materialize data row to Product entity.
-```
-```csharp
 // | |_Iterator - [1] Current: HL Crankset.
-```
-```csharp
 // |_Iterator - [2] MoveNext: True.
-```
-```csharp
 // | |_Materialize data row to Product entity.
-```
-```csharp
 // | |_Iterator - [2] Current: Touring-2000 Blue, 60.
-```
-```csharp
 // |_Iterator - [3] MoveNext: False.
-```
-```csharp
 // |_End.
 ```
 
@@ -227,32 +111,19 @@ When retry logic is specified for connection resiliency, EF Core become eager ev
 
 After an entity is queried, its related entities can be loaded through the navigation property. DbContext.Entry method accepts an entity of type TEntity, and returns Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<TEntity>, which represents that entity’s tracking and loading information. EntityEntry<TEntity> provides a Reference method to return Microsoft.EntityFrameworkCore.ChangeTracking.ReferenceEntry<TEntity, TProperty> instance, which represents the tracking and loading information of a single related entity from reference navigation property. EntityEntry<TEntity> also provides a Collection method to return Microsoft.EntityFrameworkCore.ChangeTracking.ReferenceEntry.CollectionEntry<TEntity, TProperty>, which represents the tracking and loading information of multiple related entities from collection navigation property. These related entities in the navigation properties can be manually loaded by calling ReferenceEntry<TEntity, TProperty>.Load and CollectionEntry<TEntity, TProperty>.Load:
 
+```csharp
 internal static void ExplicitLoading(AdventureWorks adventureWorks)
-
-```csharp
 {
-```
-```csharp
 ProductSubcategory subcategory = adventureWorks.ProductSubcategories.First(); // Execute query.
 
 // SELECT TOP(1) [p].[ProductSubcategoryID], [p].[Name], [p].[ProductCategoryID]
 
 // FROM [Production].[ProductSubcategory] AS [p]
-```
-```csharp
 subcategory.Name.WriteLine();
-```
 
-```csharp
 adventureWorks
-```
-```csharp
 .Entry(subcategory) // Return EntityEntry<ProductSubcategory>.
-```
-```csharp
 .Reference(entity => entity.ProductCategory) // Return ReferenceEntry<ProductSubcategory, ProductCategory>.
-```
-```csharp
 .Load(); // Execute query.
 
 // exec sp_executesql N'SELECT [e].[ProductCategoryID], [e].[Name]
@@ -260,28 +131,16 @@ adventureWorks
 // FROM [Production].[ProductCategory] AS [e]
 
 // WHERE [e].[ProductCategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
-```
-```csharp
 subcategory.ProductCategory.Name.WriteLine();
-```
 
-```csharp
 adventureWorks
-```
-```csharp
 .Entry(subcategory) // Return EntityEntry<ProductSubcategory>.
-```
-```csharp
 .Collection(entity => entity.Products) // Return CollectionEntry<ProductSubcategory, Product>.
-```
-```csharp
 .Load(); // Execute query.
 
 // exec sp_executesql N'SELECT [e].[ProductID], [e].[ListPrice], [e].[Name], [e].[ProductSubcategoryID]
 // FROM [Production].[Product] AS [e]
 // WHERE [e].[ProductSubcategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
-```
-```csharp
 subcategory.Products.WriteLines(product => product.Name);
 ```
 
@@ -289,57 +148,32 @@ subcategory.Products.WriteLines(product => product.Name);
 
 When the Load method is called, the related entities are queried, and become available through the navigation properties. Besides loading the full entities, explicit lazy loading also support custom query. The following example uses the reference navigation property and collection navigation property as LINQ to Entities data sources, by calling ReferenceEntry<TEntity, TProperty>.Query and CollectionEntry<TEntity, TProperty>.Query:
 
+```csharp
 internal static void ExplicitLoadingWithQuery(AdventureWorks adventureWorks)
-
-```csharp
 {
-```
-```csharp
 ProductSubcategory subcategory = adventureWorks.ProductSubcategories.First(); // Execute query.
 
 // SELECT TOP(1) [p].[ProductSubcategoryID], [p].[Name], [p].[ProductCategoryID]
 // FROM [Production].[ProductSubcategory] AS [p]
-```
-```csharp
 subcategory.Name.WriteLine();
-```
-```csharp
 string categoryName = adventureWorks
-```
-```csharp
 .Entry(subcategory).Reference(entity => entity.ProductCategory)
-```
-```csharp
 .Query() // Return IQueryable<ProductCategory>.
-```
-```csharp
 .Select(category => category.Name).Single(); // Execute query.
 
 // exec sp_executesql N'SELECT TOP(2) [e].[Name]
 // FROM [Production].[ProductCategory] AS [e]
 // WHERE [e].[ProductCategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
-```
-```csharp
 categoryName.WriteLine();
-```
 
-```csharp
 IQueryable<string>products = adventureWorks
-```
-```csharp
 .Entry(subcategory).Collection(entity => entity.Products)
-```
-```csharp
 .Query() // Return IQueryable<Product>.
-```
-```csharp
 .Select(product => product.Name); // Execute query.
 
 // exec sp_executesql N'SELECT [e].[Name]
 // FROM [Production].[Product] AS [e]
 // WHERE [e].[ProductSubcategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
-```
-```csharp
 products.WriteLines();
 ```
 
@@ -414,55 +248,24 @@ productProductPhoto.ProductPhoto.LargePhotoFileName))}");
 
 EF Core also supports lazy loading.
 
+```csharp
 public partial class AdventureWorks
-
-```csharp
 {
-```
-```csharp
 public AdventureWorks(DbConnection connection = null, bool lazyLoading = true)
-```
-```csharp
 : base(GetDbContextOptions(connection, lazyLoading))
-```
-```csharp
 {
-```
-```csharp
 }
-```
 
-```csharp
 private static DbContextOptions GetDbContextOptions(
-```
-```csharp
 DbConnection connection = null, bool lazyLoading = true) =>
-```
-```csharp
 new DbContextOptionsBuilder<AdventureWorks>()
-```
-```csharp
 .UseLazyLoadingProxies(lazyLoading)
-```
-```csharp
 .UseSqlServer(
-```
-```csharp
 connection: connection ??
-```
-```csharp
 new SqlConnection(ConnectionStrings.AdventureWorks),
-```
-```csharp
 sqlServerOptionsAction: options => options.EnableRetryOnFailure(
-```
-```csharp
 maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30),
-```
-```csharp
 errorNumbersToAdd: null))
-```
-```csharp
 .Options;
 ```
 
@@ -470,41 +273,28 @@ errorNumbersToAdd: null))
 
 When an entity’s navigation property is accessed, the related entities are queried and loaded automatically:
 
+```csharp
 internal static void LazyLoading(AdventureWorks adventureWorks)
-
-```csharp
 {
-```
-```csharp
 ProductSubcategory subcategory = adventureWorks.ProductSubcategories.First(); // Execute query.
 
 // SELECT TOP(1) [p].[ProductSubcategoryID], [p].[Name], [p].[ProductCategoryID]
 
 // FROM [Production].[ProductSubcategory] AS [p]
-```
-```csharp
 subcategory.Name.WriteLine();
-```
 
-```csharp
 ProductCategory category = subcategory.ProductCategory; // Execute query.
 
 // exec sp_executesql N'SELECT [e].[ProductCategoryID], [e].[Name]
 // FROM [Production].[ProductCategory] AS [e]
 // WHERE [e].[ProductCategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
-```
-```csharp
 category.Name.WriteLine();
-```
 
-```csharp
 ICollection<Product> products = subcategory.Products; // Execute query.
 
 // exec sp_executesql N'SELECT [e].[ProductID], [e].[ListPrice], [e].[Name], [e].[ProductSubcategoryID], [e].[RowVersion]
 // FROM [Production].[Product] AS [e]
 // WHERE [e].[ProductSubcategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
-```
-```csharp
 products.WriteLines(product => product.Name);
 ```
 
@@ -547,37 +337,18 @@ There are some scenarios where lazy loading needs to be disabled, like entity se
 
 · To disable lazy loading for specific DbContext or specific query, call DbContext.Configuration to get a DbConfiguration instance, and set its LazyLoadingEnabled property to false.
 
+```csharp
 internal static void DisableLazyLoading()
-
-```csharp
 {
-```
-```csharp
 using (AdventureWorks adventureWorks = new AdventureWorks(lazyLoading: false))
-```
-```csharp
 {
-```
-```csharp
 ProductSubcategory subcategory = adventureWorks.ProductSubcategories.First(); // Execute query.
-```
-```csharp
 subcategory.Name.WriteLine();
-```
-```csharp
 ProductCategory category = subcategory.ProductCategory; // No query.
-```
-```csharp
 (category == null).WriteLine(); // True
-```
 
-```csharp
 ICollection<Product> products = subcategory.Products; // No query.
-```
-```csharp
 (products == null).WriteLine(); // True
-```
-```csharp
 }
 ```
 

@@ -335,7 +335,7 @@ internal static void FunctionAsData<T>()
 
 The above idFunction and idExpression shares the same lambda expression syntax, but is executable function, while the idExpression is a abstract syntax tree data structure, representing the logic of idFunction:
 
-```csharp
+```console
 Expression<Func<T, T>> (NodeType = Lambda, Type = Func<T, T>)
 |_Parameters
 | |_ParameterExpression (NodeType = Parameter, Type = T)
@@ -391,7 +391,7 @@ public class ApplicationExpression : Expression
 
 So the above Ω combinator (S I I) (S I I) can be represented by the following expression tree:
 
-```csharp
+```console
 ApplicationExpression (NodeType = Invoke, Type = object)
 |_Function
 | |_ApplicationExpression (NodeType = Invoke, Type = object)

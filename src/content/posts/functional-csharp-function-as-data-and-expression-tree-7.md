@@ -109,7 +109,7 @@ namespace System.Linq.Expressions
 
 The above expression tree data structure can be visualized as:
 
-```csharp
+```console
 Expression<Func<int, bool>> (NodeType = Lambda, Type = Func<int, bool>)
 |_Parameters
 | |_ParameterExpression (NodeType = Parameter, Type = int)
@@ -279,7 +279,7 @@ internal static void ArithmeticalExpression()
 
 The entire tree can be visualized as:
 
-```csharp
+```console
 Expression<Func<double, double, double, double, double, double>> (NodeType = Lambda, Type = Func<double, double, double, double, double, double>)
 |_Parameters
 | |_ParameterExpression (NodeType = Parameter, Type = double)

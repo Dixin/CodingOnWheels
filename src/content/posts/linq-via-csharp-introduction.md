@@ -229,33 +229,16 @@ Go ahead with the installation. When it is done, launch Visual Studio. For .NET 
 
 In Visual Studio’s Solution Explorer, under this application, there is a Program.cs file in this project, which has the application’sapp’s entry point Main:..
 
+```csharp
 using System;
-
-```csharp
 namespace ConsoleApp
-```
-```csharp
 {
-```
-```csharp
 class Program
-```
-```csharp
 {
-```
-```csharp
 static void Main(string[] args)
-```
-```csharp
 {
-```
-```csharp
 Console.WriteLine("Hello World!");
-```
-```csharp
 }
-```
-```csharp
 }
 ```
 
@@ -367,17 +350,9 @@ The .NET Core SDK needs toshould be installed separately, by following the steps
 
 ```csharp
 <PropertyGroup>
-```
-```csharp
 <OutputType>Exe</OutputType>
-```
-```csharp
 <TargetFramework>netcoreapp2.0</TargetFramework>
-```
-```csharp
 <LangVersion>latest</LangVersion>
-```
-```csharp
 </PropertyGroup>
 ```
 

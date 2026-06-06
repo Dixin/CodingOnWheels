@@ -263,7 +263,7 @@ Here are the steps how the fluent query builds expression tree:
 
 So, the last IQueryable<T> variable selectQueryable’s Expression property (referencing to selectCallExpression), is the final abstract syntactic tree, which represents the entire LINQ to Entities query logic:
 
-```csharp
+```console
 MethodCallExpression (NodeType = Call, Type = IQueryable<string>)
 |_Method = Queryable.Select<Product, string>
 |_Object = null
@@ -410,7 +410,7 @@ Inside First:
 
 Similarly, the last IQueryable<T> variable firstQueryable’s Expression property (referencing to firstCallExpression), is the final abstract syntactic tree, which represents the entire LINQ to Entities query logic:
 
-```csharp
+```console
 MethodCallExpression (NodeType = Call, Type = string)
 |_Method = Queryable.First<string>
 |_Object = null
@@ -707,7 +707,7 @@ internal static DbQueryCommandTree WhereAndSelectDbExpressions()
 
 This abstract syntactic tree can be visualized as:
 
-```csharp
+```console
 DbQueryCommandTree
 |_Parameters
 |_Query
@@ -780,7 +780,7 @@ internal static DbQueryCommandTree SelectAndFirstDbExpressions()
 
 And this abstract syntactic tree can be visualized as:
 
-```csharp
+```console
 DbQueryCommandTree
 |_Parameters
 |_Query
@@ -932,7 +932,7 @@ internal static DbQueryCommandTree StringIsNullOrEmptyDbExpressions()
 
 The predicate’s body is a simple MethodCallExpression expression:
 
-```csharp
+```console
 MethodCallExpression (NodeType = Call, Type = bool)
 |_Method = string.IsNullOrEmpty
 |_Object = null
@@ -943,7 +943,7 @@ MethodCallExpression (NodeType = Call, Type = bool)
 
 Its translation is dispatched to IsNullOrEmptyTranslator, and it is translate to a DbComparisonExpression, representing a logic that calling database’s Edm.Length function with string variable, and comparing if the result equals to 0:
 
-```csharp
+```console
 DbComparisonExpression (ExpressionKind = Equals, ResultType = Edm.Boolean)
 |_Left
 | |_DbFunctionExpression (ExpressionKind = Function, ResultType = Edm.Int32)
@@ -1306,7 +1306,7 @@ public class LogConfiguration : DbConfiguration
 
 From now on, all LINQ to Entities queries’ database command tree will be logged. For example, executing above Where and Select query logs the following database command tree:
 
-```csharp
+```console
 DbQueryCommandTree
 |_Parameters
 |_Query : Collection{Record['Name'=Edm.String]}
@@ -1328,7 +1328,7 @@ DbQueryCommandTree
 
 And the Select and First query logs the following:
 
-```csharp
+```console
 DbQueryCommandTree
 |_Parameters
 |_Query : Collection{Record['Name'=Edm.String]}

@@ -235,7 +235,7 @@ Here are the steps how the fluent query builds its query expression tree:
 
 So, the final IQueryable<T> query’s Expression property is the final abstract syntactic tree, which represents the entire LINQ to Entities query logic:
 
-```csharp
+```console
 MethodCallExpression (NodeType = Call, Type = IQueryable<string>)
 |_Method = Queryable.Select<Product, string>
 |_Object = null
@@ -334,7 +334,7 @@ In First query, the MethodCallExpression expression is built in the same way to 
 
 Similarly, the last expression tree built inside First, is the final abstract syntactic tree, which represents the entire LINQ to Entities query logic:
 
-```csharp
+```console
 MethodCallExpression (NodeType = Call, Type = string)
 |_Method = Queryable.First<string>
 |_Object = null
@@ -630,7 +630,7 @@ internal static SelectExpression WhereAndSelectDatabaseExpressions(AdventureWork
 
 This compiled abstract syntactic tree can be visualized as:
 
-```csharp
+```console
 SelectExpression (NodeType = Extension, Type = string)
 |_Porjection
 | |_ColumnExpression (NodeType = Extension, Type = string)
@@ -709,7 +709,7 @@ SelectExpression (NodeType = Extension, Type = string)
 > 
 > This abstract syntactic tree can be visualized as:
 > 
-> ```csharp
+> ```console
 > DbQueryCommandTree
 > |_Parameters
 > |_Query
@@ -780,7 +780,7 @@ internal static SelectExpression SelectAndFirstDatabaseExpressions(AdventureWork
 
 And this abstract syntactic tree can be visualized as:
 
-```csharp
+```console
 SelectExpression (NodeType = Extension, Type = string)
 |_Limit
 | |_ConstantExpression (NodeType = Constant, Type = int)
@@ -836,7 +836,7 @@ SelectExpression (NodeType = Extension, Type = string)
 > 
 > And this abstract syntactic tree can be visualized as:
 > 
-> ```csharp
+> ```console
 > DbQueryCommandTree
 > |_Parameters
 > |_Query

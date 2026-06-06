@@ -453,7 +453,7 @@ The indexer can be defined the same as above:
 ListNodeAt := λl.λi.i Next l
 ```
 
-In C#;
+In C#:
 
 ```csharp
 public static readonly Func<AggregateListNode<T>, Func<Numeral, AggregateListNode<T>>>

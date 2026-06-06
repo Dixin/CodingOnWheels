@@ -21,72 +21,33 @@ As fore mentioned, LINQ to Entities queries are translated to database queries. 
 
 EF Core follows the ASP.NET Core logging infrastructure. To log EF Core operations, a logger (implementing Microsoft.Extensions.Logging.ILogger) and a logger provider (implementing Microsoft.Extensions.Logging.ILoggerProvider) can be defined. The following is a simple example to simply trace everything:
 
+```csharp
 public class TraceLogger : ILogger
-
-```csharp
 {
-```
-```csharp
 private readonly string categoryName;
-```
 
-```csharp
 public TraceLogger(string categoryName) => this.categoryName = categoryName;
-```
 
-```csharp
 public bool IsEnabled(LogLevel logLevel) => true;
-```
 
-```csharp
 public void Log<TState>(
-```
-```csharp
 LogLevel logLevel,
-```
-```csharp
 EventId eventId,
-```
-```csharp
 TState state,
-```
-```csharp
 Exception exception,
-```
-```csharp
 Func<TState, Exception, string> formatter)
-```
-```csharp
 {
-```
-```csharp
 Trace.WriteLine($"{DateTime.Now.ToString("o")} {logLevel} {eventId.Id} {this.categoryName}");
-```
-```csharp
 Trace.WriteLine(formatter(state, exception));
-```
-```csharp
 }
-```
 
-```csharp
 public IDisposable BeginScope<TState>(TState state) => null;
-```
-```csharp
 }
-```
 
-```csharp
 public class TraceLoggerProvider : ILoggerProvider
-```
-```csharp
 {
-```
-```csharp
 public ILogger CreateLogger(string categoryName) => new TraceLogger(categoryName);
-```
 
-```csharp
 public void Dispose() { }
 ```
 
@@ -94,27 +55,14 @@ public void Dispose() { }
 
 Now the logger provider can be hooked up with EF Core:
 
+```csharp
 public partial class AdventureWorks
-
-```csharp
 {
-```
-```csharp
 protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-```
-```csharp
 {
-```
-```csharp
 LoggerFactory loggerFactory = new LoggerFactory();
-```
-```csharp
 loggerFactory.AddProvider(new TraceLoggerProvider());
-```
-```csharp
 optionsBuilder.UseLoggerFactory(loggerFactory);
-```
-```csharp
 }
 ```
 

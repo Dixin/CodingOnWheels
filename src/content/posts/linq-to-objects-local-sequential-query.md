@@ -23,29 +23,16 @@ LINQ to Objects is local, sequential query. Local means it queries data is insta
 
 If a sequence type is defined following the standard iterator pattern of object-oriented programming, the objects in the sequence can be pulled by C# foreach statement. Iterator pattern consists of a sequence (also called container of items, or aggregate of elements) and an iterator:
 
+```csharp
 internal abstract class Sequence
-
-```csharp
 {
-```
-```csharp
 public abstract Iterator GetEnumerator(); // Must be public.
-```
-```csharp
 }
-```
 
-```csharp
 internal abstract class Iterator
-```
-```csharp
 {
-```
-```csharp
 public abstract bool MoveNext(); // Must be public.
-```
 
-```csharp
 public abstract object Current { get; } // Must be public.
 ```
 
@@ -53,29 +40,16 @@ public abstract object Current { get; } // Must be public.
 
 And their generic version is:
 
+```csharp
 internal abstract class GenericSequence<T\>
-
-```csharp
 {
-```
-```csharp
 public abstract GenericIterator<T>GetEnumerator(); // Must be public.
-```
-```csharp
 }
-```
 
-```csharp
 internal abstract class GenericIterator<T>
-```
-```csharp
 {
-```
-```csharp
 public abstract bool MoveNext(); // Must be public.
-```
 
-```csharp
 public abstract T Current { get; } // Must be public.
 ```
 
@@ -83,43 +57,20 @@ public abstract T Current { get; } // Must be public.
 
 The above types and members demonstrate the minimum requirements of iterator pattern for foreach statement. The sequence must have a GetEnumerator factory method to output an iterator (It can be virtually read as GetIterator). And iterator must have a MoveNext method to output a bool value to indicate whether there is a value that can be pulled. If the output is true, iterator’s Current property getter can be called to pull that value. Now the values in above non-generic and generic sequences can be access with C# foreach statement:
 
+```csharp
 internal static void ForEach<T\>(Sequence sequence, Action<T\> process)
-
-```csharp
 {
-```
-```csharp
 foreach (T value in sequence)
-```
-```csharp
 {
-```
-```csharp
 process(value);
-```
-```csharp
 }
-```
-```csharp
 }
-```
 
-```csharp
 internal static void ForEach<T>(GenericSequence<T> sequence, Action<T> process)
-```
-```csharp
 {
-```
-```csharp
 foreach (T value in sequence)
-```
-```csharp
 {
-```
-```csharp
 process(value);
-```
-```csharp
 }
 ```
 
@@ -127,97 +78,38 @@ process(value);
 
 The foreach statement is declarative syntactic sugar. It is compiled to the following imperative control flow to get iterator from sequence, and poll iterator until there is no value available:
 
+```csharp
 internal static void CompiledForEach<T\>(Sequence sequence, Action<T\> process)
-
-```csharp
 {
-```
-```csharp
 Iterator iterator = sequence.GetEnumerator();
-```
-```csharp
 try
-```
-```csharp
 {
-```
-```csharp
 while (iterator.MoveNext())
-```
-```csharp
 {
-```
-```csharp
 T value = (T)iterator.Current;
-```
-```csharp
 process(value);
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 finally
-```
-```csharp
 {
-```
-```csharp
 (iterator as IDisposable)?.Dispose();
-```
-```csharp
 }
-```
-```csharp
 }
-```
 
-```csharp
 internal static void CompiledForEach<T>(GenericSequence<T> sequence, Action<T> process)
-```
-```csharp
 {
-```
-```csharp
 GenericIterator<T>iterator = sequence.GetEnumerator();
-```
-```csharp
 try
-```
-```csharp
 {
-```
-```csharp
 while (iterator.MoveNext())
-```
-```csharp
 {
-```
-```csharp
 T value = iterator.Current;
-```
-```csharp
 process(value);
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 finally
-```
-```csharp
 {
-```
-```csharp
 (iterator as IDisposable)?.Dispose();
-```
-```csharp
 }
 ```
 
@@ -225,23 +117,14 @@ finally
 
 Apparently, the generic version of definition is preferred, because the non-generic iterator’s Current property outputs object type, which has to be explicitly cast to the expected type specified in the foreach statement and could be a chance of failure. To demonstrate the iterator pattern implementation, a sequence of values can be defined as a singly linked list, where each value is stored in a linked list node:
 
-internal class LinkedListNode<T\>
-
 ```csharp
+internal class LinkedListNode<T>
 {
-```
-```csharp
 internal LinkedListNode(T value, LinkedListNode<T> next = null) =>
-```
-```csharp
 (this.Value, this.Next) = (value, next);
-```
 
-```csharp
 public T Value { get; }
-```
 
-```csharp
 public LinkedListNode<T> Next { get; }
 ```
 
@@ -249,51 +132,24 @@ public LinkedListNode<T> Next { get; }
 
 Then iterator can be implemented to traverse along the linked list nodes. When there is a next node, MoveNext outputs true, and Current can output the next value. Notice the iterator is stateful:
 
-internal class LinkedListIterator<T\> : GenericIterator<T\>
-
 ```csharp
+internal class LinkedListIterator<T> : GenericIterator<T>
 {
-```
-```csharp
 private LinkedListNode<T> node; // State.
-```
 
-```csharp
 internal LinkedListIterator(LinkedListNode<T>head) =>
-```
-```csharp
 this.node = new LinkedListNode<T>(default, head);
-```
 
-```csharp
 public override bool MoveNext()
-```
-```csharp
 {
-```
-```csharp
 if (this.node.Next != null)
-```
-```csharp
 {
-```
-```csharp
 this.node = this.node.Next; // State change.
-```
-```csharp
 return true;
-```
-```csharp
 }
-```
-```csharp
 return false;
-```
-```csharp
 }
-```
 
-```csharp
 public override T Current => this.node.Value;
 ```
 
@@ -301,20 +157,13 @@ public override T Current => this.node.Value;
 
 Finally, the sequence can be simply implemented as an iterator factory:
 
-internal class LinkedListSequence<T\> : GenericSequence<T\>
-
 ```csharp
+internal class LinkedListSequence<T> : GenericSequence<T>
 {
-```
-```csharp
 private readonly LinkedListNode<T> head;
-```
 
-```csharp
 internal LinkedListSequence(LinkedListNode<T> head) => this.head = head;
-```
 
-```csharp
 public override GenericIterator<T> GetEnumerator() => new LinkedListIterator<T>(this.head);
 ```
 
@@ -322,33 +171,16 @@ public override GenericIterator<T> GetEnumerator() => new LinkedListIterator<T>(
 
 Now the values in the linked list sequence can be sequentially pulled with the foreach syntactic sugar, which is declarative and there is no need to specify the control flow or handle the state:
 
+```csharp
 internal static void ForEach()
-
-```csharp
 {
-```
-```csharp
 LinkedListNode<int> node3 = new LinkedListNode<int>(3, null);
-```
-```csharp
 LinkedListNode<int> node2 = new LinkedListNode<int>(2, node3);
-```
-```csharp
 LinkedListNode<int> node1 = new LinkedListNode<int>(1, node2);
-```
-```csharp
 LinkedListSequence<int> sequence = new LinkedListSequence<int>(node1);
-```
-```csharp
 foreach (int value in sequence)
-```
-```csharp
 {
-```
-```csharp
 value.WriteLine(); // 1 2 3
-```
-```csharp
 }
 ```
 
@@ -360,42 +192,21 @@ A general implementation of iterator pattern is discussed later in the LINQ to O
 
 Initially, .NET Framework 1.0 provides IEnumerable and IEnumerator interfaces as the contract of iterator pattern:
 
+```csharp
 namespace System.Collections
-
-```csharp
 {
-```
-```csharp
 public interface IEnumerable // Sequence.
-```
-```csharp
 {
-```
-```csharp
 IEnumerator GetEnumerator();
-```
-```csharp
 }
-```
 
-```csharp
 public interface IEnumerator // Iterator.
-```
-```csharp
 {
-```
-```csharp
 object Current { get; }
-```
 
-```csharp
 bool MoveNext();
-```
 
-```csharp
 void Reset(); // For COM interoperability.
-```
-```csharp
 }
 ```
 
@@ -403,34 +214,17 @@ void Reset(); // For COM interoperability.
 
 They can be virtually read as iteratable sequence and iterator. .NET Framework’s sequence and collection types implement IEnumerable so that they can be used with foreach statement, like array, ArrayList, Queue, Stack, SortedList, etc. Then .NET Framework 2.0 was released with generics support. So IEnumerable<T> and IEnumerator<T> interfaces are provided as the generic version of iterator pattern contract.
 
+```csharp
 namespace System.Collections.Generic
-
-```csharp
 {
-```
-```csharp
 public interface IEnumerable<T> : IEnumerable // Sequence.
-```
-```csharp
 {
-```
-```csharp
 IEnumerator<T> GetEnumerator();
-```
-```csharp
 }
-```
 
-```csharp
 public interface IEnumerator<T> : IDisposable, IEnumerator // Iterator.
-```
-```csharp
 {
-```
-```csharp
 T Current { get; }
-```
-```csharp
 }
 ```
 
@@ -440,34 +234,17 @@ Since .NET Framework 2.0, sequence and collection types are usually provided as 
 
 Later, .NET Framework 4.0 introduces covariance and contravariance for generic interface. As discussed in the covariance and contravariance chapter, T is covariant for both IEnumerable<T> and IEnumerable<T>. So, their definitions are updated with the out modifier for type parameter:
 
+```csharp
 namespace System.Collections.Generic
-
-```csharp
 {
-```
-```csharp
 public interface IEnumerable<out T> : IEnumerable // Sequence.
-```
-```csharp
 {
-```
-```csharp
 IEnumerator<T> GetEnumerator();
-```
-```csharp
 }
-```
 
-```csharp
 public interface IEnumerator<out T> : IDisposable, IEnumerator // Iterator.
-```
-```csharp
 {
-```
-```csharp
 T Current { get; }
-```
-```csharp
 }
 ```
 
@@ -479,18 +256,11 @@ This is how they are defined in .NET Standard.
 
 Array is a special type. A concrete array T\[\] inherits System.Array type, which does not implement IEnumerable<T> but IEnumerable:
 
+```csharp
 namespace System
-
-```csharp
 {
-```
-```csharp
 public abstract class Array : ICollection, IEnumerable, IList, IStructuralComparable, IStructuralEquatable
-```
-```csharp
 {
-```
-```csharp
 }
 ```
 
@@ -498,21 +268,12 @@ public abstract class Array : ICollection, IEnumerable, IList, IStructuralCompar
 
 Instead, T\[\] directly implements IEnumerable<T>, ICollection<T>, and IList<T>, as long as T\[\] is single dimensional and zero–lower bound. So, array T\[\] can be used with foreach loop:
 
+```csharp
 internal static void ForEach<T\>(T\[\] array, Action<T\> process)
-
-```csharp
 {
-```
-```csharp
 foreach (T value in array)
-```
-```csharp
 {
-```
-```csharp
 process(value);
-```
-```csharp
 }
 ```
 
@@ -520,24 +281,13 @@ process(value);
 
 foreach statement with array is compiled into a for loop, accessing each value with index, which has better performance than the above control flow of getting iterator and polling its MoveNext method and Current property:
 
+```csharp
 internal static void CompiledForEach<T\>(T\[\] array, Action<T\> process)
-
-```csharp
 {
-```
-```csharp
 for (int index = 0; index < array.Length; index++)
-```
-```csharp
 {
-```
-```csharp
 T value = array[index];
-```
-```csharp
 process(value);
-```
-```csharp
 }
 ```
 
@@ -545,46 +295,21 @@ process(value);
 
 And so is string. Since string is a sequence of characters, it implements IEnumerable<char>. Foreach statement with string is also compiled to index access for better performance:
 
+```csharp
 internal static void ForEach(string @string, Action<char\> process)
-
-```csharp
 {
-```
-```csharp
 foreach (char value in @string)
-```
-```csharp
 {
-```
-```csharp
 process(value);
-```
-```csharp
 }
-```
-```csharp
 }
-```
 
-```csharp
 internal static void CompiledForEach(string @string, Action<char> action)
-```
-```csharp
 {
-```
-```csharp
 for (int index = 0; index < @string.Length; index++)
-```
-```csharp
 {
-```
-```csharp
 char value = @string[index];
-```
-```csharp
 action(value);
-```
-```csharp
 }
 ```
 

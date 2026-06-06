@@ -268,19 +268,19 @@ This is the same associativity as the [type constructor →](http://en.wikipedia
 
 In some functional languages, functions are curried by default, like F#:
 
-```csharp
+```fsharp
 let f1: int -> int -> int = fun x y -> x + y
 ```
 
 fun x y -> … looks like a function definition with multiple parameters, but it is curried as int -> int -> int. This function works similar as:
 
-```csharp
+```fsharp
 let f2: int -> (int -> int) = fun x -> fun y -> x + y
 ```
 
 And this is how to create an uncurried function with multiple parameters in F#:
 
-```csharp
+```fsharp
 let f3: int * int -> int = fun (x, y) -> x + y
 ```
 

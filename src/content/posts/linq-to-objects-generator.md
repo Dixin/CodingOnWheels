@@ -19,28 +19,15 @@ After understanding how to use LINQ to Objects queries, this chapter starts to d
 
 Most LINQ to Objects queries has an IEnumerable<T> output. They can be easily implemented with “brute force”. Take the simple query Repeat as example:
 
+```csharp
 internal static IEnumerable<TSource> RepeatArray<TSource>(TSource value, int count)
-
-```csharp
 {
-```
-```csharp
 TSource[] results = new TSource[count];
-```
-```csharp
 for (int index = 0; index < count; index++)
-```
-```csharp
 {
-```
-```csharp
 results[index] = value;
-```
-```csharp
 }
-```
 
-```csharp
 return results;
 ```
 
@@ -52,257 +39,100 @@ The problem is, when the above Repeat query is called, it immediately generates 
 
 The iterator pattern is imperative and object-oriented. It has a sequence represented by IEnumerable<T>, and an iterator represented by IEnumerator<T>. According to the definition of IEnumerator<T>, apparently the iterator is stateful. The following is a general-purpose iterator implemented as a finite-state machine:
 
+```csharp
 public enum IteratorState
-
-```csharp
 {
-```
-```csharp
 Create = -2,
-```
-```csharp
 Start = 0,
-```
-```csharp
 MoveNext = 1,
-```
-```csharp
 End = -1,
-```
-```csharp
 Error = -3
-```
-```csharp
 }
-```
 
-```csharp
 public class Iterator<T> : IEnumerator<T>
-```
-```csharp
 {
-```
-```csharp
 protected readonly Action start;
-```
 
-```csharp
 protected readonly Func<bool> moveNext;
-```
 
-```csharp
 protected readonly Func<T> getCurrent;
-```
 
-```csharp
 protected readonly Action dispose;
-```
 
-```csharp
 protected readonly Action end;
-```
 
-```csharp
 public Iterator(
-```
-```csharp
 Action start = null,
-```
-```csharp
 Func<bool> moveNext = null,
-```
-```csharp
 Func<T> getCurrent = null,
-```
-```csharp
 Action dispose = null,
-```
-```csharp
 Action end = null)
-```
-```csharp
 {
-```
-```csharp
 this.start = start;
-```
-```csharp
 this.moveNext = moveNext;
-```
-```csharp
 this.getCurrent = getCurrent;
-```
-```csharp
 this.dispose = dispose;
-```
-```csharp
 this.end = end;
-```
-```csharp
 }
-```
 
-```csharp
 public T Current { get; private set; }
-```
 
-```csharp
 object IEnumerator.Current => this.Current;
-```
 
-```csharp
 internal IteratorState State { get; private set; } = IteratorState.Create; // IteratorState: Create.
-```
 
-```csharp
 internal Iterator<T> Start()
-```
-```csharp
 {
-```
-```csharp
 this.State = IteratorState.Start; // IteratorState: Create => Start.
-```
-```csharp
 return this;
-```
-```csharp
 }
-```
 
-```csharp
 public bool MoveNext()
-```
-```csharp
 {
-```
-```csharp
 try
-```
-```csharp
 {
-```
-```csharp
 switch (this.State)
-```
-```csharp
 {
-```
-```csharp
 case IteratorState.Start:
-```
-```csharp
 this.start?.Invoke();
-```
-```csharp
 this.State = IteratorState.MoveNext; // IteratorState: Start => MoveNext.
-```
-```csharp
 goto case IteratorState.MoveNext;
-```
 
-```csharp
 case IteratorState.MoveNext:
-```
-```csharp
 if (this.moveNext?.Invoke() ?? false)
-```
-```csharp
 {
-```
-```csharp
 this.Current = this.getCurrent != null ? this.getCurrent() : default;
-```
-```csharp
 return true; // IteratorState: MoveNext => MoveNext.
-```
-```csharp
 }
-```
-```csharp
 this.State = IteratorState.End; // IteratorState: MoveNext => End.
-```
-```csharp
 this.dispose?.Invoke();
-```
-```csharp
 this.end?.Invoke();
-```
-```csharp
 break;
-```
-```csharp
 }
-```
-```csharp
 return false;
-```
-```csharp
 }
-```
-```csharp
 catch
-```
-```csharp
 {
-```
-```csharp
 this.State = IteratorState.Error; // IteratorState: Start, MoveNext, End => Error.
-```
-```csharp
 this.Dispose();
-```
-```csharp
 throw;
-```
-```csharp
 }
-```
-```csharp
 }
-```
 
-```csharp
 public void Dispose()
-```
-```csharp
 {
-```
-```csharp
 if (this.State == IteratorState.Error || this.State == IteratorState.MoveNext)
-```
-```csharp
 {
-```
-```csharp
 try { }
-```
-```csharp
 finally
-```
-```csharp
 {
-```
-```csharp
 // Unexecuted finally blocks are executed before the thread is aborted.
-```
-```csharp
 this.State = IteratorState.End; // IteratorState: Error => End.
-```
-```csharp
 this.dispose?.Invoke();
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 }
-```
 
-```csharp
 public void Reset() => throw new NotSupportedException();
 ```
 
@@ -310,30 +140,17 @@ public void Reset() => throw new NotSupportedException();
 
 The sequence can be simply viewed as an iterator factory:
 
+```csharp
 public class Sequence<T> : IEnumerable<T>
-
-```csharp
 {
-```
-```csharp
 private readonly Func<Iterator<T>> iteratorFactory;
-```
 
-```csharp
 public Sequence(Func<Iterator<T>> iteratorFactory) =>
-```
-```csharp
 this.iteratorFactory = iteratorFactory;
-```
 
-```csharp
 public IEnumerator<T> GetEnumerator() =>
-```
-```csharp
 this.iteratorFactory().Start(); // IteratorState: Create => Start.
-```
 
-```csharp
 IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 ```
 
@@ -357,96 +174,43 @@ o If false, there is no value available. The state changes to End, and the dispo
 
 Now Sequence<T> and Iterator<T> can be used to implement Repeat with improved performance:
 
+```csharp
 internal static IEnumerable<TSource> RepeatSequence<TSource>(
-
-```csharp
 TSource value, int count) =>
-```
-```csharp
 new Sequence<TSource>(() =>
-```
-```csharp
 {
-```
-```csharp
 int index = 0;
-```
-```csharp
 return new Iterator<TSource>(
-```
-```csharp
 moveNext: () => index++ < count,
-```
-```csharp
 getCurrent: () => value);
-```
-
 });
+```
 
 When the above RepeatSequence is called, it does not generate and store all repeated values. It only constructs a sequence instance with an iterator factory function, which then can be consumed by caller with a foreach statement:
 
+```csharp
 internal static void CallRepeatSequence<TSource>(TSource value, int count)
-
-```csharp
 {
-```
-```csharp
 foreach (TSource result in RepeatSequence(value, count)) { }
-```
 
-```csharp
 // Compiled to:
-```
-```csharp
 using (IEnumerator<TSource> iterator = RepeatSequence(value, count).GetEnumerator())
-```
-```csharp
 {
-```
-```csharp
 while (iterator.MoveNext())
-```
-```csharp
 {
-```
-```csharp
 TSource result = iterator.Current;
-```
-```csharp
 }
-```
 
-```csharp
 // Virtual control flow inside iterator:
-```
-```csharp
 int index = 0;
-```
-```csharp
 try
-```
-```csharp
 {
-```
-```csharp
 while (index++ < count)
-```
-```csharp
 {
-```
-```csharp
 TSource result = value;
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 finally { }
-```
-```csharp
 }
 ```
 
@@ -456,117 +220,50 @@ The foreach statement is compiled to a call to the sequence’s GetEnumerator me
 
 Another example is Select query. It accepts an input source sequence and constructs a new result sequence, by mapping each source value to another result with a selector function. It can be implemented following iterator pattern:
 
+```csharp
 internal static IEnumerable<TResult> SelectSequence<TSource, TResult>(
-
-```csharp
 IEnumerable<TSource> source, Func<TSource, TResult> selector) =>
-```
-```csharp
 new Sequence<TResult>(() =>
-```
-```csharp
 {
-```
-```csharp
 IEnumerator<TSource> sourceIterator = null;
-```
-```csharp
 return new Iterator<TResult>(
-```
-```csharp
 start: () => sourceIterator = source.GetEnumerator(),
-```
-```csharp
 moveNext: () => sourceIterator.MoveNext(),
-```
-```csharp
 getCurrent: () => selector(sourceIterator.Current),
-```
-```csharp
 dispose: () => sourceIterator?.Dispose());
-```
-
 });
+```
 
 So that, Select dos not map or store any query result. It only constructs a sequence and never calls the selector function. When caller pulls each result from the output sequence, the selector function is called and result is evaluated:
 
+```csharp
 internal static void CallSelectSequence<TSource, TResult>(
-
-```csharp
 IEnumerable<TSource> source, Func<TSource, TResult> selector)
-```
-```csharp
 {
-```
-```csharp
 foreach (TResult result in SelectSequence(source, selector)) { }
-```
 
-```csharp
 // Compiled to:
-```
-```csharp
 using (IEnumerator<TResult> iterator = SelectSequence(source, selector).GetEnumerator())
-```
-```csharp
 {
-```
-```csharp
 while (iterator.MoveNext())
-```
-```csharp
 {
-```
-```csharp
 TResult result = iterator.Current;
-```
-```csharp
 }
-```
 
-```csharp
 // Virtual control flow inside iterator:
-```
-```csharp
 IEnumerator<TSource> sourceIterator = null;
-```
-```csharp
 try
-```
-```csharp
 {
-```
-```csharp
 sourceIterator = source.GetEnumerator();
-```
-```csharp
 while (sourceIterator.MoveNext())
-```
-```csharp
 {
-```
-```csharp
 TResult result = selector(sourceIterator.Current);
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 finally
-```
-```csharp
 {
-```
-```csharp
 sourceIterator?.Dispose();
-```
-```csharp
 }
-```
-```csharp
 }
 ```
 
@@ -574,157 +271,64 @@ sourceIterator?.Dispose();
 
 Similarly, Where can be implemented with this pattern to filter the source sequence with a predicate function:
 
+```csharp
 internal static IEnumerable<TSource> WhereSequence<TSource>(
-
-```csharp
 IEnumerable<TSource> source, Func<TSource, bool> predicate) =>
-```
-```csharp
 new Sequence<TSource>(() =>
-```
-```csharp
 {
-```
-```csharp
 IEnumerator<TSource> sourceIterator = null;
-```
-```csharp
 return new Iterator<TSource>(
-```
-```csharp
 start: () => sourceIterator = source.GetEnumerator(),
-```
-```csharp
 moveNext: () =>
-```
-```csharp
 {
-```
-```csharp
 while (sourceIterator.MoveNext())
-```
-```csharp
 {
-```
-```csharp
 if (predicate(sourceIterator.Current))
-```
-```csharp
 {
-```
-```csharp
 return true;
-```
-```csharp
 }
-```
-```csharp
 }
-```
 
-```csharp
 return false;
-```
-```csharp
 },
-```
-```csharp
 getCurrent: () => sourceIterator.Current,
-```
-```csharp
 dispose: () => sourceIterator?.Dispose());
-```
-
 });
+```
 
 Again, Where does not filter the source or store the filtering results. It only constructs a sequence and never calls predicate function. When caller starts to pull a result from the output sequence, the predicate function is called:
 
+```csharp
 internal static void CallWhereSequence<TSource>(
-
-```csharp
 IEnumerable<TSource> source, Func<TSource, bool> predicate)
-```
-```csharp
 {
-```
-```csharp
 foreach (TSource result in WhereSequence(source, predicate)) { }
-```
 
-```csharp
 // Compiled to:
-```
-```csharp
 using (IEnumerator<TSource> iterator = WhereSequence(source, predicate).GetEnumerator())
-```
-```csharp
 {
-```
-```csharp
 while (iterator.MoveNext())
-```
-```csharp
 {
-```
-```csharp
 TSource result = iterator.Current;
-```
-```csharp
 }
-```
 
-```csharp
 // Virtual control flow inside iterator:
-```
-```csharp
 IEnumerator<TSource> sourceIterator = null;
-```
-```csharp
 try
-```
-```csharp
 {
-```
-```csharp
 sourceIterator = source.GetEnumerator();
-```
-```csharp
 while (sourceIterator.MoveNext())
-```
-```csharp
 {
-```
-```csharp
 if (predicate(sourceIterator.Current))
-```
-```csharp
 {
-```
-```csharp
 TSource result = sourceIterator.Current;
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 finally
-```
-```csharp
 {
-```
-```csharp
 sourceIterator?.Dispose();
-```
-```csharp
 }
-```
-```csharp
 }
 ```
 
@@ -732,121 +336,52 @@ sourceIterator?.Dispose();
 
 With sequence and iterator, the LINQ sequential queries can be correctly implemented with expected performance. However, since the iterator pattern is imperative and stateful, it is not straightforward to specify how to construct sequence and how to construct iterator, and the actual iteration workflow is not intuitive as well. Another example is to define a custom FromValue query to generate a sequence from a single value, following the iterator pattern:
 
+```csharp
 internal static IEnumerable<TSource> FromValueSequence<TSource>(TSource value) =>
-
-```csharp
 new Sequence<TSource>(() =>
-```
-```csharp
 {
-```
-```csharp
 bool isValueIterated = false;
-```
-```csharp
 return new Iterator<TSource>(
-```
-```csharp
 moveNext: () =>
-```
-```csharp
 {
-```
-```csharp
 if (!isValueIterated)
-```
-```csharp
 {
-```
-```csharp
 isValueIterated = true;
-```
-```csharp
 return true;
-```
-```csharp
 }
-```
 
-```csharp
 return false;
-```
-```csharp
 },
-```
-```csharp
 getCurrent: () => value);
-```
-
 });
+```
 
 It uses a bool value as iterator state, so that the value cam be pulled only once:
 
+```csharp
 internal static void CallFromValueSequence<TSource>(TSource value)
-
-```csharp
 {
-```
-```csharp
 foreach (TSource result in FromValueSequence(value)) { }
-```
 
-```csharp
 // Compiled to:
-```
-```csharp
 using (IEnumerator<TSource> iterator = FromValueSequence(value).GetEnumerator())
-```
-```csharp
 {
-```
-```csharp
 while (iterator.MoveNext())
-```
-```csharp
 {
-```
-```csharp
 TSource result = iterator.Current;
-```
-```csharp
 }
-```
 
-```csharp
 // Virtual control flow inside iterator:
-```
-```csharp
 bool isValueIterated = false;
-```
-```csharp
 try
-```
-```csharp
 {
-```
-```csharp
 while (!isValueIterated)
-```
-```csharp
 {
-```
-```csharp
 isValueIterated = true;
-```
-```csharp
 TSource result = value;
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 finally { }
-```
-```csharp
 }
 ```
 
@@ -858,67 +393,28 @@ To simplify the coding, C# provides yield statement.
 
 C# 2.0 introduces the yield statement for named functions to implement iterator pattern, without defining and constructing sequence and iterator. The following example is equivalent to above RepeatSequence:
 
+```csharp
 internal static IEnumerable<TSource> RepeatYield<TSource>(TSource value, int count)
-
-```csharp
 {
-```
-```csharp
 // Virtual control flow when iterating the results:
-```
-```csharp
 // int index = 0;
-```
-```csharp
 // try
-```
-```csharp
 // {
-```
-```csharp
 // while (index++ < count)
-```
-```csharp
 // {
-```
-```csharp
 // TSource result = value;
-```
-```csharp
 // }
-```
-```csharp
 // }
-```
-```csharp
 // finally { }
-```
 
-```csharp
 int index = 0;
-```
-```csharp
 try
-```
-```csharp
 {
-```
-```csharp
 while (index++ < count)
-```
-```csharp
 {
-```
-```csharp
 yield return value;
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 finally { }
 ```
 
@@ -930,60 +426,27 @@ public interface IGenerator<out T\> : IEnumerable<T\>, IEnumerator<T\> { }
 
 In another word, a generator is an iterator with an additional factory method GetEnumerator, which does a little more work:
 
+```csharp
 public class Generator<T> : Iterator<T>, IGenerator<T>
-
-```csharp
 {
-```
-```csharp
 private readonly int initialThreadId = Environment.CurrentManagedThreadId;
-```
 
-```csharp
 public Generator(
-```
-```csharp
 Action start = null,
-```
-```csharp
 Func<bool> moveNext = null,
-```
-```csharp
 Func<T> getCurrent = null,
-```
-```csharp
 Action dispose = null,
-```
-```csharp
 Action end = null) : base(start, moveNext, getCurrent, dispose, end)
-```
-```csharp
 { }
-```
 
-```csharp
 public IEnumerator<T> GetEnumerator() =>
-```
-```csharp
 this.initialThreadId == Environment.CurrentManagedThreadId
-```
-```csharp
 && this.State == IteratorState.Create
-```
-```csharp
 // Called by the same initial thread and iteration is not started.
-```
-```csharp
 ? this.Start()
-```
-```csharp
 // If the iteration is already started, or the iteration is requested from a different thread, create new generator with new iterator.
-```
-```csharp
 : new Generator<T>(this.start, this.moveNext, this.getCurrent, this.dispose, this.end).Start();
-```
 
-```csharp
 IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 ```
 
@@ -991,21 +454,12 @@ IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
 When generator is constructed, it remembers the thread id. Later, if its factory method is called by the same thread and the generator’s state has not been mutated, the output is itself; if the its factory is called again by the same thread after its state is mutated, or called by another thread, the output is a new generator. So, the compilation of RepeatYield is equivalent to:
 
+```csharp
 internal static IEnumerable<TSource> RepeatGenerator<TSource>(TSource value, int count)
-
-```csharp
 {
-```
-```csharp
 int index = 0;
-```
-```csharp
 return new Generator<TSource>(
-```
-```csharp
 moveNext: () => index++ < count,
-```
-```csharp
 getCurrent: () => value);
 ```
 
@@ -1013,21 +467,12 @@ getCurrent: () => value);
 
 The control flow with yield statement can be viewed as normal control flow, so the above control flows can be further simplified, with the same way of simplifying normal C# code. Here the try-finally statement is not needed, so can be removed. And the while loop is equivalent to the following for loop:
 
+```csharp
 internal static IEnumerable<TSource> Repeat<TSource>(TSource value, int count)
-
-```csharp
 {
-```
-```csharp
 for (int index = 0; index < count; index++)
-```
-```csharp
 {
-```
-```csharp
 yield return value;
-```
-```csharp
 }
 ```
 
@@ -1037,189 +482,70 @@ So, yield statement greatly simplifies the implementation of iterator pattern. A
 
 Similarly, Select and Where standard queries can also be implemented with yield statement following their iteration control flows:
 
+```csharp
 internal static IEnumerable<TResult> SelectYield<TSource, TResult>(
-
-```csharp
 IEnumerable<TSource> source, Func<TSource, TResult> selector)
-```
-```csharp
 {
-```
-```csharp
 IEnumerator<TSource> sourceIterator = null;
-```
-```csharp
 try
-```
-```csharp
 {
-```
-```csharp
 sourceIterator = source.GetEnumerator(); // start.
-```
-```csharp
 while (sourceIterator.MoveNext()) // moveNext.
-```
-```csharp
 {
-```
-```csharp
 yield return selector(sourceIterator.Current); // getCurrent.
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 finally
-```
-```csharp
 {
-```
-```csharp
 sourceIterator?.Dispose(); // dispose.
-```
-```csharp
 }
-```
 
-```csharp
 // Compiled to:
-```
-```csharp
 // IEnumerator<TSource> sourceIterator = null;
-```
-```csharp
 // return new Generator<TResult>(
-```
-```csharp
 // start: () => sourceIterator = source.GetEnumerator(),
-```
-```csharp
 // moveNext: () => sourceIterator.MoveNext(),
-```
-```csharp
 // getCurrent: () => selector(sourceIterator.Current),
-```
-```csharp
 // dispose: () => sourceIterator?.Dispose());
-```
-```csharp
 }
-```
 
-```csharp
 internal static IEnumerable<TSource> WhereYield<TSource>(
-```
-```csharp
 IEnumerable<TSource> source, Func<TSource, bool> predicate)
-```
-```csharp
 {
-```
-```csharp
 IEnumerator<TSource> sourceIterator = null;
-```
-```csharp
 try
-```
-```csharp
 {
-```
-```csharp
 sourceIterator = source.GetEnumerator(); // start.
-```
-```csharp
 while (sourceIterator.MoveNext()) // moveNext.
-```
-```csharp
 {
-```
-```csharp
 if (predicate(sourceIterator.Current)) // moveNext.
-```
-```csharp
 {
-```
-```csharp
 yield return sourceIterator.Current; // getCurrent.
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 finally
-```
-```csharp
 {
-```
-```csharp
 sourceIterator?.Dispose(); // dispose.
-```
-```csharp
 }
-```
 
-```csharp
 // Compiled to:
-```
-```csharp
 // IEnumerator<TSource> sourceIterator = null;
-```
-```csharp
 // return new Generator<TSource>(
-```
-```csharp
 // start: () => sourceIterator = source.GetEnumerator(),
-```
-```csharp
 // moveNext: () =>
-```
-```csharp
 // {
-```
-```csharp
 // while (sourceIterator.MoveNext())
-```
-```csharp
 // {
-```
-```csharp
 // if (predicate(sourceIterator.Current))
-```
-```csharp
 // {
-```
-```csharp
 // return true;
-```
-```csharp
 // }
-```
-```csharp
 // }
-```
-```csharp
 //
-```
-```csharp
 // return false;
-```
-```csharp
 // },
-```
-```csharp
 // getCurrent: () => sourceIterator.Current,
-```
-```csharp
 // dispose: () => sourceIterator?.Dispose());
 ```
 
@@ -1227,58 +553,25 @@ sourceIterator?.Dispose(); // dispose.
 
 These control flows can be simplified with a foreach statement:
 
+```csharp
 internal static IEnumerable<TResult> Select<TSource, TResult>(
-
-```csharp
 IEnumerable<TSource> source, Func<TSource, TResult> selector)
-```
-```csharp
 {
-```
-```csharp
 foreach (TSource value in source)
-```
-```csharp
 {
-```
-```csharp
 yield return selector(value);
-```
-```csharp
 }
-```
-```csharp
 }
-```
 
-```csharp
 internal static IEnumerable<TSource> Where<TSource>(
-```
-```csharp
 IEnumerable<TSource> source, Func<TSource, bool> predicate)
-```
-```csharp
 {
-```
-```csharp
 foreach (TSource value in source)
-```
-```csharp
 {
-```
-```csharp
 if (predicate(value))
-```
-```csharp
 {
-```
-```csharp
 yield return value;
-```
-```csharp
 }
-```
-```csharp
 }
 ```
 
@@ -1286,82 +579,33 @@ yield return value;
 
 The FromValue custom query can be implemented with yield statement too:
 
+```csharp
 internal static IEnumerable<TSource> FromValueYield<TSource>(TSource value)
-
-```csharp
 {
-```
-```csharp
 bool isValueIterated = false;
-```
-```csharp
 try
-```
-```csharp
 {
-```
-```csharp
 while (!isValueIterated) // moveNext.
-```
-```csharp
 {
-```
-```csharp
 isValueIterated = true; // moveNext.
-```
-```csharp
 yield return value; // getCurrent.
-```
-```csharp
 }
-```
-```csharp
 }
-```
-```csharp
 finally { }
-```
 
-```csharp
 // Compiled to:
-```
-```csharp
 // bool isValueIterated = false;
-```
-```csharp
 // return new Generator<TSource>(
-```
-```csharp
 // moveNext: () =>
-```
-```csharp
 // {
-```
-```csharp
 // while (!isValueIterated)
-```
-```csharp
 // {
-```
-```csharp
 // isValueIterated = true;
-```
-```csharp
 // return true;
-```
-```csharp
 // }
-```
-```csharp
 //
-```
-```csharp
 // return false;
-```
-```csharp
 // },
-```
-```csharp
 // getCurrent: () => value);
 ```
 
@@ -1369,12 +613,9 @@ finally { }
 
 The above try-finally statement, state checking and mutation are not needed. It is the same control flow as the following:
 
+```csharp
 internal static IEnumerable<TSource\> FromValue<TSource\>(TSource value)
-
-```csharp
 {
-```
-```csharp
 yield return value;
 ```
 
@@ -1382,68 +623,29 @@ yield return value;
 
 A named function with yield statement must have an IEnumerable/IEnumerable<T> output, or an IEnumerator/IEnumerator<T> output. As demonstrated above, when it outputs a sequence, it is compiled to generator construction. When it outputs an iterator, it is compiled to iterator construction. Take Repeat as example, its output can also be IEnumerator<T>:
 
+```csharp
 internal static IEnumerator<TSource> RepeatIterator<TSource>(TSource value, int count)
-
-```csharp
 {
-```
-```csharp
 for (int index = 0; index < count; index++)
-```
-```csharp
 {
-```
-```csharp
 yield return value;
-```
-```csharp
 }
-```
 
-```csharp
 // Compiled to:
-```
-```csharp
 // int index = 0;
-```
-```csharp
 // return new Iterator<TSource>(
-```
-```csharp
 // moveNext: () => index++ < count,
-```
-```csharp
 // getCurrent: () => value).Start();
-```
-```csharp
 }
-```
 
-```csharp
 internal static void CallRepeatIterator<TSource>(TSource value, int count)
-```
-```csharp
 {
-```
-```csharp
 using (IEnumerator<TSource> iterator = RepeatIterator(value, count))
-```
-```csharp
 {
-```
-```csharp
 while (iterator.MoveNext())
-```
-```csharp
 {
-```
-```csharp
 TSource result = iterator.Current;
-```
-```csharp
 }
-```
-```csharp
 }
 ```
 
@@ -1451,24 +653,13 @@ TSource result = iterator.Current;
 
 The yield statement has another form as yield break, which means to end the iteration. For example, the following function outputs a sequence of 0, 1, 2:
 
+```csharp
 internal static IEnumerable<int> YieldBreak()
-
-```csharp
 {
-```
-```csharp
 yield return 1;
-```
-```csharp
 yield return 2;
-```
-```csharp
 yield return 3;
-```
-```csharp
 yield break;
-```
-```csharp
 yield return 4;
 ```
 
@@ -1476,45 +667,20 @@ yield return 4;
 
 The Repeat query can be implemented with the following equivalent control flow and yield break:
 
+```csharp
 internal static IEnumerable<TSource> RepeatYieldBreak<TSource>(TSource value, int count)
-
-```csharp
 {
-```
-```csharp
 int index = 0;
-```
-```csharp
 while (true)
-```
-```csharp
 {
-```
-```csharp
 if (index++ < count)
-```
-```csharp
 {
-```
-```csharp
 yield return value;
-```
-```csharp
 }
-```
-```csharp
 else
-```
-```csharp
 {
-```
-```csharp
 yield break;
-```
-```csharp
 }
-```
-```csharp
 }
 ```
 
