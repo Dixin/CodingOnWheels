@@ -103,9 +103,8 @@ ConfigurationManager.ConnectionStrings[nameof(AdventureWorks)].ConnectionString;
 new ConfigurationBuilder().AddJsonFile("App.json").Build()
 .GetConnectionString(nameof(AdventureWorks));
 #endif
-```
-
 }
+```
 
 The connection string for production should be protected with encryption or tools like Azure Key Vault configuration provider.
 
@@ -134,9 +133,8 @@ public interface IOrderedQueryable : IQueryable, IEnumerable { }
 public interface IQueryable<out T> : IEnumerable<T>, IEnumerable, IQueryable { }
 
 public interface IOrderedQueryable<out T> : IQueryable<T>, IEnumerable<T>, IOrderedQueryable, IQueryable, IEnumerable { }
-```
-
 }
+```
 
 .NET Standard and Microsoft libraries provide many implementation of IEnumerable<T>, like T\[\] representing array, List<T> representing mutable list, Microsoft.Collections.Immutable.ImmutableList<T> representing immutable list, etc. EF Core also provides implementation of IQueryable<T>, including Microsoft.EntityFrameworkCore.DbSet<T> representing database table, Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable<T> representing database query, etc.
 
@@ -176,9 +174,8 @@ public static IQueryable<TResult> Cast<TResult>(this IQueryable source);
 
 // Other members.
 }
-```
-
 }
+```
 
 When defining each standard query in remote LINQ, the generic source and generic output are represented by IQueryable<T> instead of IEnumerable<T>, and the non-generic source is represented by IQueryable instead of IEnumerable. The iteratee functions are replaced by expression trees. Similarly, the following are the ordering queries side by side, where the ordered source and ordered output are represented by IOrderedQueryable<T> instead of IOrderedEnumerable<T>:
 
@@ -214,9 +211,8 @@ this IOrderedQueryable<TSource> source, Expression<Func<TSource, TKey>> keySelec
 public static IOrderedQueryable<TSource> ThenByDescending<TSource, TKey>(
 this IOrderedQueryable<TSource> source, Expression<Func<TSource, TKey>> keySelector);
 }
-```
-
 }
+```
 
 With this design, the fluent function chaining and the LINQ query expression pattern are automatically enabled for remote LINQ queries. It is the same syntax to write LINQ to Objects query and remote LINQ query.
 
@@ -298,9 +294,8 @@ sqlConnection.Open();
 parameters.ForEach(parameter => sqlCommand.Parameters.AddWithValue(parameter.Key, parameter.Value));
 return (double)sqlCommand.ExecuteScalar();
 }
-```
-
 }
+```
 
 And the following TranslateToSql function is defined to wrap the entire work. It accept an arithmetic expression tree, call the above InOrder to compile it to SQL, then emit a dynamic function, which extracts the parameters and calls above ExecuteScalar function to execute the SQL:
 
@@ -348,9 +343,8 @@ new Func<string, string, IDictionary<string, double>, double>(ExecuteSql).Method
 
 generator.Emit(OpCodes.Ret); // Returns the result.
 }
-```
-
 }
+```
 
 As fore mentioned, .NET built-in Expression<TDelegate>.Compile method compiles expression tree to CIL, and emits a function to execute the CIL locally with current .NET application process. In contrast, here TranslateToSql compiles the arithmetic expression tree to SQL query, and emits a function to execute the SQL in a specified remote SQL database:
 
@@ -363,6 +357,5 @@ Func<double, double, double, double, double, double> local = expression.Compile(
 local(1, 2, 3, 4, 5).WriteLine(); // 12
 Func<double, double, double, double, double, double> remote = expression.TranslateToSql(ConnectionStrings.AdventureWorks);
 remote(1, 2, 3, 4, 5).WriteLine(); // 12
-```
-
 }
+```

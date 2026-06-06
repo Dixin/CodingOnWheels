@@ -29,9 +29,8 @@ results[index] = value;
 }
 
 return results;
-```
-
 }
+```
 
 The problem is, when the above Repeat query is called, it immediately generates all query results, stores them in an array, and outputs to the caller. When the count argument is large, this implementation consumes large memory. This can be resolved by properly following the iterator pattern.
 
@@ -134,9 +133,8 @@ this.dispose?.Invoke();
 }
 
 public void Reset() => throw new NotSupportedException();
-```
-
 }
+```
 
 The sequence can be simply viewed as an iterator factory:
 
@@ -152,9 +150,8 @@ public IEnumerator<T> GetEnumerator() =>
 this.iteratorFactory().Start(); // IteratorState: Create => Start.
 
 IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-```
-
 }
+```
 
 The above iterator encapsulates 5 functions (start, moveNext, getCurrent, end, dispose) in the iteration control flow, and manages 5 states:
 
@@ -212,9 +209,8 @@ TSource result = value;
 }
 finally { }
 }
-```
-
 }
+```
 
 The foreach statement is compiled to a call to the sequence’s GetEnumerator method to get an iterator, and a while loop to poll iterator’s MoveNext method and Current property getter. The iterator’s state is an int value to indicate current result’ index in all results. When MoveNext is called, it checks and mutates the state. If the state is valid, a result is available be pulled from Current. With iterator pattern, RepeatSequence is improved from RepeatArray. The results now are on-demand, they are not generated and stored in advance.
 
@@ -265,9 +261,8 @@ finally
 sourceIterator?.Dispose();
 }
 }
-```
-
 }
+```
 
 Similarly, Where can be implemented with this pattern to filter the source sequence with a predicate function:
 
@@ -330,9 +325,8 @@ finally
 sourceIterator?.Dispose();
 }
 }
-```
-
 }
+```
 
 With sequence and iterator, the LINQ sequential queries can be correctly implemented with expected performance. However, since the iterator pattern is imperative and stateful, it is not straightforward to specify how to construct sequence and how to construct iterator, and the actual iteration workflow is not intuitive as well. Another example is to define a custom FromValue query to generate a sequence from a single value, following the iterator pattern:
 
@@ -383,9 +377,8 @@ TSource result = value;
 }
 finally { }
 }
-```
-
 }
+```
 
 To simplify the coding, C# provides yield statement.
 
@@ -416,9 +409,8 @@ yield return value;
 }
 }
 finally { }
-```
-
 }
+```
 
 With the yield statement, the start, moveNext, getCurrent, end, dispose functions for iteration are merged into a fluent and intuitive control flow. The yield statement is a syntactic sugar. The compilation of RepeatYield is just slightly different from the previous RepeatSequence implementation with the standard iteration pattern. C# compiler generates a generator type for each named function with yield statement and IEnumerable/IEnumerable<T> output. A generator is both a sequence and an iterator, which can be virtually viewed as:
 
@@ -448,9 +440,8 @@ this.initialThreadId == Environment.CurrentManagedThreadId
 : new Generator<T>(this.start, this.moveNext, this.getCurrent, this.dispose, this.end).Start();
 
 IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-```
-
 }
+```
 
 When generator is constructed, it remembers the thread id. Later, if its factory method is called by the same thread and the generator’s state has not been mutated, the output is itself; if the its factory is called again by the same thread after its state is mutated, or called by another thread, the output is a new generator. So, the compilation of RepeatYield is equivalent to:
 
@@ -461,9 +452,8 @@ int index = 0;
 return new Generator<TSource>(
 moveNext: () => index++ < count,
 getCurrent: () => value);
-```
-
 }
+```
 
 The control flow with yield statement can be viewed as normal control flow, so the above control flows can be further simplified, with the same way of simplifying normal C# code. Here the try-finally statement is not needed, so can be removed. And the while loop is equivalent to the following for loop:
 
@@ -474,9 +464,8 @@ for (int index = 0; index < count; index++)
 {
 yield return value;
 }
-```
-
 }
+```
 
 So, yield statement greatly simplifies the implementation of iterator pattern. Again, the above for loop is a virtual control flow. At compile time, a generator type is generated to do the real work, and Repeat is compiled to just construct and output a generator. At runtime, when Repeat is called, the for loop is not executed and no query result is evaluated or stored; only when the caller pulls result, the generator yields repeated query results with the specified count.
 
@@ -547,9 +536,8 @@ sourceIterator?.Dispose(); // dispose.
 // },
 // getCurrent: () => sourceIterator.Current,
 // dispose: () => sourceIterator?.Dispose());
-```
-
 }
+```
 
 These control flows can be simplified with a foreach statement:
 
@@ -573,9 +561,8 @@ if (predicate(value))
 yield return value;
 }
 }
-```
-
 }
+```
 
 The FromValue custom query can be implemented with yield statement too:
 
@@ -607,9 +594,8 @@ finally { }
 // return false;
 // },
 // getCurrent: () => value);
-```
-
 }
+```
 
 The above try-finally statement, state checking and mutation are not needed. It is the same control flow as the following:
 
@@ -617,9 +603,8 @@ The above try-finally statement, state checking and mutation are not needed. It 
 internal static IEnumerable<TSource\> FromValue<TSource\>(TSource value)
 {
 yield return value;
-```
-
 }
+```
 
 A named function with yield statement must have an IEnumerable/IEnumerable<T> output, or an IEnumerator/IEnumerator<T> output. As demonstrated above, when it outputs a sequence, it is compiled to generator construction. When it outputs an iterator, it is compiled to iterator construction. Take Repeat as example, its output can also be IEnumerator<T>:
 
@@ -647,9 +632,8 @@ while (iterator.MoveNext())
 TSource result = iterator.Current;
 }
 }
-```
-
 }
+```
 
 The yield statement has another form as yield break, which means to end the iteration. For example, the following function outputs a sequence of 0, 1, 2:
 
@@ -661,9 +645,8 @@ yield return 2;
 yield return 3;
 yield break;
 yield return 4;
-```
-
 }
+```
 
 The Repeat query can be implemented with the following equivalent control flow and yield break:
 
@@ -682,6 +665,5 @@ else
 yield break;
 }
 }
-```
-
 }
+```

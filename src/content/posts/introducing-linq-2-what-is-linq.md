@@ -72,9 +72,8 @@ foreach (double result in query) // Execute query.
 {
 Trace.WriteLine(result);
 }
-```
-
 }
+```
 
 Here the data source is a sequence of integers in memory. The query is built declaratively in native C# language keywords (where, orderby, select, etc.), which is called query expression:
 
@@ -102,9 +101,8 @@ foreach (double result in query) // Execute query.
 {
 Trace.WriteLine(result);
 }
-```
-
 }
+```
 
 These 2 versions of query are identical. The query expression is compiled to query method calls, which is discussed in detail in the Functional Programming and LINQ to Objects chapters.
 
@@ -128,9 +126,8 @@ select Math.Sqrt(int32); // Define query.
 // .OrderBy(int32 => int32)
 // .Select(int32 => Math.Sqrt(int32));
 query.ForAll(result => Trace.WriteLine(result)); // Execute query.
-```
-
 }
+```
 
 The query creation syntax is exactly the same as sequential LINQ to Objects. The query execution syntax is different. In the previous LINQ to Objects query execution, a foreach loop is used to pull the results one by one sequentially. Here Parallel LINQ provides a special ForAll method to execute the pulling in parallel. Since the results are computed in parallel, the query results can be produced in nondeterministic order.
 
@@ -185,9 +182,8 @@ foreach (string result in query) // Execute query.
 {
 Trace.WriteLine(result);
 }
-```
-
 }
+```
 
 In this example, the data source is XML data loaded in memory. It queries all <item> elements in the XML document, filter them and only keep the <item> elements with child< guid> elements, whose isPermaLink attributes have the value true, then sort the <item> element by the time represented by the child< pubDate> elements in descending order; then get <item> elements’ child <title> elements’ values. Again, later when pulling the results from the query with a foreach loop, the query is executed.
 
@@ -253,9 +249,8 @@ foreach (string result in query) // Execute query.
 Trace.WriteLine(result);
 }
 }
-```
-
 }
+```
 
 Here the data source is the relational data stored in the remote database table, not local .NET objects in memory. The above AdventureWorks type is the LINQ to Entities data context and represents the database, and its Products property represents the table. The query is created to filter the products in the table, and only keeps the products under the specified category, then sort the products by their list prices, and get the products’ names. Later, when pulling the results from the query with a foreach loop, the query is executed to read from the database.
 
@@ -343,9 +338,8 @@ foreach (string result in query) // Execute query.
 Trace.WriteLine(result);
 }
 }
-```
-
 }
+```
 
 The query is created to filter the products in the collection, and only keeps the stores in the specified city, then sort the stores by their names, then get the stores’ names.
 
@@ -392,9 +386,8 @@ LINQ to JSON is a third party set of APIs enabling LINQ for JSON data. Tumblr pr
 ],
 "total_posts": 20
 }
-```
-
 }
+```
 
 The following example queries the posts with specified tag, and get their summary in the order of items’ publish dates:
 
@@ -422,9 +415,8 @@ foreach (string result in query) // Execute query.
 Trace.WriteLine(result);
 }
 }
-```
-
 }
+```
 
 It queries all posts in the JSON document, filter them and only keep the items with the specified tag, then sort the posts by their publish dates, then get the items’ titles.
 
@@ -467,9 +459,8 @@ Trace.WriteLine(status.Text);
 }
 }
 }
-```
-
 }
+```
 
 Sometimes the query result could be fun. For example, a casino in Las Vegas is named LINQ, and a Japanese idol girls’ music group is also named LinQ (Love in Qshu), etc.
 
@@ -494,9 +485,8 @@ foreach (object node in nodes)
 {
 Trace.WriteLine(node);
 }
-```
-
 }
+```
 
 For SQL database, the traditional programming model implements the above LINQ to Entities query logic by calling ADO.NET data access APIs to execute query statement in SQL language:
 
@@ -549,9 +539,8 @@ foreach (dynamic result in query) // Execute query.
 {
 Trace.WriteLine(result);
 }
-```
-
 }
+```
 
 Strong typing also enables IntelliSense for tools, which also improves the productivity:
 

@@ -31,9 +31,8 @@ if (@object is DateTime value)
 {
 value.ToString("o").WriteLine();
 }
-```
-
 }
+```
 
 For reference type pattern, is expression is compiled to type conversion with as operation, and null check for the converted reference. The as operator only works for reference type and nullable value type. So, value type pattern matching is compiled to nullable value type conversion with as operator, and HasValue check for the converted nullable value:
 
@@ -52,9 +51,8 @@ if (nullableValue.HasValue)
 {
 value.ToString("o").WriteLine();
 }
-```
-
 }
+```
 
 It is also common to use pattern matching with additional test. The following example first uses pattern match to get string from input, then uses out variable to get TimeSpan value:
 
@@ -65,9 +63,8 @@ if (@object is string @string&& TimeSpan.TryParse(@string, out TimeSpan timeSpan
 {
 timeSpan.TotalMilliseconds.WriteLine();
 }
-```
-
 }
+```
 
 After compilation, the additional test goes after the null check:
 
@@ -79,9 +76,8 @@ if (@string != null &&TimeSpan.TryParse(@string, out TimeSpan timeSpan))
 {
 timeSpan.TotalMilliseconds.WriteLine();
 }
-```
-
 }
+```
 
 Before pattern matching is introduced to is expression, the following test-type-then-convert-type syntax is commonly used:
 
@@ -111,9 +107,8 @@ return this._ticks == ((TimeSpan)value)._ticks;
 return false;
 }
 }
-```
-
 }
+```
 
 Here the input object’s type was detected twice. Now with the new syntax, the test and conversion can be merged:
 
@@ -131,9 +126,8 @@ public struct TimeSpan
 public override bool Equals(object value) =>
 value is TimeSpan timeSpan && this._ticks == timeSpan._ticks;
 }
-```
-
 }
+```
 
 C# 7.1 supports generics open type in pattern matching:
 
@@ -155,9 +149,8 @@ if (open3 is TOpen4 open4)
 {
 open4.WriteLine();
 }
-```
-
 }
+```
 
 When open type is involved, the tested instance is boxed as object. When open type is the type pattern, it is unknow whether the open type is reference type or value type. Regarding as operator can only be used for reference type and nullable value type, so as operator cannot be used for the open type here. So, the pattern matching with open type is compiled to the basic is expression of type test.
 
@@ -185,9 +178,8 @@ if (open3Object is TOpen4)
 TOpen4 open4 = (TOpen4)open3Object;
 open4.WriteLine();
 }
-```
-
 }
+```
 
 The var keyword can be used to represent the pattern of any type:
 
@@ -198,9 +190,8 @@ if (@object is var match)
 {
 object.ReferenceEquals(@object, match).WriteLine();
 }
-```
-
 }
+```
 
 Since the var pattern matching always works, it is compiled to constant value true in debug build:
 
@@ -212,9 +203,8 @@ if (true)
 {
 object.ReferenceEquals(@object, match).WriteLine();
 }
-```
-
 }
+```
 
 In release build, the above if (true) test is removed.
 
@@ -228,9 +218,8 @@ bool test2 = @object is default(int);
 bool test3 = @object is DayOfWeek.Saturday - DayOfWeek.Monday;
 bool test4 = @object is "https://" + "flickr.com/dixin";
 bool test5 = @object is nameof(test5);
-```
-
 }
+```
 
 The is expressions for null test is simply compiled to null check. the other cases are compiled to object.Equals static method calls, where the constant value is the first argument, and the tested instance is the second argument.
 
@@ -242,9 +231,8 @@ bool test2 = object.Equals(0, @object);
 bool test3 = object.Equals(5, @object);
 bool test4 = object.Equals("https://flickr.com/dixin", @object);
 bool test5 = object.Equals("test5", @object);
-```
-
 }
+```
 
 Internally, object.Equals first does a few checks, then it calls Equals instance method of first argument, which is the constant value. Its implementation can be viewed as:
 
@@ -259,9 +247,8 @@ objA == objB || (objA != null && objB != null && objA.Equals(objB));
 
 // Other members.
 }
-```
-
 }
+```
 
 The early version of C# 7.0 compiles the object.Equals static method call in different way. The tested instance is the first argument, and the constant value is the second argument. As a result, object.Equals then calls the tested instance’s Equals instance method. This is problematic, because the tested instance can be of any type, and it can override Equals instance with arbitrary implementation. In C# 7.0 GA release, this was fixed by having the constant value be the first argument of object.Equals static method call. The non-null constant value must be of primitive type, enumeration, decimal, or string, so a constant’s Equals instance method always has reliable built-in implementation. There is no arbitrary custom equality implementation involved in constant pattern matching.
 
@@ -271,9 +258,8 @@ C# uses default(Type) expression to represent the default value of the specified
 internal static void IsConstantPatternWithDefault(object @object)
 {
 bool test6 = @object is default; // Cannot be compiled. use default(Type).
-```
-
 }
+```
 
 Shortly, this syntax is disabled after C# 7.2 is released, because it causes confusion with the default case in switch statement, which is discussed later in this chapter. For default value pattern matching, use the traditional default(Type) syntax as demonstrated in the first example.
 
@@ -309,9 +295,8 @@ return convertible.ToDateTime(provider: null);
 case var _:
 throw new ArgumentOutOfRangeException(nameof(@object));
 }
-```
-
 }
+```
 
 The last pattern matches any type pattern, so it works equivalently to the default case of switch statement. The special \_ identifier is used to discard the pattern variable. In switch statement, each pattern matching is compiled similarly to is expression:
 
@@ -365,9 +350,8 @@ return convertible.ToDateTime(null);
 
 // case var _:
 throw new ArgumentOutOfRangeException("object");
-```
-
 }
+```
 
 C# 8.0 introduces switch expression syntacticsal sugar to simplify the switch statement:
 

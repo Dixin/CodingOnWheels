@@ -69,9 +69,8 @@ foreach (TResult value in enumerableFactory())
 {
 yield return value; // Deferred execution.
 }
-```
-
 }
+```
 
 And it defers the execution of the factory function:
 
@@ -89,9 +88,8 @@ IEnumerable<string> distinct1 = Distinct() // Hash set is instantiated.
 .Where(@string => @string.Length > 10);
 IEnumerable<string> distinct2 = EnumerableEx.Defer(Distinct) // Hash set is not instantiated.
 .Where(@string => @string.Length > 10);
-```
-
 }
+```
 
 Similarly, Create accepts an iterator factory function, and delays its execution:
 
@@ -106,9 +104,8 @@ while (iterator.MoveNext())
 yield return iterator.Current; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 The other overload of Create is not so intuitive:
 
@@ -122,9 +119,8 @@ public interface IYielder<in T\>
 IAwaitable Return(T value);
 
 IAwaitable Break();
-```
-
 }
+```
 
 In C#, lambda expression does not support yield statements, compiling the following code causes error CS1621: The yield statement cannot be used inside an anonymous method or lambda expression.
 
@@ -142,9 +138,8 @@ yield return 2;
 };
 IEnumerable<int> sequence = sequenceFactory();
 sequence.WriteLines(); // 0 1
-```
-
 }
+```
 
 Here Create provides a way to virtually use the yield statements in lambda expression:
 
@@ -160,9 +155,8 @@ await yield.Return(2); // yield return 2;
 };
 IEnumerable<int>sequence = EnumerableEx.Create(sequenceFactory);
 sequence.WriteLines(); // 0 1
-```
-
 }
+```
 
 IYielder<T> is a good invention before C# 7.0 introduces local function, but at runtime, it can have unexpected iterator behaviour when used with more complex control flow, like try-catch statement. Please avoid using this query. In the above examples, define local function to use yield return statement:
 
@@ -178,9 +172,8 @@ yield return 2;
 }
 IEnumerable<int>sequence = SequenceFactory();
 sequence.WriteLines(); // 0 1
-```
-
 }
+```
 
 Return just wraps value in a singleton sequence:
 
@@ -188,9 +181,8 @@ Return just wraps value in a singleton sequence:
 public static IEnumerable<TResult\> Return<TResult\>(TResult value)
 {
 yield return value; // Deferred execution.
-```
-
 }
+```
 
 It is called Return, because “return” is a term used in functional languages like Haskell, which means to wrap something in a monad (Monad is discussed in detail in the Category Theory chapters). However, in C# “return” means the current function member gives control to its caller with an optional output. It could be more consistent with .NET naming convention if this function is named as FromValue, similar to Task.FromResult, Task.FromException, DateTime.FromBinary, DateTimeOffset.FromFileTime, TimeSpan.FromSeconds, RegistryKey.FromHandle, etc.
 
@@ -203,9 +195,8 @@ while (true)
 {
 yield return value; // Deferred execution.
 }
-```
-
 }
+```
 
 Another overload repeats values in the specified sequence. Its implementation is equivalent to:
 
@@ -230,9 +221,8 @@ foreach (TSource value in source)
 yield return value; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 When count is not provided, it repeats the values of the source sequence forever.
 
@@ -245,9 +235,8 @@ public static IEnumerable<TSource\> IgnoreElements<TSource\>(this IEnumerable<TS
 {
 foreach (TSource value in source) { } // Eager evaluation.
 yield break; // Deferred execution.
-```
-
 }
+```
 
 DistinctUntilChanged removes the continuous duplication:
 
@@ -273,9 +262,8 @@ IEnumerable<int>source = new int[]
 0, 0, 0, /* Change. */ 1, 1, /* Change. */ 0, 0, /* Change. */ 2, /* Change. */ 1, 1
 };
 source.DistinctUntilChanged().WriteLines(); // 0 1 0 2 1
-```
-
 }
+```
 
 ### Mapping
 
@@ -322,9 +310,8 @@ int finalProduct = Int32Source().Aggregate((product, int32) => product * int32).
 
 IEnumerable<int> allProducts = Int32Source().Scan((product, int32) => product * int32).WriteLines();
 // ((((-1 * 1) * 2) * 3) * -4) => { -1, -2, -6, 24 }.
-```
-
 }
+```
 
 Expand maps source values with the selector, then maps the result values with the selector, and keeps going on.
 
@@ -345,9 +332,8 @@ Enumerable
 // 0 1 16 81 256, map each int32 to { int32 * int32 } =>
 // 0 1 256 6561 65536, map each int32 to { int32 * int32 } =>
 // 0 1 65536 43046721 4294967296, ...
-```
-
 }
+```
 
 The mapping can go on forever and results an infinite sequence. If selector maps each value to a sequence with more than one values, then the result sequences grows rapidly:
 
@@ -363,9 +349,8 @@ Enumerable
 // 0 0 1 1 2 2 3 3 4 4 => map each int32 to { int32, int32 }:
 // 0 0 0 0 1 1 1 1 2 2 2 2 3 3 3 3 4 4 4 4 => map each int32 to { int32, int32 }:
 // 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 4 4 4 4 4 4 4 4 => ...
-```
-
 }
+```
 
 If selector maps each value to empty sequence, the expanding ends after all source values are iterated:
 
@@ -378,9 +363,8 @@ Enumerable
 .Take(100)
 .WriteLines();
 // 0 1 2 3 4 => map each int32 to { }.
-```
-
 }
+```
 
 ### Concatenation
 
@@ -419,9 +403,8 @@ if (hashSet.Add(keySelector(value)))
 yield return value; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 ### Partitioning
 
@@ -440,9 +423,8 @@ int[] skipFirst2 = Enumerable.Range(0, 5).Skip(2).ToArray(); // 2 3 4.
 int[] skipLast2 = Enumerable.Range(0, 5).SkipLast(2).ToArray(); // 0 1 2.
 int[] takeFirst2 = Enumerable.Range(0, 5).Take(2).ToArray(); // 0 1.
 int[] takeLast2 = Enumerable.Range(0, 5).TakeLast(2).ToArray(); // 3 4.
-```
-
 }
+```
 
 The implementation of SkipLast/TakeLast is very interesting. As already discussed, Take implements lazy evaluation. However, TakeLast has to pull all values to know which are the tail values of the source sequence. So TakeLast implements eager evaluation, and uses a queue to store the tail values:
 
@@ -476,9 +458,8 @@ yield return lastValues.Dequeue(); // Deferred execution.
 }
 }
 return TakeLastGGenerator();
-```
-
 }
+```
 
 SkipLast also uses a queue to store the tail values:
 
@@ -503,9 +484,8 @@ yield return lastValues.Dequeue(); // Deferred execution.
 }
 }
 return SkipLastGenerator();
-```
-
 }
+```
 
 It uses count as the max length of the queue. When SkipLast starts to execute, it evaluates values to fill the queue. When the queue is full, each new value is enqueued, and the head value of the queue is dequeued and yielded. So, at the end of query execution, the values still stored in the queue are exactly the last values to skip. If count is equal to or greater than the source sequence’s value count, when executing query, all values are pulled from the source sequence and stored in the queue, and nothing is yielded to the caller, which is fully eager evaluation similar to IgnoreElements. If count is less than the source’s value count, when executing query, some values are pulled from the source sequence to fill the queue, then values are yielded, which can be viewed as partially eager evaluation. When count is 0, it does not skip anything, just simply yield each source value, which is like lazy evaluation. So SkipLast’s eagerness/laziness depends on the count of values to skip.
 
@@ -520,9 +500,8 @@ foreach (TSource value in source)
 {
 yield return value; // Deferred execution.
 }
-```
-
 }
+```
 
 The difference is, the output sequence of AsEnumerable can be converted back to the original type, which the output sequence of Hide cannot, since it is a newly constructed generator:
 
@@ -537,9 +516,8 @@ object.ReferenceEquals(source, readWrite).WriteLine(); // True
 
 IEnumerable<int> readOnly = source.Hide();
 object.ReferenceEquals(source, readOnly).WriteLine(); // False
-```
-
 }
+```
 
 ### Buffering
 
@@ -566,9 +544,8 @@ IEnumerable<IList<int>> buffers3 = Enumerable.Range(0, 5).Buffer(2, 3);
 // {
 // { 0, 1 }, { 3, 4 }
 // }
-```
-
 }
+```
 
 Buffer implements eager evaluation. it creates all the smaller lists when the first list is pulled.
 
@@ -588,9 +565,8 @@ The output type System.Linq.IBuffer<T> is a composition of IEnumerable<T> and ID
 namespace System.Linq
 {
 public interface IBuffer<out T> : IEnumerable<T>, IEnumerable, IDisposable { }
-```
-
 }
+```
 
 By default, an IEnumerable<T> sequence’s multiple iterators are independent from each other. When these iterators are called, callers pull independent values from each iterator. In contrast, multiple shared iterators work as if they are the same single iterator:
 
@@ -623,9 +599,8 @@ share.Dispose();
 sharedIterator1.MoveNext(); // ObjectDisposedException.
 sharedIterator2.MoveNext(); // ObjectDisposedException.
 sharedIterator3.MoveNext(); // ObjectDisposedException.
-```
-
 }
+```
 
 When pulling values with multiple independent iterators, each value can be pulled multiple times. When pulling values with multiple shared iterators, each value can only be pulled once. And IBuffer<T>.Dispose terminates the sharing. After calling Dispose, all shared iterators’ MoveNext throws ObjectDisposedException.
 
@@ -653,9 +628,8 @@ source2.Concat(source2).WriteLines(); // 0 1 2 3 4
 // Equivalent to:
 IEnumerable<int> source3 = Enumerable.Range(0, 5);
 source3.Share(source => source.Concat(source)).WriteLines(); // 0 1 2 3 4
-```
-
 }
+```
 
 The above 2 kinds of Share usage are equivalent. As already discussed, Concat can be desugared as:
 
@@ -677,9 +651,8 @@ while (iterator2.MoveNext())
 yield return iterator2.Current;
 }
 }
-```
-
 }
+```
 
 So that the above 3 Concat calls can be virtually viewed as:
 
@@ -750,9 +723,8 @@ yield return sharedIterator2.Current; // Yield nothing.
 }
 }
 Concat3().WriteLines();
-```
-
 }
+```
 
 When Concat is executed, if values are pulled from 2 independent iterators, both iterators yield all source values; if values are pulled from 2 shared iterators. only the first iterator yields all source values, and the second iterator yields nothing. Another example is Zip:
 
@@ -769,9 +741,8 @@ source2.Zip(source2, ValueTuple.Create).WriteLines(); // (0, 1) (2, 3)
 // Equivalent to:
 IEnumerable<int> source3 = Enumerable.Range(0, 5);
 source3.Share(source => source.Zip(source, ValueTuple.Create)).WriteLines(); // (0, 1) (2, 3).
-```
-
 }
+```
 
 Similarly, the above 3 Zip calls can be virtually viewed as:
 
@@ -825,9 +796,8 @@ yield return (sharedIterator1.Current, sharedIterator2.Current);
 }
 }
 Zip3().WriteLines();
-```
-
 }
+```
 
 Publish has the same signatures as Share:
 
@@ -859,9 +829,8 @@ remainderIteratorB.MoveNext(); remainderIteratorB.Current.WriteLine(); // |4|
 remainderIteratorA.MoveNext(); remainderIteratorA.Current.WriteLine(); // 4| |
 remainderIteratorC.MoveNext(); remainderIteratorC.Current.WriteLine(); // | |4
 }
-```
-
 }
+```
 
 Memoize (not Memorize) simply buffers all values:
 
@@ -896,9 +865,8 @@ bufferIteratorC.MoveNext(); bufferIteratorC.Current.WriteLine(); // | |1
 bufferIteratorB.MoveNext(); bufferIteratorB.Current.WriteLine(); // |2|
 // ...
 }
-```
-
 }
+```
 
 There 2 more overloads accept a readerCount to specify how many times can the buffered values be reused:
 
@@ -930,9 +898,8 @@ selector: source => source // First full iteration.
 .Concat(source) // Second full iteration.
 .Concat(source)) // Third full iteration: InvalidOperationException.
 .WriteLines();
-```
-
 }
+```
 
 ### Exception handling
 
@@ -943,9 +910,8 @@ public static IEnumerable<TResult\> Throw<TResult\>(Exception exception)
 {
 throw exception;
 yield break; // Deferred execution.
-```
-
 }
+```
 
 The yield break statement at the end is required for deferred execution. Without the yield break statement, the specified exception is thrown immediately when Throw is called. With the yield break statement, a generator is returned when Throw is called, and the specified exception is thrown when trying to pull value from the returned generator for the first time. For example:
 
@@ -966,9 +932,8 @@ catch (OperationCanceledException exception)
 exception.WriteLine();
 }
 // 0 1 2 3 4 System.OperationCanceledException: The operation was canceled.
-```
-
 }
+```
 
 Catch accepts a source sequence and an exception handler function. When the query is executed, it pulls and yields each value from source sequence. If there is no exception of the specified type thrown during the evaluation, the handler is not called. If any exception of the specified type is thrown, it calls the exception handler with the exception. The handler returns a sequence, whose values are then pulled and yielded. So, Catch’s concept can be virtually viewed as:
 
@@ -993,9 +958,8 @@ foreach (TSource value in handler(exception) ?? Empty<TSource>())
 yield return value; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 However, C# does not support yield statement inside try-catch statement. The above code cannot be compiled. The solution is to desugar the foreach statement to a while loop for iterator. Then the try-catch statement can go inside the loop, and only contains iterator’s MoveNext and Current calls, and the yield statement can go outside the try-catch statement.
 
@@ -1036,9 +1000,8 @@ foreach (TSource value in handler(firstException) ?? Empty<TSource>())
 yield return value; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 And here is a simple example:
 
@@ -1050,9 +1013,8 @@ new OperationCanceledException());
 IEnumerable<string>@catch = @throw.Catch<string, OperationCanceledException>(
 exception => EnumerableEx.Return($"Handled {exception.GetType().Name}: {exception.Message}"));
 @catch.WriteLines(); // Handled OperationCanceledException: The operation was canceled.
-```
-
 }
+```
 
 The other Catch overloads accepts multiple sequences, and outputs a single sequence. The idea is, when executed, it tries to pull and yield values of the first source sequence. if there is no exception, it stops execution; If any exception is thrown, it tries to pull and yield the values of the second source sequence, and so on; When stopping the evaluation, if there is any exception from the evaluation of the last sequence. If yes, it re-throws that exception. The concept is:
 
@@ -1084,9 +1046,8 @@ if (lastException != null)
 {
 throw lastException;
 }
-```
-
 }
+```
 
 Again, the above code cannot be compiled because yield statement cannot be used with try-catch statement. So previous desugared while-try-catch-yield pattern can be used:
 
@@ -1171,9 +1132,8 @@ catch (InvalidCastException exception)
 {
 exception.WriteLine(); // System.InvalidCastException: Specified cast is not valid.
 }
-```
-
 }
+```
 
 Besides Throw and Catch, there is also Finally query. Finally is very intuitive:
 
@@ -1191,9 +1151,8 @@ finally
 {
 finalAction();
 }
-```
-
 }
+```
 
 The above code can be compiled because yield statement is allowed in the try block of try-finally statement.
 
@@ -1216,9 +1175,8 @@ yield return value; // Deferred execution.
 }
 catch { }
 }
-```
-
 }
+```
 
 Once again, this can be implemented with the desugared while-try-catch-yield pattern:
 
@@ -1305,9 +1263,8 @@ foreach (TSource value in enumerableFactory(resource))
 yield return value; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 While represents the while loop:
 
@@ -1321,9 +1278,8 @@ foreach (TResult value in source)
 yield return value; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 DoWhile represents the do-while loop:
 
@@ -1346,9 +1302,8 @@ for (TState state = initialState; condition(state); state = iterate(state))
 {
 yield return resultSelector(state); // Deferred execution.
 }
-```
-
 }
+```
 
 For also works the same as SelectMany. Its implementation is equivalent to:
 
@@ -1383,9 +1338,8 @@ onError?.Invoke(exception);
 throw;
 }
 onCompleted?.Invoke();
-```
-
 }
+```
 
 Once again, the yield statement does not work with try-catch statement. The above idea can be implemented with the desugared while-try-catch-yield pattern:
 
@@ -1417,9 +1371,8 @@ yield return value; // Deferred execution, outside try-catch.
 }
 onCompleted?.Invoke();
 }
-```
-
 }
+```
 
 Do is very useful for logging and tracing LINQ queries, for example:
 
@@ -1458,9 +1411,8 @@ onCompleted: () => $"{nameof(EnumerableEx.TakeLast)} completes.".WriteLine())
 // TakeLast yields 4.
 // Composited query yields result 4.
 // TakeLast completes.
-```
-
 }
+```
 
 Since System.IObserver<T> is the composition of above onNext, onError, onCompleted functions:
 
@@ -1475,9 +1427,8 @@ void OnError(Exception error);
 
 void OnNext(T value);
 }
-```
-
 }
+```
 
 Do also has an overload accepting an observer:
 
@@ -1508,9 +1459,8 @@ internal static void MaxMinGeneric()
 {
 Character maxCharacter = Characters().Max().WriteLine();
 Character minCharacter = Characters().Min().WriteLine();
-```
-
 }
+```
 
 The overloads with comparer does not have such requirement:
 
@@ -1523,9 +1473,8 @@ character1.Name, character2.Name, StringComparison.OrdinalIgnoreCase)));
 Character minCharacter = Characters()
 .Max(Comparer<Character>.Create((character1, character2) => string.Compare(
 character1.Name, character2.Name, StringComparison.OrdinalIgnoreCase)));
-```
-
 }
+```
 
 MaxBy/MinBy accept key selector and key comparer functions, and their output is a list of all maximum/minimum values:
 
@@ -1552,9 +1501,8 @@ IList<Character>maxCharacters = Characters()
 .MaxBy(character => character.Name, StringComparer.OrdinalIgnoreCase);
 IList<Character>minCharacters = Characters()
 .MinBy(character => character.Name, StringComparer.OrdinalIgnoreCase);
-```
-
 }
+```
 
 The previous example of finding the maximum types in core library becomes easy with MaxBy:
 
@@ -1565,9 +1513,8 @@ CoreLibrary.ExportedTypes
 .Select(type => (Type: type, MemberCount: type.GetDeclaredMembers().Length))
 .MaxBy(typeAndMemberCount => typeAndMemberCount.MemberCount)
 .WriteLines(max => $"{max.Type.FullName}:{max.MemberCount}"); // System.Convert:311
-```
-
 }
+```
 
 ### Quantifiers
 
@@ -1602,9 +1549,8 @@ foreach (TSource value in source)
 onNext(value, index);
 index = checked(index + 1);
 }
-```
-
 }
+```
 
 There was an issue with the indexed ForEach – the index increment was not checked. The issue was uncovered when writing this book and has been fixed.
 

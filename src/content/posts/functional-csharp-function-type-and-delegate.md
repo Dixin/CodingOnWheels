@@ -40,9 +40,8 @@ public static void Flush();
 
 public static void Indent();
 }
-```
-
 }
+```
 
 These functions are all of function type () –> void; in another word, these functions are all of FuncToVoid type.
 
@@ -65,9 +64,8 @@ public static void Write(string message);
 
 public static void WriteLine(string message);
 }
-```
-
 }
+```
 
 These functions’ parameter names are different from the delegate type definition. In C#/.NET, parameter names are ignored when the compiler identifies function types, only parameter types, their order, and return type matter.
 
@@ -90,9 +88,8 @@ public static int GetHRForLastWin32Error();
 
 public static int GetLastWin32Error();
 }
-```
-
 }
+```
 
 And the following delegate type represents the (string, int) –> int function type that accepts a string parameter, then an int parameter, and returns int:
 
@@ -111,9 +108,8 @@ public static int GetDecimalDigitValue(string s, int index);
 
 public static int GetDigitValue(string s, int index);
 }
-```
-
 }
+```
 
 The following delegate type represents the string –> bool function type that accepts a string parameter, and returns bool:
 
@@ -141,9 +137,8 @@ public bool StartsWith(String value);
 
 public bool EndsWith(String value);
 }
-```
-
 }
+```
 
 ### Generic delegate type
 
@@ -194,9 +189,8 @@ public static double Round(double value, int digits);
 // (decimal, MidpointRounding) -> decimal
 public static decimal Round(decimal d, MidpointRounding mode);
 }
-```
-
 }
+```
 
 These functions’ types can be represented with Func<double, double, double>, Func<int, int, int>, Func<double, int, double> and Func<decimal, MidpointRounding, decimal>.
 
@@ -209,9 +203,8 @@ namespace System
 {
 // (T, T) -> int
 public delegate int Comparison<in T>(T x, T y);
-```
-
 }
+```
 
 The following custom delegate types can be defined too:
 
@@ -251,9 +244,8 @@ public delegate void WaitCallback(object state);
 
 // object -> void
 public delegate void TimerCallback(object state);
-```
-
 }
+```
 
 To avoid this kind of duplication, since .NET Framework 3.5, 2 series of built-in delegate types are provided to unify all the function types. The following generic Func delegate types can represent any function type with 0 ~ 16 parameters and a return result:
 
@@ -279,9 +271,8 @@ public delegate TResult Func<in T1, in T2, in T3, in T4, out TResult>(T1 arg1, T
 
 // (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16) -> TResult
 public delegate TResult Func<in T1, in T2, in T3, in T4, in T5, in T6, in T7, in T8, in T9, in T10, in T11, in T12, in T13, in T14, in T15, in T16, out TResult>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15, T16 arg16);
-```
-
 }
+```
 
 The in/out modifiers for the type parameter specifies that type parameter is variant, which are discussed in detail in the covariant and contravariant chapter. Unfortunately, above Func types cannot represent any function types returning void. Function type Func<void> or Func<System.Void> cannot be compiled, because C# complier does not allow generic’s type argument to be the void keyword or the System.Void type. So, the following generic Action delegate types are provided to represent all function types with 0 ~ 16 parameters, and no return result:
 
@@ -307,9 +298,8 @@ public delegate void Action<in T1, in T2, in T3, in T4>(T1 arg1, T2 arg2, T3 arg
 
 // (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16) -> void
 public delegate void Action<in T1, in T2, in T3, in T4, in T5, in T6, in T7, in T8, in T9, in T10, in T11, in T12, in T13, in T14, in T15, in T16>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13, T14 arg14, T15 arg15, T16 arg16);
-```
-
 }
+```
 
 For consistency, this book always uses the above Func and Action delegate types to represent function types.
 
@@ -325,9 +315,8 @@ internal static void InstantiationWithConstructor()
 Func<int, int, int> func = new Func<int, int, int>(Math.Max);
 int result1 = func(1, 2);
 result.WriteLine(); // 2
-```
-
 }
+```
 
 The constructor call syntax can be omitted:
 
@@ -337,9 +326,8 @@ internal static void Instantiation()
 Func<int, int, int> func = Math.Max;
 int result = func(1, 2);
 result.WriteLine(); // 2
-```
-
 }
+```
 
 With this syntax, above paradigm looks functional. Func<int, int, int> is the function type, func variable is the function (instance), and func variable’s value is initialized with the Math.Max function. And naturally, function func can be called. When func is called, Math.Max executes and returns the result.
 
@@ -355,9 +343,8 @@ public virtual TResult Invoke(T1 arg1, T2 arg2);
 public virtual IAsyncResult BeginInvoke(T1 arg1, T2 arg2, AsyncCallback callback, object @object);
 
 public virtual void EndInvoke(IAsyncResult result);
-```
-
 }
+```
 
 And MulticastDelegate derives System.Delegate class:
 
@@ -389,9 +376,8 @@ public static bool operator ==(MulticastDelegate d1, MulticastDelegate d2);
 
 public static bool operator !=(MulticastDelegate d1, MulticastDelegate d2);
 }
-```
-
 }
+```
 
 The generated delegate class has an Invoke method, with the same signature as the delegate type itself. The above delegate instantiation code is a syntactic sugar compiled to normal object instantiation, and the function call is also a syntactic sugar compiled to above Invoke method call:
 
@@ -401,9 +387,8 @@ internal static void CompiledInstantiation()
 CompiledFunc<int, int, int>func = new CompiledFunc<int, int, int>(null, Math.Max); // object is null for static method.
 int result = func.Invoke(1, 2);
 result.WriteLine(); // 2
-```
-
 }
+```
 
 The generated Invoke method can be useful along with null conditional operator to call a delegate instance if it is not null:
 
@@ -411,9 +396,8 @@ The generated Invoke method can be useful along with null conditional operator t
 internal static void Invoke<T>(Action<T> action, T arg)
 {
 action?.Invoke(arg); // if (action != null) { action(arg); }
-```
-
 }
+```
 
 Each delegate instance inherits Target/Method properties, and ==/!= operators from Delegate and MulticastDelegate. The following example demonstrates these members work for delegate instance representing static method:
 
@@ -429,9 +413,8 @@ $"{method1.DeclaringType}: {method1}".WriteLine(); // System.Math: Int32 Max(Int
 Func<int, int, int> func2 = Math.Max;
 object.ReferenceEquals(func1, func2).WriteLine(); // False
 (func1 == func2).WriteLine(); // True
-```
-
 }
+```
 
 As fore mentioned, delegate instance func1 looks like a function and works like a function with syntactic sugar, but it is essentially an instance of a generated delegate class. It has an Invoke method accepting 2 int parameters and returning int. Its Target property returns the underlying object which has the represented method. When the underlying method is a static method, Target returns null. Its Method property returns a MethodInfo instance that represents the underlying method, Math.Max. Then delegate instance func2 is instantiated with the same static method, and apparently it is another different instance from func1, so object.ReferenceEquals returns false. However, func1 and func2 wraps the same underlying static method, and the == operator returns true.
 
@@ -455,9 +438,8 @@ object.ReferenceEquals(func1, func2).WriteLine(); // False
 Func<object, bool> func3 = instance1.Equals;
 object.ReferenceEquals(func1, func3).WriteLine(); // False
 (func1 == func3).WriteLine(); // True
-```
-
 }
+```
 
 Here func1’s Target property returns instance1, which has the underlying instance method. When 2 delegate instance have the same underlying instance method from the same target, the == operator returns true.
 
@@ -475,9 +457,8 @@ internal static void TraceAllTextCallback(IAsyncResult asyncResult)
 Func<string, string> func = (Func<string, string>)asyncResult.AsyncState;
 string allText = func.EndInvoke(asyncResult);
 allText.WriteLine();
-```
-
 }
+```
 
 C# asynchronous programming should follow the async/await pattern introduced in C# 5.0 instead of the above BeginInvoke/EndInvoke pattern. The async/await pattern is discussed in the asynchronous function chapter.
 
@@ -515,9 +496,8 @@ lastResult2.WriteLine(); // C
 Func<string> functionGroup3 = functionGroup1 - functionGroup2 + a + A;
 string lastResult3 = functionGroup3(); // A D A A
 lastResult3.WriteLine(); // A
-```
-
 }
+```
 
 Here functionGroup1 is combination of A + B + C + D. When functionGroup1 is called, the 4 internal functions are called one by one, and functionGroup1’s returns the last combined function’s result “D”. functionGroup2 is functionGroup1 – A – D, which is B + C, so functionGroup2’s return value is “C”. functionGroup3 is functionGroup1 – functionGroup2 + a + A, which is A + B + A + A, so its return result is “A”. Actually, + is compiled to Delegate.Combine call and – is compiled to Delegate.Remove call:
 
@@ -540,9 +520,8 @@ lastResult2.WriteLine(); // C
 Func<string> functionGroup3 = (Func<string>)Delegate.Combine((Func<string>)Delegate.Combine((Func<string>)Delegate.Remove(functionGroup1, functionGroup2), a), new Func<string>(A)); // = functionGroup1 - functionGroup2 + a + A
 string lastResult3 = functionGroup3(); // A D A A
 lastResult3.WriteLine(); // A
-```
-
 }
+```
 
 C# language implements event with delegate instance as function. To keep it simple and consistent, this book always use delegate instance to represent single function in all non-event scenarios.
 
@@ -576,9 +555,8 @@ string content = webClient.DownloadString(uri);
 this.OnCompleted(new DownloadEventArgs(content));
 }
 }
-```
-
 }
+```
 
 It has a Start method to start downloading. When the downloading is done, Start calls OnCompleted, and OnCompleted raises the Completed event member by calling the Completed event as if it is a delegate instance. The type of event member is EventHandler<TEventArgs> generic delegate type:
 
@@ -587,9 +565,8 @@ namespace System
 {
 // (object, TEventArgs) -> void
 public delegate void EventHandler<TEventArgs>(object sender, TEventArgs e);
-```
-
 }
+```
 
 So EventHandler<DownloadEventArgs> represents (object, DownloadEventArgs) –> void function type, where the object argument is the Downloader instance which raises the event, and the DownloadEventArgs argument is the event data, which wraps the downloaded string. The Completed event’s handler must be function of the same (object, DownloadEventArgs) –> void type. The following are 2 examples:
 
@@ -605,9 +582,8 @@ args.Content.WriteLine();
 internal static void SaveContent(object sender, DownloadEventArgs args)
 {
 File.WriteAllText(Path.GetTempFileName(), args.Content);
-```
-
 }
+```
 
 Now the += operator can be used to add an event handler function to the event function group, and –= operator can be used to remove the event handler function from the event function group:
 
@@ -619,9 +595,8 @@ downloader.Completed += SaveContent;
 downloader.Completed += TraceContent;
 downloader.Completed -= SaveContent;
 downloader.Start("https://weblogs.asp.net/dixin");
-```
-
 }
+```
 
 When the Start method is called, it downloads the string. Once the download is completed, it raises the Completed event, which is virtually calling a function group. So that the event handler function in the group is called. To be accurately understand this mechanism, the Completed event member of type (object, DownloadEventArgs) –> void is compiled to 3 members: a delegate instance field, an add\_Completed method, and a remove\_Completed method:
 
@@ -653,9 +628,8 @@ EventHandler<DownloadEventArgs> newGroup = (EventHandler<DownloadEventArgs>)Dele
 group = Interlocked.CompareExchange(ref this.completedGroup, newGroup, oldGroup);
 } while (group != oldGroup);
 }
-```
-
 }
+```
 
 The generated delegate instance field is the function group to store the event handler functions. The add\_Completed and remove\_Completed methods adds and removes event handler functions by calling Delegate.Combine and Delegate.Remove, in a in a thread safe approach. It can be simplified by deleting the Interlocked method calls for thread safety, and representing the (object, DownloadEventArgs) –> void delegate type with the normal unified delegate type Action<object, DownloadEventArgs>. The following code shows the essentials after compilation:
 
@@ -697,9 +671,8 @@ downloader.add_Completed(SaveContent);
 downloader.add_Completed(TraceContent);
 downloader.remove_Completed(SaveContent);
 downloader.Start("https://weblogs.asp.net/dixin");
-```
-
 }
+```
 
 So, the C# event/event handler model is quite straightforward from functional programming perspective. It is all about function type, function, and function group:
 
@@ -725,9 +698,8 @@ internal event EventHandler<DownloadEventArgs> Completed
 add { this.Completed += value; }
 remove { this.Completed -= value; }
 }
-```
-
 }
+```
 
 The add/remove accessors are compiled to above add\_Event/remove\_Event helper methods.
 

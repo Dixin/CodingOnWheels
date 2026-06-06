@@ -49,9 +49,8 @@ exception.WriteLine();
 // The query has been canceled via the token supplied to WithCancellation.
 }
 }
-```
-
 }
+```
 
 If the query executes for longer than 1 second, it is signalled to cancel, and throws an OperationCanceledException.
 
@@ -74,9 +73,8 @@ ParallelEnumerable
 .WithDegreeOfParallelism(maxConcurrency)
 .Visualize(ParallelEnumerable.Select, value => value + ComputingWorkload())
 .WriteLines();
-```
-
 }
+```
 
 WithDegreeOfParallelism accepts any int value from 1 to 512 (System.Linq.Parallel.Scheduling’s MAX\_SUPPORTED\_DOP constant field). At runtime, the actual query execution thread count is less than or equal to the specified maximum count. In the above example, WithDegreeOfParallelism is called with 40. However, when executing above query on a quad core CPU, the visualization shows PLINQ only utilizes 6 threads.
 
@@ -95,9 +93,8 @@ internal static int DefaultDegreeOfParallelism = Math.Min(Environment.ProcessorC
 
 internal static int GetDefaultDegreeOfParallelism() => DefaultDegreeOfParallelism;
 }
-```
-
 }
+```
 
 ### Execution mode
 
@@ -131,9 +128,8 @@ int result = ParallelEnumerable
 .Visualize(ParallelEnumerable.Select, value => value + ComputingWorkload())
 .ElementAt(count - 1);
 }
-```
-
 }
+```
 
 [![clip_image004](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-2-Partitioning_12942/clip_image004_thumb.jpg "clip_image004")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-2-Partitioning_12942/clip_image004_2.jpg)
 
@@ -173,9 +169,8 @@ ParallelQuery<int>fullyBuffered = ParallelEnumerable.Range(0, count)
 .Select(value => value + ComputingWorkload());
 fullyBuffered.ForEach(value => $"{value}:{stopwatch.ElapsedMilliseconds}".WriteLine());
 // 0:584 1:589 2:618 3:627 4:629 5:632 6:634 7:636 8:638 9:641
-```
-
 }
+```
 
 For above Select query execution, if NotBuffered is specified, the first result value is yielded faster; if FullyBuffered is specified, the last result value is yielded faster; if AutoBuffered is specified, the behaviour is between NotBuffered and FullyBuffered. Also, since FullyBuffered buffers all results, it can preserve their order, while NotBuffered and AutoBuffered cannot. When pulling the results, ForEach is used here instead of ForAll to demonstrate that ParallelMergeOptions also impact the ordering of PLINQ query. When everything is fully buffered, PLINQ can have the ability to merge everything as ordered.
 
@@ -207,9 +202,8 @@ ParallelEnumerable.Range(0, count)
 .OrderBy(value => value) // Eager evaluation.
 .ForEach(value => $"{value}:{stopwatch.ElapsedMilliseconds}".WriteLine());
 // 0:984 1:985 2:985 3:986 4:987 5:987 6:988 7:989
-```
-
 }
+```
 
 So OrderBy ignores the suggested ParallelMergeOptions and always fully buffer the results.
 
@@ -240,9 +234,8 @@ ParallelEnumerable
 .AsOrdered()
 .Select(value => value + ComputingWorkload())
 .ForEach(value => value.WriteLine()); // 0 1 2 3 4 5 6 7
-```
-
 }
+```
 
 Here ForEach is used instead of ForAll again to demonstrate the order of query results. In contrast, AsUnordered is provided to ignore the order in the source for its subsequent queries:
 
@@ -277,9 +270,8 @@ products
 .ForEach(group => group.Key.WriteLine());
 stopwatch.Stop();
 stopwatch.ElapsedMilliseconds.WriteLine(); // 103.
-```
-
 }
+```
 
 When ordering queries OrderBy, OrderByDescending, ThenBy, ThenByDescending and Reverse) are called, the order is introduced and preserved in the subsequent queries:
 
@@ -297,9 +289,8 @@ ParallelEnumerable
 .OrderBy(value => value) // Order is preserved.
 .Select(value => value) // Order is preserved.
 .ForEach(value => value.WriteLine()); // 0 1 2 3 4 5 6 7
-```
-
 }
+```
 
 ### Order and correctness
 
@@ -367,9 +358,8 @@ Func<int, int, int> func3 = (a, b) => a;
 Func<int, int, int> func4 = (a, b) => a - b;
 (func4(1, 2) == func4(2, 1)).WriteLine(); // False, not commutative
 (func4(func4(1, 2), 3) == func4(1, func4(2, 3))).WriteLine(); // False, not associative.
-```
-
 }
+```
 
 To demonstrate how parallel aggregation is impacted by commutativity and associativity, it can be compared with sequential aggregation:
 
@@ -386,9 +376,8 @@ int sequentialSubtract = Enumerable.Range(0, count).Aggregate((a, b) => a - b);
 sequentialSubtract.WriteLine(); // -28
 int parallelSubtract = ParallelEnumerable.Range(0, count).Aggregate((a, b) => a - b);
 parallelSubtract.WriteLine(); // 2
-```
-
 }
+```
 
 Apparently, parallelSubtract has incorrect result value, because the function provided to Aggregate is neither commutative nor associative. The following code visualizes the aggregation:
 
@@ -419,9 +408,8 @@ return a - b + ComputingWorkload();
 }
 });
 }
-```
-
 }
+```
 
 The sequential aggregation has the expected process:
 
@@ -476,9 +464,8 @@ updateAccumulatorFunc: (accumulation, value) => accumulation + value * value, //
 combineAccumulatorsFunc: (accumulation, partition) => accumulation + partition, // Partition result accumulator for final result.
 resultSelector: result => result);
 parallelSumOfSquares2.WriteLine(); // 140
-```
-
 }
+```
 
 In the parallel aggregation, first the sum of squares is calculated for each partition. Then all partitions’ results are summed up to the final result.
 

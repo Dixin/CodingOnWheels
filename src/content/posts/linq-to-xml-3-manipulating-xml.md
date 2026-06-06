@@ -91,9 +91,8 @@ sourceDocument.Equals(clonedDocument).WriteLine(); // False
 (sourceDocument == clonedDocument).WriteLine(); // False
 XNode.DeepEquals(sourceDocument, clonedDocument).WriteLine(); // True
 XNode.EqualityComparer.Equals(sourceDocument, clonedDocument).WriteLine(); // True
-```
-
 }
+```
 
 If an XObject instance is in an XML tree, when it is added to a different XML tree, it is cloned, and the new instance is actually added to the target. The exceptions are XName and XNamespace, which are cached at runtime. For example:
 
@@ -113,9 +112,8 @@ object.ReferenceEquals(parentName, parent2.Name).WriteLine(); // True
 XElement element = new XElement("element");
 element.Add(element); // Clone and attach.
 object.ReferenceEquals(element, element.Elements().Single()).WriteLine(); // False
-```
-
 }
+```
 
 ### Adding, deleting, replacing, updating, and events
 
@@ -179,9 +177,8 @@ parent.Name = "name";
 
 XElement clonedChild = new XElement(child);
 clonedChild.SetValue(DateTime.Now); // No tracing.
-```
-
 }
+```
 
 There are many APIs to manipulate XML, but there are only 4 kinds of Changing/Changed events: add object, deleting object, update object value, update element/attribute name. For example, as shown above, the APIs to replace objects are shortcuts of deleting old objects and adding new objects. When setting a string as an element’s value, the element first removes its children if there is any, then add the string as a child text node, if the string is not empty string. Also, an object’s events propagate/bubble up to the ancestors, and children and siblings are not impacted. When an object is cloned, the new object’s events is not observed by the original event handlers.
 
@@ -236,9 +233,8 @@ parent.SetElementValue("child", "value"); // Update child element.
 parent.SetElementValue("child", null); // Remove child element.
 // Before Remove:< child>value</child> => < parent><child>value</child></parent>
 // After Remove: <child>value</child> => <parent />
-```
-
 }
+```
 
 ### Annotation
 
@@ -259,9 +255,8 @@ clone.Annotations<Uri>().Any().WriteLine(); // False
 
 element.RemoveAnnotations<Uri>();
 (element.Annotation<Uri>() == null).WriteLine(); // True
-```
-
 }
+```
 
 ### Validating XML with XSD
 
@@ -275,9 +270,8 @@ using (XmlReader reader = source.CreateReader())
 {
 return schemaInference.InferSchema(reader);
 }
-```
-
 }
+```
 
 The returned XmlSchemaSet instance contains s sequence of XmlSchema instances, one for each namespace in the source XML. XmlSchema can be converted to XDocument with the help of XmlWriter:
 
@@ -290,9 +284,8 @@ using (XmlWriter writer = document.CreateWriter())
 source.Write(writer);
 }
 return document;
-```
-
 }
+```
 
 Still take an RSS feed as example, the following code outputs the RSS feed’s schema:
 
@@ -302,9 +295,8 @@ internal static void InferSchemas()
 XDocument aspNetRss = XDocument.Load("https://www.flickr.com/services/feeds/photos_public.gne?id=64715861@N07&format=rss2");
 XmlSchemaSet schemaSet = aspNetRss.InferSchema();
 schemaSet.Schemas().Cast<XmlSchema>().WriteLines(schema => schema.ToXDocument().ToString());
-```
-
 }
+```
 
 The printed schema is:
 
@@ -371,9 +363,8 @@ $"{args.Severity}: ({sender.GetType().Name}) => {args.Message}".WriteLine();
 args.Exception?.WriteLine();
 // XmlSchemaValidationException: The element 'channel' has invalid child element 'pubDate'. List of possible elements expected: 'item'.
 });
-```
-
 }
+```
 
 Validate has another overload accepting a bool parameter addSchemaInfo. When it is called with true for addSchemaInfo, if an element or attribute is validated, the validation details are saved in an IXmlSchemaInfo instance, and associated with this element or attribute as an annotation. Then, the GetSchemaInfo method can be called on each element or attribute, to query that IXmlSchemaInfo annotation, if available. IXmlSchemaInfo can have a lot of information, including a Validity property, intuitively indicating the validation status:
 
@@ -407,9 +398,8 @@ $"{attribute.XPath()} - {attribute.GetSchemaInfo()?.Validity.ToString() ?? "null
 // /rss/channel/pubDate - Invalid
 // /rss/channel/lastBuildDate - NotKnown
 // ...
-```
-
 }
+```
 
 ### Transforming XML with XSL
 
@@ -428,9 +418,8 @@ transform.Load(xslReader);
 transform.Transform(sourceReader, resultWriter);
 return result;
 }
-```
-
 }
+```
 
 The following example transforms RSS to HTML, the most recent 5 items in RSS are mapped to HTML hyperlinks in an unordered list:
 
@@ -472,9 +461,8 @@ html.WriteLine();
 // <a href="https://weblogs.asp.net:443/dixin/query-operating-system-processes-in-c">Query Operating System Processes in C#</a>
 // </li>
 // </ul>
-```
-
 }
+```
 
 The above transformation can also be done with LINQ to Objects/XML query:
 
@@ -496,9 +484,8 @@ return new XElement("li", new XElement("a", new XAttribute("href", link), title)
 })
 .Aggregate(new XElement("ul"), (ul, li) => { ul.Add(li); return ul; }, ul => new XDocument(ul));
 html.WriteLine();
-```
-
 }
+```
 
 ## Summary
 

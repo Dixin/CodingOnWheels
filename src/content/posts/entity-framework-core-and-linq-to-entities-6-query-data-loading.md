@@ -53,9 +53,8 @@ return entityIterator.Current;
 },
 dispose: () => entityIterator.Dispose(),
 end: () => " |_End.".WriteLine()).Start();
-```
-
 }
+```
 
 The following example executes Where and Take query to load 3 products with more than 10 characters in name. It demonstrates how to pull the results from IQueryable<T> with the iterator pattern:
 
@@ -95,9 +94,8 @@ $"| |_Iterator - [{index}] {nameof(IEnumerator<Product>.Current)}: {product.Name
 // | |_Iterator - [2] Current: Touring-2000 Blue, 60.
 // |_Iterator - [3] MoveNext: False.
 // |_End.
-```
-
 }
+```
 
 Here for demonstration purpose, the GetEntityIterator extension method of IQueryable<T> is called instead of GetEnumerator. In EF Core, when the iterator is created from IQueryable<T>, the LINQ query expression tree is compiled to database query expression tree. Later, when the iterator’s MoveNext method is called for the first time, the SQL query is generated and executed. In each iteration, an entity is materialized from the SQL execution result.
 
@@ -142,9 +140,8 @@ adventureWorks
 // FROM [Production].[Product] AS [e]
 // WHERE [e].[ProductSubcategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
 subcategory.Products.WriteLines(product => product.Name);
-```
-
 }
+```
 
 When the Load method is called, the related entities are queried, and become available through the navigation properties. Besides loading the full entities, explicit lazy loading also support custom query. The following example uses the reference navigation property and collection navigation property as LINQ to Entities data sources, by calling ReferenceEntry<TEntity, TProperty>.Query and CollectionEntry<TEntity, TProperty>.Query:
 
@@ -175,9 +172,8 @@ IQueryable<string>products = adventureWorks
 // FROM [Production].[Product] AS [e]
 // WHERE [e].[ProductSubcategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
 products.WriteLines();
-```
-
 }
+```
 
 ### Eager loading
 
@@ -267,9 +263,8 @@ sqlServerOptionsAction: options => options.EnableRetryOnFailure(
 maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30),
 errorNumbersToAdd: null))
 .Options;
-```
-
 }
+```
 
 When an entity’s navigation property is accessed, the related entities are queried and loaded automatically:
 
@@ -296,9 +291,8 @@ ICollection<Product> products = subcategory.Products; // Execute query.
 // FROM [Production].[Product] AS [e]
 // WHERE [e].[ProductSubcategoryID] = @__get_Item_0',N'@__get_Item_0 int',@__get_Item_0=1
 products.WriteLines(product => product.Name);
-```
-
 }
+```
 
 ### The N + 1 problem
 
@@ -350,6 +344,5 @@ ProductCategory category = subcategory.ProductCategory; // No query.
 ICollection<Product> products = subcategory.Products; // No query.
 (products == null).WriteLine(); // True
 }
-```
-
 }
+```

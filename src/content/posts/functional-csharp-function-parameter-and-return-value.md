@@ -33,9 +33,8 @@ int value = 1;
 InputByCopy(reference, value); // Copied.
 reference.WriteLine(); // https://weblogs.asp.net/dixin
 value.WriteLine(); // 1
-```
-
 }
+```
 
 Here a reference type variable and a value type variable are initialized and passed to InputByCopy as arguments. With the default behaviour, the reference and the value are both copied. Similar to local variable discussed in the C# language basics chapter, for reference type, another reference is created to point to the same instance, while for value type, another instance is allocated with copied data. Then the copied reference and value are passed into InputByCopy function, and mutated by the function. So, the original variables are not impacted.
 
@@ -55,9 +54,8 @@ int value = 1;
 InputByAlias(ref reference, ref value); // Not copied.
 reference.WriteLine(); // https://flickr.com/dixin
 value.WriteLine(); // 10
-```
-
 }
+```
 
 This time, a reference type variable and a value type variable are initialized and passed to InputByAlias. InputByAlias’s arguments are just aliases of the original variables. When InputByAlias is called to mutate the aliases, the original variables are mutated as well.
 
@@ -70,9 +68,8 @@ internal static void InputByImmutableAlias(in Uri reference, in int value)
 {
 reference = new Uri("https://flickr.com/dixin"); // Cannot be compiled.
 value = 10; // Cannot be compiled.
-```
-
 }
+```
 
 The in modifier for parameter is similar to the ref readonly modifiers for the local variable. Similarly, inside the function, trying to mutate the immutable alias causes compile time error.
 
@@ -95,9 +92,8 @@ int value;
 OutputParameter(out reference, out value); // Not copied.
 reference.WriteLine(); // https://flickr.com/dixin
 value.WriteLine(); // 10
-```
-
 }
+```
 
 The difference is, the ref parameter is input of the function, so a variable must be initialized before passed to the ref parameter. The out parameter can be viewed as output of the function, so a variable is not required to be initialized before being passed to the out parameter. Instead, out parameter must be initialized inside the function.
 
@@ -109,9 +105,8 @@ internal static void OutVariable()
 OutputParameter(out Uri reference, out int value); // Not copied.
 reference.WriteLine(); // https://flickr.com/dixin
 value.WriteLine(); // 10
-```
-
 }
+```
 
 The out variable declaration is compiled to normal variable declaration
 
@@ -125,9 +120,8 @@ internal static void Discard()
 bool result = OutputParameter(out _, out _);
 OutputParameter(out _, out _);
 _ = OutputParameter(out _, out _);
-```
-
 }
+```
 
 ## Parameter array
 
@@ -143,9 +137,8 @@ foreach (int value in values)
 sum += value;
 }
 return sum;
-```
-
 }
+```
 
 The params modifier is compiled to System.ParamArrayAttribute. When calling above function, any number of arguments can be passed to its parameter array, and, of course, array can be passed to parameter array too:
 
@@ -156,9 +149,8 @@ int sum1 = Sum();
 int sum2 = Sum(0);
 int sum3 = Sum(0, 1, 2, 3, 4);
 int sum4 = Sum(new[] { 0, 1, 2, 3, 4 });
-```
-
 }
+```
 
 When passing argument list to parameter array, the argument list is always compiled to non-null array:
 
@@ -169,9 +161,8 @@ int sum1 = Sum(Array.Empty<int>());
 int sum2 = Sum(new int[] { 0 });
 int sum3 = Sum(new int[] { 0, 1, 2, 3, 4 });
 int sum4 = Sum(new int[] { 0, 1, 2, 3, 4 });
-```
-
 }
+```
 
 When function has multiple parameters, the parameter array must be the last:
 
@@ -189,9 +180,8 @@ InputByCopy(reference: null, value: 0); // Named arguments.
 InputByCopy(value: 0, reference: null); // Named arguments.
 InputByCopy(null, value: 0); // Positional argument followed by named argument.
 InputByCopy(reference: null, 0); // Named argument followed by positional argument.
-```
-
 }
+```
 
 When a function is called with positional arguments, the arguments must align with the parameters. When a function is called with named arguments, the named arguments can be in arbitrary order. And when using positional and named arguments together, before C# 7.2, positional arguments must be followed by named arguments. Since C# 7.2, when all arguments are in correct position, then named argument can precede positional argument. At compile time, all named arguments are compiled to positional arguments. The above InputByCopy calls are compiled to:
 
@@ -203,9 +193,8 @@ InputByCopy(null, 1);
 InputByCopy(null, 1);
 InputByCopy(null, 1);
 InputByCopy(null, 1);
-```
-
 }
+```
 
 If the named arguments are evaluated with inline function call, the order of evaluation is the same as their appearance:
 
@@ -229,9 +218,8 @@ internal static void CompiledNamedArgumentEvaluation()
 InputByCopy(GetUri(), GetInt32()); // Call GetUri then GetInt32.
 int value = GetInt32(); // Call GetInt32 then GetUri.
 InputByCopy(GetUri(), value);
-```
-
 }
+```
 
 In practice, this syntax should be used with cautious because it can generate local variable, which can be slight performance hit. This tutorial uses named argument syntax frequently for readability:
 
@@ -241,9 +229,8 @@ internal static void NamedArgument()
 UnicodeEncoding unicodeEncoding1 = new UnicodeEncoding(true, true, true);
 UnicodeEncoding unicodeEncoding2 = new UnicodeEncoding(
 bigEndian: true, byteOrderMark: true, throwOnInvalidBytes: true);
-```
-
 }
+```
 
 ## Required parameter vs. optional parameter
 
@@ -285,9 +272,8 @@ char required2,
 
 IL_0000: nop
 IL_0001: ret
-```
-
 }
+```
 
 And function with optional parameters can be called with the named argument syntax too:
 
@@ -301,9 +287,8 @@ OptionalParameter(true, '@', optional2: string.Empty);
 OptionalParameter(
 optional6: Guid.NewGuid(), optional3: GetUri(), required1: false, optional1: GetInt32(),
 required2: Convert.ToChar(64)); // Call Guid.NewGuid, then GetUri, then GetInt32, then Convert.ToChar.
-```
-
 }
+```
 
 When calling function with optional parameter, if the argument is not provided, the specified default value is used. Also, local variables can be generated to ensure the argument evaluation order. The above Optional calls are compiled to:
 
@@ -318,9 +303,8 @@ Guid optional6 = Guid.NewGuid(); // Call Guid.NewGuid, then GetUri, then GetInt3
 Uri optional3 = GetUri();
 int optional1 = GetInt32();
 OptionalParameter(false, Convert.ToChar(64), optional1, "Default value.", optional3);
-```
-
 }
+```
 
 ## Caller information parameter
 
@@ -334,9 +318,8 @@ string message,
 [CallerLineNumber] int callerLineNumber = 0)
 {
 Trace.WriteLine($"[{callerMemberName}, {callerFilePath}, {callerLineNumber}]: {message}");
-```
-
 }
+```
 
 When calling function with caller information parameters, just omit those arguments:
 
@@ -346,9 +329,8 @@ internal static void CallTraceWithCaller()
 TraceWithCaller("Message.");
 // Compiled to:
 // TraceWithCaller("Message.", "CompiledCallTraceWithCaller", @"D:\Data\GitHub\Tutorial\Tutorial.Shared\Functional\InputOutput.cs,", 219);
-```
-
 }
+```
 
 At compile time, these omitted arguments are generated for the caller.
 
@@ -365,9 +347,8 @@ return values[0];
 internal static Uri FirstReferenceByCopy(Uri[] references)
 {
 return references[0];
-```
-
 }
+```
 
 When they return the first item to the caller, they return a copied of the reference or value. When the returned item mutates, the item in the array is not impacted:
 
@@ -383,9 +364,8 @@ Uri[] references = new Uri[] { new Uri("https://weblogs.asp.net/dixin") };
 Uri firstReference = FirstReferenceByCopy(references); // Copy of references[0].
 firstReference = new Uri("https://flickr.com/dixin");
 references[0].WriteLine(); // https://weblogs.asp.net/dixin
-```
-
 }
+```
 
 C# 7.0 introduces output by alias (also called returning by reference). Similar to input by alias, returned result with a ref modifier is not copied:
 
@@ -398,9 +378,8 @@ return ref values[0];
 internal static ref Uri FirstReferenceByAlias(Uri[] references)
 {
 return ref references[0];
-```
-
 }
+```
 
 The above functions can be called with the ref modifier to avoid copying. This time, when the returned alias mutates, the item in the array mutates too:
 
@@ -416,9 +395,8 @@ Uri[] references = new Uri[] { new Uri("https://weblogs.asp.net/dixin") };
 ref Uri firstReference = ref FirstReferenceByAlias(references); // Alias of references[0].
 firstReference = new Uri("https://flickr.com/dixin");
 references[0].WriteLine(); // https://flickr.com/dixin
-```
-
 }
+```
 
 ### Output by immutable alias
 
@@ -433,9 +411,8 @@ return ref values[0];
 internal static ref readonly Uri FirstReferenceByImmutableAlias(Uri[] references)
 {
 return ref references[0];
-```
-
 }
+```
 
 Now the above functions can be called with ref modifier, and the readonly modifier is required for the returned alias. Apparently, trying to mutate the returned immutable alias causes error at compile time:
 
@@ -452,9 +429,8 @@ ref readonly Uri firstReference = ref FirstReferenceByImmutableAlias(references)
 #if DEMO
 firstReference = new Uri("https://flickr.com/dixin"); // Cannot be compiled.
 #endif
-```
-
-}}
+}
+```}
 
 ## Summary
 

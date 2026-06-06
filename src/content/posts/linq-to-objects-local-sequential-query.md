@@ -34,9 +34,8 @@ internal abstract class Iterator
 public abstract bool MoveNext(); // Must be public.
 
 public abstract object Current { get; } // Must be public.
-```
-
 }
+```
 
 And their generic version is:
 
@@ -51,9 +50,8 @@ internal abstract class GenericIterator<T>
 public abstract bool MoveNext(); // Must be public.
 
 public abstract T Current { get; } // Must be public.
-```
-
 }
+```
 
 The above types and members demonstrate the minimum requirements of iterator pattern for foreach statement. The sequence must have a GetEnumerator factory method to output an iterator (It can be virtually read as GetIterator). And iterator must have a MoveNext method to output a bool value to indicate whether there is a value that can be pulled. If the output is true, iterator’s Current property getter can be called to pull that value. Now the values in above non-generic and generic sequences can be access with C# foreach statement:
 
@@ -72,9 +70,8 @@ foreach (T value in sequence)
 {
 process(value);
 }
-```
-
 }
+```
 
 The foreach statement is declarative syntactic sugar. It is compiled to the following imperative control flow to get iterator from sequence, and poll iterator until there is no value available:
 
@@ -111,9 +108,8 @@ finally
 {
 (iterator as IDisposable)?.Dispose();
 }
-```
-
 }
+```
 
 Apparently, the generic version of definition is preferred, because the non-generic iterator’s Current property outputs object type, which has to be explicitly cast to the expected type specified in the foreach statement and could be a chance of failure. To demonstrate the iterator pattern implementation, a sequence of values can be defined as a singly linked list, where each value is stored in a linked list node:
 
@@ -126,9 +122,8 @@ internal LinkedListNode(T value, LinkedListNode<T> next = null) =>
 public T Value { get; }
 
 public LinkedListNode<T> Next { get; }
-```
-
 }
+```
 
 Then iterator can be implemented to traverse along the linked list nodes. When there is a next node, MoveNext outputs true, and Current can output the next value. Notice the iterator is stateful:
 
@@ -151,9 +146,8 @@ return false;
 }
 
 public override T Current => this.node.Value;
-```
-
 }
+```
 
 Finally, the sequence can be simply implemented as an iterator factory:
 
@@ -165,9 +159,8 @@ private readonly LinkedListNode<T> head;
 internal LinkedListSequence(LinkedListNode<T> head) => this.head = head;
 
 public override GenericIterator<T> GetEnumerator() => new LinkedListIterator<T>(this.head);
-```
-
 }
+```
 
 Now the values in the linked list sequence can be sequentially pulled with the foreach syntactic sugar, which is declarative and there is no need to specify the control flow or handle the state:
 
@@ -182,9 +175,8 @@ foreach (int value in sequence)
 {
 value.WriteLine(); // 1 2 3
 }
-```
-
 }
+```
 
 A general implementation of iterator pattern is discussed later in the LINQ to Objects query implementation chapter.
 
@@ -208,9 +200,8 @@ bool MoveNext();
 
 void Reset(); // For COM interoperability.
 }
-```
-
 }
+```
 
 They can be virtually read as iteratable sequence and iterator. .NET Framework’s sequence and collection types implement IEnumerable so that they can be used with foreach statement, like array, ArrayList, Queue, Stack, SortedList, etc. Then .NET Framework 2.0 was released with generics support. So IEnumerable<T> and IEnumerator<T> interfaces are provided as the generic version of iterator pattern contract.
 
@@ -226,9 +217,8 @@ public interface IEnumerator<T> : IDisposable, IEnumerator // Iterator.
 {
 T Current { get; }
 }
-```
-
 }
+```
 
 Since .NET Framework 2.0, sequence and collection types are usually provided as generic types, with IEnumerable<T> implemented, like array, List<T>, Queue<T>, Stack<T>, SortedList<T>, etc.
 
@@ -246,9 +236,8 @@ public interface IEnumerator<out T> : IDisposable, IEnumerator // Iterator.
 {
 T Current { get; }
 }
-```
-
 }
+```
 
 This is how they are defined in .NET Standard.
 
@@ -262,9 +251,8 @@ namespace System
 public abstract class Array : ICollection, IEnumerable, IList, IStructuralComparable, IStructuralEquatable
 {
 }
-```
-
 }
+```
 
 Instead, T\[\] directly implements IEnumerable<T>, ICollection<T>, and IList<T>, as long as T\[\] is single dimensional and zero–lower bound. So, array T\[\] can be used with foreach loop:
 
@@ -275,9 +263,8 @@ foreach (T value in array)
 {
 process(value);
 }
-```
-
 }
+```
 
 foreach statement with array is compiled into a for loop, accessing each value with index, which has better performance than the above control flow of getting iterator and polling its MoveNext method and Current property:
 
@@ -289,9 +276,8 @@ for (int index = 0; index < array.Length; index++)
 T value = array[index];
 process(value);
 }
-```
-
 }
+```
 
 And so is string. Since string is a sequence of characters, it implements IEnumerable<char>. Foreach statement with string is also compiled to index access for better performance:
 
@@ -311,9 +297,8 @@ for (int index = 0; index < @string.Length; index++)
 char value = @string[index];
 action(value);
 }
-```
-
 }
+```
 
 ### LINQ to Objects queryable types
 

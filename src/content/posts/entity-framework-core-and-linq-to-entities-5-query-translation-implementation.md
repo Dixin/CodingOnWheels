@@ -40,9 +40,8 @@ public interface IQueryable<out T> : IEnumerable<T>, IEnumerable, IQueryable
 
 // IQueryProvider Provider { get; } from IQueryable.
 }
-```
-
 }
+```
 
 It is a wrapper of iterator factory, an element type, an expression tree representing the current query’s logic, and a query provider of IQueryProvider type:
 
@@ -59,9 +58,8 @@ object Execute(Expression expression);
 
 TResult Execute<TResult>(Expression expression);
 }
-```
-
 }
+```
 
 IQueryProvider has CreateQuery and Execute methods, all accepting a expression tree parameter. CreateQuery returns an IQueryable<T> query, and Execute returns a query result. These methods are called by the standard queries internally.
 
@@ -119,9 +117,8 @@ return source.Provider.Execute<TSource>(firstCallExpression);
 
 // Other members.
 }
-```
-
 }
+```
 
 They just build a MethodCallExpression expression, representing the current query is called. Then they obtain query provider from source’s Provider property. The sequence queries call query provider’s CreateQuery method to return IQueryable<T> query, and the value queries call query provider’s Execute method to return a query result. All standard queries are implemented in this pattern except AsQueryable.
 
@@ -142,9 +139,8 @@ foreach (string result in selectQueryable) // Execute query.
 {
 result.WriteLine();
 }
-```
-
 }
+```
 
 The above example filters the products with Name longer than 10 characters, and queries the products’ Names. By desugaring the lambda expressions, and unwrapping the standard queries, the above LINQ to Entities query is equivalent to:
 
@@ -197,9 +193,8 @@ while (iterator.MoveNext())
 iterator.Current.WriteLine();
 }
 }
-```
-
 }
+```
 
 Here are the steps how the fluent query builds its query expression tree:
 
@@ -291,9 +286,8 @@ IQueryable<string>products = adventureWorks.Products
 // from product in adventureWorks.Products
 // where product.Name.Length > 10
 // select product.Name;
-```
-
 }
+```
 
 The other kind of query returning a single value works in the similar way. Take above First as example:
 
@@ -304,9 +298,8 @@ internal static void SelectAndFirst(AdventureWorks adventureWorks)
 IQueryable<Product> sourceQueryable = adventureWorks.Products;
 IQueryable<string>selectQueryable = sourceQueryable.Select(product => product.Name);
 string first = selectQueryable.First().WriteLine(); // Execute query.
-```
-
 }
+```
 
 Here the initial source and and Select query are the same as the previous example. So this time, just unwrap the First query. The above First query is equivalent to:
 
@@ -325,9 +318,8 @@ MethodCallExpression firstCallExpression = Expression.Call(
 method: firstMethod.Method, arg0: selectCallExpression);
 
 string first = selectQueryProvider.Execute<string>(firstCallExpression).WriteLine(); // Execute query.
-```
-
 }
+```
 
 In First query, the MethodCallExpression expression is built to represent current First call. The difference is, then query provider’s Execute method is called instead of CreateQuery, so that a query result is returned instead of a query.
 
@@ -366,9 +358,8 @@ internal static void SelectAndFirstQuery(AdventureWorks adventureWorks)
 string first = adventureWorks.Products.Select(product => product.Name).First();
 // Equivalent to:
 // string first = (from product in adventureWorks.Products select product.Name).First();
-```
-
 }
+```
 
 ### .NET expression tree to database expression tree
 
@@ -401,9 +392,8 @@ public override Type Type { get; }
 
 // Other members.
 }
-```
-
 }
+```
 
 The following are are all the database expressions provided by EF Core and the Remotion.Linq library used by EF Core, which are all derived from the Expression type:
 
@@ -504,9 +494,8 @@ queryExpression = (ShapedQueryExpression)dbContext
 .Create(compilationContext)
 .Process(queryExpression);
 return ((SelectExpression)queryExpression.QueryExpression, queryContext.ParameterValues);
-```
-
 }
+```
 
 So above Where and Select query’s expression tree can be compiled as:
 
@@ -520,9 +509,8 @@ Expression linqExpression =adventureWorks.Products
 adventureWorks.Compile(linqExpression);
 compilation.DatabaseExpression.WriteLine();
 compilation.Parameters.WriteLines(parameter => $"{parameter.Key}: {parameter.Value}");
-```
-
 }
+```
 
 The compiled SelectExpression is the same as the following SelectExpression built on the fly:
 
@@ -545,9 +533,8 @@ new SqlConstantExpression(Expression.Constant(10), null),
 null));
 databaseExpression.AddToProjection(columnExpression);
 return databaseExpression.WriteLine();
-```
-
 }
+```
 
 This abstract syntactic tree can be visualized as:
 
@@ -603,9 +590,8 @@ ColumnExpression columnExpression = projectionExpression.BindProperty(entityType
 databaseExpression.AddToProjection(columnExpression);
 databaseExpression.ApplyLimit(expressionFactory.ApplyDefaultTypeMapping(new SqlConstantExpression(Expression.Constant(1), null)));
 return databaseExpression.WriteLine();
-```
-
 }
+```
 
 And this abstract syntactic tree can be visualized as:
 
@@ -666,9 +652,8 @@ memberExpression.Expression != null
 ? new SqlFunctionExpression("LEN", memberExpression.Type, new Expression[] { memberExpression.Expression })
 : null;
 }
-```
-
 }
+```
 
 There are many other translators to cover other basic .NET APIs of System.String, System.Enum, System.DateTime, System.Guid, System.Math, for example:
 
@@ -718,9 +703,8 @@ public static DbFunctions Functions { get; }
 
 // Other members.
 }
-```
-
 }
+```
 
 Extension methods are defined for the DbFunctions output type to represent database functions and operators. As fore mentioned, EF Core implements a provider model, so these mapping functions are provides in 2 levels. The EF Core base library provides mapping functions which should be supported by all database providers, like the LIKE operator:
 
@@ -733,9 +717,8 @@ public static bool Like(this DbFunctions _, string matchExpression, string patte
 
 // Other members.
 }
-```
-
 }
+```
 
 These are also called canonical functions. The mapping funcions for specific database is provided by the database provider library. For example, Microsoft.EntityFrameworkCore.SqlServer.dll library provides DateDiffDay extension method to represent SQL database’s DATEDIFF function for day, and provides Contains extension method to represent SQL database’s CONTAINS function, etc.
 
@@ -750,9 +733,8 @@ public static int DateDiffDay(this DbFunctions _, DateTime startDate, DateTime e
 
 // Other members.
 }
-```
-
 }
+```
 
 The following example filters the product’s names with a pattern. In the following LINQ to Entities query expression tree, the MethodCallExpression node representing Like call is compiled to a LikeExpression node representing the LIKE operator:
 
@@ -803,9 +785,8 @@ IReadOnlyDictionary<string, object>parameterValues);
 
 // Other members.
 }
-```
-
 }
+```
 
 It is implemented by Microsoft.EntityFrameworkCore.Query.Sql.Internal.SqlServerQuerySqlGenerator. SQL generator wraps a database expression tree inside, and provides a GenerateSql method, which returns Microsoft.EntityFrameworkCore.Storage.IRelationalCommand to represents generated SQL:
 
@@ -824,9 +805,8 @@ IReadOnlyDictionary<string, object>parameterValues);
 
 // Other members.
 }
-```
-
 }
+```
 
 It is implemented by Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand in Microsoft.EntityFrameworkCore.Relational package.
 
@@ -840,9 +820,8 @@ public static IRelationalCommand Generate(this DbContext dbContext, SelectExpres
 IQuerySqlGeneratorFactory sqlGeneratorFactory = dbContext.GetService<IQuerySqlGeneratorFactory>();
 QuerySqlGenerator sqlGenerator = sqlGeneratorFactory.Create();
 return sqlGenerator.GetCommand(databaseExpression);
-```
-
 }
+```
 
 The above WhereAndSelectDatabaseExpressions and SelectAndFirstDatabaseExpressions functions build database expression trees from scratch. Take them as an example to generate SQL:
 

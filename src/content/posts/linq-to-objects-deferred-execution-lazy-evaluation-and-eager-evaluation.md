@@ -33,9 +33,8 @@ internal static IEnumerable<double> AbsAndSqrtGenerator(double @double)
 {
 yield return Math.Abs(@double);
 yield return Math.Sqrt(@double);
-```
-
 }
+```
 
 When the first function AbsAndSqrtArray is called, Math.Abs and Math.Sqrt are called immediately to evaluate 2 values, and these 2 values are stored in an array for output. To defer the execution of the Math.Abs and Math.Sqrt, the second function AbsAndSqrtGenerator uses the yield syntactic sugar. When it is called, it constructs a generator for output. Only when pulling the 2 values from the output generator, Math.Abs and Math.Sqrt are called.
 
@@ -58,9 +57,8 @@ $"Select query yields {result}.".WriteLine();
 yield return result;
 }
 "Select query ends.".WriteLine();
-```
-
 }
+```
 
 The above foreach statement can be desugared as the following actual control flow:
 
@@ -86,9 +84,8 @@ finally
 sourceIterator?.Dispose(); // dispose.
 }
 "Select query ends.".WriteLine(); // end.
-```
-
 }
+```
 
 Its compilation is equivalent to the following generator construction:
 
@@ -113,9 +110,8 @@ return result;
 },
 dispose: () => sourceIterator?.Dispose(),
 end: () => "Select query ends.".WriteLine());
-```
-
 }
+```
 
 Similarly, add tracing to Where query as well:
 
@@ -134,9 +130,8 @@ yield return value;
 }
 }
 "Where query ends.".WriteLine();
-```
-
 }
+```
 
 Its compilation is also a generator construction, equivalent to the following:
 
@@ -172,9 +167,8 @@ return sourceIterator.Current;
 },
 dispose: () => sourceIterator?.Dispose(),
 end: () => "Where query ends.".WriteLine());
-```
-
 }
+```
 
 The following LINQ query is a composition of Where and Select:
 
@@ -206,9 +200,8 @@ foreach (string result in deferredQuery)
 // Where query ends.
 // Select query ends.
 }
-```
-
 }
+```
 
 The tracing messages shows how exactly the lazy evaluation works in deferred execution. When WhereGenerator and SelectGenerator are called, the mapping query and filtering query are not executed. The composited query is the output sequence of SelectGenerator. When pulling the first result, Select starts execution, Select pulls the first results from its source sequence, which is the output sequence of Where, so that Where query starts execution, and pulls its source sequence. Where first retrieves 1, and calls its predicate function with 1. In this case, the output of predicate is false, so Where does not yield 1, but pulls the next value 2 from its source sequence, and calls predicate with 2. Again, the output of predicate is false, so Where does not yield 2, but pulls the next value 3 from its source sequence. This time, the output of predicate function is true, so Where query yields 3 to Select query. Select retrieves 3 and calls its selector function with 3. Eventually Select yields selector output \*\*\* as the first result of composited query. Then Select query pulls the next value from Where query, Where query pulls the next value from source. Where query retrieves 4 and calls predicate with 4. The output of predicate is true, so Where query yields 4 to Select query. Select query retrieves 4 and calls selector with 4. Eventually Select yields selector output \*\*\*\* as the second result of the composited query, and so on.
 
@@ -227,9 +220,8 @@ $"Reverse query yields index {index} of source sequence.".WriteLine();
 yield return results[index];
 }
 "Reverse query ends.".WriteLine();
-```
-
 }
+```
 
 Its compilation is equivalent to the following generator construction:
 
@@ -253,9 +245,8 @@ $"Reverse query yields index {index} of source source.".WriteLine();
 return results[index--];
 },
 end: () => "Reverse query ends.".WriteLine());
-```
-
 }
+```
 
 The following example is the composition of Select query and Reverse query:
 
@@ -288,8 +279,7 @@ foreach (string result in deferredQuery)
 // Reverse query yields index 0 of source sequence.
 // Reverse query ends.
 }
-```
-
 }
+```
 
 The tracing messages shows how exactly the eager evaluation works in deferred execution. When pulling the first result, Reverse starts execution. Reverse pulls all values from its source sequence, which is the output generator of Select, so that Select query starts execution. Select pulls all values from its source sequence store them, calls selector function, and yields all results to Reverse query. Reverse retrieves and stores all values, and yields the last value as the first result. Then pulling the next query result causes Reverse direct yield the stored second last value, and so on.

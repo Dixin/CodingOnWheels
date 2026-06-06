@@ -56,9 +56,8 @@ Trace.WriteLine(MethodBase.GetCurrentMethod().Name); // Finalize
 // base.Finalize();
 // }
 // }
-```
-
 }
+```
 
 Here System.Reflection.MethodBase’s static GetCurrentMethod method returns a System.Reflection.MethodInfo instance to represent the current executing function member. MethodInfo’s Name property returns the actual function name at runtime. The static constructor is compiled to a static method like member, which is parameterless and returns void, and has a special name .cctor (class constructor). The constructor is compiled to an instance method like member, with special name .ctor (constructor). And finalizer is compiled to a protected instance method Finalize, which also calls base type’s Finalize method.
 
@@ -78,9 +77,8 @@ internal static int StaticAdd(Data @this, int value1, int value2)
 {
 return @this.value + value1 + value2;
 }
-```
-
 }
+```
 
 These 2 method both add a Data instance’s value field with other integers. The difference is, the static method cannot use this keyword to access the Data instance, so a Data instance is passed to the static method as the first parameter. These 2 methods are compiled to different signature, but identical CIL in their bodies:
 
@@ -123,9 +121,8 @@ IL_000b: stloc.0 // Set result to first local variable V_0.
 IL_000c: br.s IL_000e // Transfer control to IL_000e.
 IL_000e: ldloc.0 // Load first local variable V_0.
 IL_000f: ret // Return V_0.
-```
-
 }
+```
 
 So internally, instance method works similarly to static method. The different is, in an instance method, the current instance, which can be referred by this keyword, becomes the first actual argument, the first declared argument from the method signature becomes the second actual argument, the second declared argument becomes the third actual argument, and so on. The similarity of above instance and static methods can be viewed as:
 
@@ -144,9 +141,8 @@ Data arg0 = @this;
 int arg1 = value1;
 int arg2 = value2;
 return arg0.value + arg1 + arg2;
-```
-
 }
+```
 
 ## Extension method
 
@@ -159,9 +155,8 @@ internal static int ExtensionAdd(this Data @this, int value1, int value2)
 {
 return @this.Value + value1 + value2;
 }
-```
-
 }
+```
 
 The above method is called an extension method for Data type. It can be called like an instance method of Data type:
 
@@ -169,9 +164,8 @@ The above method is called an extension method for Data type. It can be called l
 internal static void CallExtensionMethod(Data data)
 {
 int result = data.ExtensionAdd(1, 2L);
-```
-
 }
+```
 
 So, extension method’s first declared argument becomes the current instance, the second declared argument becomes the first calling argument, the third declared argument becomes the second calling argument, and so on. This syntax design is easy to understand based on the nature of instance and static methods. Actually, the extension method definition is compiled to a normal static method with System.Runtime.CompilerServices.ExtensionAttribute:
 
@@ -183,9 +177,8 @@ internal static int CompiledExtensionAdd(Data @this, int value1, int value2)
 {
 return @this.Value + value1 + value2;
 }
-```
-
 }
+```
 
 And the extension method call is compiled to normal static method call:
 
@@ -193,9 +186,8 @@ And the extension method call is compiled to normal static method call:
 internal static void CompiledCallExtensionMethod(Data data)
 {
 int result = DataExtensions.ExtensionAdd(data, 1, 2L);
-```
-
 }
+```
 
 If a real instance method and an extension name are both defined for the same type with equivalent signature:
 
@@ -219,9 +211,8 @@ internal static bool Equals(Data @this, Data other)
 {
 return @this.Value == other.Value;
 }
-```
-
 }
+```
 
 The instance style method call is compiled to instance method call; In order to call the extension method, use the static method call syntax:
 
@@ -234,9 +225,8 @@ bool result1 = data1.Equals(string.Empty); // object.Equals.
 bool result2 = data1.Equals(data2); // Data.Equals.
 bool result3 = DataExtensions.Equals(data1, data2); // DataExtensions.Equals.
 }
-```
-
 }
+```
 
 When compiling instance style method call, C# compiler looks up methods in the following order:
 
@@ -257,9 +247,8 @@ internal static bool IsWeekend(this DayOfWeek dayOfWeek)
 {
 return dayOfWeek == DayOfWeek.Sunday || dayOfWeek == DayOfWeek.Saturday;
 }
-```
-
 }
+```
 
 Now the above extension method can be called as if it is the enumeration type’s instance method:
 
@@ -267,9 +256,8 @@ Now the above extension method can be called as if it is the enumeration type’
 internal static void CallEnumerationExtensionMethod(DayOfWeek dayOfWeek)
 {
 bool result = dayOfWeek.IsWeekend();
-```
-
 }
+```
 
 Most of the LINQ query methods are extension methods, like the Where, OrderBy, Select methods demonstrated previously:
 
@@ -287,9 +275,8 @@ this IEnumerable<TSource> source, Func<TSource, TKey> keySelector);
 public static IEnumerable<TResult> Select<TSource, TResult>(
 this IEnumerable<TSource> source, Func<TSource, TResult> selector);
 }
-```
-
 }
+```
 
 These methods’ usage and implementation will be discussed in detail in the LINQ to Objects chapter.
 
@@ -309,9 +296,8 @@ public static T Write<T>(this T value)
 Trace.Write(value);
 return value;
 }
-```
-
 }
+```
 
 The WriteLine and Write extension methods are available for any value, and WriteLines is available for any IEnumerable<T> sequence:
 
@@ -320,9 +306,8 @@ internal static void TraceValueAndSequence(Uri value, IEnumerable<Uri\> values)
 {
 value.WriteLine(); // Equivalent to: Trace.WriteLine(value);
 value.Write(); // Equivalent to: Trace.Write(value);
-```
-
 }
+```
 
 ## More named functions
 
@@ -351,9 +336,8 @@ public static implicit operator Data(int value)
 Trace.WriteLine(MethodBase.GetCurrentMethod().Name); // op_Implicit
 return new Data(value);
 }
-```
-
 }
+```
 
 The + operator overload is compiled to static method with name op\_Addition, the explicit/implicit type conversions are compiled to static op\_Explicit/op\_Implicit methods. These operators’ usage is compiled to static method calls:
 
@@ -364,9 +348,8 @@ Data result = data1 + data2; // Compiled to: Data.op_Addition(data1, data2)
 int int32 = (int)data1; // Compiled to: Data.op_Explicit(data1)
 string @string = (string)data1; // Compiled to: Data.op_Explicit(data1)
 Data data = 1; // Compiled to: Data.op_Implicit(1)
-```
-
 }
+```
 
 Property member’s getter and setter are also compiled to named methods. For example:
 
@@ -388,9 +371,8 @@ Trace.WriteLine(MethodBase.GetCurrentMethod().Name); // set_Description
 this.description = value;
 }
 }
-```
-
 }
+```
 
 The property getter and setter calls are compiled to method calls:
 
@@ -399,9 +381,8 @@ internal static void Property(Device device)
 {
 string description = device.Description; // Compiled to: device.get_Description()
 device.Description = string.Empty; // Compiled to: device.set_Description(string.Empty)
-```
-
 }
+```
 
 Indexer member can be viewed as parameterized property. The indexer getter/setter are always compiled to get\_Item/set\_Item methods:
 
@@ -434,9 +415,8 @@ internal static void Indexer(Category category)
 {
 Subcategory subcategory = category[0]; // Compiled to: category.get_Item(0)
 category[0] = subcategory; // Compiled to: category.set_Item(0, subcategory)
-```
-
 }
+```
 
 As fore mentioned, an event has an add accessor and a remove accessor, which are either custom defined, or generated by compiler. They are compiled to named methods as well:
 
@@ -454,9 +434,8 @@ remove // Compiled to: internal void remove_Saved(EventHandler value)
 Trace.WriteLine(MethodBase.GetCurrentMethod().Name); // remove_Saved
 }
 }
-```
-
 }
+```
 
 Event is a function group. The +=/-= operators adds remove event handler function to the event, and –= operator removes event handler function from the event. They are compiled to the calls to above named methods:
 
@@ -466,9 +445,8 @@ internal static void EventAccessor(Data data)
 {
 data.Saved += DataSaved; // Compiled to: data.add_Saved(DataSaved)
 data.Saved -= DataSaved; // Compiled to: data.remove_Saved(DataSaved)
-```
-
 }
+```
 
 C#’s event is discussed in detail in the delegate chapter.
 
@@ -493,9 +471,8 @@ public class MemoryStream : Stream
 {
 public override void WriteByte(byte value);
 }
-```
-
 }
+```
 
 FileStream.WriteByte overrides Stream.WriteByte to implement writing to file system, and MemoryStream.WriteByte overrides Stream.WriteByte to implement writing to memory. This is called subtype polymorphism or inclusion polymorphism. There are also ad hoc polymorphism and parametric polymorphism. In object-oriented programming, the term polymorphism usually refers to subtype polymorphism. In functional programming, the term polymorphism usually refers to parametric polymorphism.
 
@@ -512,9 +489,8 @@ public static void WriteLine(string message);
 
 public static void WriteLine(object value);
 }
-```
-
 }
+```
 
 Apparently, the WriteLine overload for string writes the string message. If this is the only method provided, then all the non-string values have to be manually converted to string representation:
 
@@ -527,9 +503,8 @@ Trace.WriteLine(uri?.ToString());
 Trace.WriteLine(file?.ToString());
 Trace.WriteLine(int32.ToString());
 }
-```
-
 }
+```
 
 The WriteLine overload for object provides convenience for values of arbitrary types. The above code can be simplified to:
 
@@ -539,9 +514,8 @@ internal static void TraceObject(Uri uri, FileInfo file, int int32)
 Trace.WriteLine(uri);
 Trace.WriteLine(file);
 Trace.WriteLine(int32);
-```
-
 }
+```
 
 With multiple overloads, WriteLine method is polymorphic and can be called with different arguments. This is called ad hoc polymorphism. In the .NET core library, the most ad hoc polymorphic method is System.Convert’s ToString method. It has 36 overloads to convert values of different types to string representation, in different ways:
 
@@ -568,9 +542,8 @@ public static string ToString(int value, int toBase);
 
 // More overloads and other members.
 }
-```
-
 }
+```
 
 In C#/.NET, constructors can have parameters too, so they can also be overloaded. For example:
 
@@ -589,9 +562,8 @@ public DateTime(int year, int month, int day, int hour, int minute, int second, 
 
 // Other constructor overloads and other members.
 }
-```
-
 }
+```
 
 Indexers are essentially get\_Item/set\_Item methods with parameters, so they can be overloaded as well. Take System.Data.DataRow as example:
 
@@ -608,9 +580,8 @@ public object this[int columnIndex] { get; set; }
 
 // Other indexer overloads and other members.
 }
-```
-
 }
+```
 
 C# does not allow method overload with only different return type. The following example cannot be compiled:
 
@@ -623,9 +594,8 @@ return value.ToString();
 internal static DateTime FromInt64(long value) // Cannot be compiled.
 {
 return new DateTime(value);
-```
-
 }
+```
 
 The only exception for this is fore mentioned explicit/implicit type conversion operators, for example:
 
@@ -643,9 +613,8 @@ public static explicit operator decimal(Data value)
 {
 return value.value;
 }
-```
-
 }
+```
 
 In the above example, 2 explicit type conversion operators are both compiled to op\_Explicit methods with a single Data parameter. One op\_Explicit method returns long, the other op\_Explicit method returns decimal. This is the only case where C# allows method overload with only different return type.
 
@@ -657,9 +626,8 @@ Besides ad hoc polymorphism, C# also supports parametric polymorphism for method
 internal static void SwapInt32(ref int value1, ref int value2)
 {
 (value1, value2) = (value2, value1);
-```
-
 }
+```
 
 The above syntax is called tuple assignment, which is a new feature of C# 7.0, and is discussed in the tuple chapter. To reuse this code for values of any other type, just define a generic method, by replacing int with a type parameter. Similar to generic types, generic method’s type parameters are also declared in angle brackets following the method name:
 
@@ -667,9 +635,8 @@ The above syntax is called tuple assignment, which is a new feature of C# 7.0, a
 internal static void Swap<T\>(ref T value1, ref T value2)
 {
 (value1, value2) = (value2, value1);
-```
-
 }
+```
 
 Generic type parameter’s constraints syntax also works for generic method. For example:
 
@@ -678,9 +645,8 @@ internal static IStack<T\> PushValue<T\>(IStack<T\> stack) where T : new()
 {
 stack.Push(new T());
 return stack;
-```
-
 }
+```
 
 Generic types and generic methods are heavily used in C# programming. For example, almost every LINQ query API is parametric polymorphic.
 
@@ -693,9 +659,8 @@ internal static void TypeArgumentInference(string value1, string value2)
 {
 Swap<string>(ref value1, ref value2);
 Swap(ref value1, ref value2);
-```
-
 }
+```
 
 Swap is called with string values, so C# compiler infers type argument string is passed to the method’s type parameter T. C# compiler can only infer type arguments from type of arguments, not from type of return value. Take the following generic methods as example:
 
@@ -710,9 +675,8 @@ internal static TResult Generic2<T, TResult>(T value)
 {
 Trace.WriteLine(value);
 return default(TResult);
-```
-
 }
+```
 
 When calling them, Generic1’s type argument can be omitted, but Generic2’s type arguments cannot:
 
@@ -721,9 +685,8 @@ internal static void ReturnTypeInference()
 {
 int value1 = Generic1(0);
 string value2 = Generic2<int, string>(0); // Generic2<int>(0) cannot be compiled.
-```
-
 }
+```
 
 For Generic1, T is used as return type, but it can be inferred from the argument type. So, type argument can be omitted for Generic1. For Generic2, T can be inferred from argument type too, but TResult can only possibly be inferred from type of return value, which is not supported by C# compiler. As a result, type arguments cannot be omitted when calling Generic2. Otherwise, C# compiler gives error CS0411: The type arguments for method 'Functions.Generic2<T, TResult>(T)' cannot be inferred from the usage. Try specifying the type arguments explicitly.
 
@@ -736,9 +699,8 @@ Generic1<FileInfo>(null);
 Generic1((FileInfo)null);
 FileInfo file = null;
 Generic1(file);
-```
-
 }
+```
 
 there are some options:
 
@@ -754,9 +716,8 @@ Type argument inference is not supported for generic type’s constructor. Take 
 internal class Generic<T>
 {
 internal Generic(T input) { } // T cannot be inferred.
-```
-
 }
+```
 
 When calling above constructor, type arguments must be provided:
 
@@ -767,9 +728,8 @@ IEnumerable<IGrouping<int, string>>input)
 return new Generic<IEnumerable<IGrouping<int, string>>>(input);
 // Cannot be compiled:
 // return new Generic(input);
-```
-
 }
+```
 
 A solution is to wrap the constructor call in a static factory method, where type parameter can be inferred:
 
@@ -777,9 +737,8 @@ A solution is to wrap the constructor call in a static factory method, where typ
 internal class Generic // Not Generic<T>.
 {
 internal static Generic<T> Create<T>(T input) => new Generic<T>(input); // T can be inferred.
-```
-
 }
+```
 
 Now the instance can be constructed without type argument:
 
@@ -788,9 +747,8 @@ internal static Generic<IEnumerable<IGrouping<int, string\>>>GenericCreate(
 IEnumerable<IGrouping<int, string>>input)
 {
 return Generic.Create(input);
-```
-
 }
+```
 
 ## Static import
 
@@ -810,9 +768,8 @@ int abs = Abs(value); // Compiled to: Math.Abs(value)
 WriteLine(Monday); // Compiled to: Trace.WriteLine(DayOfWeek.Monday)
 List<int> list = array.ToList(); // Compiled to: Enumerable.ToList(array)
 }
-```
-
 }
+```
 
 The using directive imports the specified all types’ extension methods under the specified namespace, while the using static directive only import the specified type’s extension methods.
 
@@ -832,9 +789,8 @@ this.OnCreated(); // Call.
 partial void OnCreated(); // Signature.
 
 // Other members.
-```
-
 }
+```
 
 The constructor calls partial method OnCreate, which is a hook. If needed, developer can provide another part of the entity type to implement OnCreate:
 
@@ -845,9 +801,8 @@ partial void OnCreated() // Optional implementation.
 {
 Trace.WriteLine($"{nameof(Product)} is created.");
 }
-```
-
 }
+```
 
 If a partial method is implemented, it is compiled to a normal private method. If a partial method is not implemented, the compiler ignores the method signature, and remove all the method calls. For this reason, access modifiers (like public, etc.), attributes, non-void return value are not allowed for partial method.
 

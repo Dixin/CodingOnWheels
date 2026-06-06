@@ -39,9 +39,8 @@ public virtual void RemoveRange(IEnumerable<TEntity> entities);
 
 // Other members.
 }
-```
-
 }
+```
 
 DbSet<T> implements IQueryable<T>, so that DbSet<T> can represent the data source to read from. DbSet<T>.Find is also provided to read entity by the primary keys. After reading, the retrieved data can be changed. Add and AddRange methods track the specified entities as to be created in the repository. Remove and RemoveRange methods track the specified entities as to be deleted in the repository.
 
@@ -60,9 +59,8 @@ public virtual int SaveChanges();
 
 public virtual void Dispose();
 }
-```
-
 }
+```
 
 As the mapping of database, DbContext’s Set method returns the specified entity’s repositories. For example, calling AdventureWorks.Products is equivalent to calling AdventureWorks.Set<Product>. The entities tracking is done at the DbContext level, by its ChangeTracker. When DbContext.Submit is called, the tracked changes are submitted to database. When a unit of work is done, DbContext should be disposed.
 
@@ -85,9 +83,8 @@ public virtual bool HasChanges();
 
 // Other members.
 }
-```
-
 }
+```
 
 Each entity’s loading and tracking information is represented by Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry or Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<TEntity>. The following is the non generic EntityEntry:
 
@@ -112,9 +109,8 @@ public virtual void Reload();
 
 // Other members.
 }
-```
-
 }
+```
 
 Besides the loading information APIs discussed in previous part, EntityEntry also provides rich APIs for entity’s tracking information and state management:
 
@@ -143,9 +139,8 @@ public virtual TEntity Entity { get; }
 
 // Other members.
 }
-```
-
 }
+```
 
 As fore mentioned in data loading part, DbContext.Entry also accepts an entity and return its EntityEntry<TEntity>/EntityEntry.
 
@@ -164,9 +159,8 @@ Product productByName = adventureWorks.Products
 .Single(product => product.Name == "Road-750 Black, 52");
 adventureWorks.ChangeTracker.Entries().Count().WriteLine(); // 1
 object.ReferenceEquals(productById, productByName).WriteLine(); // True
-```
-
 }
+```
 
 The single result from the first LINQ to Entities query is tracked by DbContext. Later, the second query has a single result too. EF Core identifies both results map to the same data row of the same table, so they are reference to the same entity instance.
 
@@ -183,9 +177,8 @@ var productByName = adventureWorks.Products
 .Single(product => product.Name == "Road-750 Black, 52");
 adventureWorks.ChangeTracker.Entries().Count().WriteLine(); // 0
 object.ReferenceEquals(productById, productByName).WriteLine(); // False
-```
-
 }
+```
 
 Here data is queries from repositories, and anonymous type instances are constructed on the fly. EF Core cannot decide if 2 arbitrary instances semantically represent the same piece of data in remote database. This time 2 query results are independent from each other.
 
@@ -205,9 +198,8 @@ using (AdventureWorks adventureWorks = new AdventureWorks())
 productByName = adventureWorks.Products.Single(product => product.Name == "Road-750 Black, 52");
 }
 object.ReferenceEquals(productById, productByName).WriteLine(); // False.
-```
-
 }
+```
 
 ### Track entity changes and property changes
 
@@ -250,9 +242,8 @@ break;
 // Modified: (996, HL Bottom Bracket, 121.4900) => (996, HL Bottom Bracket, 221.4900)
 // Deleted: (950, ML Crankset, 256.4900)
 // Deleted: (995, ML Bottom Bracket, 101.2400)
-```
-
 }
+```
 
 If an entity is not read from a DbContext instance’s repositories, then it has nothing to do with that unit of work, and apparently is not tracked by that DbContext instance. DbSet<T> provides an Attach method to place an entity to the repository, and the DbContext tracks the entity as the Unchanged state:
 
@@ -270,9 +261,8 @@ adventureWorks.ChangeTracker.Entries<Product>().Single().State.WriteLine(); // M
 adventureWorks.ChangeTracker.Entries<Product>().WriteLines(tracking =>
 $"{tracking.State}: {tracking.OriginalValues[nameof(Product.Name)]} => {tracking.CurrentValues[nameof(Product.Name)]}");
 // Modified: ML Crankset => After attaching
-```
-
 }
+```
 
 ### Track relationship changes
 
@@ -300,9 +290,8 @@ $"{tracking.State}: {(original.ProductID, original.Name, original.ProductSubcate
 });
 // Modified: (950, ML Crankset, 8) => (950, ML Crankset, )
 // Modified: (951, HL Crankset, 8) => (951, HL Crankset, )
-```
-
 }
+```
 
 ### Enable and disable tracking
 
@@ -313,9 +302,8 @@ internal static void AsNoTracking(AdventureWorks adventureWorks)
 {
 Product untracked = adventureWorks.Products.AsNoTracking().First();
 adventureWorks.ChangeTracker.Entries().Count().WriteLine(); // 0
-```
-
 }
+```
 
 Tracking can also be enabled or disabled at the DbContext scope, by setting the ChangeTracker.AutoDetectChangesEnabled property to true or false. The default value of ChangeTracker.AutoDetectChangesEnabled is true, so usually it is not needed to manually detect changes by calling ChangeTracker.DetectChanges method. The changes are automatically detected when DbContext.SubmitChanges is called. The changes are also automatically detected when tracking information is calculated, for example, when calling ChangeTracker.Entries, DbContext.Entry, etc.
 
@@ -330,9 +318,8 @@ product.ListPrice += 100;
 adventureWorks.ChangeTracker.HasChanges().WriteLine(); // False
 adventureWorks.ChangeTracker.DetectChanges();
 adventureWorks.ChangeTracker.HasChanges().WriteLine(); // True
-```
-
 }
+```
 
 ## Change data
 
@@ -389,9 +376,8 @@ subcategory.ProductCategoryID.WriteLine(); // 5
 subcategory.ProductSubcategoryID.WriteLine(); // 38
 return category;
 } // Unit of work.
-```
-
 }
+```
 
 Here DbSet<T>.Add is called only once with 1 subcategory entity. Internally, Add triggers change detection, and tracks this subcategory as Added state. Since this subcategory is related with another category entity with navigation property, the related category is also tracked, as the Added state too. So in total there are 2 entity changes tracked. When DbContext.SaveChanges is called, EF Core translates these 2 changes to 2 SQL INSERT statements:
 
@@ -427,9 +413,8 @@ adventureWorks.SaveChanges().WriteLine(); // 1
 // ',N'@p2 int,@p0 nvarchar(50),@p1 int',@p2=25,@p0=N'Update',@p1=25
 // COMMIT TRANSACTION
 } // Unit of work.
-```
-
 }
+```
 
 The above example first call Find to read the entities with a SELECT query, then execute the UPDATE statement. Here the row to update is located by primary key, so, if the primary key is known, then it can be used directly:
 
@@ -456,9 +441,8 @@ adventureWorks.SaveChanges().WriteLine(); // 1
 // ',N'@p1 int,@p0 nvarchar(50)',@p1=25,@p0=N'513ce396-4a5e-4a86-9d82-46f284aa4f94'
 // COMMIT TRANSACTION
 } // Unit of work.
-```
-
 }
+```
 
 Here a category entity is constructed on the fly, with specified primary key and updated Name. To track and save the changes, ii is attached to the repository. As fore mentioned, the attached entity is tracked as Unchanged state, so just manually set its state to Modified. This time, only one UPDATE statement is translated and executed, without SELECT.
 
@@ -478,9 +462,8 @@ tracking.State.WriteLine(); // Unchanged
 adventureWorks.ChangeTracker.HasChanges().WriteLine(); // False
 adventureWorks.SaveChanges().WriteLine(); // 0
 } // Unit of work.
-```
-
 }
+```
 
 ### Delete
 
@@ -505,9 +488,8 @@ adventureWorks.SaveChanges().WriteLine(); // 1
 // ',N'@p0 int',@p0=48
 // COMMIT TRANSACTION
 } // Unit of work.
-```
-
 }
+```
 
 Here, the row to delete is also located with primary key. So again, when primary key is known, reading entity can be skipped:
 
@@ -531,9 +513,8 @@ adventureWorks.SaveChanges().WriteLine(); // 1
 // ',N'@p0 int',@p0=25
 // COMMIT TRANSACTION
 } // Unit of work.
-```
-
 }
+```
 
 If a principal entity is loaded with its dependent entities, deleting the principal entity becomes cascade deletion:
 
@@ -566,9 +547,8 @@ adventureWorks.SaveChanges().WriteLine(); // 2
 // ',N'@p1 int',@p1=26
 // COMMIT TRANSACTION
 } // Unit of work.
-```
-
 }
+```
 
 Here the cascade deletion are translated and executed in the right order. The subcategory is deleted first, then category is deleted.
 
@@ -587,9 +567,8 @@ adventureWorks.Database.CreateExecutionStrategy().Execute(() =>
 {
 // Single retry operation, which can have custom transactions.
 });
-```
-
 }
+```
 
 ### EF Core transaction
 
@@ -621,9 +600,8 @@ throw;
 }
 }
 });
-```
-
 }
+```
 
 EF Core transaction wraps ADO.NET transaction. When the EF Core transaction begins, The specified isolation level is written to a packet (represented by System.Data.SqlClient.SNIPacket type), and sent to SQL database via TDS protocol. There is no SQL statement like SET TRANSACTION ISOLATION LEVEL executed, so the actual isolation level cannot be logged by EF Core, or traced by SQL Profiler. In above example, CurrentIsolationLevel is called to verify the current transaction’s isolation level. It is an extension method of DbContext. It queries the dynamic management view sys.dm\_exec\_sessions with current session id, which can be retrieved with @@SPID function:
 
@@ -704,9 +682,8 @@ throw;
 }
 }
 }
-```
-
 }
+```
 
 ### Transaction scope
 
@@ -747,9 +724,8 @@ adventureWorks1.CurrentIsolationLevel().WriteLine(); // Serializable
 scope.Complete();
 }
 });
-```
-
 }
+```
 
 ## Resolving optimistic concurrency
 
@@ -780,9 +756,8 @@ return this.context.SaveChanges();
 internal DbSet<TEntity> Set<TEntity>() where TEntity : class => this.context.Set<TEntity>();
 
 public void Dispose() => this.context.Dispose();
-```
-
 }
+```
 
 Multiple DbReaderWriter instances can be be used to read and write data concurrently. For example:
 
@@ -809,9 +784,8 @@ readerWriter2.Write(() => categoryCopy2.Name = nameof(readerWriter2)); // Last c
 
 ProductCategory category3 = readerWriter3.Read<ProductCategory>(id);
 category3.Name.WriteLine(); // readerWriter2
-```
-
 }
+```
 
 In this example, multiple DbReaderWriter instances read and write data concurrently:
 
@@ -836,9 +810,8 @@ public partial class ProductPhoto
 {
 [ConcurrencyCheck]
 public DateTime ModifiedDate { get; set; }
-```
-
 }
+```
 
 This property is also called the concurrency token. When EF Core translate changes of a photo, ModifiedDate property is checked along with the primary key to locate the photo:
 
@@ -872,9 +845,8 @@ photoCopy2.ModifiedDate = DateTime.Now;
 // SELECT @@ROWCOUNT;
 // ',N'@p2 int,@p0 nvarchar(50),@p1 datetime2(7),@p3 datetime2(7)',@p2=1,@p0=N'readerWriter2',@p1='2017-01-25 22:04:59.1792263',@p3='2008-04-30 00:00:00'
 // DbUpdateConcurrencyException: Database operation expected to affect 1 row(s) but actually affected 0 row(s). Data may have been modified or deleted since entities were loaded.
-```
-
 }
+```
 
 In the translated SQL statement, the WHERE clause contains primary key and the original concurrency token. The following is how EF Core check the concurrency conflicts:
 
@@ -908,9 +880,8 @@ public byte[] RowVersion { get; set; }
 [NotMapped]
 public string RowVersionString =>
 $"0x{BitConverter.ToUInt64(this.RowVersion.Reverse().ToArray(), 0).ToString("X16")}";
-```
-
 }
+```
 
 Now RowVersion property is the concurrency token. Regarding database automatically increases the RowVersion value, Rowversion also has the \[DatabaseGenerated(DatabaseGeneratedOption.Computed)\] attribute. The other RowVersionString property returns a readable representation of the byte array returned by RowVersion. It is not a part of the object-relational mapping, so it has a \[NotMapped\] attribute. The following example updates and and deletes the same product concurrently:
 
@@ -940,9 +911,8 @@ readerWriter2.Write(() => readerWriter2.Set<Product>().Remove(productCopy2));
 // SELECT @@ROWCOUNT;
 // ',N'@p0 int,@p1 varbinary(8)',@p0=995,@p1=0x0000000000000803
 // DbUpdateConcurrencyException: Database operation expected to affect 1 row(s) but actually affected 0 row(s). Data may have been modified or deleted since entities were loaded.
-```
-
 }
+```
 
 When updating and deleting photo entities, its auto generated RowVersion property value is checked too. So this is how it works:
 
@@ -974,9 +944,8 @@ public class DbUpdateConcurrencyException : DbUpdateException
 {
 // Members.
 }
-```
-
 }
+```
 
 Inherited from DbUpdateException, DbUpdateConcurrencyException has an Entries property. Entries returns a sequence of EntityEntry instances, representing the conflicting entities’ tracking information. The basic idea of resolving concurrency conflicts, is to handle DbUpdateConcurrencyException and retry SaveChanges:
 
@@ -999,9 +968,8 @@ handleException(exception);
 }
 return this.context.SaveChanges();
 }
-```
-
 }
+```
 
 In the above Write overload, if SaveChanges throws DbUpdateConcurrencyException, the handleException function is called. This function is expected to handle the exception and resolve the conflicts properly. Then SaveChanges is called again. If the last retry of SaveChanges still throws DbUpdateConcurrencyException, the exception is thrown to the caller.
 
@@ -1048,9 +1016,8 @@ resolveConflicts(tracking);
 Product resolved = readerWriter3.Read<Product>(id);
 $"Resolved: ({resolved.Name}, {resolved.ListPrice}, {resolved.ProductSubcategoryID}, {resolved.RowVersionString})"
 .WriteLine();
-```
-
 }
+```
 
 This is how it works with concurrency conflicts:
 
@@ -1093,9 +1060,8 @@ catch (DbUpdateConcurrencyException)
 return 0; // this.context is in a corrupted state.
 }
 }
-```
-
 }
+```
 
 However, this way leaves the DbContext, the conflicting entity, and the entity’s tracking information in a corrupted state. For the caller, since the change saving is done, the entity’s property values should be in sync with database values, but the values are actually out of sync and still conflicting. Also, the entity has a tracking state Modified after change saving is done. So the safe approach is to reload and refresh the entity’s values and tracking information:
 
@@ -1121,9 +1087,8 @@ tracking.Property(nameof(Product.ProductSubcategoryID)).IsModified.WriteLine(); 
 // Database: (readerWriter1, 100.0000, 8, 0x0000000000036335)
 // Update to: (readerWriter2, 256.4900, 1)
 // Resolved: (readerWriter1, 100.0000, 8, 0x0000000000036335)
-```
-
 }
+```
 
 UpdateProduct is called with a resolveConflicts function, which resolves the conflict by calling Reload method on the EntityEntry instance representing the conflicting product’s tracking information:
 
@@ -1158,9 +1123,8 @@ tracking.Property(nameof(Product.ProductSubcategoryID)).IsModified.WriteLine(); 
 // Database: (readerWriter1, 100.0000, 8, 0x0000000000036336)
 // Update to: (readerWriter2, 256.4900, 1)
 // Resolved: (readerWriter2, 256.4900, 1, 0x0000000000036337)
-```
-
 }
+```
 
 The same conflict is resolved differently:
 
@@ -1205,9 +1169,8 @@ tracking.Property(nameof(Product.ProductSubcategoryID)).IsModified.WriteLine(); 
 // Database: (readerWriter1, 100.0000, 8, 0x0000000000036338)
 // Update to: (readerWriter2, 256.4900, 1)
 // Resolved: (readerWriter1, 100.0000, 1, 0x0000000000036339)
-```
-
 }
+```
 
 With this approach:
 
@@ -1248,9 +1211,8 @@ resolveConflicts(exception.Entries);
 }
 }
 return context.SaveChanges();
-```
-
 }
+```
 
 To apply custom retry logic, Microsoft provides EnterpriseLibrary.TransientFaultHandling NuGet package (Exception Handling Application Block) for .NET Framework. It has been ported to .NET Core for this tutorial, as EnterpriseLibrary.TransientFaultHandling.Core NuGet package. can be used. With this library, a SaveChanges overload with customizable retry logic can be easily defined:
 
@@ -1270,9 +1232,8 @@ retryStrategy: retryStrategy);
 retryPolicy.Retrying += (sender, e) =>
 resolveConflicts(((DbUpdateConcurrencyException)e.LastException).Entries);
 return retryPolicy.ExecuteAction(context.SaveChanges);
-```
-
 }
+```
 
 Here Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.ITransientErrorDetectionStrategy is the contract to detect each exception, and determine whether the exception is transient and the operation should be retried. Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.RetryStrategy is the contract of retry logic. Then Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.RetryPolicy executes the operation with the specified exception detection, exception handling, and retry logic.
 
@@ -1364,9 +1325,8 @@ break;
 }
 }
 return tracking;
-```
-
 }
+```
 
 This Refresh extension method covers the update conflicts discussed above, as well as deletion conflicts. Now the these SaveChanges extension methods can be used to manage concurrency conflicts easily. For example:
 
@@ -1384,6 +1344,5 @@ adventureWorks1.SaveChanges();
 productCopy2.Name = nameof(adventureWorks2);
 productCopy2.ProductSubcategoryID = 1;
 adventureWorks2.SaveChanges(RefreshConflict.MergeClientAndStore);
-```
-
 }
+```

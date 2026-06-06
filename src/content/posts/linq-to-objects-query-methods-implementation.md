@@ -76,9 +76,8 @@ foreach (TSource value in source)
 {
 yield return selector(value); // Deferred execution.
 }
-```
-
 }
+```
 
 Its arguments are expected to be checked immediately when it is called. However, the check is deferred. When it is called, it only constructs the following generator:
 
@@ -105,9 +104,8 @@ sourceIterator = source.GetEnumerator();
 moveNext: () => sourceIterator.MoveNext(),
 getCurrent: () => selector(sourceIterator.Current),
 dispose: () => sourceIterator?.Dispose());
-```
-
 }
+```
 
 The argument check is deferred to execute when starting to pull the results from the output sequence. The easiest solution is simply isolating yield statement along with its iteration control flow, which is compiled to deferred execution, with a separate method or a local function:
 
@@ -132,9 +130,8 @@ yield return selector(value); // Deferred execution.
 }
 }
 return SelectGenerator(); // Immediate execution.
-```
-
 }
+```
 
 As a result, the above outer function is no longer a generator function. When it is called, it immediately checks the arguments, then immediately calls the local function to construct a generator as output. As mentioned in the introduction chapter, this tutorial omits argument null checks and only demonstrate argument checks for other purposes .
 
@@ -159,9 +156,8 @@ array[array.Length - 1] = value;
 }
 return array;
 }
-```
-
 }
+```
 
 Actually, Microsoft’s built-in implementation has some performance improvement. First, if the source sequence implements ICollection<T>, then it already has a CopyTo method to store its values to an array:
 
@@ -184,9 +180,8 @@ void CopyTo(T[] array, int arrayIndex);
 
 bool Remove(T item);
 }
-```
-
 }
+```
 
 Also, the array does not need to be resized for each value. The built-in implementation has the arrays grow in the same way of List<T>. First, an initial length is used to construct the array; when pulling values from source and storing to array, if array gets full, then double its length; After all values are pulled, the array resized to the actual length. The following is an equivalent implementation, optimized for readability:
 
@@ -234,9 +229,8 @@ return array;
 }
 }
 return Array.Empty<TSource>();
-```
-
 }
+```
 
 ToList is much easier to implement, because List<T> has a constructor accepting an IEnumerable<T> source:
 
@@ -266,9 +260,8 @@ foreach (TSource value in source)
 dictionary.Add(keySelector(value), elementSelector(value));
 }
 return dictionary;
-```
-
 }
+```
 
 As previously discussed, a lookup is a dictionary of key and sequence pairs, and each key and sequence pair are just a group represented by IGrouping<TKey, TElement>, which can be implemented as:
 
@@ -286,9 +279,8 @@ public IEnumerator<TElement> GetEnumerator() => this.values.GetEnumerator();
 IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
 internal void Add(TElement value) => this.values.Add(value);
-```
-
 }
+```
 
 .NET provides a public lookup type, but there is no public API to instantiate it, except the ToLookup query itself. For demonstration purpose, based on the previous discussion of dictionary and lookup, a custom lookup can be quickly implemented with dictionary, where each dictionary value is a group, and each dictionary key is the hash code of group key:
 
@@ -320,9 +312,8 @@ this.groups.TryGetValue(this.GetHashCode(key), out Grouping<TKey, TElement> grou
 public IEnumerator<IGrouping<TKey, TElement>> GetEnumerator() => this.groups.Values.GetEnumerator();
 
 IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-```
-
 }
+```
 
 The built-in API object.GetHashCode is not directly used to get each group key’s hash code, because it does not handle null value very well in some cases. System.Nullable<T>.GetHashCode is such an example. ((int?)0).GetHashCode() and ((int?)null).GetHashCode() both return 0. So, the above GetHashCode method reserves -1 for null. And any non-null value’s hash code is converted to a positive int by a bitwise and operation with int.MaxValue (0b\_01111111\_11111111\_11111111\_11111111). Also notice the indexer getter outputs an empty sequence when the specified key does not exist. Similar to Grouping<TKey, TElement>.Add, the following Lookup<TKey, TElement>.AddRange is defined to add data:
 
@@ -354,9 +345,8 @@ this.groups.Add(hashCode, new Grouping<TKey, TElement>(key) { elementSelector(va
 }
 return this;
 }
-```
-
 }
+```
 
 Now, ToLookup can be implemented by creating a lookup and adding all data:
 
@@ -398,9 +388,8 @@ foreach (object value in source)
 {
 yield return (TResult)value; // Deferred execution.
 }
-```
-
 }
+```
 
 The built-in implementation does a little optimization. If the source is already a generic sequence of the specified result type, it can be directly returned. Logically it should be something like:
 
@@ -418,9 +407,8 @@ foreach (object value in source)
 {
 yield return (TResult)value; // Deferred execution.
 }
-```
-
 }
+```
 
 The above code cannot be compiled. The yield statement indicates the entire function body should be compiled to a generator, so the return statement cannot be used with yield statement. Similar to argument check, the solution is to isolate the iteration control flow with yield statement into another method or local function:
 
@@ -437,9 +425,8 @@ yield return (TResult)value; // Deferred execution.
 return source is IEnumerable<TResult> genericSource
 ? genericSource
 : CastGenerator();
-```
-
 }
+```
 
 Cast also implements deferred execution. When it is called, its output is either the source sequence itself or a generator, without pulling values from source or execute the casting.
 
@@ -451,9 +438,8 @@ Empty can be implemented with a single yield break statement, which is compiled 
 public static IEnumerable<TResult\> EmptyGenerator<TResult\>()
 {
 yield break;
-```
-
 }
+```
 
 The built-in implementation actually uses an empty array, which has better performance than constructing a generator:
 
@@ -478,9 +464,8 @@ yield return value; // Deferred execution.
 }
 }
 return RangeGenerator();
-```
-
 }
+```
 
 And Repeat has been discussed. The built-in implementation also checks the count argument, and uses an empty array when count is 0:
 
@@ -505,9 +490,8 @@ yield return element; // Deferred execution.
 }
 }
 return RepeatGenerator();
-```
-
 }
+```
 
 DefaultIfEmpty can be implemented with a desugared foreach loop to detect and iterate the source sequence:
 
@@ -532,9 +516,8 @@ else
 yield return defaultValue; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 The first MoveNext call detects if the source sequence is empty. If so, just yield the default value, otherwise yield all values in the source sequence.
 
@@ -568,9 +551,8 @@ if (predicate(value, index))
 yield return value; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 Similarly, OfType has a type test to filter the source:
 
@@ -584,9 +566,8 @@ if (value is TResult)
 yield return (TResult)value; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 ### Mapping
 
@@ -611,9 +592,8 @@ foreach (TSource value in source)
 index = checked(index + 1);
 yield return selector(value, index); // Deferred execution.
 }
-```
-
 }
+```
 
 The implementation of SelectMany is also straightforward:
 
@@ -629,9 +609,8 @@ foreach (TResult result in selector(value))
 yield return result; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 Above code intuitively shows its capacity to flatten a hierarchical 2-level-sequence to a flat 1-level-sequence. The following is the overload with collection selector and result selector:
 
@@ -648,9 +627,8 @@ foreach (TCollection collectionValue in collectionSelector(sourceValue))
 yield return resultSelector(sourceValue, collectionValue); // Deferred execution.
 }
 }
-```
-
 }
+```
 
 And the following are the indexed overloads:
 
@@ -684,9 +662,8 @@ foreach (TCollection collectionValue in collectionSelector(sourceValue, index))
 yield return resultSelector(sourceValue, collectionValue); // Deferred execution.
 }
 }
-```
-
 }
+```
 
 ### Grouping
 
@@ -703,9 +680,8 @@ foreach (IGrouping<TKey, TSource> group in lookup)
 {
 yield return group; // Deferred execution.
 }
-```
-
 }
+```
 
 When starting to pull the first value from the returned generator, ToLookup is called to evaluate all source values and group them, so that the first group can be yielded. Apparently GroupBy implements eager evaluation. The overloads with element selector and resultSelector can all be implemented in the same pattern:
 
@@ -748,9 +724,8 @@ foreach (IGrouping<TKey, TElement> group in lookup)
 {
 yield return resultSelector(group.Key, group); // Deferred execution.
 }
-```
-
 }
+```
 
 ### Join
 
@@ -770,9 +745,8 @@ foreach (TOuter outerValue in outer)
 {
 yield return resultSelector(outerValue, innerLookup[outerKeySelector(outerValue)]); // Deferred execution.
 }
-```
-
 }
+```
 
 When trying to pull the first value from the returned generator, the inner values are grouped by the keys, and stored in the inner lookup. Then, for each outer value, query the inner lookup by key. Remember when a lookup is queried with a key, it always outputs a sequence, even when the key does not exist, it returns an empty sequence. So that in GroupJoin, each outer value is always paired with a group of inner values. The above implementation is straightforward, but the inner source is always pulled, even when the outer source is empty. This can be avoided by a little optimization:
 
@@ -799,9 +773,8 @@ yield return resultSelector(outerValue, innerLookup[outerKeySelector(outerValue)
 while (outerIterator.MoveNext());
 }
 }
-```
-
 }
+```
 
 Similar to DefaultIfEmpty, the first MoveNext call detects if the outer source is empty. Only if not, the inner values are pulled and converted to a lookup.
 
@@ -828,9 +801,8 @@ yield return resultSelector(outerValue, innerValue); // Deferred execution.
 }
 }
 }
-```
-
 }
+```
 
 It calls the ILookup<TKey, TElement>.Contains filter, because in inner join each outer value has to be paired with a matching inner value. Again, the above implementation can be optimized, so that the inner values are not pulled and converted to lookup when the outer source is empty:
 
@@ -867,9 +839,8 @@ while (outerIterator.MoveNext());
 }
 }
 }
-```
-
 }
+```
 
 ### Concatenation
 
@@ -887,9 +858,8 @@ foreach (TSource value in second)
 {
 yield return value; // Deferred execution.
 }
-```
-
 }
+```
 
 Append and Prepend’s implementation is equivalent to the following, with similar pattern:
 
@@ -910,9 +880,8 @@ foreach (TSource value in source)
 {
 yield return value;
 }
-```
-
 }
+```
 
 ### Set
 
@@ -931,9 +900,8 @@ this.equalityComparer = equalityComparer ?? EqualityComparer<T>.Default;
 public IEnumerator<T> GetEnumerator() => this.dictionary.Values.GetEnumerator();
 
 IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-```
-
 }
+```
 
 Then, the following Add and AddRange methods can be defined:
 
@@ -964,9 +932,8 @@ this.Add(value);
 }
 return this;
 }
-```
-
 }
+```
 
 When Add is called with a specified value, if there is already a duplicate hash code in the internal dictionary, the specified value is not stored in the dictionary and false is returned; otherwise, the specified value and its hash code are added to the internal dictionary, and true is returned. With above hash set, it is very easy to implement Distinct.
 
@@ -982,9 +949,8 @@ if (hashSet.Add(value))
 yield return value; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 Union can be implemented by filtering the first source sequence with HashSet<T>.Add, then filter the second source sequence with HashSet<T>.Add:
 
@@ -1009,9 +975,8 @@ if (hashSet.Add(secondValue))
 yield return secondValue; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 Except can be implemented with the same pattern of filtering with HashSet<T>.Add:
 
@@ -1029,9 +994,8 @@ if (secondHashSet.Add(firstValue))
 yield return firstValue; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 When trying to pull the first value from the returned generator, values in the second sequence are eagerly evaluated and stored in a hash set, which is then used to filter the first sequence.
 
@@ -1056,9 +1020,8 @@ else if (firstHashSet.Add(firstValue))
 yield return firstValue; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 To simplify above implementation, A Remove method can be defined for hash set:
 
@@ -1075,9 +1038,8 @@ return true;
 }
 return false;
 }
-```
-
 }
+```
 
 Similar to Add, here if a value is found and removed, Remove outputs true; otherwise, Remove outputs false. So, Intersect can be implemented by filtering with Remove:
 
@@ -1095,9 +1057,8 @@ if (secondHashSet.Remove(firstValue))
 yield return firstValue; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 ### Convolution
 
@@ -1117,9 +1078,8 @@ while (firstIterator.MoveNext() && secondIterator.MoveNext())
 yield return resultSelector(firstIterator.Current, secondIterator.Current); // Deferred execution.
 }
 }
-```
-
 }
+```
 
 It stops yielding result when one of those 2 source sequences reaches the end.
 
@@ -1141,9 +1101,8 @@ else
 yield return value;
 }
 }
-```
-
 }
+```
 
 It can be optimized a little bit by desugaring the foreach loop, so that when a value should be skipped, only the source iterator’s MoveNext method is called.
 
@@ -1164,9 +1123,8 @@ yield return iterator.Current; // Deferred execution.
 }
 }
 }
-```
-
 }
+```
 
 In contrast, SkipWhile has to pull each value from source sequence to call predicate, so there is no need to desugar foreach. The following are the non-index overload and indexed overload:
 
@@ -1205,9 +1163,8 @@ if (!skip)
 yield return value; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 Take is also straightforward:
 
@@ -1225,9 +1182,8 @@ break;
 }
 }
 }
-```
-
 }
+```
 
 And the following are TakeWhile’s non-indexed overload and indexed overload:
 
@@ -1258,9 +1214,8 @@ break;
 }
 yield return value; // Deferred execution.
 }
-```
-
 }
+```
 
 ### Ordering
 
@@ -1274,9 +1229,8 @@ for (int index = array.Length - 1; index >= 0; index--)
 {
 yield return array[index]; // Deferred execution.
 }
-```
-
 }
+```
 
 The other ordering queries are implemented very differently because they involve the IOrderedEnumerable<T> interface. Again here are the signatures:
 
@@ -1304,9 +1258,8 @@ public interface IOrderedEnumerable<TElement> : IEnumerable<TElement>, IEnumerab
 IOrderedEnumerable<TElement> CreateOrderedEnumerable<TKey>(
 Func<TElement, TKey> keySelector, IComparer<TKey>comparer, bool descending);
 }
-```
-
 }
+```
 
 Its implementation is a little complex. The following is a simplified version but equivalent to the built-in implementation:
 
@@ -1423,9 +1376,8 @@ return compareResult == 0
 ? 0
 : (this.descending ? (compareResult > 0 ? -1 : 1) : (compareResult > 0 ? 1 : -1));
 }
-```
-
 }
+```
 
 Now the ordering queries can be implemented by constructing the above ordered sequence:
 
@@ -1502,9 +1454,8 @@ void Insert(int index, T item);
 
 void RemoveAt(int index);
 }
-```
-
 }
+```
 
 As fore mentioned, IList<T> is implemented by T\[\] array, List<T>, and Collection<T>, etc. So, the following is an optimized implementation of First:
 
@@ -1526,9 +1477,8 @@ return value;
 }
 }
 throw new InvalidOperationException("Sequence contains no elements.");
-```
-
 }
+```
 
 The other overload with predicate is also easy to implement:
 
@@ -1543,9 +1493,8 @@ return value;
 }
 }
 throw new InvalidOperationException("Sequence contains no matching element.");
-```
-
 }
+```
 
 The implementation of FirstOrDefault is very similar. When source is empty, just output the default value instead of throwing exception:
 
@@ -1580,9 +1529,8 @@ return value;
 }
 }
 return default;
-```
-
 }
+```
 
 Last and LastOrDefault can be implemented in the similar pattern, with desugared foreach loop:
 
@@ -1707,9 +1655,8 @@ last = value;
 }
 }
 return last;
-```
-
 }
+```
 
 And ElementAt and ElementAtOrDefault too:
 
@@ -1766,9 +1713,8 @@ return iterator.Current;
 }
 }
 return default;
-```
-
 }
+```
 
 Single and SingleOrDefault are stricter:
 
@@ -1884,9 +1830,8 @@ return value;
 }
 }
 return default;
-```
-
 }
+```
 
 ### Aggregation
 
@@ -1935,9 +1880,8 @@ accumulate = func(accumulate, iterator.Current);
 }
 return accumulate;
 }
-```
-
 }
+```
 
 Count can be implemented by iterating the source sequence. And if the source sequence is a collection, then it has a Count property:
 
@@ -1961,9 +1905,8 @@ count = checked(count + 1); // Comparing foreach loop, iterator.Current is never
 }
 return count;
 }
-```
-
 }
+```
 
 And the overload with predicate can be implemented by filtering with the predicate function:
 
@@ -1980,9 +1923,8 @@ count = checked(count + 1);
 }
 }
 return count;
-```
-
 }
+```
 
 LongCount cannot use collections’ Count property because it has int output. It simply counts the values:
 
@@ -2012,9 +1954,8 @@ count = checked(count + 1L);
 }
 }
 return count;
-```
-
 }
+```
 
 Regarding the naming of LongCount .NET Framework Design Guidelines’ General Naming Conventions says:
 
@@ -2045,9 +1986,8 @@ min = value;
 }
 }
 return min;
-```
-
 }
+```
 
 And the decimal overload with selector can be implemented with Select:
 
@@ -2118,9 +2058,8 @@ count++;
 }
 return sum / count;
 }
-```
-
 }
+```
 
 ### Quantifier
 
@@ -2177,9 +2116,8 @@ return true;
 }
 }
 return false;
-```
-
 }
+```
 
 Contains can be optimized a little bit because collection already has a Contains method.
 
@@ -2211,9 +2149,8 @@ return false;
 }
 return !secondIterator.MoveNext();
 }
-```
-
 }
+```
 
 ## Summary
 

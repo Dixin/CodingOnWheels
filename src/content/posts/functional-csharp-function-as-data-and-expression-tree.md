@@ -22,9 +22,8 @@ internal static void ExpressionLambda()
 {
 Expression<Func<int, bool>> isPositiveExpression = int32 => int32 > 0;
 // Compare to: Func<int, bool> isPositive = int32 => int32 > 0;
-```
-
 }
+```
 
 This time, the expected type for the lambda expression is no longer a Func<int, bool> function type, but Expression<Func<int, bool>> data type. The lambda expression here is no longer compiled to executable anonymous function code, but an expression tree data structure representing that function’s code logic.
 
@@ -43,9 +42,8 @@ left: parameterExpression, right: constantExpression); // int32 > 0
 Expression<Func<int, bool>> isPositiveExpression = Expression.Lambda<Func<int, bool>>(
 body: greaterThanExpression, // ... => int32 > 0
 parameters: parameterExpression); // int32 => ...
-```
-
 }
+```
 
 Here the Expression<Func<int bool>> instance represents the entire tree, the ParameterExpression, ConstantExpression, BinaryExpression instances are nodes in that tree. And they are all derived from System.Linq.Expressions.Expression type:
 
@@ -99,9 +97,8 @@ public TDelegate Compile();
 
 // Other members.
 }
-```
-
 }
+```
 
 The above expression tree data structure can be visualized as:
 
@@ -223,9 +220,8 @@ public static ConstantExpression Constant(object value, Type type);
 public static BinaryExpression GreaterThan(Expression left, Expression right);
 
 public static Expression<TDelegate> Lambda<TDelegate>(Expression body, params ParameterExpression[] parameters);
-```
-
 }
+```
 
 Expression has many other factory methods to cover all the expression instantiation cases:
 
@@ -255,9 +251,8 @@ public static MethodCallExpression Call(MethodInfo method, params Expression[] a
 public static BlockExpression Block(params Expression[] expressions);
 
 // Other members.
-```
-
 }
+```
 
 One expression node type can have different possible NodeType values. For example:
 
@@ -275,9 +270,8 @@ Expression<Func<int, bool>>isPositiveExpression = int32 =>
 Console.WriteLine(int32);
 return int32 > 0;
 }; // Cannot be compiled.
-```
-
 }
+```
 
 The above expression tree has to be built manually:
 
@@ -292,9 +286,8 @@ arg0: Expression.Call(method: new Action<int>(Console.WriteLine).Method, arg0: p
 // return int32 > 0;
 arg1: Expression.GreaterThan(left: parameterExpression, right: Expression.Constant(value: 0, type: typeof(int)))), // }
 parameters: parameterExpression); // int32 => ...
-```
-
 }
+```
 
 ## Compile expression tree to CIL
 
@@ -305,9 +298,8 @@ internal static void Infix()
 {
 Expression<Func<double, double, double, double, double, double>>expression =
 (a, b, c, d, e) => a + b - c * d / 2D + e * 3D;
-```
-
 }
+```
 
 The entire tree can be visualized as:
 
@@ -411,9 +403,8 @@ throw new ArgumentOutOfRangeException(nameof(expression));
 }
 
 return VisitNode(expression.Body);
-```
-
 }
+```
 
 It calls a local function to recursively visit each node in lambda expression’s body. If the current node is a BinaryExpression, it recursively visits the Left and Right child nodes, and outputs string representation in pre-order: Operator(Left, Right). If the current node is a ConstantExpression or ParameterExpression, it output the string representation of current node, and terminates the recursion. The above function can convert the infix expression to a prefix expression in function call style:
 
@@ -424,9 +415,8 @@ Expression<Func<double, double, double, double, double, double>> infix =
 (a, b, c, d, e) => a + b - c * d / 2D + e * 3D;
 string prefix = infix.PreOrderOutput();
 prefix.WriteLine(); // Add(Subtract(Add(a, b), Divide(Multiply(c, d), 2)), Multiply(e, 3))
-```
-
 }
+```
 
 Actually, .NET Standard provides a built-in System.Linq.Expressions.ExpressionVisitor type with an object-oriented design to traverse general expression trees. This book traverses expression tree in functional paradigm because it is very intuitive for simple arithmetic expression with small code.
 
@@ -481,9 +471,8 @@ return instructions;
 }
 
 return VisitNode(expression.Body);
-```
-
 }
+```
 
 The following code outputs a list of converted CIL instruction:
 
@@ -510,9 +499,8 @@ $"{instruction} {argument}".WriteLine();
 // ldc.r8 3
 // mul
 // add
-```
-
 }
+```
 
 So, the source code in C# language represented by this expression tree is successfully converted to instructions CIL language. In another word, C# is compiled to CIL with the help of expression tree.
 
@@ -550,9 +538,8 @@ generator.Emit(instruction, (double)argument); // ldc.r8 has double argument of 
 }
 generator.Emit(OpCodes.Ret); // Return the result.
 }
-```
-
 }
+```
 
 The following code demonstrate how to use it to compile C# expression tree of C# code into CIL code encapsulated by a function, then call the function to execute the compiled CIL code, and finally get the result:
 
@@ -564,9 +551,8 @@ Expression<Func<double, double, double, double, double, double>> expression =
 Func<double, double, double, double, double, double> function = expression.CompileToCil();
 double result = function(1D, 2D, 3D, 4D, 5D);
 result.WriteLine(); // 12
-```
-
 }
+```
 
 .NET provides a built-in API, System.Linq.Expressions.Expression<TDelegate>’s Compile method, for this purpose - compile expression tree to executable function at runtime:
 
@@ -577,9 +563,8 @@ Expression<Func<double, double, double, double, double, double>>infix =
 (a, b, c, d, e) => a + b - c * d / 2D + e * 3D;
 Func<double, double, double, double, double, double> function = infix.Compile();
 double result = function(1D, 2D, 3D, 4D, 5D
-```
-
 }
+```
 
 Internally, Expression<TDelegate>.Compile calls APIs of System.Linq.Expressions.Compiler.LambdaCompile, which is a complete compiler implementation for general expression tree to CIL (not just for simple expression in the above example).
 
@@ -604,9 +589,8 @@ foreach (Product result in query) // Execute query.
 {
 result.Name.WriteLine();
 }
-```
-
 }
+```
 
 As mentioned in the introduction chapter, local LINQ query is represented by IEnumerable<T>, and remote LINQ query is represented by IQueryable<T>. They have different LINQ query methods, take above Where as example:
 
@@ -624,9 +608,8 @@ public static class Queryable
 public static IQueryable<TSource> Where<TSource>(
 this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate);
 }
-```
-
 }
+```
 
 Where query filters the local/remote data source with the specified predicate as anonymous function/expression tree. For each value in the data source, if the predicate evaluates to true, the data value should be in the query results; otherwise, the data value should be ignored. In the above LINQ to Object/LINQ to Entities queries, the Where query and predicate has exactly the same logic and syntax (filter the source of products, and only keep the products with list price greater than 0), but they are compiled totally differently:
 
@@ -661,9 +644,8 @@ foreach (Product result in query) // Execute query.
 {
 result.Name.WriteLine();
 }
-```
-
 }
+```
 
 At runtime, when the local query executes, the anonymous function is called to predict each local value in the local data source, and the remote query is translated to a WHERE clause in SQL query, then submit to the remote data source and execute. The local query’s usage, execution, and implementation is discussed in the LINQ to Objects chapters. The remote query’s usage, execution and the translation from expression tree to SQL will be discussed in LINQ to Entities chapters.
 

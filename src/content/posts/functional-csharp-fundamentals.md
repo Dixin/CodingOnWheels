@@ -50,9 +50,8 @@ public virtual string ToString();
 
 protected virtual void Finalize();
 }
-```
-
 }
+```
 
 Object has a static Equals method to test whether 2 instances are considered equal, an instance Equals method to test whether the current instance and the other instance are considered equal, and a static ReferenceEquals method to test whether 2 instances are the same instance. It has a GetHashCode method as the default hash function to return a hash code number for quick test of instances. It also has a GetType method to return the type of current instance, and a ToString method to return the text representation of the current instance. And finally, it has a virtual Finalize method, which can be overridden by derived types to free and cleanup resources.
 
@@ -113,9 +112,8 @@ OutOfMemory = 3
 
 // Other members.
 }
-```
-
 }
+```
 
 Here Exception class is tagged as Serializable, and its \_safeSerializationManager filed is tagged as OptionalField with additional information. These declarative tags are called attribute in C#. Attribute is a special class derived from System.Attribute class, used like a tag to associate declarative information with C# code elements, including assembly, module, type, type member, function parameter and return value.
 
@@ -156,9 +154,8 @@ return t1._ticks == t2._ticks;
 
 // Other members.
 }
-```
-
 }
+```
 
 An enumeration is a value type derived from System.Enum class, which is derived from System.ValueType class. It can only have constant fields of the specified underlying integral type (int by default). For example:
 
@@ -176,9 +173,8 @@ Thursday = 4,
 Friday = 5,
 Saturday = 6,
 }
-```
-
 }
+```
 
 A delegate is a reference type derived from System.MulticastDelegate class, which is derived from System.Delegate class. Delegate type represents function type, and is discussed in detail in the delegate chapter.
 
@@ -186,9 +182,8 @@ A delegate is a reference type derived from System.MulticastDelegate class, whic
 namespace System
 {
 public delegate void Action();
-```
-
 }
+```
 
 An interface is a contract to be implemented by class or structure. Interface can only have public and abstract properties, methods, and events without implementation. For example:
 
@@ -203,9 +198,8 @@ bool HasErrors { get; } // Property.
 
 IEnumerable GetErrors(string propertyName); // Method.
 }
-```
-
 }
+```
 
 Any class or structure implementing the above interface must have the specified 3 members as public.
 
@@ -252,9 +246,8 @@ this.y = y;
 internal int X { get { return this.x; } }
 
 internal int Y { get { return this.y; } }
-```
-
 }
+```
 
 Instances of reference type and value type are allocated differently. Reference type is always allocated on the managed heap, and deallocated by garbage collection. Value type is either allocated on the stack and deallocated by stack unwinding, or is allocated and deallocated inline with the container. So generally, value type may have better performance for allocation and deallocation. Usually, a type can be designed as value type if it is small, immutable, and logically similar to a primitive type. The above System.TimeSpan type structure represents a duration of time, it is designed to be value type, because it is just an immutable wrapper of a long value, which represents ticks. The following example demonstrates this difference:
 
@@ -268,9 +261,8 @@ reference2 = new Point(3, 4); // reference1 is not impacted.
 ValuePoint value1 = new ValuePoint(5, 6);
 ValuePoint value2 = value1; // Copy.
 value2 = new ValuePoint(7, 8); // value1 is not impacted.
-```
-
 }
+```
 
 When a Point instance is constructed as a local variable, since it is reference type, it is allocated in the managed heap. Its fields are value types, so the fields are allocated inline on the managed heap too. The local variable reference1 can be viewed as a pointer, pointing to managed heap location that holds the data. When assigning reference1 to reference2, the pointer is copied. So reference1 and reference2 both point to the same Point instance in the managed heap. When ValuePoint is constructed as a local variable, since it is value type. it is allocated in the stack. Its fields are also allocated inline in the stack. The local variable value1 holds the actual data. When assigning value1 to value2, the entire instance is copied, so value1 and value2 are 2 different ValuePoint instances in stack.
 
@@ -294,9 +286,8 @@ reference2 = ref reference3; // Alias of something else.
 
 ValuePoint value3 = new ValuePoint(5, 6);
 value2 = ref value3; // Alias of something else.
-```
-
 }
+```
 
 Here reference2 is declared with ref and initialized with reference1. It can be viewed as an alias of reference1. If reference2 mutates, reference1 mutates in sync, and vice versa. C# 7.3 allows ref local variable to be reassigned with ref modifier. After reassigning reference3 to reference2 with ref modifier, reference2 becomes the alias of reference3. Similarly, value2 is an alias of value1. After reassignment with ref modifier, value2 becomes the alias of value3.
 
@@ -312,9 +303,8 @@ reference2 = new Point(3, 4); // Cannot be compiled.
 ValuePoint value1 = new ValuePoint(3, 4);
 ref readonly ValuePoint value2 = ref value1; // Immutable alias.
 value2 = new ValuePoint(7, 8); // Cannot be compiled.
-```
-
 }
+```
 
 The immutability is checked by compiler. Here trying to mutate reference2 and value2 causes compile time error.
 
@@ -329,9 +319,8 @@ Point[] referenceArray = new Point[] { new Point(5, 6) };
 ValuePoint[] valueArray = new ValuePoint[] { new ValuePoint(7, 8) };
 
 Span<ValuePoint> valueArrayOnStack = stackalloc ValuePoint[] { new ValuePoint(9, 10) };
-```
-
 }
+```
 
 So referenceArray and valueArray are both allocated on heap, and their items are both on heap too. Since C# 7.3, the new keyword can be replaced by stackalloc keyword to allocate a value type array on stack, with its items on stack too. Stack-allocated array is represented by System.Span<T> structure.
 
@@ -348,9 +337,8 @@ Trace.WriteLine(defaultReference is null); // True
 ValuePoint defaultValue = default(ValuePoint);
 Trace.WriteLine(defaultValue.X); // 0
 Trace.WriteLine(defaultValue.Y); // 0
-```
-
 }
+```
 
 The default value of reference type is simply null. The default of value type is an actual instance, with all fields initialized to their default values. Actually, the above local variables’ initialization is compiled to:
 
@@ -360,9 +348,8 @@ internal static void CompiledDefault()
 Point defaultReference = null;
 
 ValuePoint defaultValue = new ValuePoint();
-```
-
 }
+```
 
 A structure always virtually has a parameterless default constructor. Calling this default constructor instantiates the structure and sets all its fields to default values. Here defaultValue’s int fields are initialized to 0. If ValuePoint has a reference type field, the reference type field is initialized to null.
 
@@ -374,9 +361,8 @@ internal static void DefaultLiteralExpression()
 Point defaultReference = default;
 
 ValuePoint defaultValue = default;
-```
-
 }
+```
 
 ### ref structure
 
@@ -398,9 +384,8 @@ private OnStackOnly fieldOnHeap; // Cannot be compiled.
 internal struct OnStackOrHeap
 {
 private OnStackOnly fieldOnStackOrHeap; // Cannot be compiled.
-```
-
 }
+```
 
 As fore mentioned, array is reference type allocated on heap, so the compiler does not allow an array of ref structure. An instance of class is always allocated on heap, so ref structure cannot be its field. An instance of normal structure can be on stack or heap, so ref structure cannot be its field either.
 
@@ -415,9 +400,8 @@ public static class Math
 {
 // Static members only.
 }
-```
-
 }
+```
 
 A static class can only have static members, and cannot be instantiated. Static class is compiled to abstract sealed class. In C#, a static class consisting of static methods is equivalent to a module of functions.
 
@@ -443,9 +427,8 @@ public string FormattedName
 {
 get { return this.name.ToUpperInvariant (); }
 }
-```
-
 }
+```
 
 This is good for managing large type by splitting it into multiple smaller files. Partial type is also frequently used in code generation, so that user can append custom code to types generated by tool. At compile time, the multiple parts of a type are merged.
 
@@ -459,9 +442,8 @@ internal interface IInterface
 void Implicit();
 
 void Explicit();
-```
-
 }
+```
 
 And the following type implementing this interface:
 
@@ -471,9 +453,8 @@ internal class Implementation : IInterface
 public void Implicit() { }
 
 void IInterface.Explicit() { }
-```
-
 }
+```
 
 This Implementations type has a public Implicit method with the same signature as the IInterface’s Implicit method, so C# compiler takes Implementations.Implicit method as the implementation of IInterface.Implicit method. This syntax is called implicit interface implementation. The other method Explicit, is implemented explicitly as an interface member, not as a member method of Implementations type. The following example demonstrates how to use these interface members:
 
@@ -486,9 +467,8 @@ Implementation @object = new Implementation();
 IInterface @interface = @object;
 @interface.Implicit();
 @interface.Explicit();
-```
-
 }
+```
 
 An implicitly implemented interface member can be accessed from the instance of the implementation type and interface type, but an explicitly implemented interface member can only be accessed from the instance of the interface type. Here the variable name @object and @interface are prefixed with special character @, because object and interface are C# language keywords, and cannot be directly used as identifier.
 
@@ -503,9 +483,8 @@ public interface IDisposable
 {
 void Dispose();
 }
-```
-
 }
+```
 
 A type implementing the above System.IDisposable interface must have a Dispose method, which explicitly releases its unmanaged resources when called. For example, System.Data.SqlClient.SqlConnection represents a connection to a SQL database, it implements IDisposable and provides Dispose method to release the underlying database connection. The following example is the standard try-finally pattern to use IDisposable object and call Dispose method:
 
@@ -526,9 +505,8 @@ if ((object)connection != null)
 ((IDisposable)connection).Dispose();
 }
 }
-```
-
 }
+```
 
 The Dispose method is called in finally block, so it is ensured to be called, even if exception is thrown from the operations in the try block, or if the current thread is aborted. IDisposable is widely used, so C# introduces a using statement syntactic sugar since 1.0. The above code is equivalent to:
 
@@ -539,9 +517,8 @@ using SqlConnection connection = new SqlConnection(connectionString);
 connection.Open();
 Trace.WriteLine(connection.ServerVersion);
 // Work with connection.
-```
-
 }
+```
 
 This is more declarative at design time, and the try-finally is generated at compile time. Disposable instances should be always used with this syntax, to ensure its Dispose method is called in the right way.
 
@@ -577,9 +554,8 @@ int value = this.values[this.values.Length - 1];
 Array.Resize(ref this.values, this.values.Length - 1);
 return value;
 }
-```
-
 }
+```
 
 This code is not very reusable. Later, if stacks are needed for values of other data types, like string, decimal, etc., then there are some options:
 
@@ -619,9 +595,8 @@ T value = this.values[this.values.Length - 1];
 Array.Resize(ref this.values, this.values.Length - 1);
 return value;
 }
-```
-
 }
+```
 
 When using this generic stack, specify a concrete type for parameter T:
 
@@ -639,9 +614,8 @@ string value2 = stack2.Pop();
 Stack<Uri>stack3 = new Stack<Uri>();
 stack3.Push(new Uri("https://weblogs.asp.net/dixin"));
 Uri value3 = stack3.Pop();
-```
-
 }
+```
 
 So, generics enables code reuse with type safety. IStack<T> and Stack<T> are strong typed, where IStack<T>.Push/Stack<T>.Push accept a value of type T, and IStack<T>Pop/IStack<T>.Pop return a value of type T. For example, When T is int, IStack<int>.Push/Stack<int>.Push accept an int value; When T is string, IStack<string>.Pop/Stack<int>.Pop returns a string value; etc. So IStack<T> and Stack<T> are polymorphic types, and this is called parametric polymorphism.
 
@@ -660,9 +634,8 @@ internal void Method()
 {
 T value = null;
 }
-```
-
 }
+```
 
 Above code cannot be compiled, with error CS0403: Cannot convert null to type parameter 'T' because it could be a non-nullable value type. The reason is, as fore mentioned, only values of reference types (instances of classes) can be null, but here T is allowed be structure type too. For this kind of scenario, C# supports constraints for type parameters, with the where keyword:
 
@@ -673,9 +646,8 @@ internal static void Method()
 {
 T value1 = null;
 }
-```
-
 }
+```
 
 Here T must be reference type, for example, Constraint<string> is allowed by compiler, and Constraint<int> causes a compiler error. Here are some more examples of constraints syntax:
 
@@ -719,9 +691,8 @@ using (connection) // DbConnection implements IDisposable.
 connection.Open(); // DbConnection has Open method.
 }
 }
-```
-
 }
+```
 
 Regarding System.Data.Common.DbConnection implements System.IDisposable, and has a CreateCommand method, so the above t3 object can be used with using statement, and the CreateCommand call can be compiled too.
 
@@ -731,9 +702,8 @@ The following is an example closed type of Constraints<T1, T2, T3, T4, T5, T6, T
 internal static void CloseType()
 {
 Constraints<bool, object, DbConnection, IDbConnection, int, Exception, SqlConnection>closed = default;
-```
-
 }
+```
 
 Here:
 
@@ -789,9 +759,8 @@ return this.value;
 
 // Other members.
 }
-```
-
 }
+```
 
 The following example demonstrates how to use nullable int:
 
@@ -804,9 +773,8 @@ if (nullable != null)
 {
 int value = (int)nullable;
 }
-```
-
 }
+```
 
 Apparently, int? is the Nullable<int> structure, and cannot be real null. Above code is syntactic sugar and compiled to normal structure usage:
 
@@ -819,9 +787,8 @@ if (nullable.HasValue)
 {
 int value = nullable.Value;
 }
-```
-
 }
+```
 
 When nullable is assigned with null, it is actually assigned with an instance of Nullable<int> instance. Here the structure’s default parameterless constructor is called, so a Nullable<int> instance is initialized, with each data field is initialized with its default value. So nullable’s hasValue field is false, indicating this instance logically represents null. Then nullable is reassigned with normal int value, it is actually assigned with another Nullable<int> instance, where hasValue field is set to true and value field is set to the specified int value. The non null check is compiled to HasValue property call. And the type conversion from int? to int is compiled to the Value property call.
 
@@ -837,9 +804,8 @@ A property is essentially a getter with body and/or a setter with body. In many 
 internal partial class Device
 {
 internal decimal Price { get; set; }
-```
-
 }
+```
 
 The backing field definition and the body of getter/setter are generated by compiler:
 
@@ -859,9 +825,8 @@ set { this.priceBackingField = value; }
 }
 
 // Other members.
-```
-
 }
+```
 
 Since C# 6.0, auto property can be getter only. And C# 7.3 allows field-targeted attribute declared on auto property:
 
@@ -906,9 +871,8 @@ internal string Name
 [CompilerGenerated]
 get { return this.nameBackingField; }
 }
-```
-
 }
+```
 
 ### Property initializer
 
@@ -920,9 +884,8 @@ internal partial class Category
 internal Guid Id { get; } = Guid.NewGuid();
 
 internal string Description { get; set; } = string.Empty;
-```
-
 }
+```
 
 The property initializer is compiled to backing field initializer:
 
@@ -951,9 +914,8 @@ get { return this.descriptionBackingField; }
 [CompilerGenerated]
 set { this.descriptionBackingField = value; }
 }
-```
-
 }
+```
 
 ### Object initializer
 
@@ -965,9 +927,8 @@ internal static void SetProperties()
 Device device = new Device();
 device.Name = "Surface Book";
 device.Price = 1349M;
-```
-
 }
+```
 
 C# 3.0 introduces object initializer syntactic sugar to merge constructor call and property setting in a declarative style:
 
@@ -975,9 +936,8 @@ C# 3.0 introduces object initializer syntactic sugar to merge constructor call a
 internal static void ObjectInitializer()
 {
 Device device = new Device() { Name = "Surface Book", Price = 1349M };
-```
-
 }
+```
 
 The object initializer syntax in the second example is compiled to the code in the first example.
 
@@ -1000,9 +960,8 @@ public IEnumerator GetEnumerator() // IEnumerable member.
 {
 return this.devices.GetEnumerator();
 }
-```
-
 }
+```
 
 It can be initialized declaratively:
 
@@ -1010,9 +969,8 @@ It can be initialized declaratively:
 internal static void CollectionInitializer(Device device1, Device device2)
 {
 DeviceCollection devices = new DeviceCollection() { device1, device2 };
-```
-
 }
+```
 
 The above code is compiled to a normal constructor call followed by a sequence of Add method calls:
 
@@ -1022,9 +980,8 @@ internal static void CompiledCollectionInitializer(Device device1, Device device
 DeviceCollection devices = new DeviceCollection();
 devices.Add(device1);
 devices.Add(device2);
-```
-
 }
+```
 
 ### Index initializer
 
@@ -1034,9 +991,8 @@ C# 6.0 introduces index initializer for type with indexer setter:
 internal class DeviceDictionary
 {
 internal Device this[int id] { set { } }
-```
-
 }
+```
 
 It is another declarative syntactic sugar:
 
@@ -1044,9 +1000,8 @@ It is another declarative syntactic sugar:
 internal static void IndexInitializer(Device device1, Device device2)
 {
 DeviceDictionary devices = new DeviceDictionary { [10] = device1, [11] = device2 };
-```
-
 }
+```
 
 The above syntax is compiled to normal constructor call followed by a sequence of indexer calls:
 
@@ -1056,9 +1011,8 @@ internal static void CompiledIndexInitializer(Device device1, Device device2)
 DeviceDictionary devices = new DeviceDictionary();
 devices[0] = device1;
 devices[1] = device2;
-```
-
 }
+```
 
 ### Null coalescing operator
 
@@ -1088,9 +1042,8 @@ point = reference;
 }
 
 ValuePoint valuePoint = nullableValue != null ? (ValuePoint)nullableValue : ValuePoint.Default;
-```
-
 }
+```
 
 This above if statement and ternary operator can be simplified by an expression with the null coalescing operator:
 
@@ -1099,9 +1052,8 @@ internal static void DefaultValueForNullWithNullCoalescing(Point reference, Valu
 {
 Point point = reference ?? Point.Default;
 ValuePoint valuePoint = nullableValue ?? ValuePoint.Default;
-```
-
 }
+```
 
 ### Null conditional operators
 
@@ -1124,9 +1076,8 @@ if (first != null)
 firstDeviceName = firstDevice.Name;
 }
 }
-```
-
 }
+```
 
 To simplify the nested if statement for null check with an expression, C# 6.0 introduces null conditional operators (also called null propagation operators), including ?. for member access and ?\[\] for indexer access:
 
@@ -1135,9 +1086,8 @@ internal static void NullCheckWithNullConditional(Category category, Device\[\] 
 {
 string categoryText = category?.ToString();
 string firstDeviceName = devices?[0]?.Name;
-```
-
 }
+```
 
 ### throw expression
 
@@ -1155,9 +1105,8 @@ this.Category = category ?? throw new ArgumentNullException("category");
 internal Category Category { get; }
 
 internal string Name { get; }
-```
-
 }
+```
 
 The above throw expressions are compiled to if control flows:
 
@@ -1182,9 +1131,8 @@ this.Category = category;
 internal Category Category { get; }
 
 internal string Name { get; }
-```
-
 }
+```
 
 ### Exception filter
 
@@ -1208,9 +1156,8 @@ else
 throw;
 }
 }
-```
-
 }
+```
 
 C# 6.0 introduces exception filter at the language level. the catch block can have an expression to filter the specified exception before catching. If the expression returns true, the catch block is executed:
 
@@ -1225,9 +1172,8 @@ catch (WebException exception) when ((exception.Response as HttpWebResponse)?.St
 {
 // Handle exception.
 }
-```
-
 }
+```
 
 Exception filter is not a syntactic sugar to replace if statement with declarative expression, but a .NET runtime feature. The above exception filter expression is compiled to filter clause in CIL. The following cleaned CIL virtually demonstrates the compilation result:
 
@@ -1246,9 +1192,8 @@ filter
 {
 // Handle exception.
 }
-```
-
 }
+```
 
 When the filter expression returns false, the catch clause is never executed, so there is no need to rethrow exception. Rethrowing exception causes stack unwinding, as if the exception is from the throw statement, and the original call stack and other info is lost. So this feature is very helpful for diagnostics and debugging.
 
@@ -1261,9 +1206,8 @@ internal static void Log(Device device)
 {
 string message = string.Format("{0}: {1}, {2}", DateTime.Now.ToString("o"), device.Name, device.Price);
 Trace.WriteLine(message);
-```
-
 }
+```
 
 C# 6.0 introduces string interpolation syntactic sugar to declare the values in place, with no need to maintaining the indexes:
 
@@ -1272,9 +1216,8 @@ internal static void LogWithStringInterpolation(Device device)
 {
 string message = string.Format($"{DateTime.Now.ToString("o")}: {device.Name}, {device.Price}");
 Trace.WriteLine(message);
-```
-
 }
+```
 
 The second interpolation version is more declarative and productive, without maintaining a series of indexes. This syntax is actually compiled to the first composite formatting.
 
@@ -1289,9 +1232,8 @@ if (count < 0)
 {
 throw new ArgumentOutOfRangeException("count");
 }
-```
-
 }
+```
 
 The parameter name is a hard coded string, and cannot be checked by compiler. Now with nameof operator, the compiler can generated the above parameter name string constant:
 
@@ -1302,9 +1244,8 @@ if (count < 0)
 {
 throw new ArgumentOutOfRangeException(nameof(count));
 }
-```
-
 }
+```
 
 ### Digit separator and leading underscore
 
@@ -1318,9 +1259,8 @@ double value2 = 0.123_456_789;
 
 int value3 = 0b0001_0000; // Binary.
 int value4 = 0b_0000_1000; // Binary.
-```
-
 }
+```
 
 These small features greatly improve the readability of long numbers and binary numbers at design time.
 

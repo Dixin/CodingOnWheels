@@ -44,9 +44,8 @@ int variableInt32 = Math.Max(ImmutableInt32, ImmutableInt32Sum);
 // Compiled to: Math.Max(1, 3).
 Trace.WriteLine(ImmutableString);
 // Compiled to: Trace.WriteLine("https://weblogs.asp.net/dixin").
-```
-
 }
+```
 
 ### Enumeration
 
@@ -61,9 +60,8 @@ Sun, Mon, Tue, Wed, Thu, Fri, Sat
 internal enum CompiledDay : int
 {
 Sun = 0, Mon = 1, Tue = 2, Wed = 3, Thu = 4, Fri = 5, Sat = 6
-```
-
 }
+```
 
 As demonstrated in previous example, enumeration can be used as constant value. It can also be used in constant expression:
 
@@ -74,9 +72,8 @@ Trace.WriteLine((int)Day.Mon); // Compiled to: Trace.WriteLine(1).
 Trace.WriteLine(Day.Mon + 2); // Compiled to: Trace.WriteLine(Day.Wed).
 Trace.WriteLine((int)Day.Mon + Day.Thu); // Compiled to: Trace.WriteLine(Day.Fri).
 Trace.WriteLine(Day.Sat - Day.Mon); // Compiled to: Trace.WriteLine(5).
-```
-
 }
+```
 
 ### using statement and foreach statement
 
@@ -97,9 +94,8 @@ foreach (T immutableValue in sequence)
 {
 // Reassignment to immutableValue cannot be compiled.
 }
-```
-
 }
+```
 
 ### Immutable alias (immutable ref local variable)
 
@@ -123,9 +119,8 @@ ref Uri aliasOfReference = ref reference; // Mutable alias.
 aliasOfReference = new Uri("https://flickr.com/dixin"); // After the reassignment, reference mutates.
 ref readonly Uri immutableAliasOfReference = ref reference; // Immutable alias.
 // Reassignment to immutableAliasOfReference cannot be compiled.
-```
-
 }
+```
 
 ### Function’s immutable input and immutable output
 
@@ -142,9 +137,8 @@ return ref immutableInput[0];
 
 ref readonly T immutableOutput = ref First(in span);
 // Cannot reassign to immutableOutput.
-```
-
 }
+```
 
 ### Range variable in LINQ query expression
 
@@ -165,9 +159,8 @@ group immutable4 by immutable4 into immutable5
 select immutable5 into immutable6
 // Reassignment to immutable6 cannot be compiled.
 select immutable6;
-```
-
 }
+```
 
 ### this reference for class
 
@@ -180,9 +173,8 @@ internal void InstanceMethod()
 {
 // Reassignment to this cannot be compiled.
 }
-```
-
 }
+```
 
 For structure, this reference is mutable by default, which is discussed later in this chapter.
 
@@ -209,9 +201,8 @@ private const int DaysPer4Years = DaysPerYear * 4 + 1;
 
 // Other members.
 }
-```
-
 }
+```
 
 At compiled time, the reference to constant field is replaced by the actual constant value, and the constant field definition is not removed.
 
@@ -225,9 +216,8 @@ internal partial class ImmutableDevice
 private readonly string name;
 
 private readonly decimal price;
-```
-
 }
+```
 
 With the fore mentioned auto property syntactic sugar, the readonly field definition can be automatically generated. The following examples are mutable type with read write fields generated from auto property, and immutable type with read only fields generated from getter only auto properties:
 
@@ -250,9 +240,8 @@ this.Price = price;
 internal string Name { get; }
 
 internal decimal Price { get; }
-```
-
 }
+```
 
 Apparently, to have new internal state, a mutable instance can mutate in place, by altering its fields, while an immutable instance must be transformed to a new instance to have the new state:
 
@@ -264,9 +253,8 @@ mutableDevice.Price -= 50M;
 
 ImmutableDevice immutableDevice = new ImmutableDevice(name: "Surface Book", price: 1199M);
 immutableDevice = new ImmutableDevice(name: immutableDevice.Name, price: immutableDevice.Price - 50M);
-```
-
 }
+```
 
 The following examples defines instance method for new state with mutation and transformation:
 
@@ -284,9 +272,8 @@ internal partial class ImmutableDevice
 {
 internal ImmutableDevice Discount() =>
 new ImmutableDevice(name: this.Name, price: this.Price * 0.9M);
-```
-
 }
+```
 
 Many .NET built-in types are immutable data structures, including most structures (primitive types, System.Nullable<T>, System.DateTime, System.TimeSpan, etc.), and a few classes (string, System.Lazy<T>, System.Linq.Expressions.Expression and its derived types, etc.). Microsoft also provides a NuGet package of immutable collections System.Collections.Immutable, with immutable array, list, dictionary, etc.
 
@@ -306,9 +293,8 @@ this.Imaginary = imaginary;
 internal double Real { get; }
 
 internal double Imaginary { get; }
-```
-
 }
+```
 
 However, for structure, readonly fields are not enough for immutability. Unlike class, in structure’s instance function members, this reference is mutable:
 
@@ -327,9 +313,8 @@ internal Complex ReplaceBy(Complex value) => this = value; // Can reassign to th
 
 internal Complex Mutate(double real, double imaginary) =>
 this = new Complex(real, imaginary); // Can reassign to this.
-```
-
 }
+```
 
 With mutable this, the above structure still can be mutable:
 
@@ -342,9 +327,8 @@ complex.ReplaceBy(new Complex(2, 2));
 complex.Real.WriteLine(); // 2
 complex.Mutate(3, 3);
 complex.Real.WriteLine(); // 3
-```
-
 }
+```
 
 To address this, C# 7.2 enables the readonly modifier for structure definition to makes sure the structure is immutable. It enforces all the instance fields to be readonly, and makes this reference immutable in instance function members except constructor:
 
@@ -368,9 +352,8 @@ internal void InstanceMethod()
 {
 // Cannot reassign to this.
 }
-```
-
 }
+```
 
 The readonly modifier is compiled to \[IsReadOnly\] attribute for the structure:
 
@@ -379,9 +362,8 @@ The readonly modifier is compiled to \[IsReadOnly\] attribute for the structure:
 internal struct CompiledImmutableComplex
 {
 // Members.
-```
-
 }
+```
 
 ### Immutable anonymous type
 
@@ -391,9 +373,8 @@ C# 3.0 introduces anonymous type to represent temporary data in an immutable for
 internal static void AnonymousType()
 {
 var immutableDevice = new { Name = "Surface Book", Price = 1199M };
-```
-
 }
+```
 
 Since the type name is unknown at design time, the above instance is of an anonymous type, and the type name is represented by the var keyword. At compile time, the following immutable class is generated:
 
@@ -431,9 +412,8 @@ return other != null
 }
 
 // Other members.
-```
-
 }
+```
 
 The \[DebuggerDisplay\] attribute is generated for debug build, so that debugger can display the values in the specified friendly format.
 
@@ -444,9 +424,8 @@ internal static void CompiledAnonymousType()
 {
 AnonymousType0<string, decimal>immutableDevice =
 new AnonymousType0<string, decimal>(name: "Surface Book", price: 1199M);
-```
-
 }
+```
 
 If there are other different anonymous type used in the code, C# compiler generates more type definitions AnonymousType1, AnonymousType2, etc. Anonymous type is reused by different instantiation if their properties have same number, the same names, the same types, and the same order:
 
@@ -460,9 +439,8 @@ var device4 = new { Price = 174.99M, Name = "Surface Laptop" }; // Price is befo
 (device1.GetType() == device2.GetType()).WriteLine(); // True
 (device1.GetType() == device3.GetType()).WriteLine(); // False
 (device1.GetType() == device4.GetType()).WriteLine(); // False
-```
-
 }
+```
 
 Anonymous type’s property name can be inferred from the identifier used to initialize the property. The following 2 anonymous type instantiations are equivalent:
 
@@ -471,9 +449,8 @@ internal static void PropertyInference(Uri uri, int value)
 {
 var anonymous1 = new { value, uri.Host };
 var anonymous2 = new { value = value, Host = uri.Host };
-```
-
 }
+```
 
 Anonymous type can also be part of other types, like array, and type parameter for generic type, etc:
 
@@ -488,9 +465,8 @@ new { Name = "Surface Pro", Price = 899M }
 };
 var query = // Compiled to: IEnumerable<AnonymousType0<string, decimal>> query = .
 source.Where(device => device.Price > 0);
-```
-
 }
+```
 
 Here the source array is inferred to be of AnonymousType0<string, decimal>\[\] type, because each array value is of type AnonymousType0. Array T\[\] implements IEnumerable<T> interface, so the source array implements IEnumerable<AnonymousType0<string, decimal>> interface. Its Where query method accepts an AnonymousType0<string, decimal> –> bool predicate function, and outputs IEnumerable<AnonymousType0<string, decimal>>.
 
@@ -510,9 +486,8 @@ internal static void CompiledLet(IEnumerable<int>source)
 IEnumerable<double> query = source
 .Select(immutable1 => new { immutable1, immutable2 = Math.Sqrt(immutable1) }) // let clause.
 .Select(context => context.immutable1 + context.immutable2); // select clause.
-```
-
 }
+```
 
 The full details of query expression compilation are discussed in the LINQ to Objects chapters.
 
@@ -528,9 +503,8 @@ var b = 1M; // decimal.
 var c = typeof(void); // Type.
 var d = from int32 in source where int32 > 0 select Math.Sqrt(int32); // IEnumerable<double>.
 var e = File.ReadAllLines(path); // string[].
-```
-
 }
+```
 
 This is just a syntactic sugar. The local variable’s type is inferred from the initial value’s type. The compilation of implicit typed local variable has no difference from explicitly typed local variable. When the initial value’s type is ambiguous, the var keyword cannot be directly used:
 
@@ -540,9 +514,8 @@ internal static void LocalVariableWithType()
 var f = (Uri)null;
 var g = (Func<int, int>)(int32 => int32 + 1);
 var h = (Expression<Func<int, int>>)(int32 => int32 + 1);
-```
-
 }
+```
 
 For consistency and readability, this book uses explicit typing when possible, uses implicit typing (var) when needed.
 
@@ -573,9 +546,8 @@ public T2 Item2 => this.m_Item2;
 
 // Other members.
 }
-```
-
 }
+```
 
 Years after introducing tuple classes, C# 7.0 finally introduces tuple syntax. However, the tuple syntax does not work with above immutable tuple classes, but works with a new series of generic tuple structures with 1 ~ 8 type parameters. For example, 2-tuple is now represented by the following ValueTuple<T1, T2> structure:
 
@@ -600,9 +572,8 @@ public override string ToString() =>
 
 // Other members.
 }
-```
-
 }
+```
 
 The tuple structures with fields are provided for better performance than tuple classes with properties, since structure can be allocated and deallocated on stack, and field access does not involve getter function member call. Unfortunately, all tuple structures are designed to be mutable types with non-readonly public fields. To be functional and consistent, this book does not use tuple classes, but only uses tuple structures and never mutate their value fields, as if tuple structures are immutable.
 
@@ -614,9 +585,8 @@ internal static void TypesOfValues()
 ValueTuple<string, decimal> tuple = new ValueTuple<string, decimal>("Surface Book", 1199M);
 string[] array = { "Surface Book", "1199M" };
 List<string>list = new List<string>() { "Surface Book", "1199M" };
-```
-
 }
+```
 
 Tuple type and anonymous type are conceptually similar to each other, they are both a list of values of arbitrary types. At design time, tuple type is defined, and anonymous type is not defined yet. Therefore, anonymous type (var keyword) can only be used for local variable with immediate instantiation to infer the types of the values, and cannot be used as function input type, function output type, type argument, etc.:
 
@@ -635,9 +605,8 @@ var variable1; // Cannot be compiled.
 var variable2 = default; // Cannot be compiled.
 IEnumerable<var> variable3; // Cannot be compiled.
 return values;
-```
-
 }
+```
 
 ### Construction, element and element inference
 
@@ -653,9 +622,8 @@ internal static void TupleLiteral()
 (int, bool, (string, decimal)) tuple2 = (1, true, ("Surface Studio", 2999M));
 // ValueTuple<int, bool, ValueTuple<string, decimal>> tuple2 =
 // new ValueTuple<int, bool, ValueTuple<string, decimal>>(1, true, new ValueTuple<string, decimal>("Surface Studio", 2999M));
-```
-
 }
+```
 
 When using tuple as the function output type, the tuple syntax virtually enables function to return multiple values:
 
@@ -674,9 +642,8 @@ Func<(string, decimal)> function = () => (value1, value2);
 
 return (value1, value2);
 // Compiled to : new ValueTuple<string, decimal>(value1, value2);
-```
-
 }
+```
 
 C# 7.0 also introduces element name, so that each value of the tuple type definition can be given a property-like name, with the syntax (T1 Name1, T2 Name2, T3 Name3, …), and each value of the tuple instance construction can be given a name too, with syntax (Name1: value1, Name2, value2, Name3 value3, …). So that the values in the tuple can be accessed with a meaningful name, instead of the actual Item1, Item2, Item3, … field names. This is also a syntactic sugar, at compile time, all element names are all replaced by the underlying fields.
 
@@ -718,9 +685,8 @@ return (tuple.Name, tuple.Price - 100M);
 (string ProductName, decimal ProductPrice) tuple6 = function(("HoloLens", 3000M));
 tuple6.ProductName.WriteLine(); // Element names on the right side are ignored when there are element names on the left side.
 tuple6.ProductPrice.WriteLine();
-```
-
 }
+```
 
 Similar to anonymous type’s property name inference, C# 7.1 can infer tuple’s element name from the identifier used to initialize the element. The following 2 tuple are equivalent:
 
@@ -729,9 +695,8 @@ internal static void ElementInference(Uri uri, int value)
 {
 var tuple1 = (value, uri.Host);
 var tuple2 = (value: value, Host: uri.Host);
-```
-
 }
+```
 
 ### Deconstruction
 
@@ -744,9 +709,8 @@ internal static void DeconstructTuple()
 var (name, price) = GetProduct();
 name.WriteLine();
 price.WriteLine();
-```
-
 }
+```
 
 This deconstruction syntactic sugar can be used with any type, as long as that type has a Deconstruct instance or extension method defined, where the values as the out parameters. Take the fore mentioned Device type as example, it has 3 properties Name, Description, and Price, so its Deconstruct method can be either of the following 2 forms:
 
@@ -769,9 +733,8 @@ name = device.Name;
 description = device.Description;
 price = device.Price;
 }
-```
-
 }
+```
 
 Now the var keyword can destruct Device too, which is just compiled to Destruct method call:
 
@@ -786,9 +749,8 @@ var (name, description, price) = GetDevice();
 name.WriteLine();
 description.WriteLine();
 price.WriteLine();
-```
-
 }
+```
 
 ### Discard
 
@@ -802,9 +764,8 @@ var (_, _, price1) = GetDevice();
 price1.WriteLine();
 (_, _, decimal price2) = GetDevice();
 price2.WriteLine();
-```
-
 }
+```
 
 ### Tuple assignment
 
@@ -821,9 +782,8 @@ internal static void TupleAssignment(int value1, int value2)
 // Compiled to:
 // int temp1 = value1; int temp2 = value2;
 // value1 = temp2; value2 = temp1;
-```
-
 }
+```
 
 It is easy to calculate Fibonacci number with loop and tuple assignment:
 
@@ -836,9 +796,8 @@ for (int i = 0; i< n; i++)
 (a, b) = (b, a + b);
 }
 return a;
-```
-
 }
+```
 
 Besides variables, tuple assignment works for other scenarios too, like type member. The following example assigns 2 values to 2 properties with a single line of code:
 
@@ -851,9 +810,8 @@ internal ImmutableDevice(string name, decimal price) =>
 internal string Name { get; }
 
 internal decimal Price { get; }
-```
-
 }
+```
 
 ### Immutable collection vs. readonly collection
 
@@ -865,9 +823,8 @@ internal static void ImmutableCollection()
 ImmutableList<int> immutableList1 = ImmutableList.Create(1, 2, 3);
 ImmutableList<int> immutableList2 = immutableList1.Add(4); // Create a new collection.
 object.ReferenceEquals(immutableList1, immutableList2).WriteLine(); // False
-```
-
 }
+```
 
 .NET Standard also provides readonly collections, like ReadOnlyCollection<T>, ReadOnlyDictionary<TKey, TValue>, etc. These readonly collections are actually a simple wrapper of the specified collections. They just do not implement or expose mutation methods like Add, Remove, etc. They are not immutable or thread safe. The following example initializes an immutable collection and a readonly collection from a mutable source. When the source is mutated, the immutable collection apparently is not impacted, but the readonly collection mutates too:
 
@@ -881,9 +838,8 @@ ReadOnlyCollection<int>readOnlyCollection = new ReadOnlyCollection<int>(mutableL
 mutableList.Add(4);
 immutableList.Count.WriteLine(); // 3
 readOnlyCollection.Count.WriteLine(); // 4
-```
-
 }
+```
 
 ### Shallow immutability vs. deep immutability
 
@@ -898,9 +854,8 @@ internal Bundle(MutableDevice device1, MutableDevice device2) =>
 internal MutableDevice Device1 { get; }
 
 internal MutableDevice Device2 { get; }
-```
-
 }
+```
 
 This type is apparently immutable. Once it is initialized with 2 device instances, there is no way to alter these 2 instances to different instances. However, these 2 device instances are mutable, their names and prices can be altered in place:
 
@@ -915,9 +870,8 @@ Bundle bundle = new Bundle(device1, device2);
 bundle.Device1.Name = "Surface Studio";
 bundle.Device1.Price = 2999M;
 bundle.Device2.Price -= 50M;
-```
-
 }
+```
 
 So, the above type is only immutable to a certain level. Below that level, mutation can happen. This is called shallow immutability. In contrast, the following type is more immutable:
 
@@ -930,9 +884,8 @@ internal Bundle(ImmutableDevice device1, ImmutableDevice device2) =>
 internal ImmutableDevice Device1 { get; }
 
 internal ImmutableDevice Device2 { get; }
-```
-
 }
+```
 
 This time a bundle consists of 2 immutable devices, and each immutable device consists of an immutable int value and an immutable string value. So, this type is immutable all levels down and completely thread-safe, which is called deep immutability.
 

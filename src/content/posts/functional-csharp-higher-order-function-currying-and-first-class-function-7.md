@@ -377,7 +377,7 @@ So that the => operator can be viewed as right associative.
 
 In some other functional languages, functions are curried by default. For example, in F#, it is unnecessary to explicitly define a function as curried:
 
-```csharp
+```fsharp
 let curriedAdd2: int -> (int -> int) = fun a -> (fun b -> a + b)
 let add1: int -> int = curriedAdd2 1
 let curriedAdd2esult: int = add1 2
@@ -385,21 +385,21 @@ let curriedAdd2esult: int = add1 2
 
 The function is curried by default. The above code is equivalent to:
 
-```csharp
+```fsharp
 let add2: int -> int -> int = fun a b -> a + b
 let add2Result: int = add2 1 2
 ```
 
 To explicitly define a uncurried function, tuple can be used to pass multiple values at one time:
 
-```csharp
+```fsharp
 let add2Tuple: int * int -> int = fun (a, b) -> a + b
 let add2TupleResult = add2Tuple (1, 2) // add2Tuple(Tuple.Create(1, 2)
 ```
 
 [Haskell](http://en.wikipedia.org/wiki/Haskell_\(programming_language\)) (that is the first name of [Haskell Curry](http://en.wikipedia.org/wiki/Haskell_Curry)) works similarly as F#:
 
-```csharp
+```haskell
 -- curriedAdd2 :: Num a => a –> (a –> a)
 curriedAdd2 = \a –> (\b -> a + b)
 add1 = curriedAdd2 1

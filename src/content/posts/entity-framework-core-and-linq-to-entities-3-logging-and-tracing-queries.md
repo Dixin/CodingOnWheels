@@ -49,9 +49,8 @@ public class TraceLoggerProvider : ILoggerProvider
 public ILogger CreateLogger(string categoryName) => new TraceLogger(categoryName);
 
 public void Dispose() { }
-```
-
 }
+```
 
 Now the logger provider can be hooked up with EF Core:
 
@@ -64,9 +63,8 @@ LoggerFactory loggerFactory = new LoggerFactory();
 loggerFactory.AddProvider(new TraceLoggerProvider());
 optionsBuilder.UseLoggerFactory(loggerFactory);
 }
-```
-
 }
+```
 
 The following is a simple example of LINQ to Entities query. It pulls all ProductCategory entities from AdventureWorks.ProductCategories data source:
 

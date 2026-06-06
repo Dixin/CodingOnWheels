@@ -38,9 +38,8 @@ int[] array = Enumerable.Range(0, Environment.ProcessorCount * 4).ToArray();
 array.AsParallel()
 .Visualize(ParallelEnumerable.Select, value => ComputingWorkload(value))
 .WriteLines();
-```
-
 }
+```
 
 Execute the above code with Concurrency Visualizer for Visual Studio, the following chart is rendered:
 
@@ -59,9 +58,8 @@ IEnumerable<int> sequence = Enumerable.Range(
 sequence.AsParallel()
 .Visualize(ParallelEnumerable.Select, value => value + ComputingWorkload())
 .WriteLines();
-```
-
 }
+```
 
 When executing this query on a quad core CPU, for each query thread, the first 8 chunks have 1 value in each chunk, the next 8 chunks have 2 continuous values in each chunk, the last chunk has 4 continuous values, and they are all partitioned to one thread:
 
@@ -78,9 +76,8 @@ Enumerable.Range(0, (1 + 2) * ChunkRepeatCount * Environment.ProcessorCount + 4)
 partitioner.AsParallel()
 .Visualize(ParallelEnumerable.Select, value => value + ComputingWorkload())
 .WriteLines();
-```
-
 }
+```
 
 Here Partitioner.Create has a Partitioner<T> output. The Partitioner<TSource> type is the contract to implement partitioning, which is discussed later in this chapter. Then the ParallelEnumerable.AsParallel overload for Partitioner<T> can be called:
 
@@ -104,9 +101,8 @@ internal int Value { get; }
 public override int GetHashCode() => this.Value % Environment.ProcessorCount;
 
 public override string ToString() => this.Value.ToString(); // For span label.
-```
-
 }
+```
 
 It just wraps an int value, but only produces 4 different hash code on a quad core CPU. The following code visualize how GroupBy query executes its elementSelector function:
 
@@ -135,9 +131,8 @@ data => ComputingWorkload(data.Value).ToString()) // elementSelector.
 // }
 // })
 // .WriteLines(group => string.Join(", ", group));
-```
-
 }
+```
 
 Here GroupBy uses Data instances as the keys, it internally calls each Data instance’s GetHashCode method, and uses the output hash codes for equality comparison and grouping, then it processes the Data instances group by group with multiple query threads. As a result, Data instances with the same hash code is partitioned together and processed by the same query thread. Apparently, hash partitioning balances the load at group level. The synchronization work is required when pulling each group exclusively.
 
@@ -158,9 +153,8 @@ innerKeySelector: data => data, // Key's GetHashCode is called.
 resultSelector: (outerData, innerData) => resultSelector(outerData)),
 data => ComputingWorkload(data.Value)) // resultSelector.
 .WriteLines();
-```
-
 }
+```
 
 Again, Data instances with the same hash code are partitioned together and processed by the same query thread:
 
@@ -183,9 +177,8 @@ EnumerablePartitionerOptions.NoBuffering);
 partitioner.AsParallel()
 .Visualize(ParallelEnumerable.Select, value => ComputingWorkload())
 .WriteLines();
-```
-
 }
+```
 
 Patitioner.Create’s EnumerablePartitionerOptions parameter has 2 members, None and NoBuffering. If None is specified, a partitioner is created to implement chunk partitioning; If NoBuffering is specified, a partitioner is created to implement stripped partitioning. The above code renders the following chart:
 
@@ -199,9 +192,8 @@ Partitioner<int> partitioner = Partitioner.Create(array, loadBalance: true);
 partitioner.AsParallel()
 .Visualize(ParallelEnumerable.Select, value => ComputingWorkload(value))
 .WriteLines();
-```
-
 }
+```
 
 Partitioner.Create’s loadBalance parameter is a bool value. If false is specified, a partitioner is created to implement range partitioning; If true is specified, a partitioner is created to implement stripped partitioning. The above code renders the following chart:
 
@@ -223,9 +215,8 @@ public abstract IList<IEnumerator<TSource>> GetPartitions(int partitionCount);
 public virtual IEnumerable<TSource> GetDynamicPartitions() =>
 throw new NotSupportedException("Dynamic partitions are not supported by this partitioner.");
 }
-```
-
 }
+```
 
 ### Static partitioner
 
@@ -250,9 +241,8 @@ return Enumerable
 .Select(_ => this.Buffer.GetEnumerator())
 .ToArray();
 }
-```
-
 }
+```
 
 As demonstrated above, AsParallel can be called with partitioner:
 
@@ -263,9 +253,8 @@ IEnumerable<int>source = Enumerable.Range(0, Environment.ProcessorCount * 4);
 new StaticPartitioner<int>(source).AsParallel()
 .Visualize(ParallelEnumerable.Select, value => ComputingWorkload(value))
 .WriteLines();
-```
-
 }
+```
 
 The output IBuffer<T> of EnumerableEx.Share implements stripped partitioning. Similar to PLINQ, it internally also utilizes C# lock statement with a synchronization object to make sure each value is exclusively pulled by one thread. The above code renders the following chart:
 
@@ -281,9 +270,8 @@ internal DynamicPartitioner(IEnumerable<TSource> source) : base(source) { }
 public override bool SupportsDynamicPartitions => true;
 
 public override IEnumerable<TSource> GetDynamicPartitions() => this.Buffer;
-```
-
 }
+```
 
 Besides PLINQ queries, dynamic partitioner can also be used with System.Threading.Tasks.Parallel’s ForEach function:
 
@@ -294,9 +282,8 @@ public static class Parallel
 {
 public static ParallelLoopResult ForEach<TSource>(Partitioner<TSource> source, Action<TSource> body);
 }
-```
-
 }
+```
 
 Parallel.ForEach first checks SupportsDynamicPartitions. If it gets false, it throws an InvalidOperationException: The Partitioner used here must support dynamic partitioning; If it gets true, it then calls GetDynamicPartitions to partition the values and call the specified iteratee function in parallel for each partition:
 
@@ -306,9 +293,8 @@ internal static void QueryDynamicPartitioner()
 IEnumerable<int>source = Enumerable.Range(0, Environment.ProcessorCount * 4);
 Parallel.ForEach(
 new DynamicPartitioner<int>(source), value => ComputingWorkload(value));
-```
-
 }
+```
 
 Parallel.ForEach has another overload accepting an IEnumerable<T> sequence, which is more commonly used:
 
@@ -345,9 +331,8 @@ public abstract IList<IEnumerator<KeyValuePair<long, TSource>>>GetOrderableParti
 public virtual IEnumerable<KeyValuePair<long, TSource>>GetOrderableDynamicPartitions() =>
 throw new NotSupportedException("Dynamic partitions are not supported by this partitioner.");
 }
-```
-
 }
+```
 
 Instead of providing partitions of values, orderable partitioner provides partitions of key-value pairs, where key is the index of the value. Its GetOrderablePartitions method is the orderable parity with Partitioner<TSource>.GetPartitions, which gives a static count of partitions represented by iterators of index-value pairs; Its GetOrderableDynamicPartitions method is the orderable parity with Partitioner<TSource>.GetDynamicPartitions, which gives a sequence, where GetEnumerator can be called arbitrary times to get dynamic count of partitions; Its KeysNormalized property outputs a bool value to indicate whether the indexes increase from 0; Its KeysOrderedInEachPartition property indicates whether inside each partition, the indexes always increase, so that a later value’s index is always greater than an former value’s index; And its KeysOrderedAcrossPartitions property indicates whether indexes increase partition by partition, so that a later partition’s indexes are all greater than an former partition’s indexes. Once again, it is easy to implement orderable partitioner with EnumerableEx.Share and IBuffer<T>:
 
@@ -374,9 +359,8 @@ int partitionCount) => Enumerable
 .ToArray();
 
 public override IEnumerable<KeyValuePair<long, TSource>>GetOrderableDynamicPartitions() => this.buffer;
-```
-
 }
+```
 
 Once orderable partitioner is converted with AsParallel, AsOrdered can be used to preserve the order:
 
@@ -404,6 +388,5 @@ new DynamicPartitioner<int>(source)
 .WriteLines();
 // InvalidOperationException: AsOrdered may not be used with a partitioner that is not orderable.
 }
-```
-
 }
+```

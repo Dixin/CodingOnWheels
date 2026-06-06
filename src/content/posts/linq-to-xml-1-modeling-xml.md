@@ -168,9 +168,8 @@ document.Save(writer);
 }
 
 xmlString.WriteLine();
-```
-
 }
+```
 
 These APIs have a few disadvantages:
 
@@ -245,9 +244,8 @@ new XElement(
 @namespace + "source",
 "https://github.com/Dixin/CodeSnippets/tree/master/Dixin/Linq"))));
 rss.ToString().WriteLine(); // Serialize XDocument to string.
-```
-
 }
+```
 
 The new APIs is shorter and more intuitive:
 
@@ -301,9 +299,8 @@ XName attributeName3 = "IsPermaLink";
 object.ReferenceEquals(attributeName1, attributeName2).WriteLine(); // True
 (attributeName1 == attributeName2).WriteLine(); // True
 (attributeName1 != attributeName3).WriteLine(); // True
-```
-
 }
+```
 
 XNamespace has the same behaviour as XName. additionally, it implements the + operator to combine the namespace and local name:
 
@@ -321,9 +318,8 @@ XName name = @namespace + "localName"; // + operator.
 name.WriteLine(); // {https://weblogs.asp.net/dixin}localName
 XElement element = new XElement(name, new XAttribute(XNamespace.Xmlns + "dixin", @namespace)); // + operator.
 element.WriteLine(); // <dixin:localName xmlns:dixin="https://weblogs.asp.net/dixin" />
-```
-
 }
+```
 
 XElement can be explicitly converted to .NET primitive types, e.g.:
 
@@ -333,9 +329,8 @@ internal static void Element()
 XElement pubDateElement = XElement.Parse("<pubDate>Mon, 07 Sep 2009 00:00:00 GMT</pubDate>");
 DateTime pubDate = (DateTime)pubDateElement;
 pubDate.WriteLine(); // 9/7/2009 12:00:00 AM
-```
-
 }
+```
 
 The above conversion is implemented by calling DateTime.Parse with the string value returned by XElement.Value.
 
@@ -348,9 +343,8 @@ XName name = "isPermaLink";
 XAttribute isPermanentLinkAttribute = new XAttribute(name, "true");
 bool isPermaLink = (bool)isPermanentLinkAttribute;
 isPermanentLink.WriteLine() // True
-```
-
 }
+```
 
 Here the conversion is implemented by calling System.Xml.XmlConvert’s ToBoolean method with the string value returned by XElement.Value.
 
@@ -367,9 +361,8 @@ XNode.DeepEquals(element1, element2).WriteLine(); // True
 XElement element3 = new XElement("parent", new XElement("child", string.Empty)); // < parent><child></child></parent>
 object.ReferenceEquals(element1, element2).WriteLine(); // False
 XNode.DeepEquals(element1, element3).WriteLine(); // False
-```
-
 }
+```
 
 Here element2’s child element is constructed with null content, so it is an empty element node <child /> (where XElement.IsEmpty returns true). element3’s child element is constructed with an empty string as content, so it is a non-empty element< child></child> ((where XElement.IsEmpty returns false). As a result, element1 has the same node structures and node values as element2, and they are different from element3.
 
@@ -424,9 +417,8 @@ yield return (XElement)XNode.ReadFrom(reader);
 }
 }
 }
-```
-
 }
+```
 
 As discussed in the LINQ to Objects chapter, function with yield return statement is compiled to generator construction, and all the API calls in above function body is deferred, so each <item> in the RSS feed is read and deserialized on demand.
 
@@ -477,9 +469,8 @@ writer.WriteEndElement();
 }
 element2.ToString(SaveOptions.DisableFormatting).WriteLine();
 // <element><child attribute="value">text</child></element>
-```
-
 }
+```
 
 XNode also provides a ToString overload to accept a SaveOptions flag:
 
@@ -498,9 +489,8 @@ document.ToString(SaveOptions.OmitDuplicateNamespaces).WriteLine();
 // <root xmlns:prefix="namespace">
 // <element />
 // </root>
-```
-
 }
+```
 
 To serialize XML with even more custom settings, the XmlWriter with XmlWriterSettings approach in the DOM API example can be used.
 
@@ -524,9 +514,8 @@ XStreamingElement deferredParent = new XStreamingElement("parent", ChildElements
 deferredParent.ToString(SaveOptions.DisableFormatting).WriteLine();
 // 0 1 2 3 4
 // < parent><child>0</child><child>1</child><child>2</child><child>3</child><child>4</child></parent>
-```
-
 }
+```
 
 Here a factory function is defined to generate a sequence of child elements. It calls the Do query from Interactive Extension (Ix) to prints each value when that pulled from the sequence. Next, the XElement constructor is called, which immediately pulls all child elements from the sequence returned by the factory function, so that the parent element is immediately built with those child elements. Therefore, the Do query is executed right away, and prints the values of the generated child elements. In contrast, XStreamingElement constructor does not pull the child elements from the sequence, the values are not printed yet by Do. The pulling is deferred until the parent element needs to be built, for example, when XStreamingElement.Save/XStreamingElement.ToString/XStreamingElement.WriteTo is called.
 
@@ -544,6 +533,5 @@ XStreamingElement deferredParent = new XStreamingElement("parent", child); // De
 child.Value = "b";
 immediateParent.ToString(SaveOptions.DisableFormatting).WriteLine(); // < parent><child>a</child></parent>
 deferredParent.ToString(SaveOptions.DisableFormatting).WriteLine(); // < parent><child>b</child></parent>
-```
-
 }
+```

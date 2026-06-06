@@ -142,9 +142,8 @@ Trace.Write(Environment.NewLine);
 // 8 in System.Threading: WaitCallback WaitOrTimerCallback IOCompletionCallback TimerCallback ContextCallback ParameterizedThreadStart SendOrPostCallback ThreadStart
 // 3 in System.Reflection: MemberFilter ModuleResolveEventHandler TypeFilter
 // 3 in System.Runtime.CompilerServices: TryCode CleanupCode CreateValueCallback
-```
-
 }
+```
 
 The following example is implemented with LINQ, which is totally declarative:
 
@@ -168,9 +167,8 @@ Trace.Write(" " + delegateType.Name);
 }
 Trace.Write(Environment.NewLine);
 }
-```
-
 }
+```
 
 So imperative programming and declarative programming are very different styles and approaches. The imperative example specifies how to accomplish the task step by step:
 
@@ -293,9 +291,8 @@ internal FileInfo Build(Uri uri)
 FileInfo htmlDocument = this.crawler.Download(uri);
 return this.template.Convert(htmlDocument);
 }
-```
-
 }
+```
 
 The above Crawler class provides the operation to download the document to a directory. Template class provides the operation to convert a document with template. To focus on the paradigm, the implementations are omitted. To build the document, DocumentBuilder class is defined to compose crawler and template. The following code demonstrates how the task can be done using instances of above classes:
 
@@ -304,9 +301,8 @@ internal static void BuildDocument(Uri sourceUri, DirectoryInfo downloadDirector
 {
 DocumentBuilder builder = new DocumentBuilder(new Crawler(downloadDirectory), new Template(templateFile));
 FileInfo resultFile = builder.Build(sourceUri);
-```
-
 }
+```
 
 In functional paradigm, each operation can be simply modelled as a function, and functions can be composed:
 
@@ -329,9 +325,8 @@ return (sourceUri, downloadDirectory, templateFile) =>
 FileInfo sourceFile = download(sourceUri, downloadDirectory);
 return convert(sourceFile, templateFile);
 };
-```
-
 }
+```
 
 This is how the task can be done using above functions:
 
@@ -340,9 +335,8 @@ internal static void BuildDocument(Uri sourceUri, DirectoryInfo downloadDirector
 {
 Func<Uri, DirectoryInfo, FileInfo, FileInfo> buildDocument = CreateDocumentBuilder(Download, Convert);
 FileInfo resultFile = buildDocument(sourceUri, downloadDirectory, templateFile);
-```
-
 }
+```
 
 Here CreateDocumentBuilder function is called with Download and Convert as input, and it outputs another function, which is a composition of Download and Convert. These function are passed just like passing data values. This also demonstrates in C# functions are first class citizens.
 

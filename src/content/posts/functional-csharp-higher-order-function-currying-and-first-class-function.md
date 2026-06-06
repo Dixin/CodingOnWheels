@@ -46,9 +46,8 @@ Data FirstOrderFunction(Data value) { return value; }
 
 Data input = default;
 Data output = FirstOrderFunction(input);
-```
-
 }
+```
 
 If a function has function as input and output, it is a higher-order function:
 
@@ -59,9 +58,8 @@ Function NamedHigherOrderFunction(Function value) { return value; }
 
 Function input = default;
 Function output = NamedHigherOrderFunction(input);
-```
-
 }
+```
 
 Above example is a named higher-order function. Anonymous higher-order functions can also be easily defined with lambda expression:
 
@@ -100,9 +98,8 @@ Func<bool> output4 = higherOrder4(firstOrder1, firstOrder2); // firstOrder1
 output4().WriteLine(); // True
 Func<bool> output5 = higherOrder4(() => nameof(higherOrder4).WriteLine(), () => 0); // higherOrder4
 output5().WriteLine(); // False
-```
-
 }
+```
 
 These higher-order functions can be defined and called with IIFE syntax, without any function name or function variable name involved:
 
@@ -128,9 +125,8 @@ action();
 return () => int32Factory() > 0;
 })(arg1: () => nameof(AnonymousHigherOrderIife).WriteLine(), arg2: () => 0); // AnonymousHigherOrderIife
 output4().WriteLine();
-```
-
 }
+```
 
 .NET Standard has many built in higher-order functions, like Array.FindAll:
 
@@ -141,9 +137,8 @@ public abstract class Array : ICloneable, IList, ICollection, IEnumerable, IStru
 {
 public static T[] FindAll<T>(T[] array, Predicate<T>match);
 }
-```
-
 }
+```
 
 It iterates all values in the input array, and call the match function for each value. If match function returns true, the value is added to the result array:
 
@@ -151,9 +146,8 @@ It iterates all values in the input array, and call the match function for each 
 internal static void FilterArray(Data\[\] array)
 {
 Data[] filtered = Array.FindAll(array, data => data != null);
-```
-
 }
+```
 
 Many LINQ query methods are higher-order functions, take the fore mentioned Where, OrderBy, Select as example:
 
@@ -183,9 +177,8 @@ this IQueryable<TSource> source, Func<TSource, TKey> keySelector);
 public static IQueryable<TResult> Select<TSource, TResult>(
 this IQueryable<TSource> source, Func<TSource, TResult> selector);
 }
-```
-
 }
+```
 
 The Where, OrderBy, Select query methods for local LINQ query are higher-order functions, since they accept an IEnumerable<T> local data source and a function as input. The query methods for remote LINQ query are first-order functions, since they accept an IQueryable<T> remote data source and an expression tree data structure. These LINQ query methods will be discussed in detail in the LINQ to Objects chapters and LINQ to Entities chapters.
 
@@ -206,9 +199,8 @@ Func<int, Func<int, int>> higherOrderAdd2Args = a =>
 new Func<int, int>(b => a + b);
 Func<int, int> add1ArgAnd1Variable = higherOrderAdd2Args(1); // Equivalent to: b => 1 + b.
 int higherOrderResult = add1ArgAnd1Variable(2); // 3
-```
-
 }
+```
 
 Apparently, add2Args is first-order function of type (int, int) –> int. It accepts the first and the second int values as input, and outputs their sum. In contrast, higherOrderAdd2Args is higher-order function of type int –> (int –> int). It accepts only the first int value as input, and outputs a function of type int –> int. This new function accepts the second int value as input, adds with the first int value as free variable captured by closure: b => 1 + b, and outputs their sum. When using add2Args, there is 1 call, where both the first and second int values must be provided, and the result is directly returned. When using higherOrderAdd2Args, there are 2 calls and an intermediate function involved, where only 1 int value is required for each call.
 
@@ -229,9 +221,8 @@ new Func<int, int>(c => a + b + c));
 Func<int, Func<int, int>> higherOrderAdd2ArgsAnd1Variable = higherOrderAdd3Args(1); // Equivalent to: b => (c => 1 + b + c).
 Func<int, int> add1ArgAnd2Variables = higherOrderAdd2ArgsAnd1Variable(2); // Equivalent to: c => 1 + 2 + c.
 int higherOrderResult = add1ArgAnd2Variables(3); // 6
-```
-
 }
+```
 
 Again, when using first-order function, there is only 1 call, where all 3 arguments must be provided. This time, when using the higher-order function, there are 3 calls, and 2 intermediate functions, where only 1 argument is required for each call.
 
@@ -245,9 +236,8 @@ Func<int, Func<int, int>> higherOrderAdd2Args = a => (b => a + b);
 
 // int -> (int -> (int -> int))
 Func<int, Func<int, Func<int, int>>> higherOrderAdd3Args = a => (b => (c => a + b + c));
-```
-
 }
+```
 
 ### Lambda operator associativity
 
@@ -267,9 +257,8 @@ Func<int, int, int, int> add3Args = (a, b, c) => a + b + c;
 
 // int ->int -> int -> int
 Func<int, Func<int, Func<int, int>>> higherOrderAdd3Args = a => b => c => a + b + c;
-```
-
 }
+```
 
 In C#, for a function with 2 or more arguments, it is really easy to convert to equivalent higher-order function. Following this syntax, in this book, the function type notation’s -> operator is also right associative, parenthesis on the right side of -> can also be omitted. So int -> (int -> int) is identical to int -> int -> int. Since ->is not left associative, they are different from (int -> int) -> int, which accepts a function of int -> int as input, and outputs int. Similarly, int -> (int -> (int -> int)) is identical to int -> int -> int -> int.
 
@@ -288,9 +277,8 @@ Func<T1, T2, T3, /* T4, ... */ TN, TResult> function =
 // T1 -> T2 -> T3 -> ... TN ->TResult
 Func<T1, Func<T2, Func<T3, /* Func<T4, ... */ Func<TN, TResult> /* ...> */>>> curriedFunction =
 value1 => value2 => value3 => /* value4 => ... */ valueN => default;
-```
-
 }
+```
 
 The above transformation can be implemented as the following Curry extension methods for Func generic delegate types:
 
@@ -336,9 +324,8 @@ int add3ArgsResult = add2Args(1, 2);
 // int -> int -> int -> int
 Func<int, Func<int, Func<int, int>>> curriedAdd3Args = add3Args.Curry();
 int curriedAdd3ArgsResult = curriedAdd3Args(1)(2)(3);
-```
-
 }
+```
 
 Function without output can be curried in the same way:
 
@@ -351,9 +338,8 @@ Action<T1, T2, T3, /* T4, ... */ TN> function =
 // T1 -> T2 -> T3 -> ... TN ->void
 Func<T1, Func<T2, Func<T3, /* Func<T4, ... */ Action<TN>/* ...> */>>> curriedFunction =
 value1 => value2 => value3 => /* value4 => ... */ valueN => { };
-```
-
 }
+```
 
 Similarly, the above transformation can be implemented as the following Curry extension methods for Action generic delegate types:
 
@@ -399,9 +385,8 @@ add2Args(1, 2);
 // int -> int -> int -> void
 Func<int, Func<int, Action<int>>> curriedAdd3Args = add3Args.Curry();
 curriedAdd3Args(1)(2)(3);
-```
-
 }
+```
 
 ### Uncurry function
 
@@ -465,9 +450,8 @@ Func<int, Func<int, Action<int>>> curriedAdd3Args = a => b => c => (a + b + c).W
 // (int ->int -> int) -> void
 Action<int, int, int> add3Args = curriedAdd3Args.Uncurry();
 add3Args(1, 2, 3);
-```
-
 }
+```
 
 ### Partially apply function
 
@@ -491,9 +475,8 @@ Action<int, int> add2ArgsAnd1Variable = (b, c) => (1 + b + c).WriteLine(); // Pa
 // add2ArgsAnd1Variable can be called with 2 arguments, or be partially applied again with b = 2:
 // int -> void
 Action<int> add1ArgsAnd2Variable = c => (1 + 2 + c).WriteLine();
-```
-
 }
+```
 
 Generally, following Partial extension methods for Func and Action generic delegate types are higher-order functions. When Partial is used for a function with 2 or more parameters, it accepts the first parameter of that function, and outputs another function that accepts the rest of parameters of the original function:
 
@@ -555,9 +538,8 @@ Action<int, int, int> add3Args = (a, b, c) => (a + b + c).WriteLine();
 // (int, int) -> void
 Action<int, int> add2ArgsAnd1Variable = add3Args.Partial(1);
 add2ArgsAnd1Variable(2, 3);
-```
-
 }
+```
 
 For curried function, partial application means a chain of calls with fewer arguments than total:
 
@@ -573,9 +555,8 @@ Func<int, int> partiallyAppliedCurriedAdd2Args = curriedAdd2Args(1);
 Func<int, Func<int, Action<int>>> curriedAdd3Args = a => b => c => (a + b + c).WriteLine();
 // int -> void
 Action<int> partiallyAppliedCurriedAdd3Args = curriedAdd3Args(1)(2);
-```
-
 }
+```
 
 ## First-class function
 
@@ -595,9 +576,8 @@ Function value1 = Function; // Named function.
 Function value2 = () => { }; // Anonymous function.
 ref Function alias = ref value1;
 ref readonly Function immutableAlias = ref value2;
-```
-
 }
+```
 
 With delegate type and delegate instance, function and object can both be stored with static and instance field of type:
 
@@ -615,9 +595,8 @@ private Data instanceDataField = new Data(0);
 private Function instanceNamedFunctionField = Function;
 
 private Function instanceAnonymousFunctionField = () => { };
-```
-
 }
+```
 
 With local function and lambda expression, function and object can both be nested:
 
@@ -646,9 +625,8 @@ Function outer = () =>
 {
 Function inner = () => { };
 };
-```
-
 }
+```
 
 With closure to capture free variable, function and object can both access data out of the scope:
 
@@ -679,9 +657,8 @@ new Function(() =>
 const int Inner = 2;
 int sum = Inner + Outer;
 })();
-```
-
 }
+```
 
 With higher-order function, function and object can both be input and output of function:
 
@@ -726,9 +703,8 @@ value1.Equals(value2).WriteLine(); // True
 (value1 == value2).WriteLine(); // True
 (value1.GetHashCode() == value2.GetHashCode()).WriteLine(); // True.
 EqualityComparer<Function>.Default.Equals(value1, value2).WriteLine(); // True
-```
-
 }
+```
 
 Here Data type overrides object type’s Equals method as well as the == and != operators, so that, 2 Data instances considered logically equal if they encapsulate the same int value. It also overrides object type’s GetHashCode, so that 2 equal Data instances have the same hash code. If 2 variables are 2 Data instances encapsulating the same int value, apparently these 2 variables are not reference equal, but logically equal with the same hash code. C# provides these equality APIs through System.Delegate and System.MulticastDelegate. So similarly, if 2 variables are 2 delegate instances representing the same function, they are not reference equal, but logically equal with the same hash code as well.
 

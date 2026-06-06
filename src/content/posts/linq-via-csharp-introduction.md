@@ -240,9 +240,8 @@ static void Main(string[] args)
 Console.WriteLine("Hello World!");
 }
 }
-```
-
 }
+```
 
 Then right click the project, in the context menu click Properties. In the project property window, go to the Build tab, click the Advanced button, and change the languageLanguage version to latest:
 

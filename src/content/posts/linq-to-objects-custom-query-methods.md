@@ -83,9 +83,8 @@ yield return valueFactory(); // Deferred execution.
 }
 }
 return CreateGenerator();
-```
-
 }
+```
 
 When count is not provided, an infinite sequence is generated. For example, the following Guid query uses Create to repeatedly call Guid.NewGuid, so that it generates a sequence of new GUIDs:
 
@@ -126,9 +125,8 @@ internal static void EmptyIfNull(IEnumerable<int\> source1, IEnumerable<int\> so
 IEnumerable<int>positive = source1.EmptyIfNull()
 .Union(source2.EmptyIfNull())
 .Where(int32 => int32 > 0);
-```
-
 }
+```
 
 ### Concatenation
 
@@ -141,9 +139,8 @@ public class String
 {
 public static string Join(string separator, IEnumerable<string> values);
 }
-```
-
 }
+```
 
 It concatenates the string values with a single separator between each 2 adjacent string values. Similarly, a general ConcatJoin query can be defined as:
 
@@ -163,9 +160,8 @@ yield return iterator.Current; // Deferred execution.
 }
 }
 }
-```
-
 }
+```
 
 The built-in Append/Prepend can append/prepend 1 value to the source sequence. So the following overloads can be defined to support multiple values:
 
@@ -227,9 +223,8 @@ bool Equals(T x, T y);
 
 int GetHashCode(T obj);
 }
-```
-
 }
+```
 
 In C#, interfaces are less convenient then functions. C# supports lambda expression to define anonymous functions inline, but does not support anonymous class to enable inline interface. For the LINQ queries accepting interface parameter, they are easier to be called if they can accept function parameter instead. To Implement this, the following ToComparer function can be defined to convert a compare functions to an IComparer<T\> interface:
 
@@ -396,9 +391,8 @@ $"{nameof(index)} must be within the bounds of {nameof(source)}.");
 }
 }
 return InsertGenerator();
-```
-
 }
+```
 
 The above Insert query is more functional than List<T>.Insert. List<T>.Insert has no output, so it is not fluent and it implements immediate execution. It is also impure by mutating the list in place. The above Insert query follows the iterator pattern, and uses yield statement to implement deferred execution. It outputs a new sequence, so it is fluent, and it is a pure function since it does not mutate the source sequence.
 
@@ -430,9 +424,8 @@ throw new ArgumentOutOfRangeException(nameof(index));
 }
 }
 return RemoveAtGenerator();
-```
-
 }
+```
 
 Remove outputs a new sequence with the first occurrence of the specified value removed. Besides being deferred and lazy, it also accepts an optional equality comparer:
 
@@ -455,9 +448,8 @@ else
 yield return sourceValue; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 RemoveAll outputs a new sequence with all occurrences of the specified value removed:
 
@@ -475,9 +467,8 @@ if (!comparer.Equals(sourceValue, value))
 yield return sourceValue; // Deferred execution.
 }
 }
-```
-
 }
+```
 
 Since Remove and RemoveAll tests the equality of objects to determine which objects to remove, the following higher-order function overloads can be defined for convenience:
 
@@ -663,9 +654,8 @@ throw new ArgumentOutOfRangeException(nameof(percentile), $"{nameof(percentile)}
 }
 
 return PercentileInclusive(source, keySelector, percentile, comparer, formatProvider);
-```
-
 }
+```
 
 ### Quantifiers
 
@@ -720,9 +710,8 @@ return index;
 index = checked(index + 1);
 }
 return -1;
-```
-
 }
+```
 
 LastIndexOf is similar to List<T>.LastIndexOf. It finds the index of last occurrence of the specified value:
 
@@ -744,9 +733,8 @@ lastIndex = index;
 index = checked(index + 1);
 }
 return lastIndex;
-```
-
 }
+```
 
 Again, here are the functional overloads of IndexOf and LastIndexOf:
 
@@ -783,9 +771,8 @@ if (!onNext(value))
 break;
 }
 }
-```
-
 }
+```
 
 The callback function is of type TSource -> bool. When its output is true, the iteration continues; when its output is false, ForEach stops execution. And the indexed overload is:
 
@@ -802,9 +789,8 @@ break;
 }
 index = checked(index + 1);
 }
-```
-
 }
+```
 
 The last overload does not accept the callback function. It just iterates the source sequence:
 
@@ -820,9 +806,8 @@ finally
 {
 (iterator as IDisposable)?.Dispose();
 }
-```
-
 }
+```
 
 It can be used to just execute a LINQ query and ignore all query results.
 

@@ -25,9 +25,8 @@ internal static void NamedFunction()
 {
 Func<int, bool> isPositive = IsPositive;
 bool result = isPositive(0);
-```
-
 }
+```
 
 C# 2.0 introduces a syntactic sugar called anonymous method, enabling function to be defined inline with the delegate keyword. The above function can be inline as:
 
@@ -36,9 +35,8 @@ internal static void AnonymousMethod()
 {
 Func<int, bool> isPositive = delegate (int int32) { return int32 > 0; };
 bool result = isPositive(0);
-```
-
 }
+```
 
 This time delegate instance is initialized with an anonymous function, which does not have function name at design time. At compile time, a named function is generated. The above example is compiled to:
 
@@ -58,9 +56,8 @@ cachedIsPositive = new Func<int, bool>(CompiledIsPositive);
 }
 isPositive = cachedIsPositive;
 bool result = isPositive.Invoke(0);
-```
-
 }
+```
 
 Besides named function, C# compiler also generates a cache field for performance. As discussed in the delegate chapter, a delegate instance is actually an object with an Invoke method. When AnonymousMethod is called for the first time, the delegate instance is constructed with the generated named function, and stored in the static cache fieled forever. When AnonymousMethod is called again, the cached delegate instance is reused.
 
@@ -74,9 +71,8 @@ internal static void AnonymousFunction()
 Func<int, bool> isPositive = (int int32) => { return int32 > 0; };
 // Equivalent to: Func<int, bool> isPositive = int32 => int32 > 0;
 bool result = isPositive(0);
-```
-
 }
+```
 
 Its compilation is identical to above anonymous method example. The => operator is called lambda operator and reads “go to”. Lambda expression can be further shortened:
 
@@ -94,9 +90,8 @@ internal static void ExpressionLambda()
 Func<int, int, int> add = (int32A, int32B) => int32A + int32B;
 Func<int, bool>isPositive = int32 => int32 > 0;
 Action<int> traceLine = int32 => int32.WriteLine();
-```
-
 }
+```
 
 When a lambda expression having more than one statements in the body, its body has to be a block with curly brackets. It is called statement lambda:
 
@@ -118,9 +113,8 @@ Action<int> traceLine = int32 =>
 int32.WriteLine();
 Trace.Flush();
 };
-```
-
 }
+```
 
 For delegate instantiation, lambda expression (both expression lambda and statement lambda) can also be used with the constructor call syntax and type conversion syntax, which is similar to using named function discussed in the delegate chapter:
 
@@ -141,9 +135,8 @@ internal static void Simplified()
 {
 Func<int, bool> isPositive = int32 => int32 > 0;
 bool result = isPositive(0);
-```
-
 }
+```
 
 These 3 syntaxes are compiled identically.
 
@@ -155,9 +148,8 @@ An anonymous function is not required to be assigned to a function variable. It 
 internal static void CallAnonymousFunction(int arg)
 {
 (int32 => int32 > 0)(arg); // Cannot be compiled..
-```
-
 }
+```
 
 The reason is, C# compiler cannot inter the type information of the lambda expression. The type information can be provided with the constructor call or type conversion syntax above code cannot be compiled because C# compiler cannot infer any type for the lambda expression. For this kind of IIFE (), the above constructor call syntax, or type conversion syntax can be used to provide type information to compiler:
 
@@ -170,9 +162,8 @@ bool result = new Func<int, bool>(int32 => int32 > 0)(arg);
 internal static void CallLambdaExpressionWithConversion(int arg)
 {
 bool result = ((Func<int, bool>)(int32 => int32 > 0))(arg);
-```
-
 }
+```
 
 In functional programming, this pattern is called immediately-invoked function expression (IIFE). There is no function name or function variable (delegate instance) name involved at design time. At compile time, C# compiler generates identical code of named function for the above 2 syntaxes:
 
@@ -197,9 +188,8 @@ Functions.cachedIsPositive = new Func<int, bool>(Functions.Singleton.IsPositive)
 }
 isPositive = Functions.cachedIsPositive;
 bool result = isPositive.Invoke(1);
-```
-
 }
+```
 
 Here are a few more examples of IIFE:
 
@@ -224,9 +214,8 @@ new Action<int>(int32 =>
 int32.WriteLine();
 Trace.Flush();
 })(1);
-```
-
 }
+```
 
 In some other strongly-typed functional languages, like F#, Haskell, etc. the type information can be omitted at design time and inferred at compile time the type information is also not needed for dynamic functional languages, like JavaScript. IIFE was commonly used in JavaScript to modularize or isolate code in the function scope, until the ECMAScript 2015 standard introduces module and block scope to JavaScript.
 
@@ -243,9 +232,8 @@ new Action(() =>
 int local = 2; // Inside anonymous function.
 (local + free).WriteLine();
 })(); // 3
-```
-
 }
+```
 
 Its compilation is also similar to local function. The difference is, C# compiler generates closure structure for local function, while it generates closure class for anonymous function, which requires heap allocation and can be a performance overhead. The above code is compiled to:
 
@@ -267,9 +255,8 @@ internal static void CompiledAnonymousFunctionWithClosure()
 int free = 1;
 Closure1 closure = new Closure1() { Free = free };
 closure.Add(); // 3
-```
-
 }
+```
 
 Similar to local function, the closure of anonymous function may also introduce the same performance pitfall of memory leak. Closure must be used with caution for anonymous function too, whenever an anonymous function may live longer than the execution of outer function.
 
@@ -325,9 +312,8 @@ internal int GetValue()
 int LocalFunction() => this.value; // Local function.
 return LocalFunction();
 }
-```
-
 }
+```
 
 This syntax works for extension method and interface explicit implementation too:
 
@@ -340,8 +326,7 @@ internal static bool ExtensionEquals(Data @this, Data other) => @this?.ReadOnlyV
 internal partial class Data : IEquatable<Data>
 {
 bool IEquatable<Data>.Equals(Data other) => this.value == other?.value; // Explicit interface implementation.
-```
-
 }
+```
 
 The expression body is just a syntactic sugar. Its compilation has no difference from the statement body with curly bracket.

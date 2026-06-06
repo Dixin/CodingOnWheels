@@ -167,9 +167,8 @@ element
 .Select(selfOrAncestor => selfOrAncestor.Name)
 .WriteLines(); // element parent grandparent
 object.ReferenceEquals(element.Ancestors().Last(), element.Document.Root).WriteLine(); // True.
-```
-
 }
+```
 
 Notice AncestorsAndSelf first yields self, then yields ancestors recursively. It could be more intuitive if named as SelfAndAncestors.
 
@@ -197,9 +196,8 @@ comparer: StringComparer.OrdinalIgnoreCase)
 .Select(category => $"[{category.Name}]:{category.Count}");
 string.Join(" ", categories).WriteLine();
 // [C#]:9 [LINQ]:6 [.NET]:5 [Functional Programming]:4 [LINQ via C#]:4
-```
-
 }
+```
 
 Similar to ancestors, descendants are children, children’s children, …, recursively:
 
@@ -243,9 +241,8 @@ root.DescendantNodes()
 // Text: 2
 // Element: < element>3</element>
 // Text: 3
-```
-
 }
+```
 
 Regarding all the X\* types are reference types, when querying the same XML tree, multiple queries’ results from the same source tree can reference to the same instance:
 
@@ -262,9 +259,8 @@ XDocument rss2 = XDocument.Load("https://weblogs.asp.net/dixin/rss");
 XElement[] items3 = rss2.Root.Descendants("item").ToArray();
 object.ReferenceEquals(items1.First(), items3.First()).WriteLine(); // False
 items1.SequenceEqual(items3).WriteLine(); // False
-```
-
 }
+```
 
 Again, LINQ to XML is just a specialized LINQ to Objects. For example, the implementation of XNode.Ancestors is equivalent to:
 
@@ -283,9 +279,8 @@ yield return parent;
 
 // Other members.
 }
-```
-
 }
+```
 
 And the implementation of the Extensions.Ancestors query is equivalent to:
 
@@ -301,9 +296,8 @@ source
 
 // Other members.
 }
-```
-
 }
+```
 
 ### Ordering
 
@@ -331,9 +325,8 @@ element1
 .Reverse()
 .SequenceEqual(element1.AncestorsAndSelf().InDocumentOrder())
 .WriteLine(); // True
-```
-
 }
+```
 
 Apparently, InDocumentOrder requires the source nodes sequence to be in the same XML tree. This is determined by looking up a common ancestor of the source nodes:
 
@@ -365,9 +358,8 @@ new XElement[] { elements.First(), elements.Last(), new XElement("element") }
 .InDocumentOrder()
 .WriteLines();
 // InvalidOperationException: A common ancestor is missing.
-```
-
 }
+```
 
 Notice in the inline XML string, single quotes are used for attribute values, instead of double quotes. This is for readability of C# code, otherwise "" or \\" has to be used. According to the W3C XML spec, single quote is legal.
 
@@ -386,9 +378,8 @@ public static partial class Extensions
 {
 public static IEnumerable<T> InDocumentOrder<T>(this IEnumerable<T> source) where T : XNode =>
 source.OrderBy(node => node, XNode.DocumentOrderComparer);
-```
-
 }
+```
 
 ## More useful custom queries
 
@@ -415,9 +406,8 @@ descendant is XElement descendantElement
 ? descendantElement.Attributes() // T is covariant in IEnumerable<T>.
 : Enumerable.Empty<XObject>()))
 : Enumerable.Empty<XObject>());
-```
-
 }
+```
 
 As fore mentioned, XObject can be either node or attribute. So, in the query, If the source is element, it yields the element’s attributes; if the source is XContainer, it yields each descendant node; If a descendant node is element, it yields the attributes.
 
@@ -477,9 +467,8 @@ source
 .Namespaces()
 .ForEach(@namespace => namespaceManager.AddNamespace(@namespace.Item1, @namespace.Item2.ToString()));
 return namespaceManager;
-```
-
 }
+```
 
 This function is used later when working with XPath.
 
@@ -535,9 +524,8 @@ StringComparer.OrdinalIgnoreCase)
 .Select(category => $"[{category.Name}]:{category.Count}")
 .WriteLines();
 // [C#]:9 [LINQ]:6 [.NET]:5 [Functional Programming]:4 [LINQ via C#]:4
-```
-
 }
+```
 
 It implements the same query as previous RSS tags example.
 
@@ -559,9 +547,8 @@ StringComparer.OrdinalIgnoreCase)
 .Select(category => $"[{category.Name}]:{category.Count}")
 .WriteLines();
 // [C#]:9 [LINQ]:6 [.NET]:5 [Functional Programming]:4 [LINQ via C#]:4
-```
-
 }
+```
 
 And XPathSelectElement is simply a shortcut of calling XPathSelectElements to get a sequence, then call FirstOrDefault.
 
@@ -580,9 +567,8 @@ double average2 = rss
 .Elements("item")
 .Average(item => item.Elements("category").Count());
 average2.WriteLine(); // 4.65
-```
-
 }
+```
 
 When the XPath is evaluated to a sequence of values, XPathEvaluate outputs IEnumerable<object>:
 
@@ -603,9 +589,8 @@ StringComparer.OrdinalIgnoreCase)
 .Select(category => $"[{category.Name}]:{category.Count}")
 .WriteLines();
 // [C#]:9 [LINQ]:6 [.NET]:5 [Functional Programming]:4 [LINQ via C#]:4
-```
-
 }
+```
 
 LINQ to XML also provides overloads for these XPath methods to accept an IXmlNamespaceResolver parameter. When the XPath expression involves namespace, an IXmlNamespaceResolver instance must be provided. Taking another RSS feed from Flickr as an example:
 
@@ -646,9 +631,8 @@ query1.Count().WriteLine(); // 20
 
 IEnumerable<XElement> query2 = rss.XPathSelectElements("/rss/channel/item/media:category");
 // XPathException: Namespace Manager or XsltContext needed. This query has a prefix, variable, or user-defined function.
-```
-
 }
+```
 
 Since prefix “media” is in XPath expression, An IXmlNamespaceResolver instance is required. XmlNamespaceManager implements IXmlNamespaceResolver, so simply call the previously defined CreateNamespaceManager method to create it. In contrast, querying the same XPath expression without IXmlNamespaceResolver instance throws XPathException.
 
@@ -666,9 +650,8 @@ rss.CreateNamespaceManager()))
 .WriteLines(mediaTitle => mediaTitle.Value);
 // Chinese President visits Microsoft
 // Satya Nadella, CEO of Microsoft
-```
-
 }
+```
 
 ### Generate XPath expression
 
@@ -699,9 +682,8 @@ string prefix = source.Namespace == XNamespace.None
 ? null
 : container.GetPrefixOfNamespace(source.Namespace); // GetPrefixOfNamespace returns null if not found.
 return string.IsNullOrEmpty(prefix) ? source.ToString() : $"{prefix}:{source.LocalName}";
-```
-
 }
+```
 
 Regarding the above segment 1 and segment 2 has to be combined, another helper function is needed to combine 2 XPath expressions, which is similar to .NET built-in Combine method provided by System.IO.Path:
 
@@ -735,9 +717,8 @@ string predicate = index == 0
 ? null
 : $"[{index + 1}]";
 return CombineXPath(parentXPath, selfXPath, predicate);
-```
-
 }
+```
 
 Now, the following XPath extension method can be defined to generate XPath expression for an element:
 
@@ -808,6 +789,5 @@ XAttribute attribute2 = ((IEnumerable<object>)flickrRss
 .Cast<XAttribute>()
 .Single();
 object.ReferenceEquals(attribute1, attribute2).WriteLine(); // True
-```
-
 }
+```

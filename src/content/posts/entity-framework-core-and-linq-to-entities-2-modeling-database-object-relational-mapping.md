@@ -54,9 +54,8 @@ protected internal virtual void OnModelCreating(ModelBuilder modelBuilder);
 
 // Other members.
 }
-```
-
 }
+```
 
 DbContext implements IDisposable. Generally, a database instance should be constructed and disposed for each unit of work - a collection of data operations that should succeed or fail as a unit:
 
@@ -67,9 +66,8 @@ using (AdventureWorks adventureWorks = new AdventureWorks())
 {
 // Unit of work.
 }
-```
-
 }
+```
 
 EF Core also support DbContext pooling to improve performance. In the application or service, If DbContext is used through dependency injection, and it is no custom state (just like the above AdventureWorks type with no fields), then DbContext pooling can be enabled to reuse DbContext without disposing.
 
@@ -86,9 +84,8 @@ MapCompositePrimaryKey(modelBuilder);
 MapManyToMany(modelBuilder);
 MapDiscriminator(modelBuilder);
 }
-```
-
 }
+```
 
 The above MapCompositePrimaryKey, MapManyToMany, MapDiscriminator functions are implemented later in this chapter.
 
@@ -114,9 +111,8 @@ sqlServerOptionsAction: options => options.EnableRetryOnFailure(
 maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30),
 errorNumbersToAdd: null))
 .Options;
-```
-
 }
+```
 
 Here when database connection is not provided to the constructor, a new database connection is created with the previously defined connection string. Also, regarding the connection between application and SQL database may be interrupted over the network, EF Core supports connection resiliency for SQL database. This is very helpful for Azure SQL database deployed in the cloud instead of local network. In the above example, EF Core is specified to automatically retries up to 5 times with the retry interval of 30 seconds.
 
@@ -166,9 +162,8 @@ public int ProductCategoryID { get; set; }
 public string Name { get; set; }
 
 // Other columns are ignored.
-```
-
 }
+```
 
 The \[Table\] attribute specifies the table name and schema. \[Table\] can be omitted when the table name is the same as the entity name, and the table is under the default dbo schema. In the table-entity mapping:
 
@@ -184,9 +179,8 @@ At runtime, each row of Production.ProductCategory table is mapped to a ProductC
 public partial class AdventureWorks
 {
 public DbSet<ProductCategory>ProductCategories { get; set; }
-```
-
 }
+```
 
 EF Core also supports immutable entity definition:
 
@@ -204,9 +198,8 @@ public int ProductCategoryID { get; private set; }
 [MaxLength(50)]
 [Required]
 public string Name { get; private set; }
-```
-
 }
+```
 
 This book defines all table mapping as mutable, since it is easier to update the entities and save back to database.
 
@@ -291,9 +284,8 @@ public string JobTitle { get; set; }
 public DateTime HireDate { get; set; }
 
 public virtual Person Person { get; set; } // Reference navigation property.
-```
-
 }
+```
 
 The \[ForeignKey\] attribute indicates Employee entity’s BusinessEntityID property is the foreign key for the relationship represented by navigation property. Here Person is called the primary entity, and Employee is called the dependent entity. Their navigation properties are called reference navigation properties, because each navigation property can refer to a single entity. The navigation property is designed to be virtual to enable proxy entity to implement lazy loading. Proxy entity and lazy loading is discussed in the query translation and data loading chapter.
 
@@ -375,9 +367,8 @@ public decimal ListPrice { get; set; }
 public int? ProductSubcategoryID { get; set; }
 
 public virtual ProductSubcategory ProductSubcategory { get; set; } // Reference navigation property.
-```
-
 }
+```
 
 Notice Production.Product table’s ProductSubcategoryID column is nullable, so it is mapped to a int? property. Here \[ForeignKey\] attribute is omitted, because each dependent entity’ foreign key is separated from its primary key, so the foreign key can be automatically discovered by EF Core.
 
@@ -453,9 +444,8 @@ public int ProductPhotoID { get; set; }
 public virtual Product Product { get; set; } // Reference navigation property.
 
 public virtual ProductPhoto ProductPhoto { get; set; } // Reference navigation property.
-```
-
 }
+```
 
 ProductPhoto.ModifiedDate has a \[ConcurrencyCheck\] attribute for concurrency conflict check, which is discussed in the data manipulation chapter. Production.ProductProductPhoto table has a composite primary key. As a junction table, each row in the table has a unique combination of ProductID and ProductPhotoID. EF Core requires additional initialization for composite primary key, which should be executed in DbContext’s OnModelCreating method:
 
@@ -471,9 +461,8 @@ ProductID = productProductPhoto.ProductID,
 ProductPhotoID = productProductPhoto.ProductPhotoID
 });
 }
-```
-
 }
+```
 
 EF Core also requires additional initialization for many-to-many relationship represented by 2 one-to-many relationships, which should be executed in OnModelCreating as well:
 
@@ -492,9 +481,8 @@ modelBuilder.Entity<ProductProductPhoto>()
 .WithMany(photo => photo.ProductProductPhotos)
 .HasForeignKey(productProductPhoto => productProductPhoto.ProductPhotoID);
 }
-```
-
 }
+```
 
 Finally, all the above tables can be exposed as properties of AdventureWorks:
 
@@ -510,9 +498,8 @@ public DbSet<ProductSubcategory>ProductSubcategories { get; set; }
 public DbSet<Product> Products { get; set; }
 
 public DbSet<ProductPhoto> ProductPhotos { get; set; }
-```
-
 }
+```
 
 ### Inheritance
 
@@ -580,9 +567,8 @@ modelBuilder.Entity<TransactionHistory>()
 .HasValue<SalesTransactionHistory>(nameof(TransactionType.S))
 .HasValue<WorkTransactionHistory>(nameof(TransactionType.W));
 }
-```
-
 }
+```
 
 Now these entities can all be exposed as data sources:
 
@@ -596,9 +582,8 @@ public DbSet<PurchaseTransactionHistory> PurchaseTransactions { get; set; }
 public DbSet<SalesTransactionHistory>SalesTransactions { get; set; }
 
 public DbSet<WorkTransactionHistory>WorkTransactions { get; set; }
-```
-
 }
+```
 
 ### Views
 
@@ -634,9 +619,8 @@ public string FirstName { get; set; }
 public string LastName { get; set; }
 
 public string JobTitle { get; set; }
-```
-
 }
+```
 
 And then expose as data source:
 
@@ -644,9 +628,8 @@ And then expose as data source:
 public partial class AdventureWorks
 {
 public DbSet<vEmployee> vEmployees { get; set; }
-```
-
 }
+```
 
 ## Summary
 

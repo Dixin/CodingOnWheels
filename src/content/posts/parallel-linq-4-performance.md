@@ -41,9 +41,8 @@ int[] parallel1Results = source.AsParallel().OrderBy(keySelector).ToArray();
 });
 stopwatch.Stop();
 $"Parallel:{stopwatch.ElapsedMilliseconds}".WriteLine();
-```
-
 }
+```
 
 It calls the RandomInt32 query, which is defined in the LINQ to Objects custom queries chapter, to generate an array of random int values with the specified length. Then it executes the sequential and parallel OrderBy queries repeatedly for the specified times, so that the total execution time can be controlled in a reasonable range, the following code calls the OrderByTest function compares the sequential/parallel OrderBy execution on arrays of small/medium/large size, with the same simple key selector:
 
@@ -56,9 +55,8 @@ OrderByTest(keySelector: value => value, sourceCount: 5_000, testRepeatCount: 10
 // Sequential:114 Parallel:107
 OrderByTest(keySelector: value => value, sourceCount: 500_000, testRepeatCount: 100);
 // Sequential:18210 Parallel:8204
-```
-
 }
+```
 
 The following code compares the sequential/parallel OrderBy execution on arrays of the same size, with different key selector of light/medium/heavy workload:
 
@@ -77,9 +75,8 @@ OrderByTest(
 keySelector: value => value + ComputingWorkload(baseIteration: 100_000),
 sourceCount: Environment.ProcessorCount, testRepeatCount: 100);
 // Sequential:1240 Parallel:555
-```
-
 }
+```
 
 It turns out PLINQ has better performance than LINQ to Objects with larger source and expensive iteratee function, which has a better chance to offset the overhead of partitioning and buffering/merging.
 
@@ -129,9 +126,8 @@ if (!exceptions.IsEmpty)
 {
 throw new AggregateException(exceptions);
 }
-```
-
 }
+```
 
 It calls Partitioner.Create with EnumerablePartitionerOptions.NoBuffering, to enable stripped partitioning for better load balance. It then calls the created partitioner to create the specified number of partitions, and uses current thread and additional threads to simultaneously pull each partition and call the iterate function.
 
@@ -158,9 +154,8 @@ uris.AsParallel()
 uris.Visualize(
 query: (source, iteratee) => source.ForceParallel(iteratee, DegreeOfParallelism),
 iteratee: uri => Download(uri).Length.WriteLine());
-```
-
 }
+```
 
 The following code queries some thumbnail picture file URIs from the Flickr RSS feed with LINQ to XML, then pass the URIs to above function to visualize the download:
 
@@ -174,9 +169,8 @@ string[] smallThumbnailUris = XDocument
 .Select(uri => (string)uri)
 .ToArray();
 DownloadTest(smallThumbnailUris);
-```
-
 }
+```
 
 Here sequential download takes longer time, as expected. The PLINQ query is specified with a max degree of parallelism 10, but it decides to utilize 5 threads. ForceParallel starts 10 threads exactly as specified, and its execution time is about half of PLINQ.
 
@@ -192,9 +186,8 @@ string[] largePictureUris = XDocument
 .Select(uri => (string)uri)
 .ToArray();
 DownloadTest(largePictureUris);
-```
-
 }
+```
 
 This time PLINQ still utilizes 5 threads from the beginning, then decides to start 2 more threads a while later. ForceParallel simply start 10 threads since the beginning. However, the duration of sequential download, PLINQ download, and ForceParallel download are about the same. This is because when downloading larger files, the network bandwidth is fully occupied and becomes the performance bottleneck, so the degree of parallelism does not make much difference.
 

@@ -243,19 +243,19 @@ internal static void CallAnonymousFunction()
 
 Some other functional languages support the IIFE syntax without type information. For example, F# compiler can infer the types in the following lambda expression:
 
-```csharp
+```fsharp
 (fun value -> value > 0) 1
 ```
 
 Regarding value is compared with int value 1 with the > operator, F# infers parameter value is of type int, and also infers return type is bool from the result type of the > operator for int. Similarly, the following lambda expression works in Haskell (named after [Haskell Curry](http://en.wikipedia.org/wiki/Haskell_Curry), mathematician and logician):
 
-```csharp
+```haskell
 (\value -> value > 0) 1
 ```
 
 This can also work In some loosely typed languages, like JavaScript:
 
-```csharp
+```js
 (value => value > 0)(1);
 
 (function(value) {

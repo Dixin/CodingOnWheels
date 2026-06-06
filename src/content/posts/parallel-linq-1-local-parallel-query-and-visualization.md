@@ -43,9 +43,8 @@ public static ParallelQuery<TResult> Repeat<TResult>(TResult element, int count)
 
 // Other members.
 }
-```
-
 }
+```
 
 And the following are the sequential and parallel Where/Select/Concat/Cast queries side by side:
 
@@ -79,9 +78,8 @@ this ParallelQuery<TSource> first, ParallelQuery<TSource> second);
 
 public static ParallelQuery<TResult> Cast<TResult>(this ParallelQuery source);
 }
-```
-
 }
+```
 
 When defining each standard query in PLINQ, the generic source and generic output are represented by ParallelQuery<T> instead of IEnumerable<T>, and the non-generic source is represented by ParallelQuery instead of IEnumerable. The other parameter types remain the same. Similarly, the following are the ordering queries side by side, where the ordered source and ordered output are represented by OrderedParallelQuery<T> instead of IOrderedEnumerable<T>:
 
@@ -117,9 +115,8 @@ this OrderedParallelQuery<TSource> source, Func<TSource, TKey> keySelector);
 public static OrderedParallelQuery<TSource> ThenByDescending<TSource, TKey>(
 this OrderedParallelQuery<TSource> source, Func<TSource, TKey> keySelector);
 }
-```
-
 }
+```
 
 With this design, the fluent function chaining and the LINQ query expression pattern are automatically enabled for PLINQ queries. It is the same syntax to write LINQ to Objects query and PLINQ query.
 
@@ -159,9 +156,8 @@ ParallelQuery<double> parallelQuery = ParallelEnumerable
 .Concat(ParallelEnumerable.Range(0, 5)) // Call ParallelEnumerable.Concat.
 .Where(int32 => int32 > 0) // Call ParallelEnumerable.Where.
 .Select(int32 => Math.Sqrt(int32)); // Call ParallelEnumerable.Select.
-```
-
 }
+```
 
 A PLINQ query can also be started by calling ParallelEnumerable.AsParallel to convert IEnumerable<T>/IEnumerable to ParallelQuery<T>/ParallelQuery:
 
@@ -180,9 +176,8 @@ ParallelQuery<int>parallelQuery1 = source1 // IEnumerable<int>.
 ParallelQuery<int> parallelQuery2 = source2 // IEnumerable.
 .AsParallel() // Output ParallelQuery.
 .Cast<int>(); // Call ParallelEnumerable.Cast.
-```
-
 }
+```
 
 AsParallel also has an overload accepting a partitioner. Partitioner is discussed in the next chapter.
 
@@ -213,9 +208,8 @@ IEnumerable<string> obsoleteTypes = CoreLibrary.GetExportedTypes() // Output IEn
 .OrderBy(name => name); // Call Enumerable.OrderBy.
 obsoleteTypes.WriteLines();
 }
-```
-
 }
+```
 
 The above query can be written in query expression syntax:
 
@@ -230,9 +224,8 @@ select type.FullName).AsSequential()
 orderby name
 select name;
 obsoleteTypes.WriteLines();
-```
-
 }
+```
 
 ### Parallel query execution
 
@@ -252,9 +245,8 @@ public static class ParallelEnumerable
 public static void ForAll<TSource>(
 this ParallelQuery<TSource>source, Action<TSource>action);
 }
-```
-
 }
+```
 
 ForAll can simultaneously pull results from ParallelQuery<T> source with multiple threads, and simultaneously call the specified function on those threads:
 
@@ -268,9 +260,8 @@ Enumerable
 ParallelEnumerable
 .Range(0, Environment.ProcessorCount * 2)
 .ForAll(value => value.WriteLine()); // 2 6 4 0 5 3 7 1
-```
-
 }
+```
 
 Above is the output after executing the code in a quad core CPU, Unlike ForEach, the values pulled and traced by ForAll is unordered. And if this code runs multiple times, the values can be in different order from time to time. This indeterministic order is the consequence of parallel pulling. The order preservation in parallel query execution is discussed in detail later.
 
@@ -288,9 +279,8 @@ else
 {
 source.ForAll(value => Trace.WriteLine(messageFactory(value)));
 }
-```
-
 }
+```
 
 ## Visualizing parallel query execution
 
@@ -326,9 +316,8 @@ public class MarkerSeries
 {
 public static Span EnterSpan(int category, string text);
 }
-```
-
 }
+```
 
 The category parameter is used to determine the color of the rendered timespan, and the text parameter is the label for the rendered timespan.
 
@@ -376,9 +365,8 @@ public MarkerSeries(string markSeriesName) => this.markSeriesName = markSeriesNa
 
 public Span EnterSpan(int category, string spanName) =>
 new Span(category, spanName, this.markSeriesName);
-```
-
 }
+```
 
 If a lot of information is traced, more trace listeners can be optionally added to save the information to file or print to console:
 
@@ -392,9 +380,8 @@ Trace.Listeners.Add(new TextWriterTraceListener(@"D:\Temp\Trace.txt"));
 // Trace to console:
 Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
 }
-```
-
 }
+```
 
 ### Visualizing sequential and parallel query execution
 
@@ -436,9 +423,8 @@ value.WriteLine(); // 2 6 4 0 5 3 7 1
 }
 });
 }
-```
-
 }
+```
 
 In ForEach and ForAll’s iteratee functions, a for loop of 10 million iterations is executed to add some CPU computing workload to make the function call take longer time, otherwise the rendered timespan of function call can be too small to read. On Windows, click Visual Studio => Analyze => Concurrency Visualizer => Start with Current Project. When the code finishes running, a rich UI is generated. The first tab Utilization shows that the CPU usage was about 25% for a while, which is the sequential LINQ query executing on the quad core CPU. Then the CPU usage became almost 100%, which is the PLINQ execution.
 
@@ -504,9 +490,8 @@ iteratee(value);
 }
 });
 }
-```
-
 }
+```
 
 And the additional CPU computing workload can also be defined as a function:
 
@@ -515,9 +500,8 @@ internal static int ComputingWorkload(int value = 0, int baseIteration = 10\_000
 {
 for (int i = 0; i < baseIteration * (value + 1); i++) { }
 return value;
-```
-
 }
+```
 
 When it is called as ComputingWorkload() or ComputingWorkload(0), it runs 10 million iterations and output 0; when it is called as ComputingWorkload(1), it runs 20 million iterations and output 1; and so on.
 
@@ -537,9 +521,8 @@ ParallelEnumerable
 .Visualize(
 ParallelEnumerable.ForAll,
 value => (value + ComputingWorkload()).WriteLine());
-```
-
 }
+```
 
 ### Visualizing chaining queries
 
@@ -586,9 +569,8 @@ Thread.CurrentThread.ManagedThreadId, spanFactory(value)))
 return iteratee(value);
 }
 });
-```
-
 }
+```
 
 Take a simple Where and Select query chaining as example,
 
@@ -618,9 +600,8 @@ ParallelEnumerable.Select,
 value => ComputingWorkload(), // Select's selector.
 value => $"{nameof(ParallelEnumerable.Select)} {value}")
 .WriteLines();
-```
-
 }
+```
 
 The sequential and parallel queries are visualized as:
 

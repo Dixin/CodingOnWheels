@@ -29,9 +29,8 @@ Here ISubtype interface implements ISupertype interface. In this relationship, I
 internal static void Substitute(ISupertype supertype, ISubtype subtype)
 {
 supertype = subtype;
-```
-
 }
+```
 
 In object-oriented programming, subtyping is intuitive with inheritance:
 
@@ -46,9 +45,8 @@ internal static void Substitute()
 {
 Base @base = new Base();
 @base = new Derived();
-```
-
 }
+```
 
 C#’s covariance and contravariance enables the subtyping and substitution relationship for functions and generic interfaces. Subtyping does not have to be inheritance, but to be intuitive to most C# developers, this chapter uses above Base and Derived types to demonstrate variances in all contexts. As discussed in the C# basics chapter, in C#, value types consist of structures and enumerations. All structures inherit System.ValueType class, and all enumerations inherit System.Enum class, so one value type cannot be subtype of another value type. As a result, C#’s covariance and contravariance only applies to reference types, so the above Base and Derived types are defined as classes.
 
@@ -95,9 +93,8 @@ internal static void NonGenericDelegate()
 {
 DerivedToDerived derivedToDerived = DerivedToDerived;
 Derived output = derivedToDerived(input: new Derived());
-```
-
 }
+```
 
 The second function DerivedToDerived is not of type Derived -> Base, but Derived -> Derived, represented by the second delegate type. Since C# 2.0, DerivedToBase can be substituted by DerivedToDerived in context of non-generic delegate:
 
@@ -113,9 +110,8 @@ derivedToBase = DerivedToDerived; // Derived -> Derived
 // derivedToBase should output Base, while DerivedToDerived outputs Derived.
 // The actual Derived output substitutes the required Base output. This call always works.
 Base output = derivedToBase(input: new Derived());
-```
-
 }
+```
 
 So, function with more derived/specific output can substitute function with less derived/specific output, as if former function type is subtype and latter function type is supertype. In another word, function instance’s actual output can be more derived/specific than function type’s required output. This is called covariance, because it persists the direction of subtyping/substitution: if Derived <: Based then function with Derived output <: function with Base output. Similarly, function instance’s input can be less derived/specific than function type input:
 
@@ -131,9 +127,8 @@ derivedToBase = BaseToBase; // Base -> Base
 // derivedToBase should accept Derived input, while BaseToBase accepts Base input.
 // The required Derived input substitutes the accepted Base input. This always works.
 Base output = derivedToBase(input: new Derived());
-```
-
 }
+```
 
 So, function with less derived/specific input can substitute function with more derived input, or in another word, function instance’s output can be less derived/specific than function type’s required input. This is called contravariance, because it inverts the direction of subtyping/substitution: if Derived <: Base then function with Base input< : function with Derived inp_ut._ Covariance (for output) and contravariance (for input) can work at the same time:
 
@@ -151,9 +146,8 @@ derivedToBase = BaseToDerived; // Base -> Derived
 // derivedToBase should output Base, while BaseToDerived outputs Derived.
 // The actual Derived output substitutes the required Base output. This always works.
 Base output = derivedToBase(input: new Derived());
-```
-
 }
+```
 
 On the other hand, function output cannot be less derived/specific than required, and function input cannot be more derived/specific than required. The following function substitution cannot be compiled:
 
@@ -173,9 +167,8 @@ baseToDerived = DerivedToDerived; // Derived -> Derived
 // baseToDerived should output Derived, while DerivedToBase outputs Base.
 // The actual Base output does not substitute the required Derived output. This cannot be compiled.
 baseToDerived = DerivedToBase; // Derived -> Base
-```
-
 }
+```
 
 ## Variances of generic function type
 
@@ -192,9 +185,8 @@ GenericFunc<Derived, Base> derivedToBase = DerivedToBase; // No variance.
 derivedToBase = DerivedToDerived; // Covariance.
 derivedToBase = BaseToBase; // Contravariance.
 derivedToBase = BaseToDerived; // Covariance and contravariance.
-```
-
 }
+```
 
 For functions of GenericFunc<TInput, TOutput> type, covariance enables TOutput to be substituted by more specific type, and contravariance enables TInput to be substituted by less derived type. So TOutput/TInput are called covariant/contravariant type parameter for this generic delegate type. C# 4.0 introduces the out/in modifiers for the covariant/contravariant type parameter:
 
@@ -214,9 +206,8 @@ GenericFuncWithVariances<Base, Derived>baseToDerived = BaseToDerived; // Base ->
 derivedToBase = derivedToDerived; // Covariance.
 derivedToBase = baseToBase; // Contravariance.
 derivedToBase = baseToDerived; // Covariance and contravariance.
-```
-
 }
+```
 
 As discussed, TInput cannot be covariant, and TOutput cannot be contravariant, in the following definition, TInput with out modifier or TOutput with in modifier cannot work:
 
@@ -244,9 +235,8 @@ public delegate void Action<in T>(T obj);
 public delegate void Action<in T1, in T2>(T1 arg1, T2 arg2);
 
 // ...
-```
-
 }
+```
 
 Variant type parameter is not syntactic sugar, but a runtime feature. The out/in modifiers are compiled to the +/- flags in CIL, which can be read as can be more/less specific:
 
@@ -254,9 +244,8 @@ Variant type parameter is not syntactic sugar, but a runtime feature. The out/in
 
 ```csharp
 {
-```
-
 }
+```
 
 ## Variances of generic interface
 
@@ -270,9 +259,8 @@ TOutput ToOutput(); // TOutput is covariant.
 TOutput Output { get; } // Compiled to get_Output. TOutput is covariant.
 
 void TypeParameterNotUsed();
-```
-
 }
+```
 
 The above generic interface definition has 3 function members, where 2 function members uses the type parameter only as output type. Apparently, the type parameter is covariant for both 2 functions’ function types. In this case, the type parameter is covariant for the interface level, and the out modifier can be used to enable the substitution of interface instances:
 
@@ -289,9 +277,8 @@ outputBase = outputDerived;
 Base output1 = outputBase.ToOutput();
 
 Base output2 = outputBase.Output; // .get_Output();
-```
-
 }
+```
 
 IOutput<Derived> interface does not implement IOutput<Base> interface, but with out modifier, IOutput<Derived> instance can still substitute IOutput<Base> instance, as if IOutput<Derived> is subtype and IOutput<Base> is supertype.
 
@@ -305,9 +292,8 @@ void InputToVoid(TInput input); // TInput is contravariant.
 TInput Input { set; } // Compiled to set_Input. TInput is contravariant.
 
 void TypeParameterNotUsed();
-```
-
 }
+```
 
 The above generic interface definition has 3 function members, where 2 function members uses the type parameter only as input type. Apparently, the type parameter is contravariant for both 2 functions’ function types. In this case, the type parameter is contravariant for the interface level, and the in modifier can be used to enable the substitution of interface instances:
 
@@ -324,9 +310,8 @@ inputDerived = inputBase;
 inputDerived.InputToVoid(input: new Derived());
 
 inputDerived.Input = new Derived(); // .set_Input(input: new Derived());
-```
-
 }
+```
 
 IInput<Base> interface does not implement IInput<Derived> interface, but with in modifier, IInput<Base> instance can still substitute IInput<Derived> instance, as if IInput<Base> is subtype and IInput<Derived> is supertype.
 
@@ -344,9 +329,8 @@ TOutput ToOutput(); // TOutput is covariant.
 TOutput Output { get; } // Compiled to get_Output. TOutput is covariant.
 
 void TypeParameterNotUsed();
-```
-
 }
+```
 
 The following example demonstrates the covariance and contravariance:
 
@@ -362,9 +346,8 @@ inputDerivedOutputBase.InputToVoid(new Derived());
 inputDerivedOutputBase.Input = new Derived(); // .set_Input(input: new Derived());
 Base output1 = inputDerivedOutputBase.ToOutput();
 Base output2 = inputDerivedOutputBase.Output; // .get_Output();
-```
-
 }
+```
 
 Not all type parameters can be variant for generic interface. For example:
 
@@ -374,9 +357,8 @@ internal interface IInvariant<T\>
 T Output(); // T is covariant.
 
 void Input(T input); // T is contravariant.
-```
-
 }
+```
 
 The type parameter T is neither covariant for all function members using T, nor contravariant for all function members using T, so T cannot be covariant or contravariant for the interface level.
 
@@ -408,9 +390,8 @@ toToBase = toToDerived;
 // toToBase should output Func<Base>, while toToDerived outputs Func<Derived>.
 // The actual Func<Derived> output substitutes the required Func<Base> output. This always works.
 Func<Base>output = toToBase();
-```
-
 }
+```
 
 The reason is, covariance persists the direction of subtyping and substitution, Derived <: Base in Context<out T> leads to Context<Derived> <: Context<Base>, Context<Context<Derived>> <: Context<Context<Base>>, Context<Context<Context<Derived>>> <: Context<Context<Context<Derived>>>, and so on. T is always covariant for Context<Context<T>>, Context<Context<Context<T>>>, etc. Take above Func<out TResult> as example:
 
@@ -458,9 +439,8 @@ baseToVoidToVoid = derivedToVoidToVoid;
 // baseToVoidToVoid should accept Action<Base> input, while derivedToVoidToVoid accepts Action<Derived> input.
 // The required Action<Derived> input substitutes the accepted Action<Base> input. This always works.
 baseToVoidToVoid(default(Action<Base>));
-```
-
 }
+```
 
 The reason is, contravariance inverts the direction of subtyping and substitution, Derived <: Base in Context<in T> leads to Context<Base> <: Context<Derived>, Context<Context<Derived>> <: Context<Context<Base>>, Context<Context<Context<Base>>> <: Context<Context<Context<Derived>>>, and so on. T becomes covariant for Context<Context<T>>, contravariant for Context< Context<Context<T>>>, covariant for Context<Context<Context<Context<T>>>>, etc. Take above Action<in T> as example:
 
@@ -495,9 +475,8 @@ T this[int index] { get; set; }
 
 // Other members.
 }
-```
-
 }
+```
 
 For IList<T>, T is used by indexer getter and setter function members. T is the output type of the compiled get\_Item function, and is the input type of the compiled set\_Item function. Apparently, T is neither covariant for both functions’ types, and nor contravariant for both functions’ types. So, T should be invariant for IList<T> and array T\[\]. However, C# compiler and .NET runtime unexpectedly support covariance for array. The following example can be compiled, but throws ArrayTypeMismatchException at runtime, which can be a source of bugs:
 
@@ -511,9 +490,8 @@ baseArray = derivedArray; // Array covariance: Derived <: Base, so that Derived[
 baseArray[1] = new Derived(); // .set_Item(new Derived());
 baseArray[2] = new Base(); // .set_Item(new Base());
 // ArrayTypeMismatchException at runtime. The actual Derived array requires Derived instance, the provided Base instance cannot substitute Derived instance.
-```
-
 }
+```
 
 Array covariance is first introduced to Java by its designers. They intended to remove this feature from Java around 1995, but they were unable to make it. Later, when .NET Framework is initially released, array covariance is implemented by CLR and C# as a Java feature for the convenience of Java developers. This is a C# language feature that should not be used.
 
@@ -555,9 +533,8 @@ return attributes.HasFlag(GenericParameterAttributes.Covariant)
 // System.IObserver`1[T]
 // System.IProgress`1[T]
 // System.Predicate`1[T]
-```
-
 }
+```
 
 Under System.Linq namespace, there are also a number of generic interfaces with variance: IGrouping<out TKey, out TElement>, IQueryable<out T>, IOrderedQueryable<out T>. Microsoft has documented the List of Variant Generic Interface and Delegate Types: https://docs.microsoft.com/en-us/dotnet/standard/generics/covariance-and-contravariance#VariantList, but it is inaccurate. It says TElement is covariant for IOrderedEnumerable<TElement>, but actually not:
 
@@ -569,9 +546,8 @@ public interface IOrderedEnumerable<TElement> : IEnumerable<TElement>, IEnumerab
 IOrderedEnumerable<TElement> CreateOrderedEnumerable<TKey>(
 Func<TElement, TKey> keySelector, IComparer<TKey> comparer, bool descending);
 }
-```
-
 }
+```
 
 Local LINQ query is represented by IEnumerable<T> generic interface, where T is covariant:
 
@@ -587,9 +563,8 @@ public interface IEnumerable<out T> : IEnumerable
 {
 IEnumerator<T> GetEnumerator();
 }
-```
-
 }
+```
 
 First, In IEnumerator<T> interface, its type parameter is only used as output type of its Current property’s getter, which is compiled to get\_Current function. Apparently T is covariance for its function type, so that T is also covariant for IEnumerator<T> interface level. Then, in IEnumerable<T>, T is only used by GetEnumerator. Here IEnumerator<T> can be virtually viewed as a simple wrapper of get\_Current function, and GetEnumerator can be virtually viewed as a higher-order function that outputs (a wrapper of) get\_Current function. As discussed, T is covariant for get\_Current function, covariant for higher-order function GetEnumerator, and eventually covariant for IEnumerable<T> interface level.
 
@@ -610,9 +585,8 @@ IQueryProvider Provider { get; }
 public interface IQueryable<out T> : IEnumerable<T>, IEnumerable, IQueryable
 {
 }
-```
-
 }
+```
 
 IQueryable<T> implements IEnumerable<T>, Its type parameter T is only used by the GetEnumerator member from IEnumerable<T>, so apparently, T remains covariant for IQueryable<T>.
 
@@ -629,9 +603,8 @@ this IEnumerable<TSource>first, IEnumerable<TSource> second);
 public static IEnumerable<TResult> Select<TSource, TResult>(
 this IEnumerable<TSource> source, Func<TSource, TResult> selector);
 }
-```
-
 }
+```
 
 In the following example, Concat is called with IEnumerable<Base> instance, so another IEnumerable<Base> instance is required. With covariance, IEnumerable<Derived> can substitute IEnumerable<Base>, so IEnumerable<Derived> argument can be directly passed to IEnumerable<base> parameter:
 
@@ -642,9 +615,8 @@ IEnumerable<Base> enumerableOfBase, IEnumerable<Derived> enumerableOfDerived)
 // Covariance of Concat input: IEnumerable<Derived> <: IEnumerable<Base>.
 // Concat: (IEnumerable<Base>, IEnumerable<Base>) -> IEnumerable<Base>.
 enumerableOfBase = enumerableOfBase.Concat(enumerableOfDerived);
-```
-
 }
+```
 
 In the following example, Select is called with IEnumerable<Derived> instance, and the output is stored as IEnumerable<Base> instance. According to the signature of Select, the selector function is required to be of Derived -> Base type. With covariance, selector function of Base -> Base, Derived -> Derived, and Base -> Derived types work as well:
 
@@ -668,9 +640,8 @@ enumerableOfBase = enumerableOfDerived.Select(DerivedToDerived);
 // Covariance of Select input and output: IEnumerable<Derived> <: IEnumerable<Base>.
 // Select: (IEnumerable<Base>, Base -> Derived) -> IEnumerable<Derived>.
 enumerableOfBase = enumerableOfDerived.Select(BaseToDerived);
-```
-
 }
+```
 
 ## Summary
 

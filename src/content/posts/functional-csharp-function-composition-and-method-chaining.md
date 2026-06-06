@@ -25,9 +25,8 @@ Func<TResult1, TResult2> second, // TResult1 -> TResult2
 Func<T, TResult1> first) // T ->TResult1
 {
 Func<T, TResult2> composition = value => second(first(value)); // T -> TResult2
-```
-
 }
+```
 
 The following example is a sequence of function calls, where a previous function’s output is passed to a next function as input:
 
@@ -39,9 +38,8 @@ int int32 = int.Parse(@string); // string -> int
 int absolute = Math.Abs(int32); // int -> int
 double @double = Convert.ToDouble(absolute); // int -> double
 double squareRoot = Math.Sqrt(@double); // double -> double
-```
-
 }
+```
 
 The above int.Parse, Math.Abs Convert.ToDouble, and Math.Sqrt functions can be composed to a new function:
 
@@ -80,9 +78,8 @@ Func<T, TResult2> composition; // T -> TResult2
 composition = second.After(first);
 // Equivalent to:
 composition = first.Then(second);
-```
-
 }
+```
 
 The above 2 extension methods work the same, they just provide different syntaxes. The After extension method implements the above ∘ operator. It composes the first function and the second function as second.After(first), where the right operand is called earlier, and the left operand is called later. Since reading code is from left to right, The Then extension method is implemented for a more readable syntax first.Then(second). Now the above int.Parse, Math.Abs Convert.ToDouble, and Math.Sqrt functions can be composed with After or Then::
 
@@ -101,9 +98,8 @@ backwardComposition("-2").WriteLine(); // 1.4142135623731
 // string -> double
 Func<string, double> forwardComposition = parse.Then(abs).Then(convert).Then(sqrt);
 forwardComposition("-2").WriteLine(); // 1.4142135623731
-```
-
 }
+```
 
 As demonstrated above, After composes functions from right to end, which is called backward composition. Then composes function from left to right, which is called forward composition. Again, backward composition and forward composition are just different syntaxes, they produce new functions doing the same work.
 
@@ -128,9 +124,8 @@ public void Reverse(); // List<T> -> void
 
 // Other members.
 }
-```
-
 }
+```
 
 Notice FindAll accept a match function of type Predicate<T>, which is T -> bool. When FIndAll is called, it calls match function with each value in the list. If match outputs true, the value is added to the result list. Predicate<T> is equivalent to Func<T, bool>. FindAll does not use Func<T, bool> because List<T> type is released in .NET Framework 2.0, and the unified Func generic delegate types are introduced in .NET Framework 3.5. The above list functions accept different numbers of parameters. Some of them output a list and some output void. The following example operates a list in place. Apparently, these functions cannot be composed directly:
 
@@ -144,9 +139,8 @@ list.Reverse(); // -> void
 list.ForEach(int32 => int32.WriteLine()); // -> void
 list.Clear(); // -> void
 list.Add(1); // -> void
-```
-
 }
+```
 
 As discussed in the named function chapter, a type’s instance function member can be viewed as a static method with an additional first parameter of that type, which represents this reference to the current instance. For example, the type of Add looks like T -> void, and the type of Clear looks like () -> void, but since they are instance members, their types are actually (List<T>, T) -> void and List<T> -> void. To make these function composable. One refactor option is: If a function does not output list, have it output the result list; if a function has more parameter besides the list, swap the parameters so that the list parameter becomes the last parameter, and finally curry the function. The following are the transformed functions:
 
@@ -204,9 +198,8 @@ removeAtWithIndex
 .Then(forEachWithAction)
 .Then(clear)
 .Then(addWithValue);
-```
-
 }
+```
 
 So, if these functions have unified list output, and have the input list as the last parameter, then these functions can be composed with the help of partial application. This is the pattern of how to compose list operations in some functional languages:
 
@@ -223,9 +216,8 @@ RemoveAt<int>(0)
 
 List<int> list = new List<int>() { -2, -1, 0, 1, 2 };
 List<int> result = forwardComposition(list);
-```
-
 }
+```
 
 ## Forward piping
 
@@ -248,9 +240,8 @@ Func<T, TResult1> first, // T -> TResult1
 T value)
 {
 TResult2 result = value.Forward(first).Forward(second);
-```
-
 }
+```
 
 Here the argument is forwarded to call the first function, then forward first function’s output to call the second function as input. So, the piping can go on with the third function, the fourth function, etc. This is called forward piping. For example:
 
@@ -262,9 +253,8 @@ double result = "-2"
 .Forward(Math.Abs) // int -> int
 .Forward(Convert.ToDouble) // int -> double
 .Forward(Math.Sqrt); // double -> double
-```
-
 }
+```
 
 To pipe functions with more parameters, just partially applied the function to result a new function with single parameter, then a single argument can be forwarded to the single parameter function. The syntax also looks similar to forward composition:
 
@@ -278,9 +268,8 @@ List<int> result = new List<int>() { -2, -1, 0, 1, 2 }
 .Forward(ForEach<int>(int32 => int32.WriteLine()))
 .Forward(Clear)
 .Forward(Add(1));
-```
-
 }
+```
 
 The above syntax looks similar to forward composition. Forward composition and forward piping both compose functions from left to right. Their difference is that forward composition starts from the first function to be composed, it does not call any composed function, and outputs a new composite function; while forward piping starts from the argument, it directly calls the composed functions, and outputs the result.
 
@@ -292,9 +281,8 @@ In object-oriented programming, if a type has instance methods output that type,
 internal static void InstanceMethodComposition(string @string)
 {
 string result = @string.Trim().Substring(1).Remove(10).ToUpperInvariant();
-```
-
 }
+```
 
 The above function members, Trim, Substring, Replace, ToUpperInvariant, are all instance methods of string, and they all output string. so that they can be chained. As fore mentioned, instance function member instance.Method(arg1, arg2, …) can be viewed as static function member Method(instance, arg1, arg2, …) at compile time. At runtime, unlike instance field member is allocated for each instance, instance function member is allocated only once in total just like static function member and static field member. In another word, in C#’s instance method calls syntax instance.Method(arg1, arg2, …), the . operator works like the forward pipe operator. The left side of . is a single argument for Method, the right side is the partial application of Method with other arguments. In instance method call, . just forwards the instance argument to Method function partially applied with other arguments, and finally output the result. So instance method chaining can be virtually viewed a simplified syntax of forward piping.
 
@@ -331,9 +319,8 @@ FluentList<int> resultWrapper = new FluentList<int>(list)
 .Clear()
 .Add(1);
 List<int> result = resultWrapper.List;
-```
-
 }
+```
 
 Since C# supports extension method, which virtually adds instance method to existing type, another option is to provide list extension methods for chaining:
 
@@ -365,9 +352,8 @@ List<int> result = new List<int>() { -2, -1, 0, 1, 2 }
 .ExtensionForEach(int32 => int32.WriteLine())
 .ExtensionClear()
 .ExtensionAdd(1);
-```
-
 }
+```
 
 As discussed in the named function chapter, extension method is compiled to static method. Similar to instance method call, the extension method calls syntax instance.ExtensionMethod(arg1, arg2, …) can also be viewed as forwarding instance argument to static function member ExtensionMethod partially applied with other arguments. The above extension method chaining is compiled to the following static method composition:
 
@@ -392,9 +378,8 @@ int32 => int32.WriteLine()
 ),
 1
 );
-```
-
 }
+```
 
 For example, the previous forward piping of int. Parse, Math.Abs Convert.ToDouble, and Math.Sqrt functions can be simplified with extension methods:
 
@@ -413,9 +398,8 @@ double result = "-2"
 .Abs() // .Forward(Math.Abs)
 .ToDouble() // .Forward(Convert.ToDouble)
 .Sqrt(); // .Forward(Math.Sqrt);
-```
-
 }
+```
 
 If an interface type supports method chaining, it is called fluent interface. For example, the following IAnimal interface has instance methods and extension method that output the interface type itself:
 
@@ -430,9 +414,8 @@ IAnimal Move();
 internal static class AnimalExtensions
 {
 internal static IAnimal Sleep(this IAnimal animal) => animal;
-```
-
 }
+```
 
 All these methods can be composed by chaining, and IAnimal is a fluent interface:
 
@@ -440,9 +423,8 @@ All these methods can be composed by chaining, and IAnimal is a fluent interface
 internal static void FluentInterface(IAnimal animal)
 {
 IAnimal result = animal.Eat().Move().Sleep();
-```
-
 }
+```
 
 ## LINQ query composition
 
@@ -476,9 +458,8 @@ this IQueryable<TSource> source, Expression<Func<TSource, TResult>> selector);
 
 // Other members.
 }
-```
-
 }
+```
 
 This kind of functions can be composed with extension method chaining. And they make IEnumerable<T>/IQueryable<T> fluent interface.
 
@@ -527,9 +508,8 @@ this IOrderedQueryable<TSource> source, Expression<Func<TSource, TKey>> keySelec
 public static IOrderedQueryable<TSource> ThenByDescending<TSource, TKey>(
 this IOrderedQueryable<TSource> source, Expression<Func<TSource, TKey>> keySelector);
 }
-```
-
 }
+```
 
 With this design, OrderBy/OrderByDescending can be chained after other query methods which output IEnumerable<T>/IQueryable<T>, but ThenBy/ThenByDesending can only be chained right after OrderBy/OrderByDescending which output IOrderedEnumerable<T>/IOrderedQueryable<T>. Regarding ThenBy/ThenByDesending perform subsequent ordering, this totally make sense. All the other non-ordering extension methods can be chained after OrderBy/OrderByDescending and ThenBy/ThenByDesending, since the output IOrderedEnumerable<T> is an IEnumerable<T> and IOrderedQueryable<T> is an IQueryable<T>.
 
@@ -544,9 +524,8 @@ public static IEnumerable<TResult> Empty<TResult>();
 
 public static IEnumerable<TResult> Repeat<TResult>(TResult element, int count);
 }
-```
-
 }
+```
 
 There are other query APIs which do not output IEnumerable<T>/IQueryable<T>. They can be used to end the query composition. For example:
 
@@ -566,9 +545,8 @@ public static TSource First<TSource>(this IQueryable<TSource> source);
 
 public static int Count<TSource>(this IQueryable<TSource> source);
 }
-```
-
 }
+```
 
 The following is an example of query composition:
 
@@ -582,9 +560,8 @@ int queryResultCount = Enumerable
 .ThenBy(@string => @string) // -> IOrderedEnumerable<string>
 .Select(@string => $"{@string.Length}: {@string}") // -> IEnumerable<string>
 .Count(); // -> int
-```
-
 }
+```
 
 Apparently, the above extension method chaining is compiled to the following function composition:
 
@@ -607,9 +584,8 @@ int32 => Path.GetRandomFileName()
 @string => $"{@string.Length}: {@string}"
 )
 );
-```
-
 }
+```
 
 So, in query method syntax, LINQ query is represented by fluent interface and query methods are composed with extension method chaining. This design makes LINQ easy to use, as well as extensible. The above built-in functions provided by Enumerable/Queryable are called LINQ standard query methods or standard query operators. Developers can also implement custom query APIs as extension methods of IEnumerable<T>/IQueryable<T> and compose built-in query methods and custom query methods by chaining. The details of local and remote LINQ query methods are discussed in the LINQ chapters.
 
@@ -663,9 +639,8 @@ where variable > 0 // variable is int.
 select variable.ToString() /* variable is int. */ into variable // variable is string.
 orderby variable.Length // variable is string.
 select variable.ToUpperInvariant(); // variable is string.
-```
-
 }
+```
 
 The from clause declares range variable of type int, which represents each value in the int source sequence. The variable can be used in the next clauses until select clause’s into keyword. The into keyword is followed by a different range variable of type string, and can be used until the end of query, since there is no further continuation.
 
@@ -769,9 +744,8 @@ intoWithContinuation = int32Sequence
 .Select(int32 => Math.Abs(int32))
 .Select(absolute => absolute.ToString())
 .GroupBy(@string => @string[0]);
-```
-
 }
+```
 
 The compilation of remote LINQ querie expressions works in the same way. The details of these query methods are discussed in the LINQ chapters. Query expressions composed with multiple clauses is compiled to query methods composition:
 
@@ -804,9 +778,8 @@ color => (int)color,
 .GroupBy(
 context => context.color.ToString()[0],
 context => context.color); // group by clause without element selector.
-```
-
 }
+```
 
 The both LINQ syntaxes are compiled to the following function composition, where one query API’s out put is passed to another query API as input:
 
@@ -840,9 +813,8 @@ context => context.color
 context => context.color.ToString()[0],
 context => context.color
 );
-```
-
 }
+```
 
 This comparison demonstrates that query expression and query method chaining are great syntactic sugar to write declarative and functional code.
 
@@ -881,9 +853,8 @@ string guidString;
 guidString = from guid in Guid.NewGuid()
 select guid.ToString();
 guidString = Select(Guid.NewGuid(), guid => guid.ToString());
-```
-
 }
+```
 
 If Where is implemented for int, then C# compiler supports where clause for int. If SelectMany is implemented for Guid, then C# compiler supports multiple from clauses for Guid:
 
@@ -912,9 +883,8 @@ from guid2 in Guid.NewGuid()
 select guild1.ToString() + guid2.ToString();
 doubleGuidString = Guid.NewGuid().SelectMany(
 guild1 => Guid.NewGuid(), (guild1, guid2) => guild1.ToString() + guid2.ToString());
-```
-
 }
+```
 
 If more query methods are implemented for a type, more query expression clauses are supported for that type. And, to compose the clauses, the query methods must be able to fluently chainable, which means their input type and output type must be matching a pattern. The following are the type designs and query method input/output designs needed to make all local LINQ query expression clauses available and composable. This is called the query expression pattern of C#:
 
@@ -966,9 +936,8 @@ IOrderedLocal<T> ThenByDescending<TKey>(Func<T, TKey> keySelector); // Multiple 
 public interface ILocalGroup<TKey, T>
 {
 TKey Key { get; }
-```
-
 }
+```
 
 The above query methods are demonstrated as instance methods for convenience. As fore mentioned, extension methods work too. Similarly, the following type design and query method design demonstrate the remote LINQ query expression pattern, where all function parameters are replaced with corresponding expression tree parameters:
 
@@ -1020,9 +989,8 @@ IOrderedRemote<T> ThenByDescending<TKey>(Expression<Func<T, TKey>> keySelector);
 public interface IRemoteGroup<TKey, T>
 {
 TKey Key { get; }
-```
-
 }
+```
 
 .NET Standard provides 3 sets of built-in query APIs, implementing the above query expression pattern:
 
@@ -1064,9 +1032,8 @@ squareRoot = "-2"
 .Select(Math.Abs)
 .Select(Convert.ToDouble)
 .Select(Math.Sqrt);
-```
-
 }
+```
 
 The other option is SelectMany. Instead of multiple select clauses, SelectMany enables multiple from clauses to implement forward piping. The following are the generic SelectMany query method for all types, the forward piping query expression with multiple from clauses, and the equivalent query method call version:
 
@@ -1102,9 +1069,8 @@ context => Convert.ToDouble(context.absolute),
 .SelectMany(
 context => Math.Sqrt(context.@double),
 (context, squareRoot) => squareRoot);
-```
-
 }
+```
 
 ### Query expression vs. query method
 
@@ -1119,9 +1085,8 @@ public static IEnumerable<TSource> Skip<TSource>(this IEnumerable<TSource> sourc
 
 public static IEnumerable<TSource> Take<TSource>(this IEnumerable<TSource> source, int count);
 }
-```
-
 }
+```
 
 With query expression, to skip a number of values and take a number of values, a hybrid syntax has to be used:
 
@@ -1134,9 +1099,8 @@ where int32 > 0
 select int32)
 .Skip(20)
 .Take(10);
-```
-
 }
+```
 
 Second, for the covered query methods, not all query method overloads are supported. For example, Where has 2 overloads:
 
@@ -1149,9 +1113,8 @@ public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> sour
 
 public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> source, Func<TSource, int, bool> predicate);
 }
-```
-
 }
+```
 
 The first Where overload is supported by query expression, and can be compiled from where clause. The second overload accepts a predicate function with index input. It is not supported by query expression syntax, and can only used with query method call:
 
@@ -1159,9 +1122,8 @@ The first Where overload is supported by query expression, and can be compiled f
 internal static void WhereWithIndex(IEnumerable<int> source)
 {
 IEnumerable<int> query = source.Where((int32, index) => int32> 0 && index % 2 == 0);
-```
-
 }
+```
 
 ## Summary
 

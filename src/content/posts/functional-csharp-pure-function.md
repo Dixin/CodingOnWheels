@@ -70,9 +70,8 @@ public static int Max(int val1, int val2) => (val1 >= val2) ? val1 : val2;
 
 public static int Min(int val1, int val2) => (val1 <= val2) ? val1 : val2;
 }
-```
-
 }
+```
 
 · object’s methods, like GetHashCode, GetType, Equals, ReferenceEquals, ToString, etc.
 
@@ -108,9 +107,8 @@ internal static class AllFunctionsArePure
 internal static int Increase(int int32) => int32 + 1; // Pure.
 
 internal static int Decrease(int int32) => int32 - 1; // Pure.
-```
-
 }
+```
 
 Looks great. Unfortunately, this attribute is provided not for general purpose but only for Code Contracts, a .NET tool provided (and now discontinued) by Microsoft. Code Contracts tool consists of:
 
@@ -131,9 +129,8 @@ Contract.Requires<ArgumentOutOfRangeException>(IsPositive(int32)); // Function p
 Contract.Ensures(IsPositive(Contract.Result<int>())); // Function post condition.
 
 return int32 + int32; // Function body.
-```
-
 }
+```
 
 In contrast, the following example calls impure function (function without \[Pure\] contract) in contracts:
 
@@ -144,9 +141,8 @@ Contract.Requires<ArgumentOutOfRangeException>(IsNegative(int32)); // Function p
 Contract.Ensures(IsNegative(Contract.Result<int>())); // Function post condition.
 
 return int32 + int32; // Function body.
-```
-
 }
+```
 
 At compile time, Code Contracts gives a warning: Detected call to method IsNegative(System.Int32)' without \[Pure\] in contracts of method ‘DoubleWithImpureContracts(System.Int32)'.
 
@@ -169,9 +165,8 @@ Contract.Ensures((value - Contract.Result<int>()) <= 0);
 return default;
 }
 }
-```
-
 }
+```
 
 C# and .NET Standard are designed in impure paradigm to allow immutability and mutability, purity and impurity. As a result, only a small percentage of the provided functions are pure. This can be demonstrated by utilizing above contracts assemblies and \[Pure\] contract. The following example has 2 LINQ to Objects queries. The first query counts all pure public functions in the contract assemblies. As fore mentioned, if a function has \[Pure\] attribute, it is pure; if a type has \[Pure\] attribute, its functions are all pure. Then the second query counts all public functions in corresponding library assemblies. In both queries, Mono’s reflection library, Mono.Cecil NuGet package, is used, because it can load .NET Framework assemblies and contracts assemblies correctly from different platforms, including Linux/Mac/Windows.
 
@@ -211,9 +206,8 @@ Path.ChangeExtension(Path.GetFileNameWithoutExtension(contractsAssemblyPath), "d
 .SelectMany(type => type.Methods)
 .Count(function => function.IsPublic);
 functionCount.WriteLine(); // 82566
-```
-
 }
+```
 
 As a result, in the 25 most commonly used FCL assemblies, there are only 2.69% public function members are pure.
 
@@ -251,9 +245,8 @@ this IOrderedQueryable<TSource> source, Expression<Func<TSource, TKey>> keySelec
 
 // Other members.
 }
-```
-
 }
+```
 
 The following ToArray, ToList query methods of local LINQ output collection, and they are impure:
 
@@ -266,9 +259,8 @@ public static TSource[] ToArray<TSource>(this IEnumerable<TSource> source);
 
 public static List<TSource> ToList<TSource>(this IEnumerable<TSource> source);
 }
-```
-
 }
+```
 
 The following First query methods of local and remote LINQ output a single value, and they are also impure:
 
@@ -284,9 +276,8 @@ public static class Queryable
 {
 public static TSource First<TSource>(this IQueryable<TSource> source);
 }
-```
-
 }
+```
 
 The query methods with queryable source output are implemented as pure function by simply constructing a new source instance with the input source. Calling these query methods only deterministically defines a new query and the query execution is deferred, so there is no state mutation or side effect. The output new query can be executed by pulling the results, which can mutate the query’s state and can produce side effect. The other query methods with collection or single value output are different. They immediately execute the pulling from their input source, which can mutate state and can produce side effect, so they are impure. The internal implementation of these methods is covered in the LINQ chapters.
 

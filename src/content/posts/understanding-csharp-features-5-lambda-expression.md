@@ -212,13 +212,13 @@ In C# compiler’s perspective, there is no type information for the parameter(s
 
 In loosely typed languages like JavaScript, this kind of code definitely works:
 
-```csharp
+```js
 (function (number) { return number > 0; })(1)
 ```
 
 This is a very common pattern in client [JavaScript](http://en.wikipedia.org/wiki/JavaScript) - isolate some code by surrounding the code with a anonymous function call:
 
-```csharp
+```js
 (function (global, undefined) {
     "use strict";
 
@@ -228,13 +228,13 @@ This is a very common pattern in client [JavaScript](http://en.wikipedia.org/wik
 
 In other strongly typed languages (typically functional programming languages), like F#, this kind of type inference is supported, so the following F# code works:
 
-```csharp
+```fsharp
 (fun int32 -> int32 > 0) 1
 ```
 
 and similarly, in Haskell, the following works:
 
-```csharp
+```haskell
 (\number -> number > 0) 1
 ```
 

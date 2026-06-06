@@ -41,9 +41,8 @@ MethodBase.GetCurrentMethod().Name.WriteLine();
 LocalFunction(); // Call local function.
 return 0;
 }
-```
-
 }
+```
 
 Local function is a syntactic sugar. Its definition is compiled to normal method definition, and its call is compiled to method call. For example, the above method with local function is compiled to:
 
@@ -57,9 +56,8 @@ MethodBase.GetCurrentMethod().Name.WriteLine();
 internal static void CompiledMethodWithLocalFunction()
 {
 CompiledLocalFunction();
-```
-
 }
+```
 
 Besides method members, local function can also be nested inside local function:
 
@@ -72,9 +70,8 @@ void NestedLocalFunction() { }
 NestedLocalFunction();
 }
 LocalFunction();
-```
-
 }
+```
 
 Anonymous function can have local function as well (Anonymous function is discussed in an individual chapter):
 
@@ -86,9 +83,8 @@ return () => // Return an anonymous function of type Action.
 void LocalFunction() { }
 LocalFunction();
 };
-```
-
 }
+```
 
 Unlike other named functions, local function does not support ad hoc polymorphism (overload). The following code cannot be compiled:
 
@@ -97,9 +93,8 @@ internal static void LocalFunctionOverload()
 {
 void LocalFunction() { }
 void LocalFunction(int int32) { } // Cannot be compiled.
-```
-
 }
+```
 
 Local function is useful to encapsulate code execution in a function. For example, the following binary search function encapsulate the main algorithm in a local function, and execute it recursively:
 
@@ -118,9 +113,8 @@ return compare > 0
 : BinarySearch(localSource, localValue, localComparer, middleIndex + 1, endIndex);
 }
 return BinarySearch(source, value, comparer ?? Comparer<T>.Default, 0, source.Count - 1);
-```
-
 }
+```
 
 C# local function supports closure, so above local function can be further simplified, which is discussed later in this chapter.
 
@@ -140,9 +134,8 @@ internal void Add()
 int local = 2; // Inside function Add.
 (local + field).WriteLine(); // local + this.field.
 }
-```
-
 }
+```
 
 Here in Closure type, its method accesses data inside and outside its definition. Similarly, local function can access variable inside and outside its definition as well:
 
@@ -156,9 +149,8 @@ int local = 2; // Inside local function Add.
 (local + free).WriteLine();
 }
 Add();
-```
-
 }
+```
 
 Here free is a variable defined by outer function and is outside the local function. In C# it can be accessed by both the outer function and the local function. It is the local variable of the outer function, and it is called free variable of the local function. In another word, for a local function, if a variable is neither its local variable, nor its parameter, then this variable is its free variable. Free variable is also called outer variable, non-local variable, or captured variable. This capability for local function to access a free variable, is called closure. C# closure is also a syntactic sugar. The above example is compiled to a closure structure:
 
@@ -182,9 +174,8 @@ internal static void CompiledLocalFunctionWithClosure()
 int free = 1;
 Closure1 closure = new Closure1() { Free = free };
 CompiledAdd(ref closure);
-```
-
 }
+```
 
 C# compiler generates:
 
@@ -213,9 +204,8 @@ return compare > 0
 }
 comparer = comparer ?? Comparer<T>.Default;
 return BinarySearch(0, source.Count - 1);
-```
-
 }
+```
 
 It is compiled to the same closure structure and method member pattern:
 
@@ -252,9 +242,8 @@ Value = value,
 Comparer = comparer
 };
 return CompiledLocalBinarySearch(0, source.Count - 1, ref closure);
-```
-
 }
+```
 
 As demonstrated above, when the local function has multiple free variables, it still has 1 closure parameter. The closure structure defines multiple fields to capture all free variable and pass to the local function as parameter.
 
@@ -276,9 +265,8 @@ int local = 2;
 Add(); // 3
 free = 3; // Free variable mutates.
 Add(); // 5
-```
-
 }
+```
 
 Sometimes, this can be source of problems.
 
@@ -295,9 +283,8 @@ foreach (Action localFunction in localFunctions)
 {
 localFunction(); // 3 3 3 (instead of 0 1 2)
 }
-```
-
 }
+```
 
 In this case, the for loop has 3 iterations. In the first iteration, free is 0, a local function is defined to output free’s value, and the local function is stored to a function list. In the second iteration, free becomes 1, a local function is repeatedly defined to write free’s value, and stored in function list, and so on. Later, when calling these stored local functions, they do not output 0, 1, 2, but 3, 3, 3. The reason is, the 3 iterations of for loop share the same free variable, when the for loop is done, the free’s value becomes 3. Then, calling these 3 functions outputs the latest value of outer for 3 times, so it is 3, 3, 3. The compiled code is more intuitive. Notice the local function is compiled to a method member of closure structure, since it is stored:
 
@@ -322,9 +309,8 @@ foreach (Action localFunction in localFunctions)
 {
 localFunction(); // 3 3 3 (instead of 0 1 2)
 }
-```
-
 }
+```
 
 This can be resolved by capture a snapshot of shared free’s current value in each iteration, and store it in another variable that does not mutate:
 
@@ -343,9 +329,8 @@ foreach (Action localFunction in localFunctions)
 {
 localFunction(); // 0 1 2
 }
-```
-
 }
+```
 
 In each iteration of for loop, free is copied to copyOfFree. copyOfFree is not shared cross the iterations and does not mutate. When the for loop is done, 3 local function calls output the values of 3 snapshot values 0, 1, 2.. Above code is compiled to:
 
@@ -371,9 +356,8 @@ foreach (Action localFunction in localFunctions)
 {
 localFunction(); // 0 1 2
 }
-```
-
 }
+```
 
 Each iteration of the for loop instantiate an independent closure, which captures copyOfFree instead of free. When the for loop is done, each closure’s instance method is called to output its own captured value.
 
@@ -403,9 +387,8 @@ LocalFunction();
 // ...
 persisted = LocalFunction; // Reference to local function.
 }
-```
-
 }
+```
 
 Here temp is a large instance of byte array. It is a temporary local variable of the outer function, and free variable of the local function. It is not explicitly stored to any other variable or field, and supposed to have a short lifetime along with the execution of outer function. However, this temporary variable cannot be garbage collected after the execution of outer function and local function. The reason is, the local function is stored to a static field, and persisted to a long lifetime, so that its free variable should has the same lifetime. The problem is not intuitive at design time. At compile time, the following closure is generated:
 
@@ -429,9 +412,8 @@ Closure5 closure = new Closure5() { TempLargeInstance = tempLargeInstance };
 closure.LocalFunction();
 persisted = closure.LocalFunction;
 // closure's lifetime is bound to persisted, so is closure.TempLargeInstance.
-```
-
 }
+```
 
 The large array is captured as a field of the closure structure, which is expected since it is the free variable of the local function. Since the local function is stored, it is also compiled to be a method member of the closure structure. Here comes the problem. When the outer function stores the local function to the static field, it actually instantiates the closure, and stores closure’s instance method to the static field. Since the instance method’s lifetime is persisted, the entire closure instance is persisted with a long lifetime. after the execution of outer function and local function, the closure along cannot be deallocated, with its field of large array not able to be garbage collected, which causes memory leak issue. To fix the issue, consider a different design where local function is not persisted, or local function does not access large instance through free variable.
 
@@ -454,9 +436,8 @@ return LocalFunction2; // Return a function of Action type.
 internal static void CallSharedClosure()
 {
 persisted = SharedClosure(); // Returned LocalFunction2 is persisted.
-```
-
 }
+```
 
 Here LocalFunction2 only accesses free variable tempSmallInstance, and has nothing to do with tempLargeInstance. However, if SharedClosure is called and the returned LocalFunction2 is persisted, tempLargeInstance is still leaked and cannot be garbage collected. Again, the problem is invisible at design time, but intuitive at compile time:
 
@@ -483,9 +464,8 @@ closure.TempSmallInstance = false;
 closure.LocalFunction2();
 
 return closure.LocalFunction2; // Return a function of Action type.
-```
-
 }
+```
 
 C# compiler can generate one shared closure structure for multiple local functions and their free variables. If one local function is persisted, the shared closure is persisted, along with all captured free variables of all local functions. Besides a different design not persisting local function or not accessing large free variable, another possible improvement is to separate local functions to different lexical scopes:
 
@@ -503,9 +483,8 @@ void LocalFunction2() { tempSmallInstance = true; }
 LocalFunction2();
 
 return LocalFunction2; // Return a function of Action type.
-```
-
 }
+```
 
 C# compiler generates an individual closure for each lexical scopes, so the above 2 local function are compiled to 2 separated closures. If the returned LocalFunction2 is persisted, only tempSmallInstance is persisted along with LocalFunction2’s closure.
 
