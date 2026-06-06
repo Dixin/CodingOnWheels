@@ -147,8 +147,9 @@ The above example executes 3 database queries:
         [c].[ProductCategoryID] AS [ProductCategoryID]
         FROM [Production].[ProductSubcategory] AS [c]
     ```
-    
+
 -   The associated single category entity is queried when it is pulled from navigation property ProductSubcategory.ProductCategory
+
     ```sql
     exec sp_executesql N'SELECT 
         [Extent1].[ProductCategoryID] AS [ProductCategoryID], 
@@ -156,8 +157,9 @@ The above example executes 3 database queries:
         FROM [Production].[ProductCategory] AS [Extent1]
         WHERE [Extent1].[ProductCategoryID] = @EntityKeyValue1',N'@EntityKeyValue1 int',@EntityKeyValue1=1
     ```
-    
+
 -   The associated product entities is queried when they are pulled from navigation property ProductSubcategory.Products
+
     ```sql
     exec sp_executesql N'SELECT 
         CASE 
@@ -186,6 +188,7 @@ The above example executes 3 database queries:
         FROM [Production].[Product] AS [Extent1]
         WHERE [Extent1].[ProductSubcategoryID] = @EntityKeyValue1',N'@EntityKeyValue1 int',@EntityKeyValue1=1
     ```
+
     The Style column is queried by a CASE expression because it is discriminator column for the table per hierarchy inheritance.
 
 Entity Framework also provides APIs for explicit lazy loading:
@@ -651,7 +654,7 @@ There are some scenarios lazy loading needs to be disabled, like entity serializ
         }
     }
     ```
-    
+
 -   To disable lazy loading by default, set LazyLoadingEnabled when constructing DbContext:
     ```csharp
     public partial class AdventureWorks

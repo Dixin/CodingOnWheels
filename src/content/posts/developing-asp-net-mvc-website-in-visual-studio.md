@@ -15,13 +15,13 @@ Sometimes I send ASP.NET MVC project to some senior friends, and ask them for co
 
 The difference is, when removing the code-behind file of ViewPage, the C# generic syntax cannot work:
 
-```
+```razor
 <%@ Page Language="C#" Inherits="WebOS.Website.Views.ViewPageBase<DesktopViewModel>" %>
 ```
 
 The above code only works in ASP.NET MVC project. In normal web application project, the CLR syntax is needed:
 
-```
+```razor
 <%@ Page Language="C#" Inherits="WebOS.Website.Views.ViewPageBase`1[[WebOS.Website.ViewModels.DesktopViewModel, WebOS.Website]]" %>
 ```
 

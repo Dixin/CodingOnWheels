@@ -247,9 +247,8 @@ Uri optional5 = default, Guid optional6 = default) { }
 
 The default value for optional parameter must be compile time constant, or default value of the type (null for reference type, or default constructor call for value type, or default expression). If a function has both required parameters and optional parameters, the required parameters must be followed by optional parameters. Optional parameter is not a syntactic sugar. The above function is compiled as the following CIL:
 
-.method assembly hidebysig static
-
 ```csharp
+.method assembly hidebysig static
 void OptionalParameter(
 bool required1,
 char required2,

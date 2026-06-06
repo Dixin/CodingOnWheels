@@ -50,6 +50,7 @@ Strictly speaking, any function can interact with the outside world. Usually, a 
 In contrast, the following functions are pure because they are both referentially transparent and side effect free:
 
 -   Most mathematics functions, like decimal’s arithmetic operators, most of System.Math type’s static methods, etc. Take Math.Max and Math.Min as examples, their computed output only depends on the input, and they are residential transparency, they also produce no side effect, like state change, argument change, global variable change, I/O, etc.:
+
     ```csharp
     namespace System
     {
@@ -61,7 +62,6 @@ In contrast, the following functions are pure because they are both referentiall
         }
     }
     ```
-    
 
 -   string.Concat, string.Substring, string.Insert, string.Replace, string.Trim, string.ToUpper, string.ToLower: accepts one or more strings as input, and output a new string, since string is immutable type.
 -   string.Length, Nullable<T>.HasValue, Console.Error, or any property getter return a state. MutableDevice.Name’s getter and MutableDevice.Price’s getter are also pure. For a certain MutableDevice object, they return a predictable state, and during the getters’ execution, the getters do not change the state, or produce other side effect.

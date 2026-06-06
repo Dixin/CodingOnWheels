@@ -278,9 +278,8 @@ Here the AdventureWorks type is a LINQ to SQL data context, which is different f
 
 Microsoft provides LINQ APIs in client library to work with its non-relational database (aka NoSQL database) service, CosmosDB. To setup a data source for LINQ, create a free account, then follow the Microsoft documents to import some JSON documents representing some stores with addresses:
 
-\[
-
-```csharp
+```json
+[
 {
 "id": "1424",
 "Name": "Closeout Boutique",
@@ -296,9 +295,8 @@ Microsoft provides LINQ APIs in client library to work with its non-relational d
 }
 },
 // More documents.
+]
 ```
-
-\]
 
 Here the source is the database’s Store collection. The following example queries the stores in the specified city, and get their names in the alphabetic order:
 

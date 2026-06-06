@@ -81,14 +81,17 @@ Here 2 DbReaderWriter objects read and write data concurrently:
 1.  readerWriter1 reads category with Name “Bikes”
 1.  readerWriter1 reads category with Name “Bikes”. As fore mentioned, these 2 entities are independent 2 objects because they are are from different DbContext objects.
 1.  readerWriter1 updates category’s Name from “Bikes” to “readerWriter1”:
+
     ```sql
     exec sp_executesql N'UPDATE [Production].[ProductCategory]
     SET [Name] = @0
     WHERE ([ProductCategoryID] = @1)
     ',N'@0 nvarchar(50),@1 int',@0=N'readerWriter1',@1=1
     ```
+
 1.  At this moment, in database, this category’s Name is no longer “Bikes”
 1.  readerWriter2 updates category’s Name from “Bikes” to “readerWriter2”:
+
     ```sql
     exec sp_executesql N'UPDATE [Production].[ProductCategory]
     SET [Name] = @0
@@ -461,7 +464,6 @@ The same conflict is resolved differently:
     FROM [Production].[Product]
     WHERE @@ROWCOUNT > 0 AND [ProductID] = @3',N'@0 nvarchar(50),@1 decimal(18,2),@2 int,@3 int,@4 binary(8)',@0=N'readerWriter2',@1=256.49,@2=1,@3=950,@4=0x0000000000036336
     ```
-    
 
 Later, when readerWriter3 reads the product again, product has the Name, ListPrice and ProductSubcategoryID values from readerWrter2, their database values are overwritten.
 
@@ -511,7 +513,6 @@ With this approach:
     FROM [Production].[Product]
     WHERE @@ROWCOUNT > 0 AND [ProductID] = @1',N'@0 int,@1 int,@2 binary(8)',@0=1,@1=950,@2=0x0000000000036338
     ```
-    
 
 Later, when readerWriter3 reads the product, product has Name and ListPrice values from readerWrtier1, and ProductSubcategoryID value from readerWriter2.
 

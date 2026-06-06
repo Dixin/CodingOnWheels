@@ -152,7 +152,7 @@ Here the Log method will log the exception, and return false. So the catch block
 
 There is nothing new or surprising. And When method is compiled to:
 
-```
+```il
 .method private hidebysig static void  When() cil managed
 {
     .maxstack  2

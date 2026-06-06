@@ -45,7 +45,7 @@ Retry
 
 It also supports JSON/XML/INI configuration:
 
-```csharp
+```json
 {
   "retryStrategy": {
     "name1": {
@@ -237,7 +237,7 @@ These old XML infrastructures are outdated. Use new XML/JSON/INI format configur
 
 Please install TransientFaultHandling.Configuration package. The following is an example JSON configuration file app.json. It has 3 retry strategies, a FixedInterval retry strategy, a Incremental retry strategy, and an ExponentialBackoff retry strategy:
 
-```csharp
+```json
 {
   "retryStrategy": {
     "name1": {

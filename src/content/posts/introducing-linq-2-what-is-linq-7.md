@@ -339,7 +339,7 @@ The query is created to filter the products in the collection, and only keeps th
 
 LINQ to JSON is a third party set of APIs enabling LINQ for JSON data. Tumblr provides APIs returning JSON data, which can be a data source:
 
-```csharp
+```json
 {
   "meta": {
     "status": 200,

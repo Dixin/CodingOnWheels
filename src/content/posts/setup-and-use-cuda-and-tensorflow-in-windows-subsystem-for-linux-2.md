@@ -81,6 +81,7 @@ C:\WINDOWS\system32>wsl --list --verbose
   docker-desktop Stopped 2 
   docker-desktop-data Stopped 2
 ```
+
 WSL version can also be set for a specific distribution:
 
 ```batch
@@ -100,24 +101,31 @@ For the first time launch, it asks for initializing the user name and password.
 In Windows, download the preview driver from Nvidia: [https://developer.nvidia.com/cuda/wsl/download](https://developer.nvidia.com/cuda/wsl/download "https://developer.nvidia.com/cuda/wsl/download") and install.
 
 Then launch WSL, install CUDA:
+
 ```bash
 apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub sh -c 'echo "deb http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list' 
 apt update apt install -y cuda-toolkit-11-1
 ```
+
 ### Run CUDA sample application
 
 The CUDA sample source code can be downloaded from GitHub. In WSL, run:
+
 ```bash
 git clone https://github.com/NVIDIA/cuda-samples.git
 ```
+
 Then build and run a sample application
+
 ```bash
 cd cuda-samples/Samples/concurrentKernels 
 make 
 ./concurrentKernels
 ```
+
 If everything is successful, it should find the GPU and show the test output:
-```batch
+
+```console
 [./concurrentKernels] - Starting... 
 GPU Device 0: "Turing" with compute capability 7.5 
 
@@ -127,6 +135,7 @@ Expected time for concurrent execution of 8 kernels = 0.010s
 Measured time for sample = 0.012s 
 Test passed
 ```
+
 ## Install Docker and Nvidia container toolkit
 
 First, if Docker Desktop is installed in Windows, turn off the WSL integration for WSL in the distro, because It does not work with CUDA in WSL:
@@ -134,9 +143,11 @@ First, if Docker Desktop is installed in Windows, turn off the WSL integration f
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/bc58ed1e1573_14C6C/image_thumb_5.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/bc58ed1e1573_14C6C/image_12.png)
 
 Now go to WSL, install Docker from there:
+
 ```bash
 curl https://get.docker.com | sh
 ```
+
 Then install Nvidia container toolkit in WSL:
 
 ```bash
@@ -147,34 +158,45 @@ curl -s -L https://nvidia.github.io/libnvidia-container/experimental/$distributi
 sudo apt update 
 sudo apt install -y nvidia-docker2
 ```
+
 When it is done, restart docker in WSL:
+
 ```bash
 sudo service docker stop 
 sudo service docker start
 ```
+
 ### Run CUDA containers
 
 Now it is ready to run CUDA container:
+
 ```bash
 docker run --gpus all nvcr.io/nvidia/k8s/cuda-sample:nbody nbody -gpu -benchmark
 ```
+
 It should give output like this:
+
 ```batch
 GPU Device 0: "GeForce GTX 1650 SUPER" with compute capability 7.5 
 > Compute 7.5 CUDA device: [GeForce GTX 1650 SUPER] 20480 bodies, total time for 10 iterations: 30.007 ms 
 = 139.776 billion interactions per second 
 = 2795.517 single-precision GFLOP/s at 20 flops per interaction
 ```
+
 ### Troubleshoot
 
 Here Windows, WSL 2, Nvidia driver are all in preview. Sometimes when you run container, docker gives error:
+
 ```batch
 docker: Error response from daemon: cgroups: cannot find cgroup mount destination: unknown. ERRO[0000] error waiting for container: context canceled
 ```
+
 Then WSL has to be restarted. In Windows command prompt:
+
 ```bash
 wsl –shutdown wsl
 ```
+
 If Docker gives the following error:
 
 > Error response from daemon: could not select device driver "" with capabilities: [[gpu]]
@@ -198,14 +220,16 @@ sudo mkdir /sys/fs/cgroup/systemd sudo mount -t cgroup -o none,name=systemd cgro
 ## Run WSL + CUDA + Docker + Jupyter + TensorFlow
 
 Finally, Jupyter notebook can be used in WSL to run popular AI framework code, like TensorFlow. Nvidia’s official tutorial runs TensorFlow with Jupyter notebook in Docker image tensorflow/tensorflow:latest-gpu-py3-jupyter. However, this docker image is no longer updated and gives errors. Now there is another up-to-date image tensorflow/tensorflow:latest-gpu-jupyter. In WSL, run :
+
 ```bash
 docker run -it --gpus all -p 8889:8888 tensorflow/tensorflow:latest-gpu-jupyter
 ```
+
 Here container’s port 8888 is mapped to WSL’s port 8889, because on Windows I am already running an instance of Jupyter notebook, which already occupies port 8888.
 
 Dock shows the following messages:
 
-```batch
+```console
 ________                               _______________
 ___  __/__________________________________  ____/__  /________      __
 __  /  _  _ \_  __ \_  ___/  __ \_  ___/_  /_   __  /_  __ \_ | /| / /
@@ -234,15 +258,18 @@ jupyter_http_over_ws extension initialized. Listening on /http_over_websocket
          http://ccd3c60790ab:8888/?token=8b1969bc9a278498fd5debe119feb6d86130850166425bef
       or http://127.0.0.1:8888/?token=8b1969bc9a278498fd5debe119feb6d86130850166425bef
 ```
+
 Now take the last URI, replace “127.0.0.1:8888” with “localhost:8889”, go to Windows and launch browser, paste the URI: [http://localhost:8889/?token=8b1969bc9a278498fd5debe119feb6d86130850166425bef](http://localhost:8889/?token=8d4c4fda17acc9a58044e14db8f735f64aa49df1ba7a343e "http://localhost:8889/?token=8d4c4fda17acc9a58044e14db8f735f64aa49df1ba7a343e"), The browser should load the Jupyter notebook with built-in TensorFlow tutorial:
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/bc58ed1e1573_14C6C/image_thumb_10.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/bc58ed1e1573_14C6C/image_22.png)
 
 However, running the cells in the notebook, it shows some errors. If it shows an error of git not found (“FileNotFoundError: No such file or directory: 'git'”), then run these commands in a cell to install git:
+
 ```bash
 !apt update 
 !apt install -y git
 ```
+
 If the python code throws an error “InternalError: Blas GEMM launch failed” or “InternalError: Blas GEMV launch failed”, [the fix](https://stackoverflow.com/questions/43990046/tensorflow-blas-gemm-launch-failed) is to run these code:
 
 ```python
@@ -258,6 +285,7 @@ The it should work:
 ## Encoding and decoding video with GPU in WSL?
 
 Not supported yet. To test GPU encoding and decoding, [the latest version of FFmpeg](https://launchpad.net/~savoury1/+archive/ubuntu/ffmpeg4) can be installed:
+
 ```bash
 sudo add-apt-repository ppa:savoury1/graphics 
 sudo add-apt-repository ppa:savoury1/multimedia 
@@ -266,15 +294,20 @@ sudo apt-get update
 sudo apt-get upgrade && sudo apt-get dist-upgrade 
 sudo apt-get install ffmpeg
 ```
+
 Then install the Nvidia encoding/decoding libraries:
+
 ```bash
 sudo apt install libnvidia-decode-455 
 sudo apt install libnvidia-encode-455
 ```
+
 Now try to use FFmpeg to decode a video and encode it with hevc\_nvenc:
+
 ```bash
 ffmpeg -hwaccel auto -i input.mkv -map 0:v:0 -map 0:a -map_metadata 0 -loglevel verbose -c:v hevc_nvenc -profile:v main10 -pix_fmt yuv420p10le -preset slow -tune film -b_adapt 2 -b\_ref\_mode middle -bf 3 -rc vbr\_hq -deblock 0:0 -rc-lookahead 25 -rc_lookahead 25 -g 250 -keyint\_min 23 -refs 4 -sc\_threshold 40 -temporal_aq 1 -spatial_aq 1 -nonref\_p 1 -c:a aac -ar 48000 -b:a 256k -ac 6 -b:v 2048k output.nvenc.mp4 –y
 ```
+
 It does not work and gives the following error for decoding the input video:
 
 > \[h264 @ 0x55c4517dd540\] decoder->cvdl->cuvidGetDecoderCaps(&caps) failed -> CUDA\_ERROR\_INVALID\_DEVICE: invalid device ordinal \[h264 @ 0x55c4517dd540\] Failed setup for format cuda: hwaccel initialisation returned error.

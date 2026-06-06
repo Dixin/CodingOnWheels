@@ -32,11 +32,7 @@ etc. This tutorial uses Microsoft [SQL Server LocalDB](https://msdn.microsoft.co
     -   [SQL Server Profiler](https://msdn.microsoft.com/en-us/library/ms181091.aspx), a free trace tool. This tutorial will use it to uncover how Entity Framework works with the SQL data source.
 1.  (Optional) [Download SQL Server Data Tools](https://msdn.microsoft.com/en-us/library/mt204009.aspx) and install. It is a free Visual Studio extension, and enables SQL database management inside Visual Studio.
 1.  Download and install Microsoft SQL Server sample databases AdventureWorks. The [full database from Microsoft](http://msftdbprodsamples.codeplex.com/) will be about 205MB, so a compacted and shrunk version of the AdventureWorks database is provided for this tutorial. It is only 34MB, and is available from [GitHub](https://github.com/Dixin/CodeSnippets/tree/master/Data). Just download the [AdventureWorks\_Data.mdf](https://github.com/Dixin/CodeSnippets/blob/master/Data/AdventureWorks_Data.mdf) file and the [AdventureWorks\_Log.ldf](https://github.com/Dixin/CodeSnippets/blob/master/Data/AdventureWorks_Log.ldf) file to the same directory.
-1.  Install Entity Framework library to code project:
-    ```powershell
-    Install-Package EntityFramework
-    ```
-    By default, 2 assemblies will be added to the references: EntityFramework.dll and EntityFramework.SqlServer.dll. Entity Framework implements a provider model to support different kinds of databases, so EntityFramework.dll has the general functionalities for all the databases, and EntityFramewwork.SqlServer.dll implements SQL database specific functionalities.
+1.  Install Entity Framework library to code project: `Install-Package EntityFramework`. By default, 2 assemblies will be added to the references: EntityFramework.dll and EntityFramework.SqlServer.dll. Entity Framework implements a provider model to support different kinds of databases, so EntityFramework.dll has the general functionalities for all the databases, and EntityFramewwork.SqlServer.dll implements SQL database specific functionalities.
 
 ## Remote query vs. local query
 

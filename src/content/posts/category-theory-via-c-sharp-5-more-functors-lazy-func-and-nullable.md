@@ -61,6 +61,7 @@ public static IMorphism<IEnumerable<TSource>, IEnumerable<TResult>, DotNet> Sele
     (this IMorphism<TSource, TResult, DotNet> selector) => 
         new DotNetMorphism<IEnumerable<TSource>, IEnumerable<TResult>>(source => source.Select(selector.Invoke));
 ```
+
 from previous part, and LazyExtensions.Select:
 ```csharp
 public static IMorphism<Lazy<TSource>, Lazy<TResult>, DotNet> Select<TSource, TResult>

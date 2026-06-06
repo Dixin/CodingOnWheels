@@ -82,9 +82,8 @@ return @this.value + value1 + value2;
 
 These 2 method both add a Data instance’s value field with other integers. The difference is, the static method cannot use this keyword to access the Data instance, so a Data instance is passed to the static method as the first parameter. These 2 methods are compiled to different signature, but identical CIL in their bodies:
 
-.method assembly hidebysig instance int32 InstanceAdd (
-
 ```csharp
+.method assembly hidebysig instance int32 InstanceAdd (
 int32 value1,
 int32 value2) cil managed
 {

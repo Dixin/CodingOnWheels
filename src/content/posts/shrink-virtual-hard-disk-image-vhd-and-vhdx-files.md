@@ -79,7 +79,6 @@ This is the most tricky part. There are several options:
     ```csharp
     Resize-VHD –Path .\dixinyan-vmxp.vhdx –ToMinimumSize
     ```
-    
 
 Unfortunately, none of these can work for above virtual hard disk of this Windows XP virtual machine. After trying things around, the following approach works:
 

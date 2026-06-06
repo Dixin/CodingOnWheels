@@ -1734,6 +1734,7 @@ IEnumerable<IGrouping<string, WorkItem>> workItemGroups = genericWorkItems
 }
 #endif
 ```
+
 The other non-generic sequences, like System.Resources.ResourceSet, System.Resources.ResourceReader, can be cast in the same way:
 
 ```csharp

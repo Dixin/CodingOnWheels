@@ -1164,9 +1164,8 @@ catch (WebException exception) when ((exception.Response as HttpWebResponse)?.St
 
 Exception filter is not a syntactic sugar to replace if statement with declarative expression, but a .NET runtime feature. The above exception filter expression is compiled to filter clause in CIL. The following cleaned CIL virtually demonstrates the compilation result:
 
+```il
 .method assembly hidebysig static void ExceptionFilter(class \[System\]System.Net.WebClient webClient) cil managed
-
-```csharp
 {
 .try
 {

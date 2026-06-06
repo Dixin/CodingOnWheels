@@ -240,9 +240,8 @@ public delegate void Action<in T1, in T2>(T1 arg1, T2 arg2);
 
 Variant type parameter is not syntactic sugar, but a runtime feature. The out/in modifiers are compiled to the +/- flags in CIL, which can be read as can be more/less specific:
 
-.class public auto ansi sealed Func<-T, +TResult\> extends System.MulticastDelegate
-
-```csharp
+```il
+.class public auto ansi sealed Func<-T, +TResult> extends System.MulticastDelegate
 {
 }
 ```
