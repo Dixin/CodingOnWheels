@@ -79,11 +79,11 @@ internal static partial class Concurrency
 In this example, multiple DbReaderWriter instances read and write data concurrently:
 
 1.  readerWriter1 reads category “Bikes”
-2.  readerWriter2 reads category “Bikes”. These 2 entities are independent because they are are from different DbContext instances.
-3.  readerWriter1 updates category’s name from “Bikes” to “readerWriter1”. As previously discussed, by default EF/Core locate the category with its primary key.
-4.  In database, this category’s name is no longer “Bikes”
-5.  readerWriter2 updates category’s name from “Bikes” to “readerWriter2”. It locates the category with its primary key as well. The primary key is unchanged, so the same category can be located and the name can be changed.
-6.  So later when readerWriter3 reads the entity with the same primary key, the category entity’s Name is “readerWriter2”.
+1.  readerWriter2 reads category “Bikes”. These 2 entities are independent because they are are from different DbContext instances.
+1.  readerWriter1 updates category’s name from “Bikes” to “readerWriter1”. As previously discussed, by default EF/Core locate the category with its primary key.
+1.  In database, this category’s name is no longer “Bikes”
+1.  readerWriter2 updates category’s name from “Bikes” to “readerWriter2”. It locates the category with its primary key as well. The primary key is unchanged, so the same category can be located and the name can be changed.
+1.  So later when readerWriter3 reads the entity with the same primary key, the category entity’s Name is “readerWriter2”.
 
 ## Detect Concurrency conflicts
 
@@ -194,10 +194,10 @@ internal static void RowVersion(DbReaderWriter readerWriter1, DbReaderWriter rea
 When updating and deleting photo entities, its auto generated RowVersion property value is checked too. So this is how it works:
 
 1.  readerWriter1 reads product with primary key 995 and row version 0x0000000000000803
-2.  readerWriter2 reads product with the same primary key 995 and row version 0x0000000000000803
-3.  readerWriter1 locates the photo with primary key and original row version, and update its name. Database automatically increases the photo’s row version. Since the row version is specified as `[DatabaseGenerated(DatabaseGeneratedOption.Computed)]`, EF/Core also locate the photo with the primary key to query the increased row version, and update the entity at client side.
-4.  In database the product’s row version is no longer 0x0000000000000803.
-5.  Then readerWriter2 tries to locate the product with primary key and original row version, and delete it. No product can be found with outdated row version, EF/Core detect that 0 row is deleted, and throws DbUpdateConcurrencyException.
+1.  readerWriter2 reads product with the same primary key 995 and row version 0x0000000000000803
+1.  readerWriter1 locates the photo with primary key and original row version, and update its name. Database automatically increases the photo’s row version. Since the row version is specified as `[DatabaseGenerated(DatabaseGeneratedOption.Computed)]`, EF/Core also locate the photo with the primary key to query the increased row version, and update the entity at client side.
+1.  In database the product’s row version is no longer 0x0000000000000803.
+1.  Then readerWriter2 tries to locate the product with primary key and original row version, and delete it. No product can be found with outdated row version, EF/Core detect that 0 row is deleted, and throws DbUpdateConcurrencyException.
 
 ## Resolve concurrency conflicts
 

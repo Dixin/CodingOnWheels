@@ -30,7 +30,7 @@ This part discusses how to query SQL database with the defined mapping entities.
     -   Partitioning: Take, Skip, TakeWhile, SkipWhile
     -   Ordering: OrderBy\*, ThenBy, OrderByDescending\*, ThenByDescending, Reverse
     -   Conversion: Cast, AsQueryable
-2.  Value queries: return a single value
+1.  Value queries: return a single value
     -   Element: First, FirstOrDefault, Last\*, LastOrDefault\*, ElementAt, ElementAtOrDefault, Single, SingleOrDefault
     -   Aggregation: Aggregate, Count, LongCount, Min, Max, Sum, Average\*
     -   Quantifier: All, Any, Contains

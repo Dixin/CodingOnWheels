@@ -18,7 +18,7 @@ Understanding of internal implementation of LINQ to Objects queries is the ultim
 
 1.  Collection queries: output a new collection (immediate execution):
     -   Conversion: ToArray, ToList, ToDictionary, ToLookup
-2.  Sequence queries: output a new `IEnumerable<T>` sequence (deferred execution, underlined are eager evaluation):
+1.  Sequence queries: output a new `IEnumerable<T>` sequence (deferred execution, underlined are eager evaluation):
     -   Conversion: Cast, AsEnumerable
     -   Generation: Empty, Range, Repeat, DefaultIfEmpty
     -   Filtering (restriction): Where, OfType
@@ -30,7 +30,7 @@ Understanding of internal implementation of LINQ to Objects queries is the ultim
     -   Convolution: Zip
     -   Partitioning: Take, Skip, TakeWhile, SkipWhile
     -   Ordering: OrderBy\*, ThenBy\*, OrderByDescending\*, ThenByDescending\*, Reverse\*
-3.  Value queries: output a single value (immediate execution):
+1.  Value queries: output a single value (immediate execution):
     -   Element: First, FirstOrDefault, Last, LastOrDefault, ElementAt, ElementAtOrDefault, Single, SingleOrDefault
     -   Aggregation: Aggregate, Count, LongCount, Min, Max, Sum, Average
     -   Quantifier: All, Any, Contains
