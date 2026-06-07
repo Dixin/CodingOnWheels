@@ -11,10 +11,10 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
-
-## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-asynchronous-function](/posts/functional-csharp-asynchronous-function "https://CodingOnWheels.com/posts/functional-csharp-asynchronous-function")
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
+>
+> This post is updated, [here is the latest version](/posts/functional-csharp-asynchronous-function).
 
 Asynchronous function can improve the responsiveness and scalability of the application and service. C# 5.0 introduces async and await keywords to greatly simplify the async programming model.
 

@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-deferred-execution-lazy-evaluation-and-eager-evaluation](/posts/linq-to-objects-deferred-execution-lazy-evaluation-and-eager-evaluation "https://CodingOnWheels.com/posts/linq-to-objects-deferred-execution-lazy-evaluation-and-eager-evaluation")
+>
+> This post is updated, [here is the latest version](/posts/linq-to-objects-deferred-execution-lazy-evaluation-and-eager-evaluation).
 
 As fore mentioned, when a generator method (method contains yield statement and returns `IEnumerable<T>`) is compiled to a pure function, which constructs a generator and return it to caller. So at runtime, when a generator method is called, the values in output sequence is not pulled or evaluated. This is called deferred execution.
 

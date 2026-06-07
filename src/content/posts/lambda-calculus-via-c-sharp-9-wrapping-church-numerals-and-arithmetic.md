@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate")
+>
+> This post is updated, [here is the latest version](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate).
 
 In [previous part](/posts/lambda-calculus-via-c-sharp-7-encoding-church-numerals), the Decrease function was a `Func<Numeral<Func<Func<T, T>, T>>, Numeral<T>>`:
 

@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Parallel LINQ in Depth](/archive/?tag=Parallel%20LINQ) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/parallel-linq-3-query-methods](/posts/parallel-linq-3-query-methods "https://CodingOnWheels.com/posts/parallel-linq-3-query-methods")
+>
+> This post is updated, [here is the latest version](/posts/parallel-linq-3-query-methods).
 
 Parallel LINQ provides additional query methods and additional overrides for Aggregate method:
 

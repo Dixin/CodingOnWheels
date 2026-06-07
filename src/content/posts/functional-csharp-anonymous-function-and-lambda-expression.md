@@ -11,8 +11,8 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
 
 Besides named function, C# also supports anonymous function, represented by anonymous method or lambda expression with no function name at design time. Lambda expression can also represent expression tree, This chapter discusses lambda expression as a functional feature of C# language. Lambda expression is also the core concept of lambda calculus, where functional programming originates. It is revisited in the Lambda Calculus chapters.
 

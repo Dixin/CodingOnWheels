@@ -11,10 +11,10 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
-
-## `Latest version:` [`https://CodingOnWheels.com/posts/functional-csharp-fundamentals`](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
+>
+> This post is updated, [here is the latest version](/posts/functional-csharp-fundamentals").
 
 C# 1.0 was initially released in 2002, as its first language specification says at the beginning, C# is a “simple, modern, object oriented, and type-safe” programming language for general purpose. Now C# has evolved to 7.2. During the years, a lot of great language features, especially rich functional programming features, has been added to C#. Now C# language has been productive and elegant, imperative and declarative, object-oriented and functional. With frameworks like .NET Framework, .NET Core, Mono, Xamarin, Unity, etc., C# is used by millions of people cross different platforms, including Windows, Linux, Mac, iOS, Android, etc.
 

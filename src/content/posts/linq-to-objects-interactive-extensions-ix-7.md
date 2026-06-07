@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-interactive-extensions-ix](/posts/linq-to-objects-interactive-extensions-ix "https://CodingOnWheels.com/posts/linq-to-objects-interactive-extensions-ix")
+>
+> This post is updated, [here is the latest version](/posts/linq-to-objects-interactive-extensions-ix).
 
 Besides the built-in query methods (standard query operators) provided by System.Linq.Enumerable, Microsoft also provides additional query methods through the System.Interactive NuGet package (aka [Interactive Extensions (Ix)](https://github.com/Reactive-Extensions/Rx.NET) library), which has a System.Linq.EnumerableEx type with the following query methods:
 

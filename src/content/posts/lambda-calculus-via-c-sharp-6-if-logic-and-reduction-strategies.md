@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-2-boolean-and-logic](/posts/lambda-calculus-via-c-2-boolean-and-logic "https://CodingOnWheels.com/posts/lambda-calculus-via-c-2-boolean-and-logic")
+>
+> This post is updated, [here is the latest version](/posts/lambda-calculus-via-c-2-boolean-and-logic).
 
 The if logic is already built in [Church Booleans](/posts/lambda-calculus-via-c-sharp-4-encoding-church-booleans).
 

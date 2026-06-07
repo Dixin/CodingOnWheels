@@ -11,8 +11,8 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
 
 In programming languages with subtyping support, variance is the ability to substitute a type with a different subtype or supertype in a context. For example, having a subtype and a supertype, can a function of subtype output substitute a function of supertype output? Can a sequence of subtype substitute a sequence of supertype? C# supports covariance/contravariance, which means to use a more/less specific type to substitute the required type in the context of function and interface.
 

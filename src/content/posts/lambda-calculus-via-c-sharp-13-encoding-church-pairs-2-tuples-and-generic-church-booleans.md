@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral")
+>
+> This post is updated, [here is the latest version](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral).
 
 [Church pair](http://en.wikipedia.org/wiki/Church_encoding#Church_pairs) is the Church encoding of the [pair](http://en.wikipedia.org/wiki/Cons) type, aka 2-[tuple](http://en.wikipedia.org/wiki/Tuple). Unlike the [Tuple<T1, T2>](https://msdn.microsoft.com/en-us/library/dd268536.aspx) class in .NET, in lambda calculus Church pair will be represented by lambda expression. To avoid 2 naming systems, here in all the code, Church pair will be called tuple.
 

@@ -11,10 +11,10 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
-
-## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-function-as-data-and-expression-tree](/posts/functional-csharp-function-as-data-and-expression-tree "https://CodingOnWheels.com/posts/functional-csharp-function-as-data-and-expression-tree")
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
+>
+> This post is updated, [here is the latest version](/posts/functional-csharp-function-as-data-and-expression-tree).
 
 C# lambda expression is a powerful syntactic sugar. Besides representing anonymous function, the same syntax can also represent expression tree.
 

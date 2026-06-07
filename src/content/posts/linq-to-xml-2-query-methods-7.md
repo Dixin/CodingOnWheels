@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [LINQ to XML in Depth](/archive/?tag=LINQ%20to%20XML) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/linq-to-xml-2-query-methods](/posts/linq-to-xml-2-query-methods "https://CodingOnWheels.com/posts/linq-to-xml-2-query-methods")
+>
+> This post is updated, [here is the latest version](/posts/linq-to-xml-2-query-methods).
 
 As fore mentioned, LINQ to XML is just a specialized LINQ to Objects, so all the LINQ to Objects query methods can be used in LINQ to XML queries. LINQ to XML provides many function members and other methods for XML tree navigation, ordering, XPath querying, etc. The following list shows these functions and their return types:
 

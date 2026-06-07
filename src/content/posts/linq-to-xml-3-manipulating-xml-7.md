@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [LINQ to XML in Depth](/archive/?tag=LINQ%20to%20XML) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/linq-to-xml-3-manipulating-xml](/posts/linq-to-xml-3-manipulating-xml "https://CodingOnWheels.com/posts/linq-to-xml-3-manipulating-xml")
+>
+> This post is updated, [here is the latest version](/posts/linq-to-xml-3-manipulating-xml).
 
 Besides creating and querying XML, LINQ to XML also provides APIs for other XML manipulations, including cloning, deleting, replacing, and updating XML structures:
 

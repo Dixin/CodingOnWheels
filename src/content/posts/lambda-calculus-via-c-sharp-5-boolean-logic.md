@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-2-boolean-and-logic](/posts/lambda-calculus-via-c-2-boolean-and-logic "https://CodingOnWheels.com/posts/lambda-calculus-via-c-2-boolean-and-logic")
+>
+> This post is updated, [here is the latest version](/posts/lambda-calculus-via-c-2-boolean-and-logic).
 
 After defining Boolean values True and False with functions, now the Boolean logics can be encoded, by functions too.
 

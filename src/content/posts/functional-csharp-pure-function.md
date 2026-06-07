@@ -11,8 +11,8 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
 
 The previous chapter discusses that functional programming encourages modelling data as immutable. Functional programming also encourages modelling operations as pure functions. The encouraged purity for function is the significant difference from method and procedure in imperative programming.
 

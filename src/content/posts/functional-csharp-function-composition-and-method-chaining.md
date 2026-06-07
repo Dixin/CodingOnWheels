@@ -11,8 +11,8 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
 
 As demonstrated in the introduction chapter, in object-oriented programming, program is modelled as objects, and object composition is very common, which combines simple objects to more complex objects. In functional programming, program is modelled as functions, function composition is emphasized, which combines simple functions to build more complex functions. LINQ query is composition of quelop.
 

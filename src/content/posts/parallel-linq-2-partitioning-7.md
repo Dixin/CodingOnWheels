@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Parallel LINQ in Depth](/archive/?tag=Parallel%20LINQ) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/parallel-linq-2-partitioning](/posts/parallel-linq-2-partitioning "https://CodingOnWheels.com/posts/parallel-linq-2-partitioning")
+>
+> This post is updated, [here is the latest version](/posts/parallel-linq-2-partitioning).
 
 The first step of Parallel LINQ is partitioning. The source values is split into several partitions, so that multiple threads can execute the query logic in parallel.
 

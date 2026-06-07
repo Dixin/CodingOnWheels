@@ -11,8 +11,8 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
 
 The previous chapter demonstrates that C# is a standardized, cross-platform, and multi-paradigm language, and gives an overview that C# is very functional with rich features, including LINQ, a unified functional programming model to work with different data domains. Since this chapter, we dive into C# coding.
 

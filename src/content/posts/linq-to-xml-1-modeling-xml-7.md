@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [LINQ to XML in Depth](/archive/?tag=LINQ%20to%20XML) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/linq-to-xml-1-modeling-xml](/posts/linq-to-xml-1-modeling-xml "https://CodingOnWheels.com/posts/linq-to-xml-1-modeling-xml")
+>
+> This post is updated, [here is the latest version](/posts/linq-to-xml-1-modeling-xml).
 
 [XML](https://en.wikipedia.org/wiki/XML) (eXtensible Markup Language) is widely used to represent, store, and transfer data. Since .NET 3.5, the built in LINQ to XML APIs are provided to enable LINQ queries for XML data source. These APIs are located in System.Xml.XDocument NuGet package for .NET Core, and System.Xml.Linq.dll for .NET Framework. LINQ to XML can be viewed as specialized LINQ to Objects, where the objects in memory represents XML structures.
 

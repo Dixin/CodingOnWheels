@@ -11,8 +11,8 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
 
 C#’s delegate is an important feature to make function first class citizen just like object. C# is a strongly-typed language, where any value and any expression that evaluates to a value has a type. In C#, a value can be an object, which has type represented by class; a value can also be a function, which has type represented by delegate type. Delegate type can be instantiated to represent a single function instance, or a group of functions.
 

@@ -11,8 +11,8 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
 
 The delegate chapter and other previous chapters have demonstrated that in C#, function supports many operations that are available for object. This chapter discusses one more aspect, higher-order function, and how it and other functional features make function the first-class citizen in C# language.
 

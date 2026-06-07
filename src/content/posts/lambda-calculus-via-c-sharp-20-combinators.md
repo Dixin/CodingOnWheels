@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-6-combinatory-logic](/posts/lambda-calculus-via-csharp-6-combinatory-logic "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-6-combinatory-logic")
+>
+> This post is updated, [here is the latest version](/posts/lambda-calculus-via-csharp-6-combinatory-logic).
 
 As mentioned in [a fundamental part](/posts/lambda-calculus-via-c-sharp-2-fundamentals-lambda-expression-variables-reductions), combinator is a special kind of lambda expression without free variables. So [combinatory logic](http://en.wikipedia.org/wiki/Combinatory_logic) (introduced by [Moses Schönfinkel](http://en.wikipedia.org/wiki/Moses_Sch%C3%B6nfinkel) and [Haskell Curry](http://en.wikipedia.org/wiki/Haskell_Curry)) can be viewed as a variant of lambda calculus.
 

@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals](/posts/lambda-calculus-via-c-1-fundamentals "https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals")
+>
+> This post is updated, [here is the latest version](/posts/lambda-calculus-via-c-1-fundamentals).
 
 The C# lambda expression [has been discussed in detail](/posts/understanding-csharp-3-0-features-6-lambda-expression). This post will explain lambda expression and other concepts in lambda calculus.
 

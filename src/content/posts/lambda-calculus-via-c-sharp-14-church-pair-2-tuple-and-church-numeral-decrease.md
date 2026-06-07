@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral")
+>
+> This post is updated, [here is the latest version](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral).
 
 In the [Church numeral arithmetic](/posts/lambda-calculus-via-c-sharp-9-wrapping-church-numerals-and-arithmetic) part, the Decrease was defined as:
 

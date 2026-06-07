@@ -11,10 +11,10 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
-
-## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-function-type-and-delegate](/posts/functional-csharp-function-type-and-delegate "https://CodingOnWheels.com/posts/functional-csharp-function-type-and-delegate")
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
+>
+> This post is updated, [here is the latest version](/posts/functional-csharp-function-type-and-delegate).
 
 ## Delegate type as function type
 

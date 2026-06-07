@@ -1,5 +1,5 @@
 ---
-title: "Lambda Calculus via C# (19) Church Encoding, And More"
+title: "Lambda Calculus via C# (19) Church Encoding and More"
 published: 2018-11-19
 description: "So far a ton has been encoded. Here is a summary."
 image: ""

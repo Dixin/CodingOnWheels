@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral")
+>
+> This post is updated, [here is the latest version](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral).
 
 In lambda calculus, a signed number (integer) can be represented by a [Church pair (2-tuple)](/posts/lambda-calculus-via-c-sharp-13-encoding-church-pairs-2-tuples-and-generic-church-booleans) of [Church numerals](/posts/lambda-calculus-via-c-sharp-7-encoding-church-numerals) (natural numbers):
 

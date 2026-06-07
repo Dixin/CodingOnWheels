@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Parallel LINQ in Depth](/archive/?tag=Parallel%20LINQ) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/parallel-linq-1-local-parallel-query-and-visualization](/posts/parallel-linq-1-local-parallel-query-and-visualization "https://CodingOnWheels.com/posts/parallel-linq-1-local-parallel-query-and-visualization")
+>
+> This post is updated, [here is the latest version](/posts/parallel-linq-1-local-parallel-query-and-visualization).
 
 So far, all the discussion for LINQ to Objects/XML does not involve multi-threading, concurrency, or parallel computing. This is by design, because pulling values from an `IEnumerable<T>` sequence is not thread-safe.When multiple threads simultaneously access one `IEnumerable<T>` sequence, race condition can occur and lead to unpredictable consequence. As a result, all the LINQ to Objects/XML queries are implemented in a sequential manner with a single thread. To scale LINQ in multi-processor environment, Since .NET Framework4.0, a parallel version of LINQ to Objects is also provided, called Parallel LINQ or PLINQ.
 

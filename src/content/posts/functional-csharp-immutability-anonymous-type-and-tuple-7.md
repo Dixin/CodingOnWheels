@@ -11,10 +11,10 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
-
-## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-immutability-anonymous-type-and-tuple](/posts/functional-csharp-immutability-anonymous-type-and-tuple "https://CodingOnWheels.com/posts/functional-csharp-immutability-anonymous-type-and-tuple")
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
+>
+> This post is updated, [here is the latest version](/posts/functional-csharp-immutability-anonymous-type-and-tuple).
 
 Immutability is an important aspect of functional paradigm. As fore mentioned, imperative/object-oriented programming is usually stateful, and functional programming encourages immutability without state change. In C# programming, there are [many kinds of immutability](https://blogs.msdn.microsoft.com/ericlippert/2007/11/13/immutability-in-c-part-one-kinds-of-immutability/), but they can be categorized into 2 levels: immutability of some value, and immutability of some value’s internal state. Take local variable as example, a local variable can be called immutable, if once it is assigned, there is no way to reassign to it; a local variable can also be called immutable, if once its internal state is initialized, there is no way to modify its state to different state.
 

@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-6-combinatory-logic](/posts/lambda-calculus-via-csharp-6-combinatory-logic "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-6-combinatory-logic")
+>
+> This post is updated, [here is the latest version](/posts/lambda-calculus-via-csharp-6-combinatory-logic).
 
 ## Language with 1 element
 

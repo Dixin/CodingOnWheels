@@ -11,8 +11,8 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
 
 This chapter starts the deep dive in functional programming with C#. C# has named function and anonymous function. In C#, the most intuitive functions are method members of class and structure, including static method, instance method, and extension method, etc. These method members are defined with names at design time and can be called by name, so they are named functions. Some other method-like members, including static constructor, constructor, finalizer, conversion operator, operator overload, property, indexer, event accessor, are also named functions, with function name generated at compiled time. This chapter discusses named functions in C#, how these named functions are defined compiled, and called, as well as their polymorphisms. A special named function, local function, is discussed in next chapter.
 

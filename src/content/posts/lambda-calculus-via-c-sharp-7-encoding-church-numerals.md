@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate")
+>
+> This post is updated, [here is the latest version](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate).
 
 Previous parts showed that [Boolean values](/posts/lambda-calculus-via-c-sharp-4-encoding-church-booleans), [Boolean logic](/posts/lambda-calculus-via-c-sharp-5-boolean-logic), and [if logic](/posts/lambda-calculus-via-c-sharp-6-if-logic-and-reduction-strategies) can all be encoded by lambda expressions. This and next few articles will focus on [natural numbers](http://en.wikipedia.org/wiki/Natural_number). [Signed number](/posts/lambda-calculus-via-c-sharp-18-encoding-signed-number) will be encoded after introducing [Church pairs (2-tuples)](/posts/lambda-calculus-via-c-sharp-13-encoding-church-pairs-2-tuples-and-generic-church-booleans).
 

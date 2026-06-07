@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion](/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion")
+>
+> This post is updated, [here is the latest version](/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion).
 
 ## Fix point
 

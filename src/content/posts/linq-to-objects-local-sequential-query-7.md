@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-local-sequential-query](/posts/linq-to-objects-local-sequential-query "https://CodingOnWheels.com/posts/linq-to-objects-local-sequential-query")
+>
+> This post is updated, [here is the latest version](/posts/linq-to-objects-local-sequential-query).
 
 LINQ to Objects queries sequences of .NET objects in local memory of current .NET application or service. Its data source and the queries are represented by `IEnumerable<T>`.
 

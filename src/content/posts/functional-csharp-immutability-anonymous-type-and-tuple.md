@@ -11,8 +11,8 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
 
 Immutability is an important aspect of functional programming. As discussed in the introduction chapter, imperative/object-oriented programming is usually mutable and stateful, and functional programming encourages immutability without state change. There are many kinds of immutability. In C#, the relevant features can be categorized into 2 levels: immutability of a value, and immutability of a value’s internal state. Take local variable as example, a local variable can be immutable value, if once it is initialized to an instance, it cannot be altered it to different instance to it; a local variable can also have immutable state, if once the instance’s internal state is initialized, that instance’s internal state cannot be altered to different state.
 

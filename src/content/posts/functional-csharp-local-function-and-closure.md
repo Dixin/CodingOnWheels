@@ -11,8 +11,8 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
 
 The previous chapter discussed named function. There is one more special kind of named function. local function. Local function can be nested in another function, and it supports an important feature closure, the ability access variable outside the local function itself.
 

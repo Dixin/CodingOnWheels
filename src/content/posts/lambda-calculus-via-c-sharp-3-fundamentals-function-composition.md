@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals](/posts/lambda-calculus-via-c-1-fundamentals "https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals")
+>
+> This post is updated, [here is the latest version](/posts/lambda-calculus-via-c-1-fundamentals).
 
 It may not be the best place to discuss function composition in the lambda calculus series. However, function composition will be used a lot in later articles, so here is a brief introduction.
 

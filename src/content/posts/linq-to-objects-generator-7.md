@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-generator](/posts/linq-to-objects-generator "https://CodingOnWheels.com/posts/linq-to-objects-generator")
+>
+> This post is updated, [here is the latest version](/posts/linq-to-objects-generator).
 
 After understanding how to use LINQ to Objects, starting from this part, the implementation of query methods is discussed. Most LINQ to Object query methods are implemented with iteration pattern and generators.
 

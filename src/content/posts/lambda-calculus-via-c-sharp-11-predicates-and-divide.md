@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate")
+>
+> This post is updated, [here is the latest version](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate).
 
 A [predicate](http://en.wikipedia.org/wiki/Church_encoding#Predicates) is a function that returns a Boolean value. In Church encoding of lambda calculus, a predicate is a lambda expression that returns a Church Boolean.
 

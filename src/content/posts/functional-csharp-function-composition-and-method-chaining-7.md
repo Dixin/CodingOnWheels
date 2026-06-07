@@ -11,10 +11,10 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
-
-## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-function-composition-and-method-chaining](/posts/functional-csharp-function-composition-and-method-chaining "https://CodingOnWheels.com/posts/functional-csharp-function-composition-and-method-chaining")
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
+>
+> This post is updated, [here is the latest version](/posts/functional-csharp-function-composition-and-method-chaining).
 
 In object-oriented programming, objects can be composed to build more complex object. Similarly, in functional programming. functions can be composed to build more complex function.
 

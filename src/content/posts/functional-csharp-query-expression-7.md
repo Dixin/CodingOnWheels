@@ -11,10 +11,10 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
-
-## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-query-expression](/posts/functional-csharp-query-expression "https://CodingOnWheels.com/posts/functional-csharp-query-expression")
+>
+> [C# functional programming in-depth](/archive/?tag=Functional%20C%23) Series
+>
+> This post is updated, [here is the latest version](/posts/functional-csharp-query-expression).
 
 C# 3.0 introduces query expression, a SQL-like query syntactic sugar for query methods composition.
 

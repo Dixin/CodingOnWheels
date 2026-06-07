@@ -13,8 +13,8 @@ lang: ""
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 >
 > [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-custom-query-methods](/posts/linq-to-objects-custom-query-methods "https://CodingOnWheels.com/posts/linq-to-objects-custom-query-methods")
+>
+> This post is updated, [here is the latest version](/posts/linq-to-objects-custom-query-methods).
 
 After discussing the query methods provided by .NET, this part demonstrates how to define custom query methods:
 

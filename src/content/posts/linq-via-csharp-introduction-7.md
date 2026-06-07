@@ -11,8 +11,8 @@ lang: ""
 
 > [!TIP]  
 > [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
-
-## Latest version: [https://CodingOnWheels.com/posts/linq-via-csharp-introduction](/posts/linq-via-csharp-introduction "https://CodingOnWheels.com/posts/linq-via-csharp-introduction")
+>
+> This post is updated, [here is the latest version](/posts/linq-via-csharp-introduction).
 
 This is a tutorial of functional programming and LINQ in C# language. The contents was initially based on my [LINQ via C# talks](/posts/linq-via-csharp-events-posters-design). Hope it helps.
 
