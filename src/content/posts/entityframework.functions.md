@@ -49,14 +49,14 @@ See:
 -   [Source code](https://CodingOnWheels.com/posts/EntityFramework.Functions#Source_code)
 -   [APIs](https://CodingOnWheels.com/posts/EntityFramework.Functions#APIs)
 
--   [\[Function\]](https://CodingOnWheels.com/posts/EntityFramework.Functions#[Function])
--   [\[Parameter\]](https://CodingOnWheels.com/posts/EntityFramework.Functions#[Parameter])
--   [\[ResultType\]](https://CodingOnWheels.com/posts/EntityFramework.Functions#[ResultType])
--   [FunctionConvention and FunctionConvention<TFunctions>](https://CodingOnWheels.com/posts/EntityFramework.Functions#FunctionConvention_and_FunctionConvention<TFunctions>)
+-   [`[Function]`](https://CodingOnWheels.com/posts/EntityFramework.Functions#[Function])
+-   [`[Parameter]`](https://CodingOnWheels.com/posts/EntityFramework.Functions#[Parameter])
+-   [`[ResultType]`](https://CodingOnWheels.com/posts/EntityFramework.Functions#[ResultType])
+-   [`FunctionConvention` and `FunctionConvention<TFunctions>`](https://CodingOnWheels.com/posts/EntityFramework.Functions#FunctionConvention_and_FunctionConvention<TFunctions>)
 
 -   [Examples](https://CodingOnWheels.com/posts/EntityFramework.Functions#Examples)
     -   [Add functions to entity model](https://CodingOnWheels.com/posts/EntityFramework.Functions#Add_functions_to_entity_model)
-    -   [Stored procedure, with single result type](https://CodingOnWheels.com/posts/EntityFramework.Functions#Stored procedure,_with_single_result_type)
+    -   [Stored procedure, with single result type](<https://CodingOnWheels.com/posts/EntityFramework.Functions#Stored> procedure,_with_single_result_type)
     -   [Stored procedure, with output parameter](https://CodingOnWheels.com/posts/EntityFramework.Functions#Stored_procedure,_with_output_parameter)
     -   [Stored procedure, with multiple result types](https://CodingOnWheels.com/posts/EntityFramework.Functions#Stored_procedure,_with_multiple_result_types)
     -   [Table-valued function](https://CodingOnWheels.com/posts/EntityFramework.Functions#Table-valued_function)
@@ -83,9 +83,9 @@ To view [the sample database](https://github.com/Dixin/EntityFramework.Functions
 
 EntityFramework.Functions library provides a few simple APIs, following the pattern of Entity Framework and LINQ to SQL.
 
-### \[Function\]
+### `[Function]`
 
-\[Function(FunctionType type, string name)\] attribute derives from [DbFunctionAttribute](https://msdn.microsoft.com/en-us/library/system.data.entity.dbfunctionattribute.aspx) provided in Entity Framework. It is also similar to [FunctionAttribute](https://msdn.microsoft.com/en-us/library/system.data.linq.mapping.functionattribute.aspx) in [LINQ to SQL](https://msdn.microsoft.com/en-us/library/bb386976.aspx). When a method is tagged with \[Function\], it maps to a database function or stored procedure. The FunctionType parameter is an enumeration, with the following members:
+`[Function(FunctionType type, string name)]` attribute derives from [`[DbFunctionAttribute]`](https://msdn.microsoft.com/en-us/library/system.data.entity.dbfunctionattribute.aspx) provided in Entity Framework. It is also similar to [FunctionAttribute](https://msdn.microsoft.com/en-us/library/system.data.linq.mapping.functionattribute.aspx) in [LINQ to SQL](https://msdn.microsoft.com/en-us/library/bb386976.aspx). When a method is tagged with `[Function]`, it maps to a database function or stored procedure. The FunctionType parameter is an enumeration, with the following members:
 
 -   StoredProcedure
 -   TableValuedFunction
@@ -100,7 +100,7 @@ Examples for each function type can be found below.
 
 The other name parameter specifies the database function/stored procedure that is mapped to. Even when C# method name is exactly the same as the mapped database function/stored procedure, this name string still has to be provided. This is required by Entity Framework.
 
-\[Function\] has 2 settable properties:
+`[Function]` has 2 settable properties:
 
 -   Schema: It specifies the schema of the mapped database function/stored procedure, e.g. “dbo”.
 -   ParameterTypeSemantics: It is of [ParameterTypeSemantics](https://msdn.microsoft.com/en-us/library/system.data.metadata.edm.parametertypesemantics.aspx) type provided in Entity Framework. It defines the type semantics used to resolve function overloads. ParameterTypeSemantics is an enumeration of 3 members:
@@ -109,53 +109,53 @@ The other name parameter specifies the database function/stored procedure that i
 -   AllowImplicitPromotion
 -   ExactMatchOnly
 
-Besides general \[Function\] attribute, a specific attribute is also provided for each function type:
+Besides general `[Function]` attribute, a specific attribute is also provided for each function type:
 
--   \[StoredProcedure\]
--   \[TableValuedFunction\]
--   \[ComposableScalarValuedFunction\]
--   \[NonComposableScalarValuedFunction\]
--   \[AggregateFunction\]
--   \[BuiltInFunction\]
--   \[NiladicFunction\]
--   \[ModelDefinedFunction\]
+-   `[StoredProcedure]`
+-   `[TableValuedFunction]`
+-   `[ComposableScalarValuedFunction]`
+-   `[NonComposableScalarValuedFunction]`
+-   `[AggregateFunction]`
+-   `[BuiltInFunction]`
+-   `[NiladicFunction]`
+-   `[ModelDefinedFunction]`
 
-### \[Parameter\]
+### `[Parameter]`
 
-\[Parameter\] tags the function parameter to specify the mapped database function/stored procedure’s parameter name and type. It is similar to [ParameterAttribute](https://msdn.microsoft.com/en-us/library/system.data.linq.mapping.parameterattribute.aspx) in LINQ to SQL.
+`[Parameter]` tags the function parameter to specify the mapped database function/stored procedure’s parameter name and type. It is similar to [ParameterAttribute](https://msdn.microsoft.com/en-us/library/system.data.linq.mapping.parameterattribute.aspx) in LINQ to SQL.
 
-\[Parameter\] has 3 settable properties:
+`[Parameter]` has 3 settable properties:
 
 -   Name: the name of the mapped parameter in database.
 -   DbType: the tyoe of the mapped parameter in database, like “money”
 -   ClrType: the type of the mapping .NET parameter.
 
--   In Entity Framework, when a parameter is a output parameter, it has to be of ObjectParameter type. In this case, the mapping CLR type cannot be predicted and has to be provided by \[Parameter\]’s ClrType property.
+-   In Entity Framework, when a parameter is a output parameter, it has to be of ObjectParameter type. In this case, the mapping CLR type cannot be predicted and has to be provided by `[Parameter]`’s ClrType property.
 -   In other cases, ClrType property can be omitted. At runtime, If ClrType conflicts with CLR parameter’s actual declaration CLR type, an exception will be thrown.
 
-\[Parameter\] can be omitted. when:
+`[Parameter]` can be omitted. when:
 
 -   the parameter is not an output parameter
 -   and its name is the same as the mapped database parameter
 
-\[Parameter\] can also be used to tag the return value of method, to specify the DbType of the mapped database function return value, which is also the same as LINQ to SQL. Please see examples below.
+`[Parameter]` can also be used to tag the return value of method, to specify the DbType of the mapped database function return value, which is also the same as LINQ to SQL. Please see examples below.
 
-### \[ResultType\]
+### `[ResultType]`
 
-\[ResultType(Type type)\] is exactly the same as [ResultTypeAttribute](https://msdn.microsoft.com/en-us/library/system.data.linq.mapping.resulttypeattribute.aspx) in LINQ to SQL. Its constructor accepts a Type parameter to specify the return type of stored procedure. Typically, when the stored procedure has multiple result types, the mapping method can be tagged with multiple \[ResultType\]s.
+`[ResultType(Type type)]` is exactly the same as [ResultTypeAttribute](https://msdn.microsoft.com/en-us/library/system.data.linq.mapping.resulttypeattribute.aspx) in LINQ to SQL. Its constructor accepts a Type parameter to specify the return type of stored procedure. Typically, when the stored procedure has multiple result types, the mapping method can be tagged with multiple `[ResultType]`s.
 
-\[ResultType\] cannot be used for functions.
+`[ResultType]` cannot be used for functions.
 
-### FunctionConvention and FunctionConvention<TFunctions>
+### `FunctionConvention` and `FunctionConvention<TFunctions>`
 
-FunctionConvention and FunctionConvention<TFunctions> implements Entity Framework’s [IStoreModelConvention](https://msdn.microsoft.com/en-us/library/dn338062.aspx)<[EntityContainer](https://msdn.microsoft.com/en-us/library/system.data.metadata.edm.entitycontainer.aspx)\> contract. They must be added to specify in what Type the mapping methods are located.
+`FunctionConvention` and `FunctionConvention<TFunctions>` implements Entity Framework’s `IStoreModelConvention<EntityContainer>` contract. They must be added to specify in what Type the mapping methods are located.
 
-When the functions are added to entity model, the entity types and complex types used by functions should be added to entity model too. Entity Framework does not take care of types tagged with \[[ComplexType](https://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations.schema.complextypeattribute.aspx)\], so this library provides a AddComplexTypesFromAssembly extension method for this.
+When the functions are added to entity model, the entity types and complex types used by functions should be added to entity model too. Entity Framework does not take care of types tagged with [`[ComplexType]`](https://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations.schema.complextypeattribute.aspx), so this library provides a `AddComplexTypesFromAssembly` extension method for this.
 
-For convenience, 2 extension methods AddFunctions/AddFunction<TFunctions> are provided. When they are called:
+For convenience, 2 extension methods `AddFunctions`/`AddFunction<TFunctions>` are provided. When they are called:
 
--   FunctionConvention/FunctionConvention<TFunctions> is added to entity model.
--   AddComplexTypesFromAssembly is automatically called. In the assembly of TFunction, types tagged with \[ComplextType\] are added to entity model.
+-   `FunctionConvention`/`FunctionConvention<TFunctions>` is added to entity model.
+-   `AddComplexTypesFromAssembly` is automatically called. In the assembly of TFunction, types tagged with `[ComplextType]` are added to entity model.
 
 ## Examples
 
@@ -163,7 +163,7 @@ The following examples uses Microsoft’s [AdventureWorks sample database](https
 
 ### Add functions to entity model
 
-Before calling any code first function, FunctionConvention or FunctionConvention<TFunctions> must be added to DbModelBuilder of the DbContext, so are the complex types used by functions:
+Before calling any code first function, `FunctionConvention` or `FunctionConvention<TFunctions>` must be added to DbModelBuilder of the DbContext, so are the complex types used by functions:
 
 ```csharp
 public partial class AdventureWorks : DbContext
@@ -183,7 +183,7 @@ public partial class AdventureWorks : DbContext
 }
 ```
 
-Here new FunctionConvention<T>() is equivalent to new FunctionConvention(typeof(T)). The non-generic version is provided because in C# static class cannot be used as type argument:
+Here new `FunctionConvention<T>()` is equivalent to new `FunctionConvention(typeof(T))`. The non-generic version is provided because in C# static class cannot be used as type argument:
 
 ```csharp
 public partial class AdventureWorks : DbContext
@@ -202,7 +202,7 @@ public partial class AdventureWorks : DbContext
 }
 ```
 
-Also, AddFunctions/AddFunction<TFunctions> extension methods are provided as a shortcut, which automatically add all complex types in the assembly of TFunctions.
+Also, `AddFunctions`/`AddFunction<TFunctions>` extension methods are provided as a shortcut, which automatically add all complex types in the assembly of TFunctions.
 
 ```csharp
 public partial class AdventureWorks : DbContext
@@ -222,7 +222,7 @@ public partial class AdventureWorks : DbContext
 
 ### Stored procedure, with single result type
 
-The AdventureWorks database has a sample stored procedure uspGetManagerEmployees. Its return type can be viewed with [dm\_exec\_describe\_first\_result\_set](https://msdn.microsoft.com/en-us/library/ff878258.aspx):
+The AdventureWorks database has a sample stored procedure uspGetManagerEmployees. Its return type can be viewed with [`dm_exec_describe_first_result_set`](https://msdn.microsoft.com/en-us/library/ff878258.aspx):
 
 ```sql
 SELECT *
@@ -253,7 +253,7 @@ public class ManagerEmployee
 }
 ```
 
-It is tagged with \[[ComplexType](https://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations.schema.complextypeattribute.aspx)\], which is provided in System.ComponentModel.DataAnnotations.dll, and used by Entity Framework. When calling AddFunctions(typeof(TFunctions))/AddFunction<TFunctions>(), types tagged with \[ComplexType\] in the same assembly are added to entity model too.
+It is tagged with [`[ComplexType]`](https://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations.schema.complextypeattribute.aspx), which is provided in System.ComponentModel.DataAnnotations.dll, and used by Entity Framework. When calling `AddFunctions(typeof(TFunctions))`/`AddFunction<TFunctions>()`, types tagged with `[ComplexType]` in the same assembly are added to entity model too.
 
 Now the mapping method can be defined:
 
@@ -301,7 +301,7 @@ exec [dbo].[uspGetManagerEmployees] @BusinessEntityID=2
 
 ### Stored procedure, with output parameter
 
-As fore mentioned, stored procedure’s output parameter is represented by ObjectParameter and must be tagged with \[Parameter\], with ClrType provided:
+As fore mentioned, stored procedure’s output parameter is represented by ObjectParameter and must be tagged with `[Parameter]`, with ClrType provided:
 
 ```csharp
 private const string uspLogError = nameof(uspLogError);
@@ -394,9 +394,9 @@ public partial class ProductSubcategory
 }
 ```
 
-Above ProductCategory and ProductSubcategory classes are tagged with \[Table\], so they will be added to entity model automatically by Entity Framework.
+Above ProductCategory and ProductSubcategory classes are tagged with `[Table]`, so they will be added to entity model automatically by Entity Framework.
 
-Multiple return types can be specified by \[ReturnType\]. The return type defined on the method will be merged into the return types from \[ReturnType\]s, and be at the first position:
+Multiple return types can be specified by `[ReturnType]`. The return type defined on the method will be merged into the return types from `[ReturnType]`s, and be at the first position:
 
 ```csharp
 // Defines stored procedure returning multiple result types: 
@@ -474,7 +474,7 @@ public IQueryable<ContactInformation> ufnGetContactInformation(
 }
 ```
 
-Its return type should be IQueryable<T>, so that it is composable in LINQ to Entities. And it can be called:
+Its return type should be `IQueryable<T>`, so that it is composable in LINQ to Entities. And it can be called:
 
 ```csharp
 [TestMethod]
@@ -530,7 +530,7 @@ public decimal? ufnGetProductStandardCost(
 }
 ```
 
-In this case, \[Parameter\] can tag its return type.
+In this case, `[Parameter]` can tag its return type.
 
 It can be called directly just like other above methods:
 
@@ -766,7 +766,7 @@ public static class AdventureWorksFunctions
 
 Apparently, aggregate functions cannot be called directly, so their bodies just throw exception. Unfortunately, above ConcatWith cannot be translated, because currently Entity Framework does not support aggregate function with more than one parameters.
 
-They are defined as extension methods of IEnumerable<T>, so that they can easily be used in LINQ to :
+They are defined as extension methods of `IEnumerable<T>`, so that they can easily be used in LINQ to :
 
 ```csharp
 [TestMethod]
@@ -811,7 +811,7 @@ The reason is Entity Framework does not support aggregate function with more tha
 
 ### Built-in function
 
-SQL Server provides a lot of [built-in functions](https://msdn.microsoft.com/en-US/library/ms174318.aspx). They can be easily represented with \[Function\] tag. Take [LEFT function](https://msdn.microsoft.com/en-us/library/ms177601.aspx) as example:
+SQL Server provides a lot of [built-in functions](https://msdn.microsoft.com/en-US/library/ms174318.aspx). They can be easily represented with `[Function]` tag. Take [LEFT function](https://msdn.microsoft.com/en-us/library/ms177601.aspx) as example:
 
 It is a [string function](https://msdn.microsoft.com/en-us/library/ms181984.aspx), returns the left part of a string with the specified number of characters. So, in C#, just defines a function accepting a string parameter and a int parameter, and returns a string:
 
@@ -872,10 +872,10 @@ SELECT
 
 [Niladic functions](https://technet.microsoft.com/en-us/library/ms174979.aspx) are functions called without parentheses, e.g., these SQL-92 niladic functions:
 
--   CURRENT\_TIMESTAMP
--   CURRENT\_USER
--   SESSION\_USER
--   USER
+-   `CURRENT_TIMESTAMP`
+-   `CURRENT_USER`
+-   `SESSION_USER`
+-   `USER`
 
 In C#:
 
@@ -1062,15 +1062,15 @@ This library adopts the [http://semver.org](http://semver.org/) standard for sem
 -   1.0.1: Bug fix.
 -   1.1.0: [Bug fix](https://github.com/Dixin/EntityFramework.Functions/issues/1), and shortcut APIs for each function type:
 
--   \[StoredProcedure\]
--   \[TableValuedFunction\]
--   \[ComposableScalarValuedFunction\]
--   \[NonComposableScalarValuedFunction\]
--   \[AggregateFunction\]
--   \[BuiltInFunction\]
--   \[NiladicFunction\]
+-   `[StoredProcedure]`
+-   `[TableValuedFunction]`
+-   `[ComposableScalarValuedFunction]`
+-   `[NonComposableScalarValuedFunction]`
+-   `[AggregateFunction]`
+-   `[BuiltInFunction]`
+-   `[NiladicFunction]`
 
--   1.2.0: Support model defined function with \[ModelDefinedFunction\].
+-   1.2.0: Support model defined function with `[ModelDefinedFunction]`.
 -   1.3.0: Support entity type and complex type defined in different assembly/namespace. Support table-valued function returning entity type or complex type.
 -   1.3.1: Fix a [regression](https://github.com/Dixin/EntityFramework.Functions/commit/00a2212828825d874a502525e2fed52e700954a5#commitcomment-17750617) causing complex type not working properly with PostgreSQL.
 -   1.4.0: Sign assembly with strong named key. Fix minor issues.

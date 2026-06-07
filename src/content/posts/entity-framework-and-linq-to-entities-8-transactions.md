@@ -9,13 +9,14 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## **EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions**](/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions")
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
+>
+> This post explains EF, [here is the EF Core version](/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions).
 
 As discussed above, by default DbContext.SaveChanges execute all data creation, update and deletion in a transaction, so that all the work can succeed or fail as a unit. The following example tries to update 2 entities, so there will be 2 UPDATE statements in the transaction:
 
@@ -171,7 +172,7 @@ public static partial class DbContextExtensions
 }
 ```
 
-It queries the server-scope view [sys.dm\_exec\_sessions](https://msdn.microsoft.com/en-us/library/ms176013.aspx) with current session id, which can be retrieved by built-in function [@@SPID](https://msdn.microsoft.com/en-us/library/ms189535.aspx). As expected, the query result is “ReadUncommitted”. After that, a category entity is created and SaveChanges is called. Entity Framework detects a transaction is explicitly created, so SaveChanges does not involve an individual transaction like all the previous examples. Then Database.ExecuteSqlCommnd is called to delete that category entity. Eventually, to commit the transaction, call DbContextTransaction.Commit, to rollback the transaction, call DbContextTransaction.Rollback. And the complete SQL execution is:
+It queries the server-scope view [`sys.dm_exec_sessions`](https://msdn.microsoft.com/en-us/library/ms176013.aspx) with current session id, which can be retrieved by built-in function [@@SPID](https://msdn.microsoft.com/en-us/library/ms189535.aspx). As expected, the query result is “ReadUncommitted”. After that, a category entity is created and SaveChanges is called. Entity Framework detects a transaction is explicitly created, so SaveChanges does not involve an individual transaction like all the previous examples. Then Database.ExecuteSqlCommnd is called to delete that category entity. Eventually, to commit the transaction, call DbContextTransaction.Commit, to rollback the transaction, call DbContextTransaction.Rollback. And the complete SQL execution is:
 
 ```sql
 BEGIN TRANSACTION

@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-covariance-and-contravariance](/posts/functional-csharp-covariance-and-contravariance "https://CodingOnWheels.com/posts/functional-csharp-covariance-and-contravariance")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
+## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-covariance-and-contravariance](/posts/functional-csharp-covariance-and-contravariance "https://CodingOnWheels.com/posts/functional-csharp-covariance-and-contravariance")
 
 In [covariance and contravariance](https://en.wikipedia.org/wiki/Covariance_and_contravariance_\(computer_science\)), variance means the capability to substitute a type with a more derived type or less derived type in a context. The following is a simple [inheritance hierarchy](https://msdn.microsoft.com/en-us/library/27db6csx.aspx):
 
@@ -263,7 +264,7 @@ internal static void GenericInterfaceCovariance(IOutput<Base> outputBase, IOutpu
 }
 ```
 
-IOutput<Derived> interface does not inherit IOutput<Base> interface, but it seems a IOutput<Derived> interface “is an” IOutput<Base> interface, or in another word, IOutput<TOutput> interface with more derived type argument can substitute IOutput<TOutput> with less derived type argument. This is the covariance of generic interface. Similarly, generic interface can also have contravariant type parameter, and the in modifier can enable the implicit conversion:
+`IOutput<Derived>` interface does not inherit `IOutput<Base>` interface, but it seems a `IOutput<Derived>` interface “is an” `IOutput<Base>` interface, or in another word, `IOutput<TOutput>` interface with more derived type argument can substitute `IOutput<TOutput>` with less derived type argument. This is the covariance of generic interface. Similarly, generic interface can also have contravariant type parameter, and the in modifier can enable the implicit conversion:
 
 ```csharp
 internal interface IInput<in TInput> // TInput is contravariant for all members using TInput.
@@ -276,7 +277,7 @@ internal interface IInput<in TInput> // TInput is contravariant for all members 
 }
 ```
 
-IInput<Base> interface does not inherit IInput<Derived> interface, but it seems a IInput<Base> interface “is an” IInput<Derived> interface, or in another word, IInput<TInput> interface with more derived type argument can substitute IInput<TInput> with less derived type argument. This is the contravariance of generic interface:
+`IInput<Base>` interface does not inherit `IInput<Derived>` interface, but it seems a `IInput<Base>` interface “is an” `IInput<Derived>` interface, or in another word, `IInput<TInput>` interface with more derived type argument can substitute `IInput<TInput>` with less derived type argument. This is the contravariance of generic interface:
 
 ```csharp
 internal static void GenericInterfaceContravariance(IInput<Derived> inputDerived, IInput<Base> inputBase)
@@ -446,7 +447,7 @@ internal delegate void ActionToVoidToVoidToVoid<out TTInput>(ActionToVoidToVoid<
 
 ## Covariance of array
 
-As fore mentioned, an array T\[\] implements IList<T>:
+As fore mentioned, an array `T[]` implements `IList<T>`:
 
 ```csharp
 namespace System.Collections.Generic
@@ -462,7 +463,7 @@ namespace System.Collections.Generic
 }
 ```
 
-For IList<T>, T is not covariant for its indexer setter, and T is not contravariant for its indexer getter. So T should be invariant for IList<T> and array T\[\]. However, C# compiler and CLR/CoreCLR unexpectedly supports covariance for array. The following example can be compiled but throws ArrayTypeMismatchException at runtime, which can be a source of bugs:
+For `IList<T>`, T is not covariant for its indexer setter, and T is not contravariant for its indexer getter. So T should be invariant for `IList<T>` and array `T[]`. However, C# compiler and CLR/CoreCLR unexpectedly supports covariance for array. The following example can be compiled but throws ArrayTypeMismatchException at runtime, which can be a source of bugs:
 
 ```csharp
 internal static void ArrayCovariance()
@@ -480,25 +481,24 @@ internal static void ArrayCovariance()
 Here are some background information for array covariance:
 
 -   [Jonathan Allen said](http://www.infoq.com/news/2008/08/GenericVariance),
-    
+
     > On a historical note, C# and VB both support array covariance ([out/IEnumerable scenario](http://www.cnblogs.com/dixin/archive/2009/09/01/understanding-csharp-covariance-and-contravariance-6-typing-issues.html)) even though it can lead to runtime errors in contravariant situations (in/IWriter scenario). This was done in order to make C# more compatible with Java. This is generally considered a poor decision, but it cannot be undone at this time.
-    
+
 -   In the book “[The Common Language Infrastructure Annotated Standard](http://www.amazon.com/exec/obidos/tg/detail/-/0321154932)”, Jim Miller said,
-    
+
     > The decision to support covariant arrays was primarily to allow Java to run on the VES. The covariant design is not thought to be the best design in general, but it was chosen in the interest of broad reach.
-    
+
 -   [Rick Byers said](http://blogs.msdn.com/rmbyers/archive/2005/02/16/375079.aspx),
-    
+
     > I've heard that Bill Joy, one of the original Java designers, has since said that he tried to remove array covariance in 1995 but wasn't able to do it in time, and has regretted having it in Java ever since.
-    
+
 -   Anders Hejlsberg ([chief architect](http://en.wikipedia.org/wiki/Anders_Hejlsberg) of C#) [said in this video](http://channel9.msdn.com/shows/Going+Deep/Expert-to-Expert-Anders-Hejlsberg-The-Future-of-C/),
-    
+
     > This isn't type safe. A lot of people maybe don't even realize that there's a hole there.
-    
+
 -   [Eric Lippert](http://ericlippert.com/) (member of C# design team) [put array covariance the top 1 of 10 worst C# features](http://www.informit.com/articles/article.aspx?p=2425867)
-    
+
     > C# 1.0 has unsafe array covariance not because the designers of C# thought that the scenario was particularly compelling, but rather because the Common Language Runtime (CLR) has the feature in its type system, so C# gets it "for free." The CLR has it because Java has this feature; the CLR team wanted to design a runtime that could implement Java efficiently, should that become necessary.
-    
 
 This is a C# language feature that should never be used.
 
@@ -552,7 +552,7 @@ internal static void TypesWithVariance()
 }
 ```
 
-Under System.Linq namespace, there are also a number of generic interfaces with variance: IGrouping<out TKey, out TElement>, IQueryable<out T>, IOrderedQueryable<out T>. MSDN has a [List of Variant Generic Interface and Delegate Types](https://msdn.microsoft.com/en-us/library/dd799517#VariantList), but it is inaccurate. For example, it says TElement is covariant for IOrderedEnumerable<TElement>, but actually not:
+Under System.Linq namespace, there are also a number of generic interfaces with variance: IGrouping<out TKey, out TElement>, `IQueryable<out T>`, `IOrderedQueryable<out T>`. MSDN has a [List of Variant Generic Interface and Delegate Types](https://msdn.microsoft.com/en-us/library/dd799517#VariantList), but it is inaccurate. For example, it says TElement is covariant for `IOrderedEnumerable<TElement>`, but actually not:
 
 ```csharp
 namespace System.Linq
@@ -564,7 +564,7 @@ namespace System.Linq
 }
 ```
 
-For local sequential LINQ, as fore mentioned, T is covariant for IEnumerable<T>. Here is the full story:
+For local sequential LINQ, as fore mentioned, T is covariant for `IEnumerable<T>`. Here is the full story:
 
 ```csharp
 namespace System.Collections.Generic
@@ -585,7 +585,7 @@ namespace System.Collections.Generic
 }
 ```
 
-First, IEnumerator<T>’s type parameter is only used by its Current property’s getter, which can be viewed as a get\_Current function of type () –> T, and IEnumerator<T> can be viewed as a wrapper of () –> T function. Since T is covariance for () –> T function, T is also covariant for IEnumerator<T> wrapper. Then, in IEnumerable<T>, T is only used by GetEnumerator method returning IEnumerator<T>. Regarding IEnumerator<T> is a simple wrapper of () –> T function, GetEnumerator can be virtually viewed as a higher-order function returning () –> T function, Therefore, GetEnumerator’s function type () –> IEnumerator<T> can be virtually viewed as higher-order function type () –> () –> T. And similarly, IEnumerable<T> can be viewed as a wrapper of this () –> () –> T function. Since T is still covariant for () –> () –> T, T is also covariance for IEnumerable<T> wrapper. This brings convenience to LINQ queries. For example, the following LINQ query method concatenates 2 IEnumerable<T> instances:
+First, `IEnumerator<T>`’s type parameter is only used by its Current property’s getter, which can be viewed as a `get_Current` function of type () –> T, and `IEnumerator<T>` can be viewed as a wrapper of () –> T function. Since T is covariance for () –> T function, T is also covariant for `IEnumerator<T>` wrapper. Then, in `IEnumerable<T>`, T is only used by GetEnumerator method returning `IEnumerator<T>`. Regarding `IEnumerator<T>` is a simple wrapper of () –> T function, GetEnumerator can be virtually viewed as a higher-order function returning () –> T function, Therefore, GetEnumerator’s function type `() –> IEnumerator<T>` can be virtually viewed as higher-order function type () –> () –> T. And similarly, `IEnumerable<T>` can be viewed as a wrapper of this () –> () –> T function. Since T is still covariant for () –> () –> T, T is also covariance for `IEnumerable<T>` wrapper. This brings convenience to LINQ queries. For example, the following LINQ query method concatenates 2 `IEnumerable<T>` instances:
 
 ```csharp
 namespace System.Linq
@@ -597,7 +597,7 @@ namespace System.Linq
 }
 ```
 
-The following code demonstrates the implicit conversion enabled by the out modifier in the IEnumerable<T> definition:
+The following code demonstrates the implicit conversion enabled by the out modifier in the `IEnumerable<T>` definition:
 
 ```csharp
 internal static void LinqToObjects(IEnumerable<Base> enumerableOfBase, IEnumerable<Derived> enumerableOfDerived)
@@ -606,9 +606,9 @@ internal static void LinqToObjects(IEnumerable<Base> enumerableOfBase, IEnumerab
 }
 ```
 
-For local Parallel LINQ, ParallelQuery<T> is a class instead of interface, so there T is not variant. Again, variance of type parameter is for function type, including non-generic delegate type, generic delegate type and generic interface. Class can have function implementation so variances do not apply.
+For local Parallel LINQ, `ParallelQuery<T>` is a class instead of interface, so there T is not variant. Again, variance of type parameter is for function type, including non-generic delegate type, generic delegate type and generic interface. Class can have function implementation so variances do not apply.
 
-For remote LINQ, here is the definition of IQueryable<T>:
+For remote LINQ, here is the definition of `IQueryable<T>`:
 
 ```csharp
 namespace System.Linq
@@ -619,4 +619,4 @@ namespace System.Linq
 }
 ```
 
-Here T is only used for the member inherited from IEnumerable<T>, so apparently, T remains covariant for IQueryable<T>.
+Here T is only used for the member inherited from `IEnumerable<T>`, so apparently, T remains covariant for `IQueryable<T>`.

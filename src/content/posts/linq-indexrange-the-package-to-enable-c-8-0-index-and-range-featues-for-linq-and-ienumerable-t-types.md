@@ -22,12 +22,12 @@ Proposed these APIs to .NET Core [dotnet/corefx/#35552](https://github.com/dotne
 
 ## Problem
 
-Index/range are **language level** features. However, currently (v3.0.0-preview2/SDK 3.0.100-preview-010184), they
+Index/range are language level features. However, currently (v3.0.0-preview2/SDK 3.0.100-preview-010184), they
 
 -   only work with array, not other types like `List<T>`
 -   are compiled to array copy, apparently no deferred execution.
 
-#### Rationale and usage
+### Rationale and usage
 
 The goals of these LINQ APIs are:
 
@@ -35,7 +35,7 @@ The goals of these LINQ APIs are:
 -   Use range to slice a sequence. The usage should be consistent with array, but with deferred execution.
 -   Use range to start fluent LINQ query.
 
-This enables index and range **langaguge features** to work with any type that implements `IEnumerable<T>`.
+This enables index and range langaguge features to work with any type that implements `IEnumerable<T>`.
 
 LINQ already has `ElementAt(int index)` and `ElementAtOrDefault(int index)` query operator. It would be natural to have a overload for `System.Index`: `ElementAt(Index index)` and `ElementAtOrDefault(Index index)`, and a new method `ElementsIn(Range range)` (or `Slice(Range)`), so that LINQ can seamlessly work with C# 8.0:
 
@@ -58,6 +58,7 @@ var query2 = (10..20).AsEnumerable().Where(...);
 
 For LINQ to Objects:
 
+```csharp
 namespace System.Linq
 {
     public static partial class EnumerableExtensions
@@ -72,9 +73,11 @@ namespace System.Linq
 
         public static IEnumerable<TSource> AsEnumerable<TSource>(this Range source) { throw null; }
 }
+```
 
 For remote LINQ:
 
+```csharp
 namespace System.Linq
 {
     public static partial class QueryableExtensions
@@ -85,8 +88,9 @@ namespace System.Linq
 
         public static IQueryable<TSource> ElementsIn<TSource>(this IQueryable<TSource> source, Range range) { throw null; }
 }
+```
 
-#### Implementation details (and pull request)
+### Implementation details (and pull request)
 
 The [API review process](https://github.com/dotnet/corefx/blob/master/Documentation/project-docs/api-review-process.md) says PR should not be submitted before the API proposal is approved. So currently I implemented these APIs separately [https://github.com/Dixin/Linq.IndexRange](https://github.com/Dixin/Linq.IndexRange) :
 
@@ -111,14 +115,14 @@ Should it be called `Slice`? Currently I implement it as `ElementsIn(Range range
 
 What should we do when the range's start index and/or end index go off the boundaries of source sequence? There are 2 options:
 
--   Follow the behavior of range with array, and throw `OverflowException`/`ArgumentEception`/`ArgumentOutOfRangeException`accordingly.
+-   Follow the behavior of range with array, and throw `OverflowException`/`ArgumentEception`/`ArgumentOutOfRangeException` accordingly.
 -   Follow the behavior of current partitioning LINQ operators like `Skip`/`Take`/`SkipLast`/`TakeLast`, do not throw exception.
 
-I implemented `ElementsIn(Range)` following the array behavior. See [unit tests of `ElementsIn`](https://github.com/Dixin/Linq.IndexRange/blob/master/Linq.IndexRange.Tests/ElementsInTests.cs). And I implemented `Slice`following the LINQ behavior. See [unit test of `Slice`](https://github.com/Dixin/Linq.IndexRange/blob/master/Linq.IndexRange.Tests/SliceTests.cs).
+I implemented `ElementsIn(Range)` following the array behavior. See [unit tests of `ElementsIn`](https://github.com/Dixin/Linq.IndexRange/blob/master/Linq.IndexRange.Tests/ElementsInTests.cs). And I implemented `Slice` following the LINQ behavior. See [unit test of `Slice`](https://github.com/Dixin/Linq.IndexRange/blob/master/Linq.IndexRange.Tests/SliceTests.cs).
 
 ### `ElementAt(Index)` and `Queryable`
 
-As @bartdesmet mentioned in the comments, LINQ providers may have issues when they see `ElementAt` having an `Index`argument, etc. Should we have a new name for the operator instead of overload? For example, `At(Index)` and `Slice(Range)`?
+As @bartdesmet mentioned in the comments, LINQ providers may have issues when they see `ElementAt` having an `Index` argument, etc. Should we have a new name for the operator instead of overload? For example, `At(Index)` and `Slice(Range)`?
 
 ### `Range`
 

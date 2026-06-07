@@ -57,7 +57,7 @@ I was living in [Bellevue](http://en.wikipedia.org/wiki/Bellevue,_Washington). I
 
 The above picture is [from Wikipedia](http://upload.wikimedia.org/wikipedia/commons/3/3a/Aerial_520_Bridge_August_2009.JPG).
 
-Bellevue is a French word, means “beautiful view” or \[[美景尽收眼底](http://translate.google.com/translate_t#fr|zh-CN|Belle%20vue)\] in Chinese. The place is as beautiful as its name. These pictures are the 156th Avenue outside my apartment, shot by my [legacy Nokia N73](http://www.nokiausa.com/find-products/phones/nokia-n73):
+Bellevue is a French word, means “beautiful view” or [美景尽收眼底](http://translate.google.com/translate_t#fr|zh-CN|Belle%20vue) in Chinese. The place is as beautiful as its name. These pictures are the 156th Avenue outside my apartment, shot by my [legacy Nokia N73](http://www.nokiausa.com/find-products/phones/nokia-n73):
 
 ![20080614104_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Media/20080614104_thumb_49F7A44E.jpg "20080614104_thumb")
 
@@ -86,7 +86,7 @@ For Bellevue:
 -   [Bellevue on Wikipedia](http://en.wikipedia.org/wiki/Bellevue,_Washington)
 -   [City-data.com](http://www.city-data.com/city/Bellevue-Washington.html)
 -   [Official website of Bellevue City](http://www.ci.bellevue.wa.us/)
--   [Discover Bellevue](http://wiki.worldflicks.org/bellevue,_washington.html#coords=\(47.6106, -122.1994\)&z=13) (This page is very nice)
+-   [Discover Bellevue](<http://wiki.worldflicks.org/bellevue,_washington.html#coords=\(47.6106>, -122.1994\)&z=13) (This page is very nice)
 
 For famous movies:
 

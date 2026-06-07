@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-function-parameter-and-return-value](/posts/functional-csharp-function-parameter-and-return-value "https://CodingOnWheels.com/posts/functional-csharp-function-parameter-and-return-value")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
+## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-function-parameter-and-return-value](/posts/functional-csharp-function-parameter-and-return-value "https://CodingOnWheels.com/posts/functional-csharp-function-parameter-and-return-value")
 
 ## Pass by value vs. pass by reference (ref parameter)
 
@@ -115,7 +116,7 @@ The compilation of OutVariable is exactly the same as above CallOutput.
 
 ### Discard out variable
 
-Since C# 7.0, if a out argument is not needed, it can be simply discarded with special character \_. This syntax works with local variable too.
+Since C# 7.0, if a out argument is not needed, it can be simply discarded with special character `_`. This syntax works with local variable too.
 
 ```csharp
 internal static void Discard()

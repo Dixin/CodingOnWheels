@@ -9,13 +9,14 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## **EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-8-optimistic-concurrency**](/posts/entity-framework-core-and-linq-to-entities-8-optimistic-concurrency "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-8-optimistic-concurrency")
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
+>
+> This post explains EF, [here is the EF Core version](/posts/entity-framework-core-and-linq-to-entities-8-optimistic-concurrency).
 
 Conflicts can occur if the same piece of data is read and changed concurrently. Generally, there are 2 [concurrency control](https://en.wikipedia.org/wiki/Concurrency_control) approaches:
 
@@ -103,7 +104,7 @@ As discussed before, by default, when DbContext translates changes to UPDATE sta
 
 ## Detect Concurrency conflicts
 
-Concurrency conflicts can be detected by checking entities’ property values besides primary keys. To required Entity Framework to check a certain property, just add a System.ComponentModel.DataAnnotations.ConcurrencyCheckAttribute to it. Remember when defining ProductPhoto entity class, its ModifiedDate has a \[ConcurrencyCheck\] attribute:
+Concurrency conflicts can be detected by checking entities’ property values besides primary keys. To required Entity Framework to check a certain property, just add a System.ComponentModel.DataAnnotations.ConcurrencyCheckAttribute to it. Remember when defining ProductPhoto entity class, its ModifiedDate has a `[ConcurrencyCheck]` attribute:
 
 ```csharp
 public partial class ProductPhoto
@@ -146,14 +147,17 @@ In the translated SQL statement, the WHERE clause contains primary key ProductID
 1.  readerWriter1 reads product with ModifiedDate “2008-04-30 00:00:00”
 1.  readerWriter1 reads product with ModifiedDate “2008-04-30 00:00:00”
 1.  readerWriter1 locates the product with primary key and ModifiedDate, and update its Name and ModifiedDate:
+
     ```sql
     exec sp_executesql N'UPDATE [Production].[ProductPhoto]
     SET [LargePhotoFileName] = @0, [ModifiedDate] = @1
     WHERE (([ProductPhotoID] = @2) AND ([ModifiedDate] = @3))
     ',N'@0 nvarchar(50),@1 datetime2(7),@2 int,@3 datetime2(7)',@0=N'readerWriter1',@1='2016-07-04 23:24:24.6053455',@2=1,@3='2008-04-30 00:00:00'
     ```
+
 1.  At this moment, in database the product’s ModifiedDate is no longer “2008-04-30 00:00:00”
 1.  Then readerWriter2 tries to locate the product with primary key and ModifiedDate, and update its Name and ModifiedDate:
+
     ```sql
     exec sp_executesql N'UPDATE [Production].[ProductPhoto]
     SET [LargePhotoFileName] = @0, [ModifiedDate] = @1
@@ -163,9 +167,9 @@ In the translated SQL statement, the WHERE clause contains primary key ProductID
 
 This time readerWriter2 fails. Between readerWriter2 reads and writers a photo, this photo is changed by readerWriter1. So in readerWrtier2’s UPDATE statement cannot locate any row to update. Entity Framework detects that 0 row is updated, and throws System.Data.Entity.Infrastructure.DbUpdateConcurrencyException.
 
-Another API for concurrency check is System.ComponentModel.DataAnnotations.TimestampAttribute. It can only be used for a byte\[\] property, which maps to a [rowversion](https://technet.microsoft.com/en-us/library/ms182776.aspx) (timestamp) column. For SQL database, these 2 terms rowversion and timestamp are the same thing. Timestamp is just a [synonym](https://technet.microsoft.com/en-us/library/ms177566.aspx) of rowversion data type. A row’s non nullable rowversion column is a 8 bytes (binary(8)) counter maintained by database, its value increases for each change of the row.
+Another API for concurrency check is System.ComponentModel.DataAnnotations.TimestampAttribute. It can only be used for a `byte[]` property, which maps to a [rowversion](https://technet.microsoft.com/en-us/library/ms182776.aspx) (timestamp) column. For SQL database, these 2 terms rowversion and timestamp are the same thing. Timestamp is just a [synonym](https://technet.microsoft.com/en-us/library/ms177566.aspx) of rowversion data type. A row’s non nullable rowversion column is a 8 bytes (binary(8)) counter maintained by database, its value increases for each change of the row.
 
-Microsoft’s AdventureWorks sample database does not have such a rowversion column, so create one for the \[Production\].\[Product\] table:
+Microsoft’s AdventureWorks sample database does not have such a rowversion column, so create one for the `[Production].[Product]` table:
 
 ```csharp
 ALTER TABLE [Production].[Product] ADD [RowVersion] rowversion NOT NULL
@@ -218,6 +222,7 @@ When updating and deleting photo entities, its auto generated RowVersion propert
 1.  readerWriter1 reads photo with RowVersion 0x0000000000000803
 1.  readerWriter2 reads photo with RowVersion 0x0000000000000803
 1.  readerWriter1 locates the photo with primary key and RowVersion, and update its RowVersion. Regarding database will automatically increase the RowVersion value, Entity Framework also queries the increased RowVersion value with the primary key:
+
     ```sql
     exec sp_executesql N'UPDATE [Production].[Product]
     SET [Name] = @0
@@ -226,8 +231,10 @@ When updating and deleting photo entities, its auto generated RowVersion propert
     FROM [Production].[Product]
     WHERE @@ROWCOUNT > 0 AND [ProductID] = @1',N'@0 nvarchar(50),@1 int,@2 binary(8)',@0=N'readerWriter1',@1=999,@2=0x0000000000000803
     ```
+
 1.  At this moment, in database the product’s RowVersion is no longer 0x0000000000000803.
 1.  Then readerWriter2 tries to locate the product with primary key and RowVersion, and delete it
+
     ```sql
     exec sp_executesql N'DELETE [Production].[Product]
     WHERE (([ProductID] = @0) AND ([RowVersion] = @1))',N'@0 int,@1 binary(8)',@0=999,@1=0x0000000000000803
@@ -340,6 +347,7 @@ Here the concurrency conflict happens:
 
 1.  readerWriter2 reads product, the RowVersion is 0x00000000000007D1
 1.  readerWriter1 locates product with primary key ProductID and original RowVersion 0x00000000000007D1, and updates product’s Name and ListPrice. After the update, in database, product’s Rowversion is increased to 0x0000000000036335
+
     ```sql
     exec sp_executesql N'UPDATE [Production].[Product]
     SET [Name] = @0, [ListPrice] = @1
@@ -348,7 +356,9 @@ Here the concurrency conflict happens:
     FROM [Production].[Product]
     WHERE @@ROWCOUNT > 0 AND [ProductID] = @2',N'@0 nvarchar(50),@1 decimal(18,2),@2 int,@3 binary(8)',@0=N'readerWriter1',@1=100.00,@2=950,@3=0x00000000000007D1
     ```
+
 1.  readerWriter2 tries to locate product with primary key and original RowVersion 0x00000000000007D1, and update product’s Name and ProductSubcategoryID.
+
     ```sql
     exec sp_executesql N'UPDATE [Production].[Product]
     SET [Name] = @0, [ProductSubcategoryID] = @1
@@ -357,6 +367,7 @@ Here the concurrency conflict happens:
     FROM [Production].[Product]
     WHERE @@ROWCOUNT > 0 AND [ProductID] = @2',N'@0 nvarchar(50),@1 int,@2 int,@3 binary(8)',@0=N'readerWriter2',@1=1,@2=950,@3=0x00000000000007D1
     ```
+
 1.  readerWriter2 fails to update product, because it cannot locate the product with original RowVersion 0x00000000000007D1. In ReaderWriter.Write, SaveChanges throws handleDbUpdateConcurrencyException.
 
 As a result, the provided handleDbUpdateConcurrencyException function is called, it retrieves the conflicting product’s tracking information from DbUpdateConcurrencyException.Entries, and logs these information:
@@ -456,6 +467,7 @@ The same conflict is resolved differently:
 1.  Manually refresh conflict.OriginalValues, the tracked original property values, to the queried database values.
 1.  At this moment, tracking.State is still Modified. However, for the Name, ListPrice and ProductSubcategoryID properties of product, their values in tracking.OriginalValues are different from the values in tracking.CurrentValue. Now these 3 properties are all tracked as modified.
 1.  When DbReaderWriter.Write’s retry logic calls SaveChanges again, product entity is detected to be updated. So Entity Framework translates the product change to a UPDATE statement. In the SET clause, since there are 3 properties tracked as modified, 3 columns are set. In the WHERE clause to locate the product with primary key and RowVersion again, and the RowVersion property value in updated tracking.OriginalValues is used. This time product can be located, and all 3 properties are updated. SaveChanges succeeds and returns 1
+
     ```sql
     exec sp_executesql N'UPDATE [Production].[Product]
     SET [Name] = @0, [ListPrice] = @1, [ProductSubcategoryID] = @2
@@ -505,6 +517,7 @@ With this approach:
 1.  Backup tracking.Original values, then refresh conflict.OriginalValues to the database values, so that these values can go to the translated WHERE clause. For Name and ListPrice, the backup original value is different from the database value, which is concurrently updated by readerWriter1. So their property state is refreshed to unmodified, and they will not go to the translated SET clause.
 1.  At this moment, tracking.State is still Modified, but only ProductSubcategoryID does not conflict with database value, and will be updated normally
 1.  When DbReaderWriter.Write’s retry logic calls SaveChanges again, Entity Framework translates the product change to a UPDATE statement, which has refreshed RowVersion in WHERE clause, and only ProductSubcategoryID in SET clause. And SaveChanges should successfully execute and return 1
+
     ```sql
     exec sp_executesql N'UPDATE [Production].[Product]
     SET [ProductSubcategoryID] = @0

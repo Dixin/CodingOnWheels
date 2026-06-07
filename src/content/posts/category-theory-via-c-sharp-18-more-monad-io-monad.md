@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-8-more-linq-to-monads](/posts/category-theory-via-csharp-8-more-linq-to-monads "https://CodingOnWheels.com/posts/category-theory-via-csharp-8-more-linq-to-monads")**
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
+>
+> This post is updated, [here is the latest version](/posts/category-theory-via-csharp-8-more-linq-to-monads).
 
 As mentioned in a previous part, in purely functional programming, functions cannot have side effects. For example, when defining LINQ queries, laziness and purity are expected. So, how should the impure actions be managed in purely functional programming or LINQ? For example:
 
@@ -23,7 +24,7 @@ As mentioned in a previous part, in purely functional programming, functions can
 
 etc. The [IO<> monad](http://en.wikipedia.org/wiki/Monad_\(functional_programming\)#The_I.2FO_monad) is an approach.
 
-## IO<T> and impurity
+## `IO<T>` and impurity
 
 The definition of IO<> is simple:
 
@@ -31,29 +32,29 @@ The definition of IO<> is simple:
 public delegate T IO<out T>();
 ```
 
-Syntactically it is just Func<T>. However, it is used to represent a different semantic:
+Syntactically it is just `Func<T>`. However, it is used to represent a different semantic:
 
--   Here in category theory and functional programming, Func<T> is used to represent a pure function. When a Func<T> value is executed, it returns a T value without side effects
--   IO<T> is used to represent a impure function. When a IO<T> function is applied, it returns a T value, with side effects.
+-   Here in category theory and functional programming, `Func<T>` is used to represent a pure function. When a `Func<T>` value is executed, it returns a T value without side effects
+-   `IO<T>` is used to represent a impure function. When a `IO<T>` function is applied, it returns a T value, with side effects.
 
-So above examples can be represented with IO<T>
+So above examples can be represented with `IO<T>`
 
 -   Read a line from console: Console.ReadLine: () → string
-    -   Syntactically it is a Func<string>.
-    -   Now with IO<T>, semantically it can be represented as IO<string>, meaning when applied it returns a string value with side effect
+    -   Syntactically it is a `Func<string>`.
+    -   Now with `IO<T>`, semantically it can be represented as `IO<string>`, meaning when applied it returns a string value with side effect
 -   Write a line to console: Console.WriteLIne: string → Void
-    -   Syntactically it is an Action<string> or Func<string, Void>, since it takes a string parameter and returns nothing (Void)
-    -   Now semantically it can be a Func<string, IO<Void>>, meaning it is will eventually return nothing (a Void value) with side effect
-        -   Because C# does not allow using Void in that way, Console.WriteLIne will be represented by Func<string, IO<Unit>>, by borrowing [Unit from F#](https://msdn.microsoft.com/en-us/library/ee370443.aspx).
+    -   Syntactically it is an `Action<string>` or Func<string, Void>, since it takes a string parameter and returns nothing (Void)
+    -   Now semantically it can be a `Func<string, IO<Void>>`, meaning it is will eventually return nothing (a Void value) with side effect
+        -   Because C# does not allow using Void in that way, Console.WriteLIne will be represented by `Func<string, IO<Unit>>`, by borrowing [Unit from F#](https://msdn.microsoft.com/en-us/library/ee370443.aspx).
         -   Actually, in F# Console.WriteLine is of type string -> Unit
 -   Read text from a file: File.ReadAllText: string → string
     -   Syntactically it is a Func<string, string>, since it takes a file path parameter and returns the text in that file
-    -   Now semantically it should be a Func<string, IO<string>>
+    -   Now semantically it should be a `Func<string, IO<string>>`
 -   Write text to a file: File.WriteAllText: (string, string) → Void
     -   Syntactically it is an Action<string, string> or Func<string, string, Void>, since it takes a file path parameter and a text parameter, and returns nothing (Void)
-    -   Now semantically it should be a Func<string, string, IO<Unit>>
+    -   Now semantically it should be a `Func<string, string, IO<Unit>>`
 
-etc. The following extension methods convert Func<T> to IO<T>, etc.:
+etc. The following extension methods convert `Func<T>` to `IO<T>`, etc.:
 
 ```csharp
 [Pure]

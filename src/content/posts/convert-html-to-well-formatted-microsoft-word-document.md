@@ -34,7 +34,7 @@ After searching around, I found [CsQuery library](https://www.nuget.org/packages
 Install-Package CsQuery
 ```
 
-It is a [jQuery](http://jquery.com/)\-like library for DOM process via C#. So The decision is to go with C#.
+It is a [jQuery](http://jquery.com/) like library for DOM process via C#. So The decision is to go with C#.
 
 ## Download index page HTML and all contents via CsQuery
 
@@ -370,7 +370,7 @@ To get the OneDrive local path:
 
 The last line of the .ini file contains the local OneDrive path, e.g.:
 
-> library = 1 4 A3BD24426A36B9EE!129 1388966861 "SkyDrive" Me personal "D:\\SkyDrive"
+> library = 1 4 A3BD24426A36B9EE!129 1388966861 "SkyDrive" Me personal "D:\SkyDrive"
 
 And here is the implementation of above TryGetOneDriveRoot method:
 

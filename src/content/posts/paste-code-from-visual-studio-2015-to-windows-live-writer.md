@@ -13,13 +13,13 @@ Now it is close to the end of 2015, but [Windows Live Writer 2012](http://window
 
 However, VSPaste has a problem with Visual Studio 2015 RTM (not with RC) – the pasted HTML code always has a white background: <span style=”background: white;”>code</span>. To quickly fix this, the easiest way is to decompile the source code of VSPaste.
 
-VSPaste is a small dll located in Windows Live Writer’s plugin directory: C:\\Program Files (x86)\\Windows Live\\Writer\\Plugins\\VSPaste.dll. It can be decompiled to a project with source code, by [.NET reflector free trial version](https://www.red-gate.com/products/dotnet-development/reflector/):
+VSPaste is a small dll located in Windows Live Writer’s plugin directory: `C:\Program Files (x86)\Windows Live\Writer\Plugins\VSPaste.dll`. It can be decompiled to a project with source code, by [.NET reflector free trial version](https://www.red-gate.com/products/dotnet-development/reflector/):
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Paste_DDB8/image_thumb_3.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Paste_DDB8/image_8.png)
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Paste_DDB8/image_thumb_1.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Paste_DDB8/image_4.png)
 
-Reflector will ask for reference assembly, just point it to C:\\Program Files (x86)\\Windows Live\\Writer\\WindowsLive.Writer.Api.dll. Then it decompiles VSPaste.dll to a complete C# project.
+Reflector will ask for reference assembly, just point it to `C:\Program Files (x86)\Windows Live\Writer\WindowsLive`.Writer.Api.dll. Then it decompiles VSPaste.dll to a complete C# project.
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Paste_DDB8/image_thumb_2.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Paste_DDB8/image_6.png)
 
@@ -61,4 +61,4 @@ private void SyncColors(bool bgOnly)
 }
 ```
 
-Just comment out the 2 highlighted statement and compile, then copy the new VSPaste.dll to C:\\Program Files (x86)\\Windows Live\\Writer\\Plugins. It is done. Please notice only debug build works here. Release build will crash. Now VSPaste works with Visual Studio 2015 again.
+Just comment out the 2 highlighted statement and compile, then copy the new VSPaste.dll to `C:\Program Files (x86)\Windows Live\Writer\Plugins`. It is done. Please notice only debug build works here. Release build will crash. Now VSPaste works with Visual Studio 2015 again.

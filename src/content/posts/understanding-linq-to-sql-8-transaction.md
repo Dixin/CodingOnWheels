@@ -1,7 +1,7 @@
 ---
 title: "Understanding LINQ to SQL (8) Transaction"
 published: 2010-04-22
-description: "\\]"
+description: "The previous post has shown that, when invoking SubmitChanges(), the translated SQL (INSERT / UPDATE / DELETE) are always executed within a TRANSACTION."
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to SQL", "LINQ via C# Series", "SQL Server", "TSQL"]
 category: "LINQ"
@@ -9,7 +9,14 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to SQL](/archive/?tag=LINQ%20to%20SQL) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
 
 Database data Changing cannot be talked about without [transactions](http://en.wikipedia.org/wiki/Database_transaction).
 

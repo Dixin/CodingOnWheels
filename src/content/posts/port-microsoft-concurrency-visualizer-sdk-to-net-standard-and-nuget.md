@@ -21,7 +21,7 @@ And the SDK library is available for .NET Framework, and can be installed from m
 
 [![image_thumb1[4]](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Port-Microsoft-Co.NET-Standard-and-NuGet_E96/image_thumb1[4]_thumb.png "image_thumb1[4]")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Port-Microsoft-Co.NET-Standard-and-NuGet_E96/image_thumb1[4].png)
 
-This adds a reference to local assembly C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\Extensions\\4hhyuhoo.ghy\\SDK\\Managed\\4.0\\Microsoft.ConcurrencyVisualizer.Markers.dll. For your convenience, I have made a NuGet package:
+This adds a reference to local assembly `C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\Extensions\4hhyuhoo.ghy\SDK\Managed\4.0\Microsoft.ConcurrencyVisualizer.Markers.dll`. For your convenience, I have made a NuGet package:
 
 Install-Package ConcurrencyVisualizer
 

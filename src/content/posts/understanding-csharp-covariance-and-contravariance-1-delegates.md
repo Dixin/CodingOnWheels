@@ -75,7 +75,7 @@ Before C# 4.0, C# already supported covariance and contravariance for delegates 
 public delegate Base DerivedIn_BaseOut(Derived @in);
 ```
 
-Above Methods.DerivedIn\_BaseOut’s signature matches this delegate type, so Methods.DerivedIn\_BaseOut can be bound to its delegate instance:
+Above `Methods.DerivedIn_BaseOut`’s signature matches this delegate type, so `Methods.DerivedIn_BaseOut` can be bound to its delegate instance:
 
 ```csharp
 public static partial class NonGenericDelegate
@@ -93,7 +93,7 @@ public static partial class NonGenericDelegate
 
 ### Covariance
 
-Methods.DerivedIn\_DerivedOut has a different signature from DerivedIn\_BaseOut delegate type. The former returns a more derived type. There is a “is-a” relationship between their return types, but there is no intuitive relationship between the two signatures.
+`Methods.DerivedIn_DerivedOut` has a different signature from `DerivedIn_BaseOut` delegate type. The former returns a more derived type. There is a “is-a” relationship between their return types, but there is no intuitive relationship between the two signatures.
 
 However, C# compiler and the CLR both allow the following binding (assignment) before C# 4.0:
 
@@ -117,7 +117,7 @@ Here a bound method can return a more derived type than the delegate type. This 
 
 ### Contravariance
 
-Methods.BaseIn\_BaseOut required a less-derived parameter then DerivedIn\_BaseOut delegate type. The following binding also works before C# 4.0:
+`Methods.BaseIn_BaseOut` required a less-derived parameter then `DerivedIn_BaseOut` delegate type. The following binding also works before C# 4.0:
 
 ```csharp
 public static partial class NonGenericDelegate
@@ -139,7 +139,7 @@ Here a method can have less derived parameter type than the delegate type. This 
 
 ### Covariance and contravariance
 
-It is easy to predict, Methods.BaseIn\_DerivedOut, with more derived parameter type and less derived return type, can be also bound to DerivedIn\_BaseOut:
+It is easy to predict, `Methods.BaseIn_DerivedOut`, with more derived parameter type and less derived return type, can be also bound to `DerivedIn_BaseOut`:
 
 ```csharp
 public static partial class NonGenericDelegate
@@ -194,15 +194,15 @@ public static partial class NonGenericDelegate
 
 The root of variances is that, in inheritance hierarchy, derived object “is a” base object. This “is-a” relationship can be promoted to a relationship between method and delegate types:
 
--   Covariance of output: Derived is a Base => DerivedIn\_DerivedOut is a DerivedIn\_BaseOut;
--   Contravariance of input: Derived is a Base => BaseIn\_BaseOut is a DerivedIn\_BaseOut;
--   Covariance of output and contravariance of input: Derived is a Base => BaseIn\_DerivedOut is a DerivedIn\_BaseOut.
+-   Covariance of output: Derived is a Base => `DerivedIn_DerivedOut` is a `DerivedIn_BaseOut`;
+-   Contravariance of input: Derived is a Base => `BaseIn_BaseOut` is a `DerivedIn_BaseOut`;
+-   Covariance of output and contravariance of input: Derived is a Base => `BaseIn_DerivedOut` is a `DerivedIn_BaseOut`.
 
 Please notice these rules does not apply to value types. Basically value types has nothing to do with covariance/contravariance.
 
 ## Generic delegate
 
-With C# 2.0 generic delegate, the above XxxIn\_XxxOut delegate types can be represented by the following:
+With C# 2.0 generic delegate, the above `XxxIn_XxxOut` delegate types can be represented by the following:
 
 ```csharp
 public delegate TOut Func<TIn, TOut>(TIn @in);

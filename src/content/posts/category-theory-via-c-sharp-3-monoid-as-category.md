@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-2-monoid](/posts/category-theory-via-csharp-2-monoid)**
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
+>
+> This post is updated, [here is the latest version](/posts/category-theory-via-csharp-2-monoid).
 
 ## One monoid, one category
 
@@ -52,9 +53,9 @@ public class MonoidMorphism<T> : IMorphism<T, T, IMonoid<T>>
 }
 ```
 
-Since there is only 1 object in the category, the source object and result object are always the same object. So MonoidMorphism<T> only take one type parameter. And apparently, its category is IMonoid<T> instead of DotNet.
+Since there is only 1 object in the category, the source object and result object are always the same object. So `MonoidMorphism<T>` only take one type parameter. And apparently, its category is `IMonoid<T>` instead of DotNet.
 
-The implementation of Monoid<T> for ICategory<IMonoid<T>> is a little tricky:
+The implementation of `Monoid<T>` for `ICategory<IMonoid<T>>` is a little tricky:
 
 ```csharp
 public partial class Monoid<T>

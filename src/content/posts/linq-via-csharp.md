@@ -11,9 +11,9 @@ lang: ""
 
 ![ezgif-1-93576e9d87](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/LINQ-via-C_955C/ezgif-1-93576e9d87_3.jpg "ezgif-1-93576e9d87")
 
-- [Acclaim](#acclaim)
-- [Contents at a Glance](#contents-at-a-glance)
-- [Table of Contents](#table-of-contents)
+-   [Acclaim](#acclaim)
+-   [Contents at a Glance](#contents-at-a-glance)
+-   [Table of Contents](#table-of-contents)
 
 This is a book on functional programming and LINQ programming via C# language. It discusses:
 
@@ -44,7 +44,7 @@ Academy and more:
 
 The contents are organized as the following chapters:
 
--   **Part 1 Code** \- covers functional programming via C#, and fundamentals of LINQ.
+-   **Part 1 Code** - covers functional programming via C#, and fundamentals of LINQ.
     -   **Chapter 1 Functional programming and LINQ paradigm**
         -   What is LINQ, how LINQ uses language to work with many different data domains.
         -   Programming paradigm, imperative vs. declarative programming, object-oriented vs. functional programming.
@@ -87,12 +87,12 @@ As a fun of functional programming, LINQ, C#, and .NET technologies, hope this h
 
 ## Table of Contents
 
-All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets.
+All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippets>.
 
 1.  ## [Functional programming and LINQ paradigm](/archive/?tag=Introducing%20LINQ)
-    
+
     1.  ### [Cross platform C# and .NET](/posts/linq-via-csharp-introduction)
-        
+
         -   Introducing cross platform .NET, C# and LINQ
             -   .NET Framework, C#, and LINQ
             -   .NET Core, UWP, Mono, Xamarin and Unity
@@ -104,13 +104,15 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
             -   Start coding with Visual Studio (Windows)
             -   Start coding with Visual Studio Code (Windows, macOS and Linux)
             -   Start coding with Visual Studio for Mac (macOS)
+
     1.  ### [Programming paradigms and functional programming](/posts/introducing-linq-3-waht-is-functional-programming)
-        
+
         -   Programming paradigms
         -   Imperative programming vs. declarative programming
         -   Object-oriented programming vs. functional programming
+
     1.  ### [LINQ to data sources](/posts/introducing-linq-2-what-is-linq)
-        
+
         -   One language for different data domains
             -   LINQ to Objects
             -   Parallel LINQ
@@ -123,10 +125,11 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
             -   LINQ to Twitter
         -   Sequential query vs. parallel query
         -   Local query vs. remote query
+
 1.  ## [Functional programming in depth](/archive/?tag=Functional%20C%23)
-    
+
     1.  ### [C# language basics](/posts/functional-csharp-fundamentals)
-        
+
         -   Types and members
             -   Types and members
             -   Built-in types
@@ -155,8 +158,9 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
         -   String interpolation
         -   nameof operator
         -   Digit separator and leading underscore
+
     1.  ### [Named function and function polymorphism](/posts/functional-csharp-function-type-and-delegate)
-        
+
         -   Constructor, static constructor and finalizer
         -   Static method and instance method
         -   Extension method
@@ -167,15 +171,17 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
                 -   Type argument inference
         -   Static import
         -   Partial method
+
     1.  ### [Local function and closure](/posts/functional-csharp-local-function-and-closure)
-        
+
         -   Local function
         -   Closure
             -   Outer variable
             -   Implicit reference
             -   Static local function
+
     1.  ### [Function input and output](/posts/functional-csharp-function-parameter-and-return-value)
-        
+
         -   Input by copy vs. input by alias (ref parameter)
             -   Input by immutable alias (in parameter)
         -   Output parameter (out parameter) and out variable
@@ -186,8 +192,9 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
         -   Caller information parameter
         -   Output by copy vs. output by alias
             -   Output by immutable alias
+
     1.  ### [Delegate: Function type, instance, and group](/posts/functional-csharp-local-function-and-closure)
-        
+
         -   Delegate type as function type
             -   Function type
             -   Generic delegate type
@@ -195,15 +202,17 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
         -   Delegate instance as function instance
         -   Delegate instance as function group
             -   Event and event handler
+
     1.  ### [Anonymous function and lambda expression](/posts/functional-csharp-anonymous-function-and-lambda-expression)
-        
+
         -   Anonymous method
         -   Lambda expression as anonymous function
             -   IIFE (Immediately-invoked function expression)
             -   Closure
         -   Expression bodied function member
+
     1.  ### [Expression tree: Function as data](/posts/functional-csharp-function-as-data-and-expression-tree)
-        
+
         -   Lambda expression as expression tree
             -   Metaprogramming: function as abstract syntax tree
             -   .NET expressions
@@ -212,8 +221,9 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
             -   Expression tree to CIL at runtime
             -   Expression tree to executable function at runtime
         -   Expression tree and LINQ remote query
+
     1.  ### [Higher-order function, currying and first class function](/posts/functional-csharp-higher-order-function-currying-and-first-class-function)
-        
+
         -   First order function vs. higher-order function
             -   Convert first-order function to higher-order function
             -   Lambda operator => associativity
@@ -221,20 +231,23 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
             -   Uncurry function
             -   Partial applying function
         -   First-class function
+
     1.  ### [Function composition and chaining](/posts/functional-csharp-function-composition-and-method-chaining)
-        
+
         -   Forward composition vs. backward composition
         -   Forward piping
         -   Method chaining and fluent interface
+
     1.  ### [LINQ query expression](/posts/functional-csharp-query-expression)
-         
+
          -   Syntax and compilation
          -   Query expression pattern
          -   LINQ query expression
              -   Forward piping with LINQ
          -   Query expression vs. query method
+
     1.  ### [Covariance and contravariance](/posts/functional-csharp-covariance-and-contravariance)
-         
+
          -   Subtyping and type polymorphism
          -   Variances of non-generic function type
          -   Variances of generic function type
@@ -242,8 +255,9 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
          -   Variances of generic higher-order function type
          -   Covariance of array
          -   Variances in .NET and LINQ
+
     1.  ### [Immutability, anonymous type and tuple](/posts/functional-csharp-immutability-anonymous-type-and-tuple)
-         
+
          -   Immutable value
              -   Constant local
              -   Enumeration
@@ -264,39 +278,44 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
                  -   Tuple assignment
              -   Immutable collection vs. readonly collection
              -   Shallow immutability vs. deep immutability
+
     1.  ### [Pure function](/posts/functional-csharp-pure-function)
-         
+
          -   Pure function vs. impure function
              -   Referential transparency and side effect free
          -   Purity in .NET
          -   Purity in LINQ
+
     1.  ### [Asynchronous function](/posts/functional-csharp-asynchronous-function)
-         
-         -   Task, Task<TResult> and asynchrony
+
+         -   `Task`, `Task<TResult>` and asynchrony
          -   Named async function
          -   Awaitable-awaiter pattern
          -   Async state machine
          -   Runtime context capture
          -   Generalized async return type and async method builder
-             -   ValueTask<TResult> and performance
+             -   `ValueTask<TResult>` and performance
          -   Anonymous async function
-         -   Asynchronous sequence: IAsyncEnumerable<T>
+         -   Asynchronous sequence: `IAsyncEnumerable<T>`
          -   async using declaration: IAsyncDispose
+
     1.  ### [Pattern matching](/posts/functional-csharp-pattern-matching)
-         
+
          -   Is expression
          -   switch statement and switch expression
+
 1.  ## [LINQ to Objects: Querying objects in memory](/archive/?tag=LINQ%20to%20Objects)
-    
+
     1.  ### [Local sequential LINQ query](/posts/linq-to-objects-local-sequential-query)
-        
+
         -   Iteration pattern and foreach statement
-        -   IEnumerable<T> and IEnumerator<T>
+        -   `IEnumerable<T>` and `IEnumerator<T>`
             -   foreach loop vs. for loop
             -   Non-generic sequence vs. generic sequence
         -   LINQ to Objects queryable types
+
     1.  ### [LINQ to Objects standard queries and query expressions](/posts/linq-to-objects-query-methods-operators-and-query-expressions)
-        
+
         -   Sequence queries
             -   Generation: Empty , Range, Repeat, DefaultIfEmpty
             -   Filtering (restriction): Where, OfType, where
@@ -320,18 +339,21 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
             -   Quantifier: All, Any, Contains
             -   Equality: SequenceEqual
         -   Queries in other languages
+
     1.  ### [Generator](/posts/linq-to-objects-generator)
-        
+
         -   Implementing iterator pattern
         -   Generating sequence and iterator
         -   Yield statement and generator
+
     1.  ### [Deferred execution, lazy evaluation and eager Evaluation](/posts/linq-to-objects-deferred-execution-lazy-evaluation-and-eager-evaluation)
-        
+
         -   Immediate execution vs. Deferred execution
-            -   Cold IEnumerable<T> vs. hot IEnumerable<T>
+            -   Cold `IEnumerable<T>` vs. hot `IEnumerable<T>`
         -   Lazy evaluation vs. eager evaluation
+
     1.  ### [LINQ to Objects internals: Standard queries implementation](/posts/linq-to-objects-query-methods-implementation)
-        
+
         -   Argument check and deferred execution
         -   Collection queries
             -   Conversion: ToArray, ToList, ToDictionary, ToLookup
@@ -352,8 +374,9 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
             -   Aggregation: Aggregate, Count, LongCount, Min, Max, Sum, Average
             -   Quantifier: All, Any, Contains
             -   Equality: SequenceEqual
+
     1.  ### [Advanced queries in Microsoft Interactive Extensions (Ix)](/posts/linq-to-objects-interactive-extensions-ix)
-        
+
         -   Sequence queries
             -   Generation: Defer, Create, Return, Repeat
             -   Filtering: IgnoreElements, DistinctUntilChanged
@@ -371,8 +394,9 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
             -   Quantifiers: isEmpty
         -   Void queries
             -   Iteration: ForEach
+
     1.  ### [Building custom queries](/posts/linq-to-objects-custom-query-methods)
-        
+
         -   Sequence queries (deferred execution)
             -   Generation: Create, RandomInt32, RandomDouble, FromValue, FromValues, EmptyIfNull
             -   Filtering: Timeout
@@ -390,42 +414,47 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
             -   Comparison: Contains, SequenceEqual
         -   Void queries
             -   Iteration: ForEach
+
 1.  ## [LINQ to XML: Querying XML](/archive/?tag=LINQ%20to%20XML)
-    
+
     1.  ### [Modeling XML](/posts/linq-to-xml-1-modeling-xml)
-        
+
         -   Imperative vs. declarative paradigm
         -   Types, conversions and operators
         -   Read and deserialize XML
         -   Serialize and write XML
         -   Deferred construction
+
     1.  ### [LINQ to XML standard queries](/posts/linq-to-xml-2-query-methods)
-        
+
         -   Navigation
         -   Ordering
         -   Comparison
         -   More useful queries
         -   XPath
             -   Generate XPath expression
+
     1.  ### [Manipulating XML](/posts/linq-to-xml-3-manipulating-xml)
-        
+
         -   Clone
         -   Adding, deleting, replacing, updating, and events
         -   Annotation
         -   Validating XML with XSD
         -   Transforming XML with XSL
+
 1.  ## [Parallel LINQ: Querying objects in parallel](/archive/?tag=Parallel%20LINQ)
-    
+
     1.  ### [Parallel LINQ query and visualization](/posts/parallel-linq-1-local-parallel-query-and-visualization)
-        
+
         -   Parallel query vs. sequential query
         -   Parallel query execution
         -   Visualizing parallel query execution
             -   Using Concurrency Visualizer
             -   Visualizing sequential and parallel LINQ queries
             -   Visualizing chaining query methods
+
     1.  ### [Parallel LINQ internals: data partitioning](/posts/parallel-linq-2-partitioning)
-        
+
         -   Partitioning and load balancing
             -   Range partitioning
             -   Chunk partitioning
@@ -434,8 +463,9 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
         -   Implement custom partitioner
             -   Static partitioner
             -   Dynamic partitioner
+
     1.  ### [Parallel LINQ standard queries](/posts/parallel-linq-3-query-methods)
-        
+
         -   Query settings
             -   Cancellation
             -   Degree of parallelism
@@ -448,21 +478,24 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
         -   Aggregation
             -   Commutativity, associativity and correctness
             -   Partitioning and merging
+
     1.  ### [Parallel query performance](/posts/parallel-linq-4-performance)
-        
+
         -   Sequential query vs. parallel query
         -   CPU bound operation vs. IO bound operation
         -   Factors to impact performance
+
 1.  ## [Entity Framework/Core and LINQ to Entities: Querying relational data](/archive/?tag=Entity%20Framework)
-    
+
     1.  ### [Remote LINQ query](/posts/entity-framework-core-and-linq-to-entities-1-remote-query)
-        
+
         -   Entity Framework and Entity Framework Core
         -   SQL database
         -   Remote query vs. local query
         -   Function vs. expression tree
+
     1.  ### [Modeling database with object-relational mapping](/posts/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping)
-        
+
         -   Data types
         -   Database
             -   Connection resiliency and execution retry strategy
@@ -473,12 +506,14 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
             -   Many-to-many
         -   Inheritance
         -   Views
+
     1.  ### [Logging and tracing LINQ to Entities queries](/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries)
-        
+
         -   Application side logging
         -   Database side tracing with Extended Events
+
     1.  ### [LINQ to Entities standard queries](/posts/entity-framework-core-and-linq-to-entities-4-query-methods)
-        
+
         -   Sequence queries
             -   Generation: DefaultIfEmpty
             -   Filtering (restriction): Where, OfType
@@ -497,10 +532,11 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
             -   Element: First, FirstOrDefault, Single, SingleOrDefault
             -   Aggregation: Count, LongCount, Min, Max, Sum, Average
             -   Quantifier: All, Any, Contains
+
     1.  ### [LINQ to Entities internals: Query translation implementation](/posts/entity-framework-core-and-linq-to-entities-5-query-translation-implementation)
-        
+
         -   Code to LINQ expression tree
-            -   IQueryable<T> and IQueryProvider
+            -   `IQueryable<T>` and IQueryProvider
             -   Standard remote queries
             -   Building LINQ to Entities abstract syntax tree
         -   .NET expression tree to database expression tree
@@ -513,8 +549,9 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
         -   Database expression tree to database query language
             -   SQL generator and SQL command
             -   Generating SQL from database expression tree
+
     1.  ### [Loading query data](/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading)
-        
+
         -   Deferred execution
             -   Iterator pattern
             -   Lazy evaluation vs. eager evaluation
@@ -523,8 +560,9 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
         -   Lazy loading
             -   The N + 1 problem
             -   Disabling lazy loading
+
     1.  ### [Manipulating relational data: Data change and transaction](/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions)
-        
+
         -   Repository pattern and unit of work pattern
         -   Tracking entities and changes
             -   Tracking entities
@@ -540,18 +578,20 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
             -   EF Core transaction
             -   ADO.NET transaction
             -   Transaction scope
+
     1.  ### [Resolving optimistic concurrency](/posts/entity-framework-core-and-linq-to-entities-8-optimistic-concurrency)
-        
+
         -   Detecting concurrent conflicts
         -   Resolving concurrent conflicts
             -   Retaining database values (database wins)
             -   Overwriting database values (client wins)
             -   Merging with database values
         -   Saving changes with concurrent conflict handling
+
 1.  ## [Lambda Calculus via C#: The foundation of all functional programming](/archive/?tag=Lambda%20Calculus)
-    
+
     1.  ### [Basics](/posts/lambda-calculus-via-c-1-fundamentals)
-        
+
         -   Expression
             -   Bound variable vs. free variable
         -   Reductions
@@ -563,61 +603,71 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
         -   Function composition
             -   Associativity
             -   Unit
+
     1.  ### [Church encoding: Function as boolean and logic](/posts/lambda-calculus-via-c-2-boolean-and-logic)
-        
+
         -   Church encoding
         -   Church Boolean
         -   Logical operators
         -   Conversion between Church Boolean and System.Boolean
         -   If
+
     1.  ### [Church encoding: Function as numeral, arithmetic and predicate](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate)
-        
+
         -   Church numerals
         -   Increase and decrease
         -   Arithmetic operators
         -   Predicate and relational operators
             -   Attempt of recursion
         -   Conversion between Church numeral and System.UInt32
+
     1.  ### [Church encoding: Function as tuple and signed numeral](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral)
-        
+
         -   Church pair (2-tuple)
             -   Tuple operators
         -   N-tuple
         -   Signed numeral
             -   Arithmetic operators
+
     1.  ### [Church encoding: Function as list](/posts/lambda-calculus-via-csharp-5-list)
-        
+
         -   Tuple as list node
             -   List operators
         -   Aggregation function as list node
             -   List operators
         -   Model everything
+
     1.  ### [Combinatory logic](/posts/lambda-calculus-via-csharp-6-combinatory-logic)
-        
+
         -   Combinator
         -   SKI combinator calculus
             -   SKI compiler: compile lambda calculus expression to SKI calculus combinator
         -   Iota combinator calculus
+
     1.  ### [Fixed point combinator and recursion](/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion)
-        
+
         -   Normal order fixed point combinator (Y combinator) and recursion
         -   Applicative order fixed point combinator (Z combinator) and recursion
+
     1.  ### [Undecidability of equivalence](/posts/lambda-calculus-via-c-sharp-24-undecidability-of-equivalence)
-        
+
         -   Halting problem
         -   Equivalence problem
+
 1.  ## [Category Theory via C#: The essentials and design of LINQ](/archive/?tag=Category%20Theory)
-    
+
     1.  ### [Basics: Category and morphism](/posts/category-theory-via-csharp-1-fundamentals)
-        
+
         -   Category and category laws
         -   DotNet category
+
     1.  ### [Monoid](/posts/category-theory-via-csharp-2-monoid)
-        
+
         -   Monoid and monoid laws
         -   Monoid as category
+
     1.  ### [Functor and LINQ to Functors](/posts/category-theory-via-csharp-3-functor-and-linq-to-functors)
-        
+
         -   Functor and functor laws
             -   Endofunctor
             -   Type constructor and higher-kinded type
@@ -625,25 +675,29 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
             -   Built-in IEnumerable<> functor
             -   Functor pattern of LINQ
         -   More LINQ to Functors
+
     1.  ### [Natural transformation](/posts/category-theory-via-csharp-4-natural-transformation)
-        
+
         -   Natural transformation and naturality
         -   Functor Category
             -   Endofunctor category
+
     1.  ### [Bifunctor](/posts/category-theory-via-csharp-5-bifunctor)
-        
+
         -   Bifunctor
         -   Monoidal category
+
     1.  ### [Monoidal functor and applicative functor](/posts/category-theory-via-csharp-6-monoidal-functor-and-applicative-functor)
-        
+
         -   Monoidal functor
             -   IEnumeable<> monoidal functor
         -   Applicative functor
             -   IEnumeable<> applicative functor
         -   Monoidal functor vs. applicative functor
         -   More Monoidal functors and applicative functors
+
     1.  ### [Monad and LINQ to Monads](/posts/category-theory-via-csharp-7-monad-and-linq-to-monads)
-        
+
         -   Monad
         -   LINQ to Monads and monad laws
             -   Built-in IEnumerable<> monad
@@ -652,8 +706,9 @@ All code examples are available on GitHub: https://github.com/Dixin/CodeSnippets
             -   Monad pattern of LINQ
         -   Monad vs. monoidal/applicative functor
         -   More LINQ to Monads
+
     1.  ### [Advanced LINQ to Monads](/posts/category-theory-via-csharp-8-more-linq-to-monads)
-        
+
         -   IO monad
         -   State monad
         -   Try monad

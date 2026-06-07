@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list](/posts/lambda-calculus-via-csharp-5-list "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list")**
+## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list](/posts/lambda-calculus-via-csharp-5-list "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list")
 
 A third way to encode Church list, is to use [fold function](http://en.wikipedia.org/wiki/Fold_\(higher-order_function\)) (also called [aggregate in C#/.NET](https://msdn.microsoft.com/en-us/library/vstudio/bb549218.aspx)):
 
@@ -38,7 +39,7 @@ public delegate Func<TAccumulate, TAccumulate> ListNode<out T, TAccumulate>(Func
 
 f is the fold/aggregate function. In .NET aggregate function is a Func<TAccumulate, T, TAccumulate>, here in [lambda calculus](http://en.wikipedia.org/wiki/Lambda_calculus) it is curried to Func<TAccumulate, Func<T, TAccumulate>.
 
-Just like the Church numeral wrapper \_Numeral, a wrapper is needed to hide TAccumulate “inside”:
+Just like the Church numeral wrapper `_Numeral`, a wrapper is needed to hide TAccumulate “inside”:
 
 ```csharp
 public partial class _ListNode<T>
@@ -85,7 +86,7 @@ public partial class _ListNode<T>
 
 ## IsNull
 
-Null is \_ListNode<T>.Null, so IsNull function is easy to implement:
+Null is `_ListNode<T>.Null`, so IsNull function is easy to implement:
 
 ```csharp
 public static partial class _ListNodeExtensions

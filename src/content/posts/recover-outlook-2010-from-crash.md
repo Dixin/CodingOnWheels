@@ -11,7 +11,7 @@ lang: ""
 
 Today my [Outlook 2010](http://office.microsoft.com/en-us/outlook/) crashed while I am writing an email. When I restart I got this error:
 
-> ‘Microsoft Office Outlook’ exited without properly closing your Outlook data file ‘c:\\Users\\dixinyan\\AppData\\Local\\Microsoft\\Outlook\\dixinyan@microsoft.com.ost’. ‘Microsoft Office Outlook’ must be restarted. If this error message recurs, contact support for ‘Microsoft Office Outlook’ for assistance.
+> ‘Microsoft Office Outlook’ exited without properly closing your Outlook data file ‘`c:\Users\dixinyan\AppData\Local\Microsoft\Outlook\dixinyan@microsoft.com.ost`’. ‘Microsoft Office Outlook’ must be restarted. If this error message recurs, contact support for ‘Microsoft Office Outlook’ for assistance.
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_thumb_01FF61B7.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_2DDFDB73.png)
 

@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[FP & LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
 Lambda calculus (aka λ-calculus) is a theoretical framework to describe function definition, function application, function recursion, and uses functions and function application to express computation. It is a mathematics formal system, but can also be viewed as a smallest programming language that can express and evaluate any computable function. As an universal model of computation, lambda calculus is important in programming language theory, and especially it is the foundation of functional programming. The knowledge of lambda calculus greatly helps understanding functional programming, LINQ, C# and other functional languages.
 
@@ -71,7 +72,7 @@ internal static Func<T, T> Variable<T>(Func<T, Func<Func<T, T>, T>> g, Func<T, T
 
 ### β-reduction
 
-[Beta-reduction](http://en.wikipedia.org/wiki/Lambda_calculus#.CE.B2-reduction) of function application expression (λv.E) R is denoted E\[v := R\]. It means to [substitute](http://en.wikipedia.org/wiki/Lambda_calculus#Substitution) all free occurrences of the variable v in the expression E with expression R. In C#, this can be viewed as when function is called with argument, in the body all parameter occurrences are substituted by argument. For Example, when function x => x + 2 is called with 1, in the body x + 2, parameter x is substituted with argument 1, so the function is evaluated to 1 + 2.
+[Beta-reduction](http://en.wikipedia.org/wiki/Lambda_calculus#.CE.B2-reduction) of function application expression (λv.E) R is denoted `E[v := R]`. It means to [substitute](http://en.wikipedia.org/wiki/Lambda_calculus#Substitution) all free occurrences of the variable v in the expression E with expression R. In C#, this can be viewed as when function is called with argument, in the body all parameter occurrences are substituted by argument. For Example, when function x => x + 2 is called with 1, in the body x + 2, parameter x is substituted with argument 1, so the function is evaluated to 1 + 2.
 
 ### η-conversion
 

@@ -9,23 +9,22 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core (EF Core) series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework (EF) series](/archive/?tag=Entity%20Framework)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
 
 Regarding different database systems can have different query languages or different query APIs, EF Core implement a provider model to work with different kinds of databases. In EF Core, the base libraries are the Microsoft.EntityFrameworkCore and Microsoft.EntityFrameworkCore.Relational NuGet packages. Microsoft.EntityFrameworkCore provides the database provider contracts as Microsoft.EntityFrameworkCore.Storage.IDatabaseProviderServices interface. And the SQL database support is implemented by the Microsoft.EntityFrameworkCore,SqlServer NuGet package, which provides Microsoft.EntityFrameworkCore.Storage.Internal.SqlServerDatabaseProviderServices type to implement IDatabaseProviderServices. There are other libraries for different databases, like Microsoft.EntityFrameworkCore.SQLite NuGet package for SQLite, etc.
 
-With this provider model, EF Core breaks the translation into 2 parts. First, IQueryable<T> queries work with expression trees, and EF Core base libraries translate these .NET expression tree to generic, intermediate database expression tree; Then the specific EF Core database provider is responsible to generate query language for the specific database.
+With this provider model, EF Core breaks the translation into 2 parts. First, `IQueryable<T>` queries work with expression trees, and EF Core base libraries translate these .NET expression tree to generic, intermediate database expression tree; Then the specific EF Core database provider is responsible to generate query language for the specific database.
 
-### Code to LINQ expression tree
+## Code to LINQ expression tree
 
-Before translation, .NET expression tree must be built to represent the query logic. As fore mentioned, expression tree enables function as data. In C#, an expression tree shares the same lambda expression syntax as anonymous functions, but is compiled to abstract syntactic tree representing function’s source code. In LINQ, IQueryable<T> utilizes expression tree to represent the abstract syntactic structure of a remote query.
+Before translation, .NET expression tree must be built to represent the query logic. As fore mentioned, expression tree enables function as data. In C#, an expression tree shares the same lambda expression syntax as anonymous functions, but is compiled to abstract syntactic tree representing function’s source code. In LINQ, `IQueryable<T>` utilizes expression tree to represent the abstract syntactic structure of a remote query.
 
-### IQueryable<T> and IQueryProvider
+### `IQueryable<T>` and `IQueryProvider`
 
-IQueryable<T> has been demonstrated:
+`IQueryable<T>` has been demonstrated:
 
 ```csharp
 namespace System.Linq
@@ -61,11 +60,11 @@ TResult Execute<TResult>(Expression expression);
 }
 ```
 
-IQueryProvider has CreateQuery and Execute methods, all accepting a expression tree parameter. CreateQuery returns an IQueryable<T> query, and Execute returns a query result. These methods are called by the standard queries internally.
+IQueryProvider has CreateQuery and Execute methods, all accepting a expression tree parameter. CreateQuery returns an `IQueryable<T>` query, and Execute returns a query result. These methods are called by the standard queries internally.
 
 ### Standard remote queries
 
-Queryable provides 2 kinds of queries, sequence queries returning IQueryable<T> query, and value queries returning a query result. Take Where, Select, and First as examples, the following are their implementations:
+Queryable provides 2 kinds of queries, sequence queries returning `IQueryable<T>` query, and value queries returning a query result. Take Where, Select, and First as examples, the following are their implementations:
 
 ```csharp
 namespace System.Linq
@@ -120,11 +119,11 @@ return source.Provider.Execute<TSource>(firstCallExpression);
 }
 ```
 
-They just build a MethodCallExpression expression, representing the current query is called. Then they obtain query provider from source’s Provider property. The sequence queries call query provider’s CreateQuery method to return IQueryable<T> query, and the value queries call query provider’s Execute method to return a query result. All standard queries are implemented in this pattern except AsQueryable.
+They just build a MethodCallExpression expression, representing the current query is called. Then they obtain query provider from source’s Provider property. The sequence queries call query provider’s CreateQuery method to return `IQueryable<T>` query, and the value queries call query provider’s Execute method to return a query result. All standard queries are implemented in this pattern except AsQueryable.
 
 ### Build LINQ to Entities abstract syntax tree
 
-With above Where and Select queries, a simple LINQ to Entities query can be implemented to return an IQueryable<T> of values:
+With above Where and Select queries, a simple LINQ to Entities query can be implemented to return an `IQueryable<T>` of values:
 
 ```csharp
 internal static void WhereAndSelect(AdventureWorks adventureWorks)
@@ -199,21 +198,21 @@ iterator.Current.WriteLine();
 Here are the steps how the fluent query builds its query expression tree:
 
 -   Build data source:
-    -   The initial source IQueryable<T> is a DbSet<T> instance given by EF Core. It wraps an expression and a query provider:
+    -   The initial source `IQueryable<T>` is a `DbSet<T>` instance given by EF Core. It wraps an expression and a query provider:
         -   The expression is a ConstantExpression expression representing the data source.
         -   The query provider is an EntityQueryProvider instance automatically created by EF Core.
 -   Build Where query:
     -   A predicate expression is built for Where,
-    -   Where accepts the IQueryable<T> source. But actually Where only needs the source’s expression and query provider. A MethodCallExpression expression is built to represent a call of Where itself with 2 arguments, the source and the predicate expression. Then source query provider’s CreateQuery method is called with the MethodCallExpression expression just built, and return an IQueryable<T> query, which wraps:
+    -   Where accepts the `IQueryable<T>` source. But actually Where only needs the source’s expression and query provider. A MethodCallExpression expression is built to represent a call of Where itself with 2 arguments, the source and the predicate expression. Then source query provider’s CreateQuery method is called with the MethodCallExpression expression just built, and return an `IQueryable<T>` query, which wraps:
         -   The MethodCallExpression expression representing current Where call
         -   The same query privider from its source.
 -   Build Select query:
     -   A selector expression is built for Select
-    -   Select accepts the IQueryable<T> returned by Where as source. Again, Select only needs the expression and query provider from source. A MethodCallExpression expression is built to represent a call to Select itself with 2 arguments, the source and the selector expression. Then source query provider’s CreateQuery method is called with the MethodCallExpression expression just built, and return an IQueryable<T> query, which wraps:
+    -   Select accepts the `IQueryable<T>` returned by Where as source. Again, Select only needs the expression and query provider from source. A MethodCallExpression expression is built to represent a call to Select itself with 2 arguments, the source and the selector expression. Then source query provider’s CreateQuery method is called with the MethodCallExpression expression just built, and return an `IQueryable<T>` query, which wraps:
         -   The MethodCallExpression expression representing current Select call
         -   The same query privider from its source.
 
-So, the final IQueryable<T> query’s Expression property is the final abstract syntactic tree, which represents the entire LINQ to Entities query logic:
+So, the final `IQueryable<T>` query’s Expression property is the final abstract syntactic tree, which represents the entire LINQ to Entities query logic:
 
 ```console
 MethodCallExpression (NodeType = Call, Type = IQueryable<string>)
@@ -350,7 +349,7 @@ string first = adventureWorks.Products.Select(product => product.Name).First();
 
 ### .NET expression tree to database expression tree
 
-When LINQ to Entities queries are executed by either pulling values from IQueryable<T>, or calling IQueryProvider.Execute, EF Core compiles .NET expression tree to database expression tree.
+When LINQ to Entities queries are executed by either pulling values from `IQueryable<T>`, or calling IQueryProvider.Execute, EF Core compiles .NET expression tree to database expression tree.
 
 ### Database query abstract syntax tree
 
@@ -615,7 +614,7 @@ There are many other translators to cover other basic .NET APIs of System.String
 
 etc.
 
-There are also a few other APIs covered with other EF Core components. For example, In Remotion.Linq, MethodCallExpression node representing Enumerable.Contains or List<T>.Contains call is converted to to Remotion.Linq.Clauses.ResultOperators.ContainsResultOperator. Then in EF Core, ContainsResultOperator is processed by Microsoft.EntityFrameworkCore.Query.ExpressionVisitors.SqlTranslatingExpressionVisitor. and converted to InExpression node representing SQL database IN operation.
+There are also a few other APIs covered with other EF Core components. For example, In Remotion.Linq, MethodCallExpression node representing Enumerable.Contains or `List<T>.Contains` call is converted to to Remotion.Linq.Clauses.ResultOperators.ContainsResultOperator. Then in EF Core, ContainsResultOperator is processed by Microsoft.EntityFrameworkCore.Query.ExpressionVisitors.SqlTranslatingExpressionVisitor. and converted to InExpression node representing SQL database IN operation.
 
 ### Remote API call vs. local API call
 

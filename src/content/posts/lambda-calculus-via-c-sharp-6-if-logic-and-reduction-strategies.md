@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-2-boolean-and-logic](/posts/lambda-calculus-via-c-2-boolean-and-logic "https://CodingOnWheels.com/posts/lambda-calculus-via-c-2-boolean-and-logic")**
+## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-2-boolean-and-logic](/posts/lambda-calculus-via-c-2-boolean-and-logic "https://CodingOnWheels.com/posts/lambda-calculus-via-c-2-boolean-and-logic")
 
 The if logic is already built in [Church Booleans](/posts/lambda-calculus-via-c-sharp-4-encoding-church-booleans).
 
@@ -97,7 +98,7 @@ This is why both And and Or are triggered. This is an example that reduction ord
 
 ## Make If lazy
 
-Under the C# reduction order, can If function be lazy, and works just like the first reduction order above? In the above version of If, both then and @else are of type T. In C# the easiest to think about is, changing both parameters from T into a function - the simplest will be Func<T>, so that after the condition returns one of those 2 functions, then the returned Func<T> function can be applied to return a T value.
+Under the C# reduction order, can If function be lazy, and works just like the first reduction order above? In the above version of If, both then and @else are of type T. In C# the easiest to think about is, changing both parameters from T into a function - the simplest will be `Func<T>`, so that after the condition returns one of those 2 functions, then the returned `Func<T>` function can be applied to return a T value.
 
 ```csharp
 public static partial class ChurchBoolean
@@ -120,7 +121,7 @@ ChurchBoolean
         (() => True.Or(False));
 ```
 
-Now in If, only 1 “branch” will be applied. However, in lambda calculus, a lambda expression without variable - λ.E (corresponding to Func<T>) - does not exist. This is easy to resolve - just make up a variable for lambda expression/a parameter for C# function. So If can be refactored to:
+Now in If, only 1 “branch” will be applied. However, in lambda calculus, a lambda expression without variable - λ.E (corresponding to `Func<T>`) - does not exist. This is easy to resolve - just make up a variable for lambda expression/a parameter for C# function. So If can be refactored to:
 
 ```csharp
 public static partial class ChurchBoolean

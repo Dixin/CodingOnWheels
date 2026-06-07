@@ -9,17 +9,18 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
 
-## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-query-methods-implementation](/posts/linq-to-objects-query-methods-implementation "https://CodingOnWheels.com/posts/linq-to-objects-query-methods-implementation")**
+## Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-query-methods-implementation](/posts/linq-to-objects-query-methods-implementation "https://CodingOnWheels.com/posts/linq-to-objects-query-methods-implementation")
 
 Understanding of internals of query methods is very helpful for using them accurately and effectively, and is also helpful for defining custom query methods, which is discussed later in this chapter. Just like the usage discussion part, here query methods are still categorized by returned type, but in a different order:
 
 1.  Collection queries: return a new collection (immediate execution):
     -   Conversion: ToArray, ToList, ToDictionary, ToLookup
-1.  Sequence queries: return a new IEnumerable<T> sequence (deferred execution, underlined are eager evaluation):
+1.  Sequence queries: return a new `IEnumerable<T>` sequence (deferred execution, underlined are eager evaluation):
     -   Conversion: Cast, AsEnumerable
     -   Generation: Empty , Range, Repeat, DefaultIfEmpty
     -   Filtering (restriction): Where, OfType
@@ -37,11 +38,11 @@ Understanding of internals of query methods is very helpful for using them accur
     -   Quantifier: All, Any, Contains
     -   Equality: SequenceEqual
 
-The collection conversion queries are discussed first, because they can be used to implement other queries. All query methods work functionally, while many of them have imperative implementation. For the sequential query methods returning IEnumerable<T>, generators are heavily used to enable deferred execution, where the sequence queries marked with \* implements eager evaluation, and the other sequence queries implements lazy evaluation. In some cases .NET uses the yield syntactic sugar to create generator, and in other cases .NET defines custom generators to improve the performance. In this tutorial, to make it intuitive and readable, all those query methods are implemented with yield.
+The collection conversion queries are discussed first, because they can be used to implement other queries. All query methods work functionally, while many of them have imperative implementation. For the sequential query methods returning `IEnumerable<T>`, generators are heavily used to enable deferred execution, where the sequence queries marked with \* implements eager evaluation, and the other sequence queries implements lazy evaluation. In some cases .NET uses the yield syntactic sugar to create generator, and in other cases .NET defines custom generators to improve the performance. In this tutorial, to make it intuitive and readable, all those query methods are implemented with yield.
 
 ## Argument check and deferred execution
 
-As fore mentioned, all sequence queries returning IEnumerable<T> implement deferred execution. When a generator function contains the yield syntactic sugar, the execution of all code in the function body is deferred, including argument check. For example, argument check can be added to Select query as the following:
+As fore mentioned, all sequence queries returning `IEnumerable<T>` implement deferred execution. When a generator function contains the yield syntactic sugar, the execution of all code in the function body is deferred, including argument check. For example, argument check can be added to Select query as the following:
 
 ```csharp
 internal static partial class DeferredExecution
@@ -142,7 +143,7 @@ internal static partial class EnumerableExtensions
 }
 ```
 
-This implementation can be optimized. First, if the source sequence implements ICollection<T>, then it already has a CopyTo method to store its values to an array:
+This implementation can be optimized. First, if the source sequence implements `ICollection<T>`, then it already has a CopyTo method to store its values to an array:
 
 ```csharp
 namespace System.Collections.Generic
@@ -215,7 +216,7 @@ public static TSource[] ToArray<TSource>(this IEnumerable<TSource> source)
 }
 ```
 
-ToList is much easier to implement, because List<T> has a constructor accepting an IEnumerable<T> source:
+ToList is much easier to implement, because `List<T>` has a constructor accepting an `IEnumerable<T>` source:
 
 ```csharp
 public static List<TSource> ToList<TSource>(this IEnumerable<TSource> source) => new List<TSource>(source);
@@ -298,7 +299,7 @@ public partial class Lookup<TKey, TElement> : ILookup<TKey, TElement>
 }
 ```
 
-The built-in API object.GetHashCode is not directly used to get each value’s hash code, because it does not handle null value very well in some cases. System.Nullable<T>.GetHashCode is such an example. ((int?)0).GetHashCode() and ((int?)null).GetHashCode() both return 0. So the above GetHashCode method reserves -1 for null. And any non-null value’s hash code is converted to a positive int by a [bitwise and operation](https://msdn.microsoft.com/en-us/library/sbf85k1c.aspx) with int.MaxValue. The above indexer getter return an empty sequence when the specified key does not exist. Similar to Grouping<TKey, TElement>.Add, the following Lookup<TKey, TElement>.AddRange is defined to add data:
+The built-in API object.GetHashCode is not directly used to get each value’s hash code, because it does not handle null value very well in some cases. `System.Nullable<T>.GetHashCode` is such an example. ((int?)0).GetHashCode() and ((int?)null).GetHashCode() both return 0. So the above GetHashCode method reserves -1 for null. And any non-null value’s hash code is converted to a positive int by a [bitwise and operation](https://msdn.microsoft.com/en-us/library/sbf85k1c.aspx) with int.MaxValue. The above indexer getter return an empty sequence when the specified key does not exist. Similar to Grouping<TKey, TElement>.Add, the following Lookup<TKey, TElement>.AddRange is defined to add data:
 
 ```csharp
 public partial class Lookup<TKey, TElement>
@@ -954,7 +955,7 @@ public static IEnumerable<TSource> DistinctWithWhere<TSource>(
 
 However, this version becomes different, because It does not involve yield statement. As a result, the hash set is instantiated immediately.
 
-Union can be implemented by filtering the first source sequence with HashSet<T>.Add, then filter the second source sequence with HashSet<T>.Add:
+Union can be implemented by filtering the first source sequence with `HashSet<T>.Add`, then filter the second source sequence with `HashSet<T>.Add`:
 
 ```csharp
 public static IEnumerable<TSource> Union<TSource>(
@@ -980,7 +981,7 @@ public static IEnumerable<TSource> Union<TSource>(
 }
 ```
 
-Except can be implemented with the same pattern of filtering with HashSet<T>.Add:
+Except can be implemented with the same pattern of filtering with `HashSet<T>.Add`:
 
 ```csharp
 public static IEnumerable<TSource> Except<TSource>(
@@ -1234,7 +1235,7 @@ public static IEnumerable<TSource> Reverse<TSource>(this IEnumerable<TSource> so
 }
 ```
 
-The other ordering query methods are different because they involve the IOrderedEnumerable<T> interface. Again here are the signatures:
+The other ordering query methods are different because they involve the `IOrderedEnumerable<T>` interface. Again here are the signatures:
 
 ```csharp
 public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(
@@ -1250,7 +1251,7 @@ public static IOrderedEnumerable<TSource> OrderByDescending<TSource, TKey>(
     this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer);
 ```
 
-And once again the following is the definition of IOrderedEnumerable<T>:
+And once again the following is the definition of `IOrderedEnumerable<T>`:
 
 ```csharp
 namespace System.Linq
@@ -1409,24 +1410,24 @@ public static IOrderedEnumerable<TSource> ThenByDescending<TSource, TKey>(
         source.CreateOrderedEnumerable(keySelector, comparer, descending: true);
 ```
 
-OrderedSequence<T> is a sequence wrapping the source data and iteration algorithm of ordering, including:
+`OrderedSequence<T>` is a sequence wrapping the source data and iteration algorithm of ordering, including:
 
 -   the source sequence,
 -   the keySelector function,
 -   a bool value indicating the ordering should be descending or ascending
--   a previousGetComparison function, which identifies whether current OrderedSequence<T> is created by OrderBy/OrderByDescending, or by ThenBy/ThenByDescending
-    -   When OrderBy/OrderByDescending are called, they directly instantiate an OrderedSequence<T> with a null previousGetComparison function.
-    -   When ThenBy/ThenByDescending are called, they call CreateOrderedEnumerable to instantiate OrderedSequence<T>, and pass its OrderedSequence<T>’s GetComparison method as the previousGetComparison function for the new OrderedSequence<T>.
+-   a previousGetComparison function, which identifies whether current `OrderedSequence<T>` is created by OrderBy/OrderByDescending, or by ThenBy/ThenByDescending
+    -   When OrderBy/OrderByDescending are called, they directly instantiate an `OrderedSequence<T>` with a null previousGetComparison function.
+    -   When ThenBy/ThenByDescending are called, they call CreateOrderedEnumerable to instantiate `OrderedSequence<T>`, and pass its `OrderedSequence<T>`’s GetComparison method as the previousGetComparison function for the new `OrderedSequence<T>`.
 
-OrderedSequence’s GetEnumeraor method uses yield statement to return an iterator (not generator this time). Eager evaluation is implemented, because it has to pull all values in the source sequence and sort them, in order to know which value is the first one to yield. For performance consideration, instead of sorting the values from source sequence, here the indexes of values are sorted. For example, in the values array, if indexes { 0, 1, 2 } become { 2, 0, 1 } after sorting, then the values are yielded in the order of { values\[2\], values\[0\], values\[1\] }.
+OrderedSequence’s GetEnumeraor method uses yield statement to return an iterator (not generator this time). Eager evaluation is implemented, because it has to pull all values in the source sequence and sort them, in order to know which value is the first one to yield. For performance consideration, instead of sorting the values from source sequence, here the indexes of values are sorted. For example, in the values array, if indexes { 0, 1, 2 } become { 2, 0, 1 } after sorting, then the values are yielded in the order of { `values[2]`, `values[0]`, `values[1]` }.
 
 When the eager evaluation starts, GetComparison is called. It evaluates all keys of the values, and returns a comparison function:
 
 -   If previousGetComparison function is null, it returns a comparison function to represent an OrderBy/OrderByDescending query, which just compares the keys.
 -   if previousGetComparison function is not null, it returns a comparison function to represents an ThenBy/ThenByDescending query, which first check the previous compare result, and only compare the keys when previous compare result is equal.
--   In both cases, comparison function calls CompareKeys to compare 2 keys. CompareKeys calls IComparer<TKey>.Compare, and format the compare result to 0, -1, or 1 to represent less then, equal to, greater than. If the descending field is true, 1 and -1 are swapped.
+-   In both cases, comparison function calls CompareKeys to compare 2 keys. CompareKeys calls `IComparer<TKey>.Compare`, and format the compare result to 0, -1, or 1 to represent less then, equal to, greater than. If the descending field is true, 1 and -1 are swapped.
 
-Eventually, the returned comparison function is used during GetEnumerator’s eager evaluation, to sort the indexes of values. When comparing keys for index1 and index2, index1 is always less than index2. In another word, values\[index1\] is before values\[index2\] before the ordering query execution. If the result from comparison function is equal, index1 - index2 is used instead of 0. So that the relative positions of values at index1 and index2 are preserved, values\[index1\] is still before values\[index2\] after the ordering query execution.
+Eventually, the returned comparison function is used during GetEnumerator’s eager evaluation, to sort the indexes of values. When comparing keys for index1 and index2, index1 is always less than index2. In another word, `values[index1]` is before `values[index2]` before the ordering query execution. If the result from comparison function is equal, index1 - index2 is used instead of 0. So that the relative positions of values at index1 and index2 are preserved, `values[index1]` is still before `values[index2]` after the ordering query execution.
 
 ## Value queries
 
@@ -1434,7 +1435,7 @@ This category of query methods iterate the source sequence, and cannot implement
 
 ### Element
 
-To implement First, just pull the source sequence once. But if the source already supports index, then source\[0\] can be pulled, which is cheaper than calling the GetEnumerator, MoveNext, and Current methods. The index support can be identified by detecting if source also implements IList<T>:
+To implement First, just pull the source sequence once. But if the source already supports index, then `source[0]` can be pulled, which is cheaper than calling the GetEnumerator, MoveNext, and Current methods. The index support can be identified by detecting if source also implements `IList<T>`:
 
 ```csharp
 namespace System.Collections.Generic
@@ -1452,7 +1453,7 @@ namespace System.Collections.Generic
 }
 ```
 
-As fore mentioned, IList<T> is implemented by T\[\] array, List<T>, and Collection<T>, etc. So the following is an optimized implementation of First:
+As fore mentioned, `IList<T>` is implemented by `T[]` array, `List<T>`, and `Collection<T>`, etc. So the following is an optimized implementation of First:
 
 ```csharp
 public static TSource First<TSource>(this IEnumerable<TSource> source)

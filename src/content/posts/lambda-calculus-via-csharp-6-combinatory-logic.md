@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[FP & LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
 In lambda calculus, the primitive is function, which can have free variables and bound variables. [Combinatory logic](http://en.wikipedia.org/wiki/Combinatory_logic) was introduced by [Moses Schönfinkel](http://en.wikipedia.org/wiki/Moses_Sch%C3%B6nfinkel) and [Haskell Curry](http://en.wikipedia.org/wiki/Haskell_Curry) in 1920s. It is equivalent variant lambda calculus, with combinator as primitive. A combinator can be viewed as an expression with no free variables in its body.
 
@@ -83,13 +84,13 @@ The input type is the function type itself, so it is:
 public delegate TResult Func<TResult>(Func<TResult> self)
 ```
 
-Above Func<TResult> is the self applicable function type. To be unambiguous with System.Func<TResult>, it can be renamed to SelfApplicableFunc<TResult>:
+Above `Func<TResult>` is the self applicable function type. To be unambiguous with `System.Func<TResult>`, it can be renamed to `SelfApplicableFunc<TResult>`:
 
 ```csharp
 public delegate TResult SelfApplicableFunc<TResult>(SelfApplicableFunc<TResult> self);
 ```
 
-So SelfApplicableFunc<TResult> is equivalent to SelfApplicableFunc<TResult> -> TResult. Since f is of type SelfApplicableFunc<TResult>, f(f) returns TResult. And since ω accept f and returns TResult. ω is of type SelfApplicableFunc<TResult> -> TResult, which is the definition of SelfApplicableFunc<TResult>, so ω is still of type SelfApplicableFunc<TResult>, ω(ω) is still of type TResult:
+So `SelfApplicableFunc<TResult>` is equivalent to `SelfApplicableFunc<TResult> -> TResult`. Since f is of type `SelfApplicableFunc<TResult>`, f(f) returns TResult. And since ω accept f and returns TResult. ω is of type S`elfApplicableFunc<TResult> -> TResult`, which is the definition of `SelfApplicableFunc<TResult>`, so ω is still of type `SelfApplicableFunc<TResult>`, ω(ω) is still of type TResult:
 
 ```csharp
 public static class OmegaCombinators<TResult>

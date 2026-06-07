@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
-## **Latest version:** [**https://CodingOnWheels.com/posts/linq-via-csharp-introduction**](/posts/linq-via-csharp-introduction "https://CodingOnWheels.com/posts/linq-via-csharp-introduction")
+## Latest version: [https://CodingOnWheels.com/posts/linq-via-csharp-introduction](/posts/linq-via-csharp-introduction "https://CodingOnWheels.com/posts/linq-via-csharp-introduction")
 
 This is a tutorial of functional programming and LINQ in C# language. The contents was initially based on my [LINQ via C# talks](/posts/linq-via-csharp-events-posters-design). Hope it helps.
 
@@ -44,13 +45,46 @@ For .NET applications and services using LINQ, at compile time, the data queries
 
 LINQ is rooted in Microsoft's [Cω](http://en.wikipedia.org/wiki/C%CF%89) research project, and was first released as a part of [.NET Framework 3.5](http://en.wikipedia.org/wiki/.NET_Framework_3.5) and C# 3.0. The following table shows the position of LINQ in the history roadmap of .NET Framework and C# language:
 
-<table border="0" cellpadding="0" cellspacing="0" width="535"><tbody><tr><td valign="top" width="53">Year</td><td valign="top" width="93">Visual Studio</td><td valign="top" width="83">.NET Framework</td><td valign="top" width="181">Framework features</td><td valign="top" width="76">CLR</td><td valign="top" width="47">C#</td></tr><tr><td valign="top" width="55">2002</td><td valign="top" width="93">.NET 2002</td><td valign="top" width="83">1.0</td><td valign="top" width="181">CLR, FCL (ADO.NET, ASP.NET, etc.)</td><td valign="top" width="76">1.0</td><td valign="top" width="47">1.0</td></tr><tr><td valign="top" width="56">2003</td><td valign="top" width="93">.NET 2003</td><td valign="top" width="83">1.1</td><td valign="top" width="181">IPv6, Oracle database, etc.</td><td valign="top" width="76">1.1</td><td valign="top" width="47">1.1</td></tr><tr><td valign="top" width="57">2003</td><td valign="top" width="93"></td><td valign="top" width="83"></td><td valign="top" width="181"></td><td valign="top" width="76"></td><td valign="top" width="47">1.2</td></tr><tr><td valign="top" width="58">2005</td><td valign="top" width="93">2005</td><td valign="top" width="83">2.0</td><td valign="top" width="181">Generics, full 64 bit computing, etc.</td><td valign="top" width="76">2.0</td><td valign="top" width="47">2.0</td></tr><tr><td valign="top" width="58">2006</td><td valign="top" width="93"></td><td valign="top" width="83">3.0</td><td valign="top" width="181">WCF, WPF, WF, etc.</td><td valign="top" width="76"></td><td valign="top" width="47"></td></tr><tr><td valign="top" width="58"><strong>2007</strong></td><td valign="top" width="93"><strong>2008</strong></td><td valign="top" width="83"><strong>3.5</strong></td><td valign="top" width="181"><strong>LINQ</strong>, etc.</td><td valign="top" width="76"></td><td valign="top" width="47">3.0</td></tr><tr><td valign="top" width="58">2010</td><td valign="top" width="93">2010</td><td valign="top" width="83">4.0</td><td valign="top" width="181">TPL, <strong>Parallel LINQ</strong>, etc.</td><td valign="top" width="76">4 (<a href="https://msdn.microsoft.com/en-us/library/8bs2ecf4.aspx" target="_blank">not “4.0”</a>)</td><td valign="top" width="47">4.0</td></tr><tr><td valign="top" width="58">2012</td><td valign="top" width="93">2012</td><td valign="top" width="83">4.5</td><td valign="top" width="181">Zip, <strong>Parallel LINQ improvement</strong>, etc.</td><td valign="top" width="76"></td><td valign="top" width="47">5.0</td></tr><tr><td valign="top" width="58">2013</td><td valign="top" width="93">2013</td><td valign="top" width="83">4.5.1</td><td valign="top" width="181">Automatic binding redirection, etc.</td><td valign="top" width="76"></td><td valign="top" width="47"></td></tr><tr><td valign="top" width="58">2014</td><td valign="top" width="93"></td><td valign="top" width="83">4.5.2</td><td valign="top" width="181">New ASP.NET APIs, etc.</td><td valign="top" width="76"></td><td valign="top" width="47"></td></tr><tr><td valign="top" width="58">2015</td><td valign="top" width="93">2015</td><td valign="top" width="83">4.6</td><td valign="top" width="181">New 64-bit JIT compiler, etc.</td><td valign="top" width="76"></td><td valign="top" width="47">6.0</td></tr><tr><td valign="top" width="58">2015</td><td valign="top" width="93"></td><td valign="top" width="83">4.6.1</td><td valign="top" width="181">Cryptography improvement, .NET Standard 2.0 support with additional files, etc.</td><td valign="top" width="76"></td><td valign="top" width="47"></td></tr><tr><td valign="top" width="58">2016</td><td valign="top" width="93"></td><td valign="top" width="83">4.6.2</td><td valign="top" width="181">SQL Server client improvement, etc.</td><td valign="top" width="76"></td><td valign="top" width="47"></td></tr><tr><td valign="top" width="58">2017</td><td valign="top" width="93">2017</td><td valign="top" width="83"></td><td valign="top" width="181"></td><td valign="top" width="76"></td><td valign="top" width="47">7.0</td></tr><tr><td valign="top" width="58">2017</td><td valign="top" width="93"></td><td valign="top" width="83">4.7</td><td valign="top" width="181">Azure SQL Database connectivity improvement, etc.</td><td valign="top" width="76"></td><td valign="top" width="47"></td></tr><tr><td valign="top" width="58">2017</td><td valign="top" width="93"></td><td valign="top" width="83"></td><td valign="top" width="181"></td><td valign="top" width="76"></td><td valign="top" width="47">7.1</td></tr><tr><td valign="top" width="58">2017</td><td valign="top" width="93"></td><td valign="top" width="83">4.7.1</td><td valign="top" width="181"><a href="https://github.com/dotnet/announcements/issues/32" target="_blank">Built-in</a> .NET Standard 2.0 support, etc.</td><td valign="top" width="76"></td><td valign="top" width="47"></td></tr><tr><td valign="top" width="58">2017</td><td valign="top" width="93"></td><td valign="top" width="83"></td><td valign="top" width="181"></td><td valign="top" width="76"></td><td valign="top" width="47">7.2</td></tr></tbody></table>
+| Year | Visual Studio | .NET Framework | Framework features                                                              | CLR           | C#  |
+|------|---------------|----------------|---------------------------------------------------------------------------------|---------------|-----|
+| 2002 | .NET 2002     | 1.0            | CLR, FCL (ADO.NET, ASP.NET, etc.)                                               | 1.0           | 1.0 |
+| 2003 | .NET 2003     | 1.1            | IPv6, Oracle database, etc.                                                     | 1.1           | 1.1 |
+| 2003 |               |                |                                                                                 |               | 1.2 |
+| 2005 | 2005          | 2.0            | Generics, full 64 bit computing, etc.                                           | 2.0           | 2.0 |
+| 2006 |               | 3.0            | WCF, WPF, WF, etc.                                                              |               |     |
+| 2007 | 2008          | 3.5            | LINQ, etc.                                                                      |               | 3.0 |
+| 2010 | 2010          | 4.0            | TPL, Parallel LINQ, etc.                                                        | 4 (not “4.0”) | 4.0 |
+| 2012 | 2012          | 4.5            | Zip, Parallel LINQ improvement, etc.                                            |               | 5.0 |
+| 2013 | 2013          | 4.5.1          | Automatic binding redirection, etc.                                             |               |     |
+| 2014 |               | 4.5.2          | New ASP.NET APIs, etc.                                                          |               |     |
+| 2015 | 2015          | 4.6            | New 64-bit JIT compiler, etc.                                                   |               | 6.0 |
+| 2015 |               | 4.6.1          | Cryptography improvement, .NET Standard 2.0 support with additional files, etc. |               |     |
+| 2016 |               | 4.6.2          | SQL Server client improvement, etc.                                             |               |     |
+| 2017 | 2017          |                |                                                                                 |               | 7.0 |
+| 2017 |               | 4.7            | Azure SQL Database connectivity improvement, etc.                               |               |     |
+| 2017 |               |                |                                                                                 |               | 7.1 |
+| 2017 |               | 4.7.1          | Built-in .NET Standard 2.0 support, etc.                                        |               |     |
+| 2017 |               |                |                                                                                 |               | 7.2 |
 
 ### .NET Core, UWP, Mono, Xamarin and Unity
 
 After 15+ years, .NET Framework has been a rich ecosystem on Windows. Besides .NET Framework, C# also works on many other frameworks and platforms. In 2016, Microsoft released .NET Core, a free, open source and cross-platform version of .NET Framework. .NET Core is essentially a fork a .NET Framework. it is still based on CIL, with a runtime called CoreCLR, and class libraries called CoreFX. The same C# language works with .NET Core, as well as fore mentioned F# and VB.NET. As the name suggests, .NET Core implements the core features of .NET Framework. So it can be viewed as a subset of .NET Framework. It is designed to be a lightweight and high performance framework to build applications and services on Windows, macOS, and many Linux distributions, including Read Hat, Ubuntu, CentOS, Debian, Fedora, OpenSUSE, Oracle Linux, etc., so that it works on a wide range of devices, clouds, and embedded/IoT scenarios. The following table shows .NET Core is released in a more agile iteration:
 
-<table border="0" cellpadding="0" cellspacing="0" width="557"><tbody><tr><td valign="top" width="114">Year</td><td valign="top" width="109">.NET Core</td><td valign="top" width="332">.Features</td></tr><tr><td valign="top" width="119">Jun 2016</td><td valign="top" width="113">1.0</td><td valign="top" width="336">CoreCLR, CoreFX, WCF, ASP.NET Core, etc.</td></tr><tr><td valign="top" width="121">Sep 2016</td><td valign="top" width="115">1.0.1</td><td valign="top" width="335">Update for 1.0.</td></tr><tr><td valign="top" width="122">Oct 2016</td><td valign="top" width="117">1.0.2</td><td valign="top" width="333">Update for 1.0.</td></tr><tr><td valign="top" width="123">Nov 2016</td><td valign="top" width="119">1.1</td><td valign="top" width="331">More APIs, performance improvements, etc.</td></tr><tr><td valign="top" width="123">Dec 2016</td><td valign="top" width="120">1.0.3</td><td valign="top" width="330">Update for 1.0.</td></tr><tr><td valign="top" width="123">Mar 2017</td><td valign="top" width="121">1.0.4/1.1.1</td><td valign="top" width="330">Update for 1.0/1.1.</td></tr><tr><td valign="top" width="122">May 2017</td><td valign="top" width="123">1.0.5/1.1.2</td><td valign="top" width="328">Update for 1.0/1.1.</td></tr><tr><td valign="top" width="122">Aug 2017</td><td valign="top" width="124">2.0</td><td valign="top" width="328">.NET Standard 2.0, performance improvement, etc.</td></tr><tr><td valign="top" width="122">Sep 2017</td><td valign="top" width="124">1.0.6/1.1.3</td><td valign="top" width="328">Update for 1.0/1.1.</td></tr><tr><td valign="top" width="122">Nov 2017</td><td valign="top" width="124">1.0.7/1.1.4</td><td valign="top" width="328">Update for 1.0/1.1.</td></tr><tr><td valign="top" width="122">Nov 2017</td><td valign="top" width="124">1.0.8/1.1.5/2.0.3</td><td valign="top" width="328">Update for 1.0/1.1/2.0.</td></tr><tr><td valign="top" width="122">Dec 2017</td><td valign="top" width="124">2.0.4</td><td valign="top" width="328">Update for 2.0.</td></tr><tr><td valign="top" width="122">Jan 2018</td><td valign="top" width="124">1.0.9/1.1.6/2.0.5</td><td valign="top" width="328">Update for 1.0/1.1/2.0.</td></tr></tbody></table>
+| Year     | .NET Core         | .Features                                        |
+|----------|-------------------|--------------------------------------------------|
+| Jun 2016 | 1.0               | CoreCLR, CoreFX, WCF, ASP.NET Core, etc.         |
+| Sep 2016 | 1.0.1             | Update for 1.0.                                  |
+| Oct 2016 | 1.0.2             | Update for 1.0.                                  |
+| Nov 2016 | 1.1               | More APIs, performance improvements, etc.        |
+| Dec 2016 | 1.0.3             | Update for 1.0.                                  |
+| Mar 2017 | 1.0.4/1.1.1       | Update for 1.0/1.1.                              |
+| May 2017 | 1.0.5/1.1.2       | Update for 1.0/1.1.                              |
+| Aug 2017 | 2.0               | .NET Standard 2.0, performance improvement, etc. |
+| Sep 2017 | 1.0.6/1.1.3       | Update for 1.0/1.1.                              |
+| Nov 2017 | 1.0.7/1.1.4       | Update for 1.0/1.1.                              |
+| Nov 2017 | 1.0.8/1.1.5/2.0.3 | Update for 1.0/1.1/2.0.                          |
+| Dec 2017 | 2.0.4             | Update for 2.0.                                  |
+| Jan 2018 | 1.0.9/1.1.6/2.0.5 | Update for 1.0/1.1/2.0.                          |
 
 Microsoft also released Universal Windows Platform (UWP), the app model for Windows 10. UWP enables C# (as well as VB.NET, C++, JavaScript) to develop Microsoft Store application that can work cross all Windows 10 device families, including PC, tablet, phone, Xbox, HoloLens, Surface Hub, IoT, etc. [UWP takes advantage of .NET Core](https://msdn.microsoft.com/en-us/magazine/mt814993.aspx). In Debug mode, UWP app is compiled to CIL, and runs against CoreCLR. In Release mode, UWP app is compiled to native binaries for better performance, and runs against [.NET Native](https://blogs.windows.com/buildingapps/2015/08/20/net-native-what-it-means-for-universal-windows-platform-uwp-developers/) runtime.
 
@@ -60,7 +94,13 @@ C# is also the language for Unity, a [cross platform](https://docs.unity3d.com/M
 
 The following table summarizes these framework's languages, base API surface, runtime for managed code, supported application models, and supported platforms:
 
-<table border="0" cellpadding="2" cellspacing="0" width="604"><tbody><tr><td valign="top" width="95"></td><td valign="top" width="114">.NET Framework</td><td valign="top" width="111">.NET Core</td><td valign="top" width="94">UWP</td><td valign="top" width="98">Xamarin</td><td valign="top" width="90">Unity</td></tr><tr><td valign="top" width="99">Languages</td><td valign="top" width="114">C#, VB.NET, F#, etc.</td><td valign="top" width="111">C#, F#, VB.NET</td><td valign="top" width="95">C#, VB.NET, C++, JavaScript</td><td valign="top" width="98">C#</td><td valign="top" width="90">C#, UnityScript (deprecated), Boo (deprecated)</td></tr><tr><td valign="top" width="100">Base API surface</td><td valign="top" width="114">.NET FCL</td><td valign="top" width="111">CoreFX</td><td valign="top" width="95">Universal device family APIs</td><td valign="top" width="98">Mono base libraries</td><td valign="top" width="90">Mono base libraries</td></tr><tr><td valign="top" width="100">Managed runtime</td><td valign="top" width="114">CLR</td><td valign="top" width="111">CoreCLR</td><td valign="top" width="94">.NET Native runtime</td><td valign="top" width="98">Mono runtime</td><td valign="top" width="90">Mono runtime</td></tr><tr><td valign="top" width="99">Application models</td><td valign="top" width="114">Windows desktop applications and services</td><td valign="top" width="111">Cross-platform services</td><td valign="top" width="93">Microsoft Store apps</td><td valign="top" width="98">Mobile apps</td><td valign="top" width="90">Games</td></tr><tr><td valign="top" width="99">Platforms</td><td valign="top" width="114">Windows</td><td valign="top" width="111">Windows, macOS, Linux</td><td valign="top" width="93">Windows</td><td valign="top" width="98">Windows, Android, iOS</td><td valign="top" width="90">Windows, macOS, Linux, Android, iOS, game consoles</td></tr></tbody></table>
+||.NET Framework|.NET Core|UWP|Xamarin|Unity|
+|---|---|---|---|---|---|
+|Languages|C#, VB.NET, F#, etc.|C#, F#, VB.NET|C#, VB.NET, C++, JavaScript|C#|C#, UnityScript (deprecated), Boo (deprecated)|
+|Base API surface|.NET FCL|CoreFX|Universal device family APIs|Mono base libraries|Mono base libraries|
+|Managed runtime|CLR|CoreCLR|.NET Native runtime|Mono runtime|Mono runtime|
+|Application models|Windows desktop applications and services|Cross-platform services|Microsoft Store apps|Mobile apps|Games|
+|Platforms|Windows|Windows, macOS, Linux|Windows|Windows, Android, iOS|Windows, macOS, Linux, Android, iOS, game consoles|
 
 ### .NET Standard
 
@@ -77,7 +117,12 @@ The same C# language works on many frameworks and platforms. However, each frame
 
 This standardization provides great consistency and productivity for C# developers – one language and one set of base APIs can be used to develop many kinds of applications working cross many platforms. In the perspective of C# developer, the development experience becomes to use one lanuage and one set of base APIs to develop many kinds of applications and servers on many platforms:
 
-<table border="0" cellpadding="2" cellspacing="0" width="605"><tbody><tr><td valign="top" width="94"></td><td valign="top" width="121">.NET Framework</td><td valign="top" width="97">.NET Core</td><td valign="top" width="95">UWP</td><td valign="top" width="97">Xamarin</td><td valign="top" width="99">Unity</td></tr><tr><td valign="top" width="96">Language</td><td valign="top" width="121">C#</td><td valign="top" width="97">C#</td><td valign="top" width="95">C#</td><td valign="top" width="97">C#</td><td valign="top" width="99">C#</td></tr><tr><td valign="top" width="97">Base API surface</td><td valign="top" width="121">.NET Standard</td><td valign="top" width="97">.NET Standard</td><td valign="top" width="95">.NET Standard</td><td valign="top" width="97">.NET Standard</td><td valign="top" width="99">.NET Standard</td></tr><tr><td valign="top" width="97">Application models</td><td valign="top" width="121">Windows desktop applications and services</td><td valign="top" width="97">Cross-platform services</td><td valign="top" width="95">Microsoft Store apps</td><td valign="top" width="97">Mobile apps</td><td valign="top" width="99">Games</td></tr><tr><td valign="top" width="97">Platforms</td><td valign="top" width="121">Windows</td><td valign="top" width="97">Windows, macOS, Linux</td><td valign="top" width="95">Windows</td><td valign="top" width="97">Windows, Android, iOS</td><td valign="top" width="99">Windows, macOS, Linux, Android, iOS, game consoles</td></tr></tbody></table>
+||.NET Framework|.NET Core|UWP|Xamarin|Unity|
+|---|---|---|---|---|---|
+|Language|C#|C#|C#|C#|C#|
+|Base API surface|.NET Standard|.NET Standard|.NET Standard|.NET Standard|.NET Standard|
+|Application models|Windows desktop applications and services|Cross-platform services|Microsoft Store apps|Mobile apps|Games|
+|Platforms|Windows|Windows, macOS, Linux|Windows|Windows, Android, iOS|Windows, macOS, Linux, Android, iOS, game consoles|
 
 The LINQ language features are part of the C# language standard, and the LINQ APIs are part of the .NET Standard, so LINQ is available on all frameworks in the .NET family, with one set of language syntax and one set of APIs. This tutorial covers the cross platform C# language and cross-platform LINQ technologies provided by Microsoft and adopting to .NET Standard 2.0, including LINQ to Objects, Parallel LINQ, LINQ to XML, LINQ to Entities.
 
@@ -91,40 +136,40 @@ In C# development, object-oriented programming and functional programming live i
 
 ## This tutorial
 
-This tutorial discusses **cross-platform functional programming and LINQ programming via the latest C# 7.0 language, from real world development to underlying theories. It covers both .NET Framework (for Windows) and .NET Core (for Windows, macOS and Linux).** This entire tutorial is based on the latest language and frameworks. It covers C#’s functional features and functional programming aspects, and the detailed usage and internal mechanisms of mainstream LINQ technologies for different data domains, including LINQ to Objects, Parallel LINQ, LINQ to XML, and LINQ to Entities. It also demystifies the underlying quintessential theories of functional programming and LINQ, including Lambda Calculus and Category Theory.
+This tutorial discusses cross-platform functional programming and LINQ programming via the latest C# 7.0 language, from real world development to underlying theories. It covers both .NET Framework (for Windows) and .NET Core (for Windows, macOS and Linux). This entire tutorial is based on the latest language and frameworks. It covers C#’s functional features and functional programming aspects, and the detailed usage and internal mechanisms of mainstream LINQ technologies for different data domains, including LINQ to Objects, Parallel LINQ, LINQ to XML, and LINQ to Entities. It also demystifies the underlying quintessential theories of functional programming and LINQ, including Lambda Calculus and Category Theory.
 
 As an in-depth tutorial, some basic understanding of programming and C# is necessary. The target audiences are those who want to learn C# functional programming for Windows development and cross-platform development, and those who want to learn how to use LINQ in C# to work with data in applications and services. This tutorial is also for advanced audiences who want to learn the quintessence of functional programming to build a deep and general understanding, and those who want to learn internal details of LINQ in order to build custom LINQ APIs or providers.
 
 The contents are organized as the following chapters:
 
--   **Part 1 Code** \- covers functional programming via C#, and fundamentals of LINQ.
-    -   **Chapter 1 Functional programming and LINQ paradigm**
+-   Part 1 Code - covers functional programming via C#, and fundamentals of LINQ.
+    -   Chapter 1 Functional programming and LINQ paradigm
         -   What is LINQ, how LINQ uses language to work with many different data domains.
         -   Programming paradigm, imperative vs. declarative programming, object-oriented vs. functional programming.
-    -   **Chapter 2 C# functional programming in-depth**
+    -   Chapter 2 C# functional programming in-depth
         -   C# fundamentals for beginners.
         -   Aspects of functional programming via C#, including function type, named/anonymous/local function, closure, lambda, higher-order function, currying, partial application, first class function, function composition, query expression, covariance/contravariance, immutability, tuple, purity, async function, pattern matching, etc., including how C# is processed at compile time and runtime.
--   **Part 2 Data** - covers how to use functional LINQ to work with different data domains in the real world, and how LINQ works internally.
-    -   **Chapter 3 LINQ to Objects**
+-   Part 2 Data - covers how to use functional LINQ to work with different data domains in the real world, and how LINQ works internally.
+    -   Chapter 3 LINQ to Objects
         -   How to use functional LINQ queries to work with objects, covering all LINQ and Ix.
         -   How the LINQ to Objects query methods are implemented, how to implement useful custom LINQ queries.
-    -   **Chapter 4 LINQ to XML**
+    -   Chapter 4 LINQ to XML
         -   How to modeling XML data, and use functional LINQ queries to work with XML data.
         -   How to use the other LINQ to XML APIs to manipulate XML data.
-    -   **Chapter 5 Parallel LINQ**
+    -   Chapter 5 Parallel LINQ
         -   How to use parallelized functional LINQ queries to work with objects.
         -   Performance analysis for parallel/sequential LINQ queries.
-    -   **Chapter 6 Entity Framework/Core and LINQ to Entities**
+    -   Chapter 6 Entity Framework/Core and LINQ to Entities
         -   How to model database with object-relational mapping, and use functional LINQ queries to work with relational data in database.
         -   How the C# LINQ to Entities queries are implemented to work with database.
         -   How to change data in database, and handle concurrent conflicts.
         -   Performance tips and asynchrony.
--   **Part 3 Theories** - demystifies the abstract mathematics theories, which are the rationale and foundations of LINQ and functional programming.
-    -   **Chapter 7 Lambda Calculus via C#**
+-   Part 3 Theories - demystifies the abstract mathematics theories, which are the rationale and foundations of LINQ and functional programming.
+    -   Chapter 7 Lambda Calculus via C#
         -   Core concepts of lambda calculus, bound and free variables, reduction (α-conversion, β-reduction, η-conversion), etc.
         -   How to use lambda functions to represent values, data structures and computation, including Church Boolean, Church numbers, Church pair, Church list, and their operations.
         -   Combinators and combinatory logic, including SKI combinator calculus, fixed point combinator for function recursion, etc.
-    -   **Chapter 8 Category Theory via C#**
+    -   Chapter 8 Category Theory via C#
         -   Core concepts of category theory, including category, object, morphism, monoid, functor, natural transformation, applicative functor, monad, and their laws.
         -   How these concepts are applied in functional programming and LINQ.
         -   How to manage I/O, state, exception handling, shared environment, logging, and continuation, etc., in functional programming.
@@ -239,9 +284,9 @@ The free Visual Studio Code can be downloaded and installed from Microsoft offic
 
 [![image_thumb5](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Functional-Programmin.NETCore-C-and-LINQ_14FDE/image_thumb5_thumb.png "image_thumb5")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Functional-Programmin.NETCore-C-and-LINQ_14FDE/image_thumb5_2.png)
 
-The .NET Core SDK needs to be installed separately, by following the steps from Microsoft official website: [https://dot.net](https://dot.net/ "https://dot.net"). The installation can be verified by the **dotnet –version** command, which outputs the version of .NET Core SDK. To start coding, create a directory for a new console application, then go to this directory, run **dotnet new console**. 2 files are created, Program.cs and ConsoleApp.csproj. Program.cs is the C# code file, which is the same as above Program.cs created by Visual Studio. ConsoleApp.csproj is the project file containing the metadata and build information for this console application.
+The .NET Core SDK needs to be installed separately, by following the steps from Microsoft official website: [https://dot.net](https://dot.net/ "https://dot.net"). The installation can be verified by the `dotnet –version` command, which outputs the version of .NET Core SDK. To start coding, create a directory for a new console application, then go to this directory, run `dotnet new console`. 2 files are created, Program.cs and ConsoleApp.csproj. Program.cs is the C# code file, which is the same as above Program.cs created by Visual Studio. ConsoleApp.csproj is the project file containing the metadata and build information for this console application.
 
-The NuGet packages used by this tutorial can be added with the **dotnet add package {package name}** command. For the packages only available as preview, the version has to be specified: **dotnet add package {package name} –version {version}**.
+The NuGet packages used by this tutorial can be added with the `dotnet add package {package name}` command. For the packages only available as preview, the version has to be specified: `dotnet add package {package name} –version {version}`.
 
 From this directory, run code . command to start Visual Studio Code. Visual Studio Code should prompt “Required assets to build and debug are missing from ‘ConsoleApp’. Add them?”. Click Yes, Visual Studio Code should create the debug configuration files in a .vscode subdirectory. Now, press F5 to build, run and debug the application in Visual Studio Code.
 

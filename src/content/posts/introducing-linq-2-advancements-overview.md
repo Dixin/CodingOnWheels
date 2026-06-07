@@ -1,7 +1,7 @@
 ---
 title: "Introducing LINQ (2) Advancements Overview"
 published: 2009-11-24
-description: "\\]"
+description: "LINQ is one of Microsoft’s most exciting, powerful new development technologies."
 image: ""
 tags: [".NET", "C#", "Functional Programming", "LINQ"]
 category: ".NET"
@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 According to [MSDN](http://msdn.microsoft.com/en-us/netframework/aa904594.aspx):
 
@@ -30,7 +31,7 @@ This kind of LINQ query expression can also be used on other data source, like d
 
 ## Strong typing
 
-It is obvious that each item in the above LINQ query is strong typed: source is an int\[\], number is an int. Even we used “var” keyword for results, it is actually an IEnumerable<int>.
+It is obvious that each item in the above LINQ query is strong typed: source is an `int[]`, number is an int. Even we used “var” keyword for results, it is actually an `IEnumerable<int>`.
 
 Since the data is strong typed, intellisense can work in IDE:
 
@@ -50,7 +51,6 @@ var results = from product in database.Products
                orderby product.ProductName
                select product.ProductName; // Defines the query.
 ```
-
 
 Please notice at this time positive is not the query result, but the query definition itself.
 

@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Parallel LINQ in Depth series](/archive/?tag=Parallel%20LINQ)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Parallel LINQ in Depth](/archive/?tag=Parallel%20LINQ) Series
 
 The purpose of PLINQ is to utilize multiple CPUs for better performance than LINQ to Objects However, PLINQ can also introduces performance overhead, like source partitioning and result merging. There are many aspects that impact PLINQ query performance.
 

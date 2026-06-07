@@ -9,22 +9,23 @@ draft: false
 lang: ""
 ---
 
-## \[[FP & LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
 
 Monad is a powerful structure, with the LINQ support in C# language, monad enables chaining operations to build fluent workflow, which can be pure. With these features, monad can be used to manage I/O, state changes, exception handling, shared environment, logging/tracing, and continuation, etc., in the functional paradigm.
 
 ## IO monad
 
-IO is impure. As already demonstrated, the Lazy<> and Func<> monads can build purely function workflows consists of I/O operations. The I/O is produced only when the workflows is started. So the Func<> monad is also called IO monad (Again, Lazy<T> is just a wrapper of Func<T> factory function, so Lazy<> and Func<> can be viewed as equivalent.). Here, to be more intuitive, rename Func<> to IO<>:
+IO is impure. As already demonstrated, the Lazy<> and Func<> monads can build purely function workflows consists of I/O operations. The I/O is produced only when the workflows is started. So the Func<> monad is also called IO monad (Again, `Lazy<T>` is just a wrapper of `Func<T>` factory function, so Lazy<> and Func<> can be viewed as equivalent.). Here, to be more intuitive, rename Func<> to IO<>:
 
 ```csharp
 // IO: () -> T
 public delegate T IO<out T>();
 ```
 
-Func<T> or IO<T> is just a wrapper of T. Generally, the difference is, if a value T is obtained, effect is already produced; and if a Func<T> or IO<T> function wrapper is obtained, the effect can be delayed to produce, until explicitly calling this function to pull the wrapped T value. The following example is a simple comparison:
+`Func<T>` or `IO<T>` is just a wrapper of T. Generally, the difference is, if a value T is obtained, effect is already produced; and if a `Func<T>` or `IO<T>` function wrapper is obtained, the effect can be delayed to produce, until explicitly calling this function to pull the wrapped T value. The following example is a simple comparison:
 
 ```csharp
 public static partial class IOExtensions
@@ -81,7 +82,7 @@ public static partial class IOExtensions
 
 The (SelectMany, Wrap, Select) operations are defined so that the LINQ functor syntax (single from clause) and monad syntax (multiple from clauses) are enabled. The let clause is also enabled by Select, which provides great convenience.
 
-Some I/O operations, like above Console.ReadLine: () –> string, and File.ReadAllText: string –> string, returns a value T that can be wrapped IO<T>. There are other I/O operations that return void, like Console.WriteLine: string –> void, etc. Since C# compiler does not allow void to be used as type argument of IO<void>, these operations can be viewed as returning a Unit value, which can be wrapped as IO<Uint>. The following methods help wrap IO<T> functions from I/O operations with or without return value:
+Some I/O operations, like above Console.ReadLine: () –> string, and File.ReadAllText: string –> string, returns a value T that can be wrapped `IO<T>`. There are other I/O operations that return void, like Console.WriteLine: string –> void, etc. Since C# compiler does not allow void to be used as type argument of `IO<void>`, these operations can be viewed as returning a Unit value, which can be wrapped as `IO<Uint>`. The following methods help wrap `IO<T>` functions from I/O operations with or without return value:
 
 ```csharp
 public static IO<TResult> IO<TResult>(Func<TResult> function) =>
@@ -113,7 +114,7 @@ internal static void Workflow()
 }
 ```
 
-IO<> monad works with both synchronous and asynchronous I/O operations. The async version of IO<T> is just IO<Task<T>>, and the async version of IO<Unit> is just IO<Task>:
+IO<> monad works with both synchronous and asynchronous I/O operations. The async version of `IO<T>` is just `IO<Task<T>>`, and the async version of `IO<Unit>` is just `IO<Task>`:
 
 ```csharp
 internal static async Task WorkflowAsync()
@@ -258,7 +259,7 @@ public static uint Factorial(uint uInt32)
 }
 ```
 
-Another example is Enumerable.Aggregate query method, which accepts an IEnumerable<TSource> sequence, a TAccumulate seed, and a TAccumulate –> TSource –> TAccumulate function. Aggregate calls the accumulation function over the seed and all the values in the sequence. The aggregation steps can also be modeled as recursive steps, where each step’s state is the current accumulate result and the unused source values. Take source sequence { 1, 2, 3, 4, 5 }, seed 0, and function + as example:
+Another example is Enumerable.Aggregate query method, which accepts an `IEnumerable<TSource>` sequence, a TAccumulate seed, and a TAccumulate –> TSource –> TAccumulate function. Aggregate calls the accumulation function over the seed and all the values in the sequence. The aggregation steps can also be modeled as recursive steps, where each step’s state is the current accumulate result and the unused source values. Take source sequence { 1, 2, 3, 4, 5 }, seed 0, and function + as example:
 
 -   (Value: +, State: (0, { 1, 2, 3, 4 })) => (Value: +, State: (0 + 1, { 2, 3, 4 }))
 -   (Value: +, State: (0 + 1, { 2, 3, 4 })) => (Value: +, State: (0 + 1 + 2, { 3, 4 }))
@@ -266,7 +267,7 @@ Another example is Enumerable.Aggregate query method, which accepts an IEnumerab
 -   (Value: +, State: (0 + 1 + 2 + 3, { 4 })) => (Value: +, State: (0 + 1 + 2 + 3 + 4, { }))
 -   (Value: +, State: (0 + 1 + 2 + 3 + 4, { })) => (Value: +, State: (0 + 1 + 2 + 3 + 4, { }))
 
-When the current source sequence in the state is empty, all source values are applied to the accumulate function, the recursion terminates, and the aggregation result in in the final state. So the recursive function is of type Tuple<TAccumulate –> TSource –> TAccumulate, Tuple<TAccumulate, IEnumerable<TSource>>> –> Tuple<TAccumulate –> TSource –> TAccumulate, Tuple<TAccumulate, IEnumerable<TSource>>>. Again, it can be curried to (TAccumulate –> TSource –> TAccumulate) –> (Tuple<TAccumulate, IEnumerable<TSource>> –> Tuple<TAccumulate –> TSource –> TAccumulate, Tuple<TAccumulate, IEnumerable<TSource>>>), which is equivalent to (TAccumulate –> TSource –> TAccumulate) –> State<Tuple<TAccumulate, IEnumerable<TSource>>, TAccumulate –> TSource –> TAccumulate>:
+When the current source sequence in the state is empty, all source values are applied to the accumulate function, the recursion terminates, and the aggregation result in in the final state. So the recursive function is of type `Tuple<TAccumulate –> TSource –> TAccumulate, Tuple<TAccumulate, IEnumerable<TSource>>> –> Tuple<TAccumulate –> TSource –> TAccumulate, Tuple<TAccumulate, IEnumerable<TSource>>>`. Again, it can be curried to `(TAccumulate –> TSource –> TAccumulate) –> (Tuple<TAccumulate, IEnumerable<TSource>> –> Tuple<TAccumulate –> TSource –> TAccumulate, Tuple<TAccumulate, IEnumerable<TSource>>>)`, which is equivalent to `(TAccumulate –> TSource –> TAccumulate) –> State<Tuple<TAccumulate, IEnumerable<TSource>>, TAccumulate –> TSource –> TAccumulate>`:
 
 ```csharp
 // AggregateState: (TAccumulate -> TSource -> TAccumulate) -> ((TAccumulate, IEnumerable<TSource>) -> (TAccumulate -> TSource -> TAccumulate, (TAccumulate, IEnumerable<TSource>)))
@@ -295,7 +296,7 @@ public static TAccumulate Aggregate<TSource, TAccumulate>(
 
 In each recursion step, if the source sequence in the current state in not empty, the source sequence needs to be split. The first value is used to call the accumulation function, and the other values are put into output state, which is passed to the next recursion step. So there are multiple pulling operations for the source sequence: detecting if it is empty detection, pulling first value, and pulling the rest values. To avoid multiple iterations for the same source sequence, here the Share query method from Microsoft Ix (Interactive Extensions) library is called, so that all the pulling operations share the same iterator.
 
-The stack’s Pop and Push operation can be also viewed as state processing. The Pop method of stack requires no input, and out put the stack’s top value T, So Pop can be viewed of type Unit –> T. In contrast, stack’s Push method accepts a value, set the value to the top of the stack, and returns no output, so Push can be viewed of type T –> Unit. The stack’s values are different before and after the Pop and Push operations, so the stack itself can be viewed as the state of the Pop and Push operation. If the values in a stack is represented as a IEnumerable<T> sequence, then Pop can be remodeled as Tuple<Unit, IEnumerable<T>> –> Tuple<Unit, IEnumerable<T>>, which can be curried to Unit –> State<IEnumerable<T>, T>; and Push can be remodeled as Tuple<T, IEnumerable<T>> –> Tuple<Unit, IEnumerable<T>>:
+The stack’s Pop and Push operation can be also viewed as state processing. The Pop method of stack requires no input, and out put the stack’s top value T, So Pop can be viewed of type Unit –> T. In contrast, stack’s Push method accepts a value, set the value to the top of the stack, and returns no output, so Push can be viewed of type T –> Unit. The stack’s values are different before and after the Pop and Push operations, so the stack itself can be viewed as the state of the Pop and Push operation. If the values in a stack is represented as a `IEnumerable<T>` sequence, then Pop can be remodeled as `Tuple<Unit, IEnumerable<T>> –> Tuple<Unit, IEnumerable<T>>`, which can be curried to `Unit –> State<IEnumerable<T>, T>`; and Push can be remodeled as `Tuple<T, IEnumerable<T>> –> Tuple<Unit, IEnumerable<T>>`:
 
 ```csharp
 // PopState: Unit -> (IEnumerable<T> -> (T, IEnumerable<T>))
@@ -381,7 +382,7 @@ public readonly struct Try<T>
 }
 ```
 
-Try<T> represents an operation, which either succeeds with a result, or fail with an exception. Its SelectMany method is also in the same pattern as Optional<>’s SelectMany, so that when an operation (source) succeeds without exception, the next operation (returned by selector) executes:
+`Try<T>` represents an operation, which either succeeds with a result, or fail with an exception. Its SelectMany method is also in the same pattern as Optional<>’s SelectMany, so that when an operation (source) succeeds without exception, the next operation (returned by selector) executes:
 
 ```csharp
 public static partial class TryExtensions
@@ -415,13 +416,13 @@ public static partial class TryExtensions
 }
 ```
 
-The operation of throwing an exception can be represented with a Try<T> with the specified exception:
+The operation of throwing an exception can be represented with a `Try<T>` with the specified exception:
 
 ```csharp
 public static Try<T> Throw<T>(this Exception exception) => new Try<T>(() => (default, exception));
 ```
 
-For convenience, Try<T> instance can be implicitly wrapped from a T value. And the following method also helps wrap a Func<T> operation:
+For convenience, `Try<T>` instance can be implicitly wrapped from a T value. And the following method also helps wrap a `Func<T>` operation:
 
 ```csharp
 public static Try<T> Try<T>(Func<T> function) =>
@@ -439,7 +440,7 @@ public static Try<Unit> Try(Action action) =>
     });
 ```
 
-To handle the exception from an operation represented by Try<T>, just check the HasException property, filter the exception, and process it. The following Catch method handles the specified exception type:
+To handle the exception from an operation represented by `Try<T>`, just check the HasException property, filter the exception, and process it. The following Catch method handles the specified exception type:
 
 ```csharp
 public static Try<T> Catch<T, TException>(
@@ -456,7 +457,7 @@ public static Try<T> Catch<T, TException>(
         });
 ```
 
-The evaluation of the Try<T> source, and the execution of handler, are both deferred. And the following Catch overload handles all exception types:
+The evaluation of the `Try<T>` source, and the execution of handler, are both deferred. And the following Catch overload handles all exception types:
 
 ```csharp
 public static Try<T> Catch<T>(
@@ -464,7 +465,7 @@ public static Try<T> Catch<T>(
         Catch<T, Exception>(source, handler, when);
 ```
 
-And the Finally method just call a function to process the Try<T>:
+And the Finally method just call a function to process the `Try<T>`:
 
 ```csharp
 public static TResult Finally<T, TResult>(
@@ -474,7 +475,7 @@ public static void Finally<T>(
     this Try<T> source, Action<Try<T>> finally) => finally(source);
 ```
 
-The operation of throwing an exception can be represented with a Try<T> instance wrapping the specified exception:
+The operation of throwing an exception can be represented with a `Try<T>` instance wrapping the specified exception:
 
 ```csharp
 public static partial class TryExtensions
@@ -594,7 +595,7 @@ The workflow is also a Reader<ICongiguration, T> function. To execute the workfl
 
 ## Writer monad
 
-Writer is a function that returns a computed value along with a stream of additional content, so this function is of type () –> Tuple<T, TContent>. In the writer monad workflow, each operation’s additional output content is merged with the next operation’s additional output content, so that when the entire workflow is executed, all operations’ additional output content are merged as the workflow’s final additional output content. Each merge operation accepts 2 TContent instances, and result another TContent instance. It is a binary operation and can be implemented by monoid’s multiplication: TContent ⊙ TContent –> TContent. So writer can be represented by a () –> Tuple<T, TContent> function along with a IMonoid<TContent> monoid:
+Writer is a function that returns a computed value along with a stream of additional content, so this function is of type () –> Tuple<T, TContent>. In the writer monad workflow, each operation’s additional output content is merged with the next operation’s additional output content, so that when the entire workflow is executed, all operations’ additional output content are merged as the workflow’s final additional output content. Each merge operation accepts 2 TContent instances, and result another TContent instance. It is a binary operation and can be implemented by monoid’s multiplication: TContent ⊙ TContent –> TContent. So writer can be represented by a `() –> Tuple<T, TContent>` function along with a `IMonoid<TContent>` monoid:
 
 ```csharp
 public abstract class WriterBase<TContent, T, TContentMonoid> : IMonoid<TContent> where TContentMonoid : IMonoid<TContent>
@@ -616,7 +617,7 @@ public abstract class WriterBase<TContent, T, TContentMonoid> : IMonoid<TContent
 }
 ```
 
-The most common scenario of outputting additional content, is tracing and logging, where the TContent is a sequence of log entries. A sequence of log entries can be represented as IEnumerable<T>, so the fore mentioned (IEnumerable<T>, Enumerable.Concat<T>, Enumerable.Empty<T>()) monoid can be used:
+The most common scenario of outputting additional content, is tracing and logging, where the TContent is a sequence of log entries. A sequence of log entries can be represented as `IEnumerable<T>`, so the fore mentioned `(IEnumerable<T>, Enumerable.Concat<T>, Enumerable.Empty<T>())` monoid can be used:
 
 ```csharp
 public class Writer<TEntry, T> : WriterBase<IEnumerable<TEntry>, T, EnumerableConcatMonoid<TEntry>>

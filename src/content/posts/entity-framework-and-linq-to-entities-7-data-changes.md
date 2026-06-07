@@ -9,19 +9,20 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## **EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions**](/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions")
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
+>
+> This post explains EF, [here is the EF Core version](/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions).
 
 Besides LINQ to Entities queries, Entity Framework also provides rich APIs for data changes.
 
 ## Repository pattern and unit of work pattern
 
-In Entity Framework, DbSet<T> implements [repository pattern](https://msdn.microsoft.com/en-us/library/ff649690.aspx). Repositories centralizes data access for applications, and mediates between the data source layer/tier and the business layers/tiers. A DbSet<T> object can be mapped to a database table, which is a repository for data [CRUD (create, read, update and delete)](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete):
+In Entity Framework, `DbSet<T>` implements [repository pattern](https://msdn.microsoft.com/en-us/library/ff649690.aspx). Repositories centralizes data access for applications, and mediates between the data source layer/tier and the business layers/tiers. A `DbSet<T>` object can be mapped to a database table, which is a repository for data [CRUD (create, read, update and delete)](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete):
 
 ```csharp
 namespace System.Data.Entity
@@ -44,7 +45,7 @@ namespace System.Data.Entity
 }
 ```
 
-IQueryable<T> is implemented so that data can be read. Find is also provided to read data by primary keys. After reading, the retrieved data can be changed. Add and AddRange adds data to be created in the repository. Remove and RemoveRange remove data to be deleted in the repository.
+`IQueryable<T>` is implemented so that data can be read. Find is also provided to read data by primary keys. After reading, the retrieved data can be changed. Add and AddRange adds data to be created in the repository. Remove and RemoveRange remove data to be deleted in the repository.
 
 A [unit of work](http://martinfowler.com/eaaCatalog/unitOfWork.html) is a collection of data operations that should succeed or fail as a unit. DbContext implements unit of work pattern:
 
@@ -130,7 +131,7 @@ DbEntityEntry provides rich APIs for entity’s state management:
 -   Property returns the specified property’s tracking information.
 -   Reload also executes a SELECT statement to read the database values, then it refreshes the entity’s property values, and all tracking information including State, OriginalValues, CurrentValues.
 
-the generic Entries method is a filtered version, it only returns the tracking information for entities of the specified type. It returns a sequence of generic DbEntityEntry<TEntity> objects:
+the generic Entries method is a filtered version, it only returns the tracking information for entities of the specified type. It returns a sequence of generic `DbEntityEntry<TEntity>` objects:
 
 ```csharp
 namespace System.Data.Entity.Infrastructure
@@ -158,9 +159,9 @@ namespace System.Data.Entity.Infrastructure
 }
 ```
 
-DbEntityEntry<TEntity> is similar to DbEntityEntry for entity tracking and state management. DbEntityEntry can be converted to DbEntityEntry<TEntity> by calling DbEntityEntry.Cast, and DbEntityEntry<TEntity> can be implicitly converted to DbEntityEntry.
+`DbEntityEntry<TEntity>` is similar to DbEntityEntry for entity tracking and state management. DbEntityEntry can be converted to `DbEntityEntry<TEntity>` by calling DbEntityEntry.Cast, and `DbEntityEntry<TEntity>` can be implicitly converted to DbEntityEntry.
 
-As fore mentioned in lazy load part, for a known entity, its tracking information can also be retrieved by calling DbContext.Entry. DbEntityEntry and DbEntityEntry<TEntity> also provides a few other methods, like Reference and Collection, which can be used for explicit lazy loading.
+As fore mentioned in lazy load part, for a known entity, its tracking information can also be retrieved by calling DbContext.Entry. DbEntityEntry and `DbEntityEntry<TEntity>` also provides a few other methods, like Reference and Collection, which can be used for explicit lazy loading.
 
 ### Track entities
 
@@ -275,7 +276,7 @@ internal static void EntityChanges()
 }
 ```
 
-If an entity is not read from a DbContext object’s repositories, then it has nothing to do with that unit of work, and apparently is not tracked by that DbContext object. DbSet<T> provides an Attach method to place an entity to the repository, and the DbContext tracks the entity as the Unchanged state:
+If an entity is not read from a DbContext object’s repositories, then it has nothing to do with that unit of work, and apparently is not tracked by that DbContext object. `DbSet<T>` provides an Attach method to place an entity to the repository, and the DbContext tracks the entity as the Unchanged state:
 
 ```csharp
 internal static void Attach()
@@ -332,7 +333,7 @@ internal static void AssociationChanges()
 
 ### Disable tracking
 
-DbContext’s default behavior is to track all changes automatically. This can be turned off. To disable tracking for specific entities read from repository, Entity Framework provides a AsNoTracking extension method for IQueryable<T>:
+DbContext’s default behavior is to track all changes automatically. This can be turned off. To disable tracking for specific entities read from repository, Entity Framework provides a AsNoTracking extension method for `IQueryable<T>`:
 
 ```csharp
 internal static void AsNoTracking()
@@ -368,7 +369,7 @@ To change the data in the database, just create a DbContext object, change the d
 
 ### Create
 
-To create new entities to the repository, call DbSet<T>.Add or DbSet<T>.AddRange. The following example creates 2 new associated entities, and add to repositories:
+To create new entities to the repository, call `DbSet<T>.Add` or `DbSet<T>.AddRange`. The following example creates 2 new associated entities, and add to repositories:
 
 ```csharp
 internal static partial class Changes
@@ -400,7 +401,7 @@ internal static partial class Changes
 }
 ```
 
-Here DbSet<T>.Add is called once with 1 subcategory entity. Internally, Add triggers change detection, and tracks this subcategory as Added state. Since this subcategory is associated with another category entity, the associated category is also tracked, as the same Added state. So in total there are 2 entity changes tracked. When DbContext.SaveChanges is called, Entity Framework translates these 2 changes to 2 SQL INSERT statements:
+Here `DbSet<T>.Add` is called once with 1 subcategory entity. Internally, Add triggers change detection, and tracks this subcategory as Added state. Since this subcategory is associated with another category entity, the associated category is also tracked, as the same Added state. So in total there are 2 entity changes tracked. When DbContext.SaveChanges is called, Entity Framework translates these 2 changes to 2 SQL INSERT statements:
 
 ```sql
 BEGIN TRANSACTION
@@ -418,9 +419,9 @@ BEGIN TRANSACTION
 COMMIT TRANSACTION
 ```
 
-The \[Production\].\[ProductCategory\] and \[Production\].\[ProductSubcategory\] tables’ primary key is an identity column, which is generated by database. So the new category’s ProductCategoryID and the new subcategory’s ProductSubcategory properties are ignored in the translated INSERT statements. After the each new row is created, a SELECT statement calls SCOPE\_IDENTITY metadata function to read the last generated identity value, which is the primary key of the inserted row. As a result, since there are 2 row changes in total, SaveChanges returns 2, And the 2 changes are submitted in a transaction, so that all changes can succeed or fail as a unit.
+The `[Production].[ProductCategory]` and `[Production].[ProductSubcategory]` tables’ primary key is an identity column, which is generated by database. So the new category’s ProductCategoryID and the new subcategory’s ProductSubcategory properties are ignored in the translated INSERT statements. After the each new row is created, a SELECT statement calls `SCOPE_IDENTITY` metadata function to read the last generated identity value, which is the primary key of the inserted row. As a result, since there are 2 row changes in total, SaveChanges returns 2, And the 2 changes are submitted in a transaction, so that all changes can succeed or fail as a unit.
 
-DbSet<T>.AddRange can be called with multiple entities. AddRange only triggers change detection once for all the entities, so it can have better performance than multiple Add calls,
+`DbSet<T>.AddRange` can be called with multiple entities. AddRange only triggers change detection once for all the entities, so it can have better performance than multiple Add calls,
 
 ### Update
 
@@ -540,7 +541,7 @@ The category’s Name is updated, then updated back to original value. When call
 
 ### Delete
 
-To delete entities from the repositories, call DbSet<T>.Remove or DbSet<T>.RemoveRange. The following example read an entity then delete it:
+To delete entities from the repositories, call `DbSet<T>.Remove` or `DbSet<T>.RemoveRange`. The following example read an entity then delete it:
 
 ```csharp
 internal static void Delete()
@@ -559,7 +560,7 @@ internal static void Delete()
 }
 ```
 
-Calling DbSet<T>.Add also triggers change detection, so the subcategory is tracked as Deleted state. When SaveChanges is called, the entity deletion is translated to a DELETE statement:
+Calling `DbSet<T>.Add` also triggers change detection, so the subcategory is tracked as Deleted state. When SaveChanges is called, the entity deletion is translated to a DELETE statement:
 
 ```sql
 SELECT TOP (1) 
@@ -661,7 +662,7 @@ internal static void DeleteAllAssociated()
 }
 ```
 
-Here, DbSet<T>.Remove is only called once with 1 entity, but Entity Framework detects 2 entities to delete, because of the association. Now the deletion is translated to 2 DELETE statements:
+Here, `DbSet<T>.Remove` is only called once with 1 entity, but Entity Framework detects 2 entities to delete, because of the association. Now the deletion is translated to 2 DELETE statements:
 
 ```sql
 SELECT TOP (2) 

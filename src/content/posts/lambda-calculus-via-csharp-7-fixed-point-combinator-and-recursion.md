@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[FP & LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
 p is the [fixed point](http://en.wikipedia.org/wiki/Fixed_point_\(mathematics\)) (aka invariant point) of function f [if and only if](http://en.wikipedia.org/wiki/If_and_only_if):
 

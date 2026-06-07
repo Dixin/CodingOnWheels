@@ -1,7 +1,7 @@
 ---
 title: "Understanding C# Features (7) Higher-Order Function"
 published: 2016-01-18
-description: "\\] - \\]"
+description: "Higher-order function is a function taking one or more function parameters as input, or returning a function as output."
 image: ""
 tags: [".NET", "C#", "C# Features", "Functional Programming", "Higher-Order", "LINQ", "LINQ via C#"]
 category: "C#"
@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C#](/posts/linq-via-csharp)\] - \[[C# Features](/archive/?tag=C%23%20Features)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## Function as input/output
 
@@ -70,7 +71,7 @@ public static partial class HigherOrderFunction
 }
 ```
 
-Higher-order functions are everywhere in .NET framework, like fore mentioned Sort method of List<T>. It’s signature is:
+Higher-order functions are everywhere in .NET framework, like fore mentioned Sort method of `List<T>`. It’s signature is:
 
 ```csharp
 namespace System.Collections.Generic
@@ -82,7 +83,7 @@ namespace System.Collections.Generic
 }
 ```
 
-Its comparison parameter is a function value of Comparison<T> function type:
+Its comparison parameter is a function value of `Comparison<T>` function type:
 
 ```csharp
 namespace System
@@ -113,7 +114,16 @@ public static partial class LinqToObjects
 
 So far C# has been demonstrated to have [first class functions](https://en.wikipedia.org/wiki/First-class_function). C# function can be compared to C# object side by side:
 
-<table border="0" cellpadding="0" cellspacing="0" width="767"><tbody><tr><td valign="top" width="87"></td><td valign="top" width="236">Data (object)</td><td valign="top" width="442">Function (method)</td></tr><tr><td valign="top" width="87">Type</td><td valign="top" width="236">Object type: class</td><td valign="top" width="442">Function type: delegate type</td></tr><tr><td valign="top" width="87">Value</td><td valign="top" width="236">Object: class instance</td><td valign="top" width="442">Function value: delegate instance</td></tr><tr><td valign="top" width="87">Assignment</td><td valign="top" width="236">Can be assigned to variable</td><td valign="top" width="442">Can be assigned to variable</td></tr><tr><td valign="top" width="87">Storage</td><td valign="top" width="236">Can be stored in data structure</td><td valign="top" width="442">Can be stored in data structure</td></tr><tr><td valign="top" width="87">Input</td><td valign="top" width="236">Can be function’s parameter</td><td valign="top" width="442">Can be higher-order function’s parameter</td></tr><tr><td valign="top" width="87">Output</td><td valign="top" width="236">Can be function’s return value</td><td valign="top" width="442">Can be higher-order function’s return value</td></tr><tr><td valign="top" width="87">Nesting</td><td valign="top" width="236">Can be nested (e.g. Exception.InnerException)</td><td valign="top" width="442">Can be nested (function in function): anonymous function, lambda expression, closure with non-local variable access</td></tr><tr><td valign="top" width="87">Equality</td><td valign="top" width="236">Reference equality testable</td><td valign="top" width="442">Reference equality testable</td></tr></tbody></table>
+|            | Data (object)                                 | Function (method)                                                                                                   |
+|------------|-----------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| Type       | Object type: class                            | Function type: delegate type                                                                                        |
+| Value      | Object: class instance                        | Function value: delegate instance                                                                                   |
+| Assignment | Can be assigned to variable                   | Can be assigned to variable                                                                                         |
+| Storage    | Can be stored in data structure               | Can be stored in data structure                                                                                     |
+| Input      | Can be function’s parameter                   | Can be higher-order function’s parameter                                                                            |
+| Output     | Can be function’s return value                | Can be higher-order function’s return value                                                                         |
+| Nesting    | Can be nested (e.g. Exception.InnerException) | Can be nested (function in function): anonymous function, lambda expression, closure with non-local variable access |
+| Equality   | Reference equality testable                   | Reference equality testable                                                                                         |
 
 They can have type and instance:
 

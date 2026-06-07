@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-6-combinatory-logic](/posts/lambda-calculus-via-csharp-6-combinatory-logic "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-6-combinatory-logic")**
+## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-6-combinatory-logic](/posts/lambda-calculus-via-csharp-6-combinatory-logic "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-6-combinatory-logic")
 
 ## Language with 1 element
 

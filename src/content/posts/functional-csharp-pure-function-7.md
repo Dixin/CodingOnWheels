@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-pure-function](/posts/functional-csharp-pure-function "https://CodingOnWheels.com/posts/functional-csharp-pure-function")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
+## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-pure-function](/posts/functional-csharp-pure-function "https://CodingOnWheels.com/posts/functional-csharp-pure-function")
 
 Functional programming encourages modeling operations with pure functions.
 
@@ -64,7 +65,7 @@ In contrast, the following functions are pure because they are both referentiall
     ```
 
 -   string.Concat, string.Substring, string.Insert, string.Replace, string.Trim, string.ToUpper, string.ToLower: accepts one or more strings as input, and output a new string, since string is immutable type.
--   string.Length, Nullable<T>.HasValue, Console.Error, or any property getter return a state. MutableDevice.Name’s getter and MutableDevice.Price’s getter are also pure. For a certain MutableDevice object, they return a predictable state, and during the getters’ execution, the getters do not change the state, or produce other side effect.
+-   string.Length, `Nullable<T>.HasValue`, Console.Error, or any property getter return a state. MutableDevice.Name’s getter and MutableDevice.Price’s getter are also pure. For a certain MutableDevice object, they return a predictable state, and during the getters’ execution, the getters do not change the state, or produce other side effect.
 -   object’s methods, like GetHashCode, GetType, Equals, ReferenceEquals, ToString
 -   System.Convert type’ conversion methods, like ToBoolean, ToInt32, etc.
 
@@ -113,7 +114,7 @@ Unfortunately, this attribute is not for general purpose and is only used by [.N
 -   Compile time rewriter and analyzer
 -   Runtime analyzer
 
-To demonstrate how \[Pure\] works with Code Contracts, install the tool from [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/1ec7db13-3363-46c9-851f-1ce455f66970), then in Visual Studio, go to project properties, add conditional compilation symbol CONTRACTS\_FULL:
+To demonstrate how `[Pure]` works with Code Contracts, install the tool from [Visual Studio Gallery](https://visualstudiogallery.msdn.microsoft.com/1ec7db13-3363-46c9-851f-1ce455f66970), then in Visual Studio, go to project properties, add conditional compilation symbol `CONTRACTS_FULL`:
 
 [![image_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/C-Functional-Programming-In-Depth-13-Pur_865A/image_thumb_thumb.png "image_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/C-Functional-Programming-In-Depth-13-Pur_865A/image_thumb_2.png)
 
@@ -145,9 +146,9 @@ internal static int ImpureContracts(int int32)
 }
 ```
 
-At compile time, Code Contract gives a warning: Detected call to method IsNegative(System.Int32)' without \[Pure\] in contracts of method ‘ImpureContracts(System.Int32)'.
+At compile time, Code Contract gives a warning: Detected call to method IsNegative(System.Int32)' without `[Pure]` in contracts of method ‘ImpureContracts(System.Int32)'.
 
-\[Pure\] cannot be used for anonymous function. And for any named function member, \[Pure\] must be used with caution. The following method is declared to be pure:
+`[Pure]` cannot be used for anonymous function. And for any named function member, `[Pure]` must be used with caution. The following method is declared to be pure:
 
 ```csharp
 [Pure] // Incorrect.
@@ -212,7 +213,7 @@ namespace System
 }
 ```
 
-For the caller of Math.Abs, Code Contract tool can load the above precondition and post condition from mscorlib.Contracts.dll, and run the check at compile time and runtime, if the check is enabled. C# language is not designed to be purely functional, neither are .NET APIs. So only a small percentage of built in functions are pure. To demonstrate this, reflection can be used to examine these assembly contracts. The .NET built in reflection APIs does not work well with these assembly contrast. For example, mscorlib.Contracts.dll contains type System.Void, which is considered to be a special type by .NET reflection, and causes crashes. The [Mono.Cecil](https://www.nuget.org/packages/Mono.Cecil/) NuGet package, a third party reflection library, can work here. The following LINQ to Objects example calls the Mono.Cecil APIs to query the contract assemblies for the public function members with \[Pure\], then query all .NET Framework FCL assemblies’ public function members:
+For the caller of Math.Abs, Code Contract tool can load the above precondition and post condition from mscorlib.Contracts.dll, and run the check at compile time and runtime, if the check is enabled. C# language is not designed to be purely functional, neither are .NET APIs. So only a small percentage of built in functions are pure. To demonstrate this, reflection can be used to examine these assembly contracts. The .NET built in reflection APIs does not work well with these assembly contrast. For example, mscorlib.Contracts.dll contains type System.Void, which is considered to be a special type by .NET reflection, and causes crashes. The [Mono.Cecil](https://www.nuget.org/packages/Mono.Cecil/) NuGet package, a third party reflection library, can work here. The following LINQ to Objects example calls the Mono.Cecil APIs to query the contract assemblies for the public function members with `[Pure]`, then query all .NET Framework FCL assemblies’ public function members:
 
 ```csharp
 internal static void PureFunction(string contractsAssemblyDirectory, string gacDirectory = @"C:\Windows\Microsoft.NET\assembly")

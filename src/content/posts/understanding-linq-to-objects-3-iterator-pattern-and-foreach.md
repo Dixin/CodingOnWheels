@@ -1,7 +1,7 @@
 ---
 title: "Understanding LINQ to Objects (3) Iterator Pattern and foreach"
 published: 2010-03-14
-description: "\\] - \\]"
+description: "LINQ to Objects provides fluent query methods in a functional paradigm. All these queries work with IEnumerable<T> sequence, and the values in the sequence will be processed with either deferred execution or immediate execution."
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to Objects", "LINQ via C#"]
 category: ".NET"
@@ -9,9 +9,12 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C#](/posts/linq-via-csharp)\] - \[[LINQ to Objects](/archive/?tag=LINQ%20to%20Objects)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
 
-LINQ to Objects provides fluent query methods in a functional paradigm. All these queries work with IEnumerable<T> sequence, and the values in the sequence will be processed with either deferred execution or immediate execution. To sequentially access the values in an IEnumerable<T> sequence, [iterator pattern](http://en.wikipedia.org/wiki/Iterator_pattern) is widely used in .NET and is also a built-in feature of C# language.
+LINQ to Objects provides fluent query methods in a functional paradigm. All these queries work with `IEnumerable<T>` sequence, and the values in the sequence will be processed with either deferred execution or immediate execution. To sequentially access the values in an `IEnumerable<T>` sequence, [iterator pattern](http://en.wikipedia.org/wiki/Iterator_pattern) is widely used in .NET and is also a built-in feature of C# language.
 
 ## Iteration pattern
 
@@ -119,7 +122,7 @@ public static void CompiledForEach<T>(Sequence<T> sequence, Action<T> next)
 
 The difference is, the non-generic Iterator’s Current property returns an object, it has to be explicitly casted to type T specified in the foreach loop, which is a chance to fail.
 
-## IEnumerable<T> and IEnumerator<T>
+## `IEnumerable<T>` and `IEnumerator<T>`
 
 To implements iterator pattern, IEnumerable for sequence and IEnumerator for iterator are built in .NET from the beginning:
 
@@ -142,7 +145,7 @@ namespace System.Collections
 }
 ```
 
-.NET 2.0 introduced generics, so IEnumerable<T> and IEnumerator<T> are added:
+.NET 2.0 introduced generics, so `IEnumerable<T>` and `IEnumerator<T>` are added:
 
 ```csharp
 namespace System
@@ -167,7 +170,7 @@ namespace System.Collections.Generic
 }
 ```
 
-Later, .NET 4.0 introduces covariance and contravariance. T is covariant for generic interfaces IEnumerable<T> and IEnumerable<T>. So they became:
+Later, .NET 4.0 introduces covariance and contravariance. T is covariant for generic interfaces `IEnumerable<T>` and `IEnumerable<T>`. So they became:
 
 ```csharp
 namespace System.Collections.Generic
@@ -184,18 +187,18 @@ namespace System.Collections.Generic
 }
 ```
 
-When a type implements IEnumerable<T>, its instance is guaranteed to be able to work in foreach loop.
+When a type implements `IEnumerable<T>`, its instance is guaranteed to be able to work in foreach loop.
 
 S0 there are quite a few terms around iterator pattern, and here is a summary:
 
--   IEnumerable/IEnumerable<T>: represents sequence, also called container, aggregate object, etc.
--   IEnumerator/IEnumerator<T>: represents iterator.
+-   `IEnumerable`/`IEnumerable<T>`: represents sequence, also called container, aggregate object, etc.
+-   `IEnumerator`/`IEnumerator<T>:` represents iterator.
 
 It might be more straightforward if these interfaces were named IItorable/IIterator, just like [in JavaScript](https://msdn.microsoft.com/en-us/library/dn858237.aspx). Just keep in mind C#’s foreach is a syntactic sugar for iterator pattern, or the enumerable/enumerator pattern (Actually, [C# 5.0’s async/await syntactic sugar follows a similar awaitable/awaitor pattern](/posts/understanding-c-sharp-async-await-2-awaitable-awaiter-pattern)).
 
 ### foreach loop vs. for loop
 
-As fore mentioned, array T\[\] implements IEnumerable<T> if it is single dimensional and zero–lower bound. foreach loop for array:
+As fore mentioned, array `T[]` implements `IEnumerable<T>` if it is single dimensional and zero–lower bound. foreach loop for array:
 
 ```csharp
 public static void ForEach<T>(T[] array, Action<T> next)
@@ -243,7 +246,7 @@ public static void CompiledForEach(string @string, Action<char> next)
 
 ### Non-generic vs. generic sequence
 
-IEnumerable<T> is stronger-typed and should always be preferred. However, for above historical reason, some types in .NET only implement IEnumerable. To inspect these types, just need to query the IEnumerable types, and the IEnumerable<T> types, then use Except query method:
+`IEnumerable<T>` is stronger-typed and should always be preferred. However, for above historical reason, some types in .NET only implement IEnumerable. To inspect these types, just need to query the IEnumerable types, and the `IEnumerable<T>` types, then use Except query method:
 
 ```csharp
 public static IEnumerable<Type> NonGenericSequences(Assembly assembly)
@@ -260,7 +263,7 @@ public static IEnumerable<Type> NonGenericSequences(Assembly assembly)
 }
 ```
 
-Here Type.IsAssignableFrom is a method provided by .NET. It only works for non-generic types, and closed generic types like typeof(IEnumerable<string>). So another IsAssignableTo extension method has to be created for open generic types like typeof(IEnumerable<>):
+Here Type.IsAssignableFrom is a method provided by .NET. It only works for non-generic types, and closed generic types like `typeof(IEnumerable<string>)`. So another IsAssignableTo extension method has to be created for open generic types like `typeof(IEnumerable<>)`:
 
 ```csharp
 public static partial class TypeExtensions
@@ -423,7 +426,7 @@ In Microsoft’s unit test framework [MSTest](https://en.wikipedia.org/wiki/MSTe
 -   StringAssert: for string.
 -   CollectionAssert: for ICollection
 
-After understanding the IEnumerable<T>/IEnumerator<T> pattern in .NET, an EnumerableAssert class can be defined for IEnumerable<T>.
+After understanding the `IEnumerable<T>`/`IEnumerator<T>` pattern in .NET, an EnumerableAssert class can be defined for `IEnumerable<T>`.
 
 ```csharp
 public static partial class EnumerableAssert

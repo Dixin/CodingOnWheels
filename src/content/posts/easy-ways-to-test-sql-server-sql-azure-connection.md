@@ -42,11 +42,11 @@ Now click “Test Data Source” to test it:
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/3587b12d222c_11751/image_thumb_14.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/3587b12d222c_11751/image_30.png)
 
 > Microsoft SQL Server ODBC Driver Version 10.00.10586
-> 
+>
 > Running connectivity tests...
-> 
+>
 > Attempting connection Connection established Verifying option settings Disconnecting from server
-> 
+>
 > TESTS COMPLETED SUCCESSFULLY!
 
 ## Test with UDL (Universal data link)

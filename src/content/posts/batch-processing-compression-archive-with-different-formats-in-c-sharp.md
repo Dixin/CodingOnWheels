@@ -14,7 +14,7 @@ lang: ""
 Recently I need to batch process some compressed files in several hard disk drives - Some [RAR](http://en.wikipedia.org/wiki/RAR)/[ISO](http://en.wikipedia.org/wiki/ISO_image)/[7z](http://en.wikipedia.org/wiki/7z) files need to unified to [zip](http://en.wikipedia.org/wiki/Zip_\(file_format\)) format; And some compression archives has to be extracted; etc..
 
 -   [C# options for compression archive (RAR, ISO, 7z, zip, …) processing](#c-options-for-compression-archive-rar-iso-7z-zip--processing)
-  - [The entry name encoding/decoding problem](#the-entry-name-encodingdecoding-problem)
+    -   [The entry name encoding/decoding problem](#the-entry-name-encodingdecoding-problem)
 -   [Prepare to use `7z.exe` command line tool](#prepare-to-use-7zexe-command-line-tool)
 -   [Extract entries from RAR/ISO/7z/… archive](#extract-entries-from-rariso7z-archive)
 -   [Create zip archive](#create-zip-archive)
@@ -257,7 +257,7 @@ To create zip archive from a file/directory, [the command format](http://sevenzi
 ```batch
 7z.exe a {zipFileName} {sourceFile} -tzip -r -mx={compressionLevel} -mmt={threadCount} -p{password}
  
-7z.exe a {zipFileName} {sourceDirectory}\\\* -tzip -r -mx={compressionLevel} -mmt={threadCount} -p{password}
+7z.exe a {zipFileName} {sourceDirectory}\* -tzip -r -mx={compressionLevel} -mmt={threadCount} -p{password}
 ```
 
 So a general function will be:
@@ -433,7 +433,7 @@ The invocation will be like:
 
 ```csharp
 sevenZip.AllToZips(
-    @"\\dixinyan-disk\sda1\Files\",
+    @"\\lens-on-wheels\sda1\Files\",
     new string[] { ".rar", ".iso", ".7z" },
     null, // By default, take original archive's name as zip file's name (abc.rar -> abc.zip).
     true, // Delete original archive.
@@ -501,6 +501,6 @@ public void DoubleZip(
 
 With the help of 7z.exe, I have programmatically extracted many archives, and also batch “converted” tons of fancy archives (mostly in RAR, ISO, and 7z format) to zip archives.
 
-The complete code can be downloaded [here](https://aspblogs.blob.core.windows.net/media/dixin/Windows-Live-Writer/Batch-processing-RAR-and-Zip_13247/SevenZip.cs) - including the SevenZip class and all extension methods/helper classes used above.
+The complete code can be [downloaded here](https://aspblogs.blob.core.windows.net/media/dixin/Windows-Live-Writer/Batch-processing-RAR-and-Zip_13247/SevenZip.cs) - including the SevenZip class and all extension methods/helper classes used above.
 
 If you have a better approach to encrypt/hide entry names in zip archives, please share in the commments.

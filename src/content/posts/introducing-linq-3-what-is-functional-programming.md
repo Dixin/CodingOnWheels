@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 Object-oriented programming and functional programming are programming paradigms. A programming paradigm is a fundamental style or approach of programming. Paradigms are not mutually exclusive. It is common for one programming language to support multiple paradigms, and C# is such a language.
 
-### Programming paradigms
+## Programming paradigms
 
 There are many programming paradigms. The following list shows a few common paradigms and their subparadigms:
 

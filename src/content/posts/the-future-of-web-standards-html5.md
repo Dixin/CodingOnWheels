@@ -29,7 +29,7 @@ Unlike usual W3C working groups before, this group consists of members on behalf
 -   Dave Hyatt ([Apple](http://www.apple.com/));
 -   Chris Wilson ([Microsoft](http://www.microsoft.com/)), also the group lead.
 
-Instead of [bringing a revolution to HTML like XHTML 2](http://www.ibm.com/developerworks/cn/xml/x-futhtml2.html), WHATWG expects a evolution. Some results from the WHATWG spec has been implemented in some browsers, like <[canvas](http://developer.mozilla.org/en/docs/Canvas_tutorial)\>.
+Instead of [bringing a revolution to HTML like XHTML 2](http://www.ibm.com/developerworks/cn/xml/x-futhtml2.html), WHATWG expects a evolution. Some results from the WHATWG spec has been implemented in some browsers, like [`<canvas>`](http://developer.mozilla.org/en/docs/Canvas_tutorial).
 
 In the [HTML 5 differences from HTML 4](http://dev.w3.org/html5/html4-differences/Overview.html) draft, improvements of HTML 5 can be seen, like changes of grammars, and removed elements and attributes.
 
@@ -92,51 +92,51 @@ This is helpful to identify the level the elements.
 
 ### Removed elements
 
--   Pure presentation: <basefont>, <big, <center>, <font>, <s>, <strike>, <tt>, <u>;
--   Negative for usability: <frame>, <frameset>, noframes>;
--   Obscure:<acronym> , <applet>, <isindex>, <dir>.
+-   Pure presentation: `<basefont>`, `<big>`, `<center>`, `<font>`, `<s>`, `<strike>`, `<tt>`, `<u>`;
+-   Negative for usability: `<frame>`, `<frameset>`, `<noframes>`;
+-   Obscure:`<acronym>` , `<applet>`, `<isindex>`, `<dir>`.
 
 ### Removed attributes
 
--   accesskey attribute of <a, <area>, <button>, <input>, <label>, <legend> and <textarea>;
--   rev and charset attributes of <link and <a>;
--   sshape and coords attributes of <a>;
--   longdesc attribute of <img and <iframe>;
--   target attribute of <link>;
--   nohref attribute of <area>;
--   profile attribute of <head>;
--   version attribute of <html>;
--   name attribute of <map>, <img>, <object>, <form>, <iframe>, and <a> (should be replaced id attribute);
--   scheme attribute of <meta>;
--   archive, classid, codebase, codetype, declare and standby attributes of <object>;
--   valuetype and type attributes of <param>;
--   charset and language attributes of <script>;
--   summary attribute of <table>;
--   headers, axis and abbr attributes of <td>, and <th>;
--   scope attribute of <td>;
--   align attribute of <caption, <iframe>, <img>, <input>, <object>, <legend>, <table>, <hr>, <div>, <h1>, <h2>, <h3>, <h4>, <h5>, <h6>, <p>, <col>, <colgroup>, <tbody>, <td>, <tfoot>, <th>, <thead>, <tr>, and <body>;
--   alink, link, text and vlink attributes of <body>;
--   background attribute of <body>;
--   bgcolor attribute of <table>, <tr, <td, <th>, and <body>;
--   border attribute of <table>, <img>, and <object>;
--   cellpadding and cellspacing attributes of <table>;
--   char and charoff attributes of <col>, <colgroup>, <tbody>, <td>, <tfoot>, <th>, <thead>, and <tr>;
--   clear attribute of <br>;
--   compact attribute of <dl>, <menu>, <ol>, and <u>;
--   frame attribute of <table>;
--   frameborder attribute of <iframe>;
--   height attribute of <iframe>, <td> and <th>;
--   hspace and vspace attributes of <img> and <object>;
--   marginheight and marginwidth attributes of <iframe>;
--   noshade attribute of <hr>;
--   nowrap attribute of <td>, and <th>;
--   rules attribute of <table>;
--   scrolling attribute of <iframe>;
--   size attribute of <hr>, <input>, and <select>;
--   style attribute of all elements with the exception of <font>;
--   type attribute of <li>, <ol>, and <ul>;
--   valign attribute of <col>, <colgroup>, <tbody>, <td>, <tfoot>, <th>, <thead>, and <tr>;
--   width attribute of <hr>, <table>, <td>, <th>, <col>, <colgroup>, <iframe>, and <pre>.
+-   accesskey attribute of `<a>`, `<area>`, `<button>`, `<input>`, `<label>`, `<legend>` and `<textarea>`;
+-   rev and charset attributes of `<link>` and `<a>`;
+-   sshape and coords attributes of `<a>`;
+-   longdesc attribute of `<img>` and `<iframe>`;
+-   target attribute of `<link>`;
+-   nohref attribute of `<area>`;
+-   profile attribute of `<head>`;
+-   version attribute of `<html>`;
+-   name attribute of `<map>`, `<img>`, `<object>`, `<form>`, `<iframe>`, and `<a>` (should be replaced id attribute);
+-   scheme attribute of `<meta>`;
+-   archive, classid, codebase, codetype, declare and standby attributes of `<object>`;
+-   valuetype and type attributes of `<param>`;
+-   charset and language attributes of `<script>`;
+-   summary attribute of `<table>`;
+-   headers, axis and abbr attributes of `<td>`, and `<th>`;
+-   scope attribute of `<td>`;
+-   align attribute of `<caption>`, `<iframe>`, `<img>`, `<input>`, `<object>`, `<legend>`, `<table>`, `<hr>`, `<div>`, `<h1>`, `<h2>`, `<h3>`, `<h4>`, `<h5>`, `<h6>`, `<p>`, `<col>`, `<colgroup>`, `<tbody>`, `<td>`, `<tfoot>`, `<th>`, `<thead>`, `<tr>`, and `<body>`;
+-   alink, link, text and vlink attributes of `<body>`;
+-   background attribute of `<body>`;
+-   bgcolor attribute of `<table>`, `<tr>`, `<td>`, `<th>`, and `<body>`;
+-   border attribute of `<table>`, `<img>`, and `<object>`;
+-   cellpadding and cellspacing attributes of `<table>`;
+-   char and charoff attributes of `<col>`, `<colgroup>`, `<tbody>`, `<td>`, `<tfoot>`, `<th>`, `<thead>`, and `<tr>`;
+-   clear attribute of `<br>`;
+-   compact attribute of `<dl>`, `<menu>`, `<ol>`, and `<u>`;
+-   frame attribute of `<table>`;
+-   frameborder attribute of `<iframe>`;
+-   height attribute of `<iframe>`, `<td>` and `<th>`;
+-   hspace and vspace attributes of `<img>` and `<object>`;
+-   marginheight and marginwidth attributes of `<iframe>`;
+-   noshade attribute of `<hr>`;
+-   nowrap attribute of `<td>`, and `<th>`;
+-   rules attribute of `<table>`;
+-   scrolling attribute of `<iframe>`;
+-   size attribute of `<hr>`, `<input>`, and `<select>`;
+-   style attribute of all elements with the exception of `<font>`;
+-   type attribute of `<li>`, `<ol>`, and `<ul>`;
+-   valign attribute of `<col>`, `<colgroup>`, `<tbody>`, `<td>`, `<tfoot>`, `<th>`, `<thead>`, and `<tr>`;
+-   width attribute of `<hr>`, `<table>`, `<td>`, `<th>`, `<col>`, `<colgroup>`, `<iframe>`, and `<pre>`.
 
 Currently, regarding future compatibility, these removed elements and attributes should be avoided.
 

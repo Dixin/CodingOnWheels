@@ -1,7 +1,7 @@
 ---
 title: "Understanding LINQ to SQL (5) Remote And Local Method Call"
 published: 2010-04-18
-description: "\\]"
+description: "Since LINQ to SQL is translating C# methods into SQL, all the C# methods are required to make sense in SQL."
 image: ""
 tags: [".NET", "C#", "Functional Programming", "LINQ", "LINQ to SQL", "LINQ via C# Series", "SQL Server", "TSQL"]
 category: "LINQ"
@@ -9,7 +9,14 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to SQL](/archive/?tag=LINQ%20to%20SQL) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
 
 Since LINQ to SQL is translating C# methods into SQL, all the C# methods are required to make sense in SQL.
 
@@ -40,29 +47,31 @@ var results = source.Where(product => product.ReorderLevel > 20)
 
 method calls are:
 
--   Property access: product.get\_ReorderLevel
+-   Property access: `product.get_ReorderLevel`
 -   Numeric comparison: >
--   Method call: IEnumerable<Product>.Where()
--   Property access: product.get\_ProductName
+-   Method call: `IEnumerable<Product>.Where()`
+-   Property access: `product.get_ProductName`
 -   Method call: string.Concat()
--   Property access: product.get\_UnitPrice
--   Constructor call: new AnonymousType()
--   Method call: IEnumerable<Product>.Select()
+-   Property access: `product.get_UnitPrice`
+-   Constructor call: `new AnonymousType()`
+-   Method call: `IEnumerable<Product>.Select()`
 
 All of them can be recognized by LINQ to SQL, and they are translated:
 
--   product.get\_ReorderLevel –> \[dbo\].\[Products\].\[RecordLevel\]
--   \> –> >
--   IEnumerable<Product>.Where() –> WHERE
--   product.get\_ProductName –> \[dbo\].\[Products\].\[ProductName\]
--   string.Concat() –> +
--   product.get\_UnitPrice –> \[dbo\].\[Products\].\[UnitPrice\]
--   new AnonymousType(): AS \[ProductName\]
--   IEnumerable<Product>.Select() –> SELECT
+-   `product.get_ReorderLevel` –> `[dbo].[Products].[RecordLevel]`
+-   `>` –> `>`
+-   `IEnumerable<Product>.Where()` –> `WHERE`
+-   `product.get_ProductName` –> `[dbo].[Products].[ProductName]`
+-   `string.Concat()` –> `+`
+-   `product.get_UnitPrice` –> `[dbo].[Products].[UnitPrice]`
+-   `new AnonymousType()` -> `AS [ProductName]`
+-   `IEnumerable<Product>.Select()` –> `SELECT`
 
 So the final result is:
 
-exec sp\_executesql N'SELECT @p1 + \[t0\].\[ProductName\] AS \[ProductName\], \[t0\].\[UnitPrice\] FROM \[dbo\].\[Products\] AS \[t0\] WHERE \[t0\].\[ReorderLevel\] > @p0',N'@p0 int,@p1 nvarchar(4000)',@p0\=20,@p1\=N'@'
+```sql
+exec sp_executesql N'SELECT @p1 + [t0].[ProductName] AS [ProductName], [t0].[UnitPrice] FROM [dbo].[Products] AS [t0] WHERE [t0].[ReorderLevel] > @p0',N'@p0 int,@p1 nvarchar(4000)',@p0=20,@p1=N'@'
+```
 
 As expected, method calls are not executed in CLR but in SQL Server.
 
@@ -86,7 +95,9 @@ IQueryable<Product> results = source.Where(product => IsExpensive(product.UnitPr
 
 This custom method cannot be recognized and translated into SQL, so a NotSupportedException is thrown at runtime:
 
-> Method 'Boolean IsExpensive(System.Nullable\`1\[System.Decimal\])' has no supported translation to SQL.
+```console
+Method 'Boolean IsExpensive(System.Nullable`1[System.Decimal])' has no supported translation to SQL.
+```
 
 But it can work as a local method call in Select():
 
@@ -111,7 +122,7 @@ After executing in SQL Server, CLR gets the results, and sends the results to th
 
 ## Remote method recognition
 
-As in the previous post, LINQ to SQL is so smart that many .NET methods can be translated to SQL, like IEnumerable<T>.Contains() is translated to IN, product.CategoryID != null is translated to IS NOT NULL, etc. The only thing need to do is to make sure the method call can make sense in SQL, so that it is able to be recognized and translated.
+As in the previous post, LINQ to SQL is so smart that many .NET methods can be translated to SQL, like `IEnumerable<T>.Contains()` is translated to IN, product.CategoryID != null is translated to IS NOT NULL, etc. The only thing need to do is to make sure the method call can make sense in SQL, so that it is able to be recognized and translated.
 
 One example is the string equation:
 
@@ -184,8 +195,8 @@ Generally speaking, these following method calls are supported:
 -   Part of methods of DateTime
 -   Part of methods of TimeSpan
 -   All methods of SqlMethods
--   Part of methods of IEnumerable<T>, like Contians(), etc.
--   Part of methods of IQueryable<T>, listed in the beginning of [previous post](/posts/understanding-linq-to-sql-6-working-with-deferred-execution)
+-   Part of methods of `IEnumerable<T>`, like Contians(), etc.
+-   Part of methods of `IQueryable<T>`, listed in the beginning of [previous post](/posts/understanding-linq-to-sql-6-working-with-deferred-execution)
 
 etc.
 

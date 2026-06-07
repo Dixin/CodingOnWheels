@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral")**
+## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral")
 
 [Church pair](http://en.wikipedia.org/wiki/Church_encoding#Church_pairs) is the Church encoding of the [pair](http://en.wikipedia.org/wiki/Cons) type, aka 2-[tuple](http://en.wikipedia.org/wiki/Tuple). Unlike the [Tuple<T1, T2>](https://msdn.microsoft.com/en-us/library/dd268536.aspx) class in .NET, in lambda calculus Church pair will be represented by lambda expression. To avoid 2 naming systems, here in all the code, Church pair will be called tuple.
 
@@ -228,4 +229,4 @@ Now T2 is relocated back to parameter, so type arguments are not mandatory:
 ChurchTuple._Create(1, "a");
 ```
 
-Much less noise. \_Create is also tagged with underscore since its uncurrying is for adapting C# type inference feature.
+Much less noise. `_Create` is also tagged with underscore since its uncurrying is for adapting C# type inference feature.

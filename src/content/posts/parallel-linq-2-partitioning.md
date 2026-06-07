@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Parallel LINQ in Depth series](/archive/?tag=Parallel%20LINQ)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Parallel LINQ in Depth](/archive/?tag=Parallel%20LINQ) Series
 
 The previous chapter discussed what is PLINQ and how to use PLINQ. This chapter looks into PLINQ’s internals and execution, including data processing and query performance.
 
@@ -21,11 +22,12 @@ To execute query with multithreading, PLINQ must split the data source’s value
 
 ### Range partitioning
 
-Range partitioning works with indexed source with a known length, such as T \[\] arrays with an indexer and Length property, and IList<T> lists with an indexer and Count property. Assume on a quad core CPU, there are 12 values in the source array, by default PLINQ splits these 12 values (at indexes 0, 1, 2, …, 11) into 4 partition A, B, C, D as the following:
+Range partitioning works with indexed source with a known length, such as `T[]` arrays with an indexer and Length property, and `IList<T>` lists with an indexer and Count property. Assume on a quad core CPU, there are 12 values in the source array, by default PLINQ splits these 12 values (at indexes 0, 1, 2, …, 11) into 4 partition A, B, C, D as the following:
 
-Index: 0 1 2 3 4 5 6 7 8 9 10 11
-
+```console
+Index:     0 1 2 3 4 5 6 7 8 9 10 11
 Partition: A A A B B B C C C D D D
+```
 
 If there are 13 source values, there are partitioned as: AAAA, BBB, CCC, DDD; 14 values are partitioned as AAAA, BBBB, CCC, DDD; 15 values are partitioned as AAAA, BBBB, CCCC, DDD; 16 values are partitioned as AAAA, BBBB, CCCC, DDDD; and so on.
 
@@ -79,11 +81,12 @@ partitioner.AsParallel()
 }
 ```
 
-Here Partitioner.Create has a Partitioner<T> output. The Partitioner<TSource> type is the contract to implement partitioning, which is discussed later in this chapter. Then the ParallelEnumerable.AsParallel overload for Partitioner<T> can be called:
+Here Partitioner.Create has a `Partitioner<T>` output. The `Partitioner<TSource>` type is the contract to implement partitioning, which is discussed later in this chapter. Then the ParallelEnumerable.AsParallel overload for `Partitioner<T>` can be called:
 
+```csharp
 public static ParallelQuery<TSource> AsParallel<TSource>(
-
 this Partitioner<TSource> source);
+```
 
 From there the PLINQ queries can be used subsequently. With a smaller repeat count, the chunks are more intuitive:
 
@@ -162,9 +165,10 @@ Again, Data instances with the same hash code are partitioned together and proce
 
 Stripped partitioning can work with source with or without index. In this algorithm, each PLINQ query thread just pulls one value from the source each time. when the thread finishes processing that value, it pulls another one value again, until the source has no value available. Still assume a quad core CPU, and assume it costs the same time for to process each value, then the partitioning result is:
 
-Index: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ...
-
+```console
+Index:     0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ...
 Partition: A B C D A B C D A B C D A B C D ...
+```
 
 Partitioner.Create has an overload for sequence source to create partitioner that implements stripped partitioning:
 
@@ -199,7 +203,7 @@ Partitioner.Create’s loadBalance parameter is a bool value. If false is specif
 
 ## Implementing custom partitioner
 
-.NET Standard also provides APIs to implement custom partitioning. The contract is the System.Collections.Partitioner<TSource> abstract class:
+.NET Standard also provides APIs to implement custom partitioning. The contract is the `System.Collections.Partitioner<TSource>` abstract class:
 
 ```csharp
 namespace System.Collections.Concurrent
@@ -220,7 +224,7 @@ throw new NotSupportedException("Dynamic partitions are not supported by this pa
 
 ### Static partitioner
 
-A partitioner’s SupportsDynamicPartitions property has a bool output. When it is false, the partitioner is a static partitioner, which means its GetPartitions method is available. To call GetPartitions, the partition count must be specified at the beginning, so the partition count is static and cannot be changed once partitioning is started. The output of GetPartitions method is a list of iterators, where each iterator is used to yield the values of a partition. This design of having multiple IEnumerator<T> iterators to share one IEnumerable<T> sequence, is the same idea as the EnumerableEx.Share and IBuffer<T> from Ix library discussed in the Ix chapter. So a simple static partitioner can be implemented as a wrapper of IBuffer<T> created by Share:
+A partitioner’s SupportsDynamicPartitions property has a bool output. When it is false, the partitioner is a static partitioner, which means its GetPartitions method is available. To call GetPartitions, the partition count must be specified at the beginning, so the partition count is static and cannot be changed once partitioning is started. The output of GetPartitions method is a list of iterators, where each iterator is used to yield the values of a partition. This design of having multiple `IEnumerator<T>` iterators to share one `IEnumerable<T>` sequence, is the same idea as the EnumerableEx.Share and `IBuffer<T>` from Ix library discussed in the Ix chapter. So a simple static partitioner can be implemented as a wrapper of `IBuffer<T>` created by Share:
 
 ```csharp
 internal class StaticPartitioner<TSource> : Partitioner<TSource>
@@ -256,11 +260,11 @@ new StaticPartitioner<int>(source).AsParallel()
 }
 ```
 
-The output IBuffer<T> of EnumerableEx.Share implements stripped partitioning. Similar to PLINQ, it internally also utilizes C# lock statement with a synchronization object to make sure each value is exclusively pulled by one thread. The above code renders the following chart:
+The output `IBuffer<T>` of EnumerableEx.Share implements stripped partitioning. Similar to PLINQ, it internally also utilizes C# lock statement with a synchronization object to make sure each value is exclusively pulled by one thread. The above code renders the following chart:
 
 ### Dynamic partitioner
 
-When the output of SupportsDynamicPartitions property is true, the partitioner is a dynamic partitioner. Besides GetPartitions that splits source into specified number of partitions, dynamic partitioner’s GetDynamicPartitions is also available to split source into arbitrary number of partitions. The output of GetDynamicPartitions is a IEnumerable<T> sequence, whose GetEnumerator method can be called to output a IEnumerator<T> iterator that represents a partition. After partitioning is started, the output IEnumerable<T> sequence’s GetEnumerator method can be called again for arbitrary times, so the caller can have dynamic number of partitions. This scenario is still supported by IBuffer<T> from EnumerableEx.Share:
+When the output of SupportsDynamicPartitions property is true, the partitioner is a dynamic partitioner. Besides GetPartitions that splits source into specified number of partitions, dynamic partitioner’s GetDynamicPartitions is also available to split source into arbitrary number of partitions. The output of GetDynamicPartitions is a `IEnumerable<T>` sequence, whose GetEnumerator method can be called to output a `IEnumerator<T>` iterator that represents a partition. After partitioning is started, the output `IEnumerable<T>` sequence’s GetEnumerator method can be called again for arbitrary times, so the caller can have dynamic number of partitions. This scenario is still supported by `IBuffer<T>` from EnumerableEx.Share:
 
 ```csharp
 internal class DynamicPartitioner<TSource> : StaticPartitioner<TSource>
@@ -296,17 +300,18 @@ new DynamicPartitioner<int>(source), value => ComputingWorkload(value));
 }
 ```
 
-Parallel.ForEach has another overload accepting an IEnumerable<T> sequence, which is more commonly used:
+Parallel.ForEach has another overload accepting an `IEnumerable<T>` sequence, which is more commonly used:
 
-public static ParallelLoopResult ForEach<TSource\>(
-
-IEnumerable<TSource\> source, Action<TSource\> body);
+```csharp
+public static ParallelLoopResult ForEach<TSource>(
+IEnumerable<TSource> source, Action<TSource> body);
+```
 
 Internally, it calls the fore mentioned Partitioner.Create to create a dynamic partitioner from the source sequence.
 
 ### Orderable partitioner
 
-.NET also provides APIs for partitioning with order control. The contract is the System.Collections.OrderablePartitioner<TSource> abstract class, which is a subtype of Partitioner<TSource>. The following are the members of OrderablePartitioner<TSource>:
+.NET also provides APIs for partitioning with order control. The contract is the `System.Collections.OrderablePartitioner<TSource>` abstract class, which is a subtype of `Partitioner<TSource>`. The following are the members of `OrderablePartitioner<TSource>`:
 
 ```csharp
 namespace System.Collections.Concurrent
@@ -334,7 +339,7 @@ throw new NotSupportedException("Dynamic partitions are not supported by this pa
 }
 ```
 
-Instead of providing partitions of values, orderable partitioner provides partitions of key-value pairs, where key is the index of the value. Its GetOrderablePartitions method is the orderable parity with Partitioner<TSource>.GetPartitions, which gives a static count of partitions represented by iterators of index-value pairs; Its GetOrderableDynamicPartitions method is the orderable parity with Partitioner<TSource>.GetDynamicPartitions, which gives a sequence, where GetEnumerator can be called arbitrary times to get dynamic count of partitions; Its KeysNormalized property outputs a bool value to indicate whether the indexes increase from 0; Its KeysOrderedInEachPartition property indicates whether inside each partition, the indexes always increase, so that a later value’s index is always greater than an former value’s index; And its KeysOrderedAcrossPartitions property indicates whether indexes increase partition by partition, so that a later partition’s indexes are all greater than an former partition’s indexes. Once again, it is easy to implement orderable partitioner with EnumerableEx.Share and IBuffer<T>:
+Instead of providing partitions of values, orderable partitioner provides partitions of key-value pairs, where key is the index of the value. Its GetOrderablePartitions method is the orderable parity with `Partitioner<TSource>.GetPartitions`, which gives a static count of partitions represented by iterators of index-value pairs; Its GetOrderableDynamicPartitions method is the orderable parity with `Partitioner<TSource>.GetDynamicPartitions`, which gives a sequence, where GetEnumerator can be called arbitrary times to get dynamic count of partitions; Its KeysNormalized property outputs a bool value to indicate whether the indexes increase from 0; Its KeysOrderedInEachPartition property indicates whether inside each partition, the indexes always increase, so that a later value’s index is always greater than an former value’s index; And its KeysOrderedAcrossPartitions property indicates whether indexes increase partition by partition, so that a later partition’s indexes are all greater than an former partition’s indexes. Once again, it is easy to implement orderable partitioner with EnumerableEx.Share and `IBuffer<T>`:
 
 ```csharp
 internal class OrderableDynamicPartitioner<TSource> : OrderablePartitioner<TSource>

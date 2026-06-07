@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-7-monad-and-linq-to-monads](/posts/category-theory-via-csharp-7-monad-and-linq-to-monads "https://CodingOnWheels.com/posts/category-theory-via-csharp-7-monad-and-linq-to-monads")**
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
+>
+> This post is updated, [here is the latest version](/posts/category-theory-via-csharp-7-monad-and-linq-to-monads).
 
 ## Tuple<>: lack of laziness
 
@@ -133,7 +134,7 @@ string result = await query("https://CodingOnWheels.com");
 
 ### Non-generic Task
 
-Task<T> is a wrapper of Func<T> and Task is a wrapper of Action. Actually Action can be viewed as Func<Void>, so that Task can be viewed as Task<Void>. Since C# compiler does not allow Void to be used in this way, Task can be just viewed as Task<Unit>. In this way, Task become like monad too.
+`Task<T>` is a wrapper of `Func<T>` and Task is a wrapper of Action. Actually Action can be viewed as `Func<Void>`, so that Task can be viewed as `Task<Void>`. Since C# compiler does not allow Void to be used in this way, Task can be just viewed as `Task<Unit>`. In this way, Task become like monad too.
 
 ```csharp
 // Impure.
@@ -232,7 +233,7 @@ public static partial class QueryableExtensions
 }
 ```
 
-As [discussed before](/posts/understanding-csharp-3-0-features-6-lambda-expression), when working with IQueryable<T>, the lambda expressions are not functions but [data structure - an abstract syntax tree](/posts/understanding-linq-to-sql-3-expression-tree). So that a lambda-like expression trees in the query can be compiled to something else - here a T-SQL query:
+As [discussed before](/posts/understanding-csharp-3-0-features-6-lambda-expression), when working with `IQueryable<T>`, the lambda expressions are not functions but [data structure - an abstract syntax tree](/posts/understanding-linq-to-sql-3-expression-tree). So that a lambda-like expression trees in the query can be compiled to something else - here a T-SQL query:
 
 ```sql
 SELECT [t0].[CategoryName], [t1].[ProductName]

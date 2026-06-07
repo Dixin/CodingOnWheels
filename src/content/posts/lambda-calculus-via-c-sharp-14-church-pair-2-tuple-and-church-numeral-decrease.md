@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral")**
+## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral](/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-4-tuple-and-signed-numeral")
 
 In the [Church numeral arithmetic](/posts/lambda-calculus-via-c-sharp-9-wrapping-church-numerals-and-arithmetic) part, the Decrease was defined as:
 
@@ -96,7 +97,7 @@ public static partial class _NumeralExtensions
 
 ## Unit tests
 
-The following unit tests also shows how to apply the [uncurried](/posts/lambda-calculus-via-c-sharp-1-fundamentals-closure-currying-and-partial-application) methods Swap, Shift, \_Create:
+The following unit tests also shows how to apply the [uncurried](/posts/lambda-calculus-via-c-sharp-1-fundamentals-closure-currying-and-partial-application) methods Swap, Shift, `_Create`:
 
 ```csharp
 [TestClass()]

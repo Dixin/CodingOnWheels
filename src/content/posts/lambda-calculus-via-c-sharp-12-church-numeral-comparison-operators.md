@@ -1,7 +1,7 @@
 ---
 title: "Lambda Calculus via C# (12) Church Numeral Comparison Operators"
 published: 2018-11-12
-description: "With the predicates defined in , operators can be defined in [\_Numeral class](/posts/lambda-calculus-via-c-sharp-9-wrapping"
+description: "With the predicates defined in previous part, operators can be defined in _Numeral class"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
 category: ".NET"
@@ -9,15 +9,16 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate")**
+## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate")
 
 ## Church Numeral Comparison Operators
 
-With the predicates defined in [previous part](/posts/lambda-calculus-via-c-sharp-11-predicates-and-divide), operators can be defined in [\_Numeral class](/posts/lambda-calculus-via-c-sharp-9-wrapping-church-numerals-and-arithmetic). Once again, class does not exist in lambda calculus, but C# class provides a place to define operators, which greatly improve the readability.
+With the predicates defined in [previous part](/posts/lambda-calculus-via-c-sharp-11-predicates-and-divide), operators can be defined in [`_Numeral` class](/posts/lambda-calculus-via-c-sharp-9-wrapping-church-numerals-and-arithmetic). Once again, class does not exist in lambda calculus, but C# class provides a place to define operators, which greatly improve the readability.
 
 ```csharp
 public partial class _Numeral

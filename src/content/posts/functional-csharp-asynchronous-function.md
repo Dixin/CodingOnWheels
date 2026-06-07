@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
@@ -435,7 +436,7 @@ Any other type can be used with the await keyword, as long as the awaitable-awai
 public static TaskAwaiter GetAwaiter(this Action action) => Task.Run(action).GetAwaiter();
 ```
 
-Similarly, this pattern can be implemented for Func<TResult>, by reusing TaskAwaiter<TResult>:
+Similarly, this pattern can be implemented for `Func<TResult>`, by reusing `TaskAwaiter<TResult>`:
 
 ```csharp
 public static TaskAwaiter<TResult> GetAwaiter<TResult>(this Func<TResult> function) =>
@@ -1081,7 +1082,7 @@ await task2; // Hot task.
 }
 ```
 
-## Asynchrnous sequence: IAsyncEnumerable<T>
+## Asynchrnous sequence: `IAsyncEnumerable<T>`
 
 In C# 8.0, an async function can return a sequence of values using the return type `IAsyncEnumerable<T>`:
 

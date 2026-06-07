@@ -9,15 +9,16 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate")**
+## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate")
 
 ## Operators
 
-Another benefits of introducing (cheating with) [\_Numeral class](/posts/lambda-calculus-via-c-sharp-9-wrapping-church-numerals-and-arithmetic) into lambda calculus is - it provides a place to define custom operators.
+Another benefits of introducing (cheating with) [`_Numeral` class](/posts/lambda-calculus-via-c-sharp-9-wrapping-church-numerals-and-arithmetic) into lambda calculus is - it provides a place to define custom operators.
 
 ```csharp
 public partial class _Numeral
@@ -42,13 +43,13 @@ public partial class _Numeral
 }
 ```
 
-This cannot be done to delegate type Numeral<T>. In C#, custom operators cannot be defined for delegates/functions/lambda expressions.
+This cannot be done to delegate type `Numeral<T>`. In C#, custom operators cannot be defined for delegates/functions/lambda expressions.
 
 Now Church numerals and arithmetic operations are all implemented in C#. Now it’s time for testing.
 
-## Conversion between Church numeral (now \_Numeral) and System.UInt32
+## Conversion between Church numeral (now `_Numeral`) and `System.UInt32`
 
-Similar to Church Boolean <-> System.Boolean, some conversion helper methods can be created between \_Numeral and [System.UInt32](https://msdn.microsoft.com/en-us/library/system.uint32.aspx):
+Similar to Church Boolean <-> System.Boolean, some conversion helper methods can be created between `_Numeral` and [System.UInt32](https://msdn.microsoft.com/en-us/library/system.uint32.aspx):
 
 ```csharp
 public static partial class ChurchEncoding
@@ -63,9 +64,9 @@ public static partial class ChurchEncoding
 
 Once again, these 2 methods are tagged with underscore because unit is C# specific.
 
-In \_Unchurch, a Church numeral (now a \_Numeral) n is converted to natural number by “applying add 1” n times on 0.
+In `_Unchurch`, a Church numeral (now a `_Numeral`) n is converted to natural number by “applying add 1” n times on 0.
 
-Similarly to \_Unchurch, \_Numeral can be converted to string too:
+Similarly to `_Unchurch`, `_Numeral` can be converted to string too:
 
 ```csharp
 public static partial class ChurchEncoding
@@ -79,7 +80,7 @@ public static partial class ChurchEncoding
 
 0 will be converted to empty string, 1 will be “#”, 2 will be “##”, etc.
 
-## Compare \_Numeral and System.UInt32
+## Compare `_Numeral` and `System.UInt32`
 
 Similar to above operators, == and != can be defined between Church numeral and System.UInt32:
 

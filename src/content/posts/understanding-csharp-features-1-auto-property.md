@@ -1,7 +1,7 @@
 ---
 title: "Understanding C# Features (1) Auto Property"
 published: 2009-11-26
-description: "\\] - \\]"
+description: "As the fundamental of LINQ, This chapter will explain the new language features of C# 3.0, all of which are syntactic sugars."
 image: ""
 tags: [".NET", "C#", "C# 3.0", "C# Features", "LINQ", "LINQ via C#"]
 category: "C#"
@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C#](/posts/linq-via-csharp)\] - \[[C# Features](/archive/?tag=C%23%20Features)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 As the fundamental of LINQ, This chapter will explain the new language features of C# 3.0, all of which are [syntactic sugars](https://en.wikipedia.org/wiki/Syntactic_sugar).
 

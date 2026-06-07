@@ -9,19 +9,16 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## Latest EF Core version of this article: [https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-4-query-methods](/posts/entity-framework-core-and-linq-to-entities-4-query-methods "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-4-query-methods")
-
-## EF version of this article: [https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-4-query-methods](/posts/entity-framework-and-linq-to-entities-4-query-methods "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-4-query-methods")
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> This post is updated, [here is the latest version](/posts/entity-framework-core-and-linq-to-entities-4-query-methods).
 
 This part discusses how to query SQL database with the defined mapping entities. In EF/Core, LINQ to Entities supports most of the methods provided by Queryable:
 
-1.  Sequence queries: return a new IQueryable<T> source
+1.  Sequence queries: return a new `IQueryable<T>` source
     -   Filtering (restriction): Where, OfType\*
     -   Mapping (projection): Select
     -   Generation: DefaultIfEmpty\*
@@ -33,7 +30,7 @@ This part discusses how to query SQL database with the defined mapping entities.
     -   Partitioning: Take, Skip, TakeWhile, SkipWhile
     -   Ordering: OrderBy\*, ThenBy, OrderByDescending\*, ThenByDescending, Reverse
     -   Conversion: Cast, AsQueryable
-1.  Value queries: return a single value
+2.  Value queries: return a single value
     -   Element: First, FirstOrDefault, Last\*, LastOrDefault\*, ElementAt, ElementAtOrDefault, Single, SingleOrDefault
     -   Aggregation: Aggregate, Count, LongCount, Min, Max, Sum, Average\*
     -   Quantifier: All, Any, Contains
@@ -44,8 +41,8 @@ In above list:
 -   The crossed methods are not supported by LINQ to Entities ([the list provided by MDSN](https://msdn.microsoft.com/en-us/library/bb738550.aspx) is not up to date), because they cannot be translated to proper SQL database operations. For example, SQL database has no built-in Zip operation support. Calling these crossed methods throws NotSupportedException at runtime
 -   The underlined methods have some overloads supported by LINQ to Entities, and other overloads not supported:
 
--   For GroupBy, Join, GroupJoin, Distinct, Union, Intersect, Except, Contains, the overloads accepting IEqualityComparer<T> parameter are not supported, because apparently IEqualityComparer<T> has no equivalent SQL translation
--   For OrderBy, ThenBy, OrderByDescending, ThenByDescending, the overloads with IComparer<T> parameter are not supported
+-   For GroupBy, Join, GroupJoin, Distinct, Union, Intersect, Except, Contains, the overloads accepting `IEqualityComparer<T>` parameter are not supported, because apparently `IEqualityComparer<T>` has no equivalent SQL translation
+-   For OrderBy, ThenBy, OrderByDescending, ThenByDescending, the overloads with `IComparer<T>` parameter are not supported
 -   For Where, Select, SelectMany, the indexed overloads are not supported
 
 -   In EF Core, the methods marked with \* can execute the query locally in some cases, without being translated to SQL.
@@ -56,7 +53,7 @@ For LINQ to Entities, apparently these methods enable fluent method chaining, im
 
 ## Sequence queries
 
-Similar to the other kinds of LINQ, LINQ to Entities implements deferred execution for these query methods returning IQueryable<T>. The SQL query is translated and executed only when trying to pull the result value from IQueryable<T> for the first time.
+Similar to the other kinds of LINQ, LINQ to Entities implements deferred execution for these query methods returning `IQueryable<T>`. The SQL query is translated and executed only when trying to pull the result value from `IQueryable<T>` for the first time.
 
 ### Filtering (restriction)
 
@@ -74,7 +71,7 @@ internal static void Where(AdventureWorks adventureWorks)
 }
 ```
 
-When WriteLines executes, it pulls the results from the query represented by IQueryable<ProductCategory>. At this moment, the query is translated to SQL, and executed in database, then SQL execution results are read by EF/Core and yielded.
+When WriteLines executes, it pulls the results from the query represented by `IQueryable<ProductCategory>`. At this moment, the query is translated to SQL, and executed in database, then SQL execution results are read by EF/Core and yielded.
 
 The C# || operator in the predicate expression tree is translated to SQL OR operator in WHERE clause:
 
@@ -266,7 +263,7 @@ internal static void DefaultIfEmptyEntity(AdventureWorks adventureWorks)
 Here the source query for DefaultIfEmpty is translated to SQL and executed, then EF Core reads the results to local, and detect the results locally. If there is no result row, the specified default value is yielded. DefaultIfEmpty works for specified default primitive value locally too.
 
 > In EF, DefaultIfEmpty without default value works with entity type and primitive type. In both cases it is translated to a similar left outer join with a single row. Since EF executes query remotely, the overload with specified default value does not work with entity type, and throws NotSupportedException: Unable to create a constant value of type 'ProductCategory'. Only primitive types or enumeration types are supported in this context. This overload works with specified default primitive value:
-> 
+>
 > ```csharp
 > internal static void DefaultIfEmptyWithDefaultPrimitive(AdventureWorks adventureWorks)
 > {
@@ -292,7 +289,7 @@ Here the source query for DefaultIfEmpty is translated to SQL and executed, then
 > #endif
 > }
 > ```
-> 
+>
 > Notice the default value –1 is translated into the remote SQL query. It is the query result if the right table of left outer join is empty. So there is no local query or local detection executed.
 
 Just like in LINQ to Objects, DefaultIfEmpty can also be used to implement outer join, which is discussed later.
@@ -318,7 +315,7 @@ internal static void GroupBy(AdventureWorks adventureWorks)
 EF Core only translates GroupBy an additional ORDER BY clause with the grouping key, so that when reading the SQL execution results to local, the subcategories appears group by group.
 
 > EF only supports remote grouping. In EF, the above GroupBy is fully translated to SQL:
-> 
+>
 > ```sql
 > SELECT 
 >     [Project2].[ProductCategoryID] AS [ProductCategoryID], 
@@ -335,11 +332,11 @@ EF Core only translates GroupBy an additional ORDER BY clause with the grouping 
 >     )  AS [Project2]
 >     ORDER BY [Project2].[ProductCategoryID] ASC, [Project2].[C1] ASC
 > ```
-> 
+>
 > It is translated to LEFT OUTER JOIN instead of GROUP BY, because above GroupBy returns hierarchical results (a sequence of groups, where each group is a sequence of results). In the translated SQL, the distinct keys are queried with SELECT DISTINCT. Then these keys left outer joins the rows with LEFT OUTER JOIN, and results all available key-row pairs, which are sorted by key with ORDER BY. So eventually EF reads and yields the results group by group.
-> 
+>
 > When GroupBy returns flattened results (sequence of results), it is translated to GROUP BY clause. This can be done with a GroupBy overload accepting a result selector, or equivalently an additional Select query. The following examples call aggregation query method Count to flatten the results, and they have identical translation:
-> 
+>
 > ```csharp
 > internal static void GroupByWithResultSelector(AdventureWorks adventureWorks)
 > {
@@ -377,9 +374,9 @@ EF Core only translates GroupBy an additional ORDER BY clause with the grouping 
 >     groups.WriteLines(); // Execute query.
 > }
 > ```
-> 
+>
 > SelectMany can flatten hierarchical results too. The following GroupBy example does not have aggregation subquery, so it cannot be translated to GROUP BY. It is translated to INNER JOIN::
-> 
+>
 > ```csharp
 > internal static void GroupByAndSelectMany(AdventureWorks adventureWorks)
 > {
@@ -427,7 +424,7 @@ internal static void GroupByMultipleKeys(AdventureWorks adventureWorks)
 ```
 
 > EF properly translates the above query to GROUP BY:
-> 
+>
 > ```sql
 > SELECT 
 >     1 AS [C1], 
@@ -897,7 +894,7 @@ It is translated to INNER JOIN, which is equivalent to previous CROSS JOIN, with
 EF Core does not support Concat for entity.
 
 > EF translates Concat to UNION ALL. The following example concatenates the cheap products and the expensive products, and query the products’ names:
-> 
+>
 > ```csharp
 > internal static void ConcatEntity(AdventureWorks adventureWorks)
 > {
@@ -1019,7 +1016,7 @@ internal static void DistinctWithGroupByAndFirstOrDefault(AdventureWorks adventu
 Again, EF Core does not translate grouping to SQL. In this example, only 1 entities for each key is queried, but EF Core reads all rows to local, and execute the grouping logic locally.
 
 > EF properly translates the above query to SELECT DISTINCT to query the unique keys, then outer applies each key to one row with OUTER APPLY:
-> 
+>
 > ```sql
 > SELECT 
 >     [Limit1].[ProductID] AS [ProductID], 
@@ -1041,7 +1038,7 @@ Again, EF Core does not translate grouping to SQL. In this example, only 1 entit
 EF Core supports Union for entity and primitive types locally.
 
 > EF translates Union to Union ALL with SELECT DISTINCT, so eventually each result is unique.
-> 
+>
 > ```csharp
 > internal static void UnionEntity(AdventureWorks adventureWorks)
 > {
@@ -1138,7 +1135,7 @@ EF Core supports Union for entity and primitive types locally.
 EF Core executes Intersect and Except locally as well.
 
 > EF translates Intersect to INTERSECT operator, and translates Except to EXCEPT operator:
-> 
+>
 > ```csharp
 > internal static void IntersectEntity(AdventureWorks adventureWorks)
 > {
@@ -1241,7 +1238,7 @@ internal static void Skip(AdventureWorks adventureWorks)
 In SQL, OFFSET is considered to be a part of the ORDER BY clause, so here EF Core generates ORDERBY (SELECT 1) clause.
 
 > EF does not automatically generate ORDER BY clause, and the above query throws NotSupportedException: The method 'Skip' is only supported for sorted input in LINQ to Entities. The method 'OrderBy' must be called before the method 'Skip'. The following is the equivalent query works in both EF Core and EF:
-> 
+>
 > ```csharp
 > internal static void OrderByAndSkip(AdventureWorks adventureWorks)
 > {
@@ -1360,7 +1357,7 @@ internal static void OrderByMultipleKeys(AdventureWorks adventureWorks)
 ```
 
 > In EF, similar to GroupBy/Join/GroupJoin, the ordering query methods’ key selector returning anonymous type is properly translated. The above query is translated to:
-> 
+>
 > ```sql
 > SELECT 
 >     [Project1].[C1] AS [C1], 
@@ -1421,7 +1418,7 @@ internal static void CastEntity(AdventureWorks adventureWorks)
 EF Core does not support Cast for primitive type.
 
 > EF does not support casting entity type. The above query throws NotSupportedException: Unable to cast the type 'TransactionHistory' to type 'SalesTransactionHistory'. LINQ to Entities only supports casting EDM primitive or enumeration types. EF supports casting primitive type. The following example casts decimal to string, which is translated to CAST function call, casting money to (nvarchar(MAX)):
-> 
+>
 > ```csharp
 > internal static void CastPrimitive(AdventureWorks adventureWorks)
 > {
@@ -1440,7 +1437,7 @@ EF Core does not support Cast for primitive type.
 > }
 > ```
 
-Queryable has a new query method, AsQueryable, which accepts IEnumerable<T> and returns IQueryable<T>. Remember Enumerable.AsEnumerable can convert more derived sequence (like List<T>, IQueryable<T>, etc.) to IEnumerable<T>. So the Queryable.AsQueryable/Eumerable.AsEnumerable methods look familiar to the ParallelEnumerable.AsParallel/ParallelEnumerable.AsSequential methods, which convert between sequential and parallel local queries at any point. However, AsQueryable/AsEnumerable usually do not convert freely between local and remote queries. The following is the implementation of AsEnumerable and AsQueryable:
+Queryable has a new query method, AsQueryable, which accepts `IEnumerable<T>` and returns `IQueryable<T>`. Remember Enumerable.AsEnumerable can convert more derived sequence (like `List<T>`, `IQueryable<T>`, etc.) to `IEnumerable<T>`. So the Queryable.AsQueryable/Eumerable.AsEnumerable methods look familiar to the ParallelEnumerable.AsParallel/ParallelEnumerable.AsSequential methods, which convert between sequential and parallel local queries at any point. However, AsQueryable/AsEnumerable usually do not convert freely between local and remote queries. The following is the implementation of AsEnumerable and AsQueryable:
 
 ```csharp
 namespace System.Linq
@@ -1458,7 +1455,7 @@ namespace System.Linq
 }
 ```
 
-AsQueryable accepts an IEnumerable<T> source. If the source is indeed an IQueryable<T> source, then do nothing and just return it; if not, wrap the source into an System.Linq.EnumerableQuery<T> instance, and return it. EnumerableQuery<T> is a special implementation of IQueryable<T>. If an IQueryable<T> query is an EnumerableQuery<T> instance, when this query is executed, it internally calls System.Linq.EnumerableRewriter to translate itself to local query, then execute the translated query locally. For example, AdventureWorks.Products return IQueryable<Product>, which is actually a DbSet<T> instance, so calling AsQueryable with AdventureWorks.Products does nothing and returns the DbSet<Product> instance itself, which can have its following query method calls to be translated to SQL by EF Core. In contrast, calling AsQueryable with a T\[\] array returns an EnumerableQuery<T> wrapper, which is a local mocking of remote query and can have its following query methods to be translated to local queries, As a result, AsEnumerable can always convert a remote LINQ to Entities query to local LINQ to Objects query, but AsQueryable cannot always convert arbitrary local LINQ to Objects query to a remote LINQ to Entities query (and logically, an arbitrary local .NET data source cannot be converted to a remote data source like SQL database). For example:
+AsQueryable accepts an `IEnumerable<T>` source. If the source is indeed an `IQueryable<T>` source, then do nothing and just return it; if not, wrap the source into an `System.Linq.EnumerableQuery<T>` instance, and return it. `EnumerableQuery<T>` is a special implementation of `IQueryable<T>`. If an `IQueryable<T>` query is an `EnumerableQuery<T>` instance, when this query is executed, it internally calls System.Linq.EnumerableRewriter to translate itself to local query, then execute the translated query locally. For example, AdventureWorks.Products return `IQueryable<Product>`, which is actually a `DbSet<T>` instance, so calling AsQueryable with AdventureWorks.Products does nothing and returns the `DbSet<Product>` instance itself, which can have its following query method calls to be translated to SQL by EF Core. In contrast, calling AsQueryable with a `T[]` array returns an `EnumerableQuery<T>` wrapper, which is a local mocking of remote query and can have its following query methods to be translated to local queries, As a result, AsEnumerable can always convert a remote LINQ to Entities query to local LINQ to Objects query, but AsQueryable cannot always convert arbitrary local LINQ to Objects query to a remote LINQ to Entities query (and logically, an arbitrary local .NET data source cannot be converted to a remote data source like SQL database). For example:
 
 ```csharp
 internal static void AsEnumerableAsQueryable(AdventureWorks adventureWorks)
@@ -1488,21 +1485,21 @@ internal static void AsEnumerableAsQueryable(AdventureWorks adventureWorks)
 }
 ```
 
-In the first query, the LINQ to Entities source is chained with Select, then AsEnumerable returns IEnumerable<T>, so the following Where is Enumerable.Where, and it returns a generator. Then AsQueryable detects if the generator is IQueryable<T>. Since the generator is not IQueryable<T>, AsQueryable returns a EnumerableQuery<T> wrapper, which can have the following OrderBy translated to local query. So in this entire query chaining, only Select, which is before AsEnumerable, can be translated to SQL and executed remotely, all the other query methods are executed locally.
+In the first query, the LINQ to Entities source is chained with Select, then AsEnumerable returns `IEnumerable<T>`, so the following Where is Enumerable.Where, and it returns a generator. Then AsQueryable detects if the generator is `IQueryable<T>`. Since the generator is not `IQueryable<T>`, AsQueryable returns a `EnumerableQuery<T>` wrapper, which can have the following OrderBy translated to local query. So in this entire query chaining, only Select, which is before AsEnumerable, can be translated to SQL and executed remotely, all the other query methods are executed locally.
 
--   The source is a DbSet<T> instance, which implements IQueryable<T> and represents the LINQ to Entities data source - rows in remote SQL database table.
--   Queryable.Select is called on DbSet<T> source, in this case it returns a Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable<T> instance in EF Core (System.Data.Entity.DbQuery<T> instance in EF), which implements IQueryable<T> and represents LINQ to Entities query.
--   Enumerable.AsEnumerable does nothing and directly returns its source, the EntityQueryable<T> (DbQuery<T> for EF) instance
--   Enumerable.Where is called, since AsEnumerable returns IEnumerable<T> type. Where returns a generator wrapping its source, the EntityQueryable<T> (DbQuery<T> for EF) instance.
--   Queryable.AsQueryable is called. Its source, the generator from Where, implements IEnumerable<T>, not IQueryable<T>, so AsQueryable return an EnumerableQuery<T> instance wrapping the generator. As fore mentioned, EnumerableQuery<T> has nothing to do with database.
--   Queryable.OrderBy is called with EnumerableQuery<T> instance, in this case it returns another EnumerableQuery<T> instance, which has nothing to do with database either.
+-   The source is a `DbSet<T>` instance, which implements `IQueryable<T>` and represents the LINQ to Entities data source - rows in remote SQL database table.
+-   Queryable.Select is called on `DbSet<T>` source, in this case it returns a `Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable<T>` instance in EF Core (`System.Data.Entity.DbQuery<T>` instance in EF), which implements `IQueryable<T>` and represents LINQ to Entities query.
+-   Enumerable.AsEnumerable does nothing and directly returns its source, the `EntityQueryable<T>` (`DbQuery<T>` for EF) instance
+-   Enumerable.Where is called, since AsEnumerable returns `IEnumerable<T>` type. Where returns a generator wrapping its source, the `EntityQueryable<T>` (`DbQuery<T>` for EF) instance.
+-   Queryable.AsQueryable is called. Its source, the generator from Where, implements `IEnumerable<T>`, not `IQueryable<T>`, so AsQueryable return an `EnumerableQuery<T>` instance wrapping the generator. As fore mentioned, `EnumerableQuery<T>` has nothing to do with database.
+-   Queryable.OrderBy is called with `EnumerableQuery<T>` instance, in this case it returns another `EnumerableQuery<T>` instance, which has nothing to do with database either.
 
 So the first query is a hybrid query. When it is executed, only Select is remote LINQ to Entities query and is translated to SQL. After AsEnumerable, Where goes local, then AsQueryable cannot convert back to remote LINQ to Entities query anymore. So, Where and OrderBy are both local queries, and not translated to SQL.
 
 The second query is a special case, where AsEnumerable is chained with AsQueryable right away. In this case, AsEnumerable and AsQueryable both do nothing at all. The following Where and OrderBy are both LINQ to Entities queries, and translated to SQL along with Select.
 
 > In EF, AsEnumerable can be useful for special case. As fore mentioned, in EF, Select does not support entity type. With AsEnumerable, this can be done with LINQ to Objects:
-> 
+>
 > ```csharp
 > internal static void SelectLocalEntity(AdventureWorks adventureWorks)
 > {
@@ -1524,7 +1521,7 @@ The second query is a special case, where AsEnumerable is chained with AsQueryab
 
 ## Value query
 
-Query methods in this category accepts an IQueryable<T> source and returns a single value. When they are called at the end of a LINQ to Entities query, they executes the query immediately.
+Query methods in this category accepts an `IQueryable<T>` source and returns a single value. When they are called at the end of a LINQ to Entities query, they executes the query immediately.
 
 > In EF, value queries can be used in the subqueries of the above sequence queries. For example, as demonstrated above, the aggregation subquery of GroupBy flattens hierarchical data, which is translated to SQL aggregation function with GROUP BY.
 
@@ -1616,7 +1613,7 @@ The above examples can read many results from remote database to locally, and tr
 
 ### Aggregation
 
-Count/LongCount are translated to SQL aggregate functions COUNT/COUNT\_BIG. if a is provided, it is translated to WHERE clause. The following examples query the System.Int32 count of categories, and the System.Int64 count of the products with list price greater than 0:
+`Count`/`LongCount` are translated to SQL aggregate functions `COUNT`/`COUNT_BIG`. if a is provided, it is translated to WHERE clause. The following examples query the System.Int32 count of categories, and the System.Int64 count of the products with list price greater than 0:
 
 ```csharp
 internal static void Count(AdventureWorks adventureWorks)
@@ -1679,7 +1676,7 @@ internal static void Average(AdventureWorks adventureWorks)
 ```
 
 > EF translates Average to AVG function. In EF, the above query is translated to:
-> 
+>
 > ```sql
 > SELECT 
 >     [GroupBy1].[A1] AS [C1]

@@ -1,7 +1,7 @@
 ---
 title: "Understanding C# Features (6) Closure"
 published: 2016-01-18
-description: "\\] - \\]"
+description: "In a C# class, it is perfectly nature normal thing for a method to access a variable defined inside or outside its body."
 image: ""
 tags: [".NET", "C#", "C# Features", "Closure", "Functional Programming", "LINQ", "LINQ via C#"]
 category: "C#"
@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C#](/posts/linq-via-csharp)\] - \[[C# Features](/archive/?tag=C%23%20Features)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## Non-local variable
 

@@ -132,7 +132,7 @@ getLikes = function (options) {
     },
 ```
 
-It will send a GET request to tumblr. The response will be a JSON data. data.liked\_posts is an array of post objects, and data.liked\_count is the total count of liked posts all time.
+It will send a GET request to tumblr. The response will be a JSON data. `data.liked_posts` is an array of post objects, and `data.liked_count` is the total count of liked posts all time.
 
 Now it is time to download the contents of each post. A post can have:
 

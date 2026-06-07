@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Parallel LINQ in Depth](/archive/?tag=Parallel%20LINQ) Series
 
-## \[[Parallel LINQ in Depth series](/archive/?tag=Parallel%20LINQ)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/parallel-linq-4-performance](/posts/parallel-linq-4-performance "https://CodingOnWheels.com/posts/parallel-linq-4-performance")**
+## Latest version: [https://CodingOnWheels.com/posts/parallel-linq-4-performance](/posts/parallel-linq-4-performance "https://CodingOnWheels.com/posts/parallel-linq-4-performance")
 
 Parallel LINQ is powerful, but also can be more complex. This part discusses Parallel LINQ query performance in different cases.
 

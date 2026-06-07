@@ -53,7 +53,7 @@ struct Struct
 }
 ```
 
-The above code cannot be compiled and causes this error message: “Struct member 'Struct.\_instanceField' of type 'Struct' causes a cycle in the struct layout”. It looks obvious that the above System.Int32 code should not be compiled.
+The above code cannot be compiled and causes this error message: `Struct member 'Struct._instanceField' of type 'Struct' causes a cycle in the struct layout`. It looks obvious that the above System.Int32 code should not be compiled.
 
 Actually, if switching to IL code insteading of C#, or just checking the code with [IL Disassembler](http://msdn.microsoft.com/en-us/library/f7dy01k1\(VS.80\).aspx), we can see another stuff: int32.
 
@@ -72,7 +72,7 @@ So what is the relationship among int32 (IL), int (C#) and System.Int32 (C#)?
 
 ## How does the integer work
 
-int32 is a CLR primitive. Then in FCL, it is represented by System.Int32 struct. The integer value of System.Int32 is persisted on its m\_value filed, and a lot of integer-related methods are defined on System.Int32.
+int32 is a CLR primitive. Then in FCL, it is represented by System.Int32 struct. The integer value of System.Int32 is persisted on its `m_value` filed, and a lot of integer-related methods are defined on System.Int32.
 
 In C#, int is just an alias for System.Int32, supported by the C# compiler. So there is no dependency between int and System.Int32, they are not like [chicken and egg](http://www.cnblogs.com/happyhippy/archive/2007/04/12/710928.aspx). These following code are exactly the same:
 
@@ -81,7 +81,7 @@ int integer = new int();
 System.Int32 integer = new System.Int32();
 ```
 
-So in the first and second code snippet of this post, the actual type of m\_value field is not System.Int32 or int, but the int32 CLR primitive type. “int” appears there because [Reflector](http://www.red-gate.com/products/reflector/) tries to use a C# symbol to represent the CLR symbol**.** So only the third code snippet of System.Int32 is telling the truth.
+So in the first and second code snippet of this post, the actual type of `m_value` field is not System.Int32 or int, but the int32 CLR primitive type. “int” appears there because [Reflector](http://www.red-gate.com/products/reflector/) tries to use a C# symbol to represent the CLR symbol. So only the third code snippet of System.Int32 is telling the truth.
 
 In C#, there are two kinds of scenarios to use integer:
 

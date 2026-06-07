@@ -9,13 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
 
-## \[[Entity Framework Core (EF Core) series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework (EF) series](/archive/?tag=Entity%20Framework)\]
-
-### Entity Framework Core
+## Entity Framework Core
 
 The previous chapters discussed LINQ to Objects, LINQ to XML, and Parallel LINQ. All of these LINQ technologies query local in-memory objects managed by .NET. This chapter discusses a different kind of LINQ technology, LINQ to Entities, which queries relational data managed by databases. LINQ to Entities was initially provided by Entity Framework (EF), a Microsoft library released since .NET Framework 3.5 Service Pack 1. Since 2016, Microsoft also released Entity Framework Core (EF Core), along with .NET Core. EF Core is based on .NET Standard, so it works cross-platform.
 
@@ -26,7 +25,7 @@ EF Core implements a provider model, so that LINQ to Entities can be implemented
 To demonstrate LINQ to Entities queries and other database operations, this book uses the classic sample SQL database AdventureWorks provided by Microsoft as the data source, because this sample database has a very intuitive structure, it also works with Azure SQL Database and all SQL Server editions. The full sample database provided by Microsoft is relatively large, so a trimmed version is provided in the code samples repo of this book:
 
 -   The AdventureWorks.bacpac file is for Azure SQL Database
--   The `AdventureWorks\_Data.mdf `and `AdventureWorks\_Log.ldf` files are for SQL Server
+-   The `AdventureWorks_Data.mdf` and `AdventureWorks_Log.ldf` files are for SQL Server
 
 There are many free options to setup SQL database. To setup in the cloud, follow these steps:
 
@@ -68,12 +67,12 @@ To connect to the sample database, its connection string can be saved in the con
 For .NET Framework, the connection string can be saved in the application’s app.config file:
 
 ```xml
-<?xml version\="1.0" encoding\="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <configuration>
 <connectionStrings>
 <add name="AdventureWorks" connectionString="Server=tcp:dixin.database.windows.net,1433;Initial Catalog=AdventureWorks;Persist Security Info=False;User ID=***;Password=***;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" />
 </connectionStrings>
-</configuration\>
+</configuration>
 ```
 
 Then the connection string can be loaded and used in C# code:
@@ -97,9 +96,14 @@ The connection string for production should be protected with encryption or tool
 
 LINQ to Objects, Parallel LINQ query .NET objects in current .NET application’s local memory, these queries are called local queries. LINQ to XML queries XML data source, which are local .NET objects representing XML structures as well, so LINQ to XML queries are also local queries. As demonstrated at the beginning of this book, LINQ can also query data in other data domains, like tweets in Twitter, rows in database tables, etc. Apparently, these data source are not .NET objects directly available in local memory. These queries are called remote queries.
 
-Remote LINQ (like LINQ to Entities) is provided as paraty of local LINQ (like LINQ to Objects). Since local data sources and local queries are represented by IEnumerable<T>, remote LINQ data sources (like a table in database) and remote queries (like a database query), are represented by System.Linq.IQueryable<T>:
+Remote LINQ (like LINQ to Entities) is provided as paraty of local LINQ (like LINQ to Objects). Since local data sources and local queries are represented by `IEnumerable<T>`, remote LINQ data sources (like a table in database) and remote queries (like a database query), are represented by `System.Linq.IQueryable<T>`:
 
-<table border="1" cellpadding="0" cellspacing="0" class="MsoNormalTable" style="border: currentcolor; border-image: none; border-collapse: collapse; mso-border-alt: solid black .75pt; mso-yfti-tbllook: 1184;"><tbody><tr style="mso-yfti-irow: 0; mso-yfti-firstrow: yes;"><td style="padding: 0.75pt; border: 1pt solid black; border-image: none; mso-border-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableHead" style="margin: 3pt 0in; page-break-after: avoid;"><font style="font-size: 11pt;">LINQ to (local) Objects</font></p><font style="font-size: 12pt;"></font></td><td style="border-width: 1pt 1pt 1pt medium; border-style: solid solid solid none; border-color: black black black currentcolor; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableHead" style="margin: 3pt 0in; page-break-after: avoid;"><font style="font-size: 11pt;">LINQ to (remote) Entities</font></p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 1;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;"><font style="font-size: 11pt;">System.Collections.IEnumerable</font></p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;"><font style="font-size: 11pt;">System.Linq.IQueryable</font></p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 2;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;"><font style="font-size: 11pt;">System.Collections.Generic.IEnumerable&lt;T&gt;</font></p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;"><font style="font-size: 11pt;">System.Linq.IQueryable&lt;T&gt;</font></p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 3;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;"><font style="font-size: 11pt;">System.Linq.IOrderedEnumerable&lt;T&gt;</font></p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;"><font style="font-size: 11pt;">System.Linq.IOrderedQueryable&lt;T&gt;</font></p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 4; mso-yfti-lastrow: yes;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;"><font style="font-size: 11pt;">System.Linq.Enumerable</font></p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;"><font style="font-size: 11pt;">System.Linq.Queryable</font></p><font style="font-size: 12pt;"></font></td></tr></tbody></table>
+| LINQ to (local) Objects                     | LINQ to (remote) Entities          |
+|---------------------------------------------|------------------------------------|
+| `System.Collections.IEnumerable`            | `System.Linq.IQueryable`           |
+| `System.Collections.Generic.IEnumerable<T>` | `System.Linq.IQueryable<T>`        |
+| `System.Linq.IOrderedEnumerable<T>`         | `System.Linq.IOrderedQueryable<T>` |
+| `System.Linq.Enumerable`                    | `System.Linq.Queryable`            |
 
 ```csharp
 namespace System.Linq
@@ -121,7 +125,7 @@ public interface IOrderedQueryable<out T> : IQueryable<T>, IEnumerable<T>, IOrde
 }
 ```
 
-.NET Standard and Microsoft libraries provide many implementation of IEnumerable<T>, like T\[\] representing array, List<T> representing mutable list, Microsoft.Collections.Immutable.ImmutableList<T> representing immutable list, etc. EF Core also provides implementation of IQueryable<T>, including Microsoft.EntityFrameworkCore.DbSet<T> representing database table, Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable<T> representing database query, etc.
+.NET Standard and Microsoft libraries provide many implementation of `IEnumerable<T>`, like `T[]` representing array, `List<T>` representing mutable list, `Microsoft.Collections.Immutable.ImmutableList<T>` representing immutable list, etc. EF Core also provides implementation of `IQueryable<T>`, including `Microsoft.EntityFrameworkCore.DbSet<T>` representing database table, `Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable<T>` representing database query, etc.
 
 As the parity with System.Linq.Enumerable, System.Linq.Queryable static type provides the remote version of standard queries. For example, the following are the local and remote Where/Select/Concat/Cast queries side by side:
 
@@ -162,7 +166,7 @@ public static IQueryable<TResult> Cast<TResult>(this IQueryable source);
 }
 ```
 
-When defining each standard query in remote LINQ, the generic source and generic output are represented by IQueryable<T> instead of IEnumerable<T>, and the non-generic source is represented by IQueryable instead of IEnumerable. The iteratee functions are replaced by expression trees. Similarly, the following are the ordering queries side by side, where the ordered source and ordered output are represented by IOrderedQueryable<T> instead of IOrderedEnumerable<T>:
+When defining each standard query in remote LINQ, the generic source and generic output are represented by `IQueryable<T>` instead of `IEnumerable<T>`, and the non-generic source is represented by IQueryable instead of IEnumerable. The iteratee functions are replaced by expression trees. Similarly, the following are the ordering queries side by side, where the ordered source and ordered output are represented by `IOrderedQueryable<T>` instead of `IOrderedEnumerable<T>`:
 
 ```csharp
 namespace System.Linq
@@ -203,9 +207,9 @@ With this design, the fluent function chaining and the LINQ query expression pat
 
 Queryable does not provide the following queries:
 
--   Empty/Range/Repeat: it does not make sense for .NET to locally generate a remote data source or remote query on the fly; the other generation query DefaultIfEmpty is available, because DefaultIfEmpty works with an existing IQueryable<T> source.
--   AsEnumerable: Enumerable.AsEnumerable types any IEnumerable<T> source just as IEnumerable<T>. Since IQueryable<T> implements IEnumerable<T>, Enumerable.AsEnumerable also works for IQueryanle<T>.
--   ToArray/ToDictionary/ToList/ToLookup: LINQ to Objects provides these colection queries to pull values from any IEnumerable<T> source and create local .NET collections. Since IQueryable<T> implements IEnumerable<T>, these queries provided by LINQ to Objects also works for IQueryanle<T>.
+-   Empty/Range/Repeat: it does not make sense for .NET to locally generate a remote data source or remote query on the fly; the other generation query DefaultIfEmpty is available, because DefaultIfEmpty works with an existing `IQueryable<T>` source.
+-   AsEnumerable: Enumerable.AsEnumerable types any `IEnumerable<T>` source just as `IEnumerable<T>`. Since `IQueryable<T>` implements `IEnumerable<T>`, Enumerable.AsEnumerable also works for `IQueryanle<T>`.
+-   ToArray/ToDictionary/ToList/ToLookup: LINQ to Objects provides these colection queries to pull values from any `IEnumerable<T>`source and create local .NET collections. Since `IQueryable<T>` implements `IEnumerable<T>`, these queries provided by LINQ to Objects also works for `IQueryanle<T>`.
 -   Max/Min overloads for .NET primary types: these are specific types of local .NET application, not the remote data domain.
 
 Queryable also provides an additional query AsQueryable, as the paraty with AsEnumerable. However, unlike AsSequential/AsParallel switching between sequential and parallel query, AsEnumerable/AsQueryable cannot freely switch between local and remote query. This query is discussed later.
@@ -328,7 +332,7 @@ generator.Emit(OpCodes.Ret); // Returns the result.
 }
 ```
 
-As fore mentioned, .NET built-in Expression<TDelegate>.Compile method compiles expression tree to CIL, and emits a function to execute the CIL locally with current .NET application process. In contrast, here TranslateToSql compiles the arithmetic expression tree to SQL query, and emits a function to execute the SQL in a specified remote SQL database:
+As fore mentioned, .NET built-in `Expression<TDelegate>.Compile` method compiles expression tree to CIL, and emits a function to execute the CIL locally with current .NET application process. In contrast, here TranslateToSql compiles the arithmetic expression tree to SQL query, and emits a function to execute the SQL in a specified remote SQL database:
 
 ```csharp
 internal static void TranslateAndExecute()

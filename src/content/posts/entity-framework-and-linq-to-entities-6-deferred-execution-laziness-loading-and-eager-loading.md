@@ -9,23 +9,24 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
+>
+> This post explains EF, [here is the EF Core version](/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading).
 
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## **EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading**](/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading")
-
-In LINQ to Objects, query methods returning IEnumerable<T> implements deferred execution. Similarly, in LINQ to Entities, query methods returning IQueryable<T> implements deferred execution too.
+In LINQ to Objects, query methods returning `IEnumerable<T>` implements deferred execution. Similarly, in LINQ to Entities, query methods returning `IQueryable<T>` implements deferred execution too.
 
 ## Deferred execution
 
-As previous part discussed, when creating a LINQ to Entities query, if Queryable methods returning IQueryable<T> are called, these methods just keep building the expression tree, there is no query execution. The execution is deferred.
+As previous part discussed, when creating a LINQ to Entities query, if Queryable methods returning `IQueryable<T>` are called, these methods just keep building the expression tree, there is no query execution. The execution is deferred.
 
 ### Iterator pattern
 
-IQueryable<T> implements IEnumerable<T>. So values can be pulled from IQueryable<T> with the standard iterator pattern. When trying to pull the first value, Entity Framework translates LINQ to Entities query to SQL, and execute SQL in the database. This process can be demonstrated by the following GetIterator method, implemented with the Iterator<T> class from the LINQ to Objects chapter:
+`IQueryable<T>` implements `IEnumerable<T>`. So values can be pulled from `IQueryable<T>` with the standard iterator pattern. When trying to pull the first value, Entity Framework translates LINQ to Entities query to SQL, and execute SQL in the database. This process can be demonstrated by the following GetIterator method, implemented with the `Iterator<T>` class from the LINQ to Objects chapter:
 
 ```csharp
 public static class QueryableExtensions
@@ -67,7 +68,7 @@ public static class QueryableExtensions
 }
 ```
 
-Take the previous simple Where and Select query as example, this is how the values are pulled from IQueryable<T>:
+Take the previous simple Where and Select query as example, this is how the values are pulled from `IQueryable<T>`:
 
 ```csharp
 internal static partial class Laziness
@@ -98,7 +99,7 @@ internal static partial class Laziness
 }
 ```
 
-In iterator pattern, IQueryable<T>.GetEnumerator should be called to get an iterator. Here for demonstration purpose, the GetEnumerator method is replaced by above GetIterator. Later, when the iterator’s MoveNext method is called for the first iteration, Entity Framework starts to work. It:
+In iterator pattern, `IQueryable<T>.GetEnumerator` should be called to get an iterator. Here for demonstration purpose, the GetEnumerator method is replaced by above GetIterator. Later, when the iterator’s MoveNext method is called for the first iteration, Entity Framework starts to work. It:
 
 -   converts LINQ to Entities query’s expression tree to database command tree,
 -   generates SQL query,
@@ -108,7 +109,23 @@ In iterator pattern, IQueryable<T>.GetEnumerator should be called to get an iter
 
 Then each following iteration reads a row and materializes it to a Product object. The above query execution outputs the following trace:
 
-> Get iterator from LINQ to Entities query. Try moving iterator to next. |\_Convert expression tree to database command tree. |\_Generate SQL from database command tree. |\_Build SQL query. |\_Execute SQL query. |\_Try reading a row and materializing to Product object. Get iterator current product: ML Bottom Bracket. Try moving iterator to next. |\_Try reading a row and materializing to Product object. Get iterator current product: ML Crankset. Try moving iterator to next. |\_Try reading a row and materializing to Product object. Get iterator current product: Mountain-400-W Silver, 38. ...
+```console
+Get iterator from LINQ to Entities query. 
+Try moving iterator to next. 
+|_Convert expression tree to database command tree. 
+|_Generate SQL from database command tree. 
+|_Build SQL query. 
+|_Execute SQL query. 
+|_Try reading a row and materializing to Product object. 
+Get iterator current product: ML Bottom Bracket. 
+Try moving iterator to next. 
+|_Try reading a row and materializing to Product object. 
+Get iterator current product: ML Crankset. 
+Try moving iterator to next. 
+|_Try reading a row and materializing to Product object. 
+Get iterator current product: Mountain-400-W Silver, 38. 
+...
+```
 
 ### Lazy/eager evaluation
 
@@ -140,6 +157,7 @@ internal static void ImplicitLazyLoading()
 The above example executes 3 database queries:
 
 -   The first subcategory entity is queried by First
+
     ```sql
     SELECT TOP (1) 
         [c].[ProductSubcategoryID] AS [ProductSubcategoryID], 
@@ -224,7 +242,7 @@ namespace System.Data.Entity.Infrastructure
 }
 ```
 
-DbContext.Entry method accepts an entity and returns a DbEntityEntry<TEntity> object, which represents the entity’s information tracked by the source DbContext. DbEntityEntry<TEntity> provides a Reference method to get a DbReferenceEntry<TEntity, TProperty> object, which represents a navigation property to another associated single entity. DbEntityEntry<TEntity> also provides a Collection method to get a DbCollectionEntry<TEntity, TElement> object, which represents a navigation property to a collection of other associated entities. So the associated entities can be manually loaded by calling DbReferenceEntry<TEntity, TProperty>.Load and DbCollectionEntry<TEntity, TElement>.Load:
+DbContext.Entry method accepts an entity and returns a `DbEntityEntry<TEntity>` object, which represents the entity’s information tracked by the source DbContext. `DbEntityEntry<TEntity>` provides a Reference method to get a `DbReferenceEntry<TEntity, TProperty>` object, which represents a navigation property to another associated single entity. `DbEntityEntry<TEntity>` also provides a Collection method to get a `DbCollectionEntry<TEntity, TElement>` object, which represents a navigation property to a collection of other associated entities. So the associated entities can be manually loaded by calling `DbReferenceEntry<TEntity, TProperty>.Load` and `DbCollectionEntry<TEntity, TElement>.Load`:
 
 ```csharp
 internal static void ExplicitLazyLoading()
@@ -330,7 +348,7 @@ Here ToArray() is translated to database query; For each iteration, pulling cate
 
 ### Eager loading
 
-Entity Framework provides an Include extension method for IQueryable<T>, to query entities and their associated entities eagerly:
+Entity Framework provides an Include extension method for `IQueryable<T>`, to query entities and their associated entities eagerly:
 
 ```csharp
 internal static void EagerLoadingWithInclude()
@@ -639,6 +657,7 @@ There are some scenarios lazy loading needs to be disabled, like entity serializ
 
 -   To disable lazy loading for specific navigation properties, just do not mark it as virtual, so that the derived proxy class cannot override it with the lazy load implementation.
 -   To disable lazy loading for specific DbContext, set DbContextConfiguration object’s LazyLoadingEnabled property to false:
+
     ```csharp
     internal static void DisableLazyLoading()
     {
@@ -656,6 +675,7 @@ There are some scenarios lazy loading needs to be disabled, like entity serializ
     ```
 
 -   To disable lazy loading by default, set LazyLoadingEnabled when constructing DbContext:
+
     ```csharp
     public partial class AdventureWorks
     {

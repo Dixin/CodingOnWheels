@@ -18,9 +18,9 @@ There is nothing for Visual Studio.
 After installing [GitHub for Windows Desktop](https://desktop.github.com/), it provides 2 configurations for Visual Studio 2012 and 2013, but nothing for 2015:
 
 > …
-> 
+>
 > difftool.vs2012.cmd="c:/program files (x86)/microsoft visual studio 11.0/common7 /ide/devenv.exe" '//diff' "$LOCAL" "$REMOTE" difftool.vs2013.cmd="c:/program files (x86)/microsoft visual studio 12.0/common7 /ide/devenv.exe" '//diff' "$LOCAL" "$REMOTE"
-> 
+>
 > …
 
 The configurations for Visual Studio 2015 can be added to local repository/all repositories/all users with git config --edit –local/global/system:

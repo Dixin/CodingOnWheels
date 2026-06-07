@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
@@ -179,7 +180,7 @@ this IQueryable<TSource> source, Func<TSource, TResult> selector);
 }
 ```
 
-The Where, OrderBy, Select query methods for local LINQ query are higher-order functions, since they accept an IEnumerable<T> local data source and a function as input. The query methods for remote LINQ query are first-order functions, since they accept an IQueryable<T> remote data source and an expression tree data structure. These LINQ query methods will be discussed in detail in the LINQ to Objects chapters and LINQ to Entities chapters.
+The Where, OrderBy, Select query methods for local LINQ query are higher-order functions, since they accept an `IEnumerable<T>` local data source and a function as input. The query methods for remote LINQ query are first-order functions, since they accept an `IQueryable<T>` remote data source and an expression tree data structure. These LINQ query methods will be discussed in detail in the LINQ to Objects chapters and LINQ to Entities chapters.
 
 ### Convert first-order function to higher-order function
 
@@ -281,9 +282,8 @@ value1 => value2 => value3 => /* value4 => ... */ valueN => default;
 
 The above transformation can be implemented as the following Curry extension methods for Func generic delegate types:
 
-// Transform (T1, T2) ->TResult
-
 ```csharp
+// Transform (T1, T2) ->TResult
 // to T1 -> T2 -> TResult.
 public static Func<T1, Func<T2, TResult>> Curry<T1, T2, TResult>(
 this Func<T1, T2, TResult> function) =>
@@ -342,9 +342,8 @@ value1 => value2 => value3 => /* value4 => ... */ valueN => { };
 
 Similarly, the above transformation can be implemented as the following Curry extension methods for Action generic delegate types:
 
-// Transform (T1, T2) ->void
-
 ```csharp
+// Transform (T1, T2) ->void
 // to T1 => T2 -> void.
 public static Func<T1, Action<T2>> Curry<T1, T2>(
 this Action<T1, T2> function) =>
@@ -391,9 +390,8 @@ curriedAdd3Args(1)(2)(3);
 
 The opposite transformation from a sequence of nested single parameter functions to a function with multiple parameters is called uncurrying. Uncurry extension methods implemented for higher-order functions with a chain of calls:
 
-// Transform T1 -> T2 ->TResult
-
 ```csharp
+// Transform T1 -> T2 ->TResult
 // to (T1, T2) -> TResult.
 public static Func<T1, T2, TResult> Uncurry<T1, T2, TResult>(
 this Func<T1, Func<T2, TResult>> function) =>
@@ -479,9 +477,8 @@ Action<int> add1ArgsAnd2Variable = c => (1 + 2 + c).WriteLine();
 
 Generally, following Partial extension methods for Func and Action generic delegate types are higher-order functions. When Partial is used for a function with 2 or more parameters, it accepts the first parameter of that function, and outputs another function that accepts the rest of parameters of the original function:
 
-// Input: function of type (T1, T2) -> TResult, first parameter of type T1.
-
 ```csharp
+// Input: function of type (T1, T2) -> TResult, first parameter of type T1.
 // Output: function of type T2 -> TResult.
 public static Func<T2, TResult> Partial<T1, T2, TResult>(
 this Func<T1, T2, TResult> function, T1 value1) =>

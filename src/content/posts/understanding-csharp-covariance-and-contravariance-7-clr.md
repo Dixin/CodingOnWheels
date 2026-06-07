@@ -33,7 +33,7 @@ Take a look at the definition of System.Func<in T, out TResult>:
 }
 ```
 
-and the definition of System.IComparable<in T>:
+and the definition of `System.IComparable<in T>`:
 
 ```csharp
 .class interface public abstract auto ansi System.IComparable`1<- T>
@@ -63,7 +63,6 @@ internal class AnotherDerived : Base
 }
 ```
 
-
 Many materials from Internet start variances from the relationship of type A and type B:
 
 -   A is bigger than B: for example, Base is bigger than Derived;
@@ -73,13 +72,13 @@ Many materials from Internet start variances from the relationship of type A and
 
 Think about the first two relationships. For the interfaces in [part 2](http://www.cnblogs.com/dixin/archive/2009/08/30/understanding-csharp-covariance-and-contravariance-2-interfaces.html):
 
--   Covariance of output: Derived is a Base => for IOut<out T>, we have IOut<Derived> "is a" IOut<Base>;
--   Contravariance of input: Derived is a Base => for IIn<in T>, we have IIn<Base> "is a" IIn<Derived>.
+-   Covariance of output: Derived is a Base => for `IOut<out T>`, we have `IOut<Derived>` "is a" `IOut<Base>`;
+-   Contravariance of input: Derived is a Base => for `IIn<in T>`, we have `IIn<Base>` "is a" `IIn<Derived>`.
 
 Now with the “bigger and smaller concepts:
 
--   Covariance of output: Base is bigger than Derived => for IOut<+ T>, we have IOut<Derived> "is a" IOut<Base>;
--   Contravariance of input: Derived is smaller than Base => for IIn<- T>, we have IIn<Base> "is a" IIn<Derived>.
+-   Covariance of output: Base is bigger than Derived => for IOut<+ T>, we have `IOut<Derived>` "is a" `IOut<Base>`;
+-   Contravariance of input: Derived is smaller than Base => for IIn<- T>, we have `IIn<Base>` "is a" `IIn<Derived>`.
 
 So for the + and - operators:
 

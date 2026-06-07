@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list](/posts/lambda-calculus-via-csharp-5-list "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list")**
+## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list](/posts/lambda-calculus-via-csharp-5-list "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list")
 
 Previous part encoded Church list with one [Church pair](/posts/lambda-calculus-via-c-sharp-13-encoding-church-pairs-2-tuples-and-generic-church-booleans) (2-tuple) as a list node. An alternative way is to use 2 tuples as a node, one wrapping the other.
 

@@ -9,17 +9,18 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## EF Core version of this article: [https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-4-query-methods](/posts/entity-framework-core-and-linq-to-entities-4-query-methods "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-4-query-methods")
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
+>
+> This post explains EF, [here is the EF Core version](/posts/entity-framework-core-and-linq-to-entities-4-query-methods).
 
 This part discusses how to query SQL database with the defined mapping classes. Entity Framework and LINQ to Entities supports most of the extension methods provided by Queryable class:
 
-1.  Return a new IQueryable<T> source:
+1.  Return a new `IQueryable<T>` source:
     -   Generation: DefaultIfEmpty
     -   Filtering (restriction): Where, OfType
     -   Mapping (projection): Select
@@ -42,8 +43,8 @@ If a Queryable method has no proper target SQL translation, this method is not s
 
 -   The crossed methods are not supported ([the list in MDSN](https://msdn.microsoft.com/en-us/library/bb738550.aspx) is not up to date), because there is no general translation to SQL, e.g. SQL database has no built-in Zip operation, etc..
 -   The underlined methods have some overloads not supported:
--   For GroupBy, Join, GroupJoin, Distinct, Union, Intersect, Except, Contains, the overloads with IEqualityComparer<T> parameter are not supported, because apparently IEqualityComparer<T> has no equivalent SQL translation
--   For OrderBy, ThenBy, OrderByDescending, ThenByDescending, the overloads with IComparer<T> parameter are not supported
+-   For GroupBy, Join, GroupJoin, Distinct, Union, Intersect, Except, Contains, the overloads with `IEqualityComparer<T>` parameter are not supported, because apparently `IEqualityComparer<T>` has no equivalent SQL translation
+-   For OrderBy, ThenBy, OrderByDescending, ThenByDescending, the overloads with `IComparer<T>` parameter are not supported
 -   For Where, Select, SelectMany, the indexed overloads are not supported
 
 In this part, all the LINQ to Entities queries will be demonstrated with query methods. All kinds of LINQ queries share the same query expression pattern, which has been discussed in detail in the LINQ to Objects chapter. Here query expressions will only be demonstrated for join queries, where they may be more intuitive than query methods.
@@ -59,9 +60,9 @@ internal static partial class QueryMethods
 
 In reality, a DbContext object should always be constructed and disposed for each [unit of work](http://martinfowler.com/eaaCatalog/unitOfWork.html).
 
-## Return a new IQueryable<T> source
+## Return a new `IQueryable<T>` source
 
-Just like all the other kinds of LINQ, LINQ to Entities implements deferred execution for these query methods. The SQL query is translated and executed only when the values are pulled from IQueryable<T>.
+Just like all the other kinds of LINQ, LINQ to Entities implements deferred execution for these query methods. The SQL query is translated and executed only when the values are pulled from `IQueryable<T>`.
 
 ### Generation
 
@@ -339,7 +340,7 @@ This is because above GroupBy returns hierarchical result (collection of groups,
 -   The translated SQL has to first query all the keys with a SELECT DISTINCT query
 -   Then it has the keys to LEFT OUTER JOIN all the rows. The join result is a table of all group key and group value pairs (ProductCategoryID and Name pairs)
 -   Then it sorts all the group key and group value pairs by the group keys, to make sure in the final result, the values appears group by group.
--   Eventually Entity Framework transforms the SQL result table into .NET hierarchical data structure, a IQueryable<T> collection of IGrouping<T> collections.
+-   Eventually Entity Framework transforms the SQL result table into .NET hierarchical data structure, a `IQueryable<T>` collection of `IGrouping<T>` collections.
 
 To implement SQL GROUP BY query, just have the GroupBy query to return flattened result (collection of values). This can be done with a GroupBy overload accepting a resultSelector, or equivalently, an additional Select query:
 
@@ -1038,7 +1039,14 @@ SELECT [Left].[Count], [Right].[Value] FROM
 
 Here the left table is a table of numbers, the right table is a table of Unicode character strings. Each number will be matched to that number of strings, so the result is:
 
-<table><tbody><tr><td width="100">Count</td><td width="100">Value</td></tr><tr><td width="100">1</td><td width="100">a</td></tr><tr><td width="100">2</td><td width="100">a</td></tr><tr><td width="100">2</td><td width="100">b</td></tr><tr><td width="100">3</td><td width="100">a</td></tr><tr><td width="100">3</td><td width="100">b</td></tr><tr><td width="100">3</td><td width="100">c</td></tr></tbody></table>
+| Count | Value |
+|-------|-------|
+| 1     | a     |
+| 2     | a     |
+| 2     | b     |
+| 3     | a     |
+| 3     | b     |
+| 3     | c     |
 
 0 matches 0 strings, so 0 is not in the CROSS APPLY result. It will be in the OUTER APPLY result:
 
@@ -1051,7 +1059,15 @@ SELECT [Left].[Count], [Right].[Value] FROM
         FROM (VALUES (N'a'), (N'b'), (N'c'), (N'd')) [0 to 4]([Value])) AS [Right];
 ```
 
-<table><tbody><tr><td width="100">Count</td><td width="100">Value</td></tr><tr><td width="100">0</td><td width="100">NULL</td></tr><tr><td width="100">1</td><td width="100">a</td></tr><tr><td width="100">2</td><td width="100">a</td></tr><tr><td width="100">2</td><td width="100">b</td></tr><tr><td width="100">3</td><td width="100">a</td></tr><tr><td width="100">3</td><td width="100">b</td></tr><tr><td width="100">3</td><td width="100">c</td></tr></tbody></table>
+| Count | Value |
+|-------|-------|
+| 0     | NULL  |
+| 1     | a     |
+| 2     | a     |
+| 2     | b     |
+| 3     | a     |
+| 3     | b     |
+| 3     | c     |
 
 ### Cross apply
 
@@ -1146,7 +1162,7 @@ SELECT
 
 ### Outer apply
 
-FirstOrDefault accepts a IQueryable<T> data source and returns a single value, so it can be used to flatten hierarchical data too. again, take GroupBy as example:
+FirstOrDefault accepts a `IQueryable<T>` data source and returns a single value, so it can be used to flatten hierarchical data too. again, take GroupBy as example:
 
 ```csharp
 internal static void OuterApplyWithGroupByAndFirstOrDefault()
@@ -1689,7 +1705,7 @@ internal static void CastEntity()
 
 Apparently, above conversion cannot be translated to a CAST expression, so Entity Framework throws a NotSupportedException.
 
-The other conversion query method is AsQueryable. It has 2 overloads, a generic overload to convert IEnumerable<T> source to IQueryable<T>, and a non-generic overload to convert IEnumerable source to IQueryable. Also, remember Enumerable.AsEnumerable can convert more derived source (e.g., a IQueryable<T> source) to IEnumerable<T>. These AsQueryable/AsEnumerable methods look like the AsParallel/AsSequential methods, which convert between LINQ to Objects parallel/sequential queries. However, AsQueryable/AsEnumerable usually do not convert between remote LINQ to Entities query and local LINQ to Objects query. Here is the implementation of Enumerable.AsEnumerable, and Queryable.AsQueryable (the generic overload):
+The other conversion query method is AsQueryable. It has 2 overloads, a generic overload to convert `IEnumerable<T>` source to `IQueryable<T>`, and a non-generic overload to convert IEnumerable source to IQueryable. Also, remember Enumerable.AsEnumerable can convert more derived source (e.g., a `IQueryable<T>` source) to `IEnumerable<T>`. These AsQueryable/AsEnumerable methods look like the AsParallel/AsSequential methods, which convert between LINQ to Objects parallel/sequential queries. However, AsQueryable/AsEnumerable usually do not convert between remote LINQ to Entities query and local LINQ to Objects query. Here is the implementation of Enumerable.AsEnumerable, and Queryable.AsQueryable (the generic overload):
 
 ```csharp
 namespace System.Linq
@@ -1709,7 +1725,7 @@ namespace System.Linq
 }
 ```
 
-AsQueryable accepts an IEnumerable<T> source. If the input source is indeed an IQueryable<T> source, then return the input source; if not, wrap the input source into an EnumerablleQuery<T> object, and return it. EnumerablleQuery<T> is a special implementation of IQueryable<T>. When pulling values from EnumerableQuery<T> source, System.Linq.EnumerableRewriter.Visit is called to translate the query to local LINQ to Objects query, then execute the query locally. As a result, AsEnumerable can convert a remote LINQ to Entities query to local LINQ to Objects query, but AsQueryable cannot convert a local LINQ to Objects query to a remote LINQ to Entities query (and logically, a local .NET data source cannot be converted to a remote SQL data source). For example:
+AsQueryable accepts an `IEnumerable<T>` source. If the input source is indeed an `IQueryable<T>` source, then return the input source; if not, wrap the input source into an `EnumerablleQuery<T>` object, and return it. `EnumerablleQuery<T>` is a special implementation of `IQueryable<T>`. When pulling values from `EnumerableQuery<T>` source, System.Linq.EnumerableRewriter.Visit is called to translate the query to local LINQ to Objects query, then execute the query locally. As a result, AsEnumerable can convert a remote LINQ to Entities query to local LINQ to Objects query, but AsQueryable cannot convert a local LINQ to Objects query to a remote LINQ to Entities query (and logically, a local .NET data source cannot be converted to a remote SQL data source). For example:
 
 ```csharp
 internal static void AsEnumerableAsQueryable()
@@ -1735,10 +1751,10 @@ internal static void AsEnumerableAsQueryable()
 
 In the first query:
 
--   Select is called on DbSet<T> source, it returns a DbQuery<T>, and it will be translated to SQL query.
--   AsEnumerable returns the input source directly, which is actually an DbQuery<T> source.
--   Then, AsQueryable is called. since the input DbQuery<T> source is IQueryable<T>, it directly returns the input source again.
--   So after calling AsEnumerable and AsQueryable, nothing happens. Where is still LINQ to Entities query on DbQuery<T>, it will be translated to WHERE clause.
+-   Select is called on `DbSet<T>` source, it returns a `DbQuery<T>`, and it will be translated to SQL query.
+-   AsEnumerable returns the input source directly, which is actually an `DbQuery<T>` source.
+-   Then, AsQueryable is called. since the input `DbQuery<T>` source is `IQueryable<T>`, it directly returns the input source again.
+-   So after calling AsEnumerable and AsQueryable, nothing happens. Where is still LINQ to Entities query on `DbQuery<T>`, it will be translated to WHERE clause.
 
 So it is translated as if AsEnumerable call and AsQueryable call do not exist:
 
@@ -1755,8 +1771,8 @@ In the second query:
 
 -   The first Select will be translated to SQL query.
 -   The second Select is called after AsEnumerable, so it is Enumerable.Select instead of Queryable.Select. As discussed in the LINQ to Objects chapter, Enumerable.Select returns a generator, which wraps the input source.
--   Then AsQueryable is called. Since the input generator is not IQueryable<T>, it returns an EnumerableQuery<T>, which wraps he generator.
--   Where is called on EnumerbaleQuery<T> source, it will be translated to LINQ to Objects query.
+-   Then AsQueryable is called. Since the input generator is not `IQueryable<T>`, it returns an `EnumerableQuery<T>`, which wraps he generator.
+-   Where is called on `EnumerbaleQuery<T>` source, it will be translated to LINQ to Objects query.
 
 The translated SQL does not have the WHERE clause:
 
@@ -1810,7 +1826,7 @@ internal static void SelectEntityObjects()
 
 ## Return a single value
 
-Query methods in this category takes an IQueryable<T> input source and returns a single value. As demonstrated above, they can be used with the other query methods to flatten hierarchical data, like aggregation query method with GroupBy are translated to SQL aggregation function with GROUP BY, etc. When they are called at the end of a LINQ to Entities query, they returns some value with immediate execution, which is similar behavior to LINQ to Objects.
+Query methods in this category takes an `IQueryable<T>` input source and returns a single value. As demonstrated above, they can be used with the other query methods to flatten hierarchical data, like aggregation query method with GroupBy are translated to SQL aggregation function with GROUP BY, etc. When they are called at the end of a LINQ to Entities query, they returns some value with immediate execution, which is similar behavior to LINQ to Objects.
 
 ### Element
 
@@ -1930,7 +1946,7 @@ SELECT
 
 ### Aggregation
 
-Count/LongCount are translated to SQL aggregate functions COUNT/COUNT\_BIG, and the provided predicate is translated to WHERE clause. The following examples query the System.Int32 count of categories, and the System.Int64 count of the products with ListPrice greater than 0:
+`Count`/`LongCount` are translated to SQL aggregate functions `COUNT`/`COUNT_BIG`, and the provided predicate is translated to WHERE clause. The following examples query the System.Int32 count of categories, and the System.Int64 count of the products with ListPrice greater than 0:
 
 ```csharp
 internal static void Count()

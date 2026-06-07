@@ -13,7 +13,7 @@ The CallerArgumentExpression has been discussed for years, it was supposed to a 
 
 ## CallerArgumentExpressionAttribute and argument compilation
 
-In C# 10, \[CallerArgumentExpression(parameterName)\] can be used to direct the compiler to capture the specified argument’s expression as text. For example:
+In C# 10, `[CallerArgumentExpression(parameterName)]` can be used to direct the compiler to capture the specified argument’s expression as text. For example:
 
 ```csharp
 using System.Runtime.CompilerServices;
@@ -43,7 +43,7 @@ Function(int.Parse("2") + 1 + Math.Max(2, 3), TimeSpan.Zero - TimeSpan.MaxValue)
 Function(int.Parse("2") + 1 + Math.Max(2, 3), TimeSpan.Zero - TimeSpan.MaxValue, "int.Parse(\"2\") + 1 + Math.Max(2, 3)", "TimeSpan.Zero - TimeSpan.MaxValue");
 ```
 
-Function’s parameter c is decorated with \[CallerArgumentExpression("a")\]. So when calling Function, C# compiler will pickup whatever expression passed to a, and use that expression’s text for c. Similarly, whatever expression is used for b, that expression’s text is used for d.
+Function’s parameter c is decorated with `[CallerArgumentExpression("a")]`. So when calling Function, C# compiler will pickup whatever expression passed to a, and use that expression’s text for c. Similarly, whatever expression is used for b, that expression’s text is used for d.
 
 ## Argument check
 
@@ -265,4 +265,4 @@ internal sealed class CallerArgumentExpressionAttribute : Attribute
 #endif
 ```
 
-It should be internal so that when this assembly is referenced by another assembly, there won’t conflict with the built-in version of \[CallerArgumentExpression\]. Then C# 10‘s compiler will pick it up and the above magic will happen.
+It should be internal so that when this assembly is referenced by another assembly, there won’t conflict with the built-in version of `[CallerArgumentExpression]`. Then C# 10‘s compiler will pick it up and the above magic will happen.

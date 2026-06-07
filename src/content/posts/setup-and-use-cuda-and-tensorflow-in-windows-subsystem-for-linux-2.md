@@ -11,15 +11,15 @@ lang: ""
 
 Table of contents
 
-- [Install Windows preview](#install-windows-preview)
-- [Install WSL 2 preview](#install-wsl-2-preview)
-- [Install Nvidia driver preview and CUDA toolkit](#install-nvidia-driver-preview-and-cuda-toolkit)
-  - [Run CUDA sample application](#run-cuda-sample-application)
-- [Install Docker and Nvidia container toolkit](#install-docker-and-nvidia-container-toolkit)
-  - [Run CUDA containers](#run-cuda-containers)
-  - [Troubleshoot](#troubleshoot)
-- [Run WSL + CUDA + Docker + Jupyter + TensorFlow](#run-wsl--cuda--docker--jupyter--tensorflow)
-- [Encoding and decoding video with GPU in WSL?](#encoding-and-decoding-video-with-gpu-in-wsl)
+-   [Install Windows preview](#install-windows-preview)
+-   [Install WSL 2 preview](#install-wsl-2-preview)
+-   [Install Nvidia driver preview and CUDA toolkit](#install-nvidia-driver-preview-and-cuda-toolkit)
+-   [Run CUDA sample application](#run-cuda-sample-application)
+-   [Install Docker and Nvidia container toolkit](#install-docker-and-nvidia-container-toolkit)
+-   [Run CUDA containers](#run-cuda-containers)
+-   [Troubleshoot](#troubleshoot)
+-   [Run WSL + CUDA + Docker + Jupyter + TensorFlow](#run-wsl--cuda--docker--jupyter--tensorflow)
+-   [Encoding and decoding video with GPU in WSL?](#encoding-and-decoding-video-with-gpu-in-wsl)
 
 GPU support is [the most requested feature](https://github.com/microsoft/WSL/issues/829) in Windows Subsystem for Linux (WSL). It is available in WSL 2.0 through Windows Insiders program. And Nvidia [CUDA is supported](https://developer.nvidia.com/blog/announcing-cuda-on-windows-subsystem-for-linux-2/). The following diagram shows the WDDM model supporting CUDA user mode driver running inside Linux guest:
 
@@ -54,10 +54,10 @@ Now restart Windows, then Windows will have WSL and the wsl command line tool. R
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/bc58ed1e1573_14C6C/image_thumb_4.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/bc58ed1e1573_14C6C/image_10.png)
 
-Then manually install this patch: [https://wslstorestorage.blob.core.windows.net/wslblob/wsl\_update\_x64.msi](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi"). And then run the following command as administrator to update the kernel to the latest version:
+Then manually install this patch: [https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi"). And then run the following command as administrator to update the kernel to the latest version:
 
-```batch
-C:\\WINDOWS\\system32>wsl --update 
+```console
+C:\WINDOWS\system32>wsl --update 
 Checking for updates... 
 Downloading updates... 
 Installing updates... 
@@ -70,7 +70,7 @@ Now go to Microsoft Store, install a Linux distribution. I installed the first o
 
 When the installation is done, use the following command to set the default version to 2 and verify:
 
-```batch
+```console
 C:\WINDOWS\system32>wsl --set-default-version 2 
 For information on key differences with WSL 2 please visit https://aka.ms/wsl2
 The operation completed successfully.
@@ -176,7 +176,7 @@ docker run --gpus all nvcr.io/nvidia/k8s/cuda-sample:nbody nbody -gpu -benchmark
 
 It should give output like this:
 
-```batch
+```console
 GPU Device 0: "GeForce GTX 1650 SUPER" with compute capability 7.5 
 > Compute 7.5 CUDA device: [GeForce GTX 1650 SUPER] 20480 bodies, total time for 10 iterations: 30.007 ms 
 = 139.776 billion interactions per second 
@@ -302,18 +302,22 @@ sudo apt install libnvidia-decode-455
 sudo apt install libnvidia-encode-455
 ```
 
-Now try to use FFmpeg to decode a video and encode it with hevc\_nvenc:
+Now try to use FFmpeg to decode a video and encode it with `hevc_nvenc`:
 
 ```bash
-ffmpeg -hwaccel auto -i input.mkv -map 0:v:0 -map 0:a -map_metadata 0 -loglevel verbose -c:v hevc_nvenc -profile:v main10 -pix_fmt yuv420p10le -preset slow -tune film -b_adapt 2 -b\_ref\_mode middle -bf 3 -rc vbr\_hq -deblock 0:0 -rc-lookahead 25 -rc_lookahead 25 -g 250 -keyint\_min 23 -refs 4 -sc\_threshold 40 -temporal_aq 1 -spatial_aq 1 -nonref\_p 1 -c:a aac -ar 48000 -b:a 256k -ac 6 -b:v 2048k output.nvenc.mp4 –y
+ffmpeg -hwaccel auto -i input.mkv -map 0:v:0 -map 0:a -map_metadata 0 -loglevel verbose -c:v hevc_nvenc -profile:v main10 -pix_fmt yuv420p10le -preset slow -tune film -b_adapt 2 -b_ref_mode middle -bf 3 -rc vbr_hq -deblock 0:0 -rc-lookahead 25 -rc_lookahead 25 -g 250 -keyint_min 23 -refs 4 -sc_threshold 40 -temporal_aq 1 -spatial_aq 1 -nonref_p 1 -c:a aac -ar 48000 -b:a 256k -ac 6 -b:v 2048k output.nvenc.mp4 –y
 ```
 
 It does not work and gives the following error for decoding the input video:
 
-> \[h264 @ 0x55c4517dd540\] decoder->cvdl->cuvidGetDecoderCaps(&caps) failed -> CUDA\_ERROR\_INVALID\_DEVICE: invalid device ordinal \[h264 @ 0x55c4517dd540\] Failed setup for format cuda: hwaccel initialisation returned error.
+```console
+[h264 @ 0x55c4517dd540] decoder->cvdl->cuvidGetDecoderCaps(&caps) failed -> CUDA_ERROR_INVALID_DEVICE: invalid device ordinal [h264 @ 0x55c4517dd540] Failed setup for format cuda: hwaccel initialisation returned error.
+```
 
 And it gives the following error for encoding the output video:
 
-> \[hevc\_nvenc @ 0x55c451065b00\] OpenEncodeSessionEx failed: unsupported device (2): (no details) \[hevc\_nvenc @ 0x55c451065b00\] Nvenc unloaded Error initializing output stream 0:0 -- Error while opening encoder for output stream #0:0 - maybe incorrect parameters such as bit\_rate, rate, width or height
+```console
+[hevc_nvenc @ 0x55c451065b00] OpenEncodeSessionEx failed: unsupported device (2): (no details) [hevc_nvenc @ 0x55c451065b00] Nvenc unloaded Error initializing output stream 0:0 -- Error while opening encoder for output stream #0:0 - maybe incorrect parameters such as bit_rate, rate, width or height
+```
 
 I searched around and found [a video](https://forums.developer.nvidia.com/t/building-ffmpeg-with-nvenc-inside-docker-container-in-wsl-2-linux-distro/155102/3) of WSLConf’s CUDA session, where [Nvidia conforms GPU encoding/decoding is not yet supported in WSL](https://www.facebook.com/6723083591/videos/676914529849697/), and will come in the future:

@@ -9,26 +9,27 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
+>
+> This post explains EF, [here is the EF Core version](/posts/entity-framework-core-and-linq-to-entities-5-query-translation-implementation).
 
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## **EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-5-query-translation-implementation**](/posts/entity-framework-core-and-linq-to-entities-5-query-translation-implementation "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-5-query-translation-implementation")
-
-The previous part discussed what SQL queries are the LINQ to Entities queries translated to. This part discusses how the LINQ to Entities queries are translated to SQL queries. As fore mentioned, IQueryable<T> query methods work with expression trees. Internally, these methods build expression trees too, then these expression trees are translated. In Entity Framework, .NET expression tree is not directly translated to SQL query. As mentioned at the beginning of this chapter, Entity Framework implements a provider model to work with different kinds of databases like Oracle, MySQL, PostgreSQL, etc., and different database system can have different query languages. So Entity Framework breaks the translation into 2 parts:
+The previous part discussed what SQL queries are the LINQ to Entities queries translated to. This part discusses how the LINQ to Entities queries are translated to SQL queries. As fore mentioned, `IQueryable<T>` query methods work with expression trees. Internally, these methods build expression trees too, then these expression trees are translated. In Entity Framework, .NET expression tree is not directly translated to SQL query. As mentioned at the beginning of this chapter, Entity Framework implements a provider model to work with different kinds of databases like Oracle, MySQL, PostgreSQL, etc., and different database system can have different query languages. So Entity Framework breaks the translation into 2 parts:
 
 -   EntityFramework.dll translates .NET expression tree to generic, intermediate database command tree
 -   The specific database provider (like EntityFramework.SqlServer.dll here) is responsible to generate database query specific to that kind of database.
 
 ## Code to expression tree
 
-The first step of query translation is to build .NET expression tree. As fore mentioned, expression tree enables code as data. In C#, an expression tree shares the same syntax as functions, but C# code for expression tree is compiled to the building of an abstract syntactic tree, representing the abstract syntactic structure of the function’s source code. In LINQ, IQueryable<T> utilizes expression tree to represent the abstract syntactic structure of a remote query.
+The first step of query translation is to build .NET expression tree. As fore mentioned, expression tree enables code as data. In C#, an expression tree shares the same syntax as functions, but C# code for expression tree is compiled to the building of an abstract syntactic tree, representing the abstract syntactic structure of the function’s source code. In LINQ, `IQueryable<T>` utilizes expression tree to represent the abstract syntactic structure of a remote query.
 
-### IQueryable<T> and IQueryProvider
+### `IQueryable<T>` and IQueryProvider
 
-IQueryable<T> has been demonstrated:
+`IQueryable<T>` has been demonstrated:
 
 ```csharp
 namespace System.Linq
@@ -64,11 +65,11 @@ namespace System.Linq
 }
 ```
 
-It has CreateQuery and Execute methods, all accepting a expression tree parameter. CreateQuery methods return an IQueryable<T> of values, and Execute methods return a single value. These methods are called inside the Queryable methods.
+It has CreateQuery and Execute methods, all accepting a expression tree parameter. CreateQuery methods return an `IQueryable<T>` of values, and Execute methods return a single value. These methods are called inside the Queryable methods.
 
 ### Queryable methods
 
-As fore mentioned, Queryable also provides 2 kinds of query methods, which either return an IQueryable<T> of values, or return a single value. Take Where, Select, and First as example, here are their implementations:
+As fore mentioned, Queryable also provides 2 kinds of query methods, which either return an `IQueryable<T>` of values, or return a single value. Take Where, Select, and First as example, here are their implementations:
 
 ```csharp
 namespace System.Linq
@@ -126,11 +127,11 @@ namespace System.Linq
 }
 ```
 
-All the query methods are in the same pattern. They just build a MethodCallExpression expression, representing the current query method is called. Then they obtain query provider from source’s Provider property. When the query method returns another IQueryable<T>, it calls query provider’s CreateQuery method. When the query method return a single value, it calls query provider’s Execute method.
+All the query methods are in the same pattern. They just build a MethodCallExpression expression, representing the current query method is called. Then they obtain query provider from source’s Provider property. When the query method returns another `IQueryable<T>`, it calls query provider’s CreateQuery method. When the query method return a single value, it calls query provider’s Execute method.
 
 ### Build LINQ to Entities queries and expressions
 
-With above Where and Select query methods, a simple LINQ to Entities query can be implemented to return a IQueryable<T> of values:
+With above Where and Select query methods, a simple LINQ to Entities query can be implemented to return a `IQueryable<T>` of values:
 
 ```csharp
 internal static partial class Translation
@@ -240,15 +241,15 @@ Here are the steps how the fluent query builds expression tree:
 
 -   Build data source:
 
--   The first/source IQueryable<T> object is the sourceQueryable variable. Entity Framework automatically constructs a DbSet<Product> to represent the data source, which implements IQueryable<Product>, and wraps:
+-   The first/source `IQueryable<T>` object is the sourceQueryable variable. Entity Framework automatically constructs a `DbSet<Product>` to represent the data source, which implements `IQueryable<Product>`, and wraps:
 
--   A MethodCallExpression expression, which represents ObjectQuery<Product>.MergeAs method on an ObjectQuery<Product> object. By default, MergeAs is called with MergeOption.AppendOnly, which means append new entities to the entity cache, if any. Entity cache will be discussed in a later part.
+-   A MethodCallExpression expression, which represents `ObjectQuery<Product>.MergeAs` method on an `ObjectQuery<Product>` object. By default, MergeAs is called with MergeOption.AppendOnly, which means append new entities to the entity cache, if any. Entity cache will be discussed in a later part.
 -   A query provider, which is a DbQueryProvider object implementing IQueryProvider
 
 -   Build Where query:
 
 -   A predicate expression predicateExpression is built for Where,
--   Where continues the query based on sourceQueryable. But Where only needs sourceQueryable’s expression sourceMergeAsCallExpression and query provider sourceQueryProvider. As fore mentioned, a MethodCallExpression expression whereCallExpression is built, which represents a call to itself with sourceMergeAsCallExpression argument and predicateExpression argument. Then sourceQueryProvider’s CreateQuery method is called with whereCallExpression argument, and a IQueryable<Product> variable whereQueryable is returned for further query.. Here whereQueryable wraps:
+-   Where continues the query based on sourceQueryable. But Where only needs sourceQueryable’s expression sourceMergeAsCallExpression and query provider sourceQueryProvider. As fore mentioned, a MethodCallExpression expression whereCallExpression is built, which represents a call to itself with sourceMergeAsCallExpression argument and predicateExpression argument. Then sourceQueryProvider’s CreateQuery method is called with whereCallExpression argument, and a `IQueryable<Product>` variable whereQueryable is returned for further query.. Here whereQueryable wraps:
 
 -   The MethodCallExpression expression whereCallExpression
 -   A query provider whereQueryProvider, which is another DbQueryProvider object
@@ -256,12 +257,12 @@ Here are the steps how the fluent query builds expression tree:
 -   Build Select query:
 
 -   A selector expression selectorExpression is built for Select
--   Select continues the query based on whereQueryable. Again, Select only needs whereQueryable’s expression whereCallExpression and query provider whereQueryProvider. A MethodCallExpression expression selectCallExpression is built, which represents a call to itself with whereCallExpression argument and selectorExpression argument. Then whereQueryProvider’s CreateQuery method is called with selectCallExpression, and a IQueryable<string> variable selectQueryable is returned. Once again selectQueryable wraps:
+-   Select continues the query based on whereQueryable. Again, Select only needs whereQueryable’s expression whereCallExpression and query provider whereQueryProvider. A MethodCallExpression expression selectCallExpression is built, which represents a call to itself with whereCallExpression argument and selectorExpression argument. Then whereQueryProvider’s CreateQuery method is called with selectCallExpression, and a `IQueryable<string>` variable selectQueryable is returned. Once again selectQueryable wraps:
 
 -   The MethodCallExpression expression selectCallExpression
 -   A query provider, which is yet another DbQueryProvider object
 
-So, the last IQueryable<T> variable selectQueryable’s Expression property (referencing to selectCallExpression), is the final abstract syntactic tree, which represents the entire LINQ to Entities query logic:
+So, the last `IQueryable<T>` variable selectQueryable’s Expression property (referencing to selectCallExpression), is the final abstract syntactic tree, which represents the entire LINQ to Entities query logic:
 
 ```console
 MethodCallExpression (NodeType = Call, Type = IQueryable<string>)
@@ -361,7 +362,7 @@ internal static void SelectAndFirstExpressions()
 }
 ```
 
-In First query, the MethodCallExpression expression is built in the same way. The difference is, IQueryableProvider.Execute is called instead of CreateQuery, so that a single value is returned. In Entity Framework, DbQueryProvider.CreateQuery and DbQueryProvider.Execute both internally call ObjectQueryProvider.CreateQuery to get a IQueryable<T>. So above Execute call is equivalent to:
+In First query, the MethodCallExpression expression is built in the same way. The difference is, IQueryableProvider.Execute is called instead of CreateQuery, so that a single value is returned. In Entity Framework, DbQueryProvider.CreateQuery and DbQueryProvider.Execute both internally call ObjectQueryProvider.CreateQuery to get a `IQueryable<T>`. So above Execute call is equivalent to:
 
 ```csharp
 internal static void SelectAndFirstQuery()
@@ -404,11 +405,11 @@ internal static void SelectAndFirstQuery()
 
 Inside First:
 
--   DbQueryProvider.\_internalQuery.ObjectQueryProvider.CreateQuery is called to create an IQueryable<T> variable firstQueryable, which is the same as Where and Select
+-   `DbQueryProvider._internalQuery.ObjectQueryProvider.CreateQuery` is called to create an `IQueryable<T>` variable firstQueryable, which is the same as Where and Select
 -   Queryable.First method is mapped to Enumerable.First method (Entity Framework internally maintains a map between Queryable methods and Enumerable methods)
 -   finally Enumerable.First is called with firstQueryable, and pulls a single value from firstQueryable.
 
-Similarly, the last IQueryable<T> variable firstQueryable’s Expression property (referencing to firstCallExpression), is the final abstract syntactic tree, which represents the entire LINQ to Entities query logic:
+Similarly, the last `IQueryable<T>` variable firstQueryable’s Expression property (referencing to firstCallExpression), is the final abstract syntactic tree, which represents the entire LINQ to Entities query logic:
 
 ```console
 MethodCallExpression (NodeType = Call, Type = string)
@@ -655,7 +656,7 @@ public static partial class DbContextExtensions
 }
 ```
 
-ExpressionConverter translates expression tree and outputs the command tree. PlanCompiler processes the command tree for object-relational mapping, like replacing the scan of AdventureWorks.Product to the scan of \[Production\].\[Product\] table, etc. So above Where and Select query’s expression tree can be converted as:
+ExpressionConverter translates expression tree and outputs the command tree. PlanCompiler processes the command tree for object-relational mapping, like replacing the scan of AdventureWorks.Product to the scan of `[Production].[Product]` table, etc. So above Where and Select query’s expression tree can be converted as:
 
 ```csharp
 internal static void WhereAndSelectExpressionsToDbExpressions()
@@ -808,7 +809,7 @@ DbQueryCommandTree
 
 ### Query methods translation
 
-The above ExpressionConverter class is a huge class. It has tons of nested translator classes for all supported expression tree nodes. For example, ObjectQueryCallTranslator’s derived classes translates ObjectQuery<T> query method calls:
+The above ExpressionConverter class is a huge class. It has tons of nested translator classes for all supported expression tree nodes. For example, ObjectQueryCallTranslator’s derived classes translates `ObjectQuery<T>` query method calls:
 
 -   ObjectQueryCallTranslator
 
@@ -887,7 +888,7 @@ The above Where query’s predicate has a string.StartsWith logic. Entity Framew
         -   DbGeometry: FromText, PointFromText, LineFromText, PolygonFromText, MultiPointFromText, MultiLineFromText, MultiPolygonFromText, GeometryCollectionFromText, FromBinary, PointFromBinary, LineFromBinary, PolygonFromBinary, MultiPointFromBinary, MultiLineFromBinary, MultiPolygonFromBinary, GeometryCollectionFromBinary, FromGml, AsBinary, AsGml, AsText, SpatialEquals, Disjoint, Intersects, Touches, Crosses, Within, Contains, Overlaps, Relate, Buffer, Distance, Intersection, Union, Difference, SymmetricDifference, ElementAt, PointAt, InteriorRingAt
 -   LinqExpressionNormalizer, MethodCallTranslator
     -   Enumerable: Contains
-    -   List<T>: Contains
+    -   `List<T>`: Contains
 -   PropertyTranslator
     -   DefaultCanonicalFunctionPropertyTranslator
         -   string: Length
@@ -900,13 +901,13 @@ The above Where query’s predicate has a string.StartsWith logic. Entity Framew
     -   VBDateAndTimeNowTranslator
         -   Microsoft.VisualBasic.DateAndTime: Now
     -   EntityCollectionCountTranslator
-        -   EntityCollection<TEntity>: Count
+        -   `EntityCollection<TEntity>`: Count
     -   NullableHasValueTranslator
-        -   Nullable<T>: HasValue
+        -   `Nullable<T>`: HasValue
     -   NullableValueTranslator
-        -   Nullable<T>: Value
+        -   `Nullable<T>`: Value
     -   GenericICollectionTranslator
-        -   ICollection<T>: Count
+        -   `ICollection<T>`: Count
     -   SpatialPropertyTranslator
         -   DbGeography: CoordinateSystemId, SpatialTypeName, Dimension, IsEmpty, ElementCount, Latitude, Longitude, Elevation, Measure, Length, StartPoint, EndPoint, IsClosed, PointCount, Area
         -   DbGeometry: CoordinateSystemId, SpatialTypeName, Dimension, Envelope, IsEmpty, IsSimple, Boundary, IsValid, ConvexHull, ElementCount, XCoordinate, YCoordinate, Elevation, Measure, Length, StartPoint, EndPoint, IsClosed, IsRing, PointCount, Area, Centroid, PointOnSurface, ExteriorRing, InteriorRingCount
@@ -993,7 +994,7 @@ internal static void LocalMethodCall()
 Some .NET APIs have database translations, but not all database APIs has .NET built-in APIs to translated from, for example, there is no mapping .NET API for SQL database DATEDIFF function. Entity Framework provides mapping methods to address these scenarios. As fore mentioned, Entity Framework implements a provider model, and these mapping methods are provides in 2 levels too:
 
 -   In EntityFramework.dll, System.Data.Entity.DbFunctions class provides mapping methods supported by all database provides, like DbFunctions.Reverse to reverse a string, DbFunction.AsUnicode to ensure a string is treated as Unicode, etc. These common database functions are also called [canonical functions](https://msdn.microsoft.com/en-us/library/bb738626.aspx).
--   In EntityFramework.SqlServer.dll, System.Data.Entity.SqlServer.SqlFunctions class provides mapping methods from SQL database functions, like SqlFunctions.Checksum method for CHECKSUM function, SqlFunctions.CurrentUser for CURRENT\_USER function, etc.
+-   In EntityFramework.SqlServer.dll, System.Data.Entity.SqlServer.SqlFunctions class provides mapping methods from SQL database functions, like SqlFunctions.Checksum method for CHECKSUM function, `SqlFunctions.CurrentUser` for `CURRENT_USER` function, etc.
 
 The following LINQ to Entities query calculates the number of days between current date/time and photo’s last modified date/time. It includes a MethodCallExpression representing a DbFunctions.DiffDays method call:
 
@@ -1027,9 +1028,9 @@ Here the MethodCallExpression node of SqlFunctions.PatIndex is translated to a D
 
 ## Database command tree to SQL
 
-### DbExpressionVisitor<TResultType> and SqlGenerator
+### `DbExpressionVisitor<TResultType>` and SqlGenerator
 
-.NET provides System.Linq.Expressions.ExpressionVisitor class to traverse expression tree. Similarly, EntityFramework.dll provides an System.Data.Entity.Core.Common.CommandTrees.DbExpressionVisitor<TResultType> to traverse database command tree nodes:
+.NET provides System.Linq.Expressions.ExpressionVisitor class to traverse expression tree. Similarly, EntityFramework.dll provides an `System.Data.Entity.Core.Common.CommandTrees.DbExpressionVisitor<TResultType>` to traverse database command tree nodes:
 
 ```csharp
 namespace System.Data.Entity.Core.Common.CommandTrees

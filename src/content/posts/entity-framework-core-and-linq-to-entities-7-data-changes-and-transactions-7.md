@@ -9,21 +9,18 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## **Latest EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions**](/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions")
-
-## EF version of this article: [https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-7-data-changes](/posts/entity-framework-and-linq-to-entities-7-data-changes "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-7-data-changes") and [https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-8-transactions](/posts/entity-framework-and-linq-to-entities-8-transactions "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-8-transactions")
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> This post is updated, [here is the latest version](/posts/entity-framework-core-and-linq-to-entities-7-data-changes-and-transactions).
 
 Besides LINQ to Entities queries, EF/Core also provides rich APIs for data changes, with imperative paradigm.
 
 ## Repository pattern and unit of work pattern
 
-In EF/Core, DbSet<T> implements [repository pattern](https://msdn.microsoft.com/en-us/library/ff649690.aspx). Repositories can centralize data access for applications, and connect between the data source and the business logic. A DbSet<T> instance can be mapped to a database table, which is a repository for data [CRUD (create, read, update and delete)](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete):
+In EF/Core, `DbSet<T>` implements [repository pattern](https://msdn.microsoft.com/en-us/library/ff649690.aspx). Repositories can centralize data access for applications, and connect between the data source and the business logic. A `DbSet<T>` instance can be mapped to a database table, which is a repository for data [CRUD (create, read, update and delete)](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete):
 
 ```csharp
 namespace Microsoft.EntityFrameworkCore
@@ -46,7 +43,7 @@ namespace Microsoft.EntityFrameworkCore
 }
 ```
 
-DbSet<T> implements IQueryable<T>, so that DbSet<T> can represent the data source to read from. DbSet<T>.Find is also provided to read entity by the primary keys. After reading, the retrieved data can be changed. Add and AddRange methods track the specified entities as to be created in the repository. Remove and RemoveRange methods track the specified entities as to be deleted in the repository.
+`DbSet<T>` implements `IQueryable<T>`, so that `DbSet<T>` can represent the data source to read from. `DbSet<T>.Find` is also provided to read entity by the primary keys. After reading, the retrieved data can be changed. Add and AddRange methods track the specified entities as to be created in the repository. Remove and RemoveRange methods track the specified entities as to be deleted in the repository.
 
 As fore mentioned, a [unit of work](http://martinfowler.com/eaaCatalog/unitOfWork.html) is a collection of data operations that should together or fail together as a unit. DbContext implements unit of work pattern:
 
@@ -66,10 +63,10 @@ namespace Microsoft.EntityFrameworkCore
 }
 ```
 
-As the mapping of database, DbContext’s Set method returns the specified entity’s repositories. For example, calling AdventureWorks.Products is equivalent to calling AdventureWorks.Set<Product>. The entities tracking is done at the DbContext level, by its ChangeTracker. When DbContext.Submit is called, the tracked changes are submitted to database. When a unit of work is done, DbContext should be disposed.
+As the mapping of database, DbContext’s Set method returns the specified entity’s repositories. For example, calling AdventureWorks.Products is equivalent to calling `AdventureWorks.Set<Product>`. The entities tracking is done at the DbContext level, by its ChangeTracker. When DbContext.Submit is called, the tracked changes are submitted to database. When a unit of work is done, DbContext should be disposed.
 
-> In EF, the members of DbSet<TEntity> and DbContext have slightly different signatures:
-> 
+> In EF, the members of `DbSet<TEntity>` and DbContext have slightly different signatures:
+>
 > ```csharp
 > namespace System.Data.Entity
 > {
@@ -126,7 +123,7 @@ namespace Microsoft.EntityFrameworkCore.ChangeTracking
 }
 ```
 
-Each entity’s loading and tracking information is represented by Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry or Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<TEntity>. The following is the non generic EntityEntry:
+Each entity’s loading and tracking information is represented by Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry or `Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<TEntity>`. The following is the non generic EntityEntry:
 
 ```csharp
 namespace Microsoft.EntityFrameworkCore.ChangeTracking
@@ -162,7 +159,7 @@ Besides the loading information APIs discussed in previous part, EntityEntry als
 -   GetDatabaseValues instantly execute a SQL query to read entity’s property values from database, without updating current entity’s property values and tracking information.
 -   Reload also executes a SQL query to read the database values, and also update current entity’s property values, and all tracking information
 
-The generic EntityEntry<TEntity> is just stronger typing:
+The generic `EntityEntry<TEntity>` is just stronger typing:
 
 ```csharp
 namespace Microsoft.EntityFrameworkCore.ChangeTracking
@@ -176,9 +173,9 @@ namespace Microsoft.EntityFrameworkCore.ChangeTracking
 }
 ```
 
-As fore mentioned in data loading part, DbContext.Entry also accepts an entity and return its EntityEntry<TEntity>/EntityEntry.
+As fore mentioned in data loading part, DbContext.Entry also accepts an entity and return its `EntityEntry<TEntity>`/`EntityEntry`.
 
-> In EF, the types involved above are named with Db prefix: DbChangeTracker, DbEntityEntry, DbEntityEntry<TEntity>, DbPropertyEntry, DbPropertyValues, with similar members.
+> In EF, the types involved above are named with Db prefix: DbChangeTracker, DbEntityEntry, `DbEntityEntry<TEntity>`, DbPropertyEntry, DbPropertyValues, with similar members.
 
 ### Track entities
 
@@ -284,7 +281,7 @@ internal static void EntityChanges(AdventureWorks adventureWorks)
 }
 ```
 
-If an entity is not read from a DbContext instance’s repositories, then it has nothing to do with that unit of work, and apparently is not tracked by that DbContext instance. DbSet<T> provides an Attach method to place an entity to the repository, and the DbContext tracks the entity as the Unchanged state:
+If an entity is not read from a DbContext instance’s repositories, then it has nothing to do with that unit of work, and apparently is not tracked by that DbContext instance. `DbSet<T>` provides an Attach method to place an entity to the repository, and the DbContext tracks the entity as the Unchanged state:
 
 ```csharp
 internal static void Attach(AdventureWorks adventureWorks)
@@ -334,7 +331,7 @@ internal static void RelationshipChanges(AdventureWorks adventureWorks)
 
 ### Enable and disable tracking
 
-DbContext’s default behavior is to track all changes automatically. This can be turned off if not needed. To disable tracking for specific entities queried from repository, call the EntityFrameworkQueryableExtensions.AsNoTracking extension method for IQueryable<T> query:
+DbContext’s default behavior is to track all changes automatically. This can be turned off if not needed. To disable tracking for specific entities queried from repository, call the EntityFrameworkQueryableExtensions.AsNoTracking extension method for `IQueryable<T>` query:
 
 ```csharp
 internal static void AsNoTracking(AdventureWorks adventureWorks)
@@ -368,7 +365,7 @@ To change the data in the database, just create a DbContext instance, change the
 
 ### Create
 
-To create new entities into the repository, call DbSet<T>.Add or DbSet<T>.AddRange. The following example creates a new category, and a new related subcategory, and add to repositories:
+To create new entities into the repository, call `DbSet<T>.Add` or `DbSet<T>.AddRange`. The following example creates a new category, and a new related subcategory, and add to repositories:
 
 ```csharp
 internal static partial class Changes
@@ -421,11 +418,11 @@ internal static partial class Changes
 }
 ```
 
-Here DbSet<T>.Add is called only once with 1 subcategory entity. Internally, Add triggers change detection, and tracks this subcategory as Added state. Since this subcategory is related with another category entity with navigation property, the related category is also tracked, as the Added state too. So in total there are 2 entity changes tracked. When DbContext.SaveChanges is called, EF/Core translates these 2 changes to 2 SQL INSERT statements:
+Here `DbSet<T>.Add` is called only once with 1 subcategory entity. Internally, Add triggers change detection, and tracks this subcategory as Added state. Since this subcategory is related with another category entity with navigation property, the related category is also tracked, as the Added state too. So in total there are 2 entity changes tracked. When DbContext.SaveChanges is called, EF/Core translates these 2 changes to 2 SQL INSERT statements:
 
-The category’s key is identity key, with value generated by database, so is subcategory. So in the translated INSERT statements, the new category’s ProductCategoryID and the new subcategory’s ProductSubcategory are ignored. After the each new row is created, a SELECT statement calls SCOPE\_IDENTITY metadata function to read the last generated identity value, which is the primary key of the inserted row. As a result, since there are 2 row changes in total, SaveChanges returns 2, And the 2 changes are submitted in a transaction, so that all changes can succeed or fail as a unit.
+The category’s key is identity key, with value generated by database, so is subcategory. So in the translated INSERT statements, the new category’s ProductCategoryID and the new subcategory’s ProductSubcategory are ignored. After the each new row is created, a SELECT statement calls `SCOPE_IDENTITY` metadata function to read the last generated identity value, which is the primary key of the inserted row. As a result, since there are 2 row changes in total, SaveChanges returns 2, And the 2 changes are submitted in a transaction, so that all changes can succeed or fail as a unit.
 
-DbSet<T>.AddRange can be called with multiple entities. AddRange only triggers change detection once for all the entities, so it can have better performance than multiple Add calls,
+`DbSet<T>.AddRange` can be called with multiple entities. AddRange only triggers change detection once for all the entities, so it can have better performance than multiple Add calls,
 
 ### Update
 
@@ -509,7 +506,7 @@ internal static void SaveNoChanges(int categoryId)
 
 ### Delete
 
-To delete entities from the repositories, call DbSet<T>.Remove or DbSet<T>.RemoveRange. The following example read an entity then delete it:
+To delete entities from the repositories, call `DbSet<T>.Remove` or `DbSet<T>.RemoveRange`. The following example read an entity then delete it:
 
 ```csharp
 internal static void Delete(int subcategoryId)
@@ -595,7 +592,7 @@ internal static void DeleteCascade(int categoryId)
 Here the cascade deletion are translated and executed in the right order. The subcategory is deleted first, then category is deleted.
 
 > In EF, untracked entities’ changes cannot to be translated or executed. The following example tries to delete a untracked entity from the repository, it throws InvalidOperationException:
-> 
+>
 > ```csharp
 > internal static void UntrackedChanges()
 > {
@@ -633,7 +630,7 @@ internal static partial class Transactions
 ```
 
 > In EF, the default retry strategy must be manually disabled, so that an individual retry logic must be manually created to start a single retry operation. In the object-relational mapping part, an ExecutionStrategy type is defined to turn on/off the default retry strategy. It can be reused to implement this:
-> 
+>
 > ```csharp
 > public partial class ExecutionStrategy : IDbExecutionStrategy
 > {
@@ -669,9 +666,9 @@ internal static partial class Transactions
 >     }
 > }
 > ```
-> 
+>
 > In EF, the database façade does not have CreateExecutionStrategy method, so a extension method can be defined for DbContext.Database:
-> 
+>
 > ```csharp
 > public static class DatabaseExtensions
 > {
@@ -679,7 +676,7 @@ internal static partial class Transactions
 >         new ExecutionStrategy();
 > }
 > ```
-> 
+>
 > Now EF can use the same pattern as EF Core to work with custom transactions.
 
 ### EF/Core transaction
@@ -717,7 +714,7 @@ internal static void DbContextTransaction(AdventureWorks adventureWorks)
 }
 ```
 
-EF/Core transaction wraps ADO.NET transaction. When the EF/Core transaction begins, The specified isolation level is written to a packet (represented by System.Data.SqlClient.SNIPacket type), and sent to SQL database via TDS protocol. There is no SQL statement like [SET TRANSACTION ISOLATION LEVEL](https://msdn.microsoft.com/en-us/library/ms173763.aspx) executed, so the actual isolation level cannot be logged by EF/Core, or traced by SQL Profiler. In above example, CurrentIsolationLevel is called to verify the current transaction’s isolation level. It is an extension method of DbContext. It queries the dynamic management view [sys.dm\_exec\_sessions](https://msdn.microsoft.com/en-us/library/ms176013.aspx) with current session id, which can be retrieved with [@@SPID](https://msdn.microsoft.com/en-us/library/ms189535.aspx) function:
+EF/Core transaction wraps ADO.NET transaction. When the EF/Core transaction begins, The specified isolation level is written to a packet (represented by System.Data.SqlClient.SNIPacket type), and sent to SQL database via TDS protocol. There is no SQL statement like [SET TRANSACTION ISOLATION LEVEL](https://msdn.microsoft.com/en-us/library/ms173763.aspx) executed, so the actual isolation level cannot be logged by EF/Core, or traced by SQL Profiler. In above example, CurrentIsolationLevel is called to verify the current transaction’s isolation level. It is an extension method of DbContext. It queries the dynamic management view [`sys.dm_exec_sessions`](https://msdn.microsoft.com/en-us/library/ms176013.aspx) with current session id, which can be retrieved with [@@SPID](https://msdn.microsoft.com/en-us/library/ms189535.aspx) function:
 
 ```csharp
 public static partial class DbContextExtensions
@@ -750,7 +747,7 @@ public static partial class DbContextExtensions
 When DbContext.SaveChanges is called to create entity. it detects a transaction is explicitly created with the current DbContext, so it uses that transaction and does not automatically begins a new transaction like all the previous examples. Then DbContext.Database.ExecuteSqlCommnd is called to delete entity. It also detects and uses transaction of the current DbContext. Eventually, to commit the transaction, call IDbContextTransaction.Commit, to rollback the transaction, call IDbContextTransaction.Rollback
 
 > In EF has built-in support to execute custom SQL with result of primitive type, so CurrentIsolationLevel can be implemented as:/p>
-> 
+>
 > ```csharp
 > public static string CurrentIsolationLevel(this DbContext context) =>
 >     context.Database.SqlQuery<string>(CurrentIsolationLevelSql).Single();
@@ -807,7 +804,7 @@ internal static void DbTransaction()
 ### Transaction scope
 
 > The EF transaction only work with its source DbContext, and the ADO.NET transaction only work with its source DbConnection. Since EF work with .NET Framework, where System.Transactions.TransactionScope is provided, TransactionScope can be used with EF to have a transaction that work across the lifecycle of multiple DbContext or DbConnection instances:
-> 
+>
 > ```csharp
 > internal static void TransactionScope()
 > {

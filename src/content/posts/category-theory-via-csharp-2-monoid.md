@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[FP & LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
 
 ## Monoid and monoid laws
 
@@ -78,7 +79,7 @@ public class StringConcatMonoid : IMonoid<string>
 }
 ```
 
-Here string can be viewed as a sequence of char, and the unit string is an empty sequence. Generally, (IEnumerable<T>, Enumerable.Concat<T>, Enumerable.Empty<T>()) is a monoid:
+Here string can be viewed as a sequence of char, and the unit string is an empty sequence. Generally, `(IEnumerable<T>, Enumerable.Concat<T>, Enumerable.Empty<T>())` is a monoid:
 
 ```csharp
 public class EnumerableConcatMonoid<T> : IMonoid<IEnumerable<T>>

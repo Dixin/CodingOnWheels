@@ -46,7 +46,7 @@ public interface IIn<TIn> // TIn is only used as input.
 
 ## Covariance
 
-For interface IOut<TOut>, TOut is covariant for all members, so TOut can be made covariant at interface level:
+For interface `IOut<TOut>`, TOut is covariant for all members, so TOut can be made covariant at interface level:
 
 ```csharp
 public interface IOut<out TOut> // TOut is covariant for all members of interface.
@@ -89,7 +89,7 @@ public static partial class GenericInterfaceWithVariances
 }
 ```
 
-In .NET 4.0+, System.Collections.Generic.IEnumerator<T> is such an interface:
+In .NET 4.0+, `System.Collections.Generic.IEnumerator<T>` is such an interface:
 
 ```csharp
 namespace System.Collections.Generic
@@ -105,7 +105,7 @@ namespace System.Collections.Generic
 
 ### Contravariance
 
-For interface IIn<TIn>, TIn is contravariant for all members, so TIn can be made contravariant at interface level:
+For interface `IIn<TIn>`, TIn is contravariant for all members, so TIn can be made contravariant at interface level:
 
 ```csharp
 public interface IIn<in TIn> // TIn is contravariant for all members of interface.
@@ -148,7 +148,7 @@ public static partial class GenericInterfaceWithVariances
 }
 ```
 
-In .NET 4.0+, System.IComparable<T> is such an interface:
+In .NET 4.0+, `System.IComparable<T>` is such an interface:
 
 ```csharp
 namespace System
@@ -203,7 +203,7 @@ public interface IIn_Out<T>
 }
 ```
 
-T is not covariant for some member, and not contravariant for some other member. So, T cannot be variant at the interface level. In .NET, System.Collections.Generic.IList<T> is such an interface:
+T is not covariant for some member, and not contravariant for some other member. So, T cannot be variant at the interface level. In .NET, `System.Collections.Generic.IList<T>` is such an interface:
 
 ```csharp
 namespace System.Collections.Generic
@@ -225,6 +225,6 @@ namespace System.Collections.Generic
 
 The “is-a” relationship can be promoted to generic interfaces (sets of method signatures):
 
--   Covariance: Derived is a Base => IOut<Derived> "is a" IOut<Base>;
--   Contravariance: Derived is a Base => IIn<Base> "is a" IIn<Derived>;
--   Covariance and contravariance: Derived is a Base => IIn\_Out<Base, Derived> "is a" IIn\_Out<Derived, Base>.
+-   Covariance: Derived is a Base => `IOut<Derived>` "is a" `IOut<Base>`;
+-   Contravariance: Derived is a Base => `IIn<Base>` "is a" `IIn<Derived>`;
+-   Covariance and contravariance: Derived is a Base => `IIn_Out<Base, Derived>` "is a" I`In_Out<Derived, Base>`.

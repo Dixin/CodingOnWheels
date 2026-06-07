@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Parallel LINQ in Depth](/archive/?tag=Parallel%20LINQ) Series
 
-## \[[Parallel LINQ in Depth series](/archive/?tag=Parallel%20LINQ)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/parallel-linq-3-query-methods](/posts/parallel-linq-3-query-methods "https://CodingOnWheels.com/posts/parallel-linq-3-query-methods")**
+## Latest version: [https://CodingOnWheels.com/posts/parallel-linq-3-query-methods](/posts/parallel-linq-3-query-methods "https://CodingOnWheels.com/posts/parallel-linq-3-query-methods")
 
 Parallel LINQ provides additional query methods and additional overrides for Aggregate method:
 
@@ -91,7 +92,7 @@ internal static void DegreeOfParallelism()
 }
 ```
 
-WithDegreeOfParallelism accepts any int value from 1 to 512 (System.Linq.Parallel.Scheduling’s MAX\_SUPPORTED\_DOP constant field). At runtime, the actual query thread count is less than or equal to the specified count. When executing above query on a quad core CPU, WithDegreeOfParallelism is called with 40. However the visualization shows Parallel LINQ only utilizes 6 threads.
+WithDegreeOfParallelism accepts any int value from 1 to 512 (System.Linq.Parallel.Scheduling’s `MAX_SUPPORTED_DOP` constant field). At runtime, the actual query thread count is less than or equal to the specified count. When executing above query on a quad core CPU, WithDegreeOfParallelism is called with 40. However the visualization shows Parallel LINQ only utilizes 6 threads.
 
 > [![image_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-3-Query-Methods-Operators_8F49/image_thumb_thumb.png "image_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-3-Query-Methods-Operators_8F49/image_thumb_2.png)
 
@@ -247,7 +248,7 @@ AsOrdered method can be called to specify the order of values should be preserve
 public static ParallelQuery<TSource> AsOrdered<TSource>(this ParallelQuery<TSource> source);
 ```
 
-AsOrdered can only be called on the ParallelQuery<T> instance returned by ParallelEnumerable.AsParallel, ParallelEnumerable.Range, and ParallelEnumerable.Repeat. It throws InvalidOperationException for ParallelQuery<T> instance returned by any other methods.
+AsOrdered can only be called on the `ParallelQuery<T>` instance returned by ParallelEnumerable.AsParallel, ParallelEnumerable.Range, and ParallelEnumerable.Repeat. It throws InvalidOperationException for `ParallelQuery<T>` instance returned by any other methods.
 
 ```csharp
 internal static void AsOrdered()
@@ -398,7 +399,7 @@ And, once again, ForAll pulls values and calls the specified function in paralle
 
 ### Orderable partitioner
 
-.NET also provides APIs for partitioning with order control. The contract is the the System.Collections.OrderablePartitioner<TSource> abstract class, which inherits the fore mentioned Partitioner<TSource> type. The following are the new members in OrderablePartitioner<TSource>:
+.NET also provides APIs for partitioning with order control. The contract is the the `System.Collections.OrderablePartitioner<TSource>` abstract class, which inherits the fore mentioned `Partitioner<TSource>` type. The following are the new members in `OrderablePartitioner<TSource>`:
 
 ```csharp
 namespace System.Collections.Concurrent
@@ -426,7 +427,7 @@ namespace System.Collections.Concurrent
 }
 ```
 
-Instead of providing partitions of values, orderable partitioner provides partitions of key value pairs, where key is the index of source value. Its GetOrderablePartitions is the parity with Partitioner<TSource>.GetPartitions, return a list of iterators that yield values with keys; GetOrderableDynamicPartitions is the parity with Partitioner<TSource>.GetDynamicPartitions, also yields values with keys; Its KeysNormalized property returns a bool value to indicate whether the keys increase from 0; Its KeysOrderedInEachPartition indicates whether in each partition, keys increase, so that a later value’s key is greater then an former value’s key; And its KeysOrderedAcrossPartitions indicates whether keys increase partition by partition, so that a later partition’s keys are greater then an former partition’s keys. Orderable partitioner is also easy to implement with EnumerableEx.Share and IBuffer<T>:
+Instead of providing partitions of values, orderable partitioner provides partitions of key value pairs, where key is the index of source value. Its GetOrderablePartitions is the parity with `Partitioner<TSource>.GetPartitions`, return a list of iterators that yield values with keys; GetOrderableDynamicPartitions is the parity with `Partitioner<TSource>.GetDynamicPartitions`, also yields values with keys; Its KeysNormalized property returns a bool value to indicate whether the keys increase from 0; Its KeysOrderedInEachPartition indicates whether in each partition, keys increase, so that a later value’s key is greater then an former value’s key; And its KeysOrderedAcrossPartitions indicates whether keys increase partition by partition, so that a later partition’s keys are greater then an former partition’s keys. Orderable partitioner is also easy to implement with EnumerableEx.Share and `IBuffer<T>`:
 
 ```csharp
 public class OrderableDynamicPartitioner<TSource> : OrderablePartitioner<TSource>
@@ -563,11 +564,11 @@ internal static void VisualizeAggregate()
 ```
 
 > The sequential aggregation has the expected process:
-> 
+>
 > [![image_thumb1](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-3-Query-Methods-Operators_8F49/image_thumb1_thumb.png "image_thumb1")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-3-Query-Methods-Operators_8F49/image_thumb1_2.png)
-> 
+>
 > The parallel aggregation has different behavior:
-> 
+>
 > [![image_thumb2](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-3-Query-Methods-Operators_8F49/image_thumb2_thumb.png "image_thumb2")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-3-Query-Methods-Operators_8F49/image_thumb2_2.png)
 
 It follows the pattern of parallel query methods. It first partitions the data. On this quad core CPU, it splits the 8 source values into 4 partitions, (0, 1), (2, 3), (4, 5), (6, 7). Then it execute the provided function for each parallel in parallel, the 4 partitions’ result values are –1, –1, –1, –1. And finally it merges the 4 result values with the provided function, so the final aggregation result is 2. This demonstrates that the accumulator function must be commutative and associative for the parallel aggregation.

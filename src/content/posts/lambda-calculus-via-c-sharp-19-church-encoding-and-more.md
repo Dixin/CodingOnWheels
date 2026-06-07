@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
 So far a ton has been encoded. Here is a summary.
 
@@ -80,7 +81,7 @@ DivideBy := Y (λf.λa.λb.If (IsGreaterOrEqual a b) (λx.Add One (f (Subtract a
           ≡ (λf.(λx.f (x x)) (λx.f (x x))) (λf.λa.λb.If (IsGreaterOrEqual a b) (λx.Add One (f (Subtract a b) b)) (λx.Zero))
 ```
 
-So DivideByIgnoreZero can by redefined using DivideBy instead of \_DivideBy:
+So DivideByIgnoreZero can by redefined using DivideBy instead of `_DivideBy`:
 
 ```csharp
 DivideByIgnoreZero = λa.λb.If (IsZero b) (λx.0) (λx.DivideBy a b)
@@ -206,8 +207,8 @@ Then with rational number, a [real number](http://en.wikipedia.org/wiki/Real_num
     -   pn + 1 ⊆ pn
     -   limn → ∞ qn’ − qn = 0
     -   r = ∩n ∈ N pn
--   r can be represented by a [Cauchy sequence](http://en.wikipedia.org/wiki/Cauchy_sequence) of rational numbers q0, q1, q2, …, and a function f of type Func<\_Numeral, \_Numeral>, defining the convergence rate of the Cauchy sequence such that:
-    -   ∀i.j.k. | qf(i) + j - qf(i) + k | ≤ 2\-i
+-   r can be represented by a [Cauchy sequence](http://en.wikipedia.org/wiki/Cauchy_sequence) of rational numbers q0, q1, q2, …, and a function f of type `Func<_Numeral, _Numeral>`, defining the convergence rate of the Cauchy sequence such that:
+    -   ∀i.j.k. | qf(i) + j - qf(i) + k | ≤ 2-i
     -   r = limn → ∞ qn
 -   r can be represented by a Cauchy sequence of rational numbers q0, q1, q2, … with a fixed convergence rate, such that:
     -   ∀i.j. | qi - qi + j | ≤ 1 / i

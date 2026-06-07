@@ -1,7 +1,7 @@
 ---
 title: "Understanding C# Features (4) Extension Method"
 published: 2009-11-28
-description: "\\] - \\]"
+description: "Extension method is a powerful syntactic sugar in C# 3.0+, which enables fluent LINQ query."
 image: ""
 tags: [".NET", "C#", "C# 3.0", "C# Features", "Functional Programming", "LINQ", "LINQ via C#"]
 category: "C#"
@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C#](/posts/linq-via-csharp)\] - \[[C# Features](/archive/?tag=C%23%20Features)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 Extension method is a powerful syntactic sugar in C# 3.0+, which enables fluent LINQ query.
 

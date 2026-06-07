@@ -9,23 +9,24 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-8-more-linq-to-monads](/posts/category-theory-via-csharp-8-more-linq-to-monads "https://CodingOnWheels.com/posts/category-theory-via-csharp-8-more-linq-to-monads")**
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
+>
+> This post is updated, [here is the latest version](/posts/category-theory-via-csharp-8-more-linq-to-monads).
 
 ## C#/.NET state machines
 
 [State machine (or finite state machine)](http://en.wikipedia.org/wiki/Finite-state_machine) represents a abstract machine with one state or a number of state. C# use state machine a lot. For example:
 
--   C# yield keyword [compiles to a state machine that implements IEnumerable<T>](/posts/understanding-linq-to-objects-5-implementing-iterator)
+-   C# yield keyword [compiles to a state machine that implements `IEnumerable<T>`](/posts/understanding-linq-to-objects-5-implementing-iterator)
 -   C# await keyword [compiles to a state machine that implements IAsyncStateMachine](/posts/understanding-c-sharp-async-await-1-compilation)
 
 .NET has a lot of built-in state machines too:
 
 -   [System.Activities.Statements.StateMachine](https://msdn.microsoft.com/en-us/library/system.activities.statements.statemachine.aspx)
--   [System.Web.Razor.StateMachine<TReturn>](https://msdn.microsoft.com/en-us/library/hh414263.aspx)
+-   [`System.Web.Razor.StateMachine<TReturn>`](https://msdn.microsoft.com/en-us/library/hh414263.aspx)
 -   System.Xml.Xsl.XsltOld.StateMachine
 -   Microsoft.Transactions.Bridge.Dtc.StateMachine, and its 6 derived classes
 -   Microsoft.Transactions.Wsat.StateMachines.StateMachine, and its 9 derived classes
@@ -36,7 +37,7 @@ etc.
 
 State pattern is a typical way to implement state machine. The following picture is stolen from Wikipedia:
 
-![](/dixin/category-theory-via-c-sharp-19-more-monad-state-monad/images/400px-State_Design_Pattern_UML_Class_Diagram.svg.png)
+![State design pattern UML class diagram.](/dixin/category-theory-via-c-sharp-19-more-monad-state-monad/images/400px-State_Design_Pattern_UML_Class_Diagram.svg.png)
 
 ### Traffic light state machine
 
@@ -282,7 +283,7 @@ public static partial class TraceHelper
 }
 ```
 
-Please also notice Task.Delay returns a Task (not Task<>). As mentioned in an earlier part, Task can be viewed as Task<Unit>, a special case of Task<>. So the LINQ syntax works for Task.
+Please also notice Task.Delay returns a Task (not Task<>). As mentioned in an earlier part, Task can be viewed as `Task<Unit>`, a special case of Task<>. So the LINQ syntax works for Task.
 
 The state machine is also pure function:
 
@@ -326,9 +327,9 @@ will result similar trace message:
 
 > 04/02/2015 20:44:30 - GreenState 04/02/2015 20:44:33 - YellowState 04/02/2015 20:44:34 - RedState
 
-### Immutable IEnumerable<T> stack
+### Immutable `IEnumerable<T>` stack
 
-An easier example could be using a immutable IEnumerable<T> to simulate a mutable stack. Firstly, a Pop and a Push function can be implemented:
+An easier example could be using a immutable `IEnumerable<T>` to simulate a mutable stack. Firstly, a Pop and a Push function can be implemented:
 
 ```csharp
 // [Pure]
@@ -377,7 +378,7 @@ public static partial class StateQuery
 }
 ```
 
-The above functions are all pure functions, and IEnumerable<int> is immutable. They clearly demonstrated how State<> monad simulates the state updating - after each call of Push, Pop, or Set, a new IEnumerable<T> is created to pass to the next function in the sequence.
+The above functions are all pure functions, and `IEnumerable<int>` is immutable. They clearly demonstrated how State<> monad simulates the state updating - after each call of Push, Pop, or Set, a new `IEnumerable<T>` is created to pass to the next function in the sequence.
 
 ```csharp
 [TestClass]

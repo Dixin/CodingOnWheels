@@ -9,15 +9,16 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
 
-## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-custom-query-methods](/posts/linq-to-objects-custom-query-methods "https://CodingOnWheels.com/posts/linq-to-objects-custom-query-methods")**
+## Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-custom-query-methods](/posts/linq-to-objects-custom-query-methods "https://CodingOnWheels.com/posts/linq-to-objects-custom-query-methods")
 
 After discussing the query methods provided by .NET, this part demonstrates how to define custom query methods:
 
--   Sequence queries: return a new IEnumerable<T> sequence (deferred execution)
+-   Sequence queries: return a new `IEnumerable<T>` sequence (deferred execution)
     -   Generation: Create, Guid, RandomInt32, RandomDouble, FromValue, FromValues, EmptyIfNull
     -   Concatenation: Join
     -   Partitioning: Subsequence
@@ -41,7 +42,7 @@ These query methods can be defined in the following static class:
 public static partial class EnumerableX { }
 ```
 
-## Returns a new IEnumerable<T> sequence
+## Returns a new `IEnumerable<T>` sequence
 
 ### Generation
 
@@ -186,7 +187,7 @@ public static IEnumerable<TSource> Subsequence<TSource>(
 
 ### Comparison
 
-The IComparer<T> and IEqualityComparer<T> interfaces are involved a lot in LINQ query methods:
+The `IComparer<T>` and `IEqualityComparer<T>` interfaces are involved a lot in LINQ query methods:
 
 ```csharp
 namespace System.Collections.Generic
@@ -216,7 +217,7 @@ private static IEqualityComparer<T> ToEqualityComparer<T>(
         new EqualityComparerWrapper<T>(equals, getHashCode);
 ```
 
-.NET provides a built-in API Comparer<T>.Create to convert function to IComparer<T>, which can be directly used. F#’s core library provides a Microsoft.FSharp.Collections.HashIdentity type to wrap functions for IEqualityComparer<T>, but it is not easy to use in C#. So the EqualityComparerWrapper<T> wrapper can be defined:
+.NET provides a built-in API `Comparer<T>.Create` to convert function to `IComparer<T>`, which can be directly used. F#’s core library provides a Microsoft.FSharp.Collections.HashIdentity type to wrap functions for `IEqualityComparer<T>`, but it is not easy to use in C#. So the `EqualityComparerWrapper<T>` wrapper can be defined:
 
 ```csharp
 public class EqualityComparerWrapper<T> : IEqualityComparer<T>
@@ -237,7 +238,7 @@ public class EqualityComparerWrapper<T> : IEqualityComparer<T>
 }
 ```
 
-The getHashCode function is optional, because any type inherits a GetHashCode method from object. Take the ordering query methods as example, now overloads can be defined to accept a (T, T) –> int function instead of IComparer<T> interface:
+The getHashCode function is optional, because any type inherits a GetHashCode method from object. Take the ordering query methods as example, now overloads can be defined to accept a (T, T) –> int function instead of `IComparer<T>` interface:
 
 ```csharp
 public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(
@@ -337,7 +338,7 @@ public static IEnumerable<TSource> Except<TSource>(
 
 ### List
 
-The List<T> type provides handy methods, which can be implemented for sequence too. The Insert query method return a new sequence with the specified value inserted at the specified index:
+The `List<T>` type provides handy methods, which can be implemented for sequence too. The Insert query method return a new sequence with the specified value inserted at the specified index:
 
 ```csharp
 public static IEnumerable<TSource> Insert<TSource>(this IEnumerable<TSource> source, int index, TSource value)
@@ -374,7 +375,7 @@ public static IEnumerable<TSource> Insert<TSource>(this IEnumerable<TSource> sou
 }
 ```
 
-There are some difference between the above Insert query method and List<T>.Insert. The above Insert is fluent by returning IEnumerable<T>, while List<T>.Insert returns void so is not fluent. The above Insert creates a new sequence with the specified value inserted, while List<T>.Insert directly changes the original list. The above Insert also implements deferred execution and lazy evaluation with generator, while List<T>.Insert executes immediately.
+There are some difference between the above Insert query method and `List<T>.Insert`. The above Insert is fluent by returning `IEnumerable<T>`, while `List<T>.Insert` returns void so is not fluent. The above Insert creates a new sequence with the specified value inserted, while `List<T>.Insert` directly changes the original list. The above Insert also implements deferred execution and lazy evaluation with generator, while `List<T>.Insert` executes immediately.
 
 RemoveAt returns a new sequence with a value removed at the specified index:
 
@@ -453,7 +454,7 @@ public static IEnumerable<TSource> RemoveAll<TSource>(
 
 ### Comparison
 
-ToDictionary and ToLookup accept IEqualityComparer<T> too. Their overloads for functions can be defined:
+ToDictionary and ToLookup accept `IEqualityComparer<T>` too. Their overloads for functions can be defined:
 
 ```csharp
 public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(
@@ -477,7 +478,7 @@ public static ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement>(
 
 ### List
 
-IndexOf is similar to List<T>.IndexOf. It finds the index of first occurrence of the specified value. –1 is returned id the specified value is not found:
+IndexOf is similar to `List<T>.IndexOf`. It finds the index of first occurrence of the specified value. –1 is returned id the specified value is not found:
 
 ```csharp
 public static int IndexOf<TSource>(
@@ -689,7 +690,7 @@ public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> source) => s
 
 ### Comparison
 
-Contains and SequentialEqual also accepts IEqualityComparer<T>. They can be overloaded with functions:
+Contains and SequentialEqual also accepts `IEqualityComparer<T>`. They can be overloaded with functions:
 
 ```csharp
 public static bool Contains<TSource>(

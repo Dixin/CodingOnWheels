@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-3-functor-and-linq-to-functors](/posts/category-theory-via-csharp-3-functor-and-linq-to-functors "https://CodingOnWheels.com/posts/category-theory-via-csharp-3-functor-and-linq-to-functors")**
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
+>
+> This post is updated, [here is the latest version](/posts/category-theory-via-csharp-3-functor-and-linq-to-functors).
 
 ## Lazy<> functor
 
@@ -63,6 +64,7 @@ public static IMorphism<IEnumerable<TSource>, IEnumerable<TResult>, DotNet> Sele
 ```
 
 from previous part, and LazyExtensions.Select:
+
 ```csharp
 public static IMorphism<Lazy<TSource>, Lazy<TResult>, DotNet> Select<TSource, TResult>
     (this IMorphism<TSource, TResult, DotNet> selector) => 
@@ -102,10 +104,10 @@ Func<int> functionFunctor = new Func<int>(() => 1);
 Func<int> query = from x in functionFunctor select x + 1;
 ```
 
-Actually any function can be Func<> (Func<T>):
+Actually any function can be Func<> (`Func<T>`):
 
--   Functions with N-arity can be transformed to Func<T> with closure.
--   Functions without return value like an Action, can be transformed to Func<Void>. In C# Func<Void> Be compiled, so they can be transformed to Func<Unit>, borrowed [unit from F#.](https://msdn.microsoft.com/en-us/library/dd483472.aspx)
+-   Functions with N-arity can be transformed to `Func<T>` with closure.
+-   Functions without return value like an Action, can be transformed to `Func<Void>`. In C# `Func<Void>` Be compiled, so they can be transformed to `Func<Unit>`, borrowed [unit from F#.](https://msdn.microsoft.com/en-us/library/dd483472.aspx)
 
 For example:
 
@@ -153,7 +155,7 @@ Func<int, Unit> query = from x in returnUnit select x;
 
 ## Nullable<> functor
 
-System.Nullable<> can be a functor too. To be more general, the Nullable<T> for any type will be used again.
+System.Nullable<> can be a functor too. To be more general, the `Nullable<T>` for any type will be used again.
 
 Here are the Select functions:
 

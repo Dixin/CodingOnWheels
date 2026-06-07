@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-immutability-anonymous-type-and-tuple](/posts/functional-csharp-immutability-anonymous-type-and-tuple "https://CodingOnWheels.com/posts/functional-csharp-immutability-anonymous-type-and-tuple")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
+## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-immutability-anonymous-type-and-tuple](/posts/functional-csharp-immutability-anonymous-type-and-tuple "https://CodingOnWheels.com/posts/functional-csharp-immutability-anonymous-type-and-tuple")
 
 Immutability is an important aspect of functional paradigm. As fore mentioned, imperative/object-oriented programming is usually stateful, and functional programming encourages immutability without state change. In C# programming, there are [many kinds of immutability](https://blogs.msdn.microsoft.com/ericlippert/2007/11/13/immutability-in-c-part-one-kinds-of-immutability/), but they can be categorized into 2 levels: immutability of some value, and immutability of some value’s internal state. Take local variable as example, a local variable can be called immutable, if once it is assigned, there is no way to reassign to it; a local variable can also be called immutable, if once its internal state is initialized, there is no way to modify its state to different state.
 
@@ -259,7 +260,7 @@ internal partial class ImmutableDevice
 
 When discounting the the price, MutableDevice.Discount directly changes the state. ImmutableDevice.Discount cannot do this, so it has to construct a new instance with the new state, then return the new instance, which is also immutable. This is a performance overhead.
 
-Many .NET built-in types are immutable data structures, including most value types (primitive types, System.Nullable<T>, System.DateTime, System.TimeSpan, etc.), and some reference types (string, System.Lazy<T>, System.Linq.Expressions.Expression and its derived types, etc.). Microsoft also provides a NuGet package of immutable collections [System.Collections.Immutable](https://www.nuget.org/packages/System.Collections.Immutable), with immutable array, list, dictionary, etc.
+Many .NET built-in types are immutable data structures, including most value types (primitive types, `System.Nullable<T>`, System.DateTime, System.TimeSpan, etc.), and some reference types (string, S`ystem.Lazy<T>`, System.Linq.Expressions.Expression and its derived types, etc.). Microsoft also provides a NuGet package of immutable collections [System.Collections.Immutable](https://www.nuget.org/packages/System.Collections.Immutable), with immutable array, list, dictionary, etc.
 
 ### Immutable structure (readonly structure)
 
@@ -434,7 +435,7 @@ internal static void AnonymousTypeParameter()
 }
 ```
 
-Here the source array is inferred to be of AnonymousType0<string, decimal>\[\] type, because each array value is of type AnonymousType0. Array T\[\] implements IEnumerable<T> interface, so the source array implements IEnumerable<AnonymousType0<string, decimal>> interface. Its Where extension method accepts a AnonymousType0<string, decimal> –> bool predicate function, and returns IEnumerable<AnonymousType0<string, decimal>>.
+Here the source array is inferred to be of `AnonymousType0<string, decimal>[]` type, because each array value is of type AnonymousType0. Array `T[]` implements `IEnumerable<T>` interface, so the source array implements `IEnumerable<AnonymousType0<string, decimal>>` interface. Its Where extension method accepts a `AnonymousType0<string, decimal> –> bool` predicate function, and returns `IEnumerable<AnonymousType0<string, decimal>>`.
 
 C# compiler utilizes anonymous type for let clause in LINQ query expression. The let clause is compiled to Select query method call with a selector function returning anonymous type. For example:
 
@@ -785,7 +786,7 @@ internal class ImmutableDevice
 
 ### Immutable collection vs. readonly collection
 
-Microsoft provides immutable collections through the System.Collections.Immutable NuGet Package, including ImmutableArray<T>, ImmutableDictionary<TKey, TValue>, ImmutableHashSet<T>, ImmutableList<T>, ImmutableQueue<T>, ImmutableSet<T>, ImmutableStack<T>, etc. As fore mentioned, trying to changing an immutable collection creates a new immutable collection:
+Microsoft provides immutable collections through the System.Collections.Immutable NuGet Package, including `ImmutableArray<T>`, `ImmutableDictionary<TKey, TValue>`, `ImmutableHashSet<T>`, `ImmutableList<T>`, `ImmutableQueue<T>`, `ImmutableSet<T>`, `ImmutableStack<T>`, etc. As fore mentioned, trying to changing an immutable collection creates a new immutable collection:
 
 ```csharp
 internal static void ImmutableCollection()
@@ -796,7 +797,7 @@ internal static void ImmutableCollection()
 }
 ```
 
-.NET/Core also provides readonly collections, like ReadOnlyCollection<T>, ReadOnlyDictionary<TKey, TValue>, etc., which can be confusing. These readonly collections are actually a simple wrapper of mutable collections. They just do not implement and expose methods like Add, Remove, which are used to change the collection. They are neither immutable, nor thread safe. The following example creates an immutable collection and a readonly collection from a mutable source. When the source is changed, the immutable collection apparently is not changed, but the readonly collection is changed:
+.NET/Core also provides readonly collections, like `ReadOnlyCollection<T>`, `ReadOnlyDictionary<TKey, TValue>`, etc., which can be confusing. These readonly collections are actually a simple wrapper of mutable collections. They just do not implement and expose methods like Add, Remove, which are used to change the collection. They are neither immutable, nor thread safe. The following example creates an immutable collection and a readonly collection from a mutable source. When the source is changed, the immutable collection apparently is not changed, but the readonly collection is changed:
 
 ```csharp
 internal static void ReadOnlyCollection()

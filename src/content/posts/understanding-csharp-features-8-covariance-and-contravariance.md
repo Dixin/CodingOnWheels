@@ -1,7 +1,7 @@
 ---
 title: "Understanding C# Features (8) Covariance and Contravariance"
 published: 2016-02-06
-description: "\\] - \\]"
+description: "In covariance/contravariance, variance is the capability to replace a type with a less-derived type or a more-derived type in a context."
 image: ""
 tags: [".NET", "C#", "C# 4.0", "C# Features", "Covariance And Contravariance", "LINQ", "LINQ via C#"]
 category: "C#"
@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C#](/posts/linq-via-csharp)\] - \[[C# Features](/archive/?tag=C%23%20Features)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 In [covariance/contravariance](https://en.wikipedia.org/wiki/Covariance_and_contravariance_\(computer_science\)), variance is the capability to replace a type with a less-derived type or a more-derived type in a context. C# 4.0 and CLR 4 introduced covariance and contravariance for generics.
 
@@ -66,7 +67,7 @@ Before C# 4.0, C# already supported covariance and contravariance for delegates 
 public delegate Base DerivedIn_BaseOut(Derived @in);
 ```
 
-Above Methods.DerivedIn\_BaseOut’s signature matches this delegate type, so Methods.DerivedIn\_BaseOut can be bound to its delegate instance:
+Above `Methods.DerivedIn_BaseOut`’s signature matches this delegate type, so `Methods.DerivedIn_BaseOut` can be bound to its delegate instance:
 
 ```csharp
 public static partial class NonGenericDelegate
@@ -84,7 +85,7 @@ public static partial class NonGenericDelegate
 
 ### Covariance
 
-Methods.DerivedIn\_DerivedOut has a different signature from DerivedIn\_BaseOut delegate type. The former returns a more derived type. There is a “is-a” relationship between their return types, but there is no intuitive relationship between the two signatures.
+`Methods.DerivedIn_DerivedOut` has a different signature from `DerivedIn_BaseOut` delegate type. The former returns a more derived type. There is a “is-a” relationship between their return types, but there is no intuitive relationship between the two signatures.
 
 However, C# compiler and the CLR both allow the following binding (assignment) before C# 4.0:
 
@@ -108,7 +109,7 @@ Here a bound method can return a more derived type than the delegate type. This 
 
 ### Contravariance
 
-Methods.BaseIn\_BaseOut required a less-derived parameter then DerivedIn\_BaseOut delegate type. The following binding also works before C# 4.0:
+`Methods.BaseIn_BaseOut` required a less-derived parameter then `DerivedIn_BaseOut` delegate type. The following binding also works before C# 4.0:
 
 ```csharp
 public static partial class NonGenericDelegate
@@ -130,7 +131,7 @@ Here a method can have less derived parameter type than the delegate type. This 
 
 ### Covariance and contravariance
 
-It is easy to predict, Methods.BaseIn\_DerivedOut, with more derived parameter type and less derived return type, can be also bound to DerivedIn\_BaseOut:
+It is easy to predict, `Methods.BaseIn_DerivedOut`, with more derived parameter type and less derived return type, can be also bound to `DerivedIn_BaseOut`:
 
 ```csharp
 public static partial class NonGenericDelegate
@@ -185,15 +186,15 @@ public static partial class NonGenericDelegate
 
 The root of variances is that, in inheritance hierarchy, derived object “is a” base object. This “is-a” relationship can be promoted to a relationship between method and delegate types:
 
--   Covariance of output: Derived is a Base => DerivedIn\_DerivedOut is a DerivedIn\_BaseOut;
--   Contravariance of input: Derived is a Base => BaseIn\_BaseOut is a DerivedIn\_BaseOut;
--   Covariance of output and contravariance of input: Derived is a Base => BaseIn\_DerivedOut is a DerivedIn\_BaseOut.
+-   Covariance of output: Derived is a Base => `DerivedIn_DerivedOut` is a `DerivedIn_BaseOut`;
+-   Contravariance of input: Derived is a Base => `BaseIn_BaseOut` is a `DerivedIn_BaseOut`;
+-   Covariance of output and contravariance of input: Derived is a Base => `BaseIn_DerivedOut` is a `DerivedIn_BaseOut`.
 
 Please notice these rules does not apply to value types. Basically value types has nothing to do with covariance/contravariance.
 
 ## Generic delegate
 
-With C# 2.0 generic delegate, the above XxxIn\_XxxOut delegate types can be represented by the following:
+With C# 2.0 generic delegate, the above `XxxIn_XxxOut` delegate types can be represented by the following:
 
 ```csharp
 public delegate TOut Func<TIn, TOut>(TIn @in);
@@ -354,7 +355,7 @@ public delegate void ActionIn<T>(Action<T> action);
 
 can represent a higher-order function type, which take a function as parameter.
 
-Regarding T for Action<T> is contravariant, is T still contravariant for ActionIn<T>? The answer is no. The following code cannot be compiled:
+Regarding T for `Action<T>` is contravariant, is T still contravariant for `ActionIn<T>`? The answer is no. The following code cannot be compiled:
 
 ```csharp
 public static partial class HigherOrderFunction
@@ -388,27 +389,27 @@ What is the problem here? And how to fix?
 
 First, covariance/contravariance can be viewed in another way:
 
--   Func<T>: Derived “is a” Base => Func<Derived> “is a” Func<Base>. This is named covariance (not out-variance) because the direction of “is a” relationship remains.
--   Action<T>: Derived “is a” Base => Action<Base> “is a” Action<Derived>. This is named contravariance (not in-variance) because the direction of “is a” relationship reverses.
+-   `Func<T>`: Derived “is a” Base => `Func<Derived>` “is a” `Func<Base>`. This is named covariance (not out-variance) because the direction of “is a” relationship remains.
+-   `Action<T>`: Derived “is a” Base => `Action<Base>` “is a” `Action<Derived>`. This is named contravariance (not in-variance) because the direction of “is a” relationship reverses.
     -   In the original “is a” relationship, Derived is on the left side, Base is on the right side
     -   In the new “is a” relationship, Derived goes to the right, and Base goes to the left
 
 To examine the variance for higher-order functions:
 
--   Func<T> can be made higher order, by just replacing T with Func<T>. Then:
-    1.  Derived “is a” Base
-    1.  \=> Func<Derived> “is a” Func<Base> (In Func<T>, replaces T with Derived/Base. Comparing to 1, T is covariant for Func<T>.)
-    1.  \=> Func<Func<Derived>> “is a” Func<Func<Derived>> (In Func<T>, replaces T with Func<Derived>/Func<Base>. Comparing to 1, T is covariant for Func<Func<T>>.)
-    1.  \=> Func<Func<Func<Derived>>> “is a” Func<Func<Func<Base>>> (In Func<T>, replaces T with Func<Func<Derived>> /Func<Func<Base>> . Comparing to 1, T is covariant for Func<Func<Func<T>>>.)
-    1.  \=> …
--   Action<T> can be made higher order, by just replacing T with Action<T>. Then:
-    1.  Derived “is a” Base
-    1.  \=> Action<Base> “is a” Action<Derived> (In Action<T>, replaces T with Base/Derived. the direction of “Is-a” relationship reverses. Comparing to 1, T is contravariant for Action<T>.)
-    1.  \=> Action<Action<Derived>> “is a” Action<Action<Base>> (In Action<T>, replaces T with Action<Derived>/Action<Base>. the direction of “Is-a” relationship reverses again, so that Derived goes back to left, and Base goes back to right. Comparing to 1, T is covariant for Action<Action<T>>.)
-    1.  \=> Action<Action<Action<Base>>> “is a” Action<Action<Action<Derived>>> (In Action<T>, replaces T with Action<Action<Base>> /Action<Action<Derived>>. Comparing to 1, T is contravariant for Action<Action<Action<T>>>.)
-    1.  \=> …
+-   `Func<T>` can be made higher order, by just replacing T with `Func<T>`. Then:
+    1.  `Derived` “is a” `Base`
+    2.  `Func<Derived>` “is a” `Func<Base>` (In `Func<T>`, replaces T with Derived/Base. Comparing to 1, T is covariant for `Func<T>`.)
+    3.  `Func<Func<Derived>>` “is a” `Func<Func<Derived>>` (In `Func<T>`, replaces T with `Func<Derived>`/`Func<Base>`. Comparing to 1, T is covariant for `Func<Func<T>>`.)
+    4.  `Func<Func<Func<Derived>>>` “is a” `Func<Func<Func<Base>>>` (In `Func<T>`, replaces T with `Func<Func<Derived>>`/`Func<Func<Base>>`. Comparing to 1, T is covariant for `Func<Func<Func<T>>>`.)
+    5.  …
+-   `Action<T>` can be made higher order, by just replacing T with `Action<T>`. Then:
+    1.  `Derived` “is a” `Base`
+    2.  `Action<Base>` “is a” `Action<Derived>` (In `Action<T>`, replaces T with Base/Derived. the direction of “Is-a” relationship reverses. Comparing to 1, T is contravariant for `Action<T>`.)
+    3.  `Action<Action<Derived>>` “is a” `Action<Action<Base>>` (In `Action<T>`, replaces T with `Action<Derived>`/`Action<Base>`. the direction of “Is-a” relationship reverses again, so that Derived goes back to left, and Base goes back to right. Comparing to 1, T is covariant for `Action<Action<T>>`.)
+    4.  `Action<Action<Action<Base>>>` “is a” `Action<Action<Action<Derived>>>` (In `Action<T>`, replaces T with `Action<Action<Base>>`/`Action<Action<Derived>>`. Comparing to 1, T is contravariant for `Action<Action<Action<T>>>`.)
+    5.  …
 
-In above code, ActionIn<T> is equivalent to Action<Action<T>>. So, T is covariant for Action<Action<T>>/ActionIn<T>, not contravariant. The fix is to use out keyword to decorate T, and swap the binding:
+In above code, `ActionIn<T>` is equivalent to `Action<Action<T>>`. So, T is covariant for `Action<Action<T>>`/`ActionIn<T>`, not contravariant. The fix is to use out keyword to decorate T, and swap the binding:
 
 ```csharp
 public static partial class HigherOrderFunction
@@ -467,22 +468,22 @@ public static partial class HigherOrderFunction
 
 Variances are straightforward for first-order functions:
 
--   Covariance of output (out keyword): Derived “is a” Base => Func<Derived> “is a” Func<Base> (“Is-a” remains.)
--   Contravariance of input (in keyword): Derived “is a” Base => Action<Base> “is a” Action<Derived> (“Is-a” reverses.)
+-   Covariance of output (out keyword): Derived “is a” Base => `Func<Derived>` “is a” `Func<Base>` (“Is-a” remains.)
+-   Contravariance of input (in keyword): Derived “is a” Base => `Action<Base>` “is a” `Action<Derived>` (“Is-a” reverses.)
 
 For higher-order functions:
 
 -   Output is always covariant:
-    1.  Derived “is a” Base
-    1.  \=> Func<Derived> “is a” Func<Base>
-    1.  \=> Func<Func<Derived>> “is a” Func<Func<Derived>>
-    1.  \=> …
+    1.  `Derived` “is a” `Base`
+    2.  `Func<Derived>` “is a” `Func<Base>`
+    3.  `Func<Func<Derived>>` “is a” `Func<Func<Derived>>`
+    4.  …
 -   Input can be either contravariant or covariant, depends on how many times the direction of “is-a” relationship reverses:
-    1.  Derived “is a” Base
-    1.  \=> Action<Base> “is a” Action<Derived> (contravariance)
-    1.  \=> Action<Action<Derived>> “is a” Action<Action<Base>> (covariance)
-    1.  \=> Action<Action<Action<Base>>> “is a” Action<Action<Action<Derived>>> (contravariance)
-    1.  \=> …
+    1.  `Derived` “is a” `Base`
+    2.  `Action<Base>` “is a” `Action<Derived>` (contravariance)
+    3.  `Action<Action<Derived>>` “is a” `Action<Action<Base>>` (covariance)
+    4.  `Action<Action<Action<Base>>>` “is a” `Action<Action<Action<Derived>>>` (contravariance)
+    5.  …
 
 ```csharp
 public static class OutputCovarianceForHigherOrder
@@ -546,7 +547,7 @@ public interface IIn<TIn> // TIn is only used as input.
 
 ### Covariance
 
-For interface IOut<TOut>, TOut is covariant for all members, so TOut can be made covariant at interface level:
+For interface `IOut<TOut>`, TOut is covariant for all members, so TOut can be made covariant at interface level:
 
 ```csharp
 public interface IOut<out TOut> // TOut is covariant for all members of interface.
@@ -589,7 +590,7 @@ public static partial class GenericInterfaceWithVariances
 }
 ```
 
-In .NET 4.0+, System.Collections.Generic.IEnumerator<T> is such an interface:
+In .NET 4.0+, `System.Collections.Generic.IEnumerator<T>` is such an interface:
 
 ```csharp
 namespace System.Collections.Generic
@@ -605,7 +606,7 @@ namespace System.Collections.Generic
 
 ### Contravariance
 
-For interface IIn<TIn>, TIn is contravariant for all members, so TIn can be made contravariant at interface level:
+For interface `IIn<TIn>`, TIn is contravariant for all members, so TIn can be made contravariant at interface level:
 
 ```csharp
 public interface IIn<in TIn> // TIn is contravariant for all members of interface.
@@ -648,7 +649,7 @@ public static partial class GenericInterfaceWithVariances
 }
 ```
 
-In .NET 4.0+, System.IComparable<T> is such an interface:
+In .NET 4.0+, `System.IComparable<T>` is such an interface:
 
 ```csharp
 namespace System
@@ -703,7 +704,7 @@ public interface IIn_Out<T>
 }
 ```
 
-T is not covariant for some member, and not contravariant for some other member. So, T cannot be variant at the interface level. In .NET, System.Collections.Generic.IList<T> is such an interface:
+T is not covariant for some member, and not contravariant for some other member. So, T cannot be variant at the interface level. In .NET, `System.Collections.Generic.IList<T>` is such an interface:
 
 ```csharp
 namespace System.Collections.Generic
@@ -725,13 +726,13 @@ namespace System.Collections.Generic
 
 The “is-a” relationship can be promoted to generic interfaces (sets of method signatures):
 
--   Covariance: Derived is a Base => IOut<Derived> "is a" IOut<Base>;
--   Contravariance: Derived is a Base => IIn<Base> "is a" IIn<Derived>;
--   Covariance and contravariance: Derived is a Base => IIn\_Out<Base, Derived> "is a" IIn\_Out<Derived, Base>.
+-   Covariance: Derived is a Base => `IOut<Derived>` "is a" I`Out<Base>`;
+-   Contravariance: Derived is a Base => `IIn<Base>` "is a" `IIn<Derived>`;
+-   Covariance and contravariance: Derived is a Base => `IIn_Out<Base, Derived>` "is a" `IIn_Out<Derived, Base>`.
 
 ## Array
 
-An array T\[\] can be viewed as an IList<T>. As fore mentioned, T is invariant for IList<T>.
+An array `T[]` can be viewed as an `IList<T>`. As fore mentioned, T is invariant for `IList<T>`.
 
 ### Covariance
 
@@ -805,25 +806,24 @@ public static partial class Array
 Here are some comments for array covariance:
 
 -   [Jonathan Allen said](http://www.infoq.com/news/2008/08/GenericVariance),
-    
+
     > On a historical note, C# and VB both support array covariance ([out/IEnumerable scenario](http://www.cnblogs.com/dixin/archive/2009/09/01/understanding-csharp-covariance-and-contravariance-6-typing-issues.html)) even though it can lead to runtime errors in contravariant situations (in/IWriter scenario). This was done in order to make C# more compatible with Java. This is generally considered a poor decision, but it cannot be undone at this time.
-    
+
 -   In the book “[The Common Language Infrastructure Annotated Standard](http://www.amazon.com/exec/obidos/tg/detail/-/0321154932)”, Jim Miller said,
-    
+
     > The decision to support covariant arrays was primarily to allow Java to run on the VES. The covariant design is not thought to be the best design in general, but it was chosen in the interest of broad reach.
-    
+
 -   [Rick Byers said](http://blogs.msdn.com/rmbyers/archive/2005/02/16/375079.aspx),
-    
+
     > I've heard that Bill Joy, one of the original Java designers, has since said that he tried to remove array covariance in 1995 but wasn't able to do it in time, and has regretted having it in Java ever since.
-    
+
 -   Anders Hejlsberg ([chief architect](http://en.wikipedia.org/wiki/Anders_Hejlsberg) of C#) [said in this video](http://channel9.msdn.com/shows/Going+Deep/Expert-to-Expert-Anders-Hejlsberg-The-Future-of-C/),
-    
+
     > This isn't type safe. A lot of people maybe don't even realize that there's a hole there.
-    
+
 -   [Eric Lippert](http://ericlippert.com/) (member of C# design team) [put array covariance the top 1 of 10 worst C# features](http://www.informit.com/articles/article.aspx?p=2425867)
-    
+
     > C# 1.0 has unsafe array covariance not because the designers of C# thought that the scenario was particularly compelling, but rather because the Common Language Runtime (CLR) has the feature in its type system, so C# gets it "for free." The CLR has it because Java has this feature; the CLR team wanted to design a runtime that could implement Java efficiently, should that become necessary.
-    
 
 This is a C# feature that should never be used.
 
@@ -838,7 +838,7 @@ C# 3.0 features are C# level syntactical sugars provided by C# compiler, but the
 }
 ```
 
-and the definition of System.IComparable<in T>:
+and the definition of `System.IComparable<in T>`:
 
 ```csharp
 .class interface public abstract auto ansi System.IComparable`1<-T>
@@ -921,21 +921,21 @@ Here is the result of executing the last method:
 
 -   System namespace:
     -   Action\`1 to Action\`16, Func\`1 to Func\`17
-    -   Comparison<T>
+    -   `Comparison<T>`
     -   Converter\`2
-    -   IComparable<T>,
-    -   IObservable<T>, IObserver<T>
-    -   IProgress<T>
-    -   Predicate<T>
+    -   `IComparable<T>`,
+    -   `IObservable<T>`, `IObserver<T>`
+    -   `IProgress<T>`
+    -   `Predicate<T>`
 -   System.Collections.Generic namespace:
-    -   IComparer<T>, IEqualityComparer<T>
-    -   IEnumerable<T>, IEnumerator<T>
-    -   IReadOnlyCollection<T>, IReadOnlyList<T>
+    -   `IComparer<T>`, `IEqualityComparer<T>`
+    -   `IEnumerable<T>`, `IEnumerator<T>`
+    -   `IReadOnlyCollection<T>`, `IReadOnlyList<T>`
 -   System.Linq namespace:
     -   IGrouping\`2
-    -   IOrderedQueryable<T>, IQueryable<T>
+    -   `IOrderedQueryable<T>`, `IQueryable<T>`
 
-MSDN has a [List of Variant Generic Interface and Delegate Types](https://msdn.microsoft.com/en-us/library/dd799517#VariantList), but it is inaccurate. For example, it says TElement is covariant for IOrderedEnumerable<TElement>, but actually not:
+MSDN has a [List of Variant Generic Interface and Delegate Types](https://msdn.microsoft.com/en-us/library/dd799517#VariantList), but it is inaccurate. For example, it says TElement is covariant for `IOrderedEnumerable<TElement>`, but actually not:
 
 ```csharp
 namespace System.Linq
@@ -949,7 +949,7 @@ namespace System.Linq
 
 ### LINQ
 
-As fore mentioned, T is covariant for IEnumerator<T>. As a result:
+As fore mentioned, T is covariant for `IEnumerator<T>`. As a result:
 
 ```csharp
 namespace System.Collections.Generic
@@ -963,7 +963,7 @@ namespace System.Collections.Generic
 }
 ```
 
-T is also covariant for IEnumerable<T>, since T is covariant for all member(s). In another word: Derived “is a” Base => IEnumerable<Derived> “is an” IEnumerable<Base>.
+T is also covariant for `IEnumerable<T>`, since T is covariant for all member(s). In another word: Derived “is a” Base => `IEnumerable<Derived>` “is an” `IEnumerable<Base>`.
 
 ```csharp
 public static partial class GenericInterfaceWithVariances
@@ -979,7 +979,7 @@ public static partial class GenericInterfaceWithVariances
 }
 ```
 
-Before C# 4.0, IEnumerable<Derived> is not an IEnumerable<Base>, above code cannot be compiled, unless explicitly telling compiler derivedEnumerable is an IEnumerable<Base>:
+Before C# 4.0, `IEnumerable<Derived>` is not an `IEnumerable<Base>`, above code cannot be compiled, unless explicitly telling compiler derivedEnumerable is an `IEnumerable<Base>`:
 
 ```csharp
 baseEnumerable = baseEnumerable.Concat(derivedEnumerable.Cast<Base>());

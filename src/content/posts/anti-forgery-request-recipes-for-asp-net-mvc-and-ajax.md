@@ -9,16 +9,16 @@ draft: false
 lang: ""
 ---
 
-- [Background (Normal scenario of form submitting)](#background-normal-scenario-of-form-submitting)
-- [Turn on validation on controller (not on each action)](#turn-on-validation-on-controller-not-on-each-action)
-  - [Problem](#problem)
-  - [Solution](#solution)
-- [Specify non-constant salt in runtime](#specify-non-constant-salt-in-runtime)
-  - [Problem](#problem-1)
-  - [Solution](#solution-1)
-- [Submit token via AJAX](#submit-token-via-ajax)
-  - [Problem](#problem-2)
-  - [Solution](#solution-2)
+-   [Background (Normal scenario of form submitting)](#background-normal-scenario-of-form-submitting)
+-   [Turn on validation on controller (not on each action)](#turn-on-validation-on-controller-not-on-each-action)
+    -   [Problem](#problem)
+    -   [Solution](#solution)
+-   [Specify non-constant salt in runtime](#specify-non-constant-salt-in-runtime)
+    -   [Problem](#problem-1)
+    -   [Solution](#solution-1)
+-   [Submit token via AJAX](#submit-token-via-ajax)
+    -   [Problem](#problem-2)
+    -   [Solution](#solution-2)
 
 This post discusses solutions for anti-forgery request scenarios in ASP.NET MVC and AJAX:
 

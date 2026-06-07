@@ -1,7 +1,7 @@
 ---
 title: "Understanding LINQ to SQL (1) Object-Relational Mapping"
 published: 2010-03-28
-description: "\\]"
+description: "The easiest way of modeling is to use Visual Studio IDE. This way works with SQL Server 2000, SQL Server 2005, SQL Server 2008, SQL Server 2008 R2"
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to SQL", "LINQ via C#", "SQL Server", "Visual Studio"]
 category: "LINQ"
@@ -9,7 +9,14 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to SQL](/archive/?tag=LINQ%20to%20SQL) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
 
 According to [Wikipedia](http://en.wikipedia.org/wiki/Object-relational_mapping), Object-relational mapping is:
 
@@ -93,7 +100,14 @@ Besides, database, tables, fields, other SQL stuff can also be modeled by this O
 
 ![image](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_7380D056.png "image")
 
-<table border="0" cellpadding="2" cellspacing="0" width="732"><tbody><tr><td valign="top" width="191">SQL representation</td><td valign="top" width="253">C# representation</td><td valign="top" width="286">Sample</td></tr><tr><td valign="top" width="191">Database</td><td valign="top" width="253">DataContext derived class</td><td valign="top" width="286">NothwindDataContext</td></tr><tr><td valign="top" width="191">Table, View</td><td valign="top" width="253">DataContext derived class’s property</td><td valign="top" width="286">NothwindDataContext.Categories</td></tr><tr><td valign="top" width="191">Record</td><td valign="top" width="253">Entity class</td><td valign="top" width="286">Category</td></tr><tr><td valign="top" width="191">Field</td><td valign="top" width="253">Entity class’s property</td><td valign="top" width="286">Category.CategoryName</td></tr><tr><td valign="top" width="191">Foreign key</td><td valign="top" width="253">Association between entity classes</td><td valign="top" width="286">Category.Products</td></tr><tr><td valign="top" width="191">Stored procedure, function</td><td valign="top" width="253">DataContext derived class’s method</td><td valign="top" width="286">NothwindDataContext.SalesByCategory()</td></tr></tbody></table>
+| SQL representation         | C# representation                    | Sample                                |
+|----------------------------|--------------------------------------|---------------------------------------|
+| Database                   | DataContext derived class            | NothwindDataContext                   |
+| Table, View                | DataContext derived class’s property | NothwindDataContext.Categories        |
+| Record                     | Entity class                         | Category                              |
+| Field                      | Entity class’s property              | Category.CategoryName                 |
+| Foreign key                | Association between entity classes   | Category.Products                     |
+| Stored procedure, function | DataContext derived class’s method   | NothwindDataContext.SalesByCategory() |
 
 Another way to generate the models is to use the command line tool [SqlMetal.exe](http://msdn.microsoft.com/en-us/library/bb386987.aspx). Please check MSDN for [details of code generation](http://msdn.microsoft.com/en-us/library/bb399400.aspx).
 

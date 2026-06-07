@@ -76,21 +76,21 @@ It also supports JSON/XML/INI configuration:
 It can be installed through [NuGet](https://www.nuget.org/packages/EntityFramework.Functions) using .NET CLI:
 
 > dotnet add package EnterpriseLibrary.TransientFaultHandling.Core
-> 
+>
 > dotnet add package TransientFaultHandling.Caching
-> 
+>
 > dotnet add package TransientFaultHandling.Configuration
-> 
+>
 > dotnet add package TransientFaultHandling.Data
 
 Or in Visual Studio NuGet Package Manager Console:
 
 > Install-Package EnterpriseLibrary.TransientFaultHandling.Core
-> 
+>
 > Install-Package TransientFaultHandling.Caching
-> 
+>
 > Install-Package TransientFaultHandling.Configuration
-> 
+>
 > Install-Package TransientFaultHandling.Data
 
 ## Backward compatibility with Enterprise Library
@@ -122,7 +122,7 @@ internal class MyDetection : ITransientErrorDetectionStrategy
 
 Second, a retry strategy must be defined to specify how the retry is executed, like retry count, retry interval, etc.. a retry strategy must inherit RetryStrategy abstract class. There are 3 built-in retry strategies: FixedInterval, Incremental, ExponentialBackoff.
 
-Then a retry policy (RetryPolicy class) must be instantiated with a retry strategy and an ITransientErrorDetectionStrategy interface. a retry policy has an ExecuteAction method to execute the specified synchronous function, and an ExecuteAsync method to execute a\\the specified async function. It also has a Retrying event. When the executed sync/async function throws an exception, if the exception is detected to be transient and max retry count is not reached, then it waits for the specified retry interval, and then it fires the Retrying event, and execute the specified sync/async function again.
+Then a retry policy (RetryPolicy class) must be instantiated with a retry strategy and an ITransientErrorDetectionStrategy interface. a retry policy has an ExecuteAction method to execute the specified synchronous function, and an ExecuteAsync method to execute the specified async function. It also has a Retrying event. When the executed sync/async function throws an exception, if the exception is detected to be transient and max retry count is not reached, then it waits for the specified retry interval, and then it fires the Retrying event, and execute the specified sync/async function again.
 
 ```csharp
 RetryStrategy retryStrategy = new FixedInterval(retryCount: 5, retryInterval: TimeSpan.FromSeconds(1));
@@ -342,9 +342,9 @@ It still returns a dictionary, which only has the specified type of retry strate
 
 Since 2.1.0, both Microsoft.Data.SqlClient and System.Data.SqlClient are supported. A API breaking change is introduced for this. If you are using the latest Microsoft.Data.SqlClient, no code change is needed. If you are using the legacy System.Data.SqlClient, the following types are renamed with a Legacy suffix:
 
--   ReliableSqlConnection –> ReliableSqlConnection**Legacy**
--   SqlDatabaseTransientErrorDetectionStrategy –> SqlDatabaseTransientErrorDetectionStrategy**Legacy**
--   SqlAzureTransientErrorDetectionStrategy –> SqlAzureTransientErrorDetectionStrategy**Legacy**
+-   ReliableSqlConnection –> ReliableSqlConnectionLegacy
+-   SqlDatabaseTransientErrorDetectionStrategy –> SqlDatabaseTransientErrorDetectionStrategyLegacy
+-   SqlAzureTransientErrorDetectionStrategy –> SqlAzureTransientErrorDetectionStrategyLegacy
 
 You can either rename these types or add the using directives:
 

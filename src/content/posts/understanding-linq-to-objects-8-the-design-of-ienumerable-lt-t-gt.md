@@ -1,7 +1,7 @@
 ---
 title: "Understanding LINQ to Objects (8) The Design Of IEnumerable<T>"
 published: 2010-03-20
-description: "\\]"
+description: "Currently in .NET, iterator pattern is implemented via IEnumerable<T> and IEnumerator<T> (or IEnumerable and IEnumerator)"
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to Objects", "LINQ via C# Series", "Usability"]
 category: ".NET"
@@ -9,9 +9,12 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
 
-Currently in .NET, iterator pattern is implemented via IEnumerable<T> and IEnumerator<T> (or IEnumerable and IEnumerator):
+Currently in .NET, iterator pattern is implemented via `IEnumerable<T>` and `IEnumerator<T>` (or IEnumerable and IEnumerator):
 
 ```csharp
 namespace System.Collections
@@ -54,7 +57,7 @@ The meaning of out keyword is explained in another post [Understanding C# Covari
 For years I have different ideas on the design:
 
 -   The first problem is, why they are called enumerable and enumerator? Iteratable and iterator sounds natural enough;
--   The second problem is, why IEnumerable IEnumerable<T> have Current properties? According to [Framework Design Guidelines](http://www.amazon.com/Framework-Design-Guidelines-Conventions-Libraries/dp/0321545613), they should be designed as methods, because they returns different values for each invocation (similar with Guid.NewGuid()).
+-   The second problem is, why IEnumerable `IEnumerable<T>` have Current properties? According to [Framework Design Guidelines](http://www.amazon.com/Framework-Design-Guidelines-Conventions-Libraries/dp/0321545613), they should be designed as methods, because they returns different values for each invocation (similar with Guid.NewGuid()).
 
 In my opinion, the following design should be more perfect:
 

@@ -60,7 +60,7 @@ Yes, in C# 4.0, delegate types are more convertable.
 
 ## Interface covariance / contravariance issues
 
-This is the interface covariance on IEnumerator<out T>:
+This is the interface covariance on `IEnumerator<out T>`:
 
 ```csharp
 IEnumerator<Base> baseEnumerator = new BaseEnumerator();
@@ -75,7 +75,7 @@ Console.WriteLine(derivedEnumerator is IEnumerator<Base>);
 
 It looks acceptable.
 
-Then this is covariance on IEnumerable<out T>:
+Then this is covariance on `IEnumerable<out T>`:
 
 ```csharp
 IEnumerable<Base> bases = new Base[0];
@@ -90,7 +90,7 @@ Console.WriteLine(deriveds is IEnumerable<Base>);
 
 Looks like a big mess.
 
-To try interface contravariance, IComparable<in T> can be used as an example:
+To try interface contravariance, `IComparable<in T>` can be used as an example:
 
 ```csharp
 internal class Base : IComparable<Base>

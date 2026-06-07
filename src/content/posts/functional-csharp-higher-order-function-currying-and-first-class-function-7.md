@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-higher-order-function-currying-and-first-class-function](/posts/functional-csharp-higher-order-function-currying-and-first-class-function "https://CodingOnWheels.com/posts/functional-csharp-higher-order-function-currying-and-first-class-function")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
+## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-higher-order-function-currying-and-first-class-function](/posts/functional-csharp-higher-order-function-currying-and-first-class-function "https://CodingOnWheels.com/posts/functional-csharp-higher-order-function-currying-and-first-class-function")
 
 ## First order and higher-order function
 
@@ -689,4 +690,14 @@ internal static void FunctionEquality()
 
 So C# has [first class functions](https://en.wikipedia.org/wiki/First-class_function). Here is the summary:
 
-<table border="0" cellpadding="0" cellspacing="0" width="636"><tbody><tr><td valign="top" width="124"></td><td valign="top" width="210">Object</td><td valign="top" width="300">Function</td></tr><tr><td valign="top" width="124">Type</td><td valign="top" width="210">Class</td><td valign="top" width="300">Delegate type</td></tr><tr><td valign="top" width="124">Instance</td><td valign="top" width="210">Class instance</td><td valign="top" width="300">Delegate instance</td></tr><tr><td valign="top" width="124">Variable</td><td valign="top" width="210">Can be assigned to variable</td><td valign="top" width="300">Can be assigned to variable</td></tr><tr><td valign="top" width="124">Field</td><td valign="top" width="210">Can be stored as data field</td><td valign="top" width="300">Can be stored as data field</td></tr><tr><td valign="top" width="124">Input</td><td valign="top" width="210">Can be function’s parameter</td><td valign="top" width="300">Can be higher-order function’s parameter</td></tr><tr><td valign="top" width="124">Output</td><td valign="top" width="210">Can be function’s return value</td><td valign="top" width="300">Can be higher-order function’s return value</td></tr><tr><td valign="top" width="124">Outer variable</td><td valign="top" width="210">Can access</td><td valign="top" width="300">Can access via closure</td></tr><tr><td valign="top" width="124">Nesting</td><td valign="top" width="210">Can be nested</td><td valign="top" width="300">Can be nested</td></tr><tr><td valign="top" width="124">Equality</td><td valign="top" width="210">Can be testable</td><td valign="top" width="300">Can be testable</td></tr></tbody></table>
+|                | Object                         | Function                                    |
+|----------------|--------------------------------|---------------------------------------------|
+| Type           | Class                          | Delegate type                               |
+| Instance       | Class instance                 | Delegate instance                           |
+| Variable       | Can be assigned to variable    | Can be assigned to variable                 |
+| Field          | Can be stored as data field    | Can be stored as data field                 |
+| Input          | Can be function’s parameter    | Can be higher-order function’s parameter    |
+| Output         | Can be function’s return value | Can be higher-order function’s return value |
+| Outer variable | Can access                     | Can access via closure                      |
+| Nesting        | Can be nested                  | Can be nested                               |
+| Equality       | Can be testable                | Can be testable                             |

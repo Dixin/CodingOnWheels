@@ -19,7 +19,7 @@ I have [Windows 8.1](http://en.wikipedia.org/wiki/Windows_8.1) and [Visual Studi
 
 After searching and trying things around, using Visual Studio and [IIS Express](http://en.wikipedia.org/wiki/Internet_Information_Services#IIS_Express) seems to be the easiest way to run and debug ASP websites:
 
-1.  Modify IIS Express configuration. Open %USERPROFILE%\\Documents\\IISExpress\\config\\applicationhost.config. Under [<system.webServer>](http://www.iis.net/configreference/system.webserver), find [<asp>](http://www.iis.net/configreference/system.webserver/asp):
+1.  Modify IIS Express configuration. Open `%USERPROFILE%\Documents\IISExpress\config\applicationhost.config`. Under [<system.webServer>](http://www.iis.net/configreference/system.webserver), find [`<asp>`](http://www.iis.net/configreference/system.webserver/asp):
 
 ```xml
 <asp scriptErrorSentToBrowser="true">
@@ -59,7 +59,7 @@ However, if the website is directly started with debugging (F5), Visual Studio w
 
 This is why in Step 4 we do not start website with debugging (F5).
 
-As the second last picture shows, the index.asp has a \[dynamic\] tag. Visual Studio does not automatically map it to index.asp from the file system. This means, if a breakpoint is set in a \*.asp file, it won’t trigger when running the website. You may have to go back and forth between dynamic file and static file. To have the mapping automatically, IIS is needed.
+As the second last picture shows, the index.asp has a `[dynamic]` tag. Visual Studio does not automatically map it to index.asp from the file system. This means, if a breakpoint is set in a \*.asp file, it won’t trigger when running the website. You may have to go back and forth between dynamic file and static file. To have the mapping automatically, IIS is needed.
 
 ## Debugging with Visual Studio 2013/2015 and IIS
 

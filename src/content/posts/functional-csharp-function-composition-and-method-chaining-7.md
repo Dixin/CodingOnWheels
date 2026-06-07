@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-function-composition-and-method-chaining](/posts/functional-csharp-function-composition-and-method-chaining "https://CodingOnWheels.com/posts/functional-csharp-function-composition-and-method-chaining")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
+## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-function-composition-and-method-chaining](/posts/functional-csharp-function-composition-and-method-chaining "https://CodingOnWheels.com/posts/functional-csharp-function-composition-and-method-chaining")
 
 In object-oriented programming, objects can be composed to build more complex object. Similarly, in functional programming. functions can be composed to build more complex function.
 
@@ -99,7 +100,7 @@ namespace System.Linq
 }
 ```
 
-They all return IEnumerable<T>, but they are all 2-arity, so one function cannot be called directly with another function’s output. To compose these functions, they need to be partially applied (called) with the parameter other than IEnumerable<T>, so that they become 1-arity functions, which can be composed. To do this, create the following helper functions:
+They all return `IEnumerable<T>`, but they are all 2-arity, so one function cannot be called directly with another function’s output. To compose these functions, they need to be partially applied (called) with the parameter other than `IEnumerable<T>`, so that they become 1-arity functions, which can be composed. To do this, create the following helper functions:
 
 ```csharp
 // Func<TSource, bool> -> IEnumerable<TSource> -> IEnumerable<TSource>
@@ -115,7 +116,7 @@ internal static Func<IEnumerable<TSource>, IEnumerable<TSource>> Take<TSource>(
     int count) => source => Enumerable.Take(source, count);
 ```
 
-They are curried from the original query methods, with the first parameter and second parameter swapped. After being called with a argument, they return IEnumerable<TSource> –> IEnumerable<TSource> functions:
+They are curried from the original query methods, with the first parameter and second parameter swapped. After being called with a argument, they return `IEnumerable<TSource> –> IEnumerable<TSource>` functions:
 
 ```csharp
 internal static void LinqWithPartialApplication()
@@ -235,7 +236,7 @@ internal static void InstanceMethodChaining(string @string)
 }
 ```
 
-The above functions are fluently composed because each of them returns an instance of that type, so that another instance method can be called fluently. Unfortunately, many APIs are not designed following this pattern. Take List<T> as example, here are some of its methods:
+The above functions are fluently composed because each of them returns an instance of that type, so that another instance method can be called fluently. Unfortunately, many APIs are not designed following this pattern. Take `List<T>` as example, here are some of its methods:
 
 ```csharp
 namespace System.Collections.Generic
@@ -259,7 +260,7 @@ namespace System.Collections.Generic
 }
 ```
 
-These methods return void, so they cannot be composed by chaining. These existing APIs cannot be changed, but the extension method syntactic sugar enables virtually adding new methods to an existing type. So fluent methods can be “added” to List<T> by defining extension methods:
+These methods return void, so they cannot be composed by chaining. These existing APIs cannot be changed, but the extension method syntactic sugar enables virtually adding new methods to an existing type. So fluent methods can be “added” to `List<T>` by defining extension methods:
 
 ```csharp
 public static class ListExtensions
@@ -340,7 +341,7 @@ public static void CompiledListExtensions()
 
 ### LINQ query methods composition
 
-In C#, LINQ query methods are composed better with this fluent method chaining approach. IEnumerable<T> is provided by .NET Framework 2.0 to represent a sequence of values. It only has a GetEnumerator method, and another version of GetEnumerator method inherited from IEnumerable:
+In C#, LINQ query methods are composed better with this fluent method chaining approach. `IEnumerable<T>` is provided by .NET Framework 2.0 to represent a sequence of values. It only has a GetEnumerator method, and another version of GetEnumerator method inherited from IEnumerable:
 
 ```csharp
 namespace System.Collections
@@ -360,9 +361,9 @@ namespace System.Collections.Generic
 }
 ```
 
-When .NET Framework 3.5 introduces LINQ, IEnumerable<T> is used to represent local LINQ data source and query. All the query methods except Empty, Range, Repeat, are defined as extension methods in System.Linq.Enumerable type. Many query methods, like fore mentioned Where, Skip, Take, Select, returns IEnumerable<T>, so that the query methods can be composed by fluent chaining.
+When .NET Framework 3.5 introduces LINQ, `IEnumerable<T>` is used to represent local LINQ data source and query. All the query methods except Empty, Range, Repeat, are defined as extension methods in System.Linq.Enumerable type. Many query methods, like fore mentioned Where, Skip, Take, Select, returns `IEnumerable<T>`, so that the query methods can be composed by fluent chaining.
 
-The fore mentioned OrderBy method is slightly different. It accepts IEnumerable<T> but returns IOrderedEnumerable<T>. There are 4 ordering query methods relevant to IOrderedEnumerable<T>:
+The fore mentioned OrderBy method is slightly different. It accepts `IEnumerable<T>` but returns `IOrderedEnumerable<T>`. There are 4 ordering query methods relevant to `IOrderedEnumerable<T>`:
 
 ```csharp
 namespace System.Linq
@@ -390,9 +391,9 @@ namespace System.Linq
 }
 ```
 
-IOrderedEnumerable<T>is derived from IEnumerable<T>, so ThenBy and ThenByDescending can only be composed after OrderBy and OrderByDescending, which logically makes sense.
+`IOrderedEnumerable<T>` is derived from `IEnumerable<T>`, so ThenBy and ThenByDescending can only be composed after OrderBy and OrderByDescending, which logically makes sense.
 
-There are also a few methods returning a single value instead of IEnumerable<T>, like First, Last, etc.:
+There are also a few methods returning a single value instead of `IEnumerable<T>`, like First, Last, etc.:
 
 ```csharp
 public static class Enumerable
@@ -403,9 +404,9 @@ public static class Enumerable
 }
 ```
 
-Usually they terminate the LINQ query, since other query methods cannot be composed after these methods, unless the returned single value is still a IEnumerable<T> instance.
+Usually they terminate the LINQ query, since other query methods cannot be composed after these methods, unless the returned single value is still a `IEnumerable<T>` instance.
 
-There are other parities of LINQ to Objects query represented by IEnumerable<T>, like Parallel LINQ to Objects query represented by ParallelQuery<T>, the remote LINQ query represented by IQueryable<T>, their query methods all follow this pattern:
+There are other parities of LINQ to Objects query represented by `IEnumerable<T>`, like Parallel LINQ to Objects query represented by `ParallelQuery<T>`, the remote LINQ query represented by `IQueryable<T>`, their query methods all follow this pattern:
 
 ```csharp
 namespace System.Linq
@@ -440,4 +441,4 @@ namespace System.Linq
 }
 ```
 
-The details of IEnumerable<T> queries are covered by the LINQ to Objects chapter, ParallelQuery<T> queries are covered by the Parallel LINQ chapter, and IQueryable<T> queries are covered by the LINQ to Entities chapter.
+The details of `IEnumerable<T>` queries are covered by the LINQ to Objects chapter, `ParallelQuery<T>` queries are covered by the Parallel LINQ chapter, and `IQueryable<T>` queries are covered by the LINQ to Entities chapter.

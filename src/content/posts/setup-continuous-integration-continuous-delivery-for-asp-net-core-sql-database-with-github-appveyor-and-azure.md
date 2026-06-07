@@ -26,7 +26,7 @@ To use AppVeyor with code in GitHub, just go to [https://appveyor.com](https://a
 AppVeyor has a [Build Configuration](https://www.appveyor.com/docs/build-configuration/) document, showing its entire pipeline.
 
 > 1.  Run `init` scripts
-> 2.  **Clone** repository into clone folder
+> 2.  Clone repository into clone folder
 >     -   Checkout build commit
 >     -   `cd` to clone folder
 > 3.  Restore build cache
@@ -34,30 +34,30 @@ AppVeyor has a [Build Configuration](https://www.appveyor.com/docs/build-configu
 > 5.  Patch `AssemblyInfo` and `.csproj` files
 > 6.  Modify `hosts` files
 > 7.  Start services
-> 8.  **Build**
+> 8.  Build
 >     -   Run `before_build` scripts
 >     -   Run msbuild
 >     -   Run `after_build` scripts
-> 9.  **Test**
+> 9.  Test
 >     -   Run `before_test` scripts
 >     -   Discover and run tests
 >     -   Run `after_test` scripts
 > 10.  Call `build_success` webhooks
-> 11.  **Package** artifacts
-> 12.  **Deployment**
+> 11.  Package artifacts
+> 12.  Deployment
 >      -   Run `before_deploy` scripts
 >      -   Run all configured deployments
 >      -   Run `after_deploy` scripts
-> 13.  **Finalize** successful builds:
+> 13.  Finalize successful builds:
 >      -   Call `deployment_success` webhooks
 >      -   Run `on_success` scripts
 >      -   Save build cache
-> 14.  **Finalize** failed builds:
+> 14.  Finalize failed builds:
 >      -   Call `build_failure` webhooks
 >      -   Optionally save build cache
 >      -   Call `deployment_failure` webhooks
 >      -   Run `on_failure` scripts
-> 15.  **Finalize** both successful and failed builds:
+> 15.  Finalize both successful and failed builds:
 >      -   Call `on_finish` scripts
 
 ## Initialize environment
@@ -191,7 +191,7 @@ before_test:
 
 ## Deploy to Azure
 
-First got to Azure, create a App Service on Azure. If you do not have an Azure account/subscription, you can go to Dev Essentials and get a free one. Here I created a App Service of free pricing tier from [https://portal.azure.com](https://portal.azure.com). Since my code detects the environment, I also used the portal to add environment variable “ASPNETCORE\_ENVIRONMENT”, and set it to “Staging”.
+First got to Azure, create a App Service on Azure. If you do not have an Azure account/subscription, you can go to Dev Essentials and get a free one. Here I created a App Service of free pricing tier from [https://portal.azure.com](https://portal.azure.com). Since my code detects the environment, I also used the portal to add environment variable `ASPNETCORE_ENVIRONMENT`, and set it to “Staging”.
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Continuous-Integration-with-GitHub-AppVe_2A0D/image_thumb_1.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Continuous-Integration-with-GitHub-AppVe_2A0D/image_4.png)
 
@@ -239,21 +239,27 @@ deploy:
 
 The Debug build will not be deployed:
 
-> \[00:11:22\] Collecting artifacts... \[00:11:23\] No artifacts found matching 'Publish\\Release' path \[00:11:23\] Deploying using AzureAppServiceZipDeploy provider \[00:11:23\] No Zip artifacts were found. Only Zip artifacts can be published as Azure App Service Zip Push Deploy. Make sure you have specified correct artifacts filter. \[00:11:23\] If you are using AppVeyor Web Application packaging, please ensure that you selected 'Package Web Applications for XCopy deployment' ('publish\_wap\_xcopy: true' in YAML). \[00:11:23\] Build success
+```console
+[00:11:22] Collecting artifacts... [00:11:23] No artifacts found matching 'Publish\Release' path [00:11:23] Deploying using AzureAppServiceZipDeploy provider [00:11:23] No Zip artifacts were found. Only Zip artifacts can be published as Azure App Service Zip Push Deploy. Make sure you have specified correct artifacts filter. [00:11:23] If you are using AppVeyor Web Application packaging, please ensure that you selected 'Package Web Applications for XCopy deployment' ('publish_wap_xcopy: true' in YAML). [00:11:23] Build success
+```
 
 And the Release build will be deployed:
 
-> \[00:10:36\] Collecting artifacts... \[00:10:36\] Found artifact 'Publish\\Release' matching 'Publish\\Release' path \[00:10:36\] Uploading artifacts... \[00:10:36\] \[00:10:40\] \[1/1\] PublishRelease...Zipping to PublishRelease.zip \[00:10:40\] \[1/1\] Publish\\PublishRelease.zip (19,221,277 bytes)...1% \[00:10:40\] \[1/1\] Publish\\PublishRelease.zip (19,221,277 bytes)...10% \[00:10:41\] \[1/1\] Publish\\PublishRelease.zip (19,221,277 bytes)...20% \[00:10:41\] \[1/1\] Publish\\PublishRelease.zip (19,221,277 bytes)...30% \[00:10:41\] \[1/1\] Publish\\PublishRelease.zip (19,221,277 bytes)...40% \[00:10:41\] \[1/1\] Publish\\PublishRelease.zip (19,221,277 bytes)...50% \[00:10:41\] \[1/1\] Publish\\PublishRelease.zip (19,221,277 bytes)...60% \[00:10:41\] \[1/1\] Publish\\PublishRelease.zip (19,221,277 bytes)...70% \[00:10:41\] \[1/1\] Publish\\PublishRelease.zip (19,221,277 bytes)...80% \[00:10:41\] \[1/1\] Publish\\PublishRelease.zip (19,221,277 bytes)...90% \[00:10:41\] \[1/1\] Publish\\PublishRelease.zip (19,221,277 bytes)...100% \[00:10:41\] Deploying using AzureAppServiceZipDeploy provider \[00:10:58\] Deploying "PublishRelease.zip" to "\*\*\*\*\*staging" site...OK \[00:10:59\] Build success
+```console
+[00:10:36] Collecting artifacts... [00:10:36] Found artifact 'Publish\Release' matching 'Publish\Release' path [00:10:36] Uploading artifacts... [00:10:36] [00:10:40] [1/1] PublishRelease...Zipping to PublishRelease.zip [00:10:40] [1/1] Publish\PublishRelease.zip (19,221,277 bytes)...1% [00:10:40] [1/1] Publish\PublishRelease.zip (19,221,277 bytes)...10% [00:10:41] [1/1] Publish\PublishRelease.zip (19,221,277 bytes)...20% [00:10:41] [1/1] Publish\PublishRelease.zip (19,221,277 bytes)...30% [00:10:41] [1/1] Publish\PublishRelease.zip (19,221,277 bytes)...40% [00:10:41] [1/1] Publish\PublishRelease.zip (19,221,277 bytes)...50% [00:10:41] [1/1] Publish\PublishRelease.zip (19,221,277 bytes)...60% [00:10:41] [1/1] Publish\PublishRelease.zip (19,221,277 bytes)...70% [00:10:41] [1/1] Publish\PublishRelease.zip (19,221,277 bytes)...80% [00:10:41] [1/1] Publish\PublishRelease.zip (19,221,277 bytes)...90% [00:10:41] [1/1] Publish\PublishRelease.zip (19,221,277 bytes)...100% [00:10:41] Deploying using AzureAppServiceZipDeploy provider [00:10:58] Deploying "PublishRelease.zip" to "\*\*\*\*\*staging" site...OK [00:10:59] Build success
+```
 
 ## Remote desktop debugging
 
-AppVeyor also supports debugging with remote desktop. To enable this, add a secure variable “APPVEYOR\_RDP\_PASSWORD”, which will be your remote desktop password. Then add the following command:
+AppVeyor also supports debugging with remote desktop. To enable this, add a secure variable `APPVEYOR_RDP_PASSWORD`, which will be your remote desktop password. Then add the following command:
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Continuous-Integration-with-GitHub-AppVe_2A0D/image_thumb_9.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Continuous-Integration-with-GitHub-AppVe_2A0D/image_20.png)
 
 It will print the connection info at the very beginning of the build console:
 
-> \[00:00:00\] Build started \[00:00:00\] iex ((new-object net.webclient).DownloadString('[https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))](https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'\)\)) \[00:00:03\] Remote Desktop connection details: \[00:00:03\] Server: 67.225.139.254:33923 \[00:00:03\] Username: appveyor
+```console
+[00:00:00] Build started [00:00:00] iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1')) [00:00:03] Remote Desktop connection details: [00:00:03] Server: 67.225.139.254:33923 [00:00:03] Username: appveyor
+```
 
 You may get an authentication error due to CredSSP encryption oracle remediation:
 

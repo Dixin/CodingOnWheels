@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Parallel LINQ in Depth](/archive/?tag=Parallel%20LINQ) Series
 
-## \[[Parallel LINQ in Depth series](/archive/?tag=Parallel%20LINQ)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/parallel-linq-2-partitioning](/posts/parallel-linq-2-partitioning "https://CodingOnWheels.com/posts/parallel-linq-2-partitioning")**
+## Latest version: [https://CodingOnWheels.com/posts/parallel-linq-2-partitioning](/posts/parallel-linq-2-partitioning "https://CodingOnWheels.com/posts/parallel-linq-2-partitioning")
 
 The first step of Parallel LINQ is partitioning. The source values is split into several partitions, so that multiple threads can execute the query logic in parallel.
 
@@ -23,9 +24,9 @@ In Parallel LINQ, there are 4 kinds of partitioning algorithms – range partiti
 
 ### Range partitioning
 
-Range partitioning works with indexed source sequence has known length, like T\[\] arrays with a Length property, and IList<T> lists with a Count property. Assume on a quad core CPU, if there are 12 values in the source, by default Parallel LINQ splits these 12 values (at indexes 0, 1, 2, …, 11) into 4 partition A, B, C, D:
+Range partitioning works with indexed source sequence has known length, like `T[]` arrays with a Length property, and `IList<T>` lists with a Count property. Assume on a quad core CPU, if there are 12 values in the source, by default Parallel LINQ splits these 12 values (at indexes 0, 1, 2, …, 11) into 4 partition A, B, C, D:
 
-```csharp
+```console
 Index:     0  1  2  3  4  5  6  7  8  9 10 11
 Partition: A  A  A, B  B  B, C  C  C, D  D  D
 ```
@@ -46,21 +47,21 @@ internal static partial class Partitioning
 ```
 
 > Execute this method with Concurrency Visualizer for Visual Studio, the following chart is generated:
-> 
+>
 > [![image_thumb1](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-2-Partitioning_8EAF/image_thumb1_thumb.png "image_thumb1")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-2-Partitioning_8EAF/image_thumb1_2.png)
-> 
+>
 > Here the timespan of value 12 is longer than the timespan of 15, because CPU was fully used at the beginning. Regarding there are also other processes and thread running on the device, when processing value 12, the query thread cannot ideally utilize 25% of CPU (100% of one core). It also shows the threads do not balance the load very well. For example, thread 19140 is done with a partition (0, 1, 2, 3) quickly, then it becomes idle and just waits for other threads to be done with other partitions.
 
 ### Stripped partitioning
 
 Stripped partitioning can work with non-indexed source. In this algorithm, each Parallel LINQ query thread pulls the first value from the source. when each thread is done with a done, it tried to pull the first value again, until the source becomes empty. Still assume a quad core CPU, and assume it costs about the same time for each thread to process each value, then the partitioning result is:
 
-```csharp
+```console
 Index:     0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 ...
 Partition: A  B  C  D  A  B  C  D  A  B  C  D  A  B  C  D ...
 ```
 
-Take a simple IEnumerable<T> source as example:
+Take a simple `IEnumerable<T>` source as example:
 
 ```csharp
 internal static void Strip()
@@ -71,7 +72,7 @@ internal static void Strip()
 ```
 
 > The visualization is:
-> 
+>
 > [![image_thumb2](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-2-Partitioning_8EAF/image_thumb2_thumb.png "image_thumb2")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-2-Partitioning_8EAF/image_thumb2_2.png)
 
 A benefit of stripped partitioning is that threads can balance the load. To demonstrate this, just tweak above code a little bit:
@@ -98,13 +99,13 @@ internal static void StripForArray()
 }
 ```
 
-Here Partitioner.Create returns Partitioner<T> which implements load balanced strip partitioning. Then another ParallelEnumerable.AsParallel overload can be called on it:
+Here Partitioner.Create returns `Partitioner<T>` which implements load balanced strip partitioning. Then another ParallelEnumerable.AsParallel overload can be called on it:
 
 ```csharp
 public static ParallelQuery<TSource> AsParallel<TSource>(this Partitioner<TSource> source);
 ```
 
-The Partitioner<TSource> type will be discussed later.
+The `Partitioner<TSource>` type will be discussed later.
 
 ### Hash partitioning
 
@@ -202,7 +203,7 @@ Stripped partitioning can be viewed as a special case of chunk partitioning, whe
 
 ## Implement custom partitioner
 
-.NET also provides APIs to implement custom partitioning. The contract is the System.Collections.Partitioner<TSource> abstract class:
+.NET also provides APIs to implement custom partitioning. The contract is the `System.Collections.Partitioner<TSource>` abstract class:
 
 ```csharp
 namespace System.Collections.Concurrent
@@ -223,7 +224,7 @@ namespace System.Collections.Concurrent
 
 ### Static partitioner
 
-The GetPartitions method is used to return the specified number of partitions, and each partition is represented by an iterator, which yields the values of each partition. This design of having multiple IEnumerator<T> iterators to share one IEnumerable<T> sequence, is the same idea as the EnumerableEx.Share and IBuffer<T> from Interactive Extenson (Ix) library discussed in the LINQ to Objects chapter. So an simple static partitioner can be implemented as a wrapper of IBuffer<T> created by Share:
+The GetPartitions method is used to return the specified number of partitions, and each partition is represented by an iterator, which yields the values of each partition. This design of having multiple `IEnumerator<T>` iterators to share one `IEnumerable<T>` sequence, is the same idea as the EnumerableEx.Share and `IBuffer<T>` from Interactive Extenson (Ix) library discussed in the LINQ to Objects chapter. So an simple static partitioner can be implemented as a wrapper of `IBuffer<T>` created by Share:
 
 ```csharp
 public class StaticPartitioner<TSource> : Partitioner<TSource>
@@ -259,13 +260,13 @@ internal static void StaticPartitioner()
 }
 ```
 
-Parallel LINQ only calls the GetPartitions method, and start to query the returned partitions in parallel. Apparently IBuffer<T> implements stripped partitioning.
+Parallel LINQ only calls the GetPartitions method, and start to query the returned partitions in parallel. Apparently `IBuffer<T>` implements stripped partitioning.
 
 > [![image_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-2-Partitioning_8EAF/image_thumb_thumb.png "image_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-2-Partitioning_8EAF/image_thumb_2.png)
 
 ### Dynamic partitioner
 
-When a partitioner’s SupportsDynamicPartitions property returns true, it is a dynamic partitioner. Besides splitting source into a specified static number of iterators like above, dynamic partitioner’s GetDynamicPartitions can also split source into arbitrary number of partitions. GetDynamicPartitions returns a IEnumerable<T> sequence, whose GetEnumerator method can be called at any time, and can be called arbitrary times, to return arbitrary number of IEnumerator<T> iterators. This scenario is still supported by IBuffer<T>, so:
+When a partitioner’s SupportsDynamicPartitions property returns true, it is a dynamic partitioner. Besides splitting source into a specified static number of iterators like above, dynamic partitioner’s GetDynamicPartitions can also split source into arbitrary number of partitions. GetDynamicPartitions returns a `IEnumerable<T>` sequence, whose GetEnumerator method can be called at any time, and can be called arbitrary times, to return arbitrary number of `IEnumerator<T>` iterators. This scenario is still supported by `IBuffer<T>`, so:
 
 ```csharp
 public class DynamicPartitioner<TSource> : StaticPartitioner<TSource>
@@ -300,7 +301,7 @@ internal static void DynamicPartitioner()
 }
 ```
 
-Parallel.ForEach has another overload accepting an IEnumerable<T> sequence, which is more commonly used:
+Parallel.ForEach has another overload accepting an `IEnumerable<T>` sequence, which is more commonly used:
 
 ```csharp
 public static ParallelLoopResult ForEach<TSource>(IEnumerable<TSource> source, Action<TSource> body);

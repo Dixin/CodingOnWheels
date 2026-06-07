@@ -9,15 +9,16 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
 
-## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-interactive-extensions-ix](/posts/linq-to-objects-interactive-extensions-ix "https://CodingOnWheels.com/posts/linq-to-objects-interactive-extensions-ix")**
+## Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-interactive-extensions-ix](/posts/linq-to-objects-interactive-extensions-ix "https://CodingOnWheels.com/posts/linq-to-objects-interactive-extensions-ix")
 
 Besides the built-in query methods (standard query operators) provided by System.Linq.Enumerable, Microsoft also provides additional query methods through the System.Interactive NuGet package (aka [Interactive Extensions (Ix)](https://github.com/Reactive-Extensions/Rx.NET) library), which has a System.Linq.EnumerableEx type with the following query methods:
 
--   Sequence queries: return a new IEnumerable<T> sequence (deferred execution)
+-   Sequence queries: return a new `IEnumerable<T>` sequence (deferred execution)
     -   Generation: Defer, Create, Return, Repeat
     -   Filtering: IgnoreElements\*, DistinctUntilChanged
     -   Mapping: SelectMany, Scan, Expand
@@ -40,7 +41,7 @@ Besides the built-in query methods (standard query operators) provided by System
 
 There is not much documentation for this library provided from Microsoft, except the APIs’ XML comments. In this part, these query methods are discussed by either examples and/or their internal implementation, whichever can be more intuitive.
 
-Similar to Enumerable methods, in above list, Methods returning void and methods returning a single value implement immediate execution; and methods returning an IEnumerable<T> sequence implements deferred execution, where the methods marked with \* implement eager evaluation, and the unmarked methods implements lazy evaluation. The SkipLast method marked with \*\* is special, it can be eager evaluation or lazy evaluation, which is discussed later.
+Similar to Enumerable methods, in above list, Methods returning void and methods returning a single value implement immediate execution; and methods returning an `IEnumerable<T>` sequence implements deferred execution, where the methods marked with \* implement eager evaluation, and the unmarked methods implements lazy evaluation. The SkipLast method marked with \*\* is special, it can be eager evaluation or lazy evaluation, which is discussed later.
 
 ## Sequence queries
 
@@ -96,7 +97,7 @@ The other overload of Create is not so intuitive:
 public static IEnumerable<T> Create<T>(Action<IYielder<T>> create);
 ```
 
-It accepts a callback function of type System.Linq.IYielder<T> –> void. IYielder<T> has 2 members, Return and Break, representing yield return statement and yield break statement.
+It accepts a callback function of type `System.Linq.IYielder<T> –> void`. `IYielder<T>` has 2 members, Return and Break, representing yield return statement and yield break statement.
 
 ```csharp
 public interface IYielder<in T>
@@ -158,7 +159,7 @@ public static IEnumerable<TResult> Cast<TResult>(this IEnumerable source)
 }
 ```
 
-With Create and IYielder<T>, Cast can be implemented without yield return statement. The following code works:
+With Create and `IYielder<T>`, Cast can be implemented without yield return statement. The following code works:
 
 ```csharp
 public static IEnumerable<TResult> CastWithCreate<TResult>(this IEnumerable source) =>
@@ -173,7 +174,7 @@ public static IEnumerable<TResult> CastWithCreate<TResult>(this IEnumerable sour
             });
 ```
 
-IYielder<T> is a great idea before C# 7.0 introduces local function, but at runtime, it can have unexpected iterator behavior when used with more complex control flow, like try-catch statement. Please avoid using this query method. In the above examples, define local function to use yield return statement:
+`IYielder<T>` is a great idea before C# 7.0 introduces local function, but at runtime, it can have unexpected iterator behavior when used with more complex control flow, like try-catch statement. Please avoid using this query method. In the above examples, define local function to use yield return statement:
 
 ```csharp
 internal static void Create()
@@ -494,7 +495,7 @@ public static IEnumerable<TSource> TakeLast<TSource>(this IEnumerable<TSource> s
 }
 ```
 
-Once TakeLast query is executed, all values are evaluated, and the last values are stored in a Queue<T> buffer.
+Once TakeLast query is executed, all values are evaluated, and the last values are stored in a `Queue<T>` buffer.
 
 SkipLast also uses a queue to buffer the tail values:
 
@@ -600,7 +601,7 @@ Share buffers the values of a sequence and share them with several iterators:
 public static IBuffer<TSource> Share<TSource>(this IEnumerable<TSource> source);
 ```
 
-The returned System.Linq.IBuffer<T> is just IEnumerable<T> plus IDisposable:
+The returned `System.Linq.IBuffer<T>` is just `IEnumerable<T>` plus IDisposable:
 
 ```csharp
 namespace System.Linq
@@ -609,7 +610,7 @@ namespace System.Linq
 }
 ```
 
-By default, an IEnumerable<T> sequence’s multiple iterators are independent from each other. When these iterators are called, callers pull independent values from each iterator. In contrast, shared iterator works as if they are the same single iterator:
+By default, an `IEnumerable<T>` sequence’s multiple iterators are independent from each other. When these iterators are called, callers pull independent values from each iterator. In contrast, shared iterator works as if they are the same single iterator:
 
 ```csharp
 internal static void Share()
@@ -643,7 +644,7 @@ internal static void Share()
 }
 ```
 
-When pulling values with multiple independent iterators, each value can be pulled multiple times. When pulling values with multiple shared iterators, each value can only be pulled once. And IBuffer<T>.Dispose terminates the sharing. After calling Dispose, all shared iterators’ MoveNext throws ObjectDisposedException.
+When pulling values with multiple independent iterators, each value can be pulled multiple times. When pulling values with multiple shared iterators, each value can only be pulled once. And `IBuffer<T>.Dispose` terminates the sharing. After calling Dispose, all shared iterators’ MoveNext throws ObjectDisposedException.
 
 The other overload accepts a selector function:
 
@@ -945,7 +946,7 @@ internal static void MemoizeWithReaderCount()
 
 ### Exception
 
-The exception query methods address some exception related scenarios for IEnumerable<T>. Throw query just throws the specified exception when executed:
+The exception query methods address some exception related scenarios for `IEnumerable<T>`. Throw query just throws the specified exception when executed:
 
 ```csharp
 public static IEnumerable<TResult> Throw<TResult>(Exception exception)
@@ -1002,7 +1003,7 @@ public static IEnumerable<TSource> CatchWithYield<TSource, TException>(
 }
 ```
 
-However, yield return statement inside try-catch statement is not supported by C# compiler. Compiling the above code results error CS1626: Cannot yield a value in the body of a try block with a catch clause. The code can be compiled by replacing yield return statement with IYielder<T>.Return call:
+However, yield return statement inside try-catch statement is not supported by C# compiler. Compiling the above code results error CS1626: Cannot yield a value in the body of a try block with a catch clause. The code can be compiled by replacing yield return statement with `IYielder<T>.Return` call:
 
 ```csharp
 public static IEnumerable<TSource> CatchWithYield<TSource, TException>(
@@ -1111,7 +1112,7 @@ public static IEnumerable<TSource> CatchWithYield<TSource>(this IEnumerable<IEnu
 }
 ```
 
-Again, yield in above code can be replaced with IYielder<T> to compile, but that does not work at runtime. So above desugared while-try-catch-yield pattern can be used:
+Again, yield in above code can be replaced with `IYielder<T>` to compile, but that does not work at runtime. So above desugared while-try-catch-yield pattern can be used:
 
 ```csharp
 public static IEnumerable<TSource> Catch<TSource>(this IEnumerable<IEnumerable<TSource>> sources)
@@ -1445,7 +1446,7 @@ internal static void Do()
 }
 ```
 
-Since System.IObserver<T> is the composition of above onNext, onError, onCompleted functions:
+Since `System.IObserver<T>` is the composition of above onNext, onError, onCompleted functions:
 
 ```csharp
 namespace System
@@ -1480,7 +1481,7 @@ public static TSource Max<TSource>(this IEnumerable<TSource> source, IComparer<T
 public static TSource Min<TSource>(this IEnumerable<TSource> source, IComparer<TSource> comparer);
 ```
 
-As fore mentioned, to use the standard Max/Min with a source sequence, exception is thrown if the source type does not implement IComparable or IComparable<T>, which is a problem when the source type cannot be modified:
+As fore mentioned, to use the standard Max/Min with a source sequence, exception is thrown if the source type does not implement IComparable or `IComparable<T>`, which is a problem when the source type cannot be modified:
 
 ```csharp
 internal static void MaxMinGeneric()

@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[FP & LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
 
 ## Functor and functor laws
 
@@ -39,7 +40,7 @@ public interface IFunctor<TFunctor<>> where TFunctor<> : IFunctor<TFunctor>
 }
 ```
 
-In DotNet category, objects are types, so the functor’s type mapping capability is represented by generic type TFunctor<>, which maps type T to another type TFunctor<T>. And in DotNet category, morphisms are functions, so the functor’s function mapping capability is represented by the Select method, which maps function of type TSource –> TResult to another function of type TFunctor<TSource> –> TFunctor<TResult>.
+In DotNet category, objects are types, so the functor’s type mapping capability is represented by generic type TFunctor<>, which maps type T to another type `TFunctor<T>`. And in DotNet category, morphisms are functions, so the functor’s function mapping capability is represented by the Select method, which maps function of type TSource –> TResult to another function of type `TFunctor<TSource> –> TFunctor<TResult>`.
 
 Unfortunately, the above interface cannot be compiled, because C#/.NET do not support [higher-kinded polymorphism](http://en.wikipedia.org/wiki/Type_class#Higher-kinded_polymorphism) for types.
 
@@ -48,7 +49,7 @@ Unfortunately, the above interface cannot be compiled, because C#/.NET do not su
 [Kind](http://en.wikipedia.org/wiki/Kind_\(type_theory\)) is the meta type of a type:
 
 -   A concrete type has the simplest kind, denoted \*. All non generic types (types without type parameters) are of kind \*. Closed generic types (types with concrete type arguments) are also concrete types of kind \*.
--   An open generic type definition with type parameter can be viewed as a type constructor, which works like a function. For example, IEnumerable<> can accept a type of kind \* (like int), and return another closed type of kind \* (like IEnumerable<int>), so IEnumerable<> is a type constructor, its kind is denoted \* –> \*; ValueTuple<,> can accept 2 types of kind \* (like string and bool), and return another closed type of kind \* (like ValueTuple<string, bool>) so ValueTuple<,> is a type constructor, its kind is denoted (\*, \*) –> \*, or \* –> \* –> \* in curried style.
+-   An open generic type definition with type parameter can be viewed as a type constructor, which works like a function. For example, IEnumerable<> can accept a type of kind \* (like int), and return another closed type of kind \* (like `IEnumerable<int>`), so IEnumerable<> is a type constructor, its kind is denoted \* –> \*; ValueTuple<,> can accept 2 types of kind \* (like string and bool), and return another closed type of kind \* (like ValueTuple<string, bool>) so ValueTuple<,> is a type constructor, its kind is denoted (\*, \*) –> \*, or \* –> \* –> \* in curried style.
 
 In above IFunctor<TFunctor<>> generic type definition, its type parameter TFunctor<> is an open generic type of kind \* –> \*. As a result, IFunctor<TFunctor<>> can be viewed as a type constructor, which works like a higher-order function, accepting a TFunctor<> type constructor of kind \* –> \*, and returning a concrete type of kind \*. So IFunctor<TFunctor<>> is of kind (\* –> \*) –> \*. This is called a higher-kinded type, and not supported by .NET and C# compiler. In another word, C# generic type definition does not support its type parameter to have type parameters. In C#, functor support is implemented by LINQ query comprehensions instead of type system.
 
@@ -67,7 +68,7 @@ public interface IEnumerable<T> : IFunctor<IEnumerable<>>, IEnumerable
 }
 ```
 
-Endofunctor IEnumerable<> in DotNet category maps each T object (type) to IEnumerable<T> object (type), and its Select method maps TSource→ TResult morphism (function) to IEnumerable<TSource> → IEnumerable<TResult> morphism (function). So its Select method is of type (TSource –> TResult) –> (IEnumerable<TSource> –> IEnumerable<TResult>), which can be uncurried to (TSource –> TResult, IEnumerable<TSource>) –> IEnumerable<TResult>:
+Endofunctor IEnumerable<> in DotNet category maps each T object (type) to `IEnumerable<T>` object (type), and its Select method maps TSource→ TResult morphism (function) to `IEnumerable<TSource> → IEnumerable<TResult>` morphism (function). So its Select method is of type `(TSource –> TResult) –> (IEnumerable<TSource> –> IEnumerable<TResult>)`, which can be uncurried to `(TSource –> TResult, IEnumerable<TSource>) –> IEnumerable<TResult>`:
 
 ```csharp
 public interface IEnumerable<T> : IFunctor<IEnumerable<T>>, IEnumerable
@@ -80,7 +81,7 @@ public interface IEnumerable<T> : IFunctor<IEnumerable<T>>, IEnumerable
 }
 ```
 
-Now swap the 2 parameters of the uncurried Select, then its type becomes (IEnumerable<TSource>, TSource –> TResult) –> IEnumerable<TResult>:
+Now swap the 2 parameters of the uncurried Select, then its type becomes `(IEnumerable<TSource>, TSource –> TResult) –> IEnumerable<TResult>`:
 
 ```csharp
 public interface IEnumerable<T> : IFunctor<IEnumerable<T>>, IEnumerable
@@ -233,7 +234,7 @@ public static partial class FuncExtensions // Func<T> : IFunctor<Func<>>
 }
 ```
 
-Here Select maps TSource –> TResult function to Func<TSource> –> Func<TResult> function, which is straightforward. The other Func generic delegate types, like Func<,> with 2 type parameters, could be more interesting. Just like fore mentioned ValueTuple<,>, Func<,> is of kind \* –> \* –> \*, and can be viewed as a type constructor accepting 2 concrete types and returning another concrete type, which is different from functor. However, if Func<,> already has a concrete type T as its first type parameter, then Func<T,> can be viewed as a partially applied type constructor of kind \* –> \*, which can map one concrete type (its second type parameter) to another concrete type. So that Func<T,> is also a functor, with the following Select method:
+Here Select maps TSource –> TResult function to `Func<TSource> –> Func<TResult>` function, which is straightforward. The other Func generic delegate types, like Func<,> with 2 type parameters, could be more interesting. Just like fore mentioned ValueTuple<,>, Func<,> is of kind \* –> \* –> \*, and can be viewed as a type constructor accepting 2 concrete types and returning another concrete type, which is different from functor. However, if Func<,> already has a concrete type T as its first type parameter, then Func<T,> can be viewed as a partially applied type constructor of kind \* –> \*, which can map one concrete type (its second type parameter) to another concrete type. So that Func<T,> is also a functor, with the following Select method:
 
 ```csharp
 public static partial class FuncExtensions // Func<T, TResult> : IFunctor<Func<T,>>
@@ -288,7 +289,7 @@ public static partial class ValueTupleExtensions // ValueTuple<T> : IFunctor<Val
 }
 ```
 
-Unlike all the previous Select, here ValueTuple<>’s Select query method cannot implement deferred execution. To construct a ValueTuple<TResult> instance and return, selector must be called immediately to evaluate the result value.
+Unlike all the previous Select, here ValueTuple<>’s Select query method cannot implement deferred execution. To construct a `ValueTuple<TResult>` instance and return, selector must be called immediately to evaluate the result value.
 
 ```csharp
 internal static void Map()
@@ -403,7 +404,7 @@ public static partial class NullableExtensions // Nullable<T> : IFunctor<Nullabl
 }
 ```
 
-In the above Select method, if the source Nullable<TSource> instance represents an actual value of TSource, that value is extracted to call selector, and the result is wrapped into another Nullable<TResult> instance to return; if the source represents null, selector is not called, and a Nullable<TResult> instance representing null is directly returned. There are 2 issues here. First, Nullable<>’s type parameter is constrained to be structures, so it can only map some objects of DotNet category (the value types). Second, the Select implementation cannot be deferred. As LINQ query method, deferred execution is always preferred whenever possible. So the following Optional<T> type can be defined to be used with any type parameter, and also be lazy:
+In the above Select method, if the source `Nullable<TSource>` instance represents an actual value of TSource, that value is extracted to call selector, and the result is wrapped into another `Nullable<TResult>` instance to return; if the source represents null, selector is not called, and a `Nullable<TResult>` instance representing null is directly returned. There are 2 issues here. First, Nullable<>’s type parameter is constrained to be structures, so it can only map some objects of DotNet category (the value types). Second, the Select implementation cannot be deferred. As LINQ query method, deferred execution is always preferred whenever possible. So the following `Optional<T>` type can be defined to be used with any type parameter, and also be lazy:
 
 ```csharp
 public readonly struct Optional<T>
@@ -429,7 +430,7 @@ public readonly struct Optional<T>
 }
 ```
 
-Optional<T> is still a structure just like Nullable<T>, so its instance cannot be null. Its parameter is not constrained, so it can wrap any valid or invalid value of any type, Its constructor accepts a factory function just like Lazy<>, s the evaluation of its wrapped value can be deferred. And the factory function returns a tuple of bool value and T value, where the bool value indicates if the other T value is a valid value, and that bool value can be returned by the the HasValue property.
+`Optional<T>` is still a structure just like `Nullable<T>`, so its instance cannot be null. Its parameter is not constrained, so it can wrap any valid or invalid value of any type, Its constructor accepts a factory function just like Lazy<>, s the evaluation of its wrapped value can be deferred. And the factory function returns a tuple of bool value and T value, where the bool value indicates if the other T value is a valid value, and that bool value can be returned by the the HasValue property.
 
 ```csharp
 internal static void Optional()

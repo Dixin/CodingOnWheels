@@ -1,7 +1,7 @@
 ---
 title: "Understanding C# Features (5) Lambda Expression, Anonymous Function and Expression Tree"
 published: 2009-11-29
-description: "\\] - \\]"
+description: "C# lambda expression is a syntax to create delegates or expression trees."
 image: ""
 tags: [".NET", "C#", "C# 3.0", "C# Features", "F#", "Functional Programming", "Haskell", "JavaScript", "LINQ", "LINQ via C#"]
 category: "C#"
@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C#](/posts/linq-via-csharp)\] - \[[C# Features](/archive/?tag=C%23%20Features)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 C# [lambda expression](http://msdn.microsoft.com/en-us/library/bb397687.aspx) is a syntax to create delegates or expression trees. It is a very powerful syntactic sugar making C# functional. In this part, “Lambda expression” simply means “C# lambda expression”. The native concept of lambda expression will be fully covered in later chapter.
 
@@ -191,7 +192,7 @@ public static void CallLambda()
 }
 ```
 
-where Action<T> delegate type is defined as:
+where `Action<T>` delegate type is defined as:
 
 ```csharp
 namespace System
@@ -202,7 +203,7 @@ namespace System
 
 These function are anonymous and inline at design time. As fore mentioned, at compile time, they all become named methods. And these calls become normal calls to the compiler generated delegate cache fields.
 
-Here, The new Func<int, bool>(…) and new Action<bool>(…) constructor call syntax surrounding the anonymous functions are required by compiler. The following code cannot be compiled:
+Here, The `new Func<int, bool>()` and `new Action<bool>()` constructor call syntax surrounding the anonymous functions are required by compiler. The following code cannot be compiled:
 
 ```csharp
 (int32 => int32 > 0)(1);
@@ -312,7 +313,7 @@ So that EqualsIgnoreCase method can be viewed as a Func<string, string, bool> la
 
 ## Func and Action generic delegate types
 
-The above System.Func<T, TResult> and Action<T> delegate type definition is introduced in .NET 3.5.
+The above System.Func<T, TResult> and `Action<T>` delegate type definition is introduced in .NET 3.5.
 
 In .NET 3.5, this generic delegate type defined in mscorlib.dll:
 
@@ -368,7 +369,7 @@ internal static partial class ExpressionTree
 }
 ```
 
-In the above assignment statement, the right side is a lambda expression, which literally the same as the above lambda expression as anonymous method. But this time the isPositiveExpression is of type Expression<Func<int, bool>> instead of Func<int, bool>. An Expression<T> object is called an expression tree instead of an anonymous method.
+In the above assignment statement, the right side is a lambda expression, which literally the same as the above lambda expression as anonymous method. But this time the isPositiveExpression is of type Expression<Func<int, bool>> instead of Func<int, bool>. An `Expression<T>` object is called an expression tree instead of an anonymous method.
 
 ### Code as data
 
@@ -388,7 +389,7 @@ internal static void CompiledExpressionLambda()
 }
 ```
 
-Here the Expression<Func<int bool>> object represents an expression tree, the ParameterExpression, ConstantExpression, BinaryExpression objects are nodes in that tree. And they are all derived from System.Linq.Expressions.Expression class:
+Here the `Expression<Func<int, bool>>` object represents an expression tree, the ParameterExpression, ConstantExpression, BinaryExpression objects are nodes in that tree. And they are all derived from System.Linq.Expressions.Expression class:
 
 ```csharp
 namespace System.Linq.Expressions
@@ -507,7 +508,7 @@ Besides above ParameterExpression, ConstantExpression, etc., .NET provides a col
 -   LabelExpression
 -   LambdaExpression
 
--   Expression<TDelegate>
+-   `Expression<TDelegate>`
 
 -   ListInitExpression
 -   LoopExpression
@@ -908,7 +909,7 @@ This is very powerful. By traversing a abstract syntactic tree, a .NET method is
 
 ### .NET built-in compiler
 
-.NET provides a built in API [System.Linq.Expressions.Expression<TDelegate>.Compile()](https://msdn.microsoft.com/en-us/library/Bb345362.aspx) to compile expression tree to executable method at runtime:
+.NET provides a built in API [`System.Linq.Expressions.Expression<TDelegate>.Compile()`](https://msdn.microsoft.com/en-us/library/Bb345362.aspx) to compile expression tree to executable method at runtime:
 
 ```csharp
 Expression<Func<double, double, double, double, double, double>> infix =
@@ -918,7 +919,7 @@ Func<double, double, double, double, double, double> method = infix.Compile();
 double result = method(1, 2, 3, 4, 5); // 12
 ```
 
-Expression<TDelegate>.Compile() calls internal API System.Linq.Expressions.Compiler.LambdaCompiler.Compile(). There is a complete expression-tree-to-IL compiler implementation under System.Linq.Expressions.Compiler namespace.
+`Expression<TDelegate>.Compile()` calls internal API System.Linq.Expressions.Compiler.LambdaCompiler.Compile(). There is a complete expression-tree-to-IL compiler implementation under System.Linq.Expressions.Compiler namespace.
 
 ### Convert expression tree to other languages
 
@@ -929,7 +930,7 @@ Here expression tree is compiled to description string, and IL instructions. Lat
 Regarding:
 
 -   At compile time, anonymous method and expression tree can share the same syntax sugar
--   At runtime, expression tree can be converted to method, by just calling Expression<TDelegate>.Compile()
+-   At runtime, expression tree can be converted to method, by just calling `Expression<TDelegate>.Compile()`
 
 So, can a method be converted to expression tree at runtime?
 
@@ -955,7 +956,7 @@ var isPositive = int32 => int32 > 0;
 
 The compiler does not know:
 
--   is predicate3 a anonymous method (System.Delegate), or an expression tree (System.Linq.Expressions.Expression<TDelegate>)
+-   is predicate3 a anonymous method (System.Delegate), or an expression tree (`System.Linq.Expressions.Expression<TDelegate>`)
 -   the type of parameter, return value, etc.
 
 dynamic cannot be used either. The following code cannot be compiled:

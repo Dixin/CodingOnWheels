@@ -1,7 +1,7 @@
 ---
 title: "Understanding LINQ to SQL (6) Working With Deferred Execution"
 published: 2010-04-19
-description: "\\]"
+description: "Similar with LINQ to Objects, LINQ to SQL supports deferred execution when possible."
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to SQL", "LINQ via C# Series", "SQL Server", "TSQL"]
 category: "LINQ"
@@ -9,7 +9,14 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to SQL](/archive/?tag=LINQ%20to%20SQL) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
 
 Similar with LINQ to Objects, LINQ to SQL supports deferred execution when possible. For example:
 
@@ -50,7 +57,7 @@ The above code results a single item from the source, which cannot be deferred.
 
 ## Deferred execution and DataContext
 
-Since LINQ to SQL queries work against Table<T>s on DataContext, DataContext affects the execution of queries a lot.
+Since LINQ to SQL queries work against `Table<T>`s on DataContext, DataContext affects the execution of queries a lot.
 
 While designing applications, the data access and UI code are usually separated:
 
@@ -107,7 +114,7 @@ internal static IEnumerable<string> GetCategoryNames(params int[] ids)
 }
 ```
 
-Here the LINQ to Objects query method ToArray() [converts the cold IEnumerable<T> to a hot IEnumerable<T>](/posts/understanding-linq-to-objects-7-query-methods-internals), so that the query is executed immediately.
+Here the LINQ to Objects query method ToArray() [converts the cold `IEnumerable<T>` to a hot `IEnumerable<T>`](/posts/understanding-linq-to-objects-7-query-methods-internals), so that the query is executed immediately.
 
 The other solutions will be explained in later posts.
 
@@ -161,7 +168,7 @@ internal static class UI
 Invoking UI.Print() prints:
 
 > Category 1: Beverages Product 1: Chai Product 2: Chang Product 24: Guaraná Fantástica Product 34: Sasquatch Ale Product 35: Steeleye Stout Product 38: Côte de Blaye Product 39: Chartreuse verte Product 43: Ipoh Coffee Product 67: Laughing Lumberjack Lager Product 70: Outback Lager Product 75: Rhönbräu Klosterbier Product 76: Lakkalikööri Category 2: Condiments Product 3: Aniseed Syrup Product 4: Chef Anton's Cajun Seasoning Product 5: Chef Anton's Gumbo Mix Product 6: Grandma's Boysenberry Spread Product 8: Northwoods Cranberry Sauce Product 15: Genen Shouyu Product 44: Gula Malacca Product 61: Sirop d'érable Product 63: Vegie-spread Product 65: Louisiana Fiery Hot Pepper Sauce Product 66: Louisiana Hot Spiced Okra Product 77: Original Frankfurter grüne Soße Category 3: Confections Product 16: Pavlova Product 19: Teatime Chocolate Biscuits Product 20: Sir Rodney's Marmalade Product 21: Sir Rodney's Scones Product 25: NuNuCa Nuß-Nougat-Creme
-> 
+>
 > …
 
 which looks well. But profiling shows N + 1 translated SQLs, where N is the number of categories. This is so horrible:

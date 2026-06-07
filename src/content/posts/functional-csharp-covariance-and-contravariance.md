@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
@@ -54,9 +55,8 @@ C#’s covariance and contravariance enables the subtyping and substitution rela
 
 When using above Base and Derived as input and output type of function, there are 4 cases:
 
-// Derived -> Base
-
 ```csharp
+// Derived -> Base
 internal static Base DerivedToBase(Derived input) => new Base();
 
 // Derived -> Derived
@@ -71,9 +71,8 @@ internal static Derived BaseToDerived(Base input) => new Derived();
 
 Their function types can be represented by the following non-generic delegate types:
 
-// Derived -> Base
-
 ```csharp
+// Derived -> Base
 internal delegate Base DerivedToBase(Derived input);
 
 // Derived -> Derived
@@ -174,7 +173,9 @@ baseToDerived = DerivedToBase; // Derived -> Base
 
 With generic delegate type, all the above function types can be represented by:
 
-internal delegate TOutput GenericFunc<TInput, TOutput\>(TInput input);
+```csharp
+internal delegate TOutput GenericFunc<TInput, TOutput>(TInput input);
+```
 
 Then the delegate instance can be initialized with variances:
 
@@ -190,7 +191,9 @@ derivedToBase = BaseToDerived; // Covariance and contravariance.
 
 For functions of GenericFunc<TInput, TOutput> type, covariance enables TOutput to be substituted by more specific type, and contravariance enables TInput to be substituted by less derived type. So TOutput/TInput are called covariant/contravariant type parameter for this generic delegate type. C# 4.0 introduces the out/in modifiers for the covariant/contravariant type parameter:
 
-internal delegate TOutput GenericFuncWithVariances<in TInput, out TOutput\>(TInput input);
+```csharp
+internal delegate TOutput GenericFuncWithVariances<in TInput, out TOutput>(TInput input);
+```
 
 These modifiers enable further variances, the substitution of generic delegate instances:
 
@@ -279,7 +282,7 @@ Base output2 = outputBase.Output; // .get_Output();
 }
 ```
 
-IOutput<Derived> interface does not implement IOutput<Base> interface, but with out modifier, IOutput<Derived> instance can still substitute IOutput<Base> instance, as if IOutput<Derived> is subtype and IOutput<Base> is supertype.
+`IOutput<Derived>` interface does not implement `IOutput<Base>` interface, but with out modifier, `IOutput<Derived>` instance can still substitute `IOutput<Base>` instance, as if `IOutput<Derived>` is subtype and `IOutput<Base>` is supertype.
 
 Similarly, generic interface can also have contravariant type parameter, with in modifier:
 
@@ -312,7 +315,7 @@ inputDerived.Input = new Derived(); // .set_Input(input: new Derived());
 }
 ```
 
-IInput<Base> interface does not implement IInput<Derived> interface, but with in modifier, IInput<Base> instance can still substitute IInput<Derived> instance, as if IInput<Base> is subtype and IInput<Derived> is supertype.
+`IInput<Base>` interface does not implement `IInput<Derived>` interface, but with in modifier, `IInput<Base>` instance can still substitute `IInput<Derived>` instance, as if `IInput<Base>` is subtype and `IInput<Derived>` is supertype.
 
 Similar to generic delegate type, generic interface can have covariant type parameter and contravariant type parameter at the same time:
 
@@ -365,9 +368,10 @@ The type parameter T is neither covariant for all function members using T, nor 
 
 The variances are interesting for generic higher-order function types. Higher-order function type can be defined by outputting function, since it outputs a function. Regarding the type parameter is only used as output, use the out modifier:
 
+```csharp
 // () -> () -> TOutput Equivalent to Func<Func<TOutput>>
-
-internal delegate Func<TOutput\> ToFunc<out TOutput\>(); // Covariant output type.
+internal delegate Func<TOutput> ToFunc<out TOutput>(); // Covariant output type.
+```
 
 Marking the type parameter as covariant, the code can still be compiled. The following example demonstrates how the variance and substitution work at runtime:
 
@@ -392,11 +396,10 @@ Func<Base>output = toToBase();
 }
 ```
 
-The reason is, covariance persists the direction of subtyping and substitution, Derived <: Base in Context<out T> leads to Context<Derived> <: Context<Base>, Context<Context<Derived>> <: Context<Context<Base>>, Context<Context<Context<Derived>>> <: Context<Context<Context<Derived>>>, and so on. T is always covariant for Context<Context<T>>, Context<Context<Context<T>>>, etc. Take above Func<out TResult> as example:
-
-// () -> TOutput
+The reason is, covariance persists the direction of subtyping and substitution, Derived <: Base in `Context<out T>` leads to `Context<Derived>` <: `Context<Base>`, `Context<Context<Derived>>` <: `Context<Context<Base>>`, `Context<Context<Context<Derived>>>` <: `Context<Context<Context<Derived>>>`, and so on. T is always covariant for `Context<Context<T>>`, `Context<Context<Context<T>>>`, etc. Take above `Func<out TResult>` as example:
 
 ```csharp
+// () -> TOutput
 internal delegate TOutput Func<out TOutput>(); // Covariant.
 
 // () -> () -> TOutput: Equivalent to Func<Func<TOutput>>.
@@ -412,15 +415,17 @@ internal delegate ToToFunc<TOutput> ToToToFunc<out TOutput>(); // Covariant.
 
 Higher-order function type can also be defined by accepting function as input. Regarding the type parameter is only used as input, use the in modifier:
 
+```csharp
 // (TInput -> void) -> void: Equivalent to Action<Action<TInput>>.
-
-internal delegate void ActionToVoid<in TTInput\>(Action<TTInput\> action); // Cannot be compiled.
+internal delegate void ActionToVoid<in TTInput>(Action<TTInput> action); // Cannot be compiled.
+```
 
 However, the above code cannot be compiled. Marking the type parameter as covariant works:
 
+```csharp
 // (TInput -> void) -> void: Equivalent to Action<Action<TInput>>.
-
-internal delegate void ActionToVoid<out TInput\>(Action<TInput\> action);
+internal delegate void ActionToVoid<out TInput>(Action<TInput> action);
+```
 
 And this is how the variance and substitution works at runtime:
 
@@ -441,11 +446,10 @@ baseToVoidToVoid(default(Action<Base>));
 }
 ```
 
-The reason is, contravariance inverts the direction of subtyping and substitution, Derived <: Base in Context<in T> leads to Context<Base> <: Context<Derived>, Context<Context<Derived>> <: Context<Context<Base>>, Context<Context<Context<Base>>> <: Context<Context<Context<Derived>>>, and so on. T becomes covariant for Context<Context<T>>, contravariant for Context< Context<Context<T>>>, covariant for Context<Context<Context<Context<T>>>>, etc. Take above Action<in T> as example:
-
-// TInput -> void
+The reason is, contravariance inverts the direction of subtyping and substitution, Derived <: Base in `Context<in T>` leads to `Context<Base>` <: `Context<Derived>`, `Context<Context<Derived>>` <: `Context<Context<Base>>`, `Context<Context<Context<Base>>>` <: `Context<Context<Context<Derived>>>`, and so on. T becomes covariant for `Context<Context<T>>`, contravariant for `Context<Context<Context<T>>>`, covariant for `Context<Context<Context<Context<T>>>>`, etc. Take above `Action<in T>` as example:
 
 ```csharp
+// TInput -> void
 internal delegate void Action<in TInput>(TInput input); // Contravariant.
 
 // (TInput -> void) -> void: Equivalent to Action<Action<TInput>>.
@@ -461,7 +465,7 @@ internal delegate void ActionToVoidToVoidToVoid<out TTInput>(ActionToVoidToVoid<
 
 ## Covariance of array
 
-Array T\[\] implements IList<T> interface:
+Array `T[]` implements `IList<T>` interface:
 
 ```csharp
 namespace System.Collections.Generic
@@ -477,7 +481,7 @@ T this[int index] { get; set; }
 }
 ```
 
-For IList<T>, T is used by indexer getter and setter function members. T is the output type of the compiled get\_Item function, and is the input type of the compiled set\_Item function. Apparently, T is neither covariant for both functions’ types, and nor contravariant for both functions’ types. So, T should be invariant for IList<T> and array T\[\]. However, C# compiler and .NET runtime unexpectedly support covariance for array. The following example can be compiled, but throws ArrayTypeMismatchException at runtime, which can be a source of bugs:
+For `IList<T>`, T is used by indexer getter and setter function members. T is the output type of the compiled `get_Item` function, and is the input type of the compiled `set_Item` function. Apparently, T is neither covariant for both functions’ types, and nor contravariant for both functions’ types. So, T should be invariant for `IList<T>` and array `T[]`. However, C# compiler and .NET runtime unexpectedly support covariance for array. The following example can be compiled, but throws ArrayTypeMismatchException at runtime, which can be a source of bugs:
 
 ```csharp
 internal static void ArrayCovariance()
@@ -535,7 +539,7 @@ return attributes.HasFlag(GenericParameterAttributes.Covariant)
 }
 ```
 
-Under System.Linq namespace, there are also a number of generic interfaces with variance: IGrouping<out TKey, out TElement>, IQueryable<out T>, IOrderedQueryable<out T>. Microsoft has documented the List of Variant Generic Interface and Delegate Types: https://docs.microsoft.com/en-us/dotnet/standard/generics/covariance-and-contravariance#VariantList, but it is inaccurate. It says TElement is covariant for IOrderedEnumerable<TElement>, but actually not:
+Under System.Linq namespace, there are also a number of generic interfaces with variance: `IGrouping<out TKey, out TElement>`, `IQueryable<out T>`, `IOrderedQueryable<out T>`. Microsoft has documented the List of Variant Generic Interface and Delegate Types: <https://docs.microsoft.com/en-us/dotnet/standard/generics/covariance-and-contravariance#VariantList>, but it is inaccurate. It says TElement is covariant for `IOrderedEnumerable<TElement>`, but actually not:
 
 ```csharp
 namespace System.Linq
@@ -548,7 +552,7 @@ Func<TElement, TKey> keySelector, IComparer<TKey> comparer, bool descending);
 }
 ```
 
-Local LINQ query is represented by IEnumerable<T> generic interface, where T is covariant:
+Local LINQ query is represented by `IEnumerable<T>` generic interface, where T is covariant:
 
 ```csharp
 namespace System.Collections.Generic
@@ -565,9 +569,9 @@ IEnumerator<T> GetEnumerator();
 }
 ```
 
-First, In IEnumerator<T> interface, its type parameter is only used as output type of its Current property’s getter, which is compiled to get\_Current function. Apparently T is covariance for its function type, so that T is also covariant for IEnumerator<T> interface level. Then, in IEnumerable<T>, T is only used by GetEnumerator. Here IEnumerator<T> can be virtually viewed as a simple wrapper of get\_Current function, and GetEnumerator can be virtually viewed as a higher-order function that outputs (a wrapper of) get\_Current function. As discussed, T is covariant for get\_Current function, covariant for higher-order function GetEnumerator, and eventually covariant for IEnumerable<T> interface level.
+First, In `IEnumerator<T>` interface, its type parameter is only used as output type of its Current property’s getter, which is compiled to `get_Current` function. Apparently T is covariance for its function type, so that T is also covariant for `IEnumerator<T>` interface level. Then, in `IEnumerable<T>`, T is only used by GetEnumerator. Here `IEnumerator<T>` can be virtually viewed as a simple wrapper of `get_Current` function, and GetEnumerator can be virtually viewed as a higher-order function that outputs (a wrapper of) `get_Current` function. As discussed, T is covariant for `get_Current` function, covariant for higher-order function GetEnumerator, and eventually covariant for `IEnumerable<T>` interface level.
 
-Remote LINQ query is represented by IQueryable<T>, where T is also covariant:
+Remote LINQ query is represented by `IQueryable<T>`, where T is also covariant:
 
 ```csharp
 namespace System.Linq
@@ -587,7 +591,7 @@ public interface IQueryable<out T> : IEnumerable<T>, IEnumerable, IQueryable
 }
 ```
 
-IQueryable<T> implements IEnumerable<T>, Its type parameter T is only used by the GetEnumerator member from IEnumerable<T>, so apparently, T remains covariant for IQueryable<T>.
+`IQueryable<T>` implements `IEnumerable<T>`, Its type parameter T is only used by the GetEnumerator member from `IEnumerable<T>`, so apparently, T remains covariant for `IQueryable<T>`.
 
 Variance brings convenience to LINQ queries. Take the Concat and Select local query methods as example:
 
@@ -605,7 +609,7 @@ this IEnumerable<TSource> source, Func<TSource, TResult> selector);
 }
 ```
 
-In the following example, Concat is called with IEnumerable<Base> instance, so another IEnumerable<Base> instance is required. With covariance, IEnumerable<Derived> can substitute IEnumerable<Base>, so IEnumerable<Derived> argument can be directly passed to IEnumerable<base> parameter:
+In the following example, Concat is called with `IEnumerable<Base>` instance, so another I`Enumerable<Base>` instance is required. With covariance, `IEnumerable<Derived>` can substitute `IEnumerable<Base>`, so `IEnumerable<Derived>` argument can be directly passed to `IEnumerable<base>` parameter:
 
 ```csharp
 internal static void Concat(
@@ -617,7 +621,7 @@ enumerableOfBase = enumerableOfBase.Concat(enumerableOfDerived);
 }
 ```
 
-In the following example, Select is called with IEnumerable<Derived> instance, and the output is stored as IEnumerable<Base> instance. According to the signature of Select, the selector function is required to be of Derived -> Base type. With covariance, selector function of Base -> Base, Derived -> Derived, and Base -> Derived types work as well:
+In the following example, Select is called with `IEnumerable<Derived>` instance, and the output is stored as `IEnumerable<Base>` instance. According to the signature of Select, the selector function is required to be of Derived -> Base type. With covariance, selector function of Base -> Base, Derived -> Derived, and Base -> Derived types work as well:
 
 ```csharp
 internal static void Select(IEnumerable<Derived> enumerableOfDerived)

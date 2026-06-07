@@ -9,13 +9,14 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
+## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate")
 
-## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate")**
-
-In [previous part](/posts/lambda-calculus-via-c-sharp-7-encoding-church-numerals), the Decrease function was a Func<Numeral<Func<Func<T, T>, T>>, Numeral<T>>:
+In [previous part](/posts/lambda-calculus-via-c-sharp-7-encoding-church-numerals), the Decrease function was a `Func<Numeral<Func<Func<T, T>, T>>, Numeral<T>>`:
 
 ```csharp
 // Decrease = n => f => x => n(g => h => h(g(f)))(_ => x)(_ => _)
@@ -24,17 +25,17 @@ public static Numeral<T> Decrease<T>
             f => x => numeral(g => h => h(g(f)))(_ => x)(_ => _);
 ```
 
-This is ok because in the definition of Numeral<T>:
+This is ok because in the definition of `Numeral<T>`:
 
 ```csharp
 public delegate Func<T, T> Numeral<T>(Func<T, T> f);
 ```
 
-T can be anything. But on another hand, Decrease can be more useful, if its parameter and return value are exactly the same type. This can be done if in the definition of Numeral<T>, the type parameter can be hidden, so that Decrease can be something like a Func<Numeral, Numeral>.
+T can be anything. But on another hand, Decrease can be more useful, if its parameter and return value are exactly the same type. This can be done if in the definition of `Numeral<T>`, the type parameter can be hidden, so that Decrease can be something like a `Func<Numeral, Numeral>`.
 
-## Non-generic wrapper for Numeral<T>, and Increase
+## Non-generic wrapper for `Numeral<T>`, and `Increase`
 
-One possible solution (inspired by [forall](https://wiki.haskell.org/Keywords#forall) in [Haskell](http://en.wikipedia.org/wiki/Haskell_\(programming_language\))) is to create a non-generic wrapper class without type parameter, and have Numeral<T> to be on that class’s member:
+One possible solution (inspired by [forall](https://wiki.haskell.org/Keywords#forall) in [Haskell](http://en.wikipedia.org/wiki/Haskell_\(programming_language\))) is to create a non-generic wrapper class without type parameter, and have `Numeral<T>` to be on that class’s member:
 
 ```csharp
 public partial class _Numeral
@@ -54,7 +55,7 @@ But how this class can be implemented? Remember:
 Increase2 := λn.λf.f ∘ (n f)
 ```
 
-So the \_Numeral class can be implemented from its previous Church numeral:
+So the `_Numeral` class can be implemented from its previous Church numeral:
 
 ```csharp
 public partial class _Numeral
@@ -72,7 +73,7 @@ public partial class _Numeral
 }
 ```
 
-So an increased \_Numeral is constructed by using current \_Numeral as the predecessor:
+So an increased `_Numeral` is constructed by using current `_Numeral` as the predecessor:
 
 ```csharp
 public partial class _Numeral
@@ -82,7 +83,7 @@ public partial class _Numeral
 }
 ```
 
-As a special case, 0 does not apply f at all. It can be implemented as a sub class of \_Numeral so that the behavior can be overridden:
+As a special case, 0 does not apply f at all. It can be implemented as a sub class of `_Numeral` so that the behavior can be overridden:
 
 ```csharp
 public partial class _Numeral
@@ -125,7 +126,7 @@ public static partial class _NumeralExtensions
 
 ## Decrease and Subtract
 
-Finally, Decrease and Subtract can be done nicely, because now Decrease is a Func<\_Numeral, \_Numeral>:
+Finally, Decrease and Subtract can be done nicely, because now Decrease is a `Func<_Numeral, _Numeral>`:
 
 ```csharp
 public static partial class _NumeralExtensions

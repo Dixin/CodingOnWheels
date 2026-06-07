@@ -9,15 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## Latest EF Core version of this article: [https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-1-remote-query](/posts/entity-framework-core-and-linq-to-entities-1-remote-query "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-1-remote-query")
-
-## **EF version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-1-remote-query**](/posts/entity-framework-and-linq-to-entities-1-remote-query "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-1-remote-query")
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> This post is updated, [here is the latest version](/posts/entity-framework-core-and-linq-to-entities-1-remote-query).
 
 ## Entity Framework and Entity Framework Core
 
@@ -27,7 +24,17 @@ EF is a library for .NET Framework so it only works on Windows. EF Core is provi
 
 EF Core APIs are under Microsoft.EntityFrameworkCore namespace, and EF APIs are under System.Data.Entity namespace. Some APIs share the same name, and some are slightly different:
 
-<table border="0" cellpadding="2" cellspacing="0" width="866"><tbody><tr><td valign="top" width="426">EF Core</td><td valign="top" width="438">EF</td></tr><tr><td valign="top" width="426">Microsoft.EntityFrameworkCore.DbContext</td><td valign="top" width="438">System.Data.Entity.DbContext</td></tr><tr><td valign="top" width="426">Microsoft.EntityFrameworkCore.DbSet&lt;TEntity&gt;</td><td valign="top" width="438">System.Data.Entity.DbSet&lt;TEntity&gt;</td></tr><tr><td valign="top" width="426">Microsoft.EntityFrameworkCore.ModelBuilder</td><td valign="top" width="438">System.Data.Entity.DbModelBuilder</td></tr><tr><td valign="top" width="426">Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade</td><td valign="top" width="438">System.Data.Entity.Database</td></tr><tr><td valign="top" width="426">Microsoft.EntityFrameworkCore.ChangeTracking.ChangeTracker</td><td valign="top" width="438">System.Data.Entity.Infrastructure.DbChangeTracker*</td></tr><tr><td valign="top" width="426">Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry</td><td valign="top" width="438">System.Data.Entity.Infrastructure.DbEntityEntry*</td></tr><tr><td valign="top" width="426">Microsoft.EntityFrameworkCore.ChangeTracking.PropertyEntry</td><td valign="top" width="438">System.Data.Entity.Infrastructure.DbPropertyEntry*</td></tr><tr><td valign="top" width="426">Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction</td><td valign="top" width="438">System.Data.Entity.DbContextTransaction*</td></tr><tr><td valign="top" width="426">Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException</td><td valign="top" width="438">System.Data.Entity.Infrastructure.DbUpdateConcurrencyException</td></tr></tbody></table>
+| EF Core                                                     | EF                                                             |
+|-------------------------------------------------------------|----------------------------------------------------------------|
+| Microsoft.EntityFrameworkCore.DbContext                     | System.Data.Entity.DbContext                                   |
+| `Microsoft.EntityFrameworkCore.DbSet<TEntity>`              | `System.Data.Entity.DbSet<TEntity>`                            |
+| Microsoft.EntityFrameworkCore.ModelBuilder                  | System.Data.Entity.DbModelBuilder                              |
+| Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade | System.Data.Entity.Database                                    |
+| Microsoft.EntityFrameworkCore.ChangeTracking.ChangeTracker  | System.Data.Entity.Infrastructure.DbChangeTracker*             |
+| Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry    | System.Data.Entity.Infrastructure.DbEntityEntry*               |
+| Microsoft.EntityFrameworkCore.ChangeTracking.PropertyEntry  | System.Data.Entity.Infrastructure.DbPropertyEntry*             |
+| Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction | System.Data.Entity.DbContextTransaction*                       |
+| Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException  | System.Data.Entity.Infrastructure.DbUpdateConcurrencyException |
 
 This tutorial follows the EF Core API names, and assumes the following aliases are defined for EF types marked with \*:
 
@@ -75,7 +82,7 @@ Microsoft SQL database is available in the cloud, and on premise (Windows and Li
     1.  Install Docker, then in preferences, [change the memory](https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-setup-docker) to 4GB or more
     1.  Pull the SQL Server Docker image (microsoft/mssql-server-linux or microsoft/mssql-server-windows), and run
     1.  For Linux or Windows, install tools mentioned above; For Mac, install [sql-cli](https://www.npmjs.com/package/sql-cli) tool from npm, or [mssql extension](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql) for Visual Studio Code.
-    1.  Use the tool to attach AdventureWorks\_Data.mdf and AdventureWorks\_Log.ldf to SQL Server.
+    1.  Use the tool to attach `AdventureWorks_Data.mdf` and `AdventureWorks_Log.ldf` to SQL Server.
 
 When the sample database is ready, save the database connection string. For .NET Core, the connection string can be saved for the application as a JSON file, for example, App.json:
 
@@ -117,9 +124,14 @@ internal static class ConnectionStrings
 
 LINQ to Objects, Parallel LINQ query .NET objects in current .NET application’s local memory, these queries are called local queries. LINQ to XML queries XML data source, which are local .NET objects representing XML structures as well, so LINQ to XML queries are also local queries. As demonstrated at the beginning of this tutorial, LINQ can also query data in other data domains, like tweets in Twitter, rows in database tables, etc. Apparently, these data source are not .NET objects directly available in local memory. These queries are called remote queries.
 
-Local data sources and local queries are represented by IEnumerable<T>. Remote LINQ data sources, like a table in database, and remote queries, are represented by System.Linq.IQueryable<T>. Similar to ParallelQuery<T> discussed in the Parallel LINQ chapter, IQueryable<T> is another parity with IEnumerable<T>:
+Local data sources and local queries are represented by `IEnumerable<T>`. Remote LINQ data sources, like a table in database, and remote queries, are represented by `System.Linq.IQueryable<T>`. Similar to `ParallelQuery<T>` discussed in the Parallel LINQ chapter, `IQueryable<T>` is another parity with `IEnumerable<T>`:
 
-<table cellpadding="2" cellspacing="0" width="542"><tbody><tr><td valign="top" width="290">LINQ to (local) Objects</td><td valign="top" width="250">LINQ to (remote) Entities</td></tr><tr><td valign="top" width="290">System.Collections.IEnumerable</td><td valign="top" width="250">System.Linq.IQueryable</td></tr><tr><td valign="top" width="290">System.Collections.Generic.IEnumerable&lt;T&gt;</td><td valign="top" width="250">System.Linq.IQueryable&lt;T&gt;</td></tr><tr><td valign="top" width="290">System.Linq.IOrderedEnumerable&lt;T&gt;</td><td valign="top" width="250">System.Linq.IOrderedQueryable&lt;T&gt;</td></tr><tr><td valign="top" width="290">System.Linq.Enumerable</td><td valign="top" width="250">System.Linq.Queryable</td></tr></tbody></table>
+| LINQ to (local) Objects                     | LINQ to (remote) Entities          |
+|---------------------------------------------|------------------------------------|
+| `System.Collections.IEnumerable`            | `System.Linq.IQueryable`           |
+| `System.Collections.Generic.IEnumerable<T>` | `System.Linq.IQueryable<T>`        |
+| `System.Linq.IOrderedEnumerable<T>`         | `System.Linq.IOrderedQueryable<T>` |
+| `System.Linq.Enumerable`                    | `System.Linq.Queryable`            |
 
 ```csharp
 namespace System.Linq
@@ -141,11 +153,11 @@ namespace System.Linq
 }
 ```
 
-IEnumerable<T> has many implementations, like T\[\] array, Microsoft.Collections.Immutable.ImmutableList<T>, etc. EF Core provides IQueryable<T> implementations, including Microsoft.EntityFrameworkCore.DbSet<T>, Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable<T>, etc. Please see the LINQ to Objects chapter for the detailed list and inheritance hierarchy for types implementing IEnumerable<T>, ParallelQuery<T>, and IQueryable<T>.
+`IEnumerable<T>` has many implementations, like `T[]` array, `Microsoft.Collections.Immutable.ImmutableList<T>`, etc. EF Core provides `IQueryable<T>` implementations, including `Microsoft.EntityFrameworkCore.DbSet<T>`, `Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable<T>`, etc. Please see the LINQ to Objects chapter for the detailed list and inheritance hierarchy for types implementing `IEnumerable<T>`, `ParallelQuery<T>`, and `IQueryable<T>`.
 
-> EF provides IQueryable<T> implementations including System.Data.Entity.DbSet<T>, System.Data.Entity.Infrastructure.DbQuery<T>, etc.
+> EF provides `IQueryable<T>` implementations including `System.Data.Entity.DbSet<T>`, S`ystem.Data.Entity.Infrastructure.DbQuery<T>`, etc.
 
-System.Linq.Queryable static class provides all the query methods for IQueryable<T>, which are parities with Enumerable query methods. For example, the following are the local and remote Where/Select/Concat/Cast methods side by side:
+System.Linq.Queryable static class provides all the query methods for `IQueryable<T>`, which are parities with Enumerable query methods. For example, the following are the local and remote Where/Select/Concat/Cast methods side by side:
 
 ```csharp
 namespace System.Linq
@@ -184,7 +196,7 @@ namespace System.Linq
 }
 ```
 
-For each remote query method, the type of generic source sequence and result sequence is simply replaced by IQueryable<T>, the type of non-generic sequence is replaced by Queryable, and the call back functions are replaced by expression trees representing those functions. Similarly, the following are the ordering methods side by side, where the type of ordered source sequence and result sequence is replaced by IOrderedQueryable<T>:
+For each remote query method, the type of generic source sequence and result sequence is simply replaced by `IQueryable<T>`, the type of non-generic sequence is replaced by Queryable, and the call back functions are replaced by expression trees representing those functions. Similarly, the following are the ordering methods side by side, where the type of ordered source sequence and result sequence is replaced by `IOrderedQueryable<T>`:
 
 ```csharp
 namespace System.Linq
@@ -225,8 +237,8 @@ With this design, fluent method chaining and the LINQ query expressions pattern 
 
 Queryable does not provide the following query methods:
 
--   Empty/Range/Repeat: it does not make sense for .NET to locally generate a remote data source or remote query on the fly; the other generation method, DefaultIfEmpty, is available, because DefaultIfEmpty works with an IQueryable<T> source.
--   AsEnumerable: it returns IEnumerable<T> representing a local sequence of .NET objects, and this conversion is already provided by Enumerable in LINQ to Objects
+-   Empty/Range/Repeat: it does not make sense for .NET to locally generate a remote data source or remote query on the fly; the other generation method, DefaultIfEmpty, is available, because DefaultIfEmpty works with an `IQueryable<T>` source.
+-   AsEnumerable: it returns `IEnumerable<T>` representing a local sequence of .NET objects, and this conversion is already provided by Enumerable in LINQ to Objects
 -   ToArray/ToDictionary/ToList/ToLookup: these methods creates local .NET collections, and these conversions are already provided by local LINQ to Objects.
 -   Max/Min overloads for .NET primary types: these .NET primitive types belongs to local .NET application, not the remote data domain.
 
@@ -236,7 +248,7 @@ Queryable also provides an additional query method:
 
 ## Function vs. expression tree
 
-Enumerable query methods accept functions, and Queryable methods accept expression trees. As discussed in the Functional Programming chapter, functions are executable .NET code, and expression trees are data structures representing abstract syntax tree of functions, which can be translated to other domain-specific language. The Functional Programming chapter also demonstrates compiling an arithmetic expression tree into CIL code at runtime, and executing it dynamically. The same approach can be used to translate arithmetic expression tree to SQL query, and execute it in a remote SQL database. The following example reuses the previously defined BinaryArithmeticExpressionVisitor<T> type:
+Enumerable query methods accept functions, and Queryable methods accept expression trees. As discussed in the Functional Programming chapter, functions are executable .NET code, and expression trees are data structures representing abstract syntax tree of functions, which can be translated to other domain-specific language. The Functional Programming chapter also demonstrates compiling an arithmetic expression tree into CIL code at runtime, and executing it dynamically. The same approach can be used to translate arithmetic expression tree to SQL query, and execute it in a remote SQL database. The following example reuses the previously defined `BinaryArithmeticExpressionVisitor<T>` type:
 
 ```csharp
 internal class InfixVisitor : BinaryArithmeticExpressionVisitor<string>
@@ -367,7 +379,7 @@ public static partial class BinaryArithmeticTranslator
 }
 ```
 
-As fore mentioned, .NET built-in Expression<TDelegate>.Compile method compiles expression tree to CIL, and emits a function to execute the CIL locally with current .NET application process. In contrast, here BinaryArithmeticTranslator.Sql compiles the arithmetic expression tree to SQL, and emits a function to execute the SQL in a specified remote SQL database:
+As fore mentioned, .NET built-in `Expression<TDelegate>.Compile` method compiles expression tree to CIL, and emits a function to execute the CIL locally with current .NET application process. In contrast, here BinaryArithmeticTranslator.Sql compiles the arithmetic expression tree to SQL, and emits a function to execute the SQL in a specified remote SQL database:
 
 ```csharp
 internal static void ExecuteSql()

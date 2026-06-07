@@ -9,15 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## Latest EF Core version of this article: [https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries](/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries")
-
-## **EF version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-3-logging**](/posts/entity-framework-and-linq-to-entities-3-logging "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-3-logging")
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> This post is updated, [here is the latest version](/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries).
 
 EF version of this i
 
@@ -122,9 +119,9 @@ internal static partial class Tracing
 The logs uncovers that a SELECT statement is executed in database to query all categories. The logs also uncovers how exactly EF Core execute the operation – it compiles LINQ to Entities query and generates SQL, then opens a connection to SQL database, execute the generated SQL in database, and close the connection. This mechanism is discussed in the query translation part.
 
 > EF has different logging APIs. It provides 3 options: LINQ to Entities query’s ToString method, database façade’s Log property, and IDbInterceptor.
-> 
-> In EF, the easiest way is to call the query’s ToString method. In EF, LINQ to Entities query represented by IQueryable<T> is actually implemented with System.Data.Entity.Infrastructure.DbQuery<T>. The fore mentioned DbSet<T> type representing table is derived from DbQuery<T> too. For example:
-> 
+>
+> In EF, the easiest way is to call the query’s ToString method. In EF, LINQ to Entities query represented by `IQueryable<T>` is actually implemented with `System.Data.Entity.Infrastructure.DbQuery<T>`. The fore mentioned `DbSet<T>` type representing table is derived from `DbQuery<T>` too. For example:
+>
 > ```csharp
 > internal static partial class Tracing
 > {
@@ -143,9 +140,9 @@ The logs uncovers that a SELECT statement is executed in database to query all c
 >     }
 > }
 > ```
-> 
+>
 > The DbContext type has a Database property to expose a System.Data.Entity.Database instance, where a log function of type string –> void can be specified:
-> 
+>
 > ```csharp
 > namespace System.Data.Entity
 > {
@@ -164,9 +161,9 @@ The logs uncovers that a SELECT statement is executed in database to query all c
 >     }
 > }
 > ```
-> 
+>
 > The logger function is called with message for all database operations:
-> 
+>
 > ```csharp
 > internal static void DatabaseLog()
 > {
@@ -186,9 +183,9 @@ The logs uncovers that a SELECT statement is executed in database to query all c
 >     // Closed connection at 5/21/2016 12:33:35 AM -07:00
 > }
 > ```
-> 
+>
 > EF also introduces interceptors for lower level logging control. Under System.Data.Entity.Infrastructure.Interception namespace, EF defines the IDbInterceptor interfaces, which is an empty interface inherited by IDbConfigurationInterceptor, IDbCommandInterceptor, IDbConnectionInterceptor, IDbTransactionInterceptor, and IDbCommandTreeInterceptor. For example, the following is the definition of IDbCommandInterceptor, whose methods are called before and after the execution of the translated SQL queries:
-> 
+>
 > ```csharp
 > namespace System.Data.Entity.Infrastructure.Interception
 > {
@@ -208,9 +205,9 @@ The logs uncovers that a SELECT statement is executed in database to query all c
 >     }
 > }
 > ```
-> 
+>
 > EF provides a number of built-in interceptor implementations. For example, the DatabaseLogFormatter type under the same namespace implements IDbCommandInterceptor, IDbConnectionInterceptor and IDbTransactionInterceptor. And it has a lot of virtual members to be overridden with custom logging logic. An interceptor has to be registered with DbInterception.Add:
-> 
+>
 > ```csharp
 > internal static void Interceptor()
 > {

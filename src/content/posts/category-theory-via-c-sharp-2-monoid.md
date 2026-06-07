@@ -1,7 +1,7 @@
 ---
 title: "Category Theory via C# (2) Monoid"
 published: 2018-12-03
-description: "A ), denoted a 3-tuple (M, ⊙, I), is a set M with"
+description: "A monoid, denoted a 3-tuple (M, ⊙, I), is a set M with"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
 category: ".NET"
@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-2-monoid](/posts/category-theory-via-csharp-2-monoid)**
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
+>
+> This post is updated, [here is the latest version](/posts/category-theory-via-csharp-2-monoid).
 
 ## Monoid and monoid laws
 
@@ -158,7 +159,7 @@ Assert.AreEqual(addInt32.Binary(addInt32.Binary(1, 2), 3), addInt32.Binary(1, ad
 
 [Brian Beckman](https://www.linkedin.com/in/brianbeckman) had a clock monoid [in a video](http://channel9.msdn.com/Shows/Going+Deep/Brian-Beckman-Dont-fear-the-Monads) - consider numbers on the clock:
 
-[![](http://www.ikea.com/PIAimages/0175112_PE332983_S5.JPG)](http://www.ikea.com/PIAimages/0175112_PE332983_S5.JPG)
+[![Clock](http://www.ikea.com/PIAimages/0175112_PE332983_S5.JPG)](http://www.ikea.com/PIAimages/0175112_PE332983_S5.JPG)
 
 If a ⊙ b is defined as a => b => (a + b) % 12, then 12 becomes the unit. So:
 
@@ -168,17 +169,17 @@ IMonoid<int> clock = 12.Monoid((a, b) => (a + b) % 12);
 
 Here are more similar examples:
 
--   (int, \*, 1)
--   (string, string.Concat, string.Empty)
--   (bool, ||, false)
--   (bool, &&, true)
--   (IEnumerable<T>, Enumerable.Concat, Enumerable.Empty<T>())
+-   `(int, *, 1)`
+-   `(string, string.Concat, string.Empty)`
+-   `(bool, ||, false)`
+-   `(bool, &&, true)`
+-   `(IEnumerable<T>, Enumerable.Concat, Enumerable.Empty<T>())`
 
-### Nullable<T> monoid
+### `Nullable<T>` monoid
 
-And monoid (Nullable<T>, ⊙, I) is interesting.
+And monoid `(Nullable<T>, ⊙, I)` is interesting.
 
-First of all, the built-in System.Nullable<> only works for value type, since reference type can naturally be null. Here for the category theory discussion, a Nullable<T> for any type can be reinvented:
+First of all, the built-in System.Nullable<> only works for value type, since reference type can naturally be null. Here for the category theory discussion, a `Nullable<T>` for any type can be reinvented:
 
 ```csharp
 public class Nullable<T>
@@ -213,14 +214,14 @@ public class Nullable<T>
 }
 ```
 
-This Nullable<T>’s constructor takes a factory function which returns a tuple of bool and T value:
+This `Nullable<T>`’s constructor takes a factory function which returns a tuple of bool and T value:
 
--   When factory function is not provided (null), Nullable<T> does not have value.
+-   When factory function is not provided (null), `Nullable<T>` does not have value.
 -   When factory function is provided, the function returns a tuple if executed.
     -   The tuple’s bool value indicates there is a value available (because when T is a value type, the other item in the tuple cannot be null).
-    -   When the bool is true and the other T value is not null, Nullable<T> has a value.
+    -   When the bool is true and the other T value is not null, `Nullable<T>` has a value.
 
-Below is one way to define the binary operator ⊙, taking new Nullable<T>() - a Nullable<T> has no value - as the unit:
+Below is one way to define the binary operator ⊙, taking new `Nullable<T>()` - a `Nullable<T>` has no value - as the unit:
 
 ```csharp
 [Pure]
@@ -255,7 +256,7 @@ public static partial class MonoidExtensions
 }
 ```
 
-So that (Nullable<T>, ⊙, Nullable<T>()) becomes a monoid.
+So that `(Nullable<T>, ⊙, Nullable<T>())` becomes a monoid.
 
 ## Unit tests
 

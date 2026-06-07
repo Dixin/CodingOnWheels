@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals](/posts/lambda-calculus-via-c-1-fundamentals "https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals")**
+## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals](/posts/lambda-calculus-via-c-1-fundamentals "https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals")
 
 It may not be the best place to discuss function composition in the lambda calculus series. However, function composition will be used a lot in later articles, so here is a brief introduction.
 
@@ -59,12 +60,12 @@ Unfortunately, in C# there is no place to define custom function operators, so e
 
 It is common for other functional language to have a built in function composition operator. In Haskell, ∘ is just [dot (.):](https://wiki.haskell.org/Function_composition)
 
-```csharp
+```haskell
 (.) :: (b -> c) -> (a -> b) -> a -> c
 f2 . f1 = \x -> f2 (f1 x)
 ```
 
-And F# has [\>>](https://msdn.microsoft.com/en-us/library/dd233228.aspx):
+And F# has [`>>`](https://msdn.microsoft.com/en-us/library/dd233228.aspx):
 
 ```fsharp
 let inline (>>) f1 f2 x = f2 (f1 x)

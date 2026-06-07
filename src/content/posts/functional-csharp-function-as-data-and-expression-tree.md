@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
@@ -45,7 +46,7 @@ parameters: parameterExpression); // int32 => ...
 }
 ```
 
-Here the Expression<Func<int bool>> instance represents the entire tree, the ParameterExpression, ConstantExpression, BinaryExpression instances are nodes in that tree. And they are all derived from System.Linq.Expressions.Expression type:
+Here the `Expression<Func<int bool>>` instance represents the entire tree, the ParameterExpression, ConstantExpression, BinaryExpression instances are nodes in that tree. And they are all derived from System.Linq.Expressions.Expression type:
 
 ```csharp
 namespace System.Linq.Expressions
@@ -101,7 +102,6 @@ public TDelegate Compile();
 ```
 
 The above expression tree data structure can be visualized as:
-
 
 ```console
 Expression<Func<int, bool>> (NodeType = Lambda, Type = Func<int, bool>)
@@ -161,7 +161,7 @@ Besides above ParameterExpression, ConstantExpression, BinaryExpression, LambdaE
     -   InvocationExpression
     -   LabelExpression
     -   LambdaExpression
-        -   Expression<TDelegate>
+        -   `Expression<TDelegate>`
     -   ListInitExpression
     -   LoopExpression
     -   MemberExpression
@@ -317,7 +317,6 @@ Expression<Func<double, double, double, double, double, double>> (NodeType = Lam
 |_ConstantExpression (NodeType = Constant, Type = double)
 |_Value = 3
 ```
-
 
 This is a very simple syntax tree, where:
 
@@ -515,7 +514,7 @@ result.WriteLine(); // 12
 }
 ```
 
-.NET provides a built-in API, System.Linq.Expressions.Expression<TDelegate>’s Compile method, for this purpose - compile expression tree to executable function at runtime:
+.NET provides a built-in API, `System.Linq.Expressions.Expression<TDelegate>`’s Compile method, for this purpose - compile expression tree to executable function at runtime:
 
 ```csharp
 internal static void BuiltInCompile()
@@ -527,7 +526,7 @@ double result = function(1D, 2D, 3D, 4D, 5D
 }
 ```
 
-Internally, Expression<TDelegate>.Compile calls APIs of System.Linq.Expressions.Compiler.LambdaCompile, which is a complete compiler implementation for general expression tree to CIL (not just for simple expression in the above example).
+Internally, `Expression<TDelegate>.Compile` calls APIs of System.Linq.Expressions.Compiler.LambdaCompile, which is a complete compiler implementation for general expression tree to CIL (not just for simple expression in the above example).
 
 ## Lambda expression and LINQ query
 
@@ -553,7 +552,7 @@ result.Name.WriteLine();
 }
 ```
 
-As mentioned in the introduction chapter, local LINQ query is represented by IEnumerable<T>, and remote LINQ query is represented by IQueryable<T>. They have different LINQ query methods, take above Where as example:
+As mentioned in the introduction chapter, local LINQ query is represented by `IEnumerable<T>`, and remote LINQ query is represented by `IQueryable<T>`. They have different LINQ query methods, take above Where as example:
 
 ```csharp
 namespace System.Linq

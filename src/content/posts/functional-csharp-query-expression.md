@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
@@ -43,9 +44,21 @@ It introduces new language keywords to C#, which are called query keywords:
 
 Query expression is compiled to query method calls at compile time:
 
-<table border="0" cellpadding="2" cellspacing="0" width="672"><tbody><tr><td valign="top" width="297">Query expression</td><td valign="top" width="373">Query method</td></tr><tr><td valign="top" width="297">single from clause with select clause</td><td valign="top" width="373">Select</td></tr><tr><td valign="top" width="297">multiple from clauses with select clause</td><td valign="top" width="373">SelectMany</td></tr><tr><td valign="top" width="297">Type in from/join clauses</td><td valign="top" width="373">Cast</td></tr><tr><td valign="top" width="297">join clause without into</td><td valign="top" width="373">Join</td></tr><tr><td valign="top" width="297">join clause with into</td><td valign="top" width="373">GroupJoin</td></tr><tr><td valign="top" width="297">let clause</td><td valign="top" width="373">Select</td></tr><tr><td valign="top" width="297">where clauses</td><td valign="top" width="373">Where</td></tr><tr><td valign="top" width="297">orderby clause with or without ascending</td><td valign="top" width="373">OrderBy, ThenBy</td></tr><tr><td valign="top" width="297">orderby clause with descending</td><td valign="top" width="373">OrderByDescending, ThenByDescending</td></tr><tr><td valign="top" width="297">group clause</td><td valign="top" width="373">GroupBy</td></tr><tr><td valign="top" width="297">into with continuation</td><td valign="top" width="373">Nested query</td></tr></tbody></table>
+| Query expression                         | Query method                        |
+|------------------------------------------|-------------------------------------|
+| single from clause with select clause    | Select                              |
+| multiple from clauses with select clause | SelectMany                          |
+| Type in from/join clauses                | Cast                                |
+| join clause without into                 | Join                                |
+| join clause with into                    | GroupJoin                           |
+| let clause                               | Select                              |
+| where clauses                            | Where                               |
+| orderby clause with or without ascending | OrderBy, ThenBy                     |
+| orderby clause with descending           | OrderByDescending, ThenByDescending |
+| group clause                             | GroupBy                             |
+| into with continuation                   | Nested query                        |
 
-It is already demonstrated how query expression syntax works for LINQ. Actually, this syntax is not specific for LINQ query or IEnumerable<T>/ParallelQuery<T>/IQueryable<T> types, but a [general C# syntactic sugar](https://www.infoq.com/interviews/LINQ-Erik-Meijer). Take select clause (compiled to Select method call) as example, it can work for any type, as long as the compiler can find a Select instance method or extension method for that type. Take int as example, it does not have a Select instance method, so the following extension method can be defined to accept a selector function:
+It is already demonstrated how query expression syntax works for LINQ. Actually, this syntax is not specific for LINQ query or `IEnumerable<T>`/`ParallelQuery<T>`/`IQueryable<T>` types, but a [general C# syntactic sugar](https://www.infoq.com/interviews/LINQ-Erik-Meijer). Take select clause (compiled to Select method call) as example, it can work for any type, as long as the compiler can find a Select instance method or extension method for that type. Take int as example, it does not have a Select instance method, so the following extension method can be defined to accept a selector function:
 
 ```csharp
 internal static partial class Int32Extensions
@@ -164,7 +177,7 @@ public interface ILocalGroup<TKey, T> : ILocal<T>
 }
 ```
 
-All above methods return ILocalSource<T>, so these methods or query expression clauses can be easily composed. The above query methods are represented as instance methods. As fore mentioned, extension methods work too. This is called the query expression pattern. Similarly, the following interfaces demonstrate the signatures of the required query methods for a remotely queryable type, which replaces all function parameters with expression tree parameters:
+All above methods return `ILocalSource<T>`, so these methods or query expression clauses can be easily composed. The above query methods are represented as instance methods. As fore mentioned, extension methods work too. This is called the query expression pattern. Similarly, the following interfaces demonstrate the signatures of the required query methods for a remotely queryable type, which replaces all function parameters with expression tree parameters:
 
 ```csharp
 public interface IRemote
@@ -217,7 +230,7 @@ public interface IRemoteGroup<TKey, T> : IRemote<T>
 }
 ```
 
-The following example demonstrates how the query expression syntax is enabled for ILocal<T> and IRemote<T>:
+The following example demonstrates how the query expression syntax is enabled for `ILocal<T>` and `IRemote<T>`:
 
 ```csharp
 internal static void LocalQuery(ILocal<Uri> uris)
@@ -265,9 +278,9 @@ internal static void CompiledRemoteQuery(IRemote<Uri> uris)
 
 .NET provides 3 sets of built-in query methods:
 
--   IEnumerable<T> represents local sequential data source and query, its query expression pattern is implemented by extension methods provided by System.Linq.Enumerable
--   ParallelQuery<T> represents local parallel data source and query, its query expression pattern is implemented by extension methods provided by System.Linq.ParallelEnumerable
--   IQueryable<T> represents remote data source and query, its query expression pattern is implemented by extension methods provided by System.Linq.Queryable
+-   `IEnumerable<T>` represents local sequential data source and query, its query expression pattern is implemented by extension methods provided by System.Linq.Enumerable
+-   `ParallelQuery<T>` represents local parallel data source and query, its query expression pattern is implemented by extension methods provided by System.Linq.ParallelEnumerable
+-   `IQueryable<T>` represents remote data source and query, its query expression pattern is implemented by extension methods provided by System.Linq.Queryable
 
 So query expression works for these 3 kinds of LINQ. The details of query expression usage and compilation is covered by the LINQ to Objects chapter.
 
@@ -301,7 +314,7 @@ public static void QueryExpressionAndMethod(IEnumerable<Product> products)
 }
 ```
 
-Another example is, Where query method for IEnumerable<T> has 2 overloads:
+Another example is, Where query method for `IEnumerable<T>` has 2 overloads:
 
 ```csharp
 namespace System.Linq

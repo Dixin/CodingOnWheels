@@ -119,7 +119,7 @@ private static void When()
 
 Here the Log method will log the exception, and return false. So the catch block will not be executed.
 
-[ILSpy](https://github.com/icsharpcode/ILSpy) and ildasm (located in C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v10.0A\\bin\\NETFX 4.6.1 Tools\\) can be used to view the [compiled IL](https://en.wikipedia.org/wiki/List_of_CIL_instructions). In the Catch method, the catch-log-throw pattern will be compiled to:
+[ILSpy](https://github.com/icsharpcode/ILSpy) and ildasm (located in `C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\`) can be used to view the [compiled IL](https://en.wikipedia.org/wiki/List_of_CIL_instructions). In the Catch method, the catch-log-throw pattern will be compiled to:
 
 ```csharp
 .method private hidebysig static void  Catch() cil managed
@@ -221,7 +221,7 @@ internal static void Log()
 
 In the when predicate, the Log method returns true, so in the catch block, Log will be called again. These 2 Log calls print out exactly the same information:
 
-> System.OperationCanceledException: ExceptionFilter at Dixin.Common.ExceptionFilter.D() in D:\\OneDrive\\Works\\Drafts\\CodeSnippets\\Dixin\\Common\\ExceptionFilter.cs:line 21 at Dixin.Common.ExceptionFilter.C() in D:\\OneDrive\\Works\\Drafts\\CodeSnippets\\Dixin\\Common\\ExceptionFilter.cs:line 12 at Dixin.Common.ExceptionFilter.B() in D:\\OneDrive\\Works\\Drafts\\CodeSnippets\\Dixin\\Common\\ExceptionFilter.cs:line 10 at Dixin.Common.ExceptionFilter.A() in D:\\OneDrive\\Works\\Drafts\\CodeSnippets\\Dixin\\Common\\ExceptionFilter.cs:line 8 at Dixin.Common.ExceptionFilter.Log() in D:\\OneDrive\\Works\\Drafts\\CodeSnippets\\Dixin\\Common\\ExceptionFilter.cs:line 91
+> System.OperationCanceledException: ExceptionFilter at Dixin.Common.ExceptionFilter.D() in D:\OneDrive\Works\Drafts\CodeSnippets\Dixin\Common\ExceptionFilter.cs:line 21 at Dixin.Common.ExceptionFilter.C() in D:\OneDrive\Works\Drafts\CodeSnippets\Dixin\Common\ExceptionFilter.cs:line 12 at Dixin.Common.ExceptionFilter.B() in D:\OneDrive\Works\Drafts\CodeSnippets\Dixin\Common\ExceptionFilter.cs:line 10 at Dixin.Common.ExceptionFilter.A() in D:\OneDrive\Works\Drafts\CodeSnippets\Dixin\Common\ExceptionFilter.cs:line 8 at Dixin.Common.ExceptionFilter.Log() in D:\OneDrive\Works\Drafts\CodeSnippets\Dixin\Common\ExceptionFilter.cs:line 91
 
 Apparently, in both cases, the exception object’s StackTrace property has the call stack of A/B/C/D methods, as expected.
 
@@ -235,7 +235,9 @@ When the exception filter is executed:
 
 The current stack (again, not the exception object’s StackTrace property) is:
 
-> ConsoleApplication2.exe!Dixin.Common.ExceptionFilter.Log() Line 93 \[Native to Managed Transition\] ConsoleApplication2.exe!Dixin.Common.ExceptionFilter.D() Line 21 ConsoleApplication2.exe!Dixin.Common.ExceptionFilter.C() Line 12 ConsoleApplication2.exe!Dixin.Common.ExceptionFilter.B() Line 10 ConsoleApplication2.exe!Dixin.Common.ExceptionFilter.A() Line 8 ConsoleApplication2.exe!Dixin.Common.ExceptionFilter.Log() Line 91 ConsoleApplication2.exe!Dixin.Console.Program.Main() Line 110
+```console
+ConsoleApplication2.exe!Dixin.Common.ExceptionFilter.Log() Line 93 [Native to Managed Transition] ConsoleApplication2.exe!Dixin.Common.ExceptionFilter.D() Line 21 ConsoleApplication2.exe!Dixin.Common.ExceptionFilter.C() Line 12 ConsoleApplication2.exe!Dixin.Common.ExceptionFilter.B() Line 10 ConsoleApplication2.exe!Dixin.Common.ExceptionFilter.A() Line 8 ConsoleApplication2.exe!Dixin.Common.ExceptionFilter.Log() Line 91 ConsoleApplication2.exe!Dixin.Console.Program.Main() Line 110
+```
 
 Next, when the catch block is executed:
 

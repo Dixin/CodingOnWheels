@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
@@ -43,18 +44,16 @@ double squareRoot = Math.Sqrt(@double); // double -> double
 
 The above int.Parse, Math.Abs Convert.ToDouble, and Math.Sqrt functions can be composed to a new function:
 
-// string -> double
-
 ```csharp
+// string -> double
 internal static double Composition(string value) =>
 Math.Sqrt(Convert.ToDouble(Math.Abs(int.Parse(value))));
 ```
 
 C# does not have built-in composition operators to combine functions, but the composition operation can be implemented as extension methods for Func generic delegate type:
 
-// Input: TResult1 -> TResult2, T -> TResult1.
-
 ```csharp
+// Input: TResult1 -> TResult2, T -> TResult1.
 // Output: T -> TResult2
 public static Func<T, TResult2> After<T, TResult1, TResult2>(
 this Func<TResult1, TResult2> second, Func<T, TResult1> first) =>
@@ -127,7 +126,7 @@ public void Reverse(); // List<T> -> void
 }
 ```
 
-Notice FindAll accept a match function of type Predicate<T>, which is T -> bool. When FIndAll is called, it calls match function with each value in the list. If match outputs true, the value is added to the result list. Predicate<T> is equivalent to Func<T, bool>. FindAll does not use Func<T, bool> because List<T> type is released in .NET Framework 2.0, and the unified Func generic delegate types are introduced in .NET Framework 3.5. The above list functions accept different numbers of parameters. Some of them output a list and some output void. The following example operates a list in place. Apparently, these functions cannot be composed directly:
+Notice FindAll accept a match function of type `Predicate<T>`, which is T -> bool. When FIndAll is called, it calls match function with each value in the list. If match outputs true, the value is added to the result list. `Predicate<T>` is equivalent to `Func<T, bool>`. FindAll does not use `Func<T, bool>` because `List<T>` type is released in .NET Framework 2.0, and the unified Func generic delegate types are introduced in .NET Framework 3.5. The above list functions accept different numbers of parameters. Some of them output a list and some output void. The following example operates a list in place. Apparently, these functions cannot be composed directly:
 
 ```csharp
 internal static void ListOperations()
@@ -142,11 +141,10 @@ list.Add(1); // -> void
 }
 ```
 
-As discussed in the named function chapter, a type’s instance function member can be viewed as a static method with an additional first parameter of that type, which represents this reference to the current instance. For example, the type of Add looks like T -> void, and the type of Clear looks like () -> void, but since they are instance members, their types are actually (List<T>, T) -> void and List<T> -> void. To make these function composable. One refactor option is: If a function does not output list, have it output the result list; if a function has more parameter besides the list, swap the parameters so that the list parameter becomes the last parameter, and finally curry the function. The following are the transformed functions:
-
-// // T -> List<T> -> List<T>
+As discussed in the named function chapter, a type’s instance function member can be viewed as a static method with an additional first parameter of that type, which represents this reference to the current instance. For example, the type of Add looks like T -> void, and the type of Clear looks like () -> void, but since they are instance members, their types are actually `(List<T>, T) -> void` and `List<T> -> void`. To make these function composable. One refactor option is: If a function does not output list, have it output the result list; if a function has more parameter besides the list, swap the parameters so that the list parameter becomes the last parameter, and finally curry the function. The following are the transformed functions:
 
 ```csharp
+// // T -> List<T> -> List<T>
 internal static Func<List<T>, List<T>> Add<T>(T value) =>
 list => { list.Add(value); return list; };
 
@@ -166,11 +164,10 @@ internal static Func<List<T>, List<T>> RemoveAt<T>(int index) =>
 list => { list.RemoveAt(index); return list; };
 
 // List<T> -> List<T>
+internal static List<T> Reverse<T>(List<T> list) { list.Reverse(); return list; }
 ```
 
-internal static List<T> Reverse<T>(List<T> list) { list.Reverse(); return list; }
-
-For example, Add is originally of type (List<T>, T) -> void. First, have Add output the manipulated list itself, which is super easy, and Add becomes (List<T>, T) ->List<T>; then swap the 2 parameters, Add becomes (T, List<T>) ->List<T>. Finally, curry Add to transformed it to T -> List<T> -> List<T>. Applying the refactor to all functions, their function types become either transformed to List<T> -> List<T>, or curried function type SomeType -> List<T> -> List<T>. Once a curried function is “partially applied” with a single argument, the result is also a function of type List<T> -> List<T>. Since all function types finally become List<T> -> List<T>, they can be composed:
+For example, Add is originally of type `(List<T>, T) -> void`. First, have Add output the manipulated list itself, which is super easy, and Add becomes `(List<T>, T) ->List<T>`; then swap the 2 parameters, Add becomes `(T, List<T>) ->List<T>`. Finally, curry Add to transformed it to `T -> List<T> -> List<T>`. Applying the refactor to all functions, their function types become either transformed to `List<T> -> List<T>`, or curried function type `SomeType -> List<T> -> List<T>`. Once a curried function is “partially applied” with a single argument, the result is also a function of type `List<T> -> List<T>`. Since all function types finally become `List<T> -> List<T>`, they can be composed:
 
 ```csharp
 internal static void TransformationForComposition()
@@ -223,13 +220,11 @@ List<int> result = forwardComposition(list);
 
 Another option to compose these functions is to use forward pipe operator, which simply forward argument to function call. Again, C# does not have built-in forward pipe operator. It can be implemented as an extension method:
 
-// Input, T, T -> TResult.
-
 ```csharp
+// Input, T, T -> TResult.
 // Output TResult.
-```
-
 public static TResult Forward<T, TResult>(this T value, Func<T, TResult> function) =>
+```
 
 Its usage is also straightforward:
 
@@ -432,7 +427,7 @@ As demonstrated in the introduction chapter, LINQ query has 2 syntaxes, query me
 
 ### LINQ query method
 
-In the query method syntax, the LINQ query APIs are composed with the extension method chaining approach of fluent interface. In LINQ, System.Collections.Generic.IEnumerable<T> interface represents a local data source (a sequence of .NET objects) to be queried, or a local LINQ query that can be executed; System.Linq.IQueryable<T> interface represents a remote data source (e.g. data rows in a database table) to be queried, or a remote LINQ query that can be executed. The IEnumerable<T>/IQueryable<T> interfaces only have a few members, and the built-in local/remote LINQ query APIs are implemented as static function members of System.Linq.Enumerable/System.Linq.Queryable static classes. Most of these functions are extension methods for IEnumerable<T>/IQueryable<T>, and many of those extension methods output IEnumerable<T>/IQueryable<T>. For example:
+In the query method syntax, the LINQ query APIs are composed with the extension method chaining approach of fluent interface. In LINQ, `System.Collections.Generic.IEnumerable<T>` interface represents a local data source (a sequence of .NET objects) to be queried, or a local LINQ query that can be executed; `System.Linq.IQueryable<T>` interface represents a remote data source (e.g. data rows in a database table) to be queried, or a remote LINQ query that can be executed. The `IEnumerable<T>`/`IQueryable<T>` interfaces only have a few members, and the built-in local/remote LINQ query APIs are implemented as static function members of System.Linq.Enumerable/System.Linq.Queryable static classes. Most of these functions are extension methods for `IEnumerable<T>`/`IQueryable<T>`, and many of those extension methods output `IEnumerable<T>`/`IQueryable<T>`. For example:
 
 ```csharp
 namespace System.Linq
@@ -461,9 +456,9 @@ this IQueryable<TSource> source, Expression<Func<TSource, TResult>> selector);
 }
 ```
 
-This kind of functions can be composed with extension method chaining. And they make IEnumerable<T>/IQueryable<T> fluent interface.
+This kind of functions can be composed with extension method chaining. And they make `IEnumerable<T>`/`IQueryable<T>` fluent interface.
 
-The ordering functions are slightly different. OrderBy/OrderByDescending are extension methods of IEnumerable<T>/IQueryable<T>. However, they output IOrderedEnumerable<T>/IOrderedQueryable<T>. which represent ordered data source or ordered query, and these interfaces implement IEnumerable<T>/IQueryable<T>. LINQ also provides ThenBy/ThenByDesending to perform subsequent ordering on an ordered data source or ordered query, so ThenBy/ThenByDesending are extension methods of IOrderedEnumerable<T>/IOrderedQueryable<T>:
+The ordering functions are slightly different. OrderBy/OrderByDescending are extension methods of `IEnumerable<T>`/`IQueryable<T>`. However, they output `IOrderedEnumerable<T>`/`IOrderedQueryable<T>`. which represent ordered data source or ordered query, and these interfaces implement `IEnumerable<T>`/`IQueryable<T>`. LINQ also provides ThenBy/ThenByDesending to perform subsequent ordering on an ordered data source or ordered query, so ThenBy/ThenByDesending are extension methods of `IOrderedEnumerable<T>`/`IOrderedQueryable<T>`:
 
 ```csharp
 namespace System.Linq
@@ -511,9 +506,9 @@ this IOrderedQueryable<TSource> source, Expression<Func<TSource, TKey>> keySelec
 }
 ```
 
-With this design, OrderBy/OrderByDescending can be chained after other query methods which output IEnumerable<T>/IQueryable<T>, but ThenBy/ThenByDesending can only be chained right after OrderBy/OrderByDescending which output IOrderedEnumerable<T>/IOrderedQueryable<T>. Regarding ThenBy/ThenByDesending perform subsequent ordering, this totally make sense. All the other non-ordering extension methods can be chained after OrderBy/OrderByDescending and ThenBy/ThenByDesending, since the output IOrderedEnumerable<T> is an IEnumerable<T> and IOrderedQueryable<T> is an IQueryable<T>.
+With this design, OrderBy/OrderByDescending can be chained after other query methods which output `IEnumerable<T>`/`IQueryable<T>`, but ThenBy/ThenByDesending can only be chained right after OrderBy/OrderByDescending which output `IOrderedEnumerable<T>`/`IOrderedQueryable<T>`. Regarding ThenBy/ThenByDesending perform subsequent ordering, this totally make sense. All the other non-ordering extension methods can be chained after OrderBy/OrderByDescending and ThenBy/ThenByDesending, since the output `IOrderedEnumerable<T>` is an `IEnumerable<T>` and `IOrderedQueryable<T>` is an `IQueryable<T>`.
 
-Some APIs are not extension methods but static methods that output IEnumerable<T>. These static methods can be called to start query composition.
+Some APIs are not extension methods but static methods that output `IEnumerable<T>`. These static methods can be called to start query composition.
 
 ```csharp
 namespace System.Linq
@@ -527,7 +522,7 @@ public static IEnumerable<TResult> Repeat<TResult>(TResult element, int count);
 }
 ```
 
-There are other query APIs which do not output IEnumerable<T>/IQueryable<T>. They can be used to end the query composition. For example:
+There are other query APIs which do not output `IEnumerable<T>`/`IQueryable<T>`. They can be used to end the query composition. For example:
 
 ```csharp
 namespace System.Linq
@@ -587,13 +582,13 @@ int32 => Path.GetRandomFileName()
 }
 ```
 
-So, in query method syntax, LINQ query is represented by fluent interface and query methods are composed with extension method chaining. This design makes LINQ easy to use, as well as extensible. The above built-in functions provided by Enumerable/Queryable are called LINQ standard query methods or standard query operators. Developers can also implement custom query APIs as extension methods of IEnumerable<T>/IQueryable<T> and compose built-in query methods and custom query methods by chaining. The details of local and remote LINQ query methods are discussed in the LINQ chapters.
+So, in query method syntax, LINQ query is represented by fluent interface and query methods are composed with extension method chaining. This design makes LINQ easy to use, as well as extensible. The above built-in functions provided by Enumerable/Queryable are called LINQ standard query methods or standard query operators. Developers can also implement custom query APIs as extension methods of `IEnumerable<T>`/`IQueryable<T>` and compose built-in query methods and custom query methods by chaining. The details of local and remote LINQ query methods are discussed in the LINQ chapters.
 
 ### LINQ query expression
 
 LINQ query expression is a SQL/XQuery-like declarative query syntactic sugar for LINQ query composition. As an expression, it is composed with clauses. The following is the syntax of query expression:
 
-from \[Type\] rangeVariable in source
+from `[Type]` rangeVariable in source
 
 ```csharp
 [from [Type] rangeVariable in source]
@@ -602,9 +597,8 @@ from \[Type\] rangeVariable in source
 [where predicate]
 [orderby orderingKey [ascending | descending][, orderingKey [ascending | descending], …]]
 select projection | group projection by groupKey [into rangeVariable
+continuationClauses]
 ```
-
-continuationClauses\]
 
 A query expression must start with a from clause, and end with either a select clause or a group clause. In the middle, it can have from/join/let/where/orderby clauses. These query expression clauses introduce new language keywords to C#, which are called query keywords:
 
@@ -619,7 +613,19 @@ A query expression must start with a from clause, and end with either a select c
 
 Query expression is just syntactic sugar, it is compiled to query method calls:
 
-<table border="1" cellpadding="0" cellspacing="0" class="MsoNormalTable" style="border: currentcolor; border-image: none; border-collapse: collapse; mso-border-alt: solid black .75pt; mso-yfti-tbllook: 1184;"><tbody><tr style="mso-yfti-irow: 0; mso-yfti-firstrow: yes;"><td style="padding: 0.75pt; border: 1pt solid black; border-image: none; mso-border-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableHead" style="margin: 3pt 0in; page-break-after: avoid;">Query expression</p><font style="font-size: 12pt;"></font></td><td style="border-width: 1pt 1pt 1pt medium; border-style: solid solid solid none; border-color: black black black currentcolor; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableHead" style="margin: 3pt 0in; page-break-after: avoid;">Query method</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 1;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">Single from clause with select clause</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">Select</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 2;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">let clause</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">Select</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 3;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">Multiple from clauses with select clause</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">SelectMany</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 4;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">Type in from/join clauses</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">Cast</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 5;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">where clauses</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">Where</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 6;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">orderby clause with or without ascending</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">OrderBy, ThenBy</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 7;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">orderby clause with descending</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">OrderByDescending, ThenByDescending</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 8;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">group clause with/without into</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">GroupBy</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 9;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">join clause without into</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">Join</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 10;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">join clause with into</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">GroupJoin</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 11; mso-yfti-lastrow: yes;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">into with continuation clauses</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">Query method chaining</p><font style="font-size: 12pt;"></font></td></tr></tbody></table>
+| Query expression                         | Query method                        |
+|------------------------------------------|-------------------------------------|
+| Single from clause with select clause    | Select                              |
+| let clause                               | Select                              |
+| Multiple from clauses with select clause | SelectMany                          |
+| Type in from/join clauses                | Cast                                |
+| where clauses                            | Where                               |
+| orderby clause with or without ascending | OrderBy, ThenBy                     |
+| orderby clause with descending           | OrderByDescending, ThenByDescending |
+| group clause with/without into           | GroupBy                             |
+| join clause without into                 | Join                                |
+| join clause with into                    | GroupJoin                           |
+| into with continuation clauses           | Query method chaining               |
 
 The local-variable-like identifiers declared in query expression are called range variables. The scope of range variable ends either at the end of query expression or at the into keyword that begins a continuation clause. For example:
 
@@ -817,7 +823,7 @@ Some tools, like Resharper, an extension for Visual Studio, utilizes C# compiler
 
 ## Query expression pattern
 
-LINQ query expression is also an extensible model. In the above examples, query expression for IEnumerable<T> is compiled to calls of query method for IEnumerable<T>. Just like extension method chaining can be implemented for any type, query expression can be available for any type as well. If the compiler can find a query method exists for a type, the compiler supports the corresponding query expression clause’s syntax for that type. For example, the following example implements Select query method for int and System.Guid types:
+LINQ query expression is also an extensible model. In the above examples, query expression for `IEnumerable<T>` is compiled to calls of query method for `IEnumerable<T>`. Just like extension method chaining can be implemented for any type, query expression can be available for any type as well. If the compiler can find a query method exists for a type, the compiler supports the corresponding query expression clause’s syntax for that type. For example, the following example implements Select query method for int and System.Guid types:
 
 ```csharp
 private static TResult Select<TResult>(this int source, Func<int, TResult> selector) =>
@@ -827,7 +833,7 @@ private static TResult Select<TResult>(this Guid source, Func<Guid, TResult> sel
 selector(source);
 ```
 
-Similar to Enumerable.Select for IEnumerable<T>, the above Select methods are also extension methods for int/Guid. They accept a function parameter, and output a result. Now C# compiler supports query expression of single from clause with select clause for int/Guid. The following is the query expression syntax and the equivalent query method syntax:
+Similar to Enumerable.Select for `IEnumerable<T>`, the above Select methods are also extension methods for int/Guid. They accept a function parameter, and output a result. Now C# compiler supports query expression of single from clause with select clause for int/Guid. The following is the query expression syntax and the equivalent query method syntax:
 
 ```csharp
 internal static void Select()
@@ -987,15 +993,15 @@ TKey Key { get; }
 
 .NET Standard provides 3 sets of built-in query APIs, implementing the above query expression pattern:
 
--   The IEnumerable, IEnumerable<T>, IOrderedEnumerable<T> and IGrouping<TKey, TElement> types follow the above type designs, and Enumerable’s function members follow the above query method designs and implement local sequential queries.
--   The ParallelQuery, ParallelQuery<TSource>, OrderedParallelQuery<TSource> and IGrouping<TKey, TElement> types follow the above type designs, and System.Linq.ParallelEnumerable’s function members follow the above query method designs and implement local parallel queries.
--   The IQueryable, IQueryable<T>, IOrderedQueryable<T> and IGrouping<TKey, TElement> types follow the above type designs, and Queryable’s function members follow the above query method designs and are used for remote queries.
+-   The IEnumerable, `IEnumerable<T>`, `IOrderedEnumerable<T>` and `IGrouping<TKey, TElement>` types follow the above type designs, and Enumerable’s function members follow the above query method designs and implement local sequential queries.
+-   The ParallelQuery, `ParallelQuery<TSource>`, `OrderedParallelQuery<TSource>` and `IGrouping<TKey, TElement>` types follow the above type designs, and System.Linq.ParallelEnumerable’s function members follow the above query method designs and implement local parallel queries.
+-   The IQueryable, `IQueryable<T>`, `IOrderedQueryable<T>` and `IGrouping<TKey, TElement>` types follow the above type designs, and Queryable’s function members follow the above query method designs and are used for remote queries.
 
 The details of local sequential queries are discussed in LINQ to Objects chapters, local parallel queries are discussed in the Parallel LINQ chapters, and the remote queries are discussed in the LINQ to Entities chapters.
 
 ### Forward piping with LINQ
 
-As fore mentioned, LINQ query method chaining or query expression is essentially function composition through forward piping. General forward piping can be also implemented by LINQ. One option is to use Select. The Select query method for IEnumerable<T> forwards each value in the IEnumerable<T> sequence to the selector function. In the previous examples, The Select query method for int/Guid forwards the int/Guid value to the selector function too. Following this pattern, a generic Select query method can be implemented for all types:
+As fore mentioned, LINQ query method chaining or query expression is essentially function composition through forward piping. General forward piping can be also implemented by LINQ. One option is to use Select. The Select query method for `IEnumerable<T>` forwards each value in the `IEnumerable<T>` sequence to the selector function. In the previous examples, The Select query method for int/Guid forwards the int/Guid value to the selector function too. Following this pattern, a generic Select query method can be implemented for all types:
 
 ```csharp
 private static TResult Select<TSource, TResult>(

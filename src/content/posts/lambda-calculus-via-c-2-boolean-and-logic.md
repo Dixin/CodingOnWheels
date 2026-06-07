@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[FP & LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
 Lambda calculus is a formal system for function definition and function application, so in lambda calculus, the only primitive is anonymous function. Anonymous function is actually very powerful. With an approach called Church encoding. data and operation can be modeled by higher-order anonymous functions and their application. Church encoding is named after [Alonzo Church](http://en.wikipedia.org/wiki/Alonzo_Church), who first discovered this approach. This part discusses Church Boolean - modeling Boolean values and logic operators with functions.
 
@@ -338,7 +339,7 @@ internal static void CallEagerIf(Boolean condition, Boolean a, Boolean b)
 }
 ```
 
-In this example, disregarding condition is True or False, the then branch a.And(b) and else branch a.Or(b) are both executed. If would be better if one branch is executed for a certain condition. The solution is to make If’s second and third arguments of type T to a factory of type Unit<T> –> T:
+In this example, disregarding condition is True or False, the then branch a.And(b) and else branch a.Or(b) are both executed. If would be better if one branch is executed for a certain condition. The solution is to make If’s second and third arguments of type T to a factory of type `Unit<T> –> T`:
 
 ```csharp
 // If = condition => thenFactory => elseFactory => condition(thenFactory, elseFactory)(Id)
@@ -366,7 +367,7 @@ internal static void CallLazyIf(Boolean condition, Boolean a, Boolean b)
 }
 ```
 
-When condition is True, only a.And(b) is executed. When condition is False, only a.Or(b) is executed. Now the then and else branches are represented by factory functions id => a.And(b) and id => a.Or(b), where the id argument is the Id function. This argument usually is not used by the function body, it can be named as \_ to indicate “don’t care”:
+When condition is True, only a.And(b) is executed. When condition is False, only a.Or(b) is executed. Now the then and else branches are represented by factory functions id => a.And(b) and id => a.Or(b), where the id argument is the Id function. This argument usually is not used by the function body, it can be named as `_` to indicate “don’t care”:
 
 ```csharp
 internal static void CallLazyIf(Boolean condition, Boolean a, Boolean b)

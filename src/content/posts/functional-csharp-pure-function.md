@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
@@ -63,7 +64,7 @@ public static int Min(int val1, int val2) => (val1 <= val2) ? val1 : val2;
 
 -   object’s methods, like GetHashCode, GetType, Equals, ReferenceEquals, ToString, etc.
 -   System.Convert type’ conversion methods, like ToBoolean, ToInt32, etc.
--   Property getter to simply output a state without mutating any state or producing other side effect, like string.Length, Nullable<T>.HasValue, Console.Error, etc.
+-   Property getter to simply output a state without mutating any state or producing other side effect, like string.Length, `Nullable<T>.HasValue`, Console.Error, etc.
 -   Immutable type’s function members for transformation, like string.Concat, string.Substring, string.Insert, string.Replace, string.Trim, string.ToUpper, string.ToLower, etc.
 
 Since pure function is deterministic and side effect free, a pure function call expression and a constant expression of the result can always replace each other. This is called referential transparency.
@@ -102,7 +103,7 @@ Looks great. Unfortunately, this attribute is provided not for general purpose b
 -   Compile time rewriter and analyzer
 -   Runtime analyzer
 
-In a function member, the contracts for its code can be specified declaratively with System.Diagnostics.Contracts.Contract type’s static methods. These contracts can be analysed at compile time and runtime. Apparently, they must be referential transparent and cannot rely on any side effect. So, only pure function (function with \[Pure\] contract) are allowed to be called with contracts APIs, like the above IsPositive function:
+In a function member, the contracts for its code can be specified declaratively with System.Diagnostics.Contracts.Contract type’s static methods. These contracts can be analysed at compile time and runtime. Apparently, they must be referential transparent and cannot rely on any side effect. So, only pure function (function with `[Pure]` contract) are allowed to be called with contracts APIs, like the above IsPositive function:
 
 ```csharp
 internal static int DoubleWithPureContracts(int int32)
@@ -114,7 +115,7 @@ return int32 + int32; // Function body.
 }
 ```
 
-In contrast, the following example calls impure function (function without \[Pure\] contract) in contracts:
+In contrast, the following example calls impure function (function without `[Pure]` contract) in contracts:
 
 ```csharp
 internal static int DoubleWithImpureContracts(int int32)
@@ -126,9 +127,9 @@ return int32 + int32; // Function body.
 }
 ```
 
-At compile time, Code Contracts gives a warning: Detected call to method IsNegative(System.Int32)' without \[Pure\] in contracts of method ‘DoubleWithImpureContracts(System.Int32)'.
+At compile time, Code Contracts gives a warning: Detected call to method IsNegative(System.Int32)' without `[Pure]` in contracts of method ‘DoubleWithImpureContracts(System.Int32)'.
 
-Code Contracts has been a very useful code tool for compile time and runtime, but Microsoft has discontinued this tool, so it only works for .NET Framework 4.0 and 4.5 on Windows. As a result, \[Pure\] attribute is actually obsolete.
+Code Contracts has been a very useful code tool for compile time and runtime, but Microsoft has discontinued this tool, so it only works for .NET Framework 4.0 and 4.5 on Windows. As a result, `[Pure]` attribute is actually obsolete.
 
 When code is compiled and built to assembly, its contracts can either be compiled to the same assembly, or to a separate contracts assembly. Since .NET Framework FCL assemblies are already shipped, Microsoft provides 25 contracts assemblies separately for 25 most commonly used assemblies, including mscorlib.Contracts.dll (contracts for mscorlib.dll core library), System.Core.Contracts.dll (contracts for System.Core.dll assembly of LINQ to Objects and LINQ to Parallel, and remote LINQ APIs), System.Xml.Linq.Contracts.dll (contracts for System.Xml.Linq.dll assembly of LINQ to XML), etc. For example, Math.Abs function is provided in mscorlib.dll, so its contracts are provided in mscorlib.Contracts.dll as empty function with the same signature, with only contracts:
 
@@ -150,7 +151,7 @@ return default;
 }
 ```
 
-C# and .NET Standard are designed in impure paradigm to allow immutability and mutability, purity and impurity. As a result, only a small percentage of the provided functions are pure. This can be demonstrated by utilizing above contracts assemblies and \[Pure\] contract. The following example has 2 LINQ to Objects queries. The first query counts all pure public functions in the contract assemblies. As fore mentioned, if a function has \[Pure\] attribute, it is pure; if a type has \[Pure\] attribute, its functions are all pure. Then the second query counts all public functions in corresponding library assemblies. In both queries, Mono’s reflection library, Mono.Cecil NuGet package, is used, because it can load .NET Framework assemblies and contracts assemblies correctly from different platforms, including Linux/Mac/Windows.
+C# and .NET Standard are designed in impure paradigm to allow immutability and mutability, purity and impurity. As a result, only a small percentage of the provided functions are pure. This can be demonstrated by utilizing above contracts assemblies and `[Pure]` contract. The following example has 2 LINQ to Objects queries. The first query counts all pure public functions in the contract assemblies. As fore mentioned, if a function has `[Pure]` attribute, it is pure; if a type has `[Pure]` attribute, its functions are all pure. Then the second query counts all public functions in corresponding library assemblies. In both queries, Mono’s reflection library, Mono.Cecil NuGet package, is used, because it can load .NET Framework assemblies and contracts assemblies correctly from different platforms, including Linux/Mac/Windows.
 
 ```csharp
 internal static void FunctionCount(

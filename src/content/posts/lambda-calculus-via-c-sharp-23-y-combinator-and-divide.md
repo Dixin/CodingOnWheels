@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion](/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion")**
+## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion](/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-7-fixed-point-combinator-and-recursion")
 
 ## Fix point
 
@@ -26,7 +27,7 @@ p
 
 The following picture is stolen from [Wikipedia](http://en.wikipedia.org/wiki/Fixed_point_\(mathematics\)#mediaviewer/File:Fixed_point_example.svg):
 
-![](http://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Fixed_point_example.svg/220px-Fixed_point_example.svg.png)
+![Fixed point example.](http://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Fixed_point_example.svg/220px-Fixed_point_example.svg.png)
 
 A simple example:
 
@@ -233,7 +234,7 @@ public static partial class _NumeralExtensions
 
 ## DivideBy
 
-In the [Church numeral arithmetic](/posts/lambda-calculus-via-c-sharp-11-predicates-and-divide), this (cheating) recursive \_DivideBy was temporarily used:
+In the [Church numeral arithmetic](/posts/lambda-calculus-via-c-sharp-11-predicates-and-divide), this (cheating) recursive `_DivideBy` was temporarily used:
 
 ```csharp
 _DivideBy := λa.λb.If (IsGreaterOrEqual a b) (λx.Add One (_DivideBy (Subtract a b) b)) (λx.Zero)

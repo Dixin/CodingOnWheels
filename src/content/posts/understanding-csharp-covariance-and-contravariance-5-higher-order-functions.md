@@ -81,7 +81,7 @@ public delegate void ActionIn<T>(Action<T> action);
 
 can represent a higher-order function type, which take a function as parameter.
 
-Regarding T for Action<T> is contravariant, is T still contravariant for ActionIn<T>? The answer is no. The following code cannot be compiled:
+Regarding T for `Action<T>` is contravariant, is T still contravariant for `ActionIn<T>`? The answer is no. The following code cannot be compiled:
 
 ```csharp
 public static partial class HigherOrder
@@ -115,27 +115,27 @@ What is the problem here? And how to fix?
 
 First, covariance/contravariance can be viewed in another way:
 
--   Func<T>: Derived “is a” Base => Func<Derived> “is a” Func<Base>. This is named covariance (not out-variance) because the direction of “is a” relationship remains.
--   Action<T>: Derived “is a” Base => Action<Base> “is a” Action<Derived>. This is named contravariance (not in-variance) because the direction of “is a” relationship reverses.
+-   `Func<T>`: Derived “is a” Base => `Func<Derived>` “is a” `Func<Base>`. This is named covariance (not out-variance) because the direction of “is a” relationship remains.
+-   `Action<T>`: Derived “is a” Base => `Action<Base>` “is a” `Action<Derived>`. This is named contravariance (not in-variance) because the direction of “is a” relationship reverses.
     -   In the original “is a” relationship, Derived is on the left side, Base is on the right side
     -   In the new “is a” relationship, Derived goes to the right, and Base goes to the left
 
 To examine the variance for higher-order functions:
 
--   Func<T> can be made higher order, by just replacing T with Func<T>. Then:
-    1.  Derived “is a” Base
-    1.  \=> Func<Derived> “is a” Func<Base> (In Func<T>, replaces T with Derived/Base. Comparing to 1, T is covariant for Func<T>.)
-    1.  \=> Func<Func<Derived>> “is a” Func<Func<Derived>> (In Func<T>, replaces T with Func<Derived>/Func<Base>. Comparing to 1, T is covariant for Func<Func<T>>.)
-    1.  \=> Func<Func<Func<Derived>>> “is a” Func<Func<Func<Base>>> (In Func<T>, replaces T with Func<Func<Derived>> /Func<Func<Base>> . Comparing to 1, T is covariant for Func<Func<Func<T>>>.)
-    1.  \=> …
--   Action<T> can be made higher order, by just replacing T with Action<T>. Then:
-    1.  Derived “is a” Base
-    1.  \=> Action<Base> “is a” Action<Derived> (In Action<T>, replaces T with Base/Derived. the direction of “Is-a” relationship reverses. Comparing to 1, T is contravariant for Action<T>.)
-    1.  \=> Action<Action<Derived>> “is a” Action<Action<Base>> (In Action<T>, replaces T with Action<Derived>/Action<Base>. the direction of “Is-a” relationship reverses again, so that Derived goes back to left, and Base goes back to right. Comparing to 1, T is covariant for Action<Action<T>>.)
-    1.  \=> Action<Action<Action<Base>>> “is a” Action<Action<Action<Derived>>> (In Action<T>, replaces T with Action<Action<Base>> /Action<Action<Derived>>. Comparing to 1, T is contravariant for Action<Action<Action<T>>>.)
-    1.  \=> …
+-   `Func<T>` can be made higher order, by just replacing T with `Func<T>`. Then:
+    1.  `Derived` “is a” `Base`
+    2.  `Func<Derived>` “is a” `Func<Base>` (In `Func<T>`, replaces T with Derived/Base. Comparing to 1, T is covariant for `Func<T>`.)
+    3.  `Func<Func<Derived>>` “is a” `Func<Func<Derived>>` (In `Func<T>`, replaces T with `Func<Derived>`/`Func<Base>`. Comparing to 1, T is covariant for `Func<Func<T>>`.)
+    4.  `Func<Func<Func<Derived>>>` “is a” `Func<Func<Func<Base>>>` (In `Func<T>`, replaces T with `Func<Func<Derived>>`/`Func<Func<Base>>`. Comparing to 1, T is covariant for `Func<Func<Func<T>>>`.)
+    5.  …
+-   `Action<T>` can be made higher order, by just replacing T with `Action<T>`. Then:
+    1.  `Derived` “is a” `Base`
+    2.  `Action<Base>` “is a” `Action<Derived>` (In `Action<T>`, replaces T with Base/Derived. the direction of “Is-a” relationship reverses. Comparing to 1, T is contravariant for `Action<T>`.)
+    3.  `Action<Action<Derived>>` “is a” `Action<Action<Base>>` (In `Action<T>`, replaces T with `Action<Derived>`/`Action<Base>`. the direction of “Is-a” relationship reverses again, so that Derived goes back to left, and Base goes back to right. Comparing to 1, T is covariant for `Action<Action<T>>`.)
+    4.  `Action<Action<Action<Base>>>` “is a” `Action<Action<Action<Derived>>>` (In `Action<T>`, replaces T with `Action<Action<Base>>` /`Action<Action<Derived>>`. Comparing to 1, T is contravariant for `Action<Action<Action<T>>>`.)
+    5.  …
 
-In above code, ActionIn<T> is equivalent to Action<Action<T>>. So, T is covariant for Action<Action<T>>/ActionIn<T>, not contravariant. The fix is to use out keyword to decorate T, and swap the binding:
+In above code, `ActionIn<T>` is equivalent to `Action<Action<T>>`. So, T is covariant for `Action<Action<T>>`/`ActionIn<T>`, not contravariant. The fix is to use out keyword to decorate T, and swap the binding:
 
 ```csharp
 public static partial class HigherOrder
@@ -194,22 +194,22 @@ public static partial class HigherOrder
 
 Variances are straightforward for first-order functions:
 
--   Covariance of output (out keyword): Derived “is a” Base => Func<Derived> “is a” Func<Base> (“Is-a” remains.)
--   Contravariance of input (in keyword): Derived “is a” Base => Action<Base> “is a” Action<Derived> (“Is-a” reverses.)
+-   Covariance of output (out keyword): Derived “is a” Base => `Func<Derived>` “is a” `Func<Base>` (“Is-a” remains.)
+-   Contravariance of input (in keyword): Derived “is a” Base => `Action<Base>` “is a” `Action<Derived>` (“Is-a” reverses.)
 
 For higher-order functions:
 
 -   Output is always covariant:
-    -   Derived “is a” Base
-    -   \=> Func<Derived> “is a” Func<Base>
-    -   \=> Func<Func<Derived>> “is a” Func<Func<Derived>>
-    -   \=> …
+    1.  `Derived` “is a” `Base`
+    1.  `Func<Derived>` “is a” `Func<Base>`
+    1.  `Func<Func<Derived>>` “is a” `Func<Func<Derived>>`
+    1.  …
 -   Input can be either contravariant or covariant, depends on how many times the direction of “is-a” relationship reverses:
-    1.  Derived “is a” Base
-    1.  \=> Action<Base> “is a” Action<Derived> (contravariance)
-    1.  \=> Action<Action<Derived>> “is a” Action<Action<Base>> (covariance)
-    1.  \=> Action<Action<Action<Base>>> “is a” Action<Action<Action<Derived>>> (contravariance)
-    1.  \=> …
+    1.  `Derived` “is a” `Base`
+    2.  `Action<Base>` “is a” `Action<Derived>` (contravariance)
+    3.  `Action<Action<Derived>>` “is a” `Action<Action<Base>>` (covariance)
+    4.  `Action<Action<Action<Base>>>` “is a” `Action<Action<Action<Derived>>>` (contravariance)
+    5.  …
 
 ```csharp
 public static class OutputCovarianceForHigherOrder

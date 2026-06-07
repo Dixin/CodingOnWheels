@@ -9,13 +9,14 @@ draft: false
 lang: ""
 ---
 
-## **\[**[**LINQ via C# series**](/posts/linq-via-csharp)**\]**
-
-## **\[**[**Entity Framework Core series**](/archive/?tag=Entity%20Framework%20Core)**\]**
-
-## **\[**[**Entity Framework series**](/archive/?tag=Entity%20Framework)**\]**
-
-## **EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-1-remote-query**](/posts/entity-framework-core-and-linq-to-entities-1-remote-query "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-1-remote-query")
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
+>
+> This post explains EF, [here is the EF Core version](/posts/entity-framework-core-and-linq-to-entities-1-remote-query).
 
 The previous chapters discussed LINQ to Objects, LINQ to XML (objects), and Parallel LINQ (to Objects). All of these APIs query in memory objects managed by .NET. This chapter discusses Entity Framework, a Microsoft library providing a different kind of LINQ technology, LINQ to Entities. LINQ to Entities can access and query relational data managed by different kinds of databases, e.g.:
 
@@ -31,16 +32,21 @@ etc. This tutorial uses Microsoft [SQL Server LocalDB](https://msdn.microsoft.co
     -   [SQL Server Management Studio](https://en.wikipedia.org/wiki/SQL_Server_Management_Studio), a free integration environment to manage SQL Server and SQL database.
     -   [SQL Server Profiler](https://msdn.microsoft.com/en-us/library/ms181091.aspx), a free trace tool. This tutorial will use it to uncover how Entity Framework works with the SQL data source.
 1.  (Optional) [Download SQL Server Data Tools](https://msdn.microsoft.com/en-us/library/mt204009.aspx) and install. It is a free Visual Studio extension, and enables SQL database management inside Visual Studio.
-1.  Download and install Microsoft SQL Server sample databases AdventureWorks. The [full database from Microsoft](http://msftdbprodsamples.codeplex.com/) will be about 205MB, so a compacted and shrunk version of the AdventureWorks database is provided for this tutorial. It is only 34MB, and is available from [GitHub](https://github.com/Dixin/CodeSnippets/tree/master/Data). Just download the [AdventureWorks\_Data.mdf](https://github.com/Dixin/CodeSnippets/blob/master/Data/AdventureWorks_Data.mdf) file and the [AdventureWorks\_Log.ldf](https://github.com/Dixin/CodeSnippets/blob/master/Data/AdventureWorks_Log.ldf) file to the same directory.
+1.  Download and install Microsoft SQL Server sample databases AdventureWorks. The [full database from Microsoft](http://msftdbprodsamples.codeplex.com/) will be about 205MB, so a compacted and shrunk version of the AdventureWorks database is provided for this tutorial. It is only 34MB, and is available from [GitHub](https://github.com/Dixin/CodeSnippets/tree/master/Data). Just download the [AdventureWorks_Data.mdf](https://github.com/Dixin/CodeSnippets/blob/master/Data/AdventureWorks_Data.mdf) file and the [AdventureWorks_Log.ldf](https://github.com/Dixin/CodeSnippets/blob/master/Data/AdventureWorks_Log.ldf) file to the same directory.
 1.  Install Entity Framework library to code project: `Install-Package EntityFramework`. By default, 2 assemblies will be added to the references: EntityFramework.dll and EntityFramework.SqlServer.dll. Entity Framework implements a provider model to support different kinds of databases, so EntityFramework.dll has the general functionalities for all the databases, and EntityFramewwork.SqlServer.dll implements SQL database specific functionalities.
 
 ## Remote query vs. local query
 
 LINQ to Objects and Parallel LINQ query .NET objects in current .NET process’s local memory, these queries are called local queries. LINQ to XML queries XML data source, which are .NET XML objects in local memory as well, so LINQ to XML queries are also local queries. As demonstrated at the beginning of this tutorial, LINQ can also query data in another domain, like tweets in Twitter, rows in database tables, etc. Apparently, these data source are not .NET objects directly available in local memory. These queries are called remote queries.
 
-A local LINQ to Objects data source is represented by IEnumerable<T>. A remote LINQ data source, like a table in database, is represented by IQueryable<T>. Similar to ParallelQuery<T> discussed in the Parallel LINQ chapter, IQueryable<T> is another parity with IEnumerbale<T>:
+A local LINQ to Objects data source is represented by `IEnumerable<T>`. A remote LINQ data source, like a table in database, is represented by `IQueryable<T>`. Similar to `ParallelQuery<T>` discussed in the Parallel LINQ chapter, `IQueryable<T>` is another parity with `IEnumerbale<T>`:
 
-<table cellpadding="2" cellspacing="0" width="600"><tbody><tr><td valign="top" width="200">Sequential LINQ</td><td valign="top" width="200">Parallel LINQ</td><td valign="top" width="200">LINQ to Entities</td></tr><tr><td valign="top" width="200">IEnumerable</td><td valign="top" width="200">ParallelQuery</td><td valign="top" width="200">IQueryable</td></tr><tr><td valign="top" width="200">IEnumerable&lt;T&gt;</td><td valign="top" width="200">ParallelQuery&lt;T&gt;</td><td valign="top" width="200">IQueryable&lt;T&gt;</td></tr><tr><td valign="top" width="200">IOrderedEnumerable&lt;T&gt;</td><td valign="top" width="200">OrderedParallelQuery&lt;T&gt;</td><td valign="top" width="200">IOrderedQueryable&lt;T&gt;</td></tr><tr><td valign="top" width="200">Enumerable</td><td valign="top" width="200">ParallelEnumerable</td><td valign="top" width="200">Queryable</td></tr></tbody></table>
+| Sequential LINQ         | Parallel LINQ             | LINQ to Entities       |
+|-------------------------|---------------------------|------------------------|
+| `IEnumerable`           | `ParallelQuery`           | `IQueryable`           |
+| `IEnumerable<T>`        | `ParallelQuery<T>`        | `IQueryable<T>`        |
+| `IOrderedEnumerable<T>` | `OrderedParallelQuery<T>` | `IOrderedQueryable<T>` |
+| `Enumerable`            | `ParallelEnumerable`      | `Queryable`            |
 
 ```csharp
 namespace System.Linq
@@ -68,9 +74,9 @@ namespace System.Linq
 }
 ```
 
-IEnumerable<T> has many implementations, like array in mscorlib.dll, Microsoft.Collections.Immutable.ImmutableList<T> in System.Collections.Immutable.dll, etc. Here Entity Framework provides several IQueryable<T> implementations, like System.Data.Entity.Infrastructure.DbQuery<T> and System.Data.Entity.DbSet<T> in EntityFramework.dll, etc. DbQuery<T> and DbSet<T> will be used all over this chapter. Please see the LINQ to Objects chapter for the full implementation/inheritance hierarchy for IEnumerable<T>, ParallelQuery<T>, and IQueryable<T>.
+`IEnumerable<T>` has many implementations, like array in mscorlib.dll, `Microsoft.Collections.Immutable.ImmutableList<T>` in System.Collections.Immutable.dll, etc. Here Entity Framework provides several `IQueryable<T>` implementations, like `System.Data.Entity.Infrastructure.DbQuery<T>` and `System.Data.Entity.DbSet<T>` in EntityFramework.dll, etc. `DbQuery<T>` and `DbSet<T>` will be used all over this chapter. Please see the LINQ to Objects chapter for the full implementation/inheritance hierarchy for `IEnumerable<T>`, `ParallelQuery<T>`, and `IQueryable<T>`.
 
-Queryable class defines all the extension methods for IQueryable<T>, which are parities with Enumerable class’s methods. For example, here are the Where/Select/Concat methods side by side:
+Queryable class defines all the extension methods for `IQueryable<T>`, which are parities with Enumerable class’s methods. For example, here are the Where/Select/Concat methods side by side:
 
 ```csharp
 namespace System.Linq
@@ -146,8 +152,8 @@ With this design, the fluent method chaining and the LINQ query expressions patt
 
 Queryable class does not provide the following query methods:
 
--   AsEnumerable: it returns an IEnumerable<T> representing a sequence of .NET objects, and this method is already provided by Enumerable in LINQ to Objects
--   Empty/Range/Repeat: it does not make sense for .NET to generate a remote data source for further remote queries; the other generation method, DefaultIfEmpty, is available, because DefaultIfEmpty generates from an input IQuerable<T> source.
+-   AsEnumerable: it returns an `IEnumerable<T>` representing a sequence of .NET objects, and this method is already provided by Enumerable in LINQ to Objects
+-   Empty/Range/Repeat: it does not make sense for .NET to generate a remote data source for further remote queries; the other generation method, DefaultIfEmpty, is available, because DefaultIfEmpty generates from an input `IQuerable<T>` source.
 -   Max/Min overloads for .NET primary types: these .NET primitive types may not exist in the remote data source, like a SQL/Oracle/MySQL database, also LINQ to Objects has provided these methods to query these .NET primitive values in local memory.
 -   ToArray/ToDictionary/ToList/ToLookup: similarly, collection types like array, dictionary, … may not exist in the remote data source, also LINQ to Objects has provided these methods to pull values from data source and convert to .NET collections.
 
@@ -186,7 +192,7 @@ public class InfixVisitor : BinaryArithmeticExpressionVisitor<string>
 }
 ```
 
-Please see the expression tree part in the C# chapter for the definition of BinaryArithmeticExpressionVisitor<T>. Above InfixVisitor can traverse an arithmetic expression tree, and output infix expression string, which can work in SQL:
+Please see the expression tree part in the C# chapter for the definition of `BinaryArithmeticExpressionVisitor<T>`. Above InfixVisitor can traverse an arithmetic expression tree, and output infix expression string, which can work in SQL:
 
 ```csharp
 internal static partial class ExpressionTree
@@ -315,7 +321,7 @@ internal static void Execute()
 }
 ```
 
-As fore mentioned, the Expression<TDelegate>.Compile method emits a method that executes the arithmetic computation locally in CLR. In contrast, BinaryArithmeticTranslator.Sql emits a method that calls ExecuteSql and executes the arithmetic computation remotely in a SQL Server.
+As fore mentioned, the `Expression<TDelegate>.Compile` method emits a method that executes the arithmetic computation locally in CLR. In contrast, BinaryArithmeticTranslator.Sql emits a method that calls ExecuteSql and executes the arithmetic computation remotely in a SQL Server.
 
 ## Trace SQL query execution
 
@@ -352,7 +358,7 @@ Another optional configuration is font. The default font is [Lucida Console](htt
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Entity-Framework-1_13528/image_thumb_7.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Entity-Framework-1_13528/image_16.png)
 
-To start tracing, Click File => New Trace, specify Server name as (LocalDB)\\MSSQLLocalDB, which is the same as the Data Source value in above connection string:
+To start tracing, Click File => New Trace, specify Server name as `(LocalDB)\MSSQLLocalDB`, which is the same as the Data Source value in above connection string:
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Entity-Framework-1_13528/image_thumb_4.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Entity-Framework-1_13528/image_10.png)
 

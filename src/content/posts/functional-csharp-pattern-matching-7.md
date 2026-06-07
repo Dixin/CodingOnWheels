@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-pattern-matching](/posts/functional-csharp-pattern-matching "https://CodingOnWheels.com/posts/functional-csharp-pattern-matching")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
+## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-pattern-matching](/posts/functional-csharp-pattern-matching "https://CodingOnWheels.com/posts/functional-csharp-pattern-matching")
 
 Pattern matching is a common feature in functional languages. C# 7.0 introduces basic pattern matching, including constant value as pattern and type as pattern, and C# 7.1 supports generics in pattern matching.
 

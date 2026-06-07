@@ -9,13 +9,14 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
 
-## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
+As fore mentioned, LINQ to Objects standard query methods (also called standard query operators) are provided as static methods of System.Linq.Enumerable type, most of which are `IEnumerable<T>` extension methods. They can be categorized by output type:
 
-As fore mentioned, LINQ to Objects standard query methods (also called standard query operators) are provided as static methods of System.Linq.Enumerable type, most of which are IEnumerable<T> extension methods. They can be categorized by output type:
-
-1.  Sequence queries: output a new IEnumerable<T> sequence:
+1.  Sequence queries: output a new `IEnumerable<T>` sequence:
     -   Generation: Empty , Range, Repeat, DefaultIfEmpty
     -   Filtering (restriction): Where\*, OfType
     -   Mapping (projection): Select\*, SelectMany\*
@@ -35,15 +36,15 @@ As fore mentioned, LINQ to Objects standard query methods (also called standard 
     -   Quantifier: All, Any, Contains
     -   Equality: SequenceEqual
 
-These LINQ query methods are very functional. They are functions that can be composed by fluent chaining. Many of them are higher-order functions accepting function parameters, so anonymous functions (lambda expressions) or named functions can be passed to them. The query methods with IEnumerable<T> output are pure functions. They are referential transparency and side effect free. When they are called, they only create and output a new sequence wrapping the input sequence and the query logic, with the query logic not executed, so there are no state changes, data mutation, I/O, etc. The query logic execution is deferred until the result values are pulled from the output sequence. The other query methods that output a new collection or a single value are impure functions. When they are called, they immediately execute the query and pull the results.
+These LINQ query methods are very functional. They are functions that can be composed by fluent chaining. Many of them are higher-order functions accepting function parameters, so anonymous functions (lambda expressions) or named functions can be passed to them. The query methods with `IEnumerable<T>` output are pure functions. They are referential transparency and side effect free. When they are called, they only create and output a new sequence wrapping the input sequence and the query logic, with the query logic not executed, so there are no state changes, data mutation, I/O, etc. The query logic execution is deferred until the result values are pulled from the output sequence. The other query methods that output a new collection or a single value are impure functions. When they are called, they immediately execute the query and pull the results.
 
-### Sequence queries
+## Sequence queries
 
 As discussed in the Function composition and LINQ queries chapter, some query methods in this category can be written with query expressions syntax. In above query method list, these query methods are marked with \*.
 
 ### Generation
 
-Enumerable type’s Empty, Range, Repeat methods can generate an IEnumerable<T> sequence. They are just normal static methods instead of extension methods:
+Enumerable type’s Empty, Range, Repeat methods can generate an `IEnumerable<T>` sequence. They are just normal static methods instead of extension methods:
 
 ```csharp
 namespace System.Linq
@@ -59,7 +60,7 @@ public static IEnumerable<TResult> Repeat<TResult>(TResult element, int count);
 }
 ```
 
-Empty just generates an IEnumerable<T> sequence, which contains no value:
+Empty just generates an `IEnumerable<T>` sequence, which contains no value:
 
 ```csharp
 internal static void Empty()
@@ -87,7 +88,7 @@ int32.WriteLine();
 }
 ```
 
-To trace all values in a sequence, the following WriteLines extension method can be defined for IEnumerable<T>:
+To trace all values in a sequence, the following WriteLines extension method can be defined for `IEnumerable<T>`:
 
 ```csharp
 public static partial class TraceExtensions
@@ -143,13 +144,16 @@ repeat.WriteLines(); // Execute query. * * * * *
 
 DefaultIfEmpty generates a sequence based on the source sequence. If the source sequence is not empty, the returned sequence contains the same values from the source sequence. If the source sequence is empty, the returned sequence contains a single value, which is the default value of TSource type:
 
-public static IEnumerable<TSource\> DefaultIfEmpty<TSource\>(this IEnumerable<TSource\> source);
+```csharp
+public static IEnumerable<TSource> DefaultIfEmpty<TSource>(this IEnumerable<TSource> source);
+```
 
 The other overload of DefaultIfEmpty allows to specify what default value to use if the source sequence is empty:
 
-public static IEnumerable<TSource\> DefaultIfEmpty<TSource\>(
-
-this IEnumerable<TSource\> source, TSource defaultValue);
+```csharp
+public static IEnumerable<TSource> DefaultIfEmpty<TSource>(
+this IEnumerable<TSource> source, TSource defaultValue);
+```
 
 For example:
 
@@ -175,9 +179,10 @@ DefaultIfEmpty is also commonly used in left outer join, which is discussed late
 
 As demonstrated earlier, Where filters the values in the source sequence:
 
+```csharp
 public static IEnumerable<TSource> Where<TSource>(
-
-this IEnumerable<TSource> source, Func<TSource, bool\> predicate);
+this IEnumerable<TSource> source, Func<TSource, bool> predicate);
+```
 
 Its predicate parameter is a callback function. When the query is executed, predicate is called with each value in the source sequence, and output a bool value. If output is true, this value is kept in the query result sequence; if output is false, this value is ignored. For example, the following query filters all types in .NET core library to get all primitive type:
 
@@ -205,9 +210,10 @@ select type;
 
 The other overload of Where accepts an indexed predicate function:
 
+```csharp
 public static IEnumerable<TSource> Where<TSource>(
-
-this IEnumerable<TSource> source, Func<TSource, int, bool\> predicate);
+this IEnumerable<TSource> source, Func<TSource, int, bool> predicate);
+```
 
 Here each time predicate is called with 2 parameters, a value in source sequence, and this value’s index in source sequence. For example:
 
@@ -237,9 +243,8 @@ strings.WriteLines(); // Execute query. aa bb
 
 Similar to Where, Select has 2 overloads, one accepts a selector function, the other one has an indexed selector function:
 
-IEnumerable<TResult> Select<TSource, TResult>(
-
 ```csharp
+IEnumerable<TResult> Select<TSource, TResult>(
 this IEnumerable<TSource> source, Func<TSource, TResult> selector);
 
 IEnumerable<TResult> Select<TSource, TResult>(
@@ -327,7 +332,7 @@ public static IEnumerable<TResult> SelectMany<TSource, TResult>(
 this IEnumerable<TSource> source, Func<TSource, int, IEnumerable<TResult>>selector);
 ```
 
-In contrast with Select, SelectMany’s selector is a one to many mapping. If there are N values from the source sequence, then they are mapped to N sequences. And eventually, SelectMany concatenates these N sequences into one single sequence. The following example calls SelectMany to query all members of all types in .NET core library, then filter the obsolete members (members with \[Obsolete\]):
+In contrast with Select, SelectMany’s selector is a one to many mapping. If there are N values from the source sequence, then they are mapped to N sequences. And eventually, SelectMany concatenates these N sequences into one single sequence. The following example calls SelectMany to query all members of all types in .NET core library, then filter the obsolete members (members with `[Obsolete]`):
 
 ```csharp
 internal static MemberInfo[] GetDeclaredMembers(this Type type) =>
@@ -355,7 +360,7 @@ filtered.WriteLines(obsoleteMember => $"{obsoleteMember.DeclaringType}:{obsolete
 }
 ```
 
-Apparently, the above SelectMany, Where, and are both extension methods for IEnumerable<T>, and they both return IEnumerable<T>, so that above LINQ query can be fluent, as expected:
+Apparently, the above SelectMany, Where, and are both extension methods for `IEnumerable<T>`, and they both return `IEnumerable<T>`, so that above LINQ query can be fluent, as expected:
 
 ```csharp
 internal static void FluentSelectMany()
@@ -397,7 +402,7 @@ Func<TSource, int, IEnumerable<TCollection>> collectionSelector,
 Func<TSource, TCollection, TResult>resultSelector);
 ```
 
-They accept 2 selector functions. The collection selector (non-indexed and index) maps source sequence’s each TSource value to many TCollection values (an IEnumerable<TCollection> sequence), and the result selector maps each TCollection value and its original TSource value to a TResult value. So eventually they still return a sequence of TResult values. For example, the following example use result selector to map type and member to string representation:
+They accept 2 selector functions. The collection selector (non-indexed and index) maps source sequence’s each TSource value to many TCollection values (an `IEnumerable<TCollection>` sequence), and the result selector maps each TCollection value and its original TSource value to a TResult value. So eventually they still return a sequence of TResult values. For example, the following example use result selector to map type and member to string representation:
 
 ```csharp
 internal static void SelectManyWithResultSelector()
@@ -461,9 +466,10 @@ SelectMany is a very powerful query method, and the multiple from clauses is als
 
 The GroupBy method has 8 overloads. The minimum requirement is to specified a key selector function, which is called with each value in the source sequence, and return a key:
 
-public static IEnumerable<IGrouping<TKey, TSource\>> GroupBy<TSource, TKey\>(
-
-this IEnumerable<TSource\> source, Func<TSource, TKey\> keySelector);
+```csharp
+public static IEnumerable<IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(
+this IEnumerable<TSource> source, Func<TSource, TKey> keySelector);
+```
 
 Each value from the source sequence is mapped to a key by calling the keys elector. If 2 keys are equal, these 2 source values are in the same group. Take the following persons as example:
 
@@ -528,7 +534,7 @@ TKey Key { get; }
 }
 ```
 
-It is just an IEnumerable<T> sequence with an additional Key property. So, above GroupBy returns a hierarchical sequence. It is a sequence of groups, where each group is a sequence of values. The equivalent query expression is a group clause:
+It is just an `IEnumerable<T>` sequence with an additional Key property. So, above GroupBy returns a hierarchical sequence. It is a sequence of groups, where each group is a sequence of values. The equivalent query expression is a group clause:
 
 ```csharp
 internal static void GroupBy()
@@ -694,7 +700,7 @@ select $"{@group.Key}: {string.Join(",", @group)}";
 }
 ```
 
-The rest 4 overloads accept an IEqualityComparer<TKey> interface:
+The rest 4 overloads accept an `IEqualityComparer<TKey>` interface:
 
 ```csharp
 public static IEnumerable<IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(
@@ -719,7 +725,7 @@ Func<TKey, IEnumerable<TElement>, TResult> resultSelector,
 IEqualityComparer<TKey>comparer);
 ```
 
-IEqualityComparer<TKey> provides the methods to determine whether 2 keys are equal when grouping all keys:
+`IEqualityComparer<TKey>` provides the methods to determine whether 2 keys are equal when grouping all keys:
 
 ```csharp
 namespace System.Collections.Generic
@@ -758,9 +764,8 @@ The most common join operations are inner join, left outer join and cross join. 
 
 Join is designed for inner join:
 
-IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(
-
 ```csharp
+IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(
 this IEnumerable<TOuter> outer, IEnumerable<TInner> inner,
 Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector,
 Func<TOuter, TInner, TResult> resultSelector)
@@ -769,9 +774,8 @@ IEnumerable<TResult> Join<TOuter, TInner, TKey, TResult>(
 this IEnumerable<TOuter> outer, IEnumerable<TInner> inner,
 Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector,
 Func<TOuter, TInner, TResult> resultSelector,
-```
-
 IEqualityComparer<TKey> comparer)
+```
 
 Each outer value from the outer source is mapped to an outer key by calling the outer key selector, and each inner value from the inner source is mapped to an inner key. When an outer key is equal to an inner key, the source outer value and the matching source inner value are paired, and mapped to a result by calling the result selector. So each outer value with a matching inner value is mapped to a result in the returned sequence, and each outer value without a matching inner value is ignored. Take the following characters as example:
 
@@ -879,9 +883,8 @@ select $"{person.Name} ({person.PlaceOfBirth}): {character.Name} ({character.Pla
 
 GroupJoin is designed for left outer join:
 
-IEnumerable<TResult> GroupJoin<TOuter, TInner, TKey, TResult>(
-
 ```csharp
+IEnumerable<TResult> GroupJoin<TOuter, TInner, TKey, TResult>(
 this IEnumerable<TOuter> outer, IEnumerable<TInner> inner,
 Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector,
 Func<TOuter, IEnumerable<TInner>, TResult> resultSelector)
@@ -890,9 +893,8 @@ IEnumerable<TResult> GroupJoin<TOuter, TInner, TKey, TResult>(
 this IEnumerable<TOuter> outer, IEnumerable<TInner> inner,
 Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector,
 Func<TOuter, IEnumerable<TInner>, TResult> resultSelector,
-```
-
 IEqualityComparer<TKey> comparer)
+```
 
 Each outer value from the outer source is mapped to an outer key by calling the outer key selector, and each inner value from the inner source is mapped to an inner key. When an outer key is equal to zero, one, or more inner key, the source outer value and all the matching source inner values are paired, and mapped to a result by calling the result selector. So each outer value with or without matching inner values is mapped to a result in the returned sequence. It is called GroupJoin, because each outer value is paired with a group of matching inner values. If there is no matching inner value, the outer value is paired with an empty group:
 
@@ -1268,9 +1270,10 @@ The difference is, for N outer values, Join pull all inner values once and cache
 
 Concat merges 2 sequences by putting the second sequence’s values after the first sequence’s values:
 
-public static IEnumerable<TSource\> Concat<TSource\>(
-
-this IEnumerable<TSource\> first, IEnumerable<TSource\> second);
+```csharp
+public static IEnumerable<TSource> Concat<TSource>(
+this IEnumerable<TSource> first, IEnumerable<TSource> second);
+```
 
 For example:
 
@@ -1289,9 +1292,11 @@ concat.WriteLines(); // Execute query. 1 2 3 4 4 3 4 5 6
 
 .NET Core provides Prepend/Append, which merge the specified value to the beginning/end of the source sequence:
 
-public static IEnumerable<TSource\> Prepend<TSource\>(this IEnumerable<TSource\> source, TSource element);
+```csharp
+public static IEnumerable<TSource> Prepend<TSource>(this IEnumerable<TSource> source, TSource element);
 
-public static IEnumerable<TSource\> Append<TSource\>(this IEnumerable<TSource\> source, TSource element);
+public static IEnumerable<TSource> Append<TSource>(this IEnumerable<TSource> source, TSource element);
+```
 
 For example:
 
@@ -1310,7 +1315,9 @@ append.WriteLines(); // Execute query. 0 1 2 3 4 -1
 
 Distinct accepts a source sequence, and returns a set, where duplicate values are removed:
 
-public static IEnumerable<TSource\> Distinct<TSource\>(this IEnumerable<TSource\> source);
+```csharp
+public static IEnumerable<TSource> Distinct<TSource>(this IEnumerable<TSource> source);
+```
 
 For example:
 
@@ -1403,9 +1410,10 @@ distinctWithComparer.WriteLines(); // Execute query. aa bb
 
 Zip is provided since .NET Framework 4.0. It accepts 2 sequences and returns their convolution:
 
-public static IEnumerable<TResult\> Zip<TFirst, TSecond, TResult\>(
-
-this IEnumerable<TFirst\> first, IEnumerable<TSecond\> second, Func<TFirst, TSecond, TResult\> resultSelector);
+```csharp
+public static IEnumerable<TResult> Zip<TFirst, TSecond, TResult>(
+this IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> resultSelector);
+```
 
 It calls result selector to map 2 values (each value from each sequence) to a result in the returned sequence:
 
@@ -1425,9 +1433,11 @@ When one input sequence has more values than the other, those values are ignored
 
 Partitioning query methods are straightforward. Skip/Take simply skips/takes the specified number of values in the source sequence:
 
-public static IEnumerable<TSource\> Skip<TSource\>(this IEnumerable<TSource\> source, int count);
+```csharp
+public static IEnumerable<TSource> Skip<TSource>(this IEnumerable<TSource> source, int count);
 
-public static IEnumerable<TSource\> Take<TSource\>(this IEnumerable<TSource\> source, int count);
+public static IEnumerable<TSource> Take<TSource>(this IEnumerable<TSource> source, int count);
+```
 
 For example:
 
@@ -1498,9 +1508,8 @@ partition2.WriteLines(); // Execute query. 1 5
 
 The ordering methods are OrderBy and OrderByDescending:
 
-IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(
-
 ```csharp
+IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(
 this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
 
 IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(
@@ -1510,9 +1519,8 @@ IOrderedEnumerable<TSource> OrderByDescending<TSource, TKey>(
 this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
 
 IOrderedEnumerable<TSource> OrderByDescending<TSource, TKey>(
-```
-
 this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+```
 
 The key selector specifies what should be compared to determine the order of values in the result sequence:
 
@@ -1578,13 +1586,12 @@ ordered.WriteLines(); // Execute query. Two Zero four one three
 }
 ```
 
-Here StringComparer.Ordinal provides a case-sensitive comparison. “Zero” comes to the first position of the result sequence, because upper case letter is less than lower case letter. This overload with comparer is not supported in query expression. When using the other overload without comparer, OrderBy/OrderByDescending uses System.Collections.Generic.Comparer<TKey>.Default. In the first OrderBy example, Comparer<string>.Default is used, which is equivalent to StringComparer.CurrentCulture.
+Here StringComparer.Ordinal provides a case-sensitive comparison. “Zero” comes to the first position of the result sequence, because upper case letter is less than lower case letter. This overload with comparer is not supported in query expression. When using the other overload without comparer, OrderBy/OrderByDescending uses `System.Collections.Generic.Comparer<TKey>.Default`. In the first OrderBy example, `Comparer<string>.Default` is used, which is equivalent to StringComparer.CurrentCulture.
 
-As fore mentioned, ThenBy/ThenByDescending are extension methods of IOrderedEnumerable<T>, not IEnumerable<T>:
-
-IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(
+As fore mentioned, ThenBy/ThenByDescending are extension methods of `IOrderedEnumerable<T>`, not `IEnumerable<T>`:
 
 ```csharp
+IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(
 this IOrderedEnumerable<TSource> source, Func<TSource, TKey> keySelector)
 
 IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(
@@ -1594,9 +1601,8 @@ IOrderedEnumerable<TSource> ThenByDescending<TSource, TKey>(
 this IOrderedEnumerable<TSource> source, Func<TSource, TKey> keySelector)
 
 IOrderedEnumerable<TSource> ThenByDescending<TSource, TKey>(
-```
-
 this IOrderedEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+```
 
 So they can be composed right after OrderBy/OrderByDescending:
 
@@ -1693,7 +1699,9 @@ The compilation of the above 3 queries are identical.
 
 Reverse simply reverses the positions of values:
 
-public static IEnumerable<TSource\> Reverse<TSource\>(this IEnumerable<TSource\> source)
+```csharp
+public static IEnumerable<TSource> Reverse<TSource>(this IEnumerable<TSource> source)
+```
 
 For example:
 
@@ -1710,9 +1718,11 @@ reversed.WriteLines(); // Execute query. 4 3 2 1 0
 
 Cast converts each value in source sequence to the specified type:
 
-public static IEnumerable<TResult\> Cast<TResult\>(this IEnumerable source);
+```csharp
+public static IEnumerable<TResult> Cast<TResult>(this IEnumerable source);
+```
 
-Unlike other query methods, Cast is an extension method of non-generic sequence, so it can work with types implementing either IEnumerable or IEnumerable<T>. So it can enable LINQ query for legacy types. The following example calls Microsoft Team Foundation Service (TFS) client APIs to query work items, where Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection is returned. WorkItemCollection is a collection of Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem, but it only implements IEnumerable, so it can be cast to a generic IEnumerable<WorkItem> safely, and further LINQ query can be applied. The following example execute a WIQL (Work Item Query Language of TFS) statement to query work items from TFS. Since WIQL does not support GROUP BY clause, the work items can be grouped locally with LINQ:
+Unlike other query methods, Cast is an extension method of non-generic sequence, so it can work with types implementing either IEnumerable or `IEnumerable<T>`. So it can enable LINQ query for legacy types. The following example calls Microsoft Team Foundation Service (TFS) client APIs to query work items, where Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection is returned. WorkItemCollection is a collection of Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem, but it only implements IEnumerable, so it can be cast to a generic `IEnumerable<WorkItem>` safely, and further LINQ query can be applied. The following example execute a WIQL (Work Item Query Language of TFS) statement to query work items from TFS. Since WIQL does not support GROUP BY clause, the work items can be grouped locally with LINQ:
 
 ```csharp
 #if NETFX
@@ -1798,7 +1808,7 @@ select entry;
 }
 ```
 
-And of course Cast can be used to generic IEnumerable<T>:
+And of course Cast can be used to generic `IEnumerable<T>`:
 
 ```csharp
 internal static void CastGenericIEnumerable()
@@ -1866,9 +1876,11 @@ Cast looks similar to the fore mentioned OfType method, which also can have the 
 
 AsEnumerable is a query method doing nothing. It accepts a source sequence, then return the source sequence itself:
 
-public static IEnumerable<TSource\> AsEnumerable<TSource\>(this IEnumerable<TSource\> source);
+```csharp
+public static IEnumerable<TSource> AsEnumerable<TSource>(this IEnumerable<TSource> source);
+```
 
-Its purpose is to make more derived type be visible only as IEnumerable<T>, and hide additional members of that more derived type:
+Its purpose is to make more derived type be visible only as `IEnumerable<T>`, and hide additional members of that more derived type:
 
 ```csharp
 internal static void AsEnumerable()
@@ -1879,7 +1891,7 @@ IEnumerable<int>sequence = list.AsEnumerable(); // Add method is no longer avail
 }
 ```
 
-If the more derived source has method with the same signature as IEnumerable<T>’s extension method, after calling AsEnumerable, that IEnumerable<T> extension method is called:
+If the more derived source has method with the same signature as `IEnumerable<T>`’s extension method, after calling AsEnumerable, that `IEnumerable<T>` extension method is called:
 
 ```csharp
 internal static void AsEnumerableReverse()
@@ -1912,9 +1924,9 @@ immutableSortedSet.AsEnumerable().Reverse(); // Enumerable.Reverse.
 }
 ```
 
-As fore mentioned, local parallel LINQ queries are represented by ParallelQuery<T> and remote LINQ queries are represented by IQueryable<T>. They both implement IEnumerable<T>, so they both have AsEnumerable available. Since AsEnumerable returns IEnumerable<T>, it opt-out local parallel query and remote query back to local sequential query. These scenarios are discussed in Parallel LINQ chapter and LINQ to Entities chapter.
+As fore mentioned, local parallel LINQ queries are represented by `ParallelQuery<T>` and remote LINQ queries are represented by `IQueryable<T>`. They both implement `IEnumerable<T>`, so they both have AsEnumerable available. Since AsEnumerable returns `IEnumerable<T>`, it opt-out local parallel query and remote query back to local sequential query. These scenarios are discussed in Parallel LINQ chapter and LINQ to Entities chapter.
 
-### Collection queries
+## Collection queries
 
 The collection query methods all convert source sequence to a collection by pulling all the values from the source sequence and store them in array, list, dictionary, or lookup.
 
@@ -1922,9 +1934,11 @@ The collection query methods all convert source sequence to a collection by pull
 
 ToArray and ToList are straightforward:
 
-public static TSource\[\] ToArray<TSource\>(this IEnumerable<TSource\> source);
+```csharp
+public static TSource[] ToArray<TSource>(this IEnumerable<TSource> source);
 
-public static List<TSource\> ToList<TSource\>(this IEnumerable<TSource\> source);
+public static List<TSource> ToList<TSource>(this IEnumerable<TSource> source);
+```
 
 They pull all values from the source sequence, and simply store them into a new array/list:
 
@@ -1941,7 +1955,7 @@ List<int> list = Enumerable
 }
 ```
 
-Apparently, when collection query methods are called for an IEnumerable<T> sequence representing LINQ query, that LINQ query is executed immediately. Similarly, ToDictionary/ToLookup also pulls all values from source sequence, and store those values into a new dictionary/lookup:
+Apparently, when collection query methods are called for an `IEnumerable<T>` sequence representing LINQ query, that LINQ query is executed immediately. Similarly, ToDictionary/ToLookup also pulls all values from source sequence, and store those values into a new dictionary/lookup:
 
 ```csharp
 public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(
@@ -2118,7 +2132,7 @@ Environment.NewLine.Write();
 }
 ```
 
-### Value queries
+## Value queries
 
 These query methods pull single, partial, or all values of the source sequence to output a specified value or calculate a result with the pulled values.
 
@@ -2126,9 +2140,11 @@ These query methods pull single, partial, or all values of the source sequence t
 
 Element query methods returns a single value from the source sequence. When they are called, they immediately execute the query, trying to pull values until the expected value is pulled. First/Last immediately pulls the first/last value of the source sequence.
 
-public static TSource First<TSource\>(this IEnumerable<TSource\> source);
+```csharp
+public static TSource First<TSource>(this IEnumerable<TSource> source);
 
-public static TSource Last<TSource\>(this IEnumerable<TSource\> source);
+public static TSource Last<TSource>(this IEnumerable<TSource> source);
+```
 
 And InvalidOperationException is thrown if the source sequence is empty.
 
@@ -2153,9 +2169,11 @@ int lastOfEmptySource = EmptyInt32Source().Last(); // InvalidOperationException.
 
 The other First/Last overload accept a predicate function. They immediately call the predicate function immediately with the values, and return the first/last value where predicate function returns true:
 
-public static TSource First<TSource\>(this IEnumerable<TSource\> source, Func<TSource, bool\> predicate);
+```csharp
+public static TSource First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate);
 
-public static TSource Last<TSource\>(this IEnumerable<TSource\> source, Func<TSource, bool\>predicate);
+public static TSource Last<TSource>(this IEnumerable<TSource> source, Func<TSource, bool>predicate);
+```
 
 Logically, source.First(predicate) is equivalent to source.Where(predicate).First(), and source.Last(predicate) is equivalent to source.Where(predicate).Last():
 
@@ -2204,7 +2222,9 @@ Character lokiOrDefault = Characters()
 
 ElementAt returns the value at the specified index:
 
-public static TSource ElementAt<TSource\>(this IEnumerable<TSource\> source, int index);
+```csharp
+public static TSource ElementAt<TSource>(this IEnumerable<TSource> source, int index);
+```
 
 When the specified index is out of range, ArgumentOutOfRangeException is thrown.
 
@@ -2224,7 +2244,9 @@ int elementAt0OfEmptySource = EmptyInt32Source().ElementAt(0); // ArgumentOutOfR
 
 Similarly, there is ElementAtOrDefault:
 
-public static TSource ElementAtOrDefault<TSource\>(this IEnumerable<TSource\> source, int index);
+```csharp
+public static TSource ElementAtOrDefault<TSource>(this IEnumerable<TSource> source, int index);
+```
 
 When there is no value available at the specified index, a default value is returned:
 
@@ -2245,9 +2267,11 @@ Character characterAt5OrDefault = Characters().ElementAtOrDefault(5);
 
 Single is more strict. It pulls the single value from a singleton sequence.
 
-public static TSource Single<TSource\>(this IEnumerable<TSource\> source);
+```csharp
+public static TSource Single<TSource>(this IEnumerable<TSource> source);
 
-public static TSource Single<TSource\>(this IEnumerable<TSource\> source, Func<TSource, bool\>predicate);
+public static TSource Single<TSource>(this IEnumerable<TSource> source, Func<TSource, bool>predicate);
+```
 
 If source sequence has no value or has more than one values, InvalidOperationException is thrown:
 
@@ -2276,9 +2300,11 @@ character => "Loki".Equals(character.Name, StringComparison.Ordinal)); // Invali
 
 SingleOrDefault is just slightly less strict than Single:
 
-public static TSource SingleOrDefault<TSource\>(this IEnumerable<TSource\> source);
+```csharp
+public static TSource SingleOrDefault<TSource>(this IEnumerable<TSource> source);
 
-public static TSource SingleOrDefault<TSource\>(this IEnumerable<TSource\>source, Func<TSource, bool\> predicate);
+public static TSource SingleOrDefault<TSource>(this IEnumerable<TSource>source, Func<TSource, bool> predicate);
+```
 
 When source sequence has no value, it returns a default value. When source sequence has more than one values, it still throws InvalidOperationException:
 
@@ -2304,7 +2330,9 @@ Character lokiOrDefault = Characters()
 
 Aggregate query methods pull all values from source sequence, and repeatedly call a function to accumulate those value. The easiest overload accepts an accumulator function:
 
-public static TSource Aggregate<TSource\>(this IEnumerable<TSource\> source, Func<TSource, TSource, TSource\> func);
+```csharp
+public static TSource Aggregate<TSource>(this IEnumerable<TSource> source, Func<TSource, TSource, TSource> func);
+```
 
 Aggregate requires the source sequence to be not empty. When the source sequence is empty, it throws InvalidOperationException. When there is only 1 single value in the source sequence, it returns that value. When there are more than 1 values, it calls the accumulator function to accumulate the first and second values to a result, and then call the accumulator function again to accumulate the previous result and the third value to another result, and so on, until all values are accumulated, eventually it returns the result of the last accumulator function call.
 
@@ -2323,7 +2351,9 @@ int productOfEmptySource = EmptyInt32Source()
 
 There is another overload accepts a seed:
 
-public static TAccumulate Aggregate<TSource, TAccumulate\>(this IEnumerable<TSource\> source, TAccumulate seed, Func<TAccumulate, TSource, TAccumulate\> func);
+```csharp
+public static TAccumulate Aggregate<TSource, TAccumulate>(this IEnumerable<TSource> source, TAccumulate seed, Func<TAccumulate, TSource, TAccumulate> func);
+```
 
 With the seed provided, Aggregate does not require the source sequence to be not empty. When the source sequence is empty, it returns the seed. When the source sequence is not empty, it calls the accumulator function to accumulate the seed value and the first values to a result, and then call the accumulator function again to accumulate the previous result and the second to another result, and so on, until all values are accumulated, eventually it also returns the result of the last accumulator function call.
 
@@ -2373,7 +2403,9 @@ resultSelector: result => $"Sum of squares: {result}")
 
 Count returns the number of values in source sequence:
 
-public static int Count<TSource\>(this IEnumerable<TSource\> source);
+```csharp
+public static int Count<TSource>(this IEnumerable<TSource> source);
+```
 
 It is one of the most intuitive query methods:
 
@@ -2390,7 +2422,9 @@ int countOfTypesInCoreLibrary = CoreLibrary.ExportedTypes.Count().WriteLine(); /
 
 The other overload accepts a predicate:
 
-public static int Count<TSource\>(this IEnumerable<TSource\> source, Func<TSource, bool\> predicate);
+```csharp
+public static int Count<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate);
+```
 
 Similar to First/Last, source.Count(predicate) is equivalent to ource.Where(predicate).Count():
 
@@ -2412,9 +2446,11 @@ int countOfCharactersFromUS = Characters()
 
 LongCount is similar to Count. It can be used for large sequence, and returns a long (System.Int64) value instead of int (System.Int32):
 
-public static long LongCount<TSource\>(this IEnumerable<TSource\> source);
+```csharp
+public static long LongCount<TSource>(this IEnumerable<TSource> source);
 
-public static long LongCount<TSource\>(this IEnumerable<TSource\>source, Func<TSource, bool\> predicate);
+public static long LongCount<TSource>(this IEnumerable<TSource>source, Func<TSource, bool> predicate);
+```
 
 For example:
 
@@ -2432,9 +2468,11 @@ long countOfConcat = Enumerable
 
 Max/Min also pulls all values from the source sequence of int values, and returns the minimum/maximum value:
 
-public static int Max(this IEnumerable<int\> source);
+```csharp
+public static int Max(this IEnumerable<int> source);
 
-public static int Min(this IEnumerable<int\> source);
+public static int Min(this IEnumerable<int> source);
+```
 
 Max/Min throw InvalidOperationException if the source sequence is empty:
 
@@ -2454,9 +2492,11 @@ int maxOfEmptySource = EmptyInt32Source().Max(); // InvalidOperationException.
 
 The other overload accepts a sequence of arbitrary type, and a selector function which maps each value to an int value for comparison:
 
-public static int Max<TSource\>(this IEnumerable<TSource\> source, Func<TSource, int\> selector);
+```csharp
+public static int Max<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector);
 
-public static int Min<TSource\>(this IEnumerable<TSource\>source, Func<TSource, int\> selector);
+public static int Min<TSource>(this IEnumerable<TSource>source, Func<TSource, int> selector);
+```
 
 The following example queries the maximum type (type with the largest number of public members declared) in the .NET core library:
 
@@ -2502,11 +2542,13 @@ In the core library, System.Convert is the winner, with 311 public members decla
 
 Besides int, Max/Min has overloads for int?, long, long?, double, double?, float, float?, decimal, decimal?. There are also overloads for arbitrary comparable type:
 
-public static TSource Max<TSource\>(this IEnumerable<TSource\> source);
+```csharp
+public static TSource Max<TSource>(this IEnumerable<TSource> source);
 
-public static TSource Min<TSource\>(this IEnumerable<TSource\> source);
+public static TSource Min<TSource>(this IEnumerable<TSource> source);
+```
 
-They use Comparer<TSource>.Default to compare values in source sequence to determine the minimum/maximum value. Comparer<TSource>.Default requires TSource to implement at least one of IComparable and IComparable<TSource>; otherwise ArgumentException is thrown at runtime. Still take Character type as example:
+They use `Comparer<TSource>.Default` to compare values in source sequence to determine the minimum/maximum value. `Comparer<TSource>.Default` requires TSource to implement at least one of IComparable and `IComparable<TSource>`; otherwise ArgumentException is thrown at runtime. Still take Character type as example:
 
 ```csharp
 internal partial class Character : IComparable<Character>
@@ -2528,9 +2570,11 @@ Character minCharacter = Characters().Min().WriteLine(); // JAVIS
 
 Max/Min also have overload for arbitrary type, with a selector function to maps each value to a comparable result:
 
-public static TResult Max<TSource, TResult\>(this IEnumerable<TSource\> source, Func<TSource, TResult\> selector);
+```csharp
+public static TResult Max<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector);
 
-public static TResult Min<TSource, TResult\>(this IEnumerable<TSource\>source, Func<TSource, TResult\> selector);
+public static TResult Min<TSource, TResult>(this IEnumerable<TSource>source, Func<TSource, TResult> selector);
+```
 
 For example:
 
@@ -2546,9 +2590,11 @@ Apparently, source.Max(selector) is equivalent to source.Select(selector),Max, a
 
 Sum/Average pulls all int values from the source sequence, and calculate the sum/average of all the values. The signatures are similar to Max/Min:
 
-public static int Sum(this IEnumerable<int\> source);
+```csharp
+public static int Sum(this IEnumerable<int> source);
 
-public static double Average(this IEnumerable<int\> source);
+public static double Average(this IEnumerable<int> source);
+```
 
 Here Average returns double instead of int. Also, when called with empty source sequence, Sum returns 0, while Average throws InvalidOperationException:
 
@@ -2568,9 +2614,11 @@ double averageOfEmptySource = EmptyInt32Source().Average().WriteLine(); // Inval
 
 Sum/Average has overload for arbitrary type, with a selector function to map each value to int value for calculation:
 
-public static int Sum<TSource\>(this IEnumerable<TSource\> source, Func<TSource, int\> selector);
+```csharp
+public static int Sum<TSource>(this IEnumerable<TSource> source, Func<TSource, int> selector);
 
-public static double Average<TSource\>(this IEnumerable<TSource\>source, Func<TSource, int\> selector);
+public static double Average<TSource>(this IEnumerable<TSource>source, Func<TSource, int> selector);
+```
 
 The following example calculate the average count of public members declared on types in the core library, and the average count of all public members.
 
@@ -2592,7 +2640,9 @@ Similarly, Sum/Average also has overloads for int?, long, long?, double, double?
 
 Any determines whether the source sequence is not empty, by immediately trying to pull the first value from source sequence:
 
-public static bool Any<TSource\>(this IEnumerable<TSource\> source);
+```csharp
+public static bool Any<TSource>(this IEnumerable<TSource> source);
+```
 
 For example.
 
@@ -2607,7 +2657,9 @@ bool anyInEmptySource = EmptyInt32Source().Any().WriteLine(); // False
 
 The other overload accepts a predicate function.
 
-public static bool Any<TSource\>(this IEnumerable<TSource\> source, Func<TSource, bool\> predicate);
+```csharp
+public static bool Any<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate);
+```
 
 Logically, source.Any(predicate) is equivalent to source.Where(predicate).Any().
 
@@ -2622,7 +2674,9 @@ bool any0 = EmptyInt32Source().Any(_ => true).WriteLine(); // False
 
 All accepts a predicate. It also tries to pull values from the source sequence, and calls predicate function with each value. It returns true if predicate returns true for all values; otherwise, it returns false:
 
-public static bool All<TSource\>(this IEnumerable<TSource\> source, Func<TSource, bool\> predicate);
+```csharp
+public static bool All<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate);
+```
 
 All always returns true for empty source.
 
@@ -2637,7 +2691,9 @@ bool allGreaterThanMax = EmptyInt32Source().All(int32 => int32 > int.MaxValue).W
 
 Contains determines whether source sequence contains the specified value:
 
-public static bool Contains<TSource\>(this IEnumerable<TSource\> source, TSource value);
+```csharp
+public static bool Contains<TSource>(this IEnumerable<TSource> source, TSource value);
+```
 
 For example:
 
@@ -2652,9 +2708,10 @@ bool contains5InEmptySource = EmptyInt32Source().Contains(5).WriteLine(); // Fal
 
 The other overload of Contains accepts a comparer:
 
-public static bool Contains<TSource\>(
-
-this IEnumerable<TSource\> source, TSource value, IEqualityComparer<TSource\> comparer);
+```csharp
+public static bool Contains<TSource>(
+this IEnumerable<TSource> source, TSource value, IEqualityComparer<TSource> comparer);
+```
 
 For example:
 
@@ -2666,21 +2723,23 @@ bool containsTwoIgnoreCase = Words().Contains("two", StringComparer.OrdinalIgnor
 }
 ```
 
-Similar to other query methods, the first overload without comparer uses EqualityComparer<TSource>.Default.
+Similar to other query methods, the first overload without comparer uses `EqualityComparer<TSource>.Default`.
 
 ### Equality
 
 .NET has many ways to determine equality for objects:
 
 -   [Reference equality](https://msdn.microsoft.com/en-us/library/dd183759.aspx)/identity: object.ReferenceEquals, == operator without override
--   [Value equality](https://msdn.microsoft.com/en-us/library/dd183755.aspx)/equivalence: static object.Equals, instance object.Equals, object.GetHashCode, overridden == operator, IEquatable<T>.Equals, IEqualityComparer.Equals, IEqualityComparer<T>.Equals, IComparable.Compare, IComparable<T>.Compare, IComparer.Compare, IComparer<T>.Compare
+-   [Value equality](https://msdn.microsoft.com/en-us/library/dd183755.aspx)/equivalence: static object.Equals, instance object.Equals, object.GetHashCode, overridden == operator, `IEquatable<T>.Equals`, `IEqualityComparer.Equals`, `IEqualityComparer<T>.Equals`, `IComparable.Compare`, `IComparable<T>.Compare`, `IComparer.Compare`, `IComparer<T>.Compare`
 -   Sequential equality: Enumerable.SequentialEqual
 
-SequentialEqual query method is provided to compares the sequential equality of 2 IEnumerable<T> sequences:
+SequentialEqual query method is provided to compares the sequential equality of 2 `IEnumerable<T>` sequences:
 
-public static bool SequenceEqual<TSource\>(this IEnumerable<TSource\> first, IEnumerable<TSource\> second);
+```csharp
+public static bool SequenceEqual<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second);
+```
 
-2 sequences are sequentially equal if their length is equal, and for each index, 2 values from both sequences are equal (determined by EqualityComparer<TSource>.Default).
+2 sequences are sequentially equal if their length is equal, and for each index, 2 values from both sequences are equal (determined by `EqualityComparer<TSource>.Default`).
 
 ```csharp
 internal static void SequentialEqual()
@@ -2706,9 +2765,10 @@ bool sequentialEqual = emptyFirst.SequenceEqual(emptySecond).WriteLine(); // Tru
 
 The other overload accepts a comparer:
 
-public static bool SequenceEqual<TSource\>(
-
-this IEnumerable<TSource\> first, IEnumerable<TSource\> second, IEqualityComparer<TSource\> comparer);
+```csharp
+public static bool SequenceEqual<TSource>(
+this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer);
+```
 
 For example:
 
@@ -2723,8 +2783,8 @@ bool sequentialEqual2 = first.SequenceEqual(second, StringComparer.Ordinal).Writ
 }
 ```
 
-Again, the first overload without comparer uses EqualityComparer<TSource>.Default.
+Again, the first overload without comparer uses `EqualityComparer<TSource>.Default`.
 
 ## Summary
 
-This chapter discusses IEnumerable<T> interface, which represents LINQ to Objects source or query, then discusses each standard query in query method syntax and query expression syntax if applicable. With this detailed tutorial, reader should be able to master how to use LINQ to Objects to query data objects in memory.
+This chapter discusses `IEnumerable<T>` interface, which represents LINQ to Objects source or query, then discusses each standard query in query method syntax and query expression syntax if applicable. With this detailed tutorial, reader should be able to master how to use LINQ to Objects to query data objects in memory.

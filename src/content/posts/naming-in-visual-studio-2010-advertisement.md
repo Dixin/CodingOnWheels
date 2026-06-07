@@ -9,7 +9,7 @@ draft: false
 lang: ""
 ---
 
-A great advertisement for Visual Studio 2010 has been released. Click [here](http://content2.catalog.video.msn.com/e2/ds/zh-cn/CMG_China/ZHCN_Microsoft/575b01f8-2730-40d3-b87f-1a16d7412c1c.wmv) to download.
+A great advertisement for Visual Studio 2010 has been released. Click [here to download](http://content2.catalog.video.msn.com/e2/ds/zh-cn/CMG_China/ZHCN_Microsoft/575b01f8-2730-40d3-b87f-1a16d7412c1c.wmv).
 
 In this video, it looks like the boy is coding a WinForm application with C#:
 

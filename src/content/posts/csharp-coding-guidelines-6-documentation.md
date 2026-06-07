@@ -96,9 +96,9 @@ namespace WebOS.Common
 
 You can see the list of [recommended xml tags for documentation comments](http://msdn.microsoft.com/en-us/library/5ast78ax.aspx) from MSDN, as well as the [basic usage](http://msdn.microsoft.com/en-us/magazine/cc302121.aspx).
 
-**✔** Use <see> when referring to a type / member in the comments.
+**✔** Use `<see>` when referring to a type / member in the comments.
 
-This rule is specially mentioned because I saw a lot people incorrectly using <c>.
+This rule is specially mentioned because I saw a lot people incorrectly using `<c>`.
 
 Here is a sample of referring to property:
 
@@ -168,7 +168,7 @@ Write only property is not preferred just as [part 3](/posts/csharp-coding-guide
 
 **✔** Use “Gets a value indicating whether xxx” or “Gets or sets a value indicating whether xxx” to start the summary of methods / properties returning a bool value.
 
-**✔** Use “<c>true</c> if xxx; otherwise, <c>false</c>.” for the comment on bool return value.
+**✔** Use “`<c>`true<`/c>` if xxx; otherwise, `<c>`false`</c>`.” for the comment on bool return value.
 
 Here is a sample:
 

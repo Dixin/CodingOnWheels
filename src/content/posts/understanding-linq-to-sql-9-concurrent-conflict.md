@@ -1,7 +1,7 @@
 ---
 title: "Understanding LINQ to SQL (9) Concurrent Conflict"
 published: 2010-04-26
-description: "\\]"
+description: "Conflicts are very common when concurrently accessing the same data."
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to SQL", "LINQ via C# Series", "SQL Server", "TSQL", "Visual Studio"]
 category: "LINQ"
@@ -9,7 +9,14 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to SQL](/archive/?tag=LINQ%20to%20SQL) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
 
 Conflicts are very common when [concurrently](http://en.wikipedia.org/wiki/Concurrency_\(computer_science\)) accessing the same data.
 
@@ -42,7 +49,12 @@ new Thread(() => updateCategory(1, category => category.CategoryName = "Thread 2
 
 Here 2 threads are accessing the same category. This is the order of the executions:
 
-<table border="0" cellpadding="2" cellspacing="0" width="662"><tbody><tr><td valign="top" width="127">Time (second)</td><td valign="top" width="149">Thread 1</td><td valign="top" width="178">Thread 2</td><td valign="top" width="206">[CategoryName] database value</td></tr><tr><td valign="top" width="127">0 (Thread 1 reads)</td><td valign="top" width="149">Retrieves “Beverages”</td><td valign="top" width="178"></td><td valign="top" width="206">“Beverages”</td></tr><tr><td valign="top" width="127">2 (Thread 2 reads)</td><td valign="top" width="149"></td><td valign="top" width="178">Retrieves “Beverages”</td><td valign="top" width="206">“Beverages”</td></tr><tr><td valign="top" width="127">4 (Thread 1 writes)</td><td valign="top" width="149">updates “Beverages” to “Thread 1”</td><td valign="top" width="178"></td><td valign="top" width="206">“Thread 1”</td></tr><tr><td valign="top" width="127">6 (Thread 2 writes)</td><td valign="top" width="149"></td><td valign="top" width="178"><span style="text-decoration: underline;">Should update “Beverages” to “Thread 2”</span></td><td valign="top" width="206"><span style="text-decoration: underline;">[CategoryName] is no longer “Beverages”</span></td></tr></tbody></table>
+| Time (second)       | Thread 1                          | Thread 2                                | `[CategoryName]` database value           |
+|---------------------|-----------------------------------|-----------------------------------------|-------------------------------------------|
+| 0 (Thread 1 reads)  | Retrieves “Beverages”             |                                         | “Beverages”                               |
+| 2 (Thread 2 reads)  |                                   | Retrieves “Beverages”                   | “Beverages”                               |
+| 4 (Thread 1 writes) | Updates “Beverages” to “Thread 1” |                                         | “Thread 1”                                |
+| 6 (Thread 2 writes) |                                   | Should update “Beverages” to “Thread 2” | `[CategoryName]` is no longer “Beverages” |
 
 When the later started thread (thread 2) tries to submit the change, the conflict occurs, and DataContext.SubmitChanges() throws a ChangeConflictException:
 
@@ -84,7 +96,7 @@ When submitting data changes, LINQ to SQL not only uses primary key to identify 
 
 ### Update check
 
-This original state check is specified by the \[Column\] attribute of entity property:
+This original state check is specified by the `[Column]` attribute of entity property:
 
 ![image](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_14545167.png "image")
 
@@ -121,11 +133,11 @@ public sealed class ColumnAttribute : DataAttribute
 
 ### Time stamp
 
-In the above screenshot, there is a \[Time Stamp\] option in the O/R designer, which can be used when this column is of type timestamp (rowversion). To demonstrating this, add a timestamp column \[Version\] to the \[Categories\] table:
+In the above screenshot, there is a `[Time Stamp]` option in the O/R designer, which can be used when this column is of type timestamp (rowversion). To demonstrating this, add a timestamp column `[Version]` to the `[Categories]` table:
 
 ![image](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_2F5CFAA8.png "image")
 
-And recreate the model in O/R designer. Now this is the generated \[Column\] attribute:
+And recreate the model in O/R designer. Now this is the generated `[Column]` attribute:
 
 ```csharp
 [Column(Storage = "_Version", AutoSync = AutoSync.Always, DbType = "rowversion NOT NULL", 
@@ -135,7 +147,7 @@ public Binary Version
 }
 ```
 
-Now LINQ to SQL always checks the \[Version\] column instead of \[CategoryName\] column. So when rerunning the above code, the translated SQL is different:
+Now LINQ to SQL always checks the `[Version]` column instead of `[CategoryName]` column. So when rerunning the above code, the translated SQL is different:
 
 ```sql
 -- Thread 1 reads.
@@ -237,11 +249,18 @@ new Thread(() => updateCategory(1, category => category.Description = "Thread 2"
 
 Running this refined code will print:
 
-> Conflicted row: ID = 1. \[CategoryName\] column is expected to be 'Beverages' in database, but it is not. Merged changes to row: True.
+> Conflicted row: ID = 1. `[CategoryName]` column is expected to be 'Beverages' in database, but it is not. Merged changes to row: True.
 
 This is the order of the executions:
 
-<table border="0" cellpadding="2" cellspacing="0" width="713"><tbody><tr><td valign="top" width="99">Time (second)</td><td valign="top" width="185">Thread 1</td><td valign="top" width="174">Thread 2</td><td valign="top" width="106">[CategoryName]</td><td valign="top" width="147">[Description]</td></tr><tr><td valign="top" width="99">0</td><td valign="top" width="185">Retrieves “Beverages” for [CategoryName].</td><td valign="top" width="174"></td><td valign="top" width="106">“Beverages”</td><td valign="top" width="147">“Soft drinks, coffees, teas, beers, and ales”</td></tr><tr><td valign="top" width="99">2</td><td valign="top" width="185"></td><td valign="top" width="174">Retrieves “Beverages” for [CategoryName].</td><td valign="top" width="106">“Beverages”</td><td valign="top" width="147">“Soft drinks, coffees, teas, beers, and ales”</td></tr><tr><td valign="top" width="99">4</td><td valign="top" width="185">Checks whether [CategoryName] is “Beverages”, and updates [CategoryName].</td><td valign="top" width="174"></td><td valign="top" width="106">“Thread 1”</td><td valign="top" width="147">“Soft drinks, coffees, teas, beers, and ales”</td></tr><tr><td rowspan="3" valign="top" width="99">6</td><td rowspan="3" valign="top" width="185"></td><td valign="top" width="174">Checks whether [CategoryName] is “Beverages”.</td><td valign="top" width="106">“Thread 1”</td><td valign="top" width="147">“Soft drinks, coffees, teas, beers, and ales”</td></tr><tr><td valign="top" width="174">Retrieves “Thread1” for [CategoryName]</td><td valign="top" width="106">“Thread 1”</td><td valign="top" width="147">“Soft drinks, coffees, teas, beers, and ales”</td></tr><tr><td valign="top" width="174">Checks whether [CategoryName] is “Thread 1”., and updates [Description].</td><td valign="top" width="106">“Thread 1”</td><td valign="top" width="147">“Thread 2”</td></tr></tbody></table>
+|Time (second)|Thread 1|Thread 2|`[CategoryName]`|`[Description]`|
+|---|---|---|---|---|
+|0|Retrieves “Beverages” for `[CategoryName]`.||“Beverages”|“Soft drinks, coffees, teas, beers, and ales”|
+|2||Retrieves “Beverages” for `[CategoryName]`.|“Beverages”|“Soft drinks, coffees, teas, beers, and ales”|
+|4|Checks whether `[CategoryName]` is “Beverages”, and updates `[CategoryName]`.||“Thread 1”|“Soft drinks, coffees, teas, beers, and ales”|
+|6||Checks whether `[CategoryName]` is “Beverages”.|“Thread 1”|“Soft drinks, coffees, teas, beers, and ales”|
+|||Retrieves “Thread1” for `[CategoryName]`|“Thread 1”|“Soft drinks, coffees, teas, beers, and ales”|
+|||Checks whether `[CategoryName]` is “Thread 1”., and updates `[Description]`.|“Thread 1”|“Thread 2”|
 
 Please notice that, to merge the changes, database must be queried.
 

@@ -27,6 +27,8 @@ You can play with it here: [http://www.coolwebos.com/](http://www.coolwebos.com/
 
 I discussed with Scott and James about Web and ASP.NET, like some [junior ideas](/posts/anti-forgery-request-recipes-for-asp-net-mvc-and-ajax) on ASP.NET MVC anti-forgery request, etc. I also helped on some English / Chinese translation. At the end Scott gave me a fabulous gift, which I will post to blog later.
 
-![](https://aspblogs.z22.web.core.windows.net/dixin/Media/dixin-and-scott-hanselman.jpg) ![](https://aspblogs.z22.web.core.windows.net/dixin/Media/dixin-and-james-senior.jpg)
+![Dixin and Sott Hanselman.](https://aspblogs.z22.web.core.windows.net/dixin/Media/dixin-and-scott-hanselman.jpg)
+
+![Dixin and James Senior.](https://aspblogs.z22.web.core.windows.net/dixin/Media/dixin-and-james-senior.jpg)
 
 Hope Microsoft can have more and more events like this!

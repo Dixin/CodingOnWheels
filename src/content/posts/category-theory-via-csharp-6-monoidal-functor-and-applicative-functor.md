@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[FP & LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
 
 ## Monoidal functor
 
@@ -25,7 +26,7 @@ F preserves the monoid laws in D:
 -   Associativity law is preserved with D’s associator αD: [![Untitled-4.fw_thumb1](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-4.fw_thumb1_thumb_1.png "Untitled-4.fw_thumb1")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-4.fw_thumb1_4.png)
 -   Left unit law is preserved with D’s left unitor λD: [![image_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/image_thumb_thumb.png "image_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/image_thumb_2.png) and right unit law is preserved with D’s right unitor ρD: [![Untitled-3..fw_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-3..fw_thumb_thumb.png "Untitled-3..fw_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-3..fw_thumb_2.png)
 
-In this tutorial, strong lax monoidal functor is called monoidal functor for short. In DotNet category, monoidal functors are monoidal endofunctors. In the definition, (C, ⊗, IC) and (D, ⊛, ID) are both (DotNet, ValueTuple<,>, Unit), so monoidal functor can be IEnumerable<T1>, IEnumerable<T2>defined as:
+In this tutorial, strong lax monoidal functor is called monoidal functor for short. In DotNet category, monoidal functors are monoidal endofunctors. In the definition, (C, ⊗, IC) and (D, ⊛, ID) are both (DotNet, ValueTuple<,>, Unit), so monoidal functor can be defined as:
 
 ```csharp
 public interface IMonoidalFunctor<TMonoidalFunctor<>> : IFunctor<TMonoidalFunctor<>>
@@ -45,7 +46,7 @@ public interface IMonoidalFunctor<TMonoidalFunctor<>> : IFunctor<TMonoidalFuncto
 }
 ```
 
-Multiply accepts a ValueTuple<IEnumerable<T1>, IEnumerable<T2>> bifunctor, which is literally a 2-tuple (IEnumerable<T1>, IEnumerable<T2>). For convenience, the explicit ValueTuple<,> parameter can be represented by an implicit tuple, a pair of parameters. So the monoidal functor definition is equivalent to:
+Multiply accepts a `ValueTuple<IEnumerable<T1>, IEnumerable<T2>>` bifunctor, which is literally a 2-tuple `(IEnumerable<T1>, IEnumerable<T2>)`. For convenience, the explicit ValueTuple<,> parameter can be represented by an implicit tuple, a pair of parameters. So the monoidal functor definition is equivalent to:
 
 ```csharp
 public interface IMonoidalFunctor<TMonoidalFunctor<>> : IFunctor<TMonoidalFunctor<>>
@@ -128,7 +129,7 @@ internal static void Selector1Arity(IEnumerable<int> xs)
 }
 ```
 
-So Select can be viewed as applying 1 arity selector (a TSource –> TResult function) with TFunctor<TSource>. For a N arity selector, to have it work with value(s) wrapped by functor, first curry it, so that it can be viewed as 1 arity function. In the following example, the (T1, T2, T3) –> TResult selector is curried to T1 –> (T2 –> T3 –> TResult) function, so that it can be viewed as only have 1 parameter, and can work with TFunctor<T1>:
+So Select can be viewed as applying 1 arity selector (a TSource –> TResult function) with `TFunctor<TSource>`. For a N arity selector, to have it work with value(s) wrapped by functor, first curry it, so that it can be viewed as 1 arity function. In the following example, the (T1, T2, T3) –> TResult selector is curried to T1 –> (T2 –> T3 –> TResult) function, so that it can be viewed as only have 1 parameter, and can work with `TFunctor<T1>`:
 
 ```csharp
 internal static void SelectorNArity(IEnumerable<int> xs, IEnumerable<long> ys, IEnumerable<double> zs)
@@ -142,7 +143,7 @@ internal static void SelectorNArity(IEnumerable<int> xs, IEnumerable<long> ys, I
     IEnumerable<Func<long, Func<double, bool>>> applyWithXs = xs.Select(curriedSelector);
 ```
 
-So partially applying the T1 –> (T2 –> T3 –> TResult) selector with TFunctor<T1> returns TFunctor<T2 –> T3 –> TResult>, where the T2 –> T3 –> TResult function is wrapped by the TFunctor<> functor. To further apply TFunctor<T2 –> T3 –> TResult> with TFunctor<T2>, Multiply can be called:
+So partially applying the T1 –> (T2 –> T3 –> TResult) selector with `TFunctor<T1>` returns TFunctor<T2 –> T3 –> TResult>, where the T2 –> T3 –> TResult function is wrapped by the TFunctor<> functor. To further apply TFunctor<T2 –> T3 –> TResult> with `TFunctor<T2>`, Multiply can be called:
 
 ```csharp
 // Partially apply selector with ys.
@@ -155,7 +156,7 @@ So partially applying the T1 –> (T2 –> T3 –> TResult) selector with TFunct
     });
 ```
 
-The result of Multiply is TFunctor<(T2 –> T3 –> TResult, T2)>, where each T2 –> T3 –> TResult function is paired with each T2 value, so that each function can be applied with each value, And TFunctor<(T2 –> T3 –> TResult, T2)> is mapped to TFunctor<(T3 –> TResult)>, which can be applied with TFunctor<T3> in the same way:
+The result of Multiply is TFunctor<(T2 –> T3 –> TResult, T2)>, where each T2 –> T3 –> TResult function is paired with each T2 value, so that each function can be applied with each value, And TFunctor<(T2 –> T3 –> TResult, T2)> is mapped to TFunctor<(T3 –> TResult)>, which can be applied with `TFunctor<T3>` in the same way:
 
 ```csharp
 // Partially apply selector with zs.
@@ -169,7 +170,7 @@ The result of Multiply is TFunctor<(T2 –> T3 –> TResult, T2)>, where each T2
 }
 ```
 
-So Multiply enables applying functor-wrapped functions (TFunctor<T –> TResult>) with functor-wrapped values (TFunctor<TSource>), which returns functor-wrapped results (TFunctor<TResult>). Generally, the Multiply and Select calls can be encapsulated as the following Apply method:
+So Multiply enables applying functor-wrapped functions (TFunctor<T –> TResult>) with functor-wrapped values (`TFunctor<TSource>`), which returns functor-wrapped results (`TFunctor<TResult>`). Generally, the Multiply and Select calls can be encapsulated as the following Apply method:
 
 ```csharp
 // Apply: (IEnumerable<TSource -> TResult>, IEnumerable<TSource>) -> IEnumerable<TResult>

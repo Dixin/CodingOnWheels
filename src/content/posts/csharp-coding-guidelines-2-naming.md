@@ -95,10 +95,10 @@ internal class Person
 
 So it become very easy to distinguish:
 
--   static field: \_staticField
--   instance field: this.\_instanceField
--   static property: StaticProperty
--   instance property: this.InstanceProperty
+-   static field: `_staticField`
+-   instance field: `this._instanceField`
+-   static property: `StaticProperty`
+-   instance property: `this.InstanceProperty`
 
 Of course a lot of developers do not like the prefix. Whatever, the most important is to keep code consistent.
 

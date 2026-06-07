@@ -9,25 +9,22 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> This post is updated, [here is the latest version](/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading).
 
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## **Latest EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading**](/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-6-query-data-loading")
-
-## EF Version of this article: [https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-6-deferred-execution-laziness-loading-and-eager-loading](/posts/entity-framework-and-linq-to-entities-6-deferred-execution-laziness-loading-and-eager-loading "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-6-deferred-execution-laziness-loading-and-eager-loading")
-
-After translated to SQL, in LINQ to Entities, sequence queries returning IQueryable<T> implements deferred execution too.
+After translated to SQL, in LINQ to Entities, sequence queries returning `IQueryable<T>` implements deferred execution too.
 
 ## Deferred execution
 
-As previous part discussed, when defining a LINQ to Entities query represented by IQueryable<T>, an expression tree is built, there is no query execution. The execution is deferred until trying to pull the results from the query.
+As previous part discussed, when defining a LINQ to Entities query represented by `IQueryable<T>`, an expression tree is built, there is no query execution. The execution is deferred until trying to pull the results from the query.
 
 ### Iterator pattern
 
-IQueryable<T> is derived from IEnumerable<T>, so values can be pulled from IQueryable<T> with the standard iterator pattern. When trying to pull the first value, EF Core translates LINQ to Entities query to SQL, and execute SQL in the database. The implementation can be demonstrated with the Iterator<T> type from the LINQ to Objects chapter:
+`IQueryable<T>` is derived from `IEnumerable<T>`, so values can be pulled from `IQueryable<T>` with the standard iterator pattern. When trying to pull the first value, EF Core translates LINQ to Entities query to SQL, and execute SQL in the database. The implementation can be demonstrated with the `Iterator<T>` type from the LINQ to Objects chapter:
 
 ```csharp
 public static class QueryableExtensions
@@ -65,7 +62,7 @@ public static class QueryableExtensions
 }
 ```
 
-The following example executes Where and Take query to load 3 products with more than 10 characters in name. It demonstrates how to pull the results from IQueryable<T> with the iterator pattern:
+The following example executes Where and Take query to load 3 products with more than 10 characters in name. It demonstrates how to pull the results from `IQueryable<T>` with the iterator pattern:
 
 ```csharp
 internal static partial class Loading
@@ -109,7 +106,7 @@ internal static partial class Loading
 }
 ```
 
-Here for demonstration purpose, the GetEntityIterator extension method of IQueryable<T> is called instead of GetEnumerator. In EF Core, when the iterator is created from IQueryable<T>, the LINQ query expression tree is compiled to database query expression tree. Later, when the iterator’s MoveNext method is called for the first time, the SQL query is generated and executed. In each iteration, an entity is materialized from the SQL execution result.
+Here for demonstration purpose, the GetEntityIterator extension method of `IQueryable<T>` is called instead of GetEnumerator. In EF Core, when the iterator is created from `IQueryable<T>`, the LINQ query expression tree is compiled to database query expression tree. Later, when the iterator’s MoveNext method is called for the first time, the SQL query is generated and executed. In each iteration, an entity is materialized from the SQL execution result.
 
 > EF is slightly more deferred then EF Core. The query compilation, SQL generation, and SQL execution all start when the iterator’s MoveNext method is called for the first time.
 
@@ -121,7 +118,7 @@ When retry logic is specified for connection resiliency, EF/Core become eager ev
 
 ## Explicit loading
 
-After an entity is queried, its related entities can be loaded through the navigation property. DbContext.Entry method accepts an entity of type TEntity, and returns Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<TEntity>, which represents that entity’s tracking and loading information. EntityEntry<TEntity> provides a Reference method to return Microsoft.EntityFrameworkCore.ChangeTracking.ReferenceEntry<TEntity, TProperty> instance, which represents the tracking and loading information of a single related entity from reference navigation property. EntityEntry<TEntity> also provides a Collection method to return Microsoft.EntityFrameworkCore.ChangeTracking.ReferenceEntry.CollectionEntry<TEntity, TProperty>, which represents the tracking and loading information of multiple related entities from collection navigation property. These related entities in the navigation properties can be manually loaded by calling ReferenceEntry<TEntity, TProperty>.Load and CollectionEntry<TEntity, TProperty>.Load:
+After an entity is queried, its related entities can be loaded through the navigation property. DbContext.Entry method accepts an entity of type TEntity, and returns `Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<TEntity>`, which represents that entity’s tracking and loading information. `EntityEntry<TEntity>` provides a Reference method to return Microsoft.EntityFrameworkCore.ChangeTracking.ReferenceEntry<TEntity, TProperty> instance, which represents the tracking and loading information of a single related entity from reference navigation property. `EntityEntry<TEntity>` also provides a Collection method to return Microsoft.EntityFrameworkCore.ChangeTracking.ReferenceEntry.CollectionEntry<TEntity, TProperty>, which represents the tracking and loading information of multiple related entities from collection navigation property. These related entities in the navigation properties can be manually loaded by calling ReferenceEntry<TEntity, TProperty>.Load and CollectionEntry<TEntity, TProperty>.Load:
 
 ```csharp
 internal static void ExplicitLoading(AdventureWorks adventureWorks)
@@ -180,11 +177,11 @@ internal static void ExplicitLoadingWithQuery(AdventureWorks adventureWorks)
 }
 ```
 
-> In EF, the above entry types are named with the Db prefix: DbEntityEntry<TEntity>, DbReferenceEntry<TEntity, TProperty>, DbCollectionEntry<TEntity, TElement>. And they are under System.Data.Entity.Infrastructure namespace.
+> In EF, the above entry types are named with the Db prefix: `DbEntityEntry<TEntity>`, `DbReferenceEntry<TEntity, TProperty>`, `DbCollectionEntry<TEntity, TElement>`. And they are under System.Data.Entity.Infrastructure namespace.
 
 ## Eager loading
 
-In explicit loading, after an entity is queried, its related entities are loaded separately. In eager loading, when an entity is queried, its related entities are loaded during the same query. To enable eager loading, call Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions’ Include method, which is an extension method for IQueryable<T>:
+In explicit loading, after an entity is queried, its related entities are loaded separately. In eager loading, when an entity is queried, its related entities are loaded during the same query. To enable eager loading, call Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions’ Include method, which is an extension method for `IQueryable<T>`:
 
 ```csharp
 internal static void EagerLoadingWithInclude(AdventureWorks adventureWorks)
@@ -247,7 +244,7 @@ internal static void EagerLoadingMultipleLevels(AdventureWorks adventureWorks)
 ```
 
 > In EF, Include with Select subquery can load multiple levels of related entities:
-> 
+>
 > ```csharp
 > internal static void EagerLoadingMultipleLevels(AdventureWorks adventureWorks)
 > {
@@ -294,7 +291,7 @@ internal static void EagerLoadingMultipleLevels(AdventureWorks adventureWorks)
 ## Lazy loading
 
 > EF also supports lazy loading. When an entity’s navigation property is accessed, the related entities are queried and loaded automatically:
-> 
+>
 > ```csharp
 > internal static void LazyLoading(AdventureWorks adventureWorks)
 > {
@@ -329,7 +326,7 @@ internal static void EagerLoadingMultipleLevels(AdventureWorks adventureWorks)
 ### The N + 1 problem
 
 > Sometimes lazy loading can cause the “N + 1 queries” problem. The following example queries the subcategories, and pulls each subcategory’s information:
-> 
+>
 > ```csharp
 > internal static void MultipleLazyLoading(AdventureWorks adventureWorks)
 > {
@@ -357,16 +354,16 @@ internal static void EagerLoadingMultipleLevels(AdventureWorks adventureWorks)
 >     // ...
 > }
 > ```
-> 
+>
 > When loading the subcategories, 1 database query is executed. When each subcategory’s related category is pulled through the navigation property, it is loaded instantly, if not loaded yet. So in total there are N queries for related categories + 1 query for subcategories executed. For better performance in this kind of scenario, eager loading or inner join should be used to load all entities and related entities with 1 single query.
 
 ### Disable lazy loading
 
 > There are some scenarios where lazy loading needs to be disabled, like entity serialization. There are several ways to disable lazy loading for different scopes
-> 
+>
 > -   To globally disable lazy loading for specific navigation properties, just do not mark it as virtual, so that the derived proxy entity cannot override it with the lazy load implementation.
 > -   To disable lazy loading for specific DbContext or specific query, call DbContext.Configuration to get a DbConfiguration instance, and set its LazyLoadingEnabled property to false.
-> 
+>
 > ```csharp
 > internal static void DisableLazyLoading(AdventureWorks adventureWorks)
 > {

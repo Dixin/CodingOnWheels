@@ -17,7 +17,7 @@ Then:
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/2458277efd49_7AB8/image_thumb_1.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/2458277efd49_7AB8/image_4.png)
 
-There are some solutions like [deleting all data connections](http://stackoverflow.com/questions/16901708/ado-net-entity-data-model-bug) in Server explorer (by delete file %AppData%\\Microsoft\\VisualStudio\\14.0\\ServerExplorer\\DefaultView.SEView), but didn’t work for Visual Studio 2015 + SQL Server 2014 SP1. After trouble shooting with SQL Server Profiler, it shows Visual Studio hangs because it of the following query (the code is formatted for readability):
+There are some solutions like [deleting all data connections](http://stackoverflow.com/questions/16901708/ado-net-entity-data-model-bug) in Server explorer (by delete file `%AppData%\Microsoft\VisualStudio\14.0\ServerExplorer\DefaultView.SEView`), but didn’t work for Visual Studio 2015 + SQL Server 2014 SP1. After trouble shooting with SQL Server Profiler, it shows Visual Studio hangs because it of the following query (the code is formatted for readability):
 
 ```sql
 SELECT

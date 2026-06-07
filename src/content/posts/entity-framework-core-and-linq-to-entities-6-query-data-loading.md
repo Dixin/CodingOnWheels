@@ -9,21 +9,20 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
 
-## \[[Entity Framework Core (EF Core) series](/archive/?tag=Entity%20Framework%20Core)\]
+After translated to SQL, in LINQ to Entities, sequence queries returning `IQueryable<T>` implements deferred execution too.
 
-## \[[Entity Framework (EF) series](/archive/?tag=Entity%20Framework)\]
+## Deferred execution
 
-After translated to SQL, in LINQ to Entities, sequence queries returning IQueryable<T> implements deferred execution too.
-
-### Deferred execution
-
-As previous part discussed, when defining a LINQ to Entities query represented by IQueryable<T>, an expression tree is built, there is no query execution. The execution is deferred until trying to pull the results from the query.
+As previous part discussed, when defining a LINQ to Entities query represented by `IQueryable<T>`, an expression tree is built, there is no query execution. The execution is deferred until trying to pull the results from the query.
 
 ### Iterator pattern
 
-IQueryable<T> implements IEnumerable<T>, so values can be pulled from IQueryable<T> with the standard iterator pattern. When trying to pull the first value, EF Core translates LINQ to Entities query to SQL, and execute SQL in the database. The implementation can be demonstrated with the Iterator<T> type from the LINQ to Objects chapter:
+`IQueryable<T>` implements `IEnumerable<T>`, so values can be pulled from `IQueryable<T>` with the standard iterator pattern. When trying to pull the first value, EF Core translates LINQ to Entities query to SQL, and execute SQL in the database. The implementation can be demonstrated with the `Iterator<T>` type from the LINQ to Objects chapter:
 
 ```csharp
 public static IEnumerator<TEntity> GetEntityIterator<TEntity>(
@@ -56,7 +55,7 @@ end: () => " |_End.".WriteLine()).Start();
 }
 ```
 
-The following example executes Where and Take query to load 3 products with more than 10 characters in name. It demonstrates how to pull the results from IQueryable<T> with the iterator pattern:
+The following example executes Where and Take query to load 3 products with more than 10 characters in name. It demonstrates how to pull the results from `IQueryable<T>` with the iterator pattern:
 
 ```csharp
 internal static void DeferredExecution(AdventureWorks adventureWorks)
@@ -97,7 +96,7 @@ $"| |_Iterator - [{index}] {nameof(IEnumerator<Product>.Current)}: {product.Name
 }
 ```
 
-Here for demonstration purpose, the GetEntityIterator extension method of IQueryable<T> is called instead of GetEnumerator. In EF Core, when the iterator is created from IQueryable<T>, the LINQ query expression tree is compiled to database query expression tree. Later, when the iterator’s MoveNext method is called for the first time, the SQL query is generated and executed. In each iteration, an entity is materialized from the SQL execution result.
+Here for demonstration purpose, the GetEntityIterator extension method of `IQueryable<T>` is called instead of GetEnumerator. In EF Core, when the iterator is created from `IQueryable<T>`, the LINQ query expression tree is compiled to database query expression tree. Later, when the iterator’s MoveNext method is called for the first time, the SQL query is generated and executed. In each iteration, an entity is materialized from the SQL execution result.
 
 ### Lazy evaluation vs. eager evaluation
 
@@ -107,7 +106,7 @@ When retry logic is specified for connection resiliency, EF Core become eager ev
 
 ### Explicit loading
 
-After an entity is queried, its related entities can be loaded through the navigation property. DbContext.Entry method accepts an entity of type TEntity, and returns Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<TEntity>, which represents that entity’s tracking and loading information. EntityEntry<TEntity> provides a Reference method to return Microsoft.EntityFrameworkCore.ChangeTracking.ReferenceEntry<TEntity, TProperty> instance, which represents the tracking and loading information of a single related entity from reference navigation property. EntityEntry<TEntity> also provides a Collection method to return Microsoft.EntityFrameworkCore.ChangeTracking.ReferenceEntry.CollectionEntry<TEntity, TProperty>, which represents the tracking and loading information of multiple related entities from collection navigation property. These related entities in the navigation properties can be manually loaded by calling ReferenceEntry<TEntity, TProperty>.Load and CollectionEntry<TEntity, TProperty>.Load:
+After an entity is queried, its related entities can be loaded through the navigation property. DbContext.Entry method accepts an entity of type TEntity, and returns `Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<TEntity>`, which represents that entity’s tracking and loading information. `EntityEntry<TEntity>` provides a Reference method to return Microsoft.EntityFrameworkCore.ChangeTracking.ReferenceEntry<TEntity, TProperty> instance, which represents the tracking and loading information of a single related entity from reference navigation property. `EntityEntry<TEntity>` also provides a Collection method to return Microsoft.EntityFrameworkCore.ChangeTracking.ReferenceEntry.CollectionEntry<TEntity, TProperty>, which represents the tracking and loading information of multiple related entities from collection navigation property. These related entities in the navigation properties can be manually loaded by calling ReferenceEntry<TEntity, TProperty>.Load and CollectionEntry<TEntity, TProperty>.Load:
 
 ```csharp
 internal static void ExplicitLoading(AdventureWorks adventureWorks)
@@ -177,7 +176,7 @@ products.WriteLines();
 
 ### Eager loading
 
-In explicit loading, after an entity is queried, its related entities are loaded separately. In eager loading, when an entity is queried, its related entities are loaded during the same query. To enable eager loading, call Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions’ Include method, which is an extension method for IQueryable<T>:
+In explicit loading, after an entity is queried, its related entities are loaded separately. In eager loading, when an entity is queried, its related entities are loaded during the same query. To enable eager loading, call Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions’ Include method, which is an extension method for `IQueryable<T>`:
 
 ```csharp
 internal static void EagerLoadingWithInclude(AdventureWorks adventureWorks)

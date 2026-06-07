@@ -9,15 +9,16 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
+## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list](/posts/lambda-calculus-via-csharp-5-list "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list")
 
-## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list](/posts/lambda-calculus-via-csharp-5-list "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-5-list")**
+This part will demonstrate how to use lambda expressions to encode another data structure - list (Church list in [lambda calculus](http://en.wikipedia.org/wiki/Lambda_calculus) or [`LinkedList<T>`](https://msdn.microsoft.com/en-us/library/he2s3bh7.aspx) in .NET).
 
-This part will demonstrate how to use lambda expressions to encode another data structure - list (Church list in [lambda calculus](http://en.wikipedia.org/wiki/Lambda_calculus) or [LinkedList<T>](https://msdn.microsoft.com/en-us/library/he2s3bh7.aspx) in .NET).
-
-It is straightforward to represent a Church list node (or [LinkedListNode<T>](https://msdn.microsoft.com/en-us/library/ahf4c754.aspx) in .NET) with Church pair (2-tuple)
+It is straightforward to represent a Church list node (or [`LinkedListNode<T>`](https://msdn.microsoft.com/en-us/library/ahf4c754.aspx) in .NET) with Church pair (2-tuple)
 
 -   tuple’s Item1 will be the value of current node
 -   tuple’s Item2 will be the next node, which is also another tuple of course.
@@ -66,7 +67,7 @@ public static class ChurchList
 
 ## Encoding Null, and IsNull predicate
 
-If a list has a end node, what’s its Next node, or as a tuple what’s its Item2? In C#/.NET, a [LinkedListNode<T>](https://msdn.microsoft.com/en-us/library/ahf4c754.aspx)’s Next property can be null to indicate the current node is the last element ([Last](https://msdn.microsoft.com/en-us/library/ms132188.aspx)) of the [LinkedList<T>](https://msdn.microsoft.com/en-us/library/he2s3bh7.aspx). In lambda calculus, Null and IsNull predicate for list node can be defined as:
+If a list has a end node, what’s its Next node, or as a tuple what’s its Item2? In C#/.NET, a [`LinkedListNode<T>`](https://msdn.microsoft.com/en-us/library/ahf4c754.aspx)’s Next property can be null to indicate the current node is the last element ([Last](https://msdn.microsoft.com/en-us/library/ms132188.aspx)) of the [`LinkedList<T>`](https://msdn.microsoft.com/en-us/library/he2s3bh7.aspx). In lambda calculus, Null and IsNull predicate for list node can be defined as:
 
 ```csharp
 Null := λf.λx.x

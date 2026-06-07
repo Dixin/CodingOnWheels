@@ -16,10 +16,8 @@ On last Black Friday, I purchased a 50-inch 4K HDR10 smart TV with only $150. I 
 Hardware:
 
 -   Graphic card must support HDR. For example:
-
 -   Nvidia GeForce GTX 900, 10 series, 16 series and RTX 20 series, 30 series
 -   AMD Polaris Series, Vega series, Big Navi series
-
 -   Monitor or TV must have the HDR feature, including DP 1.4 or HDMI 2.0 support. Other fancy features, like 10 bit color, FreeSync, G-Sync, etc., are not relevant to HDR.
 -   Video cable must be DP 1.4 or HDMI 2.0 or higher.
 
@@ -29,7 +27,7 @@ Software:
 -   Video player must support HDR.
 -   Video file or stream must be HDR encoded.
 
-## Setup TV/monitor
+### Setup TV/monitor
 
 Make sure the TV/monitor’s HDMI 2.0/DP 1.4 mode is enabled. “Auto” does not work on my TV. Switching to 2.0 makes it work.
 
@@ -67,7 +65,7 @@ Then Go to Internal Filters, click “Video decoder” button, the Properties pa
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Setup-Windows-10-HDR-and_12389/image_thumb_11.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Setup-Windows-10-HDR-and_12389/image_26.png)
 
-Then launch madVR settings. You can go to its installation folder (e.g. C:\\ProgramData\\chocolatey\\lib\\madvr\\tools), launch madHcCtrl.exe. It is luanched and minimized to the system tray. Right click the system tray icon, click “Edit madVR settings” in the menu.
+Then launch madVR settings. You can go to its installation folder (e.g. `C:\ProgramData\chocolatey\lib\madvr\tools`), launch madHcCtrl.exe. It is luanched and minimized to the system tray. Right click the system tray icon, click “Edit madVR settings” in the menu.
 
 FIrst, go to devices, find your monitor, and select the correct device type:
 

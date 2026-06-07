@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-local-function-and-closure](/posts/functional-csharp-local-function-and-closure "https://CodingOnWheels.com/posts/functional-csharp-local-function-and-closure")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
+## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-local-function-and-closure](/posts/functional-csharp-local-function-and-closure "https://CodingOnWheels.com/posts/functional-csharp-local-function-and-closure")
 
 ## Local function
 

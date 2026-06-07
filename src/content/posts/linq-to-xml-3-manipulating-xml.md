@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[LINQ to XML in Depth series](/archive/?tag=LINQ%20to%20XML)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to XML in Depth](/archive/?tag=LINQ%20to%20XML) Series
 
 Besides creating and querying XML, LINQ to XML also provides APIs for other XML manipulations, including cloning, deleting, replacing, and updating XML structures:
 
@@ -275,9 +276,8 @@ schemaSet.Schemas().Cast<XmlSchema>().WriteLines(schema => schema.ToXDocument().
 
 The printed schema is:
 
-<xs:schema attributeFormDefault\="unqualified" elementFormDefault\="qualified" xmlns:xs\="http://www.w3.org/2001/XMLSchema"\>
-
 ```csharp
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 <xs:element name="rss">
 <xs:complexType>
 <xs:sequence>
@@ -314,9 +314,8 @@ The printed schema is:
 <xs:attribute name="version" type="xs:decimal" use="required" />
 </xs:complexType>
 </xs:element>
+</xs:schema>
 ```
-
-</xs:schema\>
 
 The data is all gone, and there is only structural description for that RSS feed. Save it to a .xsd file, then it can be visualized in Visual Studio’s XML Schema Explorer:
 

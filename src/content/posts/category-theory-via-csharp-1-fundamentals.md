@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[FP & LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
 
 Category theory is a theoretical framework to describe abstract structures and relations in mathematics, first introduced by [Samuel Eilenberg](http://en.wikipedia.org/wiki/Samuel_Eilenberg) and [Saunders Mac Lane](http://en.wikipedia.org/wiki/Saunders_Mac_Lane) in 1940s. It examines mathematical concepts and properties in an abstract way, by formalizing them as collections of items and their relations. Category theory is abstract, and called "[general abstract nonsense](http://en.wikipedia.org/wiki/Abstract_nonsense)" by [Norman Steenrod](https://en.wikipedia.org/wiki/Norman_Steenrod); It is also general, therefore widely applied in many areas in mathematics, physics, and computer science, etc. For programming, category theory is the algebraic theory of types and functions, and also the rationale and foundation of LINQ and any functional programming. This chapter discusses category theory and its important concepts, including category, morphism, natural transform, monoid, functor, and monad, etc. These general abstract concepts will be demonstrated with intuitive diagrams and specific C# and LINQ examples. These knowledge also helps building a deep understanding of functional programming in C# or other languages, since any language with types and functions is a category-theoretic structure.
 

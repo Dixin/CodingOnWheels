@@ -1,7 +1,7 @@
 ---
 title: "Understanding LINQ to SQL (10) Implementing LINQ to SQL Provider"
 published: 2010-05-11
-description: "\\]"
+description: "So far LINQ to SQL data CRUD (Creating / Retrieving / Updating / Deleting) has been explained. This post takes a deeper look at the internal implementation of LINQ to SQL query."
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to SQL", "LINQ via C# Series", "TSQL"]
 category: "LINQ"
@@ -9,13 +9,20 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to SQL](/archive/?tag=LINQ%20to%20SQL) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
 
 So far LINQ to SQL data CRUD (Creating / Retrieving / Updating / Deleting) has been explained. This post takes a deeper look at the internal implementation of LINQ to SQL query.
 
 ## The provider model
 
-Unlike IEnumerable / IEnumerable<T>, the IQueryable / IQueryable<T> need a query provider:
+Unlike `IEnumerable`/`IEnumerable<T>`, the `IQueryable`/`IQueryable<T>` need a query provider:
 
 ```csharp
 namespace System.Linq
@@ -53,9 +60,9 @@ namespace System.Linq
 }
 ```
 
-Yes, IQueryable / IQueryable<T> are much more complex than IEnumerable / IEnumerable<T>, because they are supposed to work against non-.NET data source, like SQL Server database, etc.
+Yes, `IQueryable`/`IQueryable<T>` are much more complex than `IEnumerable`/`IEnumerable<T>`, because they are supposed to work against non-.NET data source, like SQL Server database, etc.
 
-Please also notice IOrderedQueryable and IOrderedQueryable<T>:
+Please also notice `IOrderedQueryable` and `IOrderedQueryable<T>`:
 
 ```csharp
 namespace System.Linq
@@ -74,11 +81,11 @@ namespace System.Linq
 }
 ```
 
-They are the same as IQueryable and IQueryable<T>, and just used to represent an ordering query, like OrderBy(), etc.
+They are the same as IQueryable and `IQueryable<T>`, and just used to represent an ordering query, like OrderBy(), etc.
 
-### Implement IQueryable<T> and IOrderedQueryable<T>
+### Implement `IQueryable<T>` and `IOrderedQueryable<T>`
 
-The best way to understand these interfaces is just creating IQueryable / IQueryable<T> objects, and examining how they work and query data from SQL Server.
+The best way to understand these interfaces is just creating `IQueryable` / `IQueryable<T>` objects, and examining how they work and query data from SQL Server.
 
 This is one simple implementation:
 
@@ -141,9 +148,9 @@ public class Queryable<TSource> : IOrderedQueryable<TSource>
 }
 ```
 
-Since Queryable<TSource> implements IOrderedQueryable<T>, it also implements IQeryable<TSource>, IQeryable and IOrderedQueryable.
+Since `Queryable<TSource>` implements `IOrderedQueryable<T>`, it also implements `IQeryable<TSource>`, IQeryable and IOrderedQueryable.
 
-There is not too much things. The most important method is GetEnumerator(). When a Queryable<TSource> object is iterated to traverse the data items, it simply asks its query provider to execute its expression to retrieve an IEnumerable<TSource> object, and return that object’s iterator.
+There is not too much things. The most important method is GetEnumerator(). When a `Queryable<TSource>` object is iterated to traverse the data items, it simply asks its query provider to execute its expression to retrieve an `IEnumerable<TSource>` object, and return that object’s iterator.
 
 ### Implement IQueryProvider
 
@@ -221,7 +228,7 @@ public class QueryProvider : IQueryProvider
 
 QueryProvider must be initialized with a translator and executor, so that it is able to translate LINQ query to SQL, and execute the translated SQL.
 
-And here the most important is the generic Execute() method, which is called by the above Queryable<TSource>.GetEnumerator(). It does the following work:
+And here the most important is the generic Execute() method, which is called by the above `Queryable<TSource>.GetEnumerator()`. It does the following work:
 
 -   Checks whether it should return a collection of items (for the Where() scenarios, etc.), or should return a sinlge item (for the Single() query scenarios, etc.)
 -   Invokes the translator to translate LINQ query to SQL.
@@ -230,7 +237,7 @@ And here the most important is the generic Execute() method, which is called by 
 
 ## Query method internals
 
-Before running the query, take a look at the IQueryable<T> query methods.
+Before running the query, take a look at the `IQueryable<T>` query methods.
 
 ### Deferred execution methods
 
@@ -259,17 +266,17 @@ public static class Queryable
 }
 ```
 
-It is very very different from [IEnumerable<T>’s Where() query method](/posts/understanding-linq-to-objects-7-query-methods-internals). It is not executing any thing, it just:
+It is very very different from [`IEnumerable<T>`’s Where() query method](/posts/understanding-linq-to-objects-7-query-methods-internals). It is not executing any thing, it just:
 
 -   Constructs a new expression tree, which contains the following information:
-    -   The original expression tree from the source IQueryable<T> object
+    -   The original expression tree from the source `IQueryable<T>` object
     -   The predicate expression tree
     -   This Where() query method is invoked
--   Then invokes the query provider’s generic CreateQuery() method to construct a new IQueryable<TSource> object.
+-   Then invokes the query provider’s generic CreateQuery() method to construct a new `IQueryable<TSource>` object.
 
 Obviously, the above constructed expression tree is used to contain the information which is prepared to be translated.
 
-The ordering query method, like OrderBy(), is a little different, which converts the constructed IQueryable<TSource> object to an IOrderedQueryable<TSource> object:
+The ordering query method, like OrderBy(), is a little different, which converts the constructed `IQueryable<TSource>` object to an `IOrderedQueryable<TSource>` object:
 
 ```csharp
 public static IOrderedQueryable<TSource> OrderBy<TSource, TKey>(
@@ -314,7 +321,7 @@ public static IOrderedQueryable<TSource> ThenBy<TSource, TKey>(
 }
 ```
 
-ThenBy() / ThenByDescending() are extension methods of IOrderedQueryable<TSource> instead of IQueryable<TSource>, which means, It must be invoked after invoking OrderBy() / OrderByDescending().
+ThenBy() / ThenByDescending() are extension methods of `IOrderedQueryable<TSource>` instead of `IQueryable<TSource>`, which means, It must be invoked after invoking OrderBy() / OrderByDescending().
 
 ### Eager execution methods
 
@@ -338,7 +345,7 @@ public static TSource Single<TSource>(this IQueryable<TSource> source)
 }
 ```
 
-Logically, Single() cannot be deferred. So after construction the expression tree, it invokes query provider’s generic Execute() method, and returns a TSource object instead of a IQueryable<TSource>.
+Logically, Single() cannot be deferred. So after construction the expression tree, it invokes query provider’s generic Execute() method, and returns a TSource object instead of a `IQueryable<TSource>`.
 
 Of course, the aggregate methods looks similar, invoking Execute() instead of CreateQuery():
 
@@ -463,9 +470,9 @@ WHERE [t1].[CategoryID] = @p0',N'@p0 int',@p0=2
 
 The above samples explained the implementation of LINQ to SQL query and query provider. Inside the QueryProvider class, it does not provide the detailed implementation of SQL translating and executing, but pass the work to DataContext.GetCommand() and DataContext.ExecuteQuery().
 
-[This post](/posts/understanding-linq-to-sql-3-expression-tree) has demonstrated the simplest SQL translating and executing. But the realistic work is very very complex. Since this is not a SQL series but a LINQ / functional programming series, to develop a full featured SQL “compiler” is far beyond this series’ scope. For SQL executing, it is also complex to convert the retrieved data back to strong-typed objects in LINQ to SQL. To understand the entire translating and executing process, please follow the source code of Table<T>, which implements IQueryProvider.
+[This post](/posts/understanding-linq-to-sql-3-expression-tree) has demonstrated the simplest SQL translating and executing. But the realistic work is very very complex. Since this is not a SQL series but a LINQ / functional programming series, to develop a full featured SQL “compiler” is far beyond this series’ scope. For SQL executing, it is also complex to convert the retrieved data back to strong-typed objects in LINQ to SQL. To understand the entire translating and executing process, please follow the source code of `Table<T>`, which implements IQueryProvider.
 
-Internally, Table<T> uses several internal classes, like SqlProvider, QueryConverter, etc., to accomplish the translating. For example, one of the core APIs is the QueryConverter.VisitSequenceOperatorCall():
+Internally, `Table<T>` uses several internal classes, like SqlProvider, QueryConverter, etc., to accomplish the translating. For example, one of the core APIs is the QueryConverter.VisitSequenceOperatorCall():
 
 ```csharp
 internal class QueryConverter
@@ -589,7 +596,7 @@ internal class QueryConverter
 }
 ```
 
-Please compare this with the fore mentioned IQueryable<T> query methods, Where(), OrderBy(), Single(), Average(), etc.
+Please compare this with the fore mentioned `IQueryable<T>` query methods, Where(), OrderBy(), Single(), Average(), etc.
 
 There is also [an excellent tutorial](http://msdn.microsoft.com/en-us/vcsharp/ee672195.aspx) from MSDN.
 
@@ -611,11 +618,11 @@ There are several kinds of built-in LINQ in .NET 4.0:
 
 LINQ to Objects and LINQ to XML are IEnumerable based, and the 3 kinds of LINQ to ADO.NET are IQueryable-based, which have their specific IQueryProvider.
 
-For example, in LINQ to SQL, the IQueryable, IQueryable<T> and IQueryProvider are implemented by Table<T> class and an internal DataQuery<T> class. DataQuery<T> also implements IOrderedQueryable and IOrderedQueryable<T>. These classes and all the other related classes (like SqlProvider, ) can be considered the provider of LINQ to SQL.
+For example, in LINQ to SQL, the IQueryable, `IQueryable<T>` and IQueryProvider are implemented by `Table<T>` class and an internal `DataQuery<T>` class. `DataQuery<T>` also implements IOrderedQueryable and `IOrderedQueryable<T>`. These classes and all the other related classes (like SqlProvider, ) can be considered the provider of LINQ to SQL.
 
 ### LINQ to Everything
 
-To implement any other LINQ query against a specific data source, the specific LINQ provider should be provided. That is, classes which implements the above IQueryable, IQueryable<T>, IQueryProvider, IOrderedQueryable and IOrderedQueryable<T> interfaces. The [LINQ to Wikipedia](http://linqtowikipedia.codeplex.com/) provider [at the beginning of the series](/posts/introducing-linq-1-what-is-linq) is one example. [This post](http://blogs.msdn.com/charlie/archive/2008/02/28/link-to-everything-a-list-of-linq-providers.aspx) lists a lot of custom LINQ providers, like:
+To implement any other LINQ query against a specific data source, the specific LINQ provider should be provided. That is, classes which implements the above IQueryable, `IQueryable<T>`, IQueryProvider, IOrderedQueryable and `IOrderedQueryable<T>` interfaces. The [LINQ to Wikipedia](http://linqtowikipedia.codeplex.com/) provider [at the beginning of the series](/posts/introducing-linq-1-what-is-linq) is one example. [This post](http://blogs.msdn.com/charlie/archive/2008/02/28/link-to-everything-a-list-of-linq-providers.aspx) lists a lot of custom LINQ providers, like:
 
 -   [LINQ to Excel](http://www.codeplex.com/xlslinq)
 -   [LINQ to Sharepoint](http://www.codeplex.com/LINQtoSharePoint)
@@ -627,7 +634,7 @@ etc.
 
 ### LINQ to Objects provider
 
-LINQ to Objects is IEnumerable based, but the interesting thing is, IEnumerble<T> has an AsQueryable() extension method, which turns IEnumerble-based query into IQueryable-based query:
+LINQ to Objects is IEnumerable based, but the interesting thing is, `IEnumerble<T>` has an AsQueryable() extension method, which turns IEnumerble-based query into IQueryable-based query:
 
 ```csharp
 public static class Queryable
@@ -646,7 +653,7 @@ public static class Queryable
 }
 ```
 
-Here the EnumerableQuery<T> class implements IQueryable<T>, as well as the IQueryProvider:
+Here the `EnumerableQuery<T>` class implements `IQueryable<T>`, as well as the IQueryProvider:
 
 ```csharp
 namespace System.Linq
@@ -666,4 +673,4 @@ namespace System.Linq
 }
 ```
 
-Internally, EnumerableQuery<T>.Execute() invokes Expression<TDelegate>.Compile() to execute the expression representing the query.
+Internally, `EnumerableQuery<T>.Execute()` invokes `Expression<TDelegate>.Compile()` to execute the expression representing the query.

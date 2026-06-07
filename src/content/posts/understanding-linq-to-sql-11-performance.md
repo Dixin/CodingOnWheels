@@ -1,7 +1,7 @@
 ---
 title: "Understanding LINQ to SQL (11) Performance"
 published: 2011-01-31
-description: "\\]"
+description: "Because LINQ to SQL is based on O/R mapping, one obvious overhead is, data changing usually requires data retrieving."
 image: ""
 tags: [".NET", "C#", "C# 3.0", "LINQ", "LINQ to SQL", "LINQ via C# Series", "SQL Server", "TSQL"]
 category: "LINQ"
@@ -9,7 +9,14 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to SQL](/archive/?tag=LINQ%20to%20SQL) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
 
 LINQ to SQL has a lot of great features like
 
@@ -153,7 +160,7 @@ internal static class CompiledQueries
 }
 ```
 
-The new version of RetrieveProducts() gets better performance, because only when \_retrieveProducts is first time invoked, it internally invokes SqlProvider.Compile() to translate the query expression. And it also uses lock to make sure translating once in multi-threading scenarios.
+The new version of RetrieveProducts() gets better performance, because only when `_retrieveProducts` is first time invoked, it internally invokes SqlProvider.Compile() to translate the query expression. And it also uses lock to make sure translating once in multi-threading scenarios.
 
 ### Static SQL / stored procedures without translating
 
@@ -270,7 +277,7 @@ ON sys.syscacheobjects.bucketid = sys.dm_exec_cached_plans.bucketid;
 
 ![image](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_539DF983.png "image")
 
-They actually use different query plans. Again, pay attention to the argument length in the \[sql\] column (@p0 nvarchar(2) / @p0 nvarchar(1)).
+They actually use different query plans. Again, pay attention to the argument length in the `[sql]` column (@p0 nvarchar(2) / @p0 nvarchar(1)).
 
 Fortunately, in .NET 4.0 this is fixed:
 
@@ -326,4 +333,4 @@ So that they reuses the same query plan cache:
 
 ![image](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_0660D825.png "image")
 
-Now the \[usecounts\] column is 2.
+Now the `[usecounts]` column is 2.

@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
 
 As fore mentioned, when LINQ to Objects’ collection queries and value queries are called, they start to evaluate query result. When sequence queries are called, they do not evaluate any query result, and can be viewed as defining a query.
 
@@ -38,7 +39,7 @@ yield return Math.Sqrt(@double);
 
 When the first function AbsAndSqrtArray is called, Math.Abs and Math.Sqrt are called immediately to evaluate 2 values, and these 2 values are stored in an array for output. To defer the execution of the Math.Abs and Math.Sqrt, the second function AbsAndSqrtGenerator uses the yield syntactic sugar. When it is called, it constructs a generator for output. Only when pulling the 2 values from the output generator, Math.Abs and Math.Sqrt are called.
 
-The first function’s output sequence is a collection with actual values evaluated and stored, sometimes it is called a hot IEnumerable<T>, and the second function’s output sequence is called a cold IEnumerable<T>. Apparently, in LINQ to Objects, all sequence queries’ output are cold IEnumerable<T>.
+The first function’s output sequence is a collection with actual values evaluated and stored, sometimes it is called a hot `IEnumerable<T>`, and the second function’s output sequence is called a cold `IEnumerable<T>`. Apparently, in LINQ to Objects, all sequence queries’ output are cold `IEnumerable<T>`.
 
 ### Lazy evaluation vs. eager evaluation
 

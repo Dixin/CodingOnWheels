@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[FP & LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
 All the previous parts demonstrated what [lambda calculus](http://en.wikipedia.org/wiki/Lambda_calculus) can do – defining functions to model the computing, applying functions to execute the computing, implementing recursion, encoding data types and data structures, etc. Lambda calculus is a powerful tool, and it is Turing complete. This part discuss some interesting problem that cannot be done with lambda calculus – asserting whether 2 lambda expressions are equivalent.
 
@@ -117,7 +118,7 @@ internal static class Halting<T, TResult>
 }
 ```
 
-Here since f can be applied with itself, it is represented with the SelfApplicableFunc<TResult> function type.
+Here since f can be applied with itself, it is represented with the `SelfApplicableFunc<TResult>` function type.
 
 It is interesting when IsNotHalting is applied with argument IsNotHalting (itself). Assume IsNotHalting halts with IsNotHalting, in another word:
 

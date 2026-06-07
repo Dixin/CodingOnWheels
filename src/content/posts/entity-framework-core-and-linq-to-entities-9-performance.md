@@ -9,13 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## EF version of this article: [https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-10-performance](/posts/entity-framework-and-linq-to-entities-10-performance "https://CodingOnWheels.com/posts/entity-framework-and-linq-to-entities-10-performance")
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
 
 The previous parts has discussed some aspects that can impact the performance of EF/Core and LINQ to Entities, and here is a summary:
 
@@ -23,7 +20,7 @@ The previous parts has discussed some aspects that can impact the performance of
 -   Using Select to only query the data can have better performance than querying full entity.
 -   Disabling entity tracking can improve the performance.
 -   Disabling automatic change detection can improve the performance.
--   When adding a sequence of entities to repository, DbSet<T>.AddRange/DbSet<T>.RemoveRange call can have better performance than many DbSet<T>.Add/DbSet<T>.Remove calls.
+-   When adding a sequence of entities to repository, `DbSet<T>.AddRange`/`DbSet<T>.RemoveRange` call can have better performance than many `DbSet<T>.Add`/`DbSet<T>.Remove` calls.
 
 > And, in EF, with lazy loading, accessing an entity’s navigation property can cause additional database query round trips (the N + 1 queries problem). Eager loading can improve the performance by read all needed data with 1 single database query.
 
@@ -32,9 +29,9 @@ This part continues the discussion of performance.
 ## Initialization
 
 > EF dies a lot of initialization work before the first database query is executed.
-> 
+>
 > The following example simply pulls categories from the repository, with one LINQ to Entities query:’
-> 
+>
 > ```csharp
 > internal static partial class Performance
 > {
@@ -76,26 +73,26 @@ This part continues the discussion of performance.
 >     }
 > }
 > ```
-> 
+>
 > Executing above code, a bunch of SQL queries can be traced. And only the last SELECT query is the expected LINQ to Entities query translation. Actually, before a database’s first operation at runtime (e.g., querying Production.ProductCategory table here), EF does a lot of work to initialize its object-relational mapping:
-> 
+>
 > 1.  Initialize provider manifest
 > 2.  Initialize the entity data model. EF automatically builds the object models (CLR models, not above entities), conceptual models, storage models, object-conceptual model mappings, conceptual-storage model mappings, etc..
 > 3.  Initialize the database, if needed.
 > 4.  Initialize mapping views, which are the mapping information for entity sets.
 > 5.  Initialize a dynamic assembly "EntityFrameworkDynamicProxies-{OriginalAssemblyName}, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", and define proxy types in it.
-> 
+>
 > The above initialization steps executes only once at runtime, and their performance can be improved from the default behavior.
 
 ### Provider initialization
 
 > As fore mentioned, EF implements the provider model to work with different kinds of data stores, and it need to get the basic information of current data store. For SQL database:
-> 
+>
 > -   The SQL database server’s version is detected by calling DbConnection.ServerVersion
 > -   The engine edition is queried by above [SERVERPROPERTY](https://msdn.microsoft.com/en-us/library/ms174396.aspx) metadata function, to determine whether it is a on premise database (SQL Server) or cloud database (SQL Azure, aka Azure SQL Database).
-> 
+>
 > For SQL database, the supported provider manifest tokens are:
-> 
+>
 > ```csharp
 > namespace System.Data.Entity.SqlServer
 > {
@@ -115,9 +112,9 @@ This part continues the discussion of performance.
 >     }
 > }
 > ```
-> 
+>
 > For any on premise SQL database later than 11.0, just use “2012”. For cloud SQL database, use “2012.Azure”. In this tutorial, the server version and engine edition is known. So these information can be provided to EF via System.Data.Entity.Infrastructure.IManifestTokenResolver:
-> 
+>
 > ```csharp
 > public class SqlConfiguration : DbConfiguration
 > {
@@ -130,13 +127,13 @@ This part continues the discussion of performance.
 >     public string ResolveManifestToken(DbConnection connection) => "2012.Azure";
 > }
 > ```
-> 
+>
 > Then engine edition query is not executed during initialization. Notice EF only support defining a single type derived from DbConfiguration. In the object-relational mapping part, there us already a RetryConfiguration type defined to specify the retry strategy. The logic in both types must be merged intto one type, otherwise EF throws exception during initialization.
 
 ### Database initialization
 
-> The database initialization work is represented by System.Data.Entity.IDatabaseInitializer<TContext> interface:
-> 
+> The database initialization work is represented by `System.Data.Entity.IDatabaseInitializer<TContext>` interface:
+>
 > ```csharp
 > namespace System.Data.Entity
 > {
@@ -146,17 +143,17 @@ This part continues the discussion of performance.
 >     }
 > }
 > ```
-> 
+>
 > EF provides several built-in initializers under System.Data.Entity namespace:
-> 
-> -   NullDatabaseInitializer<TContext>: Do nothing for initialization
-> -   DropCreateDatabaseAlways<TContext>: Always drop the database and create again
-> -   DropCreateDatabaseIfModelChanges<TContext>: Drop and create database when the code mapping mismatches database schema.
-> -   MigrateDatabaseToLatestVersion<TContext, TMigrationsConfiguration>: Use the specified code to update the database to the latest version.
-> -   CreateDatabaseIfNotExists<TContext>: Create database if not exist.
-> 
-> CreateDatabaseIfNotExists<TContext>: is the default initializer, so it is executed here too. As a result, EF attempts to [query the existence of the mapped tables and views, database migration history, and entity data model info, etc](https://romiller.com/2014/06/10/reducing-code-first-database-chatter/). Apparently, here AdventureWorks database does not have the migration and entity data model info; recreating database is not needed as well. So the database initialization can be turned off, by setting the initializer to NullDatabaseInitializer<TContext>:
-> 
+>
+> -   `NullDatabaseInitializer<TContext>`: Do nothing for initialization
+> -   `DropCreateDatabaseAlways<TContext>`: Always drop the database and create again
+> -   `DropCreateDatabaseIfModelChanges<TContext>`: Drop and create database when the code mapping mismatches database schema.
+> -   `MigrateDatabaseToLatestVersion<TContext, TMigrationsConfiguration>`: Use the specified code to update the database to the latest version.
+> -   `CreateDatabaseIfNotExists<TContext>`: Create database if not exist.
+>
+> `CreateDatabaseIfNotExists<TContext>`: is the default initializer, so it is executed here too. As a result, EF attempts to [query the existence of the mapped tables and views, database migration history, and entity data model info, etc](https://romiller.com/2014/06/10/reducing-code-first-database-chatter/). Apparently, here AdventureWorks database does not have the migration and entity data model info; recreating database is not needed as well. So the database initialization can be turned off, by setting the initializer to `NullDatabaseInitializer<TContext>`:
+>
 > ```csharp
 > public partial class AdventureWorks
 > {
@@ -167,9 +164,9 @@ This part continues the discussion of performance.
 >     }
 > }
 > ```
-> 
-> where NullDatabaseInitializer<TContext> provide empty operation that does nothing:
-> 
+>
+> where `NullDatabaseInitializer<TContext>` provide empty operation that does nothing:
+>
 > ```csharp
 > namespace System.Data.Entity
 > {
@@ -181,7 +178,7 @@ This part continues the discussion of performance.
 >     }
 > }
 > ```
-> 
+>
 > Now all the additional database queries for initialization are turned off.
 
 ### Mapping views initialization
@@ -222,7 +219,7 @@ internal static void CachedEntity(AdventureWorks adventureWorks)
 }
 ```
 
-In this example, the first query reads data from the repository and materialize the data to a category entity, and update its Name. Then the repository is queried again by Name. After reading the data, EF/Core find the primary key is the same as the cached entity, so EF/Core do not materialize the data just read, it reuses the previous category entity. Performance can be improved by skipping the materialization, but tricky result can happen. The second query reads entity with Name “Bikes”, but the query result entity has Name “Cache”. This is not only LINQ to Entities queries’ behavior, When DbSet<T> directly executes SQL query in the repository, EF/Core still uses cached entities.
+In this example, the first query reads data from the repository and materialize the data to a category entity, and update its Name. Then the repository is queried again by Name. After reading the data, EF/Core find the primary key is the same as the cached entity, so EF/Core do not materialize the data just read, it reuses the previous category entity. Performance can be improved by skipping the materialization, but tricky result can happen. The second query reads entity with Name “Bikes”, but the query result entity has Name “Cache”. This is not only LINQ to Entities queries’ behavior, When `DbSet<T>` directly executes SQL query in the repository, EF/Core still uses cached entities.
 
 Entity is not cached when tracking is turned off, or entity is not queried from the repository. Each of the following queries materializes a new entity:
 
@@ -294,7 +291,7 @@ To improve the performance, EF Core caches the query translations in a Microsoft
 -   SqlServerOptionsExtension.RowNumberPaging, which can be specified with SqlServerDbContextOptionsBuilder.UseRowNumberForPaging
 
 > EF always compiles the LINQ expression tree to database expression tree, then cache the SQL generation in a dictionary. For example:
-> 
+>
 > ```csharp
 > internal static void TranslationCache(AdventureWorks adventureWorks)
 > {
@@ -305,11 +302,11 @@ To improve the performance, EF Core caches the query translations in a Microsoft
 >     query.Load();
 > }
 > ```
-> 
+>
 > EF generates the cache key with the following values:
-> 
-> -   The database expression tree’s string representation. Here it is: \[Filter\](BV'LQ1'=(\[Scan\](AdventureWorks.Products:Transient.collection\[Product(Nullable=True,DefaultValue=)\]))(\[>=\](FUNC<Edm.Length(In Edm.String(Nullable=True,DefaultValue=,MaxLength=,Unicode=,FixedLength=))>:ARGS((Var('LQ1')\[.\]Name)),@p\_\_linq\_\_0:Edm.Int32(Nullable=False,DefaultValue=))))
-> -   The parameters’ string representation: @@1p\_\_linq\_\_0:System.Int32
+>
+> -   The database expression tree’s string representation. Here it is: `[Filter](BV'LQ1'=([Scan](AdventureWorks.Products:Transient.collection[Product(Nullable=True,DefaultValue=)]))([>=](FUNC<Edm.Length(In Edm.String(Nullable=True,DefaultValue=,MaxLength=,Unicode=,FixedLength=))>:ARGS((Var('LQ1')[.]Name)),@p__linq__0:Edm.Int32(Nullable=False,DefaultValue=))))`
+> -   The parameters’ string representation: `@@1p__linq__0:System.Int32`
 > -   The path of the Include query. Here it is ProductSubcategory
 > -   The query’s MergeOption, which is AppendOnly by default.
 > -   System.Data.Entity.Core.Objects.ObjectContextOptions.UseCSharpNullComparisonBehavior
@@ -332,10 +329,10 @@ internal static void UnreusedTranslationCache(AdventureWorks adventureWorks)
 These first LINQ query builds expression trees with a ConstantExpression node representing int value 1. The second query builds similar expression tree but with a different ConstantExpression node representing int value 10. So these LINQ expression trees are different. In EF Core, the first expression tree’s translation cannot be reused for the second query.
 
 > In EF, their compiled database expression trees are different too, with 2 different DbConstantExpression nodes. The 2 database expression trees’ string representations are:
-> 
-> -   \[Filter\](BV'LQ1'=(\[Scan\](AdventureWorks.ProductCategories:Transient.collection\[ProductCategory(Nullable=True,DefaultValue=)\]))(\[>=\](FUNC<Edm.Length(In Edm.String(Nullable=True,DefaultValue=,MaxLength=,Unicode=,FixedLength=))>:ARGS((Var('LQ1')\[.\]Name)),1:Edm.Int32(Nullable=True,DefaultValue=))))
-> -   \[Filter\](BV'LQ1'=(\[Scan\](AdventureWorks.ProductCategories:Transient.collection\[ProductCategory(Nullable=True,DefaultValue=)\]))(\[>=\](FUNC<Edm.Length(In Edm.String(Nullable=True,DefaultValue=,MaxLength=,Unicode=,FixedLength=))>:ARGS((Var('LQ1')\[.\]Name)),10:Edm.Int32(Nullable=True,DefaultValue=))))
-> 
+>
+> -   `[Filter](BV'LQ1'=([Scan](AdventureWorks.ProductCategories:Transient.collection[ProductCategory(Nullable=True,DefaultValue=)]))([>=](FUNC<Edm.Length(In Edm.String(Nullable=True,DefaultValue=,MaxLength=,Unicode=,FixedLength=))>:ARGS((Var('LQ1')[.]Name)),1:Edm.Int32(Nullable=True,DefaultValue=))))`
+> -   `[Filter](BV'LQ1'=([Scan](AdventureWorks.ProductCategories:Transient.collection[ProductCategory(Nullable=True,DefaultValue=)]))([>=](FUNC<Edm.Length(In Edm.String(Nullable=True,DefaultValue=,MaxLength=,Unicode=,FixedLength=))>:ARGS((Var('LQ1')[.]Name)),10:Edm.Int32(Nullable=True,DefaultValue=))))`
+>
 > So the first query’s SQL generation cannot be used for the second query either.
 
 To reuse the translation cache, these queries can be parameterized by simply replace the constants with variables:
@@ -375,7 +372,7 @@ internal static void ReusedTranslationCache(AdventureWorks adventureWorks)
 In the predicates, the outer variable access is compiled to field access. So in the LINQ queries’ expression trees, there are no longer ConstantExpression nodes representing different int values, but MemberExpression nodes representing the same field. As a result, the 2 query’s LINQ expression trees are identical, and the translation is reused.
 
 > In EF, if a query method accepts values instead of lambda expression, this parameterization approach does not work. For example, Skip and Take accept int values as parameters:
-> 
+>
 > ```csharp
 > internal static void UnresuedSkipTakeTranslationCache(AdventureWorks adventureWorks)
 > {
@@ -392,9 +389,9 @@ In the predicates, the outer variable access is compiled to field access. So in 
 >     skipTakeWithVariable2.Load();
 > }
 > ```
-> 
+>
 > The above LINQ queries access to variable skip and take, but these variable access are also represented by ConstantExpression nodes. So their expression trees are different, and converted database command trees are different, and their translations cannot be reused for each other. To resolve this problem, EF provides a lambda expression version for these methods:
-> 
+>
 > ```csharp
 > namespace System.Data.Entity
 > {
@@ -406,9 +403,9 @@ In the predicates, the outer variable access is compiled to field access. So in 
 >     }
 > }
 > ```
-> 
+>
 > Now Skip and Take can access variables via closure:
-> 
+>
 > ```csharp
 > internal static void ResuedSkipTakeTranslationCache(AdventureWorks adventureWorks)
 > {
@@ -425,7 +422,7 @@ In the predicates, the outer variable access is compiled to field access. So in 
 >     skipTakeWithClosure2.Load();
 > }
 > ```
-> 
+>
 > These LINQ queries have MemberExpression nodes again. EF can convert them to identical parameterized database expression trees. Now their translations can be reused for each other.
 
 ### SQL query plan cache
@@ -468,15 +465,15 @@ Generally, for long running I/O bound operation, asynchrony can improve the appl
 
 ### Asynchronous data queries and data changes
 
-For LINQ to Entities queries, EF/Core start to read the data when values are pulled from IQueryable<T> data source, for example:
+For LINQ to Entities queries, EF/Core start to read the data when values are pulled from `IQueryable<T>` data source, for example:
 
--   Pull the values from the query represented by IQueryable<T>.
--   Call a query method to return a single value from the IQueryable<T>, like First, etc..
+-   Pull the values from the query represented by `IQueryable<T>`.
+-   Call a query method to return a single value from the `IQueryable<T>`, like First, etc..
 -   Call a LINQ to Objects query method to return a new collection, like ToArray, etc..
 
-For these operations and APIs, async parities are provided as IQueryable<T> extension methods. In EF Core, these async query APIs are also provided as extension methods in Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions:
+For these operations and APIs, async parities are provided as `IQueryable<T>` extension methods. In EF Core, these async query APIs are also provided as extension methods in Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions:
 
--   async iteration method: ForEachAsync asynchronously pulls each value from IQueryable<T> data source and call the specified function.
+-   async iteration method: ForEachAsync asynchronously pulls each value from `IQueryable<T>` data source and call the specified function.
 -   async methods to return a single value:
 
 -   Element: FirstAsync, FirstOrDefaultAsync, LastAsync, LastOrDefaultAsync, SingleAsync, SingleOrDefaultAsync

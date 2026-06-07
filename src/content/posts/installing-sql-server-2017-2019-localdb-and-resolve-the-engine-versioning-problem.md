@@ -15,11 +15,11 @@ SQL Server LocalDB is a minimal SQL Server database engine, it can be installed 
 
 SQL Server LocalDB setup file is included in SQL Server Express. SQL Server 2019 can be downloaded from [https://go.microsoft.com/fwlink/?LinkID=866658](https://go.microsoft.com/fwlink/?LinkID=866658 "https://go.microsoft.com/fwlink/?LinkID=866658"), and SQL Server 2017 can be downloaded from: [https://go.microsoft.com/fwlink/?LinkID=853017](https://go.microsoft.com/fwlink/?LinkID=853017 "https://go.microsoft.com/fwlink/?LinkID=853017").
 
-After unzip the downloaded package, please run root\\x64\\Setup\\x64\\SQLLOCALDB.MSI to install.
+After unzip the downloaded package, please run `root\x64\Setup\x64\SQLLOCALDB.MSI` to install.
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/89ee21b2c263_49AE/image_thumb.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/89ee21b2c263_49AE/image_2.png)
 
-When it is done, code can connect to it with a connection string, or SQL Server Management Studio can be used to manage the databases by connecting to (LocalDB)\\MSSQLLocalDB:
+When it is done, code can connect to it with a connection string, or SQL Server Management Studio can be used to manage the databases by connecting to `(LocalDB)\MSSQLLocalDB`:
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/89ee21b2c263_49AE/image_thumb_7.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/89ee21b2c263_49AE/image_16.png)
 
@@ -52,7 +52,7 @@ sqllocaldb delete mssqllocaldb
 sqllocaldb create MSSQLLocalDB
 ```
 
-Or the version info can be manually updated in Registry: `Computer\HKEY\_CURRENT\_USER\Software\Microsoft\Microsoft SQL Server\UserInstances\{2DD3D445-34C1-4251-B67D-7DFEED432A87}`.
+Or the version info can be manually updated in Registry: `Computer\HKEY_CURRENT_USER\Software\Microsoft\Microsoft SQL Server\UserInstances\{2DD3D445-34C1-4251-B67D-7DFEED432A87}`.
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/89ee21b2c263_49AE/image_thumb_2.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/89ee21b2c263_49AE/image_6.png)
 

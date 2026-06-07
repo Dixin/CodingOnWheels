@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-7-monad-and-linq-to-monads](/posts/category-theory-via-csharp-7-monad-and-linq-to-monads "https://CodingOnWheels.com/posts/category-theory-via-csharp-7-monad-and-linq-to-monads")**
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
+>
+> This post is updated, [here is the latest version](/posts/category-theory-via-csharp-7-monad-and-linq-to-monads).
 
 ## Monad and monad laws
 
@@ -24,7 +25,7 @@ A previous part showed endofunctor category is a monoid (the entire category its
     -   Similarly, (F ◎ F ◎ F)(X) is F(F(F(X))), also denoted F3
 -   Monoid unit, which is a natural transformation η: Id(X) ⇒ F(X)
     -   Id (with an upper case I) is the Id endofunctor of C, not the id morphism
-    -   Since functor Id(X) is merely a simple wrapper of X (e.g., in DotNet category, the Id endofunctor is just Lazy<X>), so in category C, the natural transformation η: Id(X) ⇒ F(X) is frequently simplified to morphism η: X → F(x)
+    -   Since functor Id(X) is merely a simple wrapper of X (e.g., in DotNet category, the Id endofunctor is just `Lazy<X>`), so in category C, the natural transformation η: Id(X) ⇒ F(X) is frequently simplified to morphism η: X → F(x)
 
 satisfying the monoid laws:
 
@@ -329,12 +330,12 @@ This ensures IEnumerable<> monad/monoidal functor (SelectMany + Enumerable) is a
 
 ## Monad pattern of LINQ
 
-Generally in .NET, if a generic type F<TSource>:
+Generally in .NET, if a generic type `F<TSource>`:
 
 -   has a instance method or extension method SelectMany, which:
-    -   takes a Func<TSource, F<TSelector>> parameter
-    -   and a Func<TSource, TSelector, TResult> parameter
-    -   and returns a F<TResult>
+    -   takes a `Func<TSource, F<TSelector>>` parameter
+    -   and a `Func<TSource, TSelector, TResult>` parameter
+    -   and returns a `F<TResult>`
 
 then:
 
@@ -378,14 +379,14 @@ public static partial class EnumerableExtensions
 }
 ```
 
-For any .NET generic type F<> with such a SelectMany instance/extension method, if F<X> also satisfies:
+For any .NET generic type F<> with such a SelectMany instance/extension method, if `F<X>` also satisfies:
 
--   F<T> can be constructed directly from T value(s)
+-   `F<T>` can be constructed directly from T value(s)
 -   its SelectMany method (either instance or extension) is pure
 
 then F<> is a general abstract monad of category theory too.
 
-Here an IEnumerable<T> can be constructed from 0 or more T values in many ways. And in NET, IEnumerable<T>’s built in SelectMany implementation is pure (yes, it is the same as the SelectMany2 function above):
+Here an `IEnumerable<T>` can be constructed from 0 or more T values in many ways. And in NET, `IEnumerable<T>`’s built in SelectMany implementation is pure (yes, it is the same as the SelectMany2 function above):
 
 ```csharp
 public static class Enumerable

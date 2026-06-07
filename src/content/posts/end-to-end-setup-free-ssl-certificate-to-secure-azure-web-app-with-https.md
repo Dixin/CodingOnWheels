@@ -1,5 +1,5 @@
 ---
-title: "End-to-End - Setup free SSL certificate to secure Azure Web App with HTTPS"
+title: "End-to-End Setup free SSL certificate to secure Azure Web App with HTTPS"
 published: 2019-04-09
 description: "It is 2019 now, and HTTP is considered as “not secure”, and HTTPS is the default. This is a end-to-end tutorial of how to setup SSL certificate to secure Azure Web App with HTTPS. It is based on “[Let"
 image: ""
@@ -64,7 +64,7 @@ Shared pricing tier and above support custom domain. Follow the guidelines in th
 
 [![Annotation 2019-02-09 064042_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/962e9ee15b1a_8139/Annotation%202019-02-09%20064042_thumb_thumb.jpg "Annotation 2019-02-09 064042_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/962e9ee15b1a_8139/Annotation%202019-02-09%20064042_thumb_2.jpg)
 
-To verify your domain ownership, Let’s Encrypt requests your-domain.com/.well-known/acme-challenge/{longId}. For example: hanziyuan.net/.well-known/acme-challenge/mftvrU2brecAXB76BsLEqW\_SL\_srdG3oqTQTzR5KHeA.
+To verify your domain ownership, Let’s Encrypt requests `your-domain.com/.well-known/acme-challenge/{longId}`. For example: `hanziyuan.net/.well-known/acme-challenge/mftvrU2brecAXB76BsLEqW_SL_srdG3oqTQTzR5KHeA`.
 
 ### Enable HTTPS in ASP.NET Core website
 
@@ -77,7 +77,7 @@ public class Startup
     {
         if (this.environment.IsProduction())
         {
-            **services.AddHttpsRedirection(options => options.HttpsPort = 443);**
+            services.AddHttpsRedirection(options => options.HttpsPort = 443);
         }
 
         // Other configuration.
@@ -87,8 +87,8 @@ public class Startup
     {
         if (this.environment.IsProduction())
         {
-            **application.UseHsts();**
-            **application.UseHttpsRedirection();** 
+            application.UseHsts();
+            application.UseHttpsRedirection();
         }
 
         // Other configuration.
@@ -107,7 +107,7 @@ You also want to look up the hyperlinks and resources (images, etc.), and replac
 You can install SSL on one Azure Web App, and run letsencrypt-webapp-renewer as WebJob of the same Web App, or a different Web App. As the author Ohad Schneider pointed out in the comments, it is highly recommended to have the run letsencrypt-webapp-renewer as WebJob of a separate Web App, because:
 
 -   You can use it to manage multiple Web Apps.
--   WebJob is just a console application, its files (\*.exe, \*.dll, etc.) are deployed to your Web App’s App\_Data directory (e.g. App\_Data/jobs/triggered/letsencrypt/). So a WebJob can be silently deleted when you deploy/publish your website.
+-   WebJob is just a console application, its files (`*.exe`, `*.dll`, etc.) are deployed to your Web App’s `App_Data` directory (e.g. `App_Data/jobs/triggered/letsencrypt/`). So a WebJob can be silently deleted when you deploy/publish your website.
 
 In this tutorial, I run letsencrypt-webapp-renewer as WebJob of a separate Web App. This automation Web App is created under the same App Service plan. Since Azure charges per App service plan, I do not need to pay additional cost for this automation web App.
 
@@ -117,21 +117,23 @@ In this tutorial, I run letsencrypt-webapp-renewer as WebJob of a separate Web A
 
 Download the setup PowerShell script from [https://github.com/ohadschn/letsencrypt-webapp-renewer/blob/master/OhadSoft.AzureLetsEncrypt.Renewal/Scripts/Set-LetsEncryptConfiguration.ps1](https://github.com/ohadschn/letsencrypt-webapp-renewer/blob/master/OhadSoft.AzureLetsEncrypt.Renewal/Scripts/Set-LetsEncryptConfiguration.ps1), and run:
 
-> PS D:\\User\\Desktop> **.\\Set-LetsEncryptConfiguration.ps1 -LetsEncryptSubscriptionId e09d69aa-afa1-4db3-aea3-ca58cc2d82ee -LetsEncryptResourceGroup etymology -LetsEncryptWebApp etymology-letsencrypt -SubscriptionId e09d69aa-afa1-4db3-aea3-ca58cc2d82ee -ResourceGroup etymology -WebApp etymology -ServicePlanResourceGroup etymology -TenantId dixinyanlive.onmicrosoft.com -ClientId 9ca16da2-9252-4a55-8c99-b41d458d7fc4 –ClientSecret ‘\*\*\*\*’ -Hosts hanziyuan.net -Email dixinyan@live.com** Signing in to Azure Resource Manager account (use the account that contains your Let's Encrypt renewal web app)...
-> 
-> Account : dixinyan@live.com SubscriptionName : Visual Studio Enterprise SubscriptionId : e09d69aa-afa1-4db3-aea3-ca58cc2d82ee TenantId : 31a11410-e324-47a1-bbc4-9884031e3b14 Environment : AzureCloud
-> 
-> Setting context to the Let's Encrypt subscription ID...
-> 
-> Name : \[dixinyan@live.com, e09d69aa-afa1-4db3-aea3-ca58cc2d82ee\] Account : dixinyan@live.com Environment : AzureCloud Subscription : e09d69aa-afa1-4db3-aea3-ca58cc2d82ee Tenant : 31a11410-e324-47a1-bbc4-9884031e3b14 TokenCache : Microsoft.Azure.Commands.Common.Authentication.AuthenticationStoreTokenCache VersionProfile : ExtendedProperties : {}
-> 
-> Loading existing Let's Encrypt web app settings... Copying over existing app settings... Adding new settings... Setting 'subscriptionId' to 'e09d69aa-afa1-4db3-aea3-ca58cc2d82ee'... Setting 'resourceGroup' to 'etymology'... Setting 'servicePlanResourceGroup' to 'etymology'... Setting 'tenantId' to 'dixinyanlive.onmicrosoft.com'... Setting 'clientId' to 'letsencrypt'... Setting 'hosts' to 'hanziyuan.net'... Setting 'email' to 'dixinyan@live.com'... Value not provided for app setting 'useIpBasedSsl' - skipping... Value not provided for app setting 'rsaKeyLength' - skipping... Value not provided for app setting 'acmeBaseUri' - skipping... Setting 'renewXNumberOfDaysBeforeExpiration' to '-1'... Copying over existing connection strings... Adding new connection string... Updating settings...
-> 
-> SiteName : etymology-letsencrypt State : Running HostNames : {etymology-letsencrypt.azurewebsites.net} RepositorySiteName : etymology-letsencrypt UsageState : Normal Enabled : True EnabledHostNames : {etymology-letsencrypt.azurewebsites.net, etymology-letsencrypt.scm.azurewebsites.net} AvailabilityState : Normal HostNameSslStates : {etymology-letsencrypt.azurewebsites.net, etymology-letsencrypt.scm.azurewebsites.net} ServerFarmId : /subscriptions/e09d69aa-afa1-4db3-aea3-ca58cc2d82ee/resourceGroups/etymology/providers/Micr osoft.Web/serverfarms/etymology LastModifiedTimeUtc : 2/10/2019 10:43:42 PM SiteConfig : Microsoft.Azure.Management.WebSites.Models.SiteConfig TrafficManagerHostNames : PremiumAppDeployed : ScmSiteAlsoStopped : False TargetSwapSlot : HostingEnvironmentProfile : MicroService : GatewaySiteName : ClientAffinityEnabled : True ClientCertEnabled : False HostNamesDisabled : False OutboundIpAddresses : 207.46.144.46,207.46.144.85,207.46.144.91,207.46.148.246 ContainerSize : 0 MaxNumberOfWorkers : CloningInfo : ResourceGroup : etymology IsDefaultContainer : DefaultHostName : etymology-letsencrypt.azurewebsites.net Id : /subscriptions/e09d69aa-afa1-4db3-aea3-ca58cc2d82ee/resourceGroups/etymology/providers/Micr osoft.Web/sites/etymology-letsencrypt Name : etymology-letsencrypt Location : East Asia Type : Microsoft.Web/sites Tags :
-> 
-> Let's Encrypt settings updated successfully
-> 
-> PS D:\\User\\Desktop>
+```console
+PS D:\User\Desktop> .\Set-LetsEncryptConfiguration.ps1 -LetsEncryptSubscriptionId e09d69aa-afa1-4db3-aea3-ca58cc2d82ee -LetsEncryptResourceGroup etymology -LetsEncryptWebApp etymology-letsencrypt -SubscriptionId e09d69aa-afa1-4db3-aea3-ca58cc2d82ee -ResourceGroup etymology -WebApp etymology -ServicePlanResourceGroup etymology -TenantId dixinyanlive.onmicrosoft.com -ClientId 9ca16da2-9252-4a55-8c99-b41d458d7fc4 –ClientSecret ‘****’ -Hosts hanziyuan.net -Email <dixinyan@live.com>** Signing in to Azure Resource Manager account (use the account that contains your Let's Encrypt renewal web app)...
+
+Account : <dixinyan@live.com> SubscriptionName : Visual Studio Enterprise SubscriptionId : e09d69aa-afa1-4db3-aea3-ca58cc2d82ee TenantId : 31a11410-e324-47a1-bbc4-9884031e3b14 Environment : AzureCloud
+
+Setting context to the Let's Encrypt subscription ID...
+
+Name : [<dixinyan@live.com>, e09d69aa-afa1-4db3-aea3-ca58cc2d82ee] Account : <dixinyan@live.com> Environment : AzureCloud Subscription : e09d69aa-afa1-4db3-aea3-ca58cc2d82ee Tenant : 31a11410-e324-47a1-bbc4-9884031e3b14 TokenCache : Microsoft.Azure.Commands.Common.Authentication.AuthenticationStoreTokenCache VersionProfile : ExtendedProperties : {}
+
+Loading existing Let's Encrypt web app settings... Copying over existing app settings... Adding new settings... Setting 'subscriptionId' to 'e09d69aa-afa1-4db3-aea3-ca58cc2d82ee'... Setting 'resourceGroup' to 'etymology'... Setting 'servicePlanResourceGroup' to 'etymology'... Setting 'tenantId' to 'dixinyanlive.onmicrosoft.com'... Setting 'clientId' to 'letsencrypt'... Setting 'hosts' to 'hanziyuan.net'... Setting 'email' to '<dixinyan@live.com>'... Value not provided for app setting 'useIpBasedSsl' - skipping... Value not provided for app setting 'rsaKeyLength' - skipping... Value not provided for app setting 'acmeBaseUri' - skipping... Setting 'renewXNumberOfDaysBeforeExpiration' to '-1'... Copying over existing connection strings... Adding new connection string... Updating settings...
+
+SiteName : etymology-letsencrypt State : Running HostNames : {etymology-letsencrypt.azurewebsites.net} RepositorySiteName : etymology-letsencrypt UsageState : Normal Enabled : True EnabledHostNames : {etymology-letsencrypt.azurewebsites.net, etymology-letsencrypt.scm.azurewebsites.net} AvailabilityState : Normal HostNameSslStates : {etymology-letsencrypt.azurewebsites.net, etymology-letsencrypt.scm.azurewebsites.net} ServerFarmId : /subscriptions/e09d69aa-afa1-4db3-aea3-ca58cc2d82ee/resourceGroups/etymology/providers/Micr osoft.Web/serverfarms/etymology LastModifiedTimeUtc : 2/10/2019 10:43:42 PM SiteConfig : Microsoft.Azure.Management.WebSites.Models.SiteConfig TrafficManagerHostNames : PremiumAppDeployed : ScmSiteAlsoStopped : False TargetSwapSlot : HostingEnvironmentProfile : MicroService : GatewaySiteName : ClientAffinityEnabled : True ClientCertEnabled : False HostNamesDisabled : False OutboundIpAddresses : 207.46.144.46,207.46.144.85,207.46.144.91,207.46.148.246 ContainerSize : 0 MaxNumberOfWorkers : CloningInfo : ResourceGroup : etymology IsDefaultContainer : DefaultHostName : etymology-letsencrypt.azurewebsites.net Id : /subscriptions/e09d69aa-afa1-4db3-aea3-ca58cc2d82ee/resourceGroups/etymology/providers/Micr osoft.Web/sites/etymology-letsencrypt Name : etymology-letsencrypt Location : East Asia Type : Microsoft.Web/sites Tags :
+
+Let's Encrypt settings updated successfully
+
+PS D:\User\Desktop>
+```
 
 This adds a bunch of settings and a connection string to the automation Web App, which will be read by the WebJob:
 
@@ -153,9 +155,11 @@ When it’s done, the SSL certificate is installed/renewed for the Azure Web App
 
 [![Annotation 2019-02-09 071735_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/962e9ee15b1a_8139/Annotation%202019-02-09%20071735_thumb_thumb.jpg "Annotation 2019-02-09 071735_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/962e9ee15b1a_8139/Annotation%202019-02-09%20071735_thumb_2.jpg)
 
-This is useful for troubleshooting. For example, if your Web App is Shared (D1) pricing tier, it will fail with detailed info in the logs [https://etymology.scm.azurewebsites.net/vfs/data/jobs/triggered/letsencrypt/201902081828412089/output\_log.txt](https://etymology.scm.azurewebsites.net/vfs/data/jobs/triggered/letsencrypt/201902081828412089/output_log.txt):
+This is useful for troubleshooting. For example, if your Web App is Shared (D1) pricing tier, it will fail with detailed info in the [logs](https://etymology.scm.azurewebsites.net/vfs/data/jobs/triggered/letsencrypt/201902081828412089/output_log.txt):
 
-> \[02/08/2019 18:29:11 > 021587: INFO\] AzureLetsEncryptRenewer.exe Error: 0 : Encountered exception: Microsoft.Rest.Azure.CloudException: Cannot enable SNI SSL for a hostname 'hanziyuan.net' because current site mode does not allow it. \[02/08/2019 18:29:11 > 021587: INFO\] at Microsoft.Azure.Management.WebSites.WebAppsOperations.<BeginCreateOrUpdateWithHttpMessagesAsync>d\_\_208.MoveNext() \[02/08/2019 18:29:11 > 021587: INFO\] --- End of stack trace from previous location where exception was thrown ---
+```console
+> [02/08/2019 18:29:11 > 021587: INFO] AzureLetsEncryptRenewer.exe Error: 0 : Encountered exception: Microsoft.Rest.Azure.CloudException: Cannot enable SNI SSL for a hostname 'hanziyuan.net' because current site mode does not allow it. [02/08/2019 18:29:11 > 021587: INFO] at Microsoft.Azure.Management.WebSites.WebAppsOperations.<BeginCreateOrUpdateWithHttpMessagesAsync>d__208.MoveNext() [02/08/2019 18:29:11 > 021587: INFO] --- End of stack trace from previous location where exception was thrown ---
+```
 
 Once the WebJob finishes running, your Web App is secured with SSL, and HTTP requests are redirected to HTTPS.
 

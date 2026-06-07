@@ -9,13 +9,14 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## EF Core version of this article: [https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping](/posts/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping")
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
+>
+> This post explains EF, [here is the EF Core version](/posts/entity-framework-core-and-linq-to-entities-2-modeling-database-object-relational-mapping).
 
 .NET and SQL database and have 2 different data type systems. For example:
 
@@ -36,7 +37,31 @@ Comparing to code generation, it is more intuitive to build some classes to work
 
 Entity Framework can map most SQL data types to .NET types:
 
-<table border="0" cellpadding="2" cellspacing="0" width="629"><tbody><tr><td width="190">SQL type category</td><td width="200">SQL type</td><td width="300">.NET type</td><td width="150">C# primitive</td></tr><tr><td width="190">Exact numeric</td><td width="200">bit</td><td width="300">System.Boolean</td><td width="150">bool</td></tr><tr><td width="190"></td><td width="200">tinyint</td><td width="300">System.Byte</td><td width="150">byte</td></tr><tr><td width="190"></td><td width="200">smallint</td><td width="300">System.Int16</td><td width="150">short</td></tr><tr><td width="190"></td><td width="200">int</td><td width="300">System.Int32</td><td width="150">int</td></tr><tr><td width="190"></td><td width="200">bigint</td><td width="300">System.Int64</td><td width="150">long</td></tr><tr><td width="190"></td><td width="200">smallmoney, money, decimal, numeric</td><td width="300">System.Decimal</td><td width="150">decimal</td></tr><tr><td width="190">Approximate numeric</td><td width="200">real</td><td width="300">System.Single</td><td width="150">float</td></tr><tr><td width="190"></td><td width="200">float</td><td width="300">System.Double</td><td width="150">double</td></tr><tr><td width="190">Character string</td><td width="200">char, varchar, text</td><td width="300">System.String</td><td width="150">string</td></tr><tr><td width="190"></td><td width="200">nchar, nvarchar, ntext</td><td width="300">System.String</td><td width="150">string</td></tr><tr><td width="190">Binary string</td><td width="200">binary, varbinary</td><td width="300">System.Byte[]</td><td width="150">byte[]</td></tr><tr><td width="190"></td><td width="200">image</td><td width="300">System.Byte[]</td><td width="150">byte[]</td></tr><tr><td width="190"></td><td width="200">rowversion (timestamp)</td><td width="300">System.Byte[]</td><td width="150">byte[]</td></tr><tr><td width="190">Date time</td><td width="200">date</td><td width="300">System.DateTime</td><td width="150"></td></tr><tr><td width="190"></td><td width="200">time</td><td width="300">System.TimeSpan</td><td width="150"></td></tr><tr><td width="190"></td><td width="200">smalldatetime, datetime, datetime2</td><td width="300">System.DateTime</td><td width="150"></td></tr><tr><td width="190"></td><td width="200">datetimeoffset</td><td width="300">System.DateTimeOffset</td><td width="150"></td></tr><tr><td width="190">Spatial type</td><td width="200">geography</td><td width="300">System.Data.Entity.Spatial.DbGeography</td><td width="150"></td></tr><tr><td width="190"></td><td width="200">geometry</td><td width="300">System.Data.Entity.Spatial.DbGeometry</td><td width="150"></td></tr><tr><td width="190">Other</td><td width="200">hierarchyid</td><td width="300">No built-in mapping or support</td><td width="150"></td></tr><tr><td width="190"></td><td width="200">xml</td><td width="300">System.String</td><td width="150">string</td></tr><tr><td width="190"></td><td width="200">uniqueidentifier</td><td width="300">System.Guid</td><td width="150"></td></tr><tr><td width="190"></td><td width="200">sql_variant</td><td width="300">No built-in mapping or support</td><td valign="top" width="107"></td></tr></tbody></table>
+| SQL type category   | SQL type                            | .NET type                              | C# primitive |
+|---------------------|-------------------------------------|----------------------------------------|--------------|
+| Exact numeric       | bit                                 | System.Boolean                         | bool         |
+|                     | tinyint                             | System.Byte                            | byte         |
+|                     | smallint                            | System.Int16                           | short        |
+|                     | int                                 | System.Int32                           | int          |
+|                     | bigint                              | System.Int64                           | long         |
+|                     | smallmoney, money, decimal, numeric | System.Decimal                         | decimal      |
+| Approximate numeric | real                                | System.Single                          | float        |
+|                     | float                               | System.Double                          | double       |
+| Character string    | char, varchar, text                 | System.String                          | string       |
+|                     | nchar, nvarchar, ntext              | System.String                          | string       |
+| Binary string       | binary, varbinary                   | System.Byte[]                          | byte[]       |
+|                     | image                               | System.Byte[]                          | byte[]       |
+|                     | rowversion (timestamp)              | System.Byte[]                          | byte[]       |
+| Date time           | date                                | System.DateTime                        |              |
+|                     | time                                | System.TimeSpan                        |              |
+|                     | smalldatetime, datetime, datetime2  | System.DateTime                        |              |
+|                     | datetimeoffset                      | System.DateTimeOffset                  |              |
+| Spatial type        | geography                           | System.Data.Entity.Spatial.DbGeography |              |
+|                     | geometry                            | System.Data.Entity.Spatial.DbGeometry  |              |
+| Other               | hierarchyid                         | No built-in mapping or support         |              |
+|                     | xml                                 | System.String                          | string       |
+|                     | uniqueidentifier                    | System.Guid                            |              |
+|                     | sql_variant                         | No built-in mapping or support         |              |
 
 ## Database
 
@@ -160,27 +185,27 @@ public partial class ProductCategory
 }
 ```
 
-The \[Table\] attribute specifies the table name of schema. \[Table\] can be omitted when the table name is identical with the entity class name, and the table is under the default dbo schema.
+The `[Table]` attribute specifies the table name of schema. `[Table]` can be omitted when the table name is identical with the entity class name, and the table is under the default dbo schema.
 
 In the table-entity class mapping:
 
 -   The int column ProductCategoryID is mapped to a System.Int32 property with the same name.
 
--   The \[Key\] attribute indicates it has a unique key
--   \[DatabaseGenerated\] indicates it is an identity column
+-   The `[Key]` attribute indicates it has a unique key
+-   `[DatabaseGenerated]` indicates it is an identity column
 
 -   The Name column is of dbo.Name type. dbo.Name just nvarchar(50), so the Name property is of type System.String.
 
--   The \[MaxLength\] attribute indicates the max length is 50
--   \[Required\] indicates it should not be null
+-   The `[MaxLength]` attribute indicates the max length is 50
+-   `[Required]` indicates it should not be null
 
 -   The other columns rowguid and ModifiedDate are not mapped. They are ignored in this tutorial, which is allowed by Entity Framework.
 
-In the Entity Framework code first approach for existing database, the mapping properties work without the \[DatabaseGenerated\] attribute. This tutorial keeps this attribute only for readability purpose.
+In the Entity Framework code first approach for existing database, the mapping properties work without the `[DatabaseGenerated]` attribute. This tutorial keeps this attribute only for readability purpose.
 
-As a result, each row of Production.ProductCategory table is mapped to a ProductCategory object. However, at runtime, Entity Framework by default does not directly instantiate ProductCategory. It dynamically defines another proxy class to derive from ProductCategory class, with a name looks like System.Data.Entity.DynamicProxies.Product\_F84B0F952ED22479EF48782695177D770E63BC4D8771C9DF78343B4D95926AE8. This proxy class is where Entity Framework injects more detailed logic, so that at design time, the mapping entity class can be clean and declarative.
+As a result, each row of Production.ProductCategory table is mapped to a ProductCategory object. However, at runtime, Entity Framework by default does not directly instantiate ProductCategory. It dynamically defines another proxy class to derive from ProductCategory class, with a name looks like `System.Data.Entity.DynamicProxies.Product_F84B0F952ED22479EF48782695177D770E63BC4D8771C9DF78343B4D95926AE8`. This proxy class is where Entity Framework injects more detailed logic, so that at design time, the mapping entity class can be clean and declarative.
 
-The rows of the entire table can be mapped to objects in an IQueryable<T> data source, exposed as a property of the database class. Entity Framework provides System.Data.Entity.DbSet<T> class to represent a table data source:
+The rows of the entire table can be mapped to objects in an `IQueryable<T>` data source, exposed as a property of the database class. Entity Framework provides `System.Data.Entity.DbSet<T>` class to represent a table data source:
 
 ```csharp
 public partial class AdventureWorks
@@ -189,7 +214,7 @@ public partial class AdventureWorks
 }
 ```
 
-DbSet<T> implements IQueryable<T>, and is derived from System.Data.Entity.Infrastructure.DbQuery<T> class:
+`DbSet<T>` implements `IQueryable<T>`, and is derived from `System.Data.Entity.Infrastructure.DbQuery<T>` class:
 
 ```csharp
 namespace System.Data.Entity.Infrastructure
@@ -302,7 +327,7 @@ public partial class Product
 
 In the mapping:
 
--   The ProductSubcategoryID column can be null, so it is mapped to a System.Nullable<int> property.
+-   The ProductSubcategoryID column can be null, so it is mapped to a `System.Nullable<int>` property.
 -   The Style column can only have value U, M, W, or NULL. It does not have a property mapping, because it will be used to demonstrate conditional mapping in inheritance later in this part.
 
 And this is the Production.ProductPhoto table definition:
@@ -339,9 +364,9 @@ public partial class ProductPhoto
 }
 ```
 
-ModifiedDate has a \[ConcurrencyCheck\] attribute for concurrency conflict check, which will be discussed later.
+ModifiedDate has a `[ConcurrencyCheck]` attribute for concurrency conflict check, which will be discussed later.
 
-Again, the rows of each table can be expose as objects in IQueryable<T> data source:
+Again, the rows of each table can be expose as objects in `IQueryable<T>` data source:
 
 ```csharp
 public partial class AdventureWorks
@@ -433,7 +458,7 @@ public partial class AdventureWorks
 }
 ```
 
-The other options is to map whatever the database has. The junction table \[Production\].\[ProductProductPhoto\] is defined as:
+The other options is to map whatever the database has. The junction table `[Production].[ProductProductPhoto]` is defined as:
 
 ```csharp
 CREATE TABLE [Production].[ProductProductPhoto](
@@ -467,7 +492,7 @@ public partial class ProductProductPhoto
 }
 ```
 
-Production.ProductProductPhoto table’s primary key is defined on both 2 columns, so the ProductID and ProductPhotoID properties are both attributed as \[Key\]. And because of this, the \[Column\] attribute must be used to specify their orders.
+Production.ProductProductPhoto table’s primary key is defined on both 2 columns, so the ProductID and ProductPhotoID properties are both attributed as `[Key]`. And because of this, the `[Column]` attribute must be used to specify their orders.
 
 The many-to-many relationship is implemented by a one-to-many relationship between Production.Product and junction table, and another one-to-many relationship between Production.Product and junction table. These relationships are mapped to the following navigation properties:
 
@@ -598,7 +623,7 @@ public class vProductAndDescriptionMapping : EntityTypeConfiguration<vProductAnd
 }
 ```
 
-\[Table\] is required for the view’s entity class. Also, in SQL database, views cannot have unique keys, but in the entity class, \[Key\] is still required just like tables. An additional mapping class and ToTable call are needed to make the view mapping work. And, finally, the rows in the view can be exposed as IQueryable<T> data source, still represented by DbSet<T>:
+`[Table]` is required for the view’s entity class. Also, in SQL database, views cannot have unique keys, but in the entity class, `[Key]` is still required just like tables. An additional mapping class and ToTable call are needed to make the view mapping work. And, finally, the rows in the view can be exposed as `IQueryable<T>` data source, still represented by `DbSet<T>`:
 
 ```csharp
 public partial class AdventureWorks

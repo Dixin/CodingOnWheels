@@ -1,7 +1,7 @@
 ---
 title: "Understanding LINQ to SQL (4) Data Retrieving Via Query Methods"
 published: 2010-04-14
-description: "\\]"
+description: "now it is time to take a deeper look at the detail of SQL Server data CRUD manipulation. This post will focus on how to retrieve (SELECT) data from SQL Server via LINQ to SQL."
 image: ""
 tags: [".NET", "C#", "Functional Programming", "LINQ", "LINQ to SQL", "LINQ via C#", "SQL Server", "TSQL", "Visual Studio"]
 category: "LINQ"
@@ -9,19 +9,26 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to SQL](/archive/?tag=LINQ%20to%20SQL) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
 
 After understanding:
 
 -   object model generating from SQL Server schema
--   query method chaining on IQueryable<T>
--   SQL are translated from expression tree, which is required by IQueryable<T>
+-   query method chaining on `IQueryable<T>`
+-   SQL are translated from expression tree, which is required by `IQueryable<T>`
 
 now it is time to take a deeper look at the detail of SQL Server data [CRUD](http://en.wikipedia.org/wiki/Create,_read,_update_and_delete) manipulation. This post will focus on how to retrieve (SELECT) data from SQL Server via LINQ to SQL.
 
-Since IQueryable<T> has extension methods which looks similar with IEnumerable<T>, queries in [this LINQ to Objects post](/posts/understanding-linq-to-objects-3-query-methods) can be applied in LINQ to SQL. Here the word “looks” is used because IQueryable<T>’s and IEnumerable<T>’s extension methods have the same name, and they all take lambda expressions as parameters; the difference is, the lambda expression syntactic sugar is compiled into anonymous method when token by IEnumerable<T>’s extension methods, and it is compiled into expression tree when token by IEnumerable<T>’s extension methods.
+Since `IQueryable<T>` has extension methods which looks similar with `IEnumerable<T>`, queries in [this LINQ to Objects post](/posts/understanding-linq-to-objects-3-query-methods) can be applied in LINQ to SQL. Here the word “looks” is used because `IQueryable<T>`’s and `IEnumerable<T>`’s extension methods have the same name, and they all take lambda expressions as parameters; the difference is, the lambda expression syntactic sugar is compiled into anonymous method when token by `IEnumerable<T>`’s extension methods, and it is compiled into expression tree when token by `IEnumerable<T>`’s extension methods.
 
-The previous post has listed all the IQueryable<T> standard query methods:
+The previous post has listed all the `IQueryable<T>` standard query methods:
 
 -   Restriction: Where, OfType
 -   Projection: Select, SelectMany
@@ -39,7 +46,7 @@ The previous post has listed all the IQueryable<T> standard query methods:
 
 The underlined methods are not supported in LINQ to SQL, because SQL does not have the corresponding implementation.
 
-Again, please remember IQueryable<T> implements IEnumerable<T>. All IEnumerable<T> standard query methods remain on IQueryable<T>, like ToArray().
+Again, please remember `IQueryable<T>` implements `IEnumerable<T>`. All `IEnumerable<T>` standard query methods remain on `IQueryable<T>`, like ToArray().
 
 ## Restriction (WHERE, AND, OR, NOT, LIKE, IN, IS, NULL)
 
@@ -47,7 +54,7 @@ Take the Products table as example:
 
 ![image](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_25B63014.png "image")
 
-Where() query method is used to filter the items in the IQueryable<T> collection:
+Where() query method is used to filter the items in the `IQueryable<T>` collection:
 
 ```csharp
 using (NorthwindDataContext database = new NorthwindDataContext())
@@ -149,7 +156,7 @@ For the detail of wildcards, please check [MSDN](http://msdn.microsoft.com/en-us
 
 ### IN
 
-When IEnumerable<T>.Contains() is used:
+When `IEnumerable<T>.Contains()` is used:
 
 ```csharp
 IEnumerable<string> names = new string[] { "Chai", "Chang", "Tofu" };
@@ -654,7 +661,29 @@ using (NorthwindDataContext database = new NorthwindDataContext())
 
 This prints:
 
-> Group A: \[Alice Mutton\] \[Aniseed Syrup\] Group B: \[Boston Crab Meat\] Group C: \[Camembert Pierrot\] \[Carnarvon Tigers\] \[Chai\] \[Chang\] \[Chartreuse verte\] \[Chef Anton's Cajun Seasoning\] \[Chef Anton's Gumbo Mix\] \[Chocolade\] \[Côte de Blaye\] Group E: \[Escargots de Bourgogne\] Group F: \[Filo Mix\] \[Flotemysost\] Group G: \[Geitost\] \[Genen Shouyu\] \[Gnocchi di nonna Alice\] \[Gorgonzola Telino\] \[Grandma's Boysenberry Spread\] \[Gravad lax\] \[Guaraná Fantástica\] \[Gudbrandsdalsost\] \[Gula Malacca\] \[Gumbär Gummibärchen\] \[Gustaf's Knäckebröd\] Group I: \[Ikura\] \[Inlagd Sill\] \[Ipoh Coffee\] Group J: \[Jack's New England Clam Chowder\] Group K: \[Konbu\] Group L: \[Lakkalikööri\] \[Laughing Lumberjack Lager\] \[Longlife Tofu\] \[Louisiana Fiery Hot Pepper Sauce\] \[Louisiana Hot Spiced Okra\] Group M: \[Manjimup Dried Apples\] \[Mascarpone Fabioli\] \[Maxilaku\] \[Mishi Kobe Niku\] \[Mozzarella di Giovanni\] Group N: \[Nord-Ost Matjeshering\] \[Northwoods Cranberry Sauce\] \[NuNuCa Nuß-Nougat-Creme\] Group O: \[Original Frankfurter grüne Soße\] \[Outback Lager\] Group P: \[Pâté chinois\] \[Pavlova\] \[Perth Pasties\] Group Q: \[Queso Cabrales\] \[Queso Manchego La Pastora\] Group R: \[Raclette Courdavault\] \[Ravioli Angelo\] \[Rhönbräu Klosterbier\] \[Röd Kaviar\] \[Rogede sild\] \[Rössle Sauerkraut\] Group S: \[Sasquatch Ale\] \[Schoggi Schokolade\] \[Scottish Longbreads\] \[Singaporean Hokkien Fried Mee\] \[Sir Rodney's Marmalade\] \[Sir Rodney's Scones\] \[Sirop d'érable\] \[Spegesild\] \[Steeleye Stout\] Group T: \[Tarte au sucre\] \[Teatime Chocolate Biscuits\] \[Thüringer Rostbratwurst\] \[Tofu\] \[Tourtière\] \[Tunnbröd\] Group U: \[Uncle Bob's Organic Dried Pears\] Group V: \[Valkoinen suklaa\] \[Vegie-spread\] Group W: \[Wimmers gute Semmelknödel\] Group Z: \[Zaanse koeken\]
+```console
+Group A: [Alice Mutton] [Aniseed Syrup] 
+Group B: [Boston Crab Meat] 
+Group C: [Camembert Pierrot] [Carnarvon Tigers] [Chai] [Chang] [Chartreuse verte] [Chef Anton's Cajun Seasoning] [Chef Anton's Gumbo Mix] [Chocolade] [Côte de Blaye] 
+Group E: [Escargots de Bourgogne] 
+Group F: [Filo Mix] [Flotemysost] 
+Group G: [Geitost] [Genen Shouyu] [Gnocchi di nonna Alice] [Gorgonzola Telino] [Grandma's Boysenberry Spread] [Gravad lax] [Guaraná Fantástica] [Gudbrandsdalsost] [Gula Malacca] [Gumbär Gummibärchen] [Gustaf's Knäckebröd] 
+Group I: [Ikura] [Inlagd Sill] [Ipoh Coffee] 
+Group J: [Jack's New England Clam Chowder] 
+Group K: [Konbu] 
+Group L: [Lakkalikööri] [Laughing Lumberjack Lager] [Longlife Tofu] [Louisiana Fiery Hot Pepper Sauce] [Louisiana Hot Spiced Okra] 
+Group M: [Manjimup Dried Apples] [Mascarpone Fabioli] [Maxilaku] [Mishi Kobe Niku] [Mozzarella di Giovanni] 
+Group N: [Nord-Ost Matjeshering] [Northwoods Cranberry Sauce] [NuNuCa Nuß-Nougat-Creme] 
+Group O: [Original Frankfurter grüne Soße] [Outback Lager] 
+Group P: [Pâté chinois] [Pavlova] [Perth Pasties] 
+Group Q: [Queso Cabrales] [Queso Manchego La Pastora] 
+Group R: [Raclette Courdavault] [Ravioli Angelo] [Rhönbräu Klosterbier] [Röd Kaviar] [Rogede sild] [Rössle Sauerkraut] 
+Group S: [Sasquatch Ale] [Schoggi Schokolade] [Scottish Longbreads] [Singaporean Hokkien Fried Mee] [Sir Rodney's Marmalade] [Sir Rodney's Scones] [Sirop d'érable] [Spegesild] [Steeleye Stout] 
+Group T: [Tarte au sucre] [Teatime Chocolate Biscuits] [Thüringer Rostbratwurst] [Tofu] [Tourtière] [Tunnbröd] 
+Group U: [Uncle Bob's Organic Dried Pears] Group V: [Valkoinen suklaa] [Vegie-spread] 
+Group W: [Wimmers gute Semmelknödel] 
+Group Z: [Zaanse koeken]
+```
 
 This query produces a simple grouping in LINQ to SQL. Obviously, there is no aggregating, so there is no way to translate the query into GROUP BY. Here LINQ to SQL does the 2 things:
 
@@ -770,7 +799,7 @@ There are a lot of interesting posts on the Internet talking about translating L
 
 ## Set (DISTINCT / UNION / EXISTS)
 
-In the 5 set query method of IQueryable<T>, Zip() is not supported in LINQ to SQL. The other 4 works.
+In the 5 set query method of `IQueryable<T>`, Zip() is not supported in LINQ to SQL. The other 4 works.
 
 ### DISTINCT
 
@@ -873,7 +902,7 @@ WHERE NOT (EXISTS(
     ))
 ```
 
-## Partitioning (TOP / ROW\_NUMBER() / BETWEEN AND)
+## Partitioning (`TOP` / `ROW_NUMBER()` / `BETWEEN` `AND`)
 
 The partitioning is very simple via LINQ to SQL.
 
@@ -900,9 +929,9 @@ FROM [dbo].[Products] AS [t0]
 ORDER BY [t0].[UnitPrice] DESC
 ```
 
-### ROW\_NUMBER()
+### `ROW_NUMBER()`
 
-The Skip() is implemented by generating an extra ROW\_NUMBER field. The following query:
+The Skip() is implemented by generating an extra `ROW_NUMBER` field. The following query:
 
 ```csharp
 var results = source.Select(product => new

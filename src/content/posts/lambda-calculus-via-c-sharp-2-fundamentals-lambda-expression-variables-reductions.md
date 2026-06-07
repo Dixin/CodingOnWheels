@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals](/posts/lambda-calculus-via-c-1-fundamentals "https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals")**
+## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals](/posts/lambda-calculus-via-c-1-fundamentals "https://CodingOnWheels.com/posts/lambda-calculus-via-c-1-fundamentals")
 
 The C# lambda expression [has been discussed in detail](/posts/understanding-csharp-3-0-features-6-lambda-expression). This post will explain lambda expression and other concepts in lambda calculus.
 
@@ -73,7 +74,7 @@ In the above example of λx.y (λx.z x), the inner lambda expression λx.z x can
 
 ### β-reduction / beta-reduction
 
-[Beta-reduction](http://en.wikipedia.org/wiki/Lambda_calculus#.CE.B2-reduction) of ((λV.E) R) is E\[V := R\], which means to [substitute](http://en.wikipedia.org/wiki/Lambda_calculus#Substitution) all free occurrences of the variable V in the expression E with expression R. It is just function application. For example, in C#, when applying this function x => x + 1 with argument 2:
+[Beta-reduction](http://en.wikipedia.org/wiki/Lambda_calculus#.CE.B2-reduction) of ((λV.E) R) is `E[V := R]`, which means to [substitute](http://en.wikipedia.org/wiki/Lambda_calculus#Substitution) all free occurrences of the variable V in the expression E with expression R. It is just function application. For example, in C#, when applying this function x => x + 1 with argument 2:
 
 -   First parameter name x and the => operator are ditched.
 -   Then in the body x + 1, x will be replaced by 2. So the result of function application is 2 + 1.

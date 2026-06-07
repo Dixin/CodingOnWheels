@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version: [https://CodingOnWheels.com/posts/functional-csharp-function-type-and-delegate](/posts/functional-csharp-function-type-and-delegate "https://CodingOnWheels.com/posts/functional-csharp-function-type-and-delegate")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
+## Latest version: [https://CodingOnWheels.com/posts/functional-csharp-function-type-and-delegate](/posts/functional-csharp-function-type-and-delegate "https://CodingOnWheels.com/posts/functional-csharp-function-type-and-delegate")
 
 ## Delegate type as function type
 
@@ -167,9 +168,9 @@ More similar definitions can go forever for different return types. Since C# 2.0
 internal delegate TResult Func<TResult>();
 ```
 
-Similar to generic interface/class/structure, here type parameter TResult is also defined in angle brackets following type name, and it is used as the return type. It is just a placeholder to be specified with concrete type later. When TResult is int, Func<int> represents the () –> int function type, which is equivalent to FuncToInt32, and Func<bool> is equivalent to FuncToBoolean, and Func<string> is equivalent to FuncToString, Func<object> is equivalent to FuncToObject, etc. All the delegate types in this () –> TResult pattern can be represented by Func<TResult>.
+Similar to generic interface/class/structure, here type parameter TResult is also defined in angle brackets following type name, and it is used as the return type. It is just a placeholder to be specified with concrete type later. When TResult is int, `Func<int>` represents the () –> int function type, which is equivalent to FuncToInt32, and `Func<bool>` is equivalent to FuncToBoolean, and `Func<string>` is equivalent to FuncToString, `Func<object>` is equivalent to FuncToObject, etc. All the delegate types in this () –> TResult pattern can be represented by `Func<TResult>`.
 
-Since Func<int> and FuncToInt32 are equivalent, The above Marshal.GetExceptionCode, Marshal.HRForLastWin32Error, Marsha.GetLastWin32Error functions are of Func<int> type too.
+Since `Func<int>` and FuncToInt32 are equivalent, The above Marshal.GetExceptionCode, Marshal.HRForLastWin32Error, Marsha.GetLastWin32Error functions are of `Func<int>` type too.
 
 Here is another example:
 
@@ -204,7 +205,7 @@ These functions’ types: can be represented with Func<double, double, double>, 
 
 ### Unified built-in delegate types
 
-As fore mentioned, delegate types can be defined with duplicate, like Func<int> and FuncToInt32 are equivalent, Func<string, int, int> and FuncStringInt32ToInt32are equivalent, etc. Since .NET Framework 2.0, the following delegate type is provided:
+As fore mentioned, delegate types can be defined with duplicate, like `Func<int>` and FuncToInt32 are equivalent, Func<string, int, int> and FuncStringInt32ToInt32are equivalent, etc. Since .NET Framework 2.0, the following delegate type is provided:
 
 ```csharp
 namespace System
@@ -230,7 +231,7 @@ internal delegate int FuncToInt32<T1, T2>(T1 value1, T2 value2);
 internal delegate int FuncStringStringToInt32(string value1, string value2);
 ```
 
-As a result, Func<string, string, int>, Comparison<string>, NewComparison<int>, FuncStringString<int>, FuncToInt32<string, string>, FuncStringStringToInt32 all represent (string, string) –> int function type. They are all equivalent.
+As a result, `Func<string, string, int>`, `Comparison<string>`, `NewComparison<int>`, `FuncStringString<int>`, `FuncToInt32<string, string>`, FuncStringStringToInt32 all represent (string, string) –> int function type. They are all equivalent.
 
 Even built-in delegate types can duplicate. For example, .NET Framework 2.0 also provides the following delegate types, which all represent object –> void function type:
 
@@ -281,7 +282,7 @@ namespace System
 }
 ```
 
-The in/out modifiers for the type parameter specifies that type parameter is contravariant/covariant, which will be discussed in detail later. However, above Func types cannot represent any function types returning void. Function type Func<void> or Func<System.Void> cannot be compiled, because C# complier does not allow generic’s type argument to be the void keyword or the System.Void type. So following generic Action delegate types are provided to represent all function types that accept 0 ~ 16 parameters, and return void:
+The in/out modifiers for the type parameter specifies that type parameter is contravariant/covariant, which will be discussed in detail later. However, above Func types cannot represent any function types returning void. Function type `Func<void>` or `Func<System.Void>` cannot be compiled, because C# complier does not allow generic’s type argument to be the void keyword or the System.Void type. So following generic Action delegate types are provided to represent all function types that accept 0 ~ 16 parameters, and return void:
 
 ```csharp
 namespace System
@@ -578,7 +579,7 @@ internal class Downloader
 }
 ```
 
-It has a Start method to start downloading. When the downloading is done, Start calls OnCompleted, and OnCompleted raises the Completed event by calling the Completed event as if it is a delegate instance. The type of event is EventHandler<TEventArgs> generic delegate type:
+It has a Start method to start downloading. When the downloading is done, Start calls OnCompleted, and OnCompleted raises the Completed event by calling the Completed event as if it is a delegate instance. The type of event is `EventHandler<TEventArgs>` generic delegate type:
 
 ```csharp
 namespace System
@@ -588,7 +589,7 @@ namespace System
 }
 ```
 
-So EventHandler<DownloadEventArgs> represents (object, DownloadEventArgs) –> void function type, where the object argument is the Downloader instance which raises the event, and the DownloadEventArgs argument is the event info, the downloaded string. The Completed event’s handler must be function of the same (object, DownloadEventArgs) –> void type. The following are 2 examples:
+So `EventHandler<DownloadEventArgs>` represents (object, DownloadEventArgs) –> void function type, where the object argument is the Downloader instance which raises the event, and the DownloadEventArgs argument is the event info, the downloaded string. The Completed event’s handler must be function of the same (object, DownloadEventArgs) –> void type. The following are 2 examples:
 
 ```csharp
 // EventHandler<DownloadEventArgs>: (object, DownloadEventArgs) -> void
@@ -616,7 +617,7 @@ internal static void HandleEvent()
 }
 ```
 
-when the Start method is called, it downloads the string. When done, it raises the Completed event, which is virtually calling a function group. So that the 2 event handler functions in the group are called. To be accurately understand this mechanism, the Completed event member of type (object, EventArgs) –> void is compiled into 3 members: a delegate instance field of the same type, a add\_Completed method, and a remove\_Completed method:
+when the Start method is called, it downloads the string. When done, it raises the Completed event, which is virtually calling a function group. So that the 2 event handler functions in the group are called. To be accurately understand this mechanism, the Completed event member of type (object, EventArgs) –> void is compiled into 3 members: a delegate instance field of the same type, a `add_Completed` method, and a `remove_Completed` method:
 
 ```csharp
 internal class CompiledDownloader
@@ -649,7 +650,7 @@ internal class CompiledDownloader
 }
 ```
 
-The generated delegate instance field is the function group to store the event handler functions. The add\_Completed and remove\_Completed methods adds and removes event handler functions by calling Delegate.Combine and Delegate.Remove, in a in a thread safe approach. It can be simplified by deleting the Interlocked method calls for thread safety, and representing the (object, DownloadEventArgs) –> void delegate type with the normal unified Action<object, DownloadEventArgs>. The following code shows the the essentials after compilation:
+The generated delegate instance field is the function group to store the event handler functions. The `add_Completed` and `remove_Completed` methods adds and removes event handler functions by calling Delegate.Combine and Delegate.Remove, in a in a thread safe approach. It can be simplified by deleting the Interlocked method calls for thread safety, and representing the (object, DownloadEventArgs) –> void delegate type with the normal unified Action<object, DownloadEventArgs>. The following code shows the the essentials after compilation:
 
 ```csharp
 internal class SimplifiedDownloader
@@ -694,7 +695,7 @@ internal static void CompiledHandleEvent()
 So the C# event/event handler model is quite straight forward from functional programming perspective. It is all about function type, function group, and function:
 
 -   A event is a member of class or structure, as a C#/.NET programming convention, it should be of function type (object, TEventArgs) –> void. If the event is a instance member of a class or structure, the object parameter is the instance of that class or structure which raises the event; if the event is static member, the object parameter should be null. The other TEventArgs parameter should derive from System.EventArgs class, and wraps the information of the event, like the downloaded content of a download complete event, the cursor’s position for a mouse click event, etc..
--   As a convention, event member’s type is usually represented by EventHandler<TEventArgs> delegate type, which is equivalent to Action<object, TEventArgs>.
+-   As a convention, event member’s type is usually represented by `EventHandler<TEventArgs>` delegate type, which is equivalent to `Action<object, TEventArgs>`.
 -   Compiler generates 3 members for a event member: a field member, which is a delegate instance as function group to store event handler function, along with 2 helper method members to add/remove event handler function.
 -   A event’s event handler is a function of the same (object, TEventArgs) –> void type.
 -   To handle a event, use the += operator to add the event handler function to the event function group.

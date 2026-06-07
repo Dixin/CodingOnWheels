@@ -43,7 +43,7 @@ The font design looks good for me, except number 7 and letter f looks inconsiste
 
 Ligature means two or more graphemes are joined as a single glyph. The most example is that e and t can be joined as &. The following are examples of joined letters:
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Ligatures.svg/300px-Ligatures.svg.png)
+![Ligatures](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Ligatures.svg/300px-Ligatures.svg.png)
 
 Here are some ligatures examples in Unicode (Multiple letters/single ligature/Unicode/HTML):
 
@@ -73,7 +73,9 @@ Recently code ligature become popular because of the [Fira Code](https://github.
 
 Ligate in programming language is said to improve readability. Personally I do not have a strong preference. There are also [some people who do not like ligature at all](https://news.ycombinator.com/item?id=19805053). In Cascadia Code, the following are some examples of how programming operator characters are joined as ligatures in this font:
 
-> ++ -- \*\* && !! || %% ;; ?? +++ --- \*\*\* www # ## ### #### /= ^= =~ ~- -~ ~~ ~= ~@ ?. #{ #( #\_ #\_( #\[ \]# #? #: #= #! <= >= <> <<< >>> == != =/= === !== =!= =:= <== ==> <=> => <<= =>> >>= =<< <=< >=> << >> -< >- <<- ->> >>- -<< <-- --> <- <-> -> <$ <$> $> <+ <+> +> <\* <\*> \*> <~ <~> ~> </ /> </> <!-- --> <||| <|| <| <|> |> ||> |||> .. ... :: ::: .- .= := ::= ..< <: :> :< >: \_\_ -| \_|\_ |- |= ||= \[| |\] {| |} 0xFF 1x2
+```console
+++ -- ** && !! || %% ;; ?? +++ --- *** www # ## ### #### /= ^= =~ ~- -~ ~~ ~= ~@ ?. #{ #( #_ #_( #[ ]# #? #: #= #! <= >= <> <<< >>> == != =/= === !== =!= =:= <== ==> <=> => <<= =>> >>= =<< <=< >=> << >> -< >- <<- ->> >>- -<< <-- --> <- <-> -> <$ <$> $> <+ <+> +> <* <*> *> <~ <~> ~> </ /> </> <!-- --> <||| <|| <| <|> |> ||> |||> .. ... :: ::: .- .= := ::= ..< <: :> :< >: __ -| _|_ |- |= ||= [| |] {| |} 0xFF 1x2
+```
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Tips-for-using-Windows-Terminal_FB67/image_thumb_9.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Tips-for-using-Windows-Terminal_FB67/image_20.png)
 

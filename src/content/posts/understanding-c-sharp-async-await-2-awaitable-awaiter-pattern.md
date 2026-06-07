@@ -24,7 +24,7 @@ Task<int> task = new Task<int>(() => 0);
 int result = await task.ConfigureAwait(false); // Returns a ConfiguredTaskAwaitable<TResult>.
 ```
 
-The returned ConfiguredTaskAwaitable<TResult> struct is awaitable. And it is not Task at all:
+The returned `ConfiguredTaskAwaitable<TResult>` struct is awaitable. And it is not Task at all:
 
 ```csharp
 public struct ConfiguredTaskAwaitable<TResult>
@@ -164,7 +164,7 @@ public interface IAwaiter<out TResult> : INotifyCompletion // or ICriticalNotify
 }
 ```
 
-Here the only difference is, GetResult() return a result. Task<TResult>.GetAwaiter() / TaskAwaiter<TResult>.GetResult() is of this case.
+Here the only difference is, GetResult() return a result. `Task<TResult>.GetAwaiter()` / `TaskAwaiter<TResult>.GetResult()` is of this case.
 
 Please notice .NET core does not define these IAwaitable / IAwaiter interfaces at all. IAwaitable interface will constraint GetAwaiter() to be instance method. Actually C# supports both GetAwaiter() instance method and GetAwaiter() extension method.
 
@@ -188,15 +188,13 @@ This is easy to understand because this [lambda expression](/posts/understanding
 int result = await new Func<int>(() => 0);
 ```
 
-It causes an different error:
+It causes an different error: Cannot await `System.Func<int>`.
 
-> Cannot await 'System.Func<int>'
-
-OK, now the compiler is complaining the type instead of syntax. With the understanding of the awaitable / awaiter pattern, Func<TResult> type can be easily made into awaitable.
+OK, now the compiler is complaining the type instead of syntax. With the understanding of the awaitable / awaiter pattern, `Func<TResult>` type can be easily made into awaitable.
 
 ### GetAwaiter() instance method, using IAwaitable and IAwaiter interfaces
 
-First, similar to above ConfiguredTaskAwaitable<TResult>, a FuncAwaitable<TResult> can be implemented to wrap Func<TResult>:
+First, similar to above `ConfiguredTaskAwaitable<TResult>`, a `FuncAwaitable<TResult>` can be implemented to wrap `Func<TResult>`:
 
 ```csharp
 internal struct FuncAwaitable<TResult> : IAwaitable<TResult>
@@ -215,7 +213,7 @@ internal struct FuncAwaitable<TResult> : IAwaitable<TResult>
 }
 ```
 
-FuncAwaitable<TResult> wrapper is used to implement IAwaitable<TResult>, so it has one instance method, GetAwaiter(), which returns a IAwaiter<TResult>, which wraps that Func<TResult> too. FuncAwaiter<TResult> is used to implement IAwaiter<TResult>:
+`FuncAwaitable<TResult>` wrapper is used to implement `IAwaitable<TResult>`, so it has one instance method, GetAwaiter(), which returns a `IAwaiter<TResult>`, which wraps that `Func<TResult>` too. `FuncAwaiter<TResult>` is used to implement `IAwaiter<TResult>`:
 
 ```csharp
 public struct FuncAwaiter<TResult> : IAwaiter<TResult>
@@ -256,7 +254,7 @@ int result = await new FuncAwaitable<int>(() => 0);
 
 ### GetAwaiter() extension method, without IAwaitable interfaces
 
-As IAwaitable shows, all that an awaitable needs is just a GetAwaiter() method. In above code, FuncAwaitable<TResult> is created as a wrapper of Func<TResult> and implements IAwaitable<TResult>, so that there is a GetAwaiter() instance method. If a GetAwaiter() extension method can be defined for Func<TResult>, then FuncAwaitable<TResult> is no longer needed:
+As IAwaitable shows, all that an awaitable needs is just a GetAwaiter() method. In above code, `FuncAwaitable<TResult>` is created as a wrapper of `Func<TResult>` and implements `IAwaitable<TResult>`, so that there is a GetAwaiter() instance method. If a GetAwaiter() extension method can be defined for `Func<TResult>`, then `FuncAwaitable<TResult>` is no longer needed:
 
 ```csharp
 public static class FuncExtensions
@@ -268,7 +266,7 @@ public static class FuncExtensions
 }
 ```
 
-So a Func<TResult> function can be directly awaited:
+So a `Func<TResult>` function can be directly awaited:
 
 ```csharp
 int result = await new Func<int>(() => 0);
@@ -361,9 +359,9 @@ and await a action:
 await Task.Run(HelperMethods.IO);
 ```
 
-## Await IObservable<T>
+## Await `IObservable<T>`
 
-[IObservable<T>](https://msdn.microsoft.com/en-us/library/dd990377.aspx) and [IConnectableObservable<T>](https://msdn.microsoft.com/en-us/library/hh211887.aspx) become awaitable too, if a reference is added for [System.Reactive.Linq.dll](http://www.nuget.org/packages/Rx-Linq/), a part of [Rx (Reactive Extensions)](https://msdn.microsoft.com/en-us/data/gg577609.aspx). In this library, the GetAwaiter() extension methods are provided:
+[`IObservable<T>`](https://msdn.microsoft.com/en-us/library/dd990377.aspx) and [`IConnectableObservable<T>`](https://msdn.microsoft.com/en-us/library/hh211887.aspx) become awaitable too, if a reference is added for [System.Reactive.Linq.dll](http://www.nuget.org/packages/Rx-Linq/), a part of [Rx (Reactive Extensions)](https://msdn.microsoft.com/en-us/data/gg577609.aspx). In this library, the GetAwaiter() extension methods are provided:
 
 ```csharp
 public static class Observable
@@ -374,7 +372,7 @@ public static class Observable
 }
 ```
 
-Each method returns a AsyncSubject<T>, which is an awaiter:
+Each method returns a `AsyncSubject<T>`, which is an awaiter:
 
 ```csharp
 public sealed class AsyncSubject<T> : INotifyCompletion, ISubject<T>, ISubject<T, T>, IObserver<T>, IObservable<T>, IDisposable
@@ -387,7 +385,7 @@ public sealed class AsyncSubject<T> : INotifyCompletion, ISubject<T>, ISubject<T
 }
 ```
 
-So that can be used with the await keyword. Take IObservable<T> as example:
+So that can be used with the await keyword. Take `IObservable<T>` as example:
 
 ```csharp
 private static async Task AwaitObservable1()
@@ -437,4 +435,4 @@ Executing above AwaitObservable2 method will output the title of each page:
 
 > Dixin&#39;s Blog - Understanding C# async / await (1) Compilation Dixin&#39;s Blog - Understanding C# async / await (3) Runtime Context Dixin&#39;s Blog - Understanding C# async / await (2) The Awaitable-Awaiter Pattern
 
-which is exactly what’s between <tile> and </title>.
+which is exactly what’s between `<tile>` and `</title>`.

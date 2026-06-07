@@ -28,9 +28,9 @@ In the downloaded package, two folders are needed:
 
 ![webtest-selenium1](https://aspblogs.z22.web.core.windows.net/dixin/Media/webtestselenium1_44889169.gif "webtest-selenium1")
 
-Extract these 2 folders to somewhere, like E:\\Software\\Selenium.
+Extract these 2 folders to somewhere, like `E:\Software\Selenium`.
 
-Since the remote control is written in Java. We also need to install JRE from [here](http://www.java.com/).
+Since the remote control is written in Java. We also need to install [JRE](http://www.java.com/).
 
 ## Getting started
 
@@ -42,7 +42,7 @@ java -jar E:\Software\selenium\selenium-server-1.0-beta-2\selenium-server.jar
 
 Sometimes the java command does not work in Windows Server 2008. To resolve this, please:
 
--   use the full path of your java.exe, like C:\\Program Files\\Java\\jre6\\bin\\java;
+-   use the full path of your java.exe, like `C:\Program Files\Java\jre6\bin\java`;
 -   or add the folder path of java.exe to your PATH environment variable.
 
 After the server is started, we can see its information:
@@ -106,9 +106,9 @@ You can watch how the remote control and the browser work.
 
 ## More about Selenium
 
-Selenium works very differently from WatiN. [Here](http://seleniumhq.org/projects/core/reference.html) is the detailed introduction of Selenium, and [here](http://release.seleniumhq.org/selenium-remote-control/0.9.2/doc/dotnet/index.html) is the document for the client .NET library.
+Selenium works very differently from WatiN. Here are [the detailed introduction](http://seleniumhq.org/projects/core/reference.html) of Selenium, and [the document](http://release.seleniumhq.org/selenium-remote-control/0.9.2/doc/dotnet/index.html) for the client .NET library.
 
-[Here](http://www.hanselman.com/blog/UnitTestingSilverlightWithSelenium.aspx) is another article on writing unit test for Silverlight using Selenium.
+Here is [another article](http://www.hanselman.com/blog/UnitTestingSilverlightWithSelenium.aspx) on writing unit test for Silverlight using Selenium.
 
 ## Tools for Selenium
 
@@ -118,8 +118,8 @@ Selenium works very differently from WatiN. [Here](http://seleniumhq.org/project
 
 ![webtest-selenium5](https://aspblogs.z22.web.core.windows.net/dixin/Media/webtestselenium5_6D33D0E5.gif "webtest-selenium5")
 
-It can be downloaded from [here](http://seleniumhq.org/download/).
+It can be [downloaded from here](http://seleniumhq.org/download/).
 
 ## WatiN vs. Selenium
 
-[WatiN](http://www.cnblogs.com/dixin/archive/2009/02/07/Automated-web-testing-2-Using-Selenium.html) is easy to use and lightweight enough for .NET developers, while its current problem is to cross browsers. But for Selenium, a Java server has to be used. [Here](http://www.51testing.com/?146934/action_viewspace_itemid_78808.html) is a detailed table for the comparison.
+[WatiN](http://www.cnblogs.com/dixin/archive/2009/02/07/Automated-web-testing-2-Using-Selenium.html) is easy to use and lightweight enough for .NET developers, while its current problem is to cross browsers. But for Selenium, a Java server has to be used. Here is [a detailed table for the comparison](http://www.51testing.com/?146934/action_viewspace_itemid_78808.html).

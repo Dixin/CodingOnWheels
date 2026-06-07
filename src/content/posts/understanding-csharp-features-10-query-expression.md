@@ -1,7 +1,7 @@
 ---
 title: "Understanding C# Features (10) Query Expression"
 published: 2009-12-16
-description: "\\] - \\]"
+description: "C# query expression defines a SQL-like query. The following is a query expression working on an IEnumerable<int> sequence"
 image: ""
 tags: [".NET", "C#", "C# 3.0", "C# Features", "LINQ", "LINQ via C#"]
 category: "C#"
@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C#](/posts/linq-via-csharp)\] - \[[C# Features](/archive/?tag=C%23%20Features)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
-C# query expression defines a SQL-like query. The following is a query expression working on an IEnumerable<int> sequence:
+C# query expression defines a SQL-like query. The following is a query expression working on an `IEnumerable<int>` sequence:
 
 ```csharp
 public static partial class LinqToObjects
@@ -25,7 +26,7 @@ public static partial class LinqToObjects
 }
 ```
 
-And the following query expression works on a IQeuryable<T> sequence:
+And the following query expression works on a `IQeuryable<T>` sequence:
 
 ```csharp
 public static string[] ProductNames(string categoryName)
@@ -75,7 +76,19 @@ These syntax and examples will be explained in detail later.
 
 Query expression is translated (compiled) to query methods (also called query operators) at compile time:
 
-<table border="0" cellpadding="2" cellspacing="0" width="672"><tbody><tr><td valign="top" width="297">Query expression</td><td valign="top" width="373">Query method</td></tr><tr><td valign="top" width="297">single from clause with select clause</td><td valign="top" width="373">Select</td></tr><tr><td valign="top" width="297">multiple from clauses with select clause</td><td valign="top" width="373">SelectMany</td></tr><tr><td valign="top" width="297">T in from/join clauses</td><td valign="top" width="373">Cast</td></tr><tr><td valign="top" width="297">join clause without into</td><td valign="top" width="373">Join</td></tr><tr><td valign="top" width="297">join clause with into</td><td valign="top" width="373">GroupJoin</td></tr><tr><td valign="top" width="297">let clause</td><td valign="top" width="373">Select</td></tr><tr><td valign="top" width="297">where clauses</td><td valign="top" width="373">Where</td></tr><tr><td valign="top" width="297">orderby clause with or without ascending</td><td valign="top" width="373">OrderBy, ThenBy</td></tr><tr><td valign="top" width="297">orderby clause with descending</td><td valign="top" width="373">OrderByDescending, ThenByDescending</td></tr><tr><td valign="top" width="297">group clause</td><td valign="top" width="373">GroupBy</td></tr><tr><td valign="top" width="297">into with continuation</td><td valign="top" width="373">Nested query</td></tr></tbody></table>
+| Query expression                         | Query method                        |
+|------------------------------------------|-------------------------------------|
+| single from clause with select clause    | Select                              |
+| multiple from clauses with select clause | SelectMany                          |
+| T in from/join clauses                   | Cast                                |
+| join clause without into                 | Join                                |
+| join clause with into                    | GroupJoin                           |
+| let clause                               | Select                              |
+| where clauses                            | Where                               |
+| orderby clause with or without ascending | OrderBy, ThenBy                     |
+| orderby clause with descending           | OrderByDescending, ThenByDescending |
+| group clause                             | GroupBy                             |
+| into with continuation                   | Nested query                        |
 
 For example, the above 2 query expressions are compiled into query method calls:
 
@@ -105,14 +118,14 @@ public static partial class LinqToSql
 
 Here:
 
--   In Positive method, source is an IEnumerable<T>, so query expression is compiled to:
-    -   a Where query method call on IEnumerbale<T>. The Where method of IEnumerable<T> has:
-        -   a Func<T, bool> parameter, the where clause is compiled to a anonymous method, which can be represented by a lambda expression: value => value > 0.
--   In ProductNames method, database.Products is an IQueryable<Product>, so query expression is compiled to:
-    -   a Where query method call on IQueryable<Product>. The Where method of IQueryable<Product> has a:
-        -   Expression<Func<Product, bool>> parameter, so the where clause is compiled to a expression tree, which can be represented by a lambda expression: product => product.Category.CategoryName == categoryName
-    -   a Select query method call on IQueryable<Product>. The Select method of IQueryable<Product> has a:
-        -   Expression<Func<Product, TResult>> parameter. Here TResult is string, because product.ProductName is slected, so the select clause is compiled to an Expression<Func<Product, string>> expression tree, which can be represented by a lambda expression: product => product.ProductName
+-   In Positive method, source is an `IEnumerable<T>`, so query expression is compiled to:
+    -   a Where query method call on `IEnumerbale<T>`. The Where method of `IEnumerable<T>` has:
+        -   a `Func<T, bool>` parameter, the where clause is compiled to a anonymous method, which can be represented by a lambda expression: value => value > 0.
+-   In ProductNames method, database.Products is an `IQueryable<Product>`, so query expression is compiled to:
+    -   a Where query method call on `IQueryable<Product>`. The Where method of `IQueryable<Product>` has a:
+        -   `Expression<Func<Product, bool>>` parameter, so the where clause is compiled to a expression tree, which can be represented by a lambda expression: product => product.Category.CategoryName == categoryName
+    -   a Select query method call on `IQueryable<Product>`. The Select method of `IQueryable<Product>` has a:
+        -   `Expression<Func<Product, TResult>>` parameter. Here TResult is string, because product.ProductName is slected, so the select clause is compiled to an `Expression<Func<Product, string>>` expression tree, which can be represented by a lambda expression: product => product.ProductName
 
 If completely desuagring above extension methods and lambda expression syntax, the query expressions in Positive is actually compiled to:
 
@@ -248,10 +261,10 @@ public abstract class SoourceGroup<TKey, T> : Source<T>
 
 Here the query methods are all demonstrated as instance methods. Actually either instance or extension methods will work. .NET provides built-in query methods as extension methods:
 
--   System.Linq.Enumerable class contains the extension methods for IEnumerable<T>
--   System.Linq.Queryable class contains the extension methods for IQueryable<T>
+-   System.Linq.Enumerable class contains the extension methods for `IEnumerable<T>`
+-   System.Linq.Queryable class contains the extension methods for `IQueryable<T>`
 
-The built-in query methods are all for sequences - either IEnumerable<T> or IQueryable<T>. However, the query expression pattern applies to anything (any CLR type). To demonstrate [this great flexibility](http://www.infoq.com/interviews/LINQ-Erik-Meijer), a query method can be implemented for int (System.Int32 type):
+The built-in query methods are all for sequences - either `IEnumerable<T>` or `IQueryable<T>`. However, the query expression pattern applies to anything (any CLR type). To demonstrate [this great flexibility](http://www.infoq.com/interviews/LINQ-Erik-Meijer), a query method can be implemented for int (System.Int32 type):
 
 ```csharp
 public static partial class Int32Extensions

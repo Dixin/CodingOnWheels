@@ -22,7 +22,7 @@ His father, Mark, was an excellent developer / development lead of Microsoft pro
 -   Obvious [side effects](http://en.wikipedia.org/wiki/Side_effect_\(computer_science\)), like making parents very nervous and tried, etc.
 -   Resource costly. A large quantity of resource exhausted to construct just one instance.
 -   He is not covariant or contravariant.
--   He implements neither System.IComparable nor System.IComparable<T>. We cannot compare him with the other guys’ babies.
+-   He implements neither System.IComparable nor `System.IComparable<T>`. We cannot compare him with the other guys’ babies.
 -   He is not [atomic](http://www.cnblogs.com/dixin/archive/2009/10/08/csharp-coding-guidelines-4-type.html). He can change during the runtime. I think he is more like the dynamic object in .NET 4.0, supporting late bindings of behaviors.
 
 I suggest his parents to implement this interface for him:
@@ -65,4 +65,4 @@ internal class Program
 }
 ```
 
-You can see more details about variances in [my posts](/posts/understanding-csharp-covariance-and-contravariance-1-delegates). And you can see more photos of the baby [here](https://cid-8a0406089aad8752.skydrive.live.com/browse.aspx/.res/8a0406089aad8752!1113?ct=photos).
+You can see more details about variances in [my posts](/posts/understanding-csharp-covariance-and-contravariance-1-delegates). And you can see [more photos of the baby here](https://cid-8a0406089aad8752.skydrive.live.com/browse.aspx/.res/8a0406089aad8752!1113?ct=photos).

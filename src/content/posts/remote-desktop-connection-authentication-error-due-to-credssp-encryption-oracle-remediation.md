@@ -14,8 +14,8 @@ Recently, when connecting to another Windows machine with RD, I got the followin
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/dbe535fb50d4_1579/image_thumb_2.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/dbe535fb50d4_1579/image_6.png)
 
 > An authentication error has occurred. The function requested is not supported
-> 
-> Remote computer: <computer name> This could be due to CredSSP encryption oracle remediation. For more information, see https:/go.microsoft.com/fwlink/?linkid=866660
+>
+> Remote computer: `<computer name>` This could be due to CredSSP encryption oracle remediation. For more information, see https:/go.microsoft.com/fwlink/?linkid=866660
 
 ## Windows client
 

@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
 
 In functional programming, there are many powerful tools and patterns, like lambda expression, purity, deferred execution, immutability, fluent LINQ query composition, … But everything has a cost. As [Alan Perlis](http://en.wikiquote.org/wiki/Alan_Perlis) [said](http://en.wikiquote.org/wiki/Alan_Perlis):
 
@@ -23,7 +24,7 @@ For C#/.NET, the major cost of functional programming paradigm is performance. A
 
 ### Sort array
 
-The built-in LINQ query methods for IEnumerable<T>, are implemented in imperative algorithms for a lower performance cost. Take the sorting method as example:
+The built-in LINQ query methods for `IEnumerable<T>`, are implemented in imperative algorithms for a lower performance cost. Take the sorting method as example:
 
 ```csharp
 public static class Enumerable
@@ -34,10 +35,10 @@ public static class Enumerable
 }
 ```
 
-Apparently, this API itself is functional, fluent, deferred, and higher-order so that lambda expression can be used for great convenience, and most important, it is pure. Calling OrderBy has no side effect. When when pulling the returned IOrderedEnumerable<TSource>, this is what happens internally:
+Apparently, this API itself is functional, fluent, deferred, and higher-order so that lambda expression can be used for great convenience, and most important, it is pure. Calling OrderBy has no side effect. When when pulling the returned `IOrderedEnumerable<TSource>`, this is what happens internally:
 
--   The source, an IEnumerable<TSource>, is converted to a Buffer<TSource>, which is just a wrapper of TSource\[\] array.
--   [Quick sort](http://en.wikipedia.org/wiki/Quicksort) algorithm is applied to that wrapped TSource\[\] array.
+-   The source, an `IEnumerable<TSource>`, is converted to a `Buffer<TSource>`, which is just a wrapper of `TSource[]` array.
+-   [Quick sort](http://en.wikipedia.org/wiki/Quicksort) algorithm is applied to that wrapped `TSource[]` array.
 
 Here is the core implementation of OrderBy:
 
@@ -454,15 +455,20 @@ internal static partial class Sort
 
 Applying these 4 functions (Release build, optimize code, x64) gives following numbers on a PC:
 
-<table border="0" cellpadding="0" cellspacing="0" width="790"><tbody><tr><td valign="top" width="234">(Millisecond, the smaller the better)</td><td valign="top" width="108">ArraySort</td><td valign="top" width="114">LinqOrderBy</td><td valign="top" width="171">CustomLinqOrderBy</td><td valign="top" width="161">FunctionalQuickSort</td></tr><tr><td valign="top" width="234">Sort.Int32Array</td><td valign="top" width="108">4</td><td valign="top" width="114">44</td><td valign="top" width="171">214</td><td valign="top" width="161">6195</td></tr><tr><td valign="top" width="234">Sort.StringArray</td><td valign="top" width="108">7</td><td valign="top" width="114">11</td><td valign="top" width="171">14</td><td valign="top" width="161">891</td></tr><tr><td valign="top" width="234">Sort.ValueTypeArray</td><td valign="top" width="108">3</td><td valign="top" width="114">6</td><td valign="top" width="171">8</td><td valign="top" width="161">664</td></tr><tr><td valign="top" width="234">Sort.ReferenceTypeArray</td><td valign="top" width="112">2</td><td valign="top" width="120">3</td><td valign="top" width="171">6</td><td valign="top" width="161">424</td></tr></tbody></table>
+| (Millisecond, the smaller the better) | ArraySort | LinqOrderBy | CustomLinqOrderBy | FunctionalQuickSort |
+|---------------------------------------|-----------|-------------|-------------------|---------------------|
+| Sort.Int32Array                       | 4         | 44          | 214               | 6195                |
+| Sort.StringArray                      | 7         | 11          | 14                | 891                 |
+| Sort.ValueTypeArray                   | 3         | 6           | 8                 | 664                 |
+| Sort.ReferenceTypeArray               | 2         | 3           | 6                 | 424                 |
 
 FunctionalQuickSort function demonstrates the significant performance cost of functional paradigm for sorting array in C#/.NET.
 
 ## Cost of functional and monad
 
-### Filter IEnumerable<T>
+### Filter `IEnumerable<T>`
 
-Filtering an IEnumerable<T> can be done in several different ways:
+Filtering an `IEnumerable<T>` can be done in several different ways:
 
 ```csharp
 // Impure.
@@ -520,7 +526,7 @@ internal static partial class Filter
 }
 ```
 
-The first EagerForEach function uses the same algorithm as System.Linq. Buffer<TElement>.
+The first EagerForEach function uses the same algorithm as `System.Linq.Buffer<TElement>`.
 
 ### Performance tests
 
@@ -584,7 +590,12 @@ internal static partial class Filter
 
 Applying these 4 functions (Release build, optimize code, x64) gives following numbers:
 
-<table border="0" cellpadding="0" cellspacing="0" width="677"><tbody><tr><td valign="top" width="266">(Milliseconds, the smaller the better)</td><td valign="top" width="134">EagerForEach</td><td valign="top" width="97">LazyForEach</td><td valign="top" width="87">Linq</td><td valign="top" width="91">Monad</td></tr><tr><td valign="top" width="266">Filter.Int32Sequence</td><td valign="top" width="134">4</td><td valign="top" width="97">7</td><td valign="top" width="87">7</td><td valign="top" width="91">82</td></tr><tr><td valign="top" width="266">Filter.StringSequence</td><td valign="top" width="134">2</td><td valign="top" width="97">2</td><td valign="top" width="87">3</td><td valign="top" width="91">36</td></tr><tr><td valign="top" width="266">Filter.ValueTypeSequence</td><td valign="top" width="134">2</td><td valign="top" width="97">3</td><td valign="top" width="87">4</td><td valign="top" width="91">20</td></tr><tr><td valign="top" width="266">Filter.ReferenceTypeSequence</td><td valign="top" width="134">1</td><td valign="top" width="97">2</td><td valign="top" width="87">3</td><td valign="top" width="91">20</td></tr></tbody></table>
+| (Milliseconds, the smaller the better) | EagerForEach | LazyForEach | Linq | Monad |
+|----------------------------------------|--------------|-------------|------|-------|
+| Filter.Int32Sequence                   | 4            | 7           | 7    | 82    |
+| Filter.StringSequence                  | 2            | 2           | 3    | 36    |
+| Filter.ValueTypeSequence               | 2            | 3           | 4    | 20    |
+| Filter.ReferenceTypeSequence           | 1            | 2           | 3    | 20    |
 
 Monad implementation runs slower in all cases.
 
@@ -703,7 +714,9 @@ internal static partial class Filter
 }
 ```
 
-<table border="0" cellpadding="0" cellspacing="0" width="595"><tbody><tr><td valign="top" width="321">(Milliseconds, the smaller the better)</td><td valign="top" width="148">WithoutLambda</td><td valign="top" width="124">Lambda</td></tr><tr><td valign="top" width="321">Filter.ByPredicate</td><td valign="top" width="148">183</td><td valign="top" width="124">830</td></tr></tbody></table>
+| (Milliseconds, the smaller the better) | WithoutLambda | Lambda |
+|----------------------------------------|---------------|--------|
+| Filter.ByPredicate                     | 183           | 830    |
 
 Here lambda expression causes performance overhead because of closure. In above Lambda function, the lambda expression is compiled to a class:
 

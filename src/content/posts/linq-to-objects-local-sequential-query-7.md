@@ -9,13 +9,14 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
 
-## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
+## Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-local-sequential-query](/posts/linq-to-objects-local-sequential-query "https://CodingOnWheels.com/posts/linq-to-objects-local-sequential-query")
 
-## **Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-local-sequential-query](/posts/linq-to-objects-local-sequential-query "https://CodingOnWheels.com/posts/linq-to-objects-local-sequential-query")**[](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
-
-LINQ to Objects queries sequences of .NET objects in local memory of current .NET application or service. Its data source and the queries are represented by IEnumerable<T>.
+LINQ to Objects queries sequences of .NET objects in local memory of current .NET application or service. Its data source and the queries are represented by `IEnumerable<T>`.
 
 ## Iteration pattern and foreach statement
 
@@ -188,7 +189,7 @@ internal static void ForEach(SinglyLinkedListNode<int> head)
 
 A general implementation of iterator pattern will be discussed later in this chapter.
 
-## IEnumerable<T> and IEnumerator<T>
+## `IEnumerable<T>` and `IEnumerator<T>`
 
 Initially, .NET Framework 1.0 provides IEnumerable and IEnumerator interfaces to represent iterator pattern:
 
@@ -211,7 +212,7 @@ namespace System.Collections
 }
 ```
 
-Many sequence and collection types implement IEnumerable so that they can be used with foreach, like ArrayList, Queue, Stack, etc. Then .NET Framework 2.0 supports generics, where the generic version, IEnumerable<T> and IEnumerator<T>, are provided:
+Many sequence and collection types implement IEnumerable so that they can be used with foreach, like ArrayList, Queue, Stack, etc. Then .NET Framework 2.0 supports generics, where the generic version, `IEnumerable<T>` and `IEnumerator<T>`, are provided:
 
 ```csharp
 namespace System.Collections.Generic
@@ -228,9 +229,9 @@ namespace System.Collections.Generic
 }
 ```
 
-Since then the sequence and collection types are provided with IEnumerable<T> implemented by default, like List<T>, Queue<T>, Stack<T>, etc.
+Since then the sequence and collection types are provided with `IEnumerable<T>` implemented by default, like `List<T>`, `Queue<T>`, `Stack<T>`, etc.
 
-Later, .NET Framework 4.0 introduces covariance and contravariance for generic interface. As discussed in the Functional Programming chapter, T is covariant for both IEnumerable<T> and IEnumerable<T>. So their definitions are updated to:
+Later, .NET Framework 4.0 introduces covariance and contravariance for generic interface. As discussed in the Functional Programming chapter, T is covariant for both `IEnumerable<T>` and `IEnumerable<T>`. So their definitions are updated to:
 
 ```csharp
 namespace System.Collections.Generic
@@ -255,7 +256,7 @@ In Microsoft’s unit test framework [MSTest](https://en.wikipedia.org/wiki/MSTe
 -   StringAssert to check conditions for string, providing methods like Contains, StartsWith, EndsWith, etc.
 -   CollectionAssert to check conditions for ICollection, providing methods like AllItemsAreInstancesOfType, AllItemsAreNotNull, IsSubsetOf, etc.
 
-To demonstrate how to consume IEnumerator<T> and IEnumerator<T> with the iterator pattern, an EnumerableAssert utility type can be defined to check conditions for sequence. For example, the following assertion methods check whether the specified sequence is not null and is empty/is not null and is not empty/is null or is empty:
+To demonstrate how to consume `IEnumerator<T>` and `IEnumerator<T>` with the iterator pattern, an EnumerableAssert utility type can be defined to check conditions for sequence. For example, the following assertion methods check whether the specified sequence is not null and is empty/is not null and is not empty/is null or is empty:
 
 ```csharp
 public static partial class EnumerableAssert
@@ -392,7 +393,7 @@ public static void AreSequentialEqual<T>(
 
 ### foreach loop vs. for loop
 
-Array is a special type. A concrete array T\[\] inherits System.Array type, which does not implement IEnumerable<T> but IEnumerable:
+Array is a special type. A concrete array `T[]` inherits System.Array type, which does not implement `IEnumerable<T>` but IEnumerable:
 
 ```csharp
 namespace System
@@ -403,7 +404,7 @@ namespace System
 }
 ```
 
-Instead, T\[\] directly implements IEnumerable<T>, ICollection<T>, and IList<T>, as long as T\[\] is single dimensional, and zero–lower bound. So array T\[\] can be used with foreach loop:
+Instead, `T[]` directly implements `IEnumerable<T>`, `ICollection<T>`, and `IList<T>`, as long as `T[]` is single dimensional, and zero–lower bound. So array `T[]` can be used with foreach loop:
 
 ```csharp
 internal static void ForEach<T>(T[] array, Action<T> action)
@@ -428,7 +429,7 @@ internal static void CompiledForEach<T>(T[] array, Action<T> action)
 }
 ```
 
-And so is string. Since string is a sequence of characters, it implements IEnumerable<char>. When string is used with foreach loop, it is also compiled to for loop for better performance:
+And so is string. Since string is a sequence of characters, it implements `IEnumerable<char>`. When string is used with foreach loop, it is also compiled to for loop for better performance:
 
 ```csharp
 internal static void ForEach(string @string, Action<char> action)
@@ -451,82 +452,80 @@ internal static void CompiledForEach(string @string, Action<char> action)
 
 ## LINQ to Objects queryable types
 
-Most of pull-based .NET sequence and collection types implements IEnumerable<T>, like T\[\], List<T>, Dictionary<TKey, TValue>, HashSet<T>, Collection<T>, Stack<T>, Queue<T>, etc. Here is a detailed list of .NET types implemented IEnumerable<T>:
+Most of pull-based .NET sequence and collection types implements `IEnumerable<T>`, like `T[]`, `List<T>`, `Dictionary<TKey, TValue>`, `HashSet<T>`, `Collection<T>`, `Stack<T>`, `Queue<T>`, etc. Here is a detailed list of .NET types implemented `IEnumerable<T>`:
 
--   System.Collections.Generic.IEnumerable<T>
+-   `System.Collections.Generic.IEnumerable<T>`
+    -   `Microsoft.Collections.Immutable.IImmutableQueue<T>`
+        -   `Microsoft.Collections.Immutable.ImmutableQueue<T>`
+    -   `Microsoft.Collections.Immutable.IImmutableStack<T>`
+        -   `Microsoft.Collections.Immutable.ImmutableStack<T>`
+    -   `Microsoft.Collections.Immutable.IOrderedCollection<T>`
+        -   `Microsoft.Collections.Immutable.ImmutableList<T>`
+    -   `System.Collections.Concurrent.IProducerConsumerCollection<T>`
+        -   `System.Collections.Concurrent.ConcurrentBag<T>`
+        -   `System.Collections.Concurrent.ConcurrentQueue<T>`
+        -   `System.Collections.Concurrent.ConcurrentStack<T>`
+    -   `System.Collections.Concurrent.BlockingCollection<T>`
+    -   `System.Collections.Generic.ICollection<T>`
+    -   -   `System.Collections.Generic.IDictionary<TKey, TValue>`
+            -   `System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>`
+            -   `System.Collections.Generic.Dictionary<TKey, TValue>`
+            -   `System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>`
+            -   `System.Dynamic.ExpandoObject`
+        -   `System.Collections.Generic.IList<T>`
+            -   `System.ArraySegment<T>`
+            -   `System.Collections.Generic.List<T>`
+            -   `System.Collections.ObjectModel.Collection<T>`
+                -   `System.Collections.ObjectModel.ObservableCollection<T>`
+                -   `System.Collections.ObjectModel.KeyedCollection<TKey, TItem>`
+            -   `System.Collections.ObjectModel.ReadOnlyCollection<T>`
+        -   `System.Collections.Generic.ISet<T>`
+            -   `System.Collections.Generic.HashSet<T>`
+            -   `System.Collections.Generic.SortedSet<T>`
+    -   `System.Collections.Generic.IReadOnlyCollection<T>`
+        -   `System.Collections.Generic.IReadOnlyDictionary<TKey, TValue>`
+            -   `System.Collections.Generic.Dictionary<TKey, TValue>`
+            -   `System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>`
+            -   `Microsoft.Collections.Immutable.IImmutableDictionary<TKey, TValue>`
+                -   `Microsoft.Collections.Immutable.ImmutableSortedDictionary<TKey, TValue>`
+            -   `System.Collections.Generic.Dictionary<TKey, TValue>`
+            -   `System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>`
+        -   `System.Collections.Generic.IReadOnlyList<T>`
+            -   `Microsoft.Collections.Immutable.IImmutableList<T>`
+                -   `Microsoft.Collections.Immutable.ImmutableList<T>`
+            -   `System.Collections.Generic.List<T>`
+            -   `System.Collections.ObjectModel.Collection<T>`
+            -   `System.Collections.ObjectModel.ReadOnlyCollection<T>`
+        -   `Microsoft.Collections.Immutable.IImmutableSet<T>`
+            -   `Microsoft.Collections.Immutable.IImmutableHashSet<T>`
+                -   `Microsoft.Collections.Immutable.ImmutableHashSet<T>`
+            -   `Microsoft.Collections.Immutable.IImmutableSortedSet<T>`
+                -   `Microsoft.Collections.Immutable.ImmutableSortedSet<T>`
+    -   `System.Collections.Generic.LinkedList<T>`
+    -   `System.Collections.Generic.Queue<T>`
+    -   `System.Collections.Generic.SortedList<TKey, TValue>`
+    -   `System.Collections.Generic.Stack<T>`
+    -   `System.Linq.IGrouping<TKey, TElement>`
+    -   `System.Linq.ILookup<TKey, TElement>`
+        -   `System.Linq.Lookup<TKey, TElement>`
+    -   `System.Linq.IOrderedEnumerable<TElement>`
+    -   `System.Linq.ParallelQuery<TSource>`\*
+        -   `System.Linq.OrderedParallelQuery<TSource>`
+    -   `System.Linq.IQueryable<T>`\*
+        -   `System.Linq.IOrderedQueryable<T>`
+            -   `System.Linq.EnumerableQuery<T>`
+            -   `System.Data.Objects.ObjectQuery<T>`
+            -   `System.Data.Entity.Core.Objects.ObjectQuery<T>`
+                -   `System.Data.Entity.Core.Objects.ObjectSet<TEntity>`
+            -   `System.Data.Entity.Infrastructure.DbQuery<TResult>`
+                -   `System.Data.Entity.DbSet<TEntity>`
+            -   `Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable<TResult>`
+        -   `System.Data.Linq.ITable<TEntity>`
+            -   `System.Data.Linq.Table<TEntity>`
+        -   `Microsoft.EntityFrameworkCore.DbSet<TEntity>`
+    -   `T[]` (not System.Array)
 
--   Microsoft.Collections.Immutable.IImmutableQueue<T>
-    -   Microsoft.Collections.Immutable.ImmutableQueue<T>
--   Microsoft.Collections.Immutable.IImmutableStack<T>
-    -   Microsoft.Collections.Immutable.ImmutableStack<T>
--   Microsoft.Collections.Immutable.IOrderedCollection<T>
-    -   Microsoft.Collections.Immutable.ImmutableList<T>
--   System.Collections.Concurrent.IProducerConsumerCollection<T>
-    -   System.Collections.Concurrent.ConcurrentBag<T>
-    -   System.Collections.Concurrent.ConcurrentQueue<T>
-    -   System.Collections.Concurrent.ConcurrentStack<T>
--   System.Collections.Concurrent.BlockingCollection<T>
--   System.Collections.Generic.ICollection<T>
--   -   System.Collections.Generic.IDictionary<TKey, TValue>
-        -   System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>
-        -   System.Collections.Generic.Dictionary<TKey, TValue>
-        -   System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>
-        -   System.Dynamic.ExpandoObject
-    -   System.Collections.Generic.IList<T>
-    -   -   System.ArraySegment<T>
-        -   System.Collections.Generic.List<T>
-        -   System.Collections.ObjectModel.Collection<T>
-        -   -   System.Collections.ObjectModel.ObservableCollection<T>
-            -   System.Collections.ObjectModel.KeyedCollection<TKey, TItem>
-        -   System.Collections.ObjectModel.ReadOnlyCollection<T>
-    -   System.Collections.Generic.ISet<T>
-        -   System.Collections.Generic.HashSet<T>
-        -   System.Collections.Generic.SortedSet<T>
--   System.Collections.Generic.IReadOnlyCollection<T>
-    -   System.Collections.Generic.IReadOnlyDictionary<TKey, TValue>
-        -   System.Collections.Generic.Dictionary<TKey, TValue>
-        -   System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>
-        -   Microsoft.Collections.Immutable.IImmutableDictionary<TKey, TValue>
-        -   -   Microsoft.Collections.Immutable.ImmutableDictionary<TKey, TValue>
-            -   Microsoft.Collections.Immutable.ImmutableSortedDictionary<TKey, TValue>
-        -   System.Collections.Generic.Dictionary<TKey, TValue>
-        -   System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>
-    -   System.Collections.Generic.IReadOnlyList<T>
-        -   Microsoft.Collections.Immutable.IImmutableList<T>
-            -   Microsoft.Collections.Immutable.ImmutableList<T>
-        -   System.Collections.Generic.List<T>
-        -   System.Collections.ObjectModel.Collection<T>
-        -   System.Collections.ObjectModel.ReadOnlyCollection<T>
-    -   Microsoft.Collections.Immutable.IImmutableSet<T>
-        -   Microsoft.Collections.Immutable.IImmutableHashSet<T>
-            -   Microsoft.Collections.Immutable.ImmutableHashSet<T>
-        -   Microsoft.Collections.Immutable.IImmutableSortedSet<T>
-            -   Microsoft.Collections.Immutable.ImmutableSortedSet<T>
--   System.Collections.Generic.LinkedList<T>
--   System.Collections.Generic.Queue<T>
--   System.Collections.Generic.SortedList<TKey, TValue>
--   System.Collections.Generic.Stack<T>
--   System.Linq.IGrouping<TKey, TElement>
--   System.Linq.ILookup<TKey, TElement>
-    -   System.Linq.Lookup<TKey, TElement>
--   System.Linq.IOrderedEnumerable<TElement>
--   System.Linq.ParallelQuery<TSource>\*
-    -   System.Linq.OrderedParallelQuery<TSource>
--   System.Linq.IQueryable<T>\*
--   -   System.Linq.IOrderedQueryable<T>
-        -   System.Linq.EnumerableQuery<T>
-        -   System.Data.Objects.ObjectQuery<T>
-        -   System.Data.Entity.Core.Objects.ObjectQuery<T>
-            -   System.Data.Entity.Core.Objects.ObjectSet<TEntity>
-        -   System.Data.Entity.Infrastructure.DbQuery<TResult>
-        -   -   System.Data.Entity.DbSet<TEntity>
-        -   Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable<TResult>
-    -   System.Data.Linq.ITable<TEntity>
-    -   -   System.Data.Linq.Table<TEntity>
-    -   Microsoft.EntityFrameworkCore.DbSet<TEntity>
--   T\[\] (not System.Array)
-
-So the LINQ to Objects query methods and query expression are available for to all the above types. Please notice ParallelQuery<T> represents local sequence where values can be pulled in parallel. It implements IEnumerable<T>, so it also supports pulling values sequentially. IQueryable<T> represents remote sequence of values. It also implements IEnumerable<T>, which its values can be loaded to local memory of current .NET application or service, and be queried locally and sequentially. This chapter covers LINQ to Objects queries for IEnumerable<T>. ParallelQuery<T> is covered in the Parallel LINQ chapter, and IQueryable<T> is covered in the LINQ to Entities chapter.
+So the LINQ to Objects query methods and query expression are available for to all the above types. Please notice `ParallelQuery<T>` represents local sequence where values can be pulled in parallel. It implements `IEnumerable<T>`, so it also supports pulling values sequentially. `IQueryable<T>` represents remote sequence of values. It also implements `IEnumerable<T>`, which its values can be loaded to local memory of current .NET application or service, and be queried locally and sequentially. This chapter covers LINQ to Objects queries for `IEnumerable<T>`. `ParallelQuery<T>` is covered in the Parallel LINQ chapter, and `IQueryable<T>` is covered in the LINQ to Entities chapter.
 
 ### Non-generic sequence
 

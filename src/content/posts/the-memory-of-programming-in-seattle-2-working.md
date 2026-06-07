@@ -50,7 +50,7 @@ Originally I was working in Building 9 at the [main entrance of the campus](http
 
 ![20081218260_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Media/20081218260_thumb_786C41F4.jpg "20081218260_thumb")
 
-**So the exciting thing is, I was working with** [**Bill Gates**](http://en.wikipedia.org/wiki/Bill_Gates) **and** [**Steve Ballmer**](http://en.wikipedia.org/wiki/Steve_Ballmer) **in the same building**:)… I was in the 1st floor, and they were in the 5th floor.
+So the exciting thing is, I was working with [Bill Gates](http://en.wikipedia.org/wiki/Bill_Gates) and [Steve Ballmer](http://en.wikipedia.org/wiki/Steve_Ballmer) in the same building… I was in the 1st floor, and they were in the 5th floor.
 
 I shot this in the garage of Building 40 / 41:
 

@@ -24,7 +24,7 @@ dotnet --version
 
 By default, the dotnet CLI uses the latest SDK installed for dotnet build and dotnet new, etc.. If you want to go back to the previous stable SDK, use the global.json to specify the stable SDK version for your directory. First, run dotnet –list-sdks to view all the installed SDKs, then run dotnet new globaljson –skd-version {version} to create the global.json file. Then run dotnet –version to verify the changed SDK version:
 
-```batch
+```console
 C:\Users\dixin>dotnet --list-sdks
 2.1.202 [C:\Program Files\dotnet\sdk]
 2.1.503 [C:\Program Files\dotnet\sdk]
@@ -60,7 +60,7 @@ After that, the extensions version shows 1.18.0-beta7:
 
 ## Setup project
 
-Now create a new console app project with dotnet CLI: dotnet new console. Then open the created .csproj file, enable C# 8.0 by adding <LangVersion>8.0</LangVersion>, and enable C# 8.0 nullable reference type check by adding <NullableContextOptions>enable</NullableContextOptions>. The .csproj file becomes:
+Now create a new console app project with dotnet CLI: dotnet new console. Then open the created .csproj file, enable C# 8.0 by adding `<LangVersion>8.0</LangVersion>`, and enable C# 8.0 nullable reference type check by adding `<NullableContextOptions>enable</NullableContextOptions>`. The .csproj file becomes:
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">

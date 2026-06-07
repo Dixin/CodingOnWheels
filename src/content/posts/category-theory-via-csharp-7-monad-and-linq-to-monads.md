@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[FP & LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
 
 ## Monad
 
@@ -95,7 +96,7 @@ internal static void MonoidLaws()
 }
 ```
 
-As discussed in LINQ to Object chapter, for IEnumerable<>, there is already a query method SelectMany providing the same ability to flatten hierarchy an IEnumerable<IEnumerable<T>> sequence to an IEnumerable<T> sequence. Actually, monad can be alternatively defined with SelectMany and η/Wrap:
+As discussed in LINQ to Object chapter, for IEnumerable<>, there is already a query method SelectMany providing the same ability to flatten hierarchy an `IEnumerable<IEnumerable<T>>` sequence to an `IEnumerable<T>` sequence. Actually, monad can be alternatively defined with SelectMany and η/Wrap:
 
 ```csharp
 public partial interface IMonad<TMonad> where TMonad<> : IMonad<TMonad<>>
@@ -273,7 +274,7 @@ internal static void MonadLaws()
 }
 ```
 
-However, the monad laws are not intuitive. The Kleisli composition ∘ can help. For 2 monadic selector functions that can be passed to SelectMany,are also called Kleisli functions like s1: TSource –> TMonad<TMiddle> and s2: TMiddle –> TMonad<TResult>, their Kleisli composition is still a monadic selector (s2 ∘ s1): TSource –> TMonad<TResult>:
+However, the monad laws are not intuitive. The Kleisli composition ∘ can help. For 2 monadic selector functions that can be passed to SelectMany,are also called Kleisli functions like `s1: TSource –> TMonad<TMiddle>` and `s2: TMiddle –> TMonad<TResult>`, their Kleisli composition is still a monadic selector `(s2 ∘ s1): TSource –> TMonad<TResult>`:
 
 ```csharp
 public static Func<TSource, IEnumerable<TResult>> o<TSource, TMiddle, TResult>( // After.
@@ -302,7 +303,7 @@ public static class FuncExtensions
 Now above monad laws can be expressed by monadic selectors and Kleisli composition:
 
 -   Associativity law: the Kleisli composition of monadic selectors is now the monoid multiplication, it is associative. For monadic selectors s1, s2, s3, there is (s3 ∘ s2) ∘ s1 = s3 ∘ (s2 ∘ s1).
--   Left unit law and right unit law: Wrap is still the monoid unit η, it is of type TSource –> TMonad<TSource>, so it can also be viewed as a monadic selector too. For monadic selector s, there is η ∘ s = s and s = s ∘ η.
+-   Left unit law and right unit law: Wrap is still the monoid unit η, it is of type `TSource –> TMonad<TSource>`, so it can also be viewed as a monadic selector too. For monadic selector s, there is η ∘ s = s and s = s ∘ η.
 
 ```csharp
 internal static void KleisliComposition()
@@ -531,7 +532,7 @@ public static partial class FuncExtensions // Func<T> : IMonad<Func<>>
 }
 ```
 
-And the workflow is similar to Lazy<> monad’s workflow, because Lazy<T> is just a wrapper of Func<T> factory function:
+And the workflow is similar to Lazy<> monad’s workflow, because `Lazy<T>` is just a wrapper of `Func<T>` factory function:
 
 ```csharp
 internal static void Workflow()
@@ -576,7 +577,7 @@ public static partial class OptionalExtensions // Optional<T> : IMonad<Optional<
 }
 ```
 
-The LINQ workflow of Optional<> monad is also pure and deferred, where each operation in the chaining is an Optional<T> instance:
+The LINQ workflow of Optional<> monad is also pure and deferred, where each operation in the chaining is an `Optional<T>` instance:
 
 ```csharp
 internal static void Workflow()
@@ -608,7 +609,7 @@ internal static void Workflow()
 }
 ```
 
-So Optional<> covers the scenario that each operation of the workflow may not have invalid result. When an operation has valid result (Optional<T>.HasValue returns true), its next operation executes. And when all all the operations have valid result, the entire workflow has a valid query result.
+So Optional<> covers the scenario that each operation of the workflow may not have invalid result. When an operation has valid result (`Optional<T>.HasValue` returns true), its next operation executes. And when all all the operations have valid result, the entire workflow has a valid query result.
 
 The ValueTuple<> functor is also monad. Again, its SelectMany cannot defer the call of selector, just like its Select:
 

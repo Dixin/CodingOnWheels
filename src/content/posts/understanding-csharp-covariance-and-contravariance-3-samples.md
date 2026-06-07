@@ -91,21 +91,21 @@ Here is the result of executing the last method:
 
 -   System namespace:
     -   Action\`1 to Action\`16, Func\`1 to Func\`17
-    -   Comparison<T>
+    -   `Comparison<T>`
     -   Converter\`2
-    -   IComparable<T>,
-    -   IObservable<T>, IObserver<T>
-    -   IProgress<T>
-    -   Predicate<T>
+    -   `IComparable<T>`,
+    -   `IObservable<T>`, `IObserver<T>`
+    -   `IProgress<T>`
+    -   `Predicate<T>`
 -   System.Collections.Generic namespace:
-    -   IComparer<T>, IEqualityComparer<T>
-    -   IEnumerable<T>, IEnumerator<T>
-    -   IReadOnlyCollection<T>, IReadOnlyList<T>
+    -   `IComparer<T>`, `IEqualityComparer<T>`
+    -   `IEnumerable<T>`, `IEnumerator<T>`
+    -   `IReadOnlyCollection<T>`, `IReadOnlyList<T>`
 -   System.Linq namespace:
     -   IGrouping\`2
-    -   IOrderedQueryable<T>, IQueryable<T>
+    -   `IOrderedQueryable<T>`, `IQueryable<T>`
 
-MSDN has a [List of Variant Generic Interface and Delegate Types](https://msdn.microsoft.com/en-us/library/dd799517#VariantList), but it is inaccurate. For example, it says TElement is covariant for IOrderedEnumerable<TElement>, but actually not:
+MSDN has a [List of Variant Generic Interface and Delegate Types](https://msdn.microsoft.com/en-us/library/dd799517#VariantList), but it is inaccurate. For example, it says TElement is covariant for `IOrderedEnumerable<TElement>`, but actually not:
 
 ```csharp
 namespace System.Linq

@@ -9,6 +9,6 @@ draft: false
 lang: ""
 ---
 
-First time to appear on [www.asp.net](http://www.asp.net/) homepage as headline!
+First time to appear on [ASP.NET](https://asp.net/) homepage as top headline!
 
-[![](https://aspblogs.z22.web.core.windows.net/dixin/Media/dixin-aspnet.png)](https://aspblogs.z22.web.core.windows.net/dixin/Media/dixin-aspnet.png)
+![Screenshot of the ASP.NET website homepage showing a featured headline section with my blog post highlighted at the top of the page.](https://aspblogs.z22.web.core.windows.net/dixin/Media/dixin-aspnet.png)

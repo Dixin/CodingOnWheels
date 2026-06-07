@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
 
-## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-generator](/posts/linq-to-objects-generator "https://CodingOnWheels.com/posts/linq-to-objects-generator")**
+## Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-generator](/posts/linq-to-objects-generator "https://CodingOnWheels.com/posts/linq-to-objects-generator")
 
 After understanding how to use LINQ to Objects, starting from this part, the implementation of query methods is discussed. Most LINQ to Object query methods are implemented with iteration pattern and generators.
 
@@ -156,7 +157,7 @@ The above sequence encapsulates the data to generate the values from, and also p
 
 ## Generate sequence and iterator
 
-Now the Sequence<T> and Iterator<T> types can be used to create sequence with specific data and specific iteration algorithm. A simple example is to create a singleton sequence with only 1 value:
+Now the `Sequence<T>` and `Iterator<T>` types can be used to create sequence with specific data and specific iteration algorithm. A simple example is to create a singleton sequence with only 1 value:
 
 ```csharp
 internal static partial class IteratorPattern
@@ -542,7 +543,7 @@ internal static IEnumerable<TSource> WhereGenerator<TSource>(
 }
 ```
 
-The C# compiler actually goes a little further when compiling function with yield syntactic sugar. Such a function with yield statement must return either sequence (represented by IEnumerable or IEnumerable<T>) or iterator (represented by IEnumerator or IEnumerator<T>). When such function returns IEnumerable<T> sequence, the entire function body is compiled to [generator](https://en.wikipedia.org/wiki/Generator_\(computer_programming\)) creation. A generator is both a sequence and a iterator:
+The C# compiler actually goes a little further when compiling function with yield syntactic sugar. Such a function with yield statement must return either sequence (represented by IEnumerable or `IEnumerable<T>`) or iterator (represented by IEnumerator or `IEnumerator<T>`). When such function returns `IEnumerable<T>` sequence, the entire function body is compiled to [generator](https://en.wikipedia.org/wiki/Generator_\(computer_programming\)) creation. A generator is both a sequence and a iterator:
 
 ```csharp
 public interface IGenerator<out T> : IEnumerable<T>, IEnumerator<T> { }
@@ -597,7 +598,7 @@ public class Generator<T, TData> : IGenerator<T>
 }
 ```
 
-The above FromValueGenerator, RepeatGenerator, SelectGenerator, WhereGenerator methods return IEnumerable<T> sequence, their compilation are equivalent to the following methods, where sequence creation is replaced by generator creation:
+The above FromValueGenerator, RepeatGenerator, SelectGenerator, WhereGenerator methods return `IEnumerable<T>` sequence, their compilation are equivalent to the following methods, where sequence creation is replaced by generator creation:
 
 ```csharp
 internal static IEnumerable<TSource> CompiledFromValueGenerator<TSource>(TSource value) =>
@@ -653,7 +654,7 @@ internal static IEnumerable<TSource> CompiledWhereGenerator<TSource>(
                 dispose: () => sourceIterator?.Dispose()));
 ```
 
-These methods can also return IEnumerator<T> iterator instead:
+These methods can also return `IEnumerator<T>` iterator instead:
 
 ```csharp
 internal static IEnumerator<TSource> FromValueIterator<TSource>(TSource value)
@@ -755,11 +756,20 @@ internal static IEnumerator<TSource> CompiledWhereIterator<TSource>(
 
 Other languages also have similar design for iterator pattern and generator. The following table compares similar APIs/language features of C#, F#, [Haskell](https://hackage.haskell.org/package/base-4.8.1.0/docs/Data-Foldable.html) and [JavaScript](https://msdn.microsoft.com/en-us/library/dn858237.aspx) ([ECMAScript 2015, 6th](http://www.ecma-international.org/ecma-262/6.0/#sec-iteration)):
 
-<table border="0" cellpadding="0" cellspacing="0" width="692"><tbody><tr><td valign="top" width="158"></td><td valign="top" width="137">C#</td><td valign="top" width="130">F#</td><td valign="top" width="125">Haskell</td><td valign="top" width="140">JavaScript</td></tr><tr><td valign="top" width="158">Sequence/Container</td><td valign="top" width="137">IEnumerable&lt;T&gt;</td><td valign="top" width="130">seq&lt;'T&gt;</td><td valign="top" width="125">Foldable t</td><td valign="top" width="140">Iterable protocol</td></tr><tr><td valign="top" width="158">Get iterator</td><td valign="top" width="137">GetEnumerator</td><td valign="top" width="130">GetEnumerator</td><td valign="top" width="125"></td><td valign="top" width="140">Symbol.iterator</td></tr><tr><td valign="top" width="158">Iterator</td><td valign="top" width="137">IEnumerator&lt;T&gt;</td><td valign="top" width="130">IEnumerator&lt;T&gt;</td><td valign="top" width="125"></td><td valign="top" width="140">iterator protocol</td></tr><tr><td valign="top" width="158">Has next value</td><td valign="top" width="137">MoveNext</td><td valign="top" width="130">MoveNext</td><td valign="top" width="125"></td><td valign="top" width="140">next().done</td></tr><tr><td valign="top" width="158">Get value</td><td valign="top" width="137">Current</td><td valign="top" width="130">Current</td><td valign="top" width="125"></td><td valign="top" width="140">next().value</td></tr><tr><td valign="top" width="158">Iteration</td><td valign="top" width="137">foeach…in</td><td valign="top" width="130">for…in</td><td valign="top" width="125">for_, traverse_, forM_, mapM_</td><td valign="top" width="140">for…of</td></tr><tr><td valign="top" width="158">Generator</td><td valign="top" width="137">yield return</td><td valign="top" width="130">yield</td><td valign="top" width="125"></td><td valign="top" width="140">yield</td></tr><tr><td valign="top" width="158">Merge</td><td valign="top" width="137"></td><td valign="top" width="130">yield!</td><td valign="top" width="125"></td><td valign="top" width="140">yield*</td></tr></tbody></table>
+|                    | C#               | F#               | Haskell                               | JavaScript        |
+|--------------------|------------------|------------------|---------------------------------------|-------------------|
+| Sequence/Container | `IEnumerable<T>` | `seq<'T>`        | Foldable t                            | Iterable protocol |
+| Get iterator       | GetEnumerator    | GetEnumerator    |                                       | Symbol.iterator   |
+| Iterator           | `IEnumerator<T>` | `IEnumerator<T>` |                                       | iterator protocol |
+| Has next value     | MoveNext         | MoveNext         |                                       | next().done       |
+| Get value          | Current          | Current          |                                       | next().value      |
+| Iteration          | foeach…in        | for…in           | `for_`, `traverse_`, `forM_`, `mapM_` | for … of          |
+| Generator          | yield return     | yield            |                                       | yield             |
+| Merge              |                  | yield!           |                                       | yield*            |
 
 As fore mentioned, iterator pattern involves an iterator with mutable states, so it is more suitable for OOP languages, like C#. F# is a functional language but impure, so it gets along with mutable states, and has all the facilities for iterator and generator. In contrast, Haskell is a [purely functional](https://en.wikipedia.org/wiki/Purely_functional) language, and does not support mutable states. Haskell just has a few APIs that might look similar to C#’s foreach. For example, In [Data.Foldable module](https://hackage.haskell.org/package/base-4.8.1.0/docs/Data-Foldable.html), there are a few iteration functions for Foldable type class:
 
--   Applicative functions for\_ and traverse\_: map each element of a Foldable to an function, evaluate and ignore the results.
--   Monadic functions: forM\_ and mapM\_: map each element of a Foldable to a monadic function, evaluate and ignore the results.
+-   Applicative functions `for_` and `traverse_`: map each element of a Foldable to an function, evaluate and ignore the results.
+-   Monadic functions: `forM_` and `mapM_`: map each element of a Foldable to a monadic function, evaluate and ignore the results.
 
 Haskell list is [an instance of Foldable type class](https://hackage.haskell.org/package/base-4.8.1.0/docs/src/Data.Foldable.html#line-225), its design and implementation is different from iterator pattern. For iterator in functional programming, please see this paper: [The Essence of the Iterator Pattern](http://www.cs.ox.ac.uk/jeremy.gibbons/publications/iterator.pdf).

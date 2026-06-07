@@ -9,15 +9,14 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core (EF Core) series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework (EF) series](/archive/?tag=Entity%20Framework)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
 
 As fore mentioned, LINQ to Entities queries are translated to database queries. To understand how EF Core work with databases, it is important to uncover the actual underlying operations to the SQL database, which can be traced or logged in C# application side and in SQL database.
 
-### Application side logging
+## Application side logging
 
 EF Core follows the ASP.NET Core logging infrastructure. To log EF Core operations, a logger (implementing Microsoft.Extensions.Logging.ILogger) and a logger provider (implementing Microsoft.Extensions.Logging.ILoggerProvider) can be defined. The following is a simple example to simply trace everything:
 
@@ -133,7 +132,7 @@ source.WriteLines(category => category.Name); // Execute query.
 SQL database provides variant mechanisms to collect the information of executed operations. Extended Events is such a feature available in all cloud and on-premise SQL database editions. For Windows, SQL Server Management Studio is a rich tools to setup and views the event tracing. And this can also be done from other platform. In any SQL tool (like mssql extension for Visual Studio Code, which works on Linux, Mac, and Windows), connect to the Azure SQL database (or SQL Server on-premise database), and execute the following SQL to create an Extended Events session called Queries:
 
 ```sql
-CREATE EVENT SESSION \[Queries\] ON DATABASE \-- ON SERVER for SQL Server on-premise database.
+CREATE EVENT SESSION [Queries] ON DATABASE -- ON SERVER for SQL Server on-premise database.
 ADD EVENT sqlserver.begin_tran_completed(
 ACTION(sqlserver.client_app_name, sqlserver.client_connection_id, sqlserver.client_hostname, sqlserver.client_pid, sqlserver.database_name, sqlserver.request_id, sqlserver.session_id, sqlserver.sql_text)),
 ADD EVENT sqlserver.commit_tran_completed(
@@ -158,16 +157,15 @@ GO
 It traces the transactions, SQL executions, and errors, etc. To start the session and collect events, execute the following SQL:
 
 ```sql
-ALTER EVENT SESSION \[Queries\] ON DATABASE \-- ON SERVER for SQL Server on-premise database.
+ALTER EVENT SESSION [Queries] ON DATABASE -- ON SERVER for SQL Server on-premise database.
 STATE = START;
 GO
 ```
 
 The collected events data is stored as XML, the following query formats the XML data to a statistics table, along with an event table which has the operations requested by .NET Core (or .NET Framework) application:
 
-DECLARE @target\_data XML \=
-
 ```sql
+DECLARE @target_data XML =
 (SELECT CONVERT(XML, [targets].[target_data])
 FROM sys.dm_xe_database_session_targets AS [targets] -- sys.dm_xe_session_targets for SQL Server on-premise database.
 INNER JOIN sys.dm_xe_database_sessions AS [sessions] -- sys.dm_xe_sessions for SQL Server on-premise database.

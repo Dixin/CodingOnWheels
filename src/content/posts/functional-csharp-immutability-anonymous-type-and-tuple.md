@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
@@ -275,7 +276,7 @@ new ImmutableDevice(name: this.Name, price: this.Price * 0.9M);
 }
 ```
 
-Many .NET built-in types are immutable data structures, including most structures (primitive types, System.Nullable<T>, System.DateTime, System.TimeSpan, etc.), and a few classes (string, System.Lazy<T>, System.Linq.Expressions.Expression and its derived types, etc.). Microsoft also provides a NuGet package of immutable collections System.Collections.Immutable, with immutable array, list, dictionary, etc.
+Many .NET built-in types are immutable data structures, including most structures (primitive types, `System.Nullable<T>`, System.DateTime, System.TimeSpan, etc.), and a few classes (string, `System.Lazy<T>`, System.Linq.Expressions.Expression and its derived types, etc.). Microsoft also provides a NuGet package of immutable collections System.Collections.Immutable, with immutable array, list, dictionary, etc.
 
 ### Immutable structure (readonly structure)
 
@@ -355,7 +356,7 @@ internal void InstanceMethod()
 }
 ```
 
-The readonly modifier is compiled to \[IsReadOnly\] attribute for the structure:
+The readonly modifier is compiled to `[IsReadOnly]` attribute for the structure:
 
 ```csharp
 [IsReadOnly]
@@ -415,7 +416,7 @@ return other != null
 }
 ```
 
-The \[DebuggerDisplay\] attribute is generated for debug build, so that debugger can display the values in the specified friendly format.
+The `[DebuggerDisplay]` attribute is generated for debug build, so that debugger can display the values in the specified friendly format.
 
 And the above setting-property-like syntax is compiled to normal constructor call:
 
@@ -468,7 +469,7 @@ source.Where(device => device.Price > 0);
 }
 ```
 
-Here the source array is inferred to be of AnonymousType0<string, decimal>\[\] type, because each array value is of type AnonymousType0. Array T\[\] implements IEnumerable<T> interface, so the source array implements IEnumerable<AnonymousType0<string, decimal>> interface. Its Where query method accepts an AnonymousType0<string, decimal> –> bool predicate function, and outputs IEnumerable<AnonymousType0<string, decimal>>.
+Here the source array is inferred to be of `AnonymousType0<string, decimal>[]` type, because each array value is of type AnonymousType0. Array `T[]` implements `IEnumerable<T>` interface, so the source array implements `IEnumerable<AnonymousType0<string, decimal>>` interface. Its Where query method accepts an `AnonymousType0<string, decimal> –> bool` predicate function, and outputs `IEnumerable<AnonymousType0<string, decimal>>`.
 
 C# compiler utilizes anonymous type for let clause in LINQ query expression. The let clause is compiled to Select query method call with a selector function. The selector function outputs anonymous type, where each property is a range variable in the context. For example:
 
@@ -815,7 +816,7 @@ internal decimal Price { get; }
 
 ### Immutable collection vs. readonly collection
 
-Microsoft provides immutable collections through the System.Collections.Immutable NuGet Package, including ImmutableArray<T>, ImmutableDictionary<TKey, TValue>, ImmutableHashSet<T>, ImmutableList<T>, ImmutableQueue<T>, ImmutableSet<T>, ImmutableStack<T>, etc. As fore mentioned, trying to mutate an immutable collection creates a new immutable collection:
+Microsoft provides immutable collections through the System.Collections.Immutable NuGet Package, including `ImmutableArray<T>`, `ImmutableDictionary<TKey, TValue>`, `ImmutableHashSet<T>`, `ImmutableList<T>`, `ImmutableQueue<T>`, `ImmutableSet<T>`, `ImmutableStack<T>`, etc. As fore mentioned, trying to mutate an immutable collection creates a new immutable collection:
 
 ```csharp
 internal static void ImmutableCollection()
@@ -826,7 +827,7 @@ object.ReferenceEquals(immutableList1, immutableList2).WriteLine(); // False
 }
 ```
 
-.NET Standard also provides readonly collections, like ReadOnlyCollection<T>, ReadOnlyDictionary<TKey, TValue>, etc. These readonly collections are actually a simple wrapper of the specified collections. They just do not implement or expose mutation methods like Add, Remove, etc. They are not immutable or thread safe. The following example initializes an immutable collection and a readonly collection from a mutable source. When the source is mutated, the immutable collection apparently is not impacted, but the readonly collection mutates too:
+.NET Standard also provides readonly collections, like `ReadOnlyCollection<T>`, `ReadOnlyDictionary<TKey, TValue>`, etc. These readonly collections are actually a simple wrapper of the specified collections. They just do not implement or expose mutation methods like Add, Remove, etc. They are not immutable or thread safe. The following example initializes an immutable collection and a readonly collection from a mutable source. When the source is mutated, the immutable collection apparently is not impacted, but the readonly collection mutates too:
 
 ```csharp
 internal static void ReadOnlyCollection()

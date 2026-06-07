@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
@@ -298,7 +299,7 @@ throw new ArgumentOutOfRangeException(nameof(@object));
 }
 ```
 
-The last pattern matches any type pattern, so it works equivalently to the default case of switch statement. The special \_ identifier is used to discard the pattern variable. In switch statement, each pattern matching is compiled similarly to is expression:
+The last pattern matches any type pattern, so it works equivalently to the default case of switch statement. The special `_` identifier is used to discard the pattern variable. In switch statement, each pattern matching is compiled similarly to is expression:
 
 ```csharp
 internal static DateTime CompiledToDateTime<TConvertible>(object @object)
@@ -372,4 +373,4 @@ _ => throw new ArgumentOutOfRangeException(nameof(@object))
 
 ## Summary
 
-C# has basic pattern matching features. Type pattern (including generics open type) with pattern variable and constant pattern are supported in is expression and switch statement. The var keyword can be used as the pattern of any type, and \_ can be used to discard pattern variable. switch statement also supports when clause for each pattern matching for additional condition.
+C# has basic pattern matching features. Type pattern (including generics open type) with pattern variable and constant pattern are supported in is expression and switch statement. The var keyword can be used as the pattern of any type, and `_` can be used to discard pattern variable. switch statement also supports when clause for each pattern matching for additional condition.

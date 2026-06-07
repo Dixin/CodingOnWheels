@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## Latest version: [https://CodingOnWheels.com/posts/introducing-linq-3-what-is-functional-programming](/posts/introducing-linq-3-what-is-functional-programming)
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> This post is updated, [here is the latest version](/posts/introducing-linq-3-what-is-functional-programming).
 
 Programming paradigm is the fundamental style of programming. There are [many paradigms for programming](https://en.wikipedia.org/wiki/Programming_paradigm), for example:
 
@@ -332,7 +333,7 @@ internal class DocumentBuilder
 }
 ```
 
-The above WebClient class provides the operation to download HTML content to a document. DocumentConverter class provides the operation to convert HTML document to Word document, with a specified template. And OneDriveClient class provides the operation to upload file to OneDrive. To focus on the paradigm, the implementations are omitted (If interested, the complete web content to Word document building implementation can be found [here](/posts/convert-html-to-well-formatted-microsoft-word-document)). To build the document, DocumentBuilder class is defined to compose everything together. The following code demonstrates how these objects works:
+The above WebClient class provides the operation to download HTML content to a document. DocumentConverter class provides the operation to convert HTML document to Word document, with a specified template. And OneDriveClient class provides the operation to upload file to OneDrive. To focus on the paradigm, the implementations are omitted (If interested, the complete web content to [Word document building implementation can be found here](/posts/convert-html-to-well-formatted-microsoft-word-document)). To build the document, DocumentBuilder class is defined to compose everything together. The following code demonstrates how these objects works:
 
 ```csharp
 internal partial class Imperative

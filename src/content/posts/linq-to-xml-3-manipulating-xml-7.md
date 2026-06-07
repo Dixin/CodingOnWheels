@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to XML in Depth](/archive/?tag=LINQ%20to%20XML) Series
 
-## \[[LINQ to XML in Depth series](/archive/?tag=LINQ%20to%20XML)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/linq-to-xml-3-manipulating-xml](/posts/linq-to-xml-3-manipulating-xml "https://CodingOnWheels.com/posts/linq-to-xml-3-manipulating-xml")**
+## Latest version: [https://CodingOnWheels.com/posts/linq-to-xml-3-manipulating-xml](/posts/linq-to-xml-3-manipulating-xml "https://CodingOnWheels.com/posts/linq-to-xml-3-manipulating-xml")
 
 Besides creating and querying XML, LINQ to XML also provides APIs for other XML manipulations, including cloning, deleting, replacing, and updating XML structures:
 
@@ -49,14 +50,12 @@ Besides creating and querying XML, LINQ to XML also provides APIs for other XML 
 -   Update element: XElement.Name, XElement.Value, XElement.SetAttributeValue, XElement.SetElementValue, XElement.SetValue
 
 > .NET Framework also provides APIs for validating and transforming XML:
-> 
+>
 > -   Validate with XSD
-> 
 > -   Query schema: XAttribute.GetSchemaInfo\*, XElement.GetSchemaInfo\*
 > -   Validate schema: XAttribute.Validate\*, XDocument.Validate\*, XElement.Validate\*
-> 
 > -   Transform with XSL: XslCompiledTransform.Transform
-> 
+>
 > The APIs with \* are extension methods provided by System.Xml.Schema.Extensions.
 
 ## Clone

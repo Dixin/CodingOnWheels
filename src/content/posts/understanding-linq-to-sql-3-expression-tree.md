@@ -1,7 +1,7 @@
 ---
 title: "Understanding LINQ to SQL (3) Expression Tree"
 published: 2010-04-06
-description: "\\]"
+description: "In LINQ to Objects, lamda expressions are used everywhere as anonymous method, like Where()."
 image: ""
 tags: [".NET", "C#", "Functional Programming", "LINQ", "LINQ to SQL", "LINQ via C# Series", "SQL Server", "TSQL", "Visual Studio"]
 category: "LINQ"
@@ -9,7 +9,14 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to SQL](/archive/?tag=LINQ%20to%20SQL) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
 
 In LINQ to Objects, lamda expressions are used everywhere as anonymous method, like Where():
 
@@ -394,7 +401,7 @@ Currently, DLR involves only 2 dynamic language:
 
 The other languages are dropped / removed, like [Managed JSCript](http://dlr.codeplex.com/Thread/View.aspx?ThreadId=58121), [IronScheme](http://en.wikipedia.org/wiki/IronScheme), [VBx](http://en.wikipedia.org/wiki/Visual_Basic_.NET#Visual_Basic_.27VBx.27_.28VB_10.0.29), etc.
 
-Very typically, in IronRuby (Click [here](http://ironruby.codeplex.com/releases/view/41854) to download IronRuby.dll, or click [here](http://dlr.codeplex.com/releases/view/34834) to download the source code and build IronRuby.dll 0.9.1.0):
+Very typically, in IronRuby (Click [here to download IronRuby.dll](http://ironruby.codeplex.com/releases/view/41854), or click [here to download the source code](http://dlr.codeplex.com/releases/view/34834) and build IronRuby.dll 0.9.1.0):
 
 ```csharp
 int count = typeof(IronRuby.Compiler.Ast.Expression).DerivedIn("IronRuby").Count();
@@ -518,13 +525,7 @@ Please check MSDN for [the meanings of symbols](http://msdn.microsoft.com/en-us/
 
 ### LINQ to SQL query visualizer
 
-In the Visual Studio 2010 local samples, typically:
-
-> C:\\Program Files (x86)\\Microsoft Visual Studio 10.0\\Samples\\1033\\CSharpSamples.zip\\LinqSamples\\QueryVisualizer\\
-
-there is the source code of a LINQ to SQL query visualizer. Build it into LinqToSqlQueryVisualizer.dll, and copy it to the Visual Studio 2010 visualizers folder, typically:
-
-> Documents\\Visual Studio 2010\\Visualizers\\
+In the Visual Studio 2010 local samples, typically `C:\Program Files (x86)\Microsoft Visual Studio 10.0\Samples\1033\CSharpSamples.zip\LinqSamples\QueryVisualizer\`, there is the source code of a LINQ to SQL query visualizer. Build it into LinqToSqlQueryVisualizer.dll, and copy it to the Visual Studio 2010 visualizers folder, typically: `Documents\Visual Studio 2010\Visualizers\`.
 
 Then it can be used while debugging LINQ to SQL:
 

@@ -9,13 +9,14 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
 
 With the understanding of standard queries in .NET Standard and the additional queries provided by Microsoft, it is easy to define custom LINQ queries for objects. This chapter demonstrates how to define the following useful LINQ to Object queries:
 
--   Sequence queries: output a new IEnumerable<T> sequence (deferred execution)
+-   Sequence queries: output a new `IEnumerable<T>` sequence (deferred execution)
     -   Generation: Create, Guid, RandomInt32, RandomDouble, FromValue, EmptyIfNull
     -   Concatenation: ConcatJoin
     -   Partitioning: Subsequence, Pagination
@@ -73,7 +74,9 @@ return CreateGenerator();
 
 When count is not provided, an infinite sequence is generated. For example, the following Guid query uses Create to repeatedly call Guid.NewGuid, so that it generates a sequence of new GUIDs:
 
-public static IEnumerable<Guid\> NewGuid(int? count) => Create(Guid.NewGuid, count);
+```csharp
+public static IEnumerable<Guid> NewGuid(int? count) => Create(Guid.NewGuid, count);
+```
 
 The following queries generate a sequence of random numbers:
 
@@ -98,9 +101,10 @@ Here Defer is called to defer the instantiation of Random.
 
 The following EmptyIfNull can be used to omit null checks:
 
-public static IEnumerable<TSource\> EmptyIfNull<TSource\>(this IEnumerable<TSource\> source) =>
-
-source ?? Enumerable.Empty<TSource\>();
+```csharp
+public static IEnumerable<TSource> EmptyIfNull<TSource>(this IEnumerable<TSource> source) =>
+source ?? Enumerable.Empty<TSource>();
+```
 
 For example:
 
@@ -192,7 +196,7 @@ source.Skip(pageIndex * countPerPage).Take(countPerPage);
 
 ### Ordering
 
-In LINQ to Objects, the ordering queries must compare objects to determine their order, so they all have overload to accept IComparer<T> parameter. This interface can be viewed as a wrapper of a simple comparison functions:
+In LINQ to Objects, the ordering queries must compare objects to determine their order, so they all have overload to accept `IComparer<T>` parameter. This interface can be viewed as a wrapper of a simple comparison functions:
 
 ```csharp
 namespace System.Collections.Generic
@@ -211,13 +215,14 @@ int GetHashCode(T obj);
 }
 ```
 
-In C#, interfaces are less convenient then functions. C# supports lambda expression to define anonymous functions inline, but does not support anonymous class to enable inline interface. For the LINQ queries accepting interface parameter, they are easier to be called if they can accept function parameter instead. To Implement this, the following ToComparer function can be defined to convert a compare functions to an IComparer<T\> interface:
+In C#, interfaces are less convenient then functions. C# supports lambda expression to define anonymous functions inline, but does not support anonymous class to enable inline interface. For the LINQ queries accepting interface parameter, they are easier to be called if they can accept function parameter instead. To Implement this, the following ToComparer function can be defined to convert a compare functions to an `IComparer<T>` interface:
 
-private static IComparer<T\> ToComparer<T\>(Func<T, T, int\> compare) =>
+```csharp
+private static IComparer<T> ToComparer<T>(Func<T, T, int> compare) =>
+Comparer<T>.Create(new Comparison<T>(compare));
+```
 
-Comparer<T\>.Create(new Comparison<T\>(compare));
-
-It simply calls a .NET Standard built-in API Comparer<T>.Create for the IComparer<T\> instantiation. Now the ordering queries’ overloads can be defined as a higher-order functions to accept a (T, T) –> int function instead of IComparer<T> interface:
+It simply calls a .NET Standard built-in API `Comparer<T>.Create` for the `IComparer<T>` instantiation. Now the ordering queries’ overloads can be defined as a higher-order functions to accept a (T, T) –> int function instead of `IComparer<T>` interface:
 
 ```csharp
 public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(
@@ -247,7 +252,7 @@ source.ThenByDescending(keySelector, ToComparer(compare));
 
 ### Grouping, join, and set
 
-In LINQ to Objects, there are also queries need to compare objects’ equality to determine the grouping, join, and set operation, so they all have overload to accept IEqualityComparer<T> parameter. .NET Standard does not provide a built-in API for IEqualityComparer<T> instantiation from functions (F# core library provides a Microsoft.FSharp.Collections.HashIdentity type to wrap functions for IEqualityComparer<T>, but it is not easy to use in C#). So first, a EqualityComparerWrapper<T> type can be defined to implement IEqualityComparer<T>, then a higher-order function ToEqualityComparer can be defined to convert a equals functions and a getHashCode function to an IEqualityComparer<T\> interface:
+In LINQ to Objects, there are also queries need to compare objects’ equality to determine the grouping, join, and set operation, so they all have overload to accept `IEqualityComparer<T>` parameter. .NET Standard does not provide a built-in API for `IEqualityComparer<T>` instantiation from functions (F# core library provides a Microsoft.FSharp.Collections.HashIdentity type to wrap functions for `IEqualityComparer<T>`, but it is not easy to use in C#). So first, a `EqualityComparerWrapper<T>` type can be defined to implement `IEqualityComparer<T>`, then a higher-order function ToEqualityComparer can be defined to convert a equals functions and a getHashCode function to an `IEqualityComparer<T>` interface:
 
 ```csharp
 internal class EqualityComparerWrapper<T> : IEqualityComparer<T>
@@ -341,7 +346,7 @@ first.Except(second, ToEqualityComparer(equals, getHashCode));
 
 ### List
 
-The List<T> type provides handy methods, which can be implemented for sequence too. The following Insert query is similar to List<T>.Insert, it outputs a new sequence with the specified value is inserted at the specified index:
+The `List<T>` type provides handy methods, which can be implemented for sequence too. The following Insert query is similar to `List<T>.Insert`, it outputs a new sequence with the specified value is inserted at the specified index:
 
 ```csharp
 public static IEnumerable<TSource> Insert<TSource>(
@@ -379,7 +384,7 @@ return InsertGenerator();
 }
 ```
 
-The above Insert query is more functional than List<T>.Insert. List<T>.Insert has no output, so it is not fluent and it implements immediate execution. It is also impure by mutating the list in place. The above Insert query follows the iterator pattern, and uses yield statement to implement deferred execution. It outputs a new sequence, so it is fluent, and it is a pure function since it does not mutate the source sequence.
+The above Insert query is more functional than `List<T>.Insert`. `List<T>.Insert` has no output, so it is not fluent and it implements immediate execution. It is also impure by mutating the list in place. The above Insert query follows the iterator pattern, and uses yield statement to implement deferred execution. It outputs a new sequence, so it is fluent, and it is a pure function since it does not mutate the source sequence.
 
 RemoveAt outputs a new sequence with a value removed at the specified index:
 
@@ -477,7 +482,7 @@ source.RemoveAll(value, ToEqualityComparer(@equals, getHashCode));
 
 ### Conversion
 
-ToDictionary and ToLookup accept IEqualityComparer<T> parameter to test the equality of keys. Their functional overloads can be defined:
+ToDictionary and ToLookup accept `IEqualityComparer<T>` parameter to test the equality of keys. Their functional overloads can be defined:
 
 ```csharp
 public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(
@@ -646,11 +651,12 @@ return PercentileInclusive(source, keySelector, percentile, comparer, formatProv
 
 string has a very useful IsNullOrEmpty method, and here is the LINQ version:
 
-public static bool IsNullOrEmpty<TSource\>(this IEnumerable<TSource\> source) =>
-
+```csharp
+public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> source) =>
 source == null || !source.Any();
+```
 
-Contains compares the objects to determine the existance, so it can accept IEqualityComparer<T> parameter. It can be overloaded with functions for convenience:
+Contains compares the objects to determine the existance, so it can accept `IEqualityComparer<T>` parameter. It can be overloaded with functions for convenience:
 
 ```csharp
 public static bool Contains<TSource>(
@@ -663,7 +669,7 @@ source.Contains(value, ToEqualityComparer(equals, getHashCode));
 
 ### Equality
 
-SequentialEqual compares the objects as well, so it also accepts IEqualityComparer<T>. It can be overloaded with functions:
+SequentialEqual compares the objects as well, so it also accepts `IEqualityComparer<T>`. It can be overloaded with functions:
 
 ```csharp
 public static bool SequenceEqual<TSource>(
@@ -676,7 +682,7 @@ first.SequenceEqual(second, ToEqualityComparer(equals, getHashCode));
 
 ### List
 
-IndexOf is similar to List<T>.IndexOf. It finds the index of first occurrence of the specified value. –1 is returned if the specified value is not found:
+IndexOf is similar to `List<T>.IndexOf`. It finds the index of first occurrence of the specified value. –1 is returned if the specified value is not found:
 
 ```csharp
 public static int IndexOf<TSource>(
@@ -698,7 +704,7 @@ return -1;
 }
 ```
 
-LastIndexOf is similar to List<T>.LastIndexOf. It finds the index of last occurrence of the specified value:
+LastIndexOf is similar to `List<T>.LastIndexOf`. It finds the index of last occurrence of the specified value:
 
 ```csharp
 public static int LastIndexOf<TSource>(

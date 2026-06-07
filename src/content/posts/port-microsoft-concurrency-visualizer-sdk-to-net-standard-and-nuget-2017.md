@@ -9,6 +9,10 @@ draft: false
 lang: ""
 ---
 
+> [!TIP]
+> This post is updated, [here is the latest version](/post/port-microsoft-concurrency-visualizer-sdk-to-net-standard-and-nuget).
+>
+
 I uploaded a NuGet package of Microsoft Concurrency Visualizer SDK: [ConcurrencyVisualizer](https://www.nuget.org/packages/ConcurrencyVisualizer/). [Microsoft Concurrency Visualizer](https://docs.microsoft.com/en-us/visualstudio/profiling/concurrency-visualizer) is an extension tool for Visual Studio. It is a great tool for performance profiling and multithreading execution visualization. It also has a [SDK library](https://docs.microsoft.com/en-us/visualstudio/profiling/concurrency-visualizer-sdk) to be invoked by code and draw markers and spans in the timeline. I used it to visualize sequential LINQ and Parallel LINQ (PLINQ) execution in my Functional Programming and LINQ tutorials. For example, array.Where(…).Select(…) sequential LINQ query and array.AsParallel().Where(…).Select(…) Parallel LINQ query can be visualized as following spans:
 
 [![image_thumb11_thumb[6]](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Port-Microsoft-Co.NET-Standard-and-NuGet_E96/image_thumb11_thumb[6]_thumb.png "image_thumb11_thumb[6]")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Port-Microsoft-Co.NET-Standard-and-NuGet_E96/image_thumb11_thumb[6].png)
@@ -21,7 +25,7 @@ And the SDK library is available for .NET Framework, and can be installed from m
 
 [![image_thumb1[4]](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Port-Microsoft-Co.NET-Standard-and-NuGet_E96/image_thumb1[4]_thumb.png "image_thumb1[4]")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Port-Microsoft-Co.NET-Standard-and-NuGet_E96/image_thumb1[4].png)
 
-This adds a reference to local assembly C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\IDE\\Extensions\\4hhyuhoo.ghy\\SDK\\Managed\\4.0\\Microsoft.ConcurrencyVisualizer.Markers.dll. For your convenience, I have made a NuGet package:
+This adds a reference to local assembly `C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\Extensions\4hhyuhoo.ghy\SDK\Managed\4.0\Microsoft.ConcurrencyVisualizer.Markers.dll`. For your convenience, I have made a NuGet package:
 
 Install-Package ConcurrencyVisualizer
 

@@ -9,6 +9,6 @@ draft: false
 lang: ""
 ---
 
-![image](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_0E82AE99.png "image")
+![image](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_0E82AE99.png)
 
 This must be kidding.

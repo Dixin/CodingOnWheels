@@ -20,7 +20,7 @@ Understanding C# Covariance And Conreavariance:
 -   [Understanding C# Covariance And Contravariance (7) CLR](/posts/understanding-csharp-covariance-and-contravariance-7-clr)
 -   [Understanding C# Covariance And Contravariance (8) Struct And Void](/posts/understanding-csharp-covariance-and-contravariance-8-struct-and-void)
 
-An array T\[\] can be viewed as an IList<T>. As fore mentioned, T is invariant for IList<T>.
+An array `T[]` can be viewed as an `IList<T>`. As fore mentioned, T is invariant for `IList<T>`.
 
 ## Covariance
 
@@ -94,20 +94,19 @@ public static partial class Array
 Here are some comments for array covariance:
 
 -   [Jonathan Allen said](http://www.infoq.com/news/2008/08/GenericVariance),
-    
+
     > On a historical note, C# and VB both support array covariance ([out/IEnumerable scenario](http://www.cnblogs.com/dixin/archive/2009/09/01/understanding-csharp-covariance-and-contravariance-6-typing-issues.html)) even though it can lead to runtime errors in contravariant situations (in/IWriter scenario). This was done in order to make C# more compatible with Java. This is generally considered a poor decision, but it cannot be undone at this time.
-    
+
 -   In the book “[The Common Language Infrastructure Annotated Standard](http://www.amazon.com/exec/obidos/tg/detail/-/0321154932)”, Jim Miller said,
-    
+
     > The decision to support covariant arrays was primarily to allow Java to run on the VES. The covariant design is not thought to be the best design in general, but it was chosen in the interest of broad reach.
-    
+
 -   [Rick Byers said](http://blogs.msdn.com/rmbyers/archive/2005/02/16/375079.aspx),
-    
+
     > I've heard that Bill Joy, one of the original Java designers, has since said that he tried to remove array covariance in 1995 but wasn't able to do it in time, and has regretted having it in Java ever since.
-    
+
 -   Anders Hejlsberg ([chief architect](http://en.wikipedia.org/wiki/Anders_Hejlsberg) of C#) [said in this video](http://channel9.msdn.com/shows/Going+Deep/Expert-to-Expert-Anders-Hejlsberg-The-Future-of-C/),
-    
+
     > This isn't type safe. A lot of people maybe don't even realize that there's a hole there.
-    
 
 This is a C# feature that should never be used.

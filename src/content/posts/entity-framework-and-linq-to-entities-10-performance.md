@@ -9,18 +9,19 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## **EF Core version of this article:** [**https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-9-performance**](/posts/entity-framework-core-and-linq-to-entities-9-performance "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-9-performance")
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
+>
+> This post explains EF, [here is the EF Core version](/posts/entity-framework-core-and-linq-to-entities-9-performance).
 
 The previous parts has discussed a few aspects that can impact the performance of Entity Framework and LINQ to Entities, and here is a summary:
 
 -   Properly specify database initializer and provider manifest token resolver can improve the initialization performance.
--   LINQ to Entities query can have better performance than LINQ to Objects query. An intuitive example is, context.Set<TEntity>().Take(2) can have better performance than context.Set<TEntity>().ToList().Take(2):
+-   LINQ to Entities query can have better performance than LINQ to Objects query. An intuitive example is, `context.Set<TEntity>().Take(2)` can have better performance than `context.Set<TEntity>().ToList().Take(2)`:
 
 -   In the former query, Take is LINQ to Entities method (Queryable.Take). It is translated to database query, only the query result is read to local.
 -   In the latter query, Take is LINQ to Object method (Enumerable.Take). This query reads the entire table from database to local, and query locally with Enumerable.Take.
@@ -29,7 +30,7 @@ The previous parts has discussed a few aspects that can impact the performance o
 -   In lazy loading, accessing an entity’s navigation property can cause additional database query round trips (the N + 1 queries problem). Eager loading can improve the performance by read all needed data with 1 single database query.
 -   Disabling entity tracking can improve the performance.
 -   Disabling automatic change detection can improve the performance.
--   When adding multiple entities to repository, each DbSet<T>.Add call triggers change detection. DbSet<T>.AddRange can improve performance because it only triggers change detection once. Similarly, DbSet<T>.RemoveRange can improve performance from multiple DbSet<T>.Remove calls.
+-   When adding multiple entities to repository, each `DbSet<T>.Add` call triggers change detection. `DbSet<T>.AddRange` can improve performance because it only triggers change detection once. Similarly, `DbSet<T>.RemoveRange` can improve performance from multiple `DbSet<T>.Remove` calls.
 
 This part continues discussing performance.
 
@@ -150,7 +151,7 @@ namespace System.Data.Entity.SqlServer
 
 For any on premise SQL engine newer than 11.0, just use “2012”.
 
-Also, apparently the AdventureWorks database does not have the migration history and entity data model info, and creating database is not needed as well. So the database initialization can be turned off, by setting the initializer to NullDatabaseInitializer<TContext>:
+Also, apparently the AdventureWorks database does not have the migration history and entity data model info, and creating database is not needed as well. So the database initialization can be turned off, by setting the initializer to `NullDatabaseInitializer<TContext>`:
 
 ```csharp
 public partial class AdventureWorks
@@ -163,7 +164,7 @@ public partial class AdventureWorks
 }
 ```
 
-where NullDatabaseInitializer<TContext> is just an empty class doing nothing:
+where `NullDatabaseInitializer<TContext>` is just an empty class doing nothing:
 
 ```csharp
 namespace System.Data.Entity
@@ -181,7 +182,7 @@ Now all the additional database queries for initialization are turned off.
 
 ### Database initialization
 
-The database initialization work is represented by System.Data.Entity.IDatabaseInitializer<TContext> interface:
+The database initialization work is represented by `System.Data.Entity.IDatabaseInitializer<TContext>` interface:
 
 ```csharp
 namespace System.Data.Entity
@@ -195,13 +196,13 @@ namespace System.Data.Entity
 
 Entity Framework provides several built-in initializers under System.Data.Entity namespace:
 
--   NullDatabaseInitializer<TContext>: Do nothing for initialization
--   DropCreateDatabaseAlways<TContext>: Always drop the database and create again
--   DropCreateDatabaseIfModelChanges<TContext>: Drop and create database when the code mapping mismatches database schema.
--   MigrateDatabaseToLatestVersion<TContext, TMigrationsConfiguration>: Use the specified code to update the database schema to the latest version.
--   CreateDatabaseIfNotExists<TContext>: Create database if not exist.
+-   `NullDatabaseInitializer<TContext>`: Do nothing for initialization
+-   `DropCreateDatabaseAlways<TContext>`: Always drop the database and create again
+-   `DropCreateDatabaseIfModelChanges<TContext>`: Drop and create database when the code mapping mismatches database schema.
+-   `MigrateDatabaseToLatestVersion<TContext, TMigrationsConfiguration>`: Use the specified code to update the database schema to the latest version.
+-   `CreateDatabaseIfNotExists<TContext>`: Create database if not exist.
 
-CreateDatabaseIfNotExists<TContext>: is the default initializer, so it is executed here too. As a result, Entity Framework attempts to [query the existence of the mapped tables and views, database migration history, and entity data model info, etc](https://romiller.com/2014/06/10/reducing-code-first-database-chatter/). Apparently, here AdventureWorks database does not have the migration and entity data model info; recreating database is not needed as well. So the database initialization can be turned off, by setting the initializer to NullDatabaseInitializer<TContext>:
+`CreateDatabaseIfNotExists<TContext>`: is the default initializer, so it is executed here too. As a result, Entity Framework attempts to [query the existence of the mapped tables and views, database migration history, and entity data model info, etc](https://romiller.com/2014/06/10/reducing-code-first-database-chatter/). Apparently, here AdventureWorks database does not have the migration and entity data model info; recreating database is not needed as well. So the database initialization can be turned off, by setting the initializer to `NullDatabaseInitializer<TContext>`:
 
 ```csharp
 public partial class AdventureWorks
@@ -214,7 +215,7 @@ public partial class AdventureWorks
 }
 ```
 
-where NullDatabaseInitializer<TContext> is just an empty class doing nothing:
+where `NullDatabaseInitializer<TContext>` is just an empty class doing nothing:
 
 ```csharp
 namespace System.Data.Entity
@@ -267,7 +268,7 @@ internal static void CachedEntity()
 }
 ```
 
-In this example, the first query reads data from the repository and materialize the data to a category entity, and update its Name. Then the repository is queried again by Name. After reading the data, Entity Framework founds the primary key is the same as the cached entity, so Entity Framework does not materialize the data just read, it reuses the previous category entity. Performance can be improved by skipping the materialization, but tricky result can happen. The second query reads entity with Name “Bikes”, but the query result entity has Name “Cache”. This is not only LINQ to Entities queries’ behavior, When DbSet<T>.SqlQuery to directly execute SQL query in the repository, Entity Framework still looks up cache before materializing.
+In this example, the first query reads data from the repository and materialize the data to a category entity, and update its Name. Then the repository is queried again by Name. After reading the data, Entity Framework founds the primary key is the same as the cached entity, so Entity Framework does not materialize the data just read, it reuses the previous category entity. Performance can be improved by skipping the materialization, but tricky result can happen. The second query reads entity with Name “Bikes”, but the query result entity has Name “Cache”. This is not only LINQ to Entities queries’ behavior, When `DbSet<T>.SqlQuery` to directly execute SQL query in the repository, Entity Framework still looks up cache before materializing.
 
 Entity is not cached when tracking is turned off, or entity is not queried from the repository. Each of the following queries materializes a new entity:
 
@@ -338,8 +339,8 @@ internal static void TranslationCache()
 
 Entity Framework always convert the LINQ query’s expression tree to database command tree, then it generates the cache key with the following information:
 
--   The database command tree’s root DbExpression object’s string representation. Here it is: \[Filter\](BV'LQ1'=(\[Scan\](AdventureWorks.ProductCategories:Transient.collection\[Dixin.Linq.EntityFramework.ProductCategory(Nullable=True,DefaultValue=)\]))(\[>=\](FUNC<Edm.Length(In Edm.String(Nullable=True,DefaultValue=,MaxLength=,Unicode=,FixedLength=))>:ARGS((Var('LQ1')\[.\]Name)),@p\_\_linq\_\_0:Edm.Int32(Nullable=False,DefaultValue=))))
--   The parameters’ string representation: @@1p\_\_linq\_\_0:System.Int32
+-   The database command tree’s root DbExpression object’s string representation. Here it is: `[Filter](BV'LQ1'=([Scan](AdventureWorks.ProductCategories:Transient.collection[Dixin.Linq.EntityFramework.ProductCategory(Nullable=True,DefaultValue=)]))([>=](FUNC<Edm.Length(In Edm.String(Nullable=True,DefaultValue=,MaxLength=,Unicode=,FixedLength=))>:ARGS((Var('LQ1')[.]Name)),@p__linq__0:Edm.Int32(Nullable=False,DefaultValue=))))`
+-   The parameters’ string representation: `@@1p__linq__0:System.Int32`
 -   The path of the Include query: ProductSubcategories
 -   The query’s MergeOption. As fore mentioned, it is AppendOnly by default.
 -   System.Data.Entity.Core.Objects.ObjectContextOptions’s UseCSharpNullComparisonBehavior property value
@@ -366,8 +367,8 @@ internal static void UncachedTranslation()
 
 These first LINQ query builds expression trees with a ConstantExpression node representing int value 1. The second query builds similar expression tree but with a different ConstantExpression node representing int value 10. SO they are converted to 2 different database command trees, with 2 different DbConstantExpression nodes. The 2 database command trees’ string representations are:
 
--   \[Filter\](BV'LQ1'=(\[Scan\](AdventureWorks.ProductCategories:Transient.collection\[Dixin.Linq.EntityFramework.ProductCategory(Nullable=True,DefaultValue=)\]))(\[>=\](FUNC<Edm.Length(In Edm.String(Nullable=True,DefaultValue=,MaxLength=,Unicode=,FixedLength=))>:ARGS((Var('LQ1')\[.\]Name)),1:Edm.Int32(Nullable=True,DefaultValue=))))
--   \[Filter\](BV'LQ1'=(\[Scan\](AdventureWorks.ProductCategories:Transient.collection\[Dixin.Linq.EntityFramework.ProductCategory(Nullable=True,DefaultValue=)\]))(\[>=\](FUNC<Edm.Length(In Edm.String(Nullable=True,DefaultValue=,MaxLength=,Unicode=,FixedLength=))>:ARGS((Var('LQ1')\[.\]Name)),10:Edm.Int32(Nullable=True,DefaultValue=))))
+-   `[Filter](BV'LQ1'=([Scan](AdventureWorks.ProductCategories:Transient.collection[Dixin.Linq.EntityFramework.ProductCategory(Nullable=True,DefaultValue=)]))([>=](FUNC<Edm.Length(In Edm.String(Nullable=True,DefaultValue=,MaxLength=,Unicode=,FixedLength=))>:ARGS((Var('LQ1')[.]Name)),1:Edm.Int32(Nullable=True,DefaultValue=))))`
+-   `[Filter](BV'LQ1'=([Scan](AdventureWorks.ProductCategories:Transient.collection[Dixin.Linq.EntityFramework.ProductCategory(Nullable=True,DefaultValue=)]))([>=](FUNC<Edm.Length(In Edm.String(Nullable=True,DefaultValue=,MaxLength=,Unicode=,FixedLength=))>:ARGS((Var('LQ1')[.]Name)),10:Edm.Int32(Nullable=True,DefaultValue=))))`
 
 So their query translation cannot be reused for each other. To resolve this problem, these queries can be parameterized by simply replace the constants with variables:
 
@@ -425,8 +426,8 @@ internal static void CompiledCachedTranslation()
 
 The variable access is compiled to filed access. So in the LINQ queries’ expression trees, there are no longer ConstantExpression nodes, but FieldExpression nodes. Entity Framework converts these FieldExpression nodes to DbParameterReference nodes, representing int parameters. As a result, these 2 LINQ queries are converted to identical database command trees, with:
 
--   identical root node string representation: \[Filter\](BV'LQ1'=(\[Scan\](AdventureWorks.ProductCategories:Transient.collection\[Dixin.Linq.EntityFramework.ProductCategory(Nullable=True,DefaultValue=)\]))(\[>=\](FUNC<Edm.Length(In Edm.String(Nullable=True,DefaultValue=,MaxLength=,Unicode=,FixedLength=))>:ARGS((Var('LQ1')\[.\]Name)),@p\_\_linq\_\_0:Edm.Int32(Nullable=False,DefaultValue=))))
--   identical parameters’ string representation: @@1p\_\_linq\_\_0:System.Int32
+-   identical root node string representation: `[Filter](BV'LQ1'=([Scan](AdventureWorks.ProductCategories:Transient.collection[Dixin.Linq.EntityFramework.ProductCategory(Nullable=True,DefaultValue=)]))([>=](FUNC<Edm.Length(In Edm.String(Nullable=True,DefaultValue=,MaxLength=,Unicode=,FixedLength=))>:ARGS((Var('LQ1')[.]Name)),@p__linq__0:Edm.Int32(Nullable=False,DefaultValue=))))`
+-   identical parameters’ string representation: `@@1p__linq__0:System.Int32`
 -   and all the other identical metadata
 
 So the query translations have identical cache key, and their translations can be reused for each other.
@@ -542,21 +543,19 @@ Generally, for long running IO bound operation, asynchrony can improve the appli
 
 ### Asynchronous data queries and changes
 
-For LINQ to Entities queries, Entity Framework starts to read the data when values are pulled from IQueryable<T> data source, for example:
+For LINQ to Entities queries, Entity Framework starts to read the data when values are pulled from `IQueryable<T>` data source, for example:
 
--   Pull the values from IQueryable<T> with the iterator pattern, typically a foreach loop.
--   Call a query method to return a single value from the IQueryable<T>, like First, etc..
+-   Pull the values from `IQueryable<T>` with the iterator pattern, typically a foreach loop.
+-   Call a query method to return a single value from the `IQueryable<T>`, like First, etc..
 -   Call a LINQ to Objects query method to return a new collection, like ToArray, etc..
 
-For these operations and APIs, Entity Framework provides async parities as IQueryable<T> extension methods, defined in System.Data.Entity.QueryableExtensions class:
+For these operations and APIs, Entity Framework provides async parities as `IQueryable<T>` extension methods, defined in System.Data.Entity.QueryableExtensions class:
 
--   QueryableExtensions.ForEachAsync asynchronously pulls each value from IQueryable<T> data source and execute the specified action with each value.
+-   QueryableExtensions.ForEachAsync asynchronously pulls each value from `IQueryable<T>` data source and execute the specified action with each value.
 -   QueryableExtensions provides async methods to return a single value:
-
--   Element: FirstAsync, FirstOrDefaultAsync, SingleAsync, SingleOrDefaultAsync
--   Aggregation: CountAsync, LongCountAsync, MinAsync, MaxAsync, SumAsync, AverageAsync
--   Quantifier: AllAsync, AnyAsync, ContainsAsync
-
+    -   Element: FirstAsync, FirstOrDefaultAsync, SingleAsync, SingleOrDefaultAsync
+    -   Aggregation: CountAsync, LongCountAsync, MinAsync, MaxAsync, SumAsync, AverageAsync
+    -   Quantifier: AllAsync, AnyAsync, ContainsAsync
 -   QueryableExtensions provides async methods to return a new collection: ToArrayAsync, ToDictionaryAsync, ToListAsync
 
 For data changes, DbContext.SaveChangesAsync is provided as a parity of DbContext.SaveChanges. For example:

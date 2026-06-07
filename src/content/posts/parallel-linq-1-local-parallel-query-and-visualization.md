@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Parallel LINQ in Depth series](/archive/?tag=Parallel%20LINQ)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Parallel LINQ in Depth](/archive/?tag=Parallel%20LINQ) Series
 
 LINQ to Objects and LINQ to XML queries are designed to work sequentially, and do not involve multi-threading, concurrency, or parallel computing. To scale LINQ query in multi-processor environment, .NET Standard provides parallel version of LINQ to Objects, called Parallel LINQ or PLINQ.
 
@@ -19,7 +20,12 @@ LINQ to Objects and LINQ to XML queries are designed to work sequentially, and d
 
 Parallel LINQ (to Objects) APIs are provided as a parity with (sequential) LINQ to Objects APIs:
 
-<table border="1" cellpadding="0" cellspacing="0" class="MsoNormalTable" style="border: currentcolor; border-image: none; border-collapse: collapse; mso-border-alt: solid black .75pt; mso-yfti-tbllook: 1184;"><tbody><tr style="mso-yfti-irow: 0; mso-yfti-firstrow: yes;"><td style="padding: 0.75pt; border: 1pt solid black; border-image: none; mso-border-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableHead" style="margin: 3pt 0in; page-break-after: avoid;">LINQ to Objects types</p><font style="font-size: 12pt;"></font></td><td style="border-width: 1pt 1pt 1pt medium; border-style: solid solid solid none; border-color: black black black currentcolor; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableHead" style="margin: 3pt 0in; page-break-after: avoid;">PLINQ types</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 1;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">System.Collections.IEnumerable</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">System.Linq.ParallelQuery</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 2;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">System.Collections.Generic.IEnumerable&lt;T&gt;</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">System.Linq.ParallelQuery&lt;T&gt;</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 3;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">System.Linq.IOrderedEnumerable&lt;T&gt;</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">System.Linq.OrderedParallelQuery&lt;T&gt;</p><font style="font-size: 12pt;"></font></td></tr><tr style="mso-yfti-irow: 4; mso-yfti-lastrow: yes;"><td style="border-width: medium 1pt 1pt; border-style: none solid solid; border-color: currentcolor black black; padding: 0.75pt; border-image: none; mso-border-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpFirst" style="margin: 8pt 0in 0pt; line-height: 17pt;">System.Linq.Enumerable</p><font style="font-size: 12pt;"></font></td><td style="border-width: medium 1pt 1pt medium; border-style: none solid solid none; border-color: currentcolor black black currentcolor; padding: 0.75pt; mso-border-alt: solid black .75pt; mso-border-left-alt: solid black .75pt; mso-border-top-alt: solid black .75pt;"><font style="font-size: 12pt;"></font><p class="TableTextCxSpLast" style="margin: 0in 0in 8pt; line-height: 17pt;">System.Linq.ParallelEnumerable</p><font style="font-size: 12pt;"></font></td></tr></tbody></table>
+| LINQ to Objects types                       | PLINQ types                           |
+|---------------------------------------------|---------------------------------------|
+| `System.Collections.IEnumerable`            | `System.Linq.ParallelQuery`           |
+| `System.Collections.Generic.IEnumerable<T>` | `System.Linq.ParallelQuery<T>`        |
+| `System.Linq.IOrderedEnumerable<T>`         | `System.Linq.OrderedParallelQuery<T>` |
+| `System.Linq.Enumerable`                    | `System.Linq.ParallelEnumerable`      |
 
 As the parity with System.Linq.Enumerable, System.Linq.ParallelEnumerable static type provides the parallel version of standard queries. For example, the following is the comparison of the Range/Repeat generation queries’ sequential and parallel versions:
 
@@ -81,7 +87,7 @@ public static ParallelQuery<TResult> Cast<TResult>(this ParallelQuery source);
 }
 ```
 
-When defining each standard query in PLINQ, the generic source and generic output are represented by ParallelQuery<T> instead of IEnumerable<T>, and the non-generic source is represented by ParallelQuery instead of IEnumerable. The other parameter types remain the same. Similarly, the following are the ordering queries side by side, where the ordered source and ordered output are represented by OrderedParallelQuery<T> instead of IOrderedEnumerable<T>:
+When defining each standard query in PLINQ, the generic source and generic output are represented by `ParallelQuery<T>` instead of `IEnumerable<T>`, and the non-generic source is represented by ParallelQuery instead of IEnumerable. The other parameter types remain the same. Similarly, the following are the ordering queries side by side, where the ordered source and ordered output are represented by `OrderedParallelQuery<T>` instead of `IOrderedEnumerable<T>`:
 
 ```csharp
 namespace System.Linq
@@ -133,7 +139,7 @@ Besides the parities with Enumerable queries, ParallelEnumerable also provides a
 
 ### Parallel query vs. sequential query
 
-A ParallelQuery<T> source can be created by calling generation queries provided by ParallelEnumerable, like Range, Repeat, etc., then the other parallel queries can be used subsequently:
+A `ParallelQuery<T>` source can be created by calling generation queries provided by ParallelEnumerable, like Range, Repeat, etc., then the other parallel queries can be used subsequently:
 
 ```csharp
 internal static void Generation()
@@ -152,11 +158,13 @@ ParallelQuery<double> parallelQuery = ParallelEnumerable
 }
 ```
 
-A PLINQ query can also be started by calling ParallelEnumerable.AsParallel to convert IEnumerable<T>/IEnumerable to ParallelQuery<T>/ParallelQuery:
+A PLINQ query can also be started by calling ParallelEnumerable.AsParallel to convert `IEnumerable<T>`/`IEnumerable` to `ParallelQuery<T>`/`ParallelQuery`:
 
 public static ParallelQuery AsParallel(this IEnumerable source);
 
-public static ParallelQuery<TSource\> AsParallel<TSource\>(this IEnumerable<TSource\> source);
+```csharp
+public static ParallelQuery<TSource> AsParallel<TSource>(this IEnumerable<TSource> source);
+```
 
 For example,
 
@@ -174,7 +182,7 @@ ParallelQuery<int> parallelQuery2 = source2 // IEnumerable.
 
 AsParallel also has an overload accepting a partitioner. Partitioner is discussed in the next chapter.
 
-To use sequential queries for a ParallelQuery<T> source, just call ParallelEnumerable.AsSequential or ParallelEnumerable.AsEnumerable to convert ParallelQuery<T> to IEnumerable<T>, then the sequential queries can be used subsequently:
+To use sequential queries for a `ParallelQuery<T>` source, just call ParallelEnumerable.AsSequential or ParallelEnumerable.AsEnumerable to convert `ParallelQuery<T>` to `IEnumerable<T>`, then the sequential queries can be used subsequently:
 
 ```csharp
 public static IEnumerable<TSource> AsSequential<TSource>(
@@ -241,7 +249,7 @@ this ParallelQuery<TSource>source, Action<TSource>action);
 }
 ```
 
-ForAll can simultaneously pull results from ParallelQuery<T> source with multiple threads, and simultaneously call the specified function on those threads:
+ForAll can simultaneously pull results from `ParallelQuery<T>` source with multiple threads, and simultaneously call the specified function on those threads:
 
 ```csharp
 internal static void ForEachForAll()
@@ -258,7 +266,7 @@ ParallelEnumerable
 
 Above is the output after executing the code in a quad core CPU, Unlike ForEach, the values pulled and traced by ForAll is unordered. And if this code runs multiple times, the values can be in different order from time to time. This indeterministic order is the consequence of parallel pulling. The order preservation in parallel query execution is discussed in detail later.
 
-Earlier a WriteLines extension method is defined for IEnumerable<T> as a shortcut to call EnumerableEx.ForEach to pull all values and trace them. The following WriteLines overload can be defined for ParallelQuery<T> to call ParallelEnumerable.ForAll to simply execute parallel query without calling a function for each query result:
+Earlier a WriteLines extension method is defined for `IEnumerable<T>` as a shortcut to call EnumerableEx.ForEach to pull all values and trace them. The following WriteLines overload can be defined for `ParallelQuery<T>` to call ParallelEnumerable.ForAll to simply execute parallel query without calling a function for each query result:
 
 ```csharp
 public static void WriteLines<TSource>(
@@ -439,7 +447,7 @@ In the last tab Cores, select the LINQ query threads (main thread and other 3 wo
 
 [![clip_image014](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1_B83B/clip_image014_thumb.gif "clip_image014")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1_B83B/clip_image014_2.gif)
 
-Above LINQ visualization code looks noisy, because it mixes the LINQ query code and the visualization code. Following the Single Responsibility Principle, the visualization can be encapsulated for IEnumerable<T> and ParallelQuery<T>:
+Above LINQ visualization code looks noisy, because it mixes the LINQ query code and the visualization code. Following the Single Responsibility Principle, the visualization can be encapsulated for `IEnumerable<T>` and `ParallelQuery<T>`:
 
 ```csharp
 internal const string ParallelSpan = "Parallel";
@@ -489,7 +497,7 @@ iteratee(value);
 And the additional CPU computing workload can also be defined as a function:
 
 ```csharp
-internal static int ComputingWorkload(int value = 0, int baseIteration = 10\_000\_000)
+internal static int ComputingWorkload(int value = 0, int baseIteration = 10_000_000)
 {
 for (int i = 0; i < baseIteration * (value + 1); i++) { }
 return value;

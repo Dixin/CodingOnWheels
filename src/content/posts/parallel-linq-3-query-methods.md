@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Parallel LINQ in Depth series](/archive/?tag=Parallel%20LINQ)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Parallel LINQ in Depth](/archive/?tag=Parallel%20LINQ) Series
 
 Most of the PLINQ standard queries are the parities with LINQ to Objects standard queries, with the same syntax and functionality. For the additional queries in PLINQ, AsParallel, AsSequential and ForAll has been discussed. The rest of this chapter discusses the other additional queries, overloads, and the ordering relevant queries that have different behaviour from LINQ to Objects.
 
@@ -23,9 +24,10 @@ PLINQ provides a few queries to configure the current cancellation token, degree
 
 PLINQ query execution can be cancelled by providing a System.Threading.CancellationToken instance:
 
-public static ParallelQuery<TSource\> WithCancellation<TSource\>(
-
-this ParallelQuery<TSource\> source, CancellationToken cancellationToken);
+```csharp
+public static ParallelQuery<TSource> WithCancellation<TSource>(
+this ParallelQuery<TSource> source, CancellationToken cancellationToken);
+```
 
 A CancellationToken instance can be created with System.Threading.CancellationTokenSource:
 
@@ -58,9 +60,10 @@ If the query executes for longer than 1 second, it is signalled to cancel, and t
 
 WithDegreeOfParallelism specifies the maximum number of concurrent executing tasks:
 
-public static ParallelQuery<TSource\> WithDegreeOfParallelism<TSource\>(
-
-this ParallelQuery<TSource\> source, int degreeOfParallelism);
+```csharp
+public static ParallelQuery<TSource> WithDegreeOfParallelism<TSource>(
+this ParallelQuery<TSource> source, int degreeOfParallelism);
+```
 
 For example:
 
@@ -76,7 +79,7 @@ ParallelEnumerable
 }
 ```
 
-WithDegreeOfParallelism accepts any int value from 1 to 512 (System.Linq.Parallel.Scheduling’s MAX\_SUPPORTED\_DOP constant field). At runtime, the actual query execution thread count is less than or equal to the specified maximum count. In the above example, WithDegreeOfParallelism is called with 40. However, when executing above query on a quad core CPU, the visualization shows PLINQ only utilizes 6 threads.
+WithDegreeOfParallelism accepts any int value from 1 to 512 (System.Linq.Parallel.Scheduling’s `MAX_SUPPORTED_DOP` constant field). At runtime, the actual query execution thread count is less than or equal to the specified maximum count. In the above example, WithDegreeOfParallelism is called with 40. However, when executing above query on a quad core CPU, the visualization shows PLINQ only utilizes 6 threads.
 
 [![clip_image002](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-2-Partitioning_12942/clip_image002_thumb.gif "clip_image002")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-2-Partitioning_12942/clip_image002_2.gif)
 
@@ -100,9 +103,10 @@ internal static int GetDefaultDegreeOfParallelism() => DefaultDegreeOfParallelis
 
 WithExecutionMode specifies whether the query is allowed to execute sequentially or not:
 
-public static ParallelQuery<TSource\> WithExecutionMode<TSource\>(
-
-this ParallelQuery<TSource\> source, ParallelExecutionMode executionMode);
+```csharp
+public static ParallelQuery<TSource> WithExecutionMode<TSource>(
+this ParallelQuery<TSource> source, ParallelExecutionMode executionMode);
+```
 
 ParallelExecutionMode is an enumeration type with 2 members. The Default mode of PLINQ means PLINQ can detect the composition of the query and possibly decide to execute the query sequentially; And ForceParallelism requires the query to execute in parallel. For example:
 
@@ -135,13 +139,14 @@ int result = ParallelEnumerable
 
 When PLINQ execute the above query composed with indexed SelectMany and ElementAt, in the default mode, it is the same sequential execution as LINQ to Objects. To have parallel query execution, the ForceParallelism mode has to be specified.
 
-### Merging
+### Merge options
 
 PLINQ can partition the source values so that the query can be executed in parallel. To merge the results, WithMergeOptions can be used to suggest the strategy:
 
-public static ParallelQuery<TSource\> WithMergeOptions<TSource\>(
-
-this ParallelQuery<TSource\> source, ParallelMergeOptions mergeOptions);
+```csharp
+public static ParallelQuery<TSource> WithMergeOptions<TSource>(
+this ParallelQuery<TSource> source, ParallelMergeOptions mergeOptions);
+```
 
 ParallelMergeOptions is an enumeration with 4 members. NotBuffered means when each result value is available, it is yielded immediately without being buffered., which is similar to lazy evaluation in LINQ to Objects; FullyBuffered means all results are stored in the fully sized buffer, then, they are yielded, which is similar to eager evaluation in LINQ to Objects; AutoBuffered is between NotBuffered and FullyBuffered, means the buffer size is determined by PLINQ, some results are stored in the auto sized buffer, and ones the buffer is full, the results are yielded; And Default is the same as AutoBuffered. The following code demonstrates the difference of these options:
 
@@ -215,11 +220,12 @@ In PLINQ, it is more complex to control the order of values than in sequential L
 
 AsOrdered query can be called to specify the order in the source should be preserved for its subsequent queries:
 
-public static ParallelQuery<TSource\> AsOrdered<TSource\>(
+```csharp
+public static ParallelQuery<TSource> AsOrdered<TSource>(
+this ParallelQuery<TSource> source);
+```
 
-this ParallelQuery<TSource\> source);
-
-AsOrdered can only be called on the ParallelQuery<T> instance which is the output of ParallelEnumerable.AsParallel, ParallelEnumerable.Range, or ParallelEnumerable.Repeat. It throws InvalidOperationException for ParallelQuery<T> instance output by any other queries.
+AsOrdered can only be called on the `ParallelQuery<T>` instance which is the output of ParallelEnumerable.AsParallel, ParallelEnumerable.Range, or ParallelEnumerable.Repeat. It throws InvalidOperationException for `ParallelQuery<T>` instance output by any other queries.
 
 ```csharp
 internal static void AsOrdered()
@@ -239,9 +245,10 @@ ParallelEnumerable
 
 Here ForEach is used instead of ForAll again to demonstrate the order of query results. In contrast, AsUnordered is provided to ignore the order in the source for its subsequent queries:
 
-public static ParallelQuery<TSource\> AsUnordered<TSource\>(
-
-this ParallelQuery<TSource\> source);
+```csharp
+public static ParallelQuery<TSource> AsUnordered<TSource>(
+this ParallelQuery<TSource> source);
+```
 
 Ignoring the order may improve the query performance. Take GroupBy as example, it can run faster if the PLINQ query is explicitly specified to be unordered. The following example uses a tuple of string and int to represent a product’s name and weight, and group many products by their weight:
 

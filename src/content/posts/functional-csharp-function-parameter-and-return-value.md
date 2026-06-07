@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
@@ -112,7 +113,7 @@ The out variable declaration is compiled to normal variable declaration
 
 ### Discard out variable
 
-Since C# 7.0, if a out argument is not needed, it can be simply discarded with special character \_. This syntax works with local variable too.
+Since C# 7.0, if a out argument is not needed, it can be simply discarded with special character `_`. This syntax works with local variable too.
 
 ```csharp
 internal static void Discard()
@@ -166,7 +167,9 @@ int sum4 = Sum(new int[] { 0, 1, 2, 3, 4 });
 
 When function has multiple parameters, the parameter array must be the last:
 
-internal static void MultipleParameters(bool required1, int required2, params string\[\] optional) { }
+```csharp
+internal static void MultipleParameters(bool required1, int required2, params string[] optional) { }
+```
 
 ## Positional argument vs. named argument
 
@@ -206,9 +209,9 @@ InputByCopy(value: GetInt32(), reference: GetUri()); // Call GetInt32 then GetUr
 }
 
 internal static Uri GetUri() { return default; }
-```
 
 internal static int GetInt32() { return default; }
+```
 
 When the above InputByCopy calls are compiled, local variable is generated to ensure the arguments are evaluated in the specified order:
 

@@ -124,7 +124,7 @@ The reason is, when the callback code is scheduled to a non-UI thread in the thr
 When reschedule a bunch of code to thread pool - potentially on another thread - await’s state machine invocation mechanism transfers initial calling thread’s ExecutionContext to each next call of MoveNext(). As [MSDN explained](http://msdn.microsoft.com/en-us/library/system.threading.executioncontext.aspx):
 
 > The ExecutionContext class provides a single container for all information relevant to a logical thread of execution. This includes security context, call context, and synchronization context.
-> 
+>
 > The ExecutionContext class provides the functionality for user code to capture and transfer this context across user-defined asynchronous points. The common language runtime ensures that the ExecutionContext is consistently transferred across runtime-defined asynchronous points within the managed process.
 
 This is the public API to capture current thread’s ExecutionContext:
@@ -161,7 +161,7 @@ public static class FuncExtensions
 The await’s infrastructure also takes care of [SynchronizationContext](http://msdn.microsoft.com/en-us/library/system.threading.synchronizationcontext.aspx):
 
 > The SynchronizationContext class is a base class that provides a free-threaded context with no synchronization.
-> 
+>
 > The purpose of the synchronization model implemented by this class is to allow the internal asynchronous/synchronous operations of the common language runtime to behave properly with different synchronization models.
 
 In different environment, [SynchronizationContext has different implementations](http://msdn.microsoft.com/en-us/magazine/gg598924.aspx). In .NET there are:

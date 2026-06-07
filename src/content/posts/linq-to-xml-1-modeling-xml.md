@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[LINQ to XML in Depth series](/archive/?tag=LINQ%20to%20XML)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to XML in Depth](/archive/?tag=LINQ%20to%20XML) Series
 
 XML (eXtensible Markup Language) is widely used to represent, store, and transfer data. .NET Standard provides LINQ to XML APIs to query XML data source. LINQ to XML APIs are located in System.Xml.XDocument NuGet package for .NET Core, and System.Xml.Linq.dll assembly for .NET Framework. LINQ to XML can be viewed as specialized LINQ to Objects, where the queried objects represent XML structures.
 
@@ -48,9 +49,8 @@ The XML DOM APIs are provided since .NET Framework 1.0. There a set of Xml\* typ
 
 These DOM APIs for XML can be used to model and manipulate XML structures in imperative paradigm. Take the following XML fragment as example:
 
-<rss version\="2.0" xmlns:dixin\="https://CodingOnWheels.com"\>
-
 ```csharp
+<rss version="2.0" xmlns:dixin="https://CodingOnWheels.com">
 <channel>
 <item>
 <title>LINQ via C#</title>
@@ -66,9 +66,8 @@ These DOM APIs for XML can be used to model and manipulate XML structures in imp
 <dixin:source>https://github.com/Dixin/CodeSnippets/tree/master/Dixin/Linq</dixin:source>
 </item>
 </channel>
+</rss>
 ```
-
-</rss\>
 
 It is a small RSS feed sample with one single item. The following example calls XML DOM APIs to build such a XML tree, and serialize the XML tree to string:
 
@@ -343,7 +342,7 @@ XNode.DeepEquals(element1, element3).WriteLine(); // False
 }
 ```
 
-Here element2’s child element is constructed with null content, so it is an empty element node <child /> (where XElement.IsEmpty returns true). element3’s child element is constructed with an empty string as content, so it is a non-empty element< child></child> ((where XElement.IsEmpty returns false). As a result, element1 has the same node structures and node values as element2, and they are different from element3.
+Here element2’s child element is constructed with null content, so it is an empty element node `<child />` (where XElement.IsEmpty returns true). element3’s child element is constructed with an empty string as content, so it is a non-empty element `<child></child>` (where XElement.IsEmpty returns false). As a result, element1 has the same node structures and node values as element2, and they are different from element3.
 
 ### Read and deserialize XML
 
@@ -399,7 +398,7 @@ yield return (XElement)XNode.ReadFrom(reader);
 }
 ```
 
-As discussed in the LINQ to Objects chapter, function with yield return statement is compiled to generator construction, and all the API calls in above function body is deferred, so each <item> in the RSS feed is read and deserialized on demand.
+As discussed in the LINQ to Objects chapter, function with yield return statement is compiled to generator construction, and all the API calls in above function body is deferred, so each `<item>` in the RSS feed is read and deserialized on demand.
 
 ### Serialize and write XML
 

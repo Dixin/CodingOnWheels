@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[FP & LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
 Anonymous functions can also model numerals and their arithmetic. In Church encoding, a natural number n is represented by a function that calls a given function for n times. This representation is called Church Numeral.
 
@@ -260,12 +261,12 @@ Here are the actual types of the elements in above lambda expression at runtime:
 -   h => h(g(f)): (dynamic -> dynamic) -> dynamic
 -   g => h => h(g(f)): ((dynamic -> dynamic) -> dynamic) -> (dynamic -> dynamic) -> dynamic
 -   n(g => h => h(g(f))): ((dynamic -> dynamic) -> dynamic) -> (dynamic -> dynamic) -> dynamic
--   \_ => x: (dynamic -> dynamic) -> dynamic
--   n(g => h => h(g(f)))(\_ => x): (dynamic -> dynamic) -> dynamic
--   Id: dynamic -> dynamic
--   n(g => h => h(g(f)))(\_ => x)(Id): dynamic
+-   `_ => x`: (dynamic -> dynamic) -> dynamic
+-   `n(g => h => h(g(f)))(_ => x)`: (dynamic -> dynamic) -> dynamic
+-   `Id`: dynamic -> dynamic
+-   `n(g => h => h(g(f)))(_ => x)(Id)`: dynamic
 
-At compile time, function types must be provided for a few elements. When n is applied, C# compiler expects its first argument g => h => h(g(f)) to be of type dynamic => dynamic. So C# compiler infers g to dynamic, but cannot infer the type of h => h(g(f)), which can be expression tree or anonymous function, so the constructor call syntax is used here to specify it is a function of type (dynamic -> dynamic) -> dynamic. Similarly, C# compiler expects n’s second argument to be dynamic, and C# compiler cannot infer the type of \_ => x, so the constructor syntax is used again for \_ => x. Also, Functions<dynamic>.Id is of Unit<dynamic> type, while at runtime a dynamic -> dynamic function is expected. Unit<dynamic> is alias of function type dynamic –> dynamic, but the conversion does not happen automatically at runtime, so the constructor syntax is used once again to indicate the function type conversion.
+At compile time, function types must be provided for a few elements. When n is applied, C# compiler expects its first argument g => h => h(g(f)) to be of type dynamic => dynamic. So C# compiler infers g to dynamic, but cannot infer the type of h => h(g(f)), which can be expression tree or anonymous function, so the constructor call syntax is used here to specify it is a function of type (dynamic -> dynamic) -> dynamic. Similarly, C# compiler expects n’s second argument to be dynamic, and C# compiler cannot infer the type of `_ => x`, so the constructor syntax is used again for `_ => x`. Also, `Functions<dynamic>.Id` is of `Unit<dynamic>` type, while at runtime a dynamic -> dynamic function is expected. `Unit<dynamic>` is alias of function type dynamic –> dynamic, but the conversion does not happen automatically at runtime, so the constructor syntax is used once again to indicate the function type conversion.
 
 Later after introducing Church pair, a cleaner version of Decrease will be implemented.
 

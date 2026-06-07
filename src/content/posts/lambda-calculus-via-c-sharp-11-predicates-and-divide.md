@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate")**
+## Latest version: [https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate](/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate "https://CodingOnWheels.com/posts/lambda-calculus-via-csharp-3-numeral-arithmetic-and-predicate")
 
 A [predicate](http://en.wikipedia.org/wiki/Church_encoding#Predicates) is a function that returns a Boolean value. In Church encoding of lambda calculus, a predicate is a lambda expression that returns a Church Boolean.
 
@@ -127,13 +128,13 @@ IsZero := λn.n (λx.False) True
 ≡ ...
 ```
 
-In contrast to \_DivideBy - for example, \_DivideBy 10 3:
+In contrast to `_DivideBy` - for example, `_DivideBy 10 3`:
 
 ```csharp
 (λa.λb.If (IsGreaterOrEqual a b) (λx.Add One (Self (Subtract a b) b)) (λx.Zero)) 10 3
 ```
 
-So a underscore is tagged to the name. \_DivideBy seems more C# specific rather than lambda calculus. But the corresponding C# function below will be temporarily used from now on, since it is very easy to understand. So here comes the recursive C# function:
+So a underscore is tagged to the name. `_DivideBy` seems more C# specific rather than lambda calculus. But the corresponding C# function below will be temporarily used from now on, since it is very easy to understand. So here comes the recursive C# function:
 
 ```csharp
 public static partial class _NumeralExtensions

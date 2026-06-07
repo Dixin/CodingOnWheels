@@ -27,12 +27,12 @@ However, it never worked directly. After spending time to try around, the follow
 
 First of all, delete whatever not needed in the virtual machine. For example, in this Windows XP virtual machine, these entries can be cleared:
 
--   C:\\Documents and Settings\\Administrator\\Local Settings\\Temp\\\*
--   C:\\Documents and Settings\\Administrator\\Local Settings\\Temporary Internet Files\\\*
--   C:\\WINDOWS\\$\*
--   C:\\WINDOWS\\SoftwareDistribution\\Download\\\*
--   C:\\WINDOWS\\System32\\dllcache\\\*
--   C:\\WINDOWS\\Temp\\\*
+-   `C:\Documents and Settings\Administrator\Local Settings\Temp\*`
+-   `C:\Documents and Settings\Administrator\Local Settings\Temporary Internet Files\*`
+-   `C:\WINDOWS\$\*`
+-   `C:\WINDOWS\SoftwareDistribution\Download\*`
+-   `C:\WINDOWS\System32\dllcache\*`
+-   `C:\WINDOWS\Temp\*`
 -   etc.
 
 Also, [WinDirStat](https://windirstat.info/index.html) is very helpful to identify the sizes of directories/files:
@@ -76,6 +76,7 @@ This is the most tricky part. There are several options:
 1.  Use built-in Hyper-v Manager to shrink VHD/VHDX files of a virtual machine. [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Shrink-a_D28C/image_thumb_16.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Shrink-a_D28C/image_35.png)
 1.  Use [VHD Resizer](http://www.bursky.net/wp-content/uploads/2012/07/VhdResizerSetup.zip) to change the size. It only works for VHD, not VHDX.
 1.  Use PowerShell command to shrink VHD/VHDX files:
+
     ```csharp
     Resize-VHD –Path .\dixinyan-vmxp.vhdx –ToMinimumSize
     ```

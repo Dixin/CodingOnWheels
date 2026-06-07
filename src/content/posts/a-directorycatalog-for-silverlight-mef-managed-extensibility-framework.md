@@ -18,12 +18,12 @@ In the MEF (Managed Extension Framework) for .NET, there are useful ComposablePa
 
 While in Silverlight, there is a extra System.ComponentModel.Composition.Hosting.DeploymentCatalog. As a wrapper of AssemblyCatalog, it can load all assemblies in a XAP file in the web server side. Unfortunately, in silverlight there is no DirectoryCatalog to load a folder.
 
-- [Background](#background)
-- [Retrieve file list from a directory](#retrieve-file-list-from-a-directory)
-- [Download the directory's XAP file list](#download-the-directorys-xap-file-list)
-- [Download all XAP files](#download-all-xap-files)
-- [Exception handling](#exception-handling)
-- [Conclusion](#conclusion)
+-   [Background](#background)
+-   [Retrieve file list from a directory](#retrieve-file-list-from-a-directory)
+-   [Download the directory's XAP file list](#download-the-directorys-xap-file-list)
+-   [Download all XAP files](#download-all-xap-files)
+-   [Exception handling](#exception-handling)
+-   [Conclusion](#conclusion)
 
 ## Background
 
@@ -61,14 +61,14 @@ This is nothing but a simple HTML page:
     </head>
     <body>
         <h1>localhost - /Folder/</h1>
-        <hr>
+        <hr />
         <pre>
             <a href="/">[To Parent Directory]</a><br>
             <br>
             1/3/2011  7:22 PM   185 <a href="/Folder/File.txt">File.txt</a><br>
             1/3/2011  7:22 PM   &lt;dir&gt; <a href="/Folder/Folder/">Folder</a><br>
         </pre>
-        <hr>
+        <hr />
     </body>
 </html>
 ```
@@ -77,19 +77,19 @@ For the ASP.NET Deployment Server of Visual Studio, directory browsing is enable
 
 ![image](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_1D2FB4DA.png "image")
 
-The HTML <Body> is almost the same:
+The HTML `<Body>` is almost the same:
 
 ```html
 <body bgcolor="white">
     <h2><i>Directory Listing -- /ClientBin/</i></h2>
-    <hr width="100%" size="1" color="silver">
+    <hr width="100%" size="1" color="silver" />
     <pre>
         <a href="/">[To Parent Directory]</a>
         Thursday, January 27, 2011 11:51 PM 282,538 <a href="Test.xap">Test.xap</a>
         Tuesday, January 04, 2011 02:06 AM  &lt;dir&gt; <a href="TestFolder/">TestFolder</a>
     </pre>
-    <hr width="100%" size="1" color="silver">
-    <b>Version Information:</b>&nbsp;ASP.NET Development Server 10.0.0.0 
+    <hr width="100%" size="1" color="silver" />
+    <b>Version Information:</b>&nbsp;ASP.NET Development Server 10.0.0.0
 </body>
 ```
 
@@ -314,6 +314,6 @@ So in above code, exceptions in 2 modes are handled differently.
 
 Here is the whole `DirectoryCatelog`'s looking:
 
-![image](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_263C405B.png "image")
+![Directory catelog.](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_263C405B.png)
 
 Please [click here to download the source code](https://aspblogs.blob.core.windows.net/media/dixin/Media/SilverlightMefExtensions.zip), a simple unit test is included. This is a rough implementation. And, for convenience, some design and coding are just following the built in `AggregateCatalog` class and `Deployment` class. Please feel free to modify the code, and please kindly tell me if any issue is found.

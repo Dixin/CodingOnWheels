@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-1-fundamentals](/posts/category-theory-via-csharp-1-fundamentals "https://CodingOnWheels.com/posts/category-theory-via-csharp-1-fundamentals")**
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
+>
+> This post is updated, [here is the latest version](/posts/category-theory-via-csharp-1-fundamentals).
 
 This post and the following posts will introduce category theory and its important concepts via C# and LINQ, including functor, applicative functor, monoid, monad, etc. Categories were first introduced by [Samuel Eilenberg](http://en.wikipedia.org/wiki/Samuel_Eilenberg) and [Saunders Mac Lane](http://en.wikipedia.org/wiki/Saunders_Mac_Lane) in 1942–45. It might be tedious, as Wikipedia pointed:
 
@@ -65,7 +66,7 @@ public interface IMorphism<in TSource, out TResult, out TCategory> where TCatego
 
 For convenience, the composition function is uncurried with 2 arity. But this is no problem, because any function cannot [curried or uncurried](/posts/lambda-calculus-via-c-sharp-1-fundamentals-closure-currying-and-partial-application).
 
-All members in above interfaces are tagged as [\[Pure\]](https://msdn.microsoft.com/en-us/library/system.diagnostics.contracts.pureattribute.aspx) to indicate all their are all pure functions (C# property will be compiled to get/set functions too). The [purity](http://en.wikipedia.org/wiki/Pure_function) will be explained later.
+All members in above interfaces are tagged as [`[Pure]`](https://msdn.microsoft.com/en-us/library/system.diagnostics.contracts.pureattribute.aspx) to indicate all their are all pure functions (C# property will be compiled to get/set functions too). The [purity](http://en.wikipedia.org/wiki/Pure_function) will be explained later.
 
 ## The .NET category and morphism
 
@@ -123,4 +124,4 @@ And the DotNet category satisfies the category laws:
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb_4.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_11.png)
 
 1.  The associativity of morphisms’ (C# functions’) composition is already [proven before](/posts/lambda-calculus-via-c-sharp-3-fundamentals-function-composition).
-1.  The morphism returned by Id() is a wrapper of generic function (@object => @object), but it can be compiled to a copy for each closed type (each object ∈ ob(DotNet)), like Id<string>, Id<int>(), id<bool>(), etc. (This is also called [code explosion](https://www.safaribooksonline.com/library/view/clr-via-c/9780735668737/ch12.html#code_explosion) in .NET):
+1.  The morphism returned by Id() is a wrapper of generic function (@object => @object), but it can be compiled to a copy for each closed type (each object ∈ ob(DotNet)), like `Id<string>`, `Id<int>()`, `id<bool>()`, etc. (This is also called [code explosion](https://www.safaribooksonline.com/library/view/clr-via-c/9780735668737/ch12.html#code_explosion) in .NET):

@@ -1,7 +1,7 @@
 ---
 title: "Introducing LINQ (3) Programming Paradigms"
 published: 2010-03-02
-description: "\\] - \\]"
+description: "Programming paradigm is the fundamental style of programming."
 image: ""
 tags: [".NET", "C#", "Functional Programming", "Haskell", "JavaScript", "LINQ", "Ruby", "TSQL"]
 category: "LINQ"
@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C#](/posts/linq-via-csharp)\] - \[[Introducing LINQ](/archive/?tag=Introducing%20LINQ)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 Programming paradigm is the fundamental style of programming.
 
@@ -181,7 +182,7 @@ And finally, C# is:
 
 Thanks to Microsoft and [Anders Hejlsberg](http://en.wikipedia.org/wiki/Anders_Hejlsberg), C#/.NET is powerful and productive, work in many different scenarios.
 
-## Declarative C#
+## Declarative C\#
 
 C# 3.0+ introduced a lot of syntax to make it more declarative. For example, the object initializer collection initializer:
 
@@ -335,7 +336,7 @@ public class Person
 }
 ```
 
-### LINQ and Functional C#
+### LINQ and Functional C\#
 
 Above LinqToObjects.FilterAndOrderByAge method implementation is equivalent to (actually is compiled to):
 

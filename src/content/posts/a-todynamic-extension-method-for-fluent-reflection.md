@@ -9,16 +9,16 @@ draft: false
 lang: ""
 ---
 
-Recently I needed to demonstrate some code with reflection, but I felt it inconvenient and tedious. To simplify the reflection coding, I created a `ToDynamic()` extension method. The source code can be downloaded from [here](https://aspblogs.blob.core.windows.net/media/dixin/Media/DynamicWrapper.zip).
+Recently I needed to demonstrate some code with reflection, but I felt it inconvenient and tedious. To simplify the reflection coding, I created a `ToDynamic()` extension method. The source code can be [downloaded from here](https://aspblogs.blob.core.windows.net/media/dixin/Media/DynamicWrapper.zip).
 
-- [Problem](#problem)
-- [C# 4.0 dynamic](#c-40-dynamic)
-- [.NET 4.0 DynamicObject, and DynamicWrapper](#net-40-dynamicobject-and-dynamicwrapper)
-- [ToDynamic() and fluent reflection](#todynamic-and-fluent-reflection)
-- [Special scenarios](#special-scenarios)
-  - [Access static members](#access-static-members)
-  - [Change instances of value types](#change-instances-of-value-types)
-- [Conclusions](#conclusions)
+-   [Problem](#problem)
+-   [C# 4.0 dynamic](#c-40-dynamic)
+-   [.NET 4.0 `DynamicObject`, and `DynamicWrapper<T>`](#net-40-dynamicobject-and-dynamicwrappert)
+-   [`ToDynamic()` and fluent reflection](#todynamic-and-fluent-reflection)
+-   [Special scenarios](#special-scenarios)
+    -   [Access static members](#access-static-members)
+    -   [Change instances of value types](#change-instances-of-value-types)
+-   [Conclusions](#conclusions)
 
 ## Problem
 
@@ -36,7 +36,7 @@ using (NorthwindDataContext database = new NorthwindDataContext())
     // because Provider, Execute(), and ReturnValue are not public members. The following code cannot compile.
     IEnumerable<Product> results = database.Provider.Execute(query.Expression).ReturnValue;
 
-    // Processes the results. 
+    // Processes the results.
     foreach (Product product in results)
     {
         Console.WriteLine("{0}, {1}", product.ProductID, product.ProductName);
@@ -67,7 +67,7 @@ using (NorthwindDataContext database = new NorthwindDataContext())
         type => type.FullName == "System.Data.Linq.Provider.IProvider");
     InterfaceMapping mapping = provider.GetType().GetInterfaceMap(providerType);
     MethodInfo executeMethod = mapping.InterfaceMethods.Single(method => method.Name == "Execute");
-    IExecuteResult executeResult = 
+    IExecuteResult executeResult =
         executeMethod.Invoke(provider, new object[] { query.Expression }) as IExecuteResult;
 
     // database.Provider.Execute(query.Expression).ReturnValue
@@ -84,7 +84,7 @@ using (NorthwindDataContext database = new NorthwindDataContext())
 This may be not straight forward enough. So here is a solution implementing fluent reflection with a `ToDynamic()` extension method:
 
 ```csharp
-IEnumerable<Product> results = database.ToDynamic() // Starts fluent reflection. 
+IEnumerable<Product> results = database.ToDynamic() // Starts fluent reflection.
                                        .Provider.Execute(query.Expression).ReturnValue;
 ```
 
@@ -112,7 +112,7 @@ This throws a RuntimeBinderException at runtime:
 
 Here dynamic is able find the specified member. So the next thing is just writing some custom code to access the found member.
 
-## .NET 4.0 DynamicObject, and DynamicWrapper<T>
+## .NET 4.0 `DynamicObject`, and `DynamicWrapper<T>`
 
 Where to put the custom code for dynamic? The answer is DynamicObject’s derived class. I first heard of DynamicObject from [Anders Hejlsberg's video in PDC2008](http://channel9.msdn.com/pdc2008/TL16/). It is very powerful, providing useful virtual methods to be overridden, like:
 
@@ -301,7 +301,7 @@ In the above `TryGetMember()` method, please notice it does not output the membe
 Now the code becomes:
 
 ```csharp
-IEnumerable<Product> results = database.ToDynamic() // Here starts fluent reflection. 
+IEnumerable<Product> results = database.ToDynamic() // Here starts fluent reflection.
                                        .Provider.Execute(query.Expression).ReturnValue
                                        .ToStatic(); // Unwraps to get the static value.
 ```
@@ -322,7 +322,7 @@ public class DynamicWrapper<T> : DynamicObject
 `ToStatic()` can be omitted:
 
 ```csharp
-IEnumerable<Product> results = database.ToDynamic() 
+IEnumerable<Product> results = database.ToDynamic()
                                        .Provider.Execute(query.Expression).ReturnValue;
                                        // Automatically converts to expected static value.
 ```
@@ -375,7 +375,7 @@ internal static class FieldInfoExtensions
     {
         if (typeof(T).IsValueType)
         {
-            field.SetValueDirect(__makeref(obj), value); // For value type. 
+            field.SetValueDirect(__makeref(obj), value); // For value type.
         }
         else
         {
@@ -429,4 +429,4 @@ StaticType result = someValue.ToDynamic()._field.Method().Property[index];
 
 In some special scenarios which requires changing the value of a struct (value type), this `DynamicWrapper<T>` does not work perfectly. Only changing struct’s field value is supported.
 
-The source code can be downloaded from [here](https://aspblogs.blob.core.windows.net/media/dixin/Media/DynamicWrapper.zip), including a few unit test code.
+The source code can be [downloaded from here](https://aspblogs.blob.core.windows.net/media/dixin/Media/DynamicWrapper.zip), including a few unit test code.

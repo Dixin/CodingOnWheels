@@ -9,23 +9,36 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
-## **Latest version:** [**https://CodingOnWheels.com/posts/functional-csharp-fundamentals**](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
+## `Latest version:` [`https://CodingOnWheels.com/posts/functional-csharp-fundamentals`](/posts/functional-csharp-fundamentals "https://CodingOnWheels.com/posts/functional-csharp-fundamentals")
 
 C# 1.0 was initially released in 2002, as its first language specification says at the beginning, C# is a “simple, modern, object oriented, and type-safe” programming language for general purpose. Now C# has evolved to 7.2. During the years, a lot of great language features, especially rich functional programming features, has been added to C#. Now C# language has been productive and elegant, imperative and declarative, object-oriented and functional. With frameworks like .NET Framework, .NET Core, Mono, Xamarin, Unity, etc., C# is used by millions of people cross different platforms, including Windows, Linux, Mac, iOS, Android, etc.
 
 This tutorial is totally for C# language focusing on its functional aspects. The readers are assumed to have the general concepts on programming and C# language. This chapter reviews the basic but important elements and syntax of C# 1.0 - 7.x, to warm up the beginner level readers, as well as readers who are not yet familiar with some new syntax introduced in recent C# releases. The other advanced features and concepts will be discussed in detail in later chapters. This tutorial does not cover the topics and language features out of the scope of functional programming and LINQ, like inheritance of object-oriented programming, pointer in unsafe code, interop with other unmanaged code, dynamic programming, etc..
 
-<table border="0" cellpadding="0" cellspacing="0" width="635"><tbody><tr><td valign="top" width="48">C#</td><td valign="top" width="180">Features in this chapter</td><td valign="top" width="249">Features in other chapters</td><td valign="top" width="156">Features not covered</td></tr><tr><td valign="top" width="48">1.0</td><td valign="top" width="180">Class Structure Interface Enumeration using statement</td><td valign="top" width="249">Delegate Event Function member ref parameter out parameter Parameter array foreach statement</td><td valign="top" width="156">Inheritance Pointer Interop</td></tr><tr><td valign="top" width="48">1.1</td><td valign="top" width="180"></td><td valign="top" width="249"></td><td valign="top" width="156">pragma directive</td></tr><tr><td valign="top" width="48">1.2</td><td valign="top" width="180"></td><td valign="top" width="249">foreach for IDisposable</td><td valign="top" width="156"></td></tr><tr><td valign="top" width="48">2.0</td><td valign="top" width="180">Static class Partial type Generic type Nullable value type Null coalescing operator</td><td valign="top" width="249">Anonymous method Generator Covariance and contravariance Generic method</td><td valign="top" width="156"></td></tr><tr><td valign="top" width="48">3.0</td><td valign="top" width="180">Auto property Object initializer Collection initializer</td><td valign="top" width="249">Anonymous type Implicitly typed local variable Query expression Lambda expression Extension method Partial method</td><td valign="top" width="156"></td></tr><tr><td valign="top" width="48">4.0</td><td valign="top" width="180"></td><td valign="top" width="249">Named argument Optional argument Generic covariance and contravariance</td><td valign="top" width="156">Dynamic binding</td></tr><tr><td valign="top" width="48">5.0</td><td valign="top" width="180"></td><td valign="top" width="249">Asynchronous function Caller info argument</td><td valign="top" width="156"></td></tr><tr><td valign="top" width="48">6.0</td><td valign="top" width="180">Property initializer Dictionary initializer Null propagation operator Exception filter String interpolation nameof operator</td><td valign="top" width="249">Static import Expression bodied member await in catch/finally block</td><td valign="top" width="156"></td></tr><tr><td valign="top" width="48">7.0</td><td valign="top" width="180">throw expression Digit separator</td><td valign="top" width="249">Out variable Tuple and deconstruction Local function Expanded expression bodied member ref return and local Discard Generalized asynchronous return throw expression Pattern matching</td><td valign="top" width="156"></td></tr><tr><td valign="top" width="48">7.1</td><td valign="top" width="180">default literal expression</td><td valign="top" width="249">Async Main method Inferred tuple element name</td><td valign="top" width="156"></td></tr><tr><td valign="top" width="48">7.2</td><td valign="top" width="180">ref structure Leading underscores in numeric literals</td><td valign="top" width="249">Non-trailing named arguments in parameter ref readonly return and local Readonly structure</td><td valign="top" width="156">private protected modifier</td></tr></tbody></table>
+|C#|Features in this chapter|Features in other chapters|Features not covered|
+|---|---|---|---|
+|1.0|Class Structure, Interface, Enumeration, using statement|Delegate, Event, Function member, ref parameter, out parameter, Parameter array, foreach statement|Inheritance, Pointer, Interop|
+|1.1|||pragma directive|
+|1.2||foreach, for, IDisposable||
+|2.0|Static class, Partial type, Generic type, Nullable value type, Null coalescing operator|Anonymous method, Generator, Covariance and contravariance, Generic method||
+|3.0|Auto property, Object initializer, Collection initializer|Anonymous type, Implicitly typed local variable, Query expression, Lambda expression, Extension method, Partial method||
+|4.0||Named argument, Optional argument, Generic covariance and contravariance|Dynamic binding|
+|5.0||Asynchronous function, Caller info argument||
+|6.0|Property initializer, Dictionary initializer, Null propagation operator, Exception filter, String interpolation, nameof operator|Static import, Expression bodied member, await in catch/finally block||
+|7.0|throw expression, Digit separator|Out variable, Tuple and deconstruction, Local function, Expanded expression bodied member, ref return and local, Discard, Generalized asynchronous return, throw expression, Pattern matching||
+|7.1|default literal expression|Async Main method, Inferred tuple element name||
+|7.2|ref structure, Leading underscores in numeric literals|Non-trailing named arguments, in parameter, ref readonly return and local, Readonly structure|private protected modifier|
 
 ## Types and members
 
 C# is strongly typed. In C#, any value has a type. C# supports [5 kinds of types](https://msdn.microsoft.com/en-us/library/zcx1eb1e.aspx): class, structure, enumeration, delegate, and interface.
 
-A class is a reference type defined with the class keyword. It can have fields, properties, methods, events, operators, indexers, constructors, destructor, and nested class, structure, enumeration, delegate, and interface types. A class is always derived from **System.Object** class.
+A class is a reference type defined with the class keyword. It can have fields, properties, methods, events, operators, indexers, constructors, destructor, and nested class, structure, enumeration, delegate, and interface types. A class is always derived from `System.Object` class.
 
 ```csharp
 namespace System
@@ -53,7 +66,7 @@ namespace System
 
 Object has a static Equals method to test whether 2 instances are considered equal, an instance Equals method to test whether the current instance and the other instance are considered equal, and a static ReferenceEquals method to test whether 2 instances are the same instance. It has a GetHashCode method as the default hash function to return a hash code number for quick test of instances. It also has a GetType method to return the type of current instance, and a ToString method to return the text representation of the current instance.
 
-The following example is a segment of System.Exception class implementation in .NET Framework. It demonstrates the syntax to define a class and different kinds of members**.** This class implements the System.ISerializable interface, and derives the System.\_Exception class. When defining a class, base class System.Object can be omitted.
+The following example is a segment of System.Exception class implementation in .NET Framework. It demonstrates the syntax to define a class and different kinds of members. This class implements the System.ISerializable interface, and derives the `System._Exception` class. When defining a class, base class System.Object can be omitted.
 
 ```csharp
 namespace System
@@ -113,7 +126,7 @@ namespace System
 }
 ```
 
-A structure is value type defined with the struct keyword, which is then derived from **System.Object** class. It can have all kinds of members of class except destructor. A structure always derives from **System.ValueType** class, and interestingly, System.ValueType is a reference type derived from System.Object. In practice, a structure is usually defined to represent very small and immutable data structure, in order to [improve the performance](https://msdn.microsoft.com/en-us/library/ms229017.aspx) of memory allocation/deallocation. For example, the . In .NET Core System. is implemented as:
+A structure is value type defined with the struct keyword, which is then derived from `System.Object` class. It can have all kinds of members of class except destructor. A structure always derives from `System.ValueType` class, and interestingly, System.ValueType is a reference type derived from System.Object. In practice, a structure is usually defined to represent very small and immutable data structure, in order to [improve the performance](https://msdn.microsoft.com/en-us/library/ms229017.aspx) of memory allocation/deallocation. For example, the . In .NET Core System. is implemented as:
 
 ```csharp
 namespace System
@@ -153,7 +166,7 @@ namespace System
 }
 ```
 
-An enumeration is a value type derived from System.Enum class, which is derived from System.ValueType class. It can only have constant fields of the specified underlying integral type (**int** by default). For example:
+An enumeration is a value type derived from System.Enum class, which is derived from System.ValueType class. It can only have constant fields of the specified underlying integral type (`int` by default). For example:
 
 ```csharp
 namespace System
@@ -172,7 +185,7 @@ namespace System
 }
 ```
 
-A delegate is a reference type derived from **System.MulticastDelegate** class, which is derived from **System.Delegate** class. Delegate type represents function type, and is discussed in detail in the functional programming chapter.
+A delegate is a reference type derived from `System.MulticastDelegate` class, which is derived from `System.Delegate` class. Delegate type represents function type, and is discussed in detail in the functional programming chapter.
 
 ```csharp
 namespace System
@@ -203,11 +216,27 @@ Any class or structure implementing the above interface must have the specified 
 
 There are basic. NET types most commonly used in C# programming, so C# provides language keywords as aliases of those types, which are called built-in types of C#:
 
-<table border="1" cellpadding="2" cellspacing="0" width="320"><tbody><tr><td valign="top" width="140">C# keyword</td><td valign="top" width="178">.NET type</td></tr><tr><td valign="top" width="140">bool</td><td valign="top" width="178">System.Boolean</td></tr><tr><td valign="top" width="140">sbyte</td><td valign="top" width="178">System.SByte</td></tr><tr><td valign="top" width="140">byte</td><td valign="top" width="178">System.Byte</td></tr><tr><td valign="top" width="140">char</td><td valign="top" width="178">System.Char</td></tr><tr><td valign="top" width="140">short</td><td valign="top" width="178">System.Init16</td></tr><tr><td valign="top" width="140">ushort</td><td valign="top" width="178">System.UInit16</td></tr><tr><td valign="top" width="140">int</td><td valign="top" width="178">System.Init32</td></tr><tr><td valign="top" width="140">uint</td><td valign="top" width="178">System.UInit32</td></tr><tr><td valign="top" width="140">long</td><td valign="top" width="178">System.Init54</td></tr><tr><td valign="top" width="140">ulong</td><td valign="top" width="178">System.UInit54</td></tr><tr><td valign="top" width="140">float</td><td valign="top" width="178">System.Single</td></tr><tr><td valign="top" width="140">double</td><td valign="top" width="178">System.Double</td></tr><tr><td valign="top" width="140">decimal</td><td valign="top" width="178">System.Decimal</td></tr><tr><td valign="top" width="140">object</td><td valign="top" width="178">System.Object</td></tr><tr><td valign="top" width="140">string</td><td valign="top" width="178">System.String</td></tr></tbody></table>
+| C# keyword | .NET type      |
+|------------|----------------|
+| bool       | System.Boolean |
+| sbyte      | System.SByte   |
+| byte       | System.Byte    |
+| char       | System.Char    |
+| short      | System.Init16  |
+| ushort     | System.UInit16 |
+| int        | System.Init32  |
+| uint       | System.UInit32 |
+| long       | System.Init54  |
+| ulong      | System.UInit54 |
+| float      | System.Single  |
+| double     | System.Double  |
+| decimal    | System.Decimal |
+| object     | System.Object  |
+| string     | System.String  |
 
 ## Reference type vs. value type
 
-In C#/.NET, classes are reference types, including object, string, array, etc.. Delegates is also reference type, which is discussed later. Structures are value types, including primitive types (**bool**, **sbyte**, **byte**, **char**, **short**, **ushort**, **int**, **uint**, **long**, **ulong**, **float**, **double**), **decimal**, **System.DateTime**, **System.DateTimeOffset**, **System.TimeSpan**, **System.Guid**, **System.Nullable<T>**, enumeration (since enumeration’s underlying type is always a numeric primitive type), etc. The following example defines a reference type and a value type, which look similar to each other:
+In C#/.NET, classes are reference types, including object, string, array, etc.. Delegates is also reference type, which is discussed later. Structures are value types, including primitive types (`bool`, `sbyte`, `byte`, `char`, `short`, `ushort`, `int`, `uint`, `long`, `ulong`, `float`, `double`), `decimal`, `System.DateTime`, `System.DateTimeOffset`, `System.TimeSpan`, `System.Guid`, `System.Nullable<T>`, enumeration (since enumeration’s underlying type is always a numeric primitive type), etc. The following example defines a reference type and a value type, which look similar to each other:
 
 ```csharp
 internal class Point
@@ -245,7 +274,7 @@ internal readonly struct ValuePoint
 }
 ```
 
-Instances of reference type and value type are allocated differently. Reference type is always allocated on the managed heap, and deallocated by garbage collection. Value type is either allocated on the stack and deallocated by stack unwinding, or is allocated and deallocated inline with the container. So generally value type can have better performance for allocation and deallocation. Usually, a type [can be designed as value type](https://msdn.microsoft.com/en-us/library/ms229017.aspx) if it is small, immutable, and logically similar to a primitive type. The above **System.TimeSpan** type structure represents a duration of time, it is designed to be value type, because it is just a immutable wrapper of a long value, which represents ticks. The following example demonstrates this difference:
+Instances of reference type and value type are allocated differently. Reference type is always allocated on the managed heap, and deallocated by garbage collection. Value type is either allocated on the stack and deallocated by stack unwinding, or is allocated and deallocated inline with the container. So generally value type can have better performance for allocation and deallocation. Usually, a type [can be designed as value type](https://msdn.microsoft.com/en-us/library/ms229017.aspx) if it is small, immutable, and logically similar to a primitive type. The above `System.TimeSpan` type structure represents a duration of time, it is designed to be value type, because it is just a immutable wrapper of a long value, which represents ticks. The following example demonstrates this difference:
 
 ```csharp
 internal static partial class Fundamentals
@@ -266,7 +295,7 @@ internal static partial class Fundamentals
 }
 ```
 
-When a **Point** instance is constructed as a local variable, since it is reference type, it is allocated in the managed heap. Its fields are value types, so the fields are allocated inline on the managed heap too. The local variable **reference1** can be viewed as a pointer, pointing to managed heap location that holds the data. When assigning **reference1** to **reference2**, the pointer is copied. So **reference1** and **reference2** both point to the same **Point** instance in the managed heap. When **ValuePoint** is constructed as a local variable, since it is value type. it is allocated in the stack. Its fields are also allocated inline in the stack. The local variable **value1** holds the actual data. When assigning value1 to **value2**, the entire instance is copied, so **value1** and **value2** are 2 different **ValuePoint** instances in stack. In C#, array always derives from System.Array class and is reference type. So referenceArray and valueArray are both allocated on heap, and their elements are both on heap too.
+When a `Point` instance is constructed as a local variable, since it is reference type, it is allocated in the managed heap. Its fields are value types, so the fields are allocated inline on the managed heap too. The local variable `reference1` can be viewed as a pointer, pointing to managed heap location that holds the data. When assigning `reference1` to `reference2`, the pointer is copied. So `reference1` and `reference2` both point to the same `Point` instance in the managed heap. When `ValuePoint` is constructed as a local variable, since it is value type. it is allocated in the stack. Its fields are also allocated inline in the stack. The local variable `value1` holds the actual data. When assigning value1 to `value2`, the entire instance is copied, so `value1` and `value2` are 2 different `ValuePoint` instances in stack. In C#, array always derives from System.Array class and is reference type. So referenceArray and valueArray are both allocated on heap, and their elements are both on heap too.
 
 Reference type can be null and value type cannot:
 
@@ -293,7 +322,7 @@ internal static void CompiledDefault()
 }
 ```
 
-A structure always virtually has a parameterless default constructor. Calling this default constructor instantiates the structure and sets all its fields to default values. Here **defaultValue**’s **int** fields are initialized to 0. If **ValuePoint** has a reference type field, the reference type field is initialized to null.
+A structure always virtually has a parameterless default constructor. Calling this default constructor instantiates the structure and sets all its fields to default values. Here `defaultValue`’s `int` fields are initialized to 0. If `ValuePoint` has a reference type field, the reference type field is initialized to null.
 
 ### default literal expression
 
@@ -336,7 +365,7 @@ As fore mentioned, array is reference type allocated on heap, so the compiler do
 
 ## Static class
 
-C# 2.0 enables **static** modifier for class definition. Take System.Math as example:
+C# 2.0 enables `static` modifier for class definition. Take System.Math as example:
 
 ```csharp
 namespace System
@@ -352,7 +381,7 @@ A static class can only have static members, and cannot be instantiated. Static 
 
 ## Partial type
 
-C# 2.0 introduces the **partial** keyword to split the definition of class, structure, or interface at design time.
+C# 2.0 introduces the `partial` keyword to split the definition of class, structure, or interface at design time.
 
 ```csharp
 internal partial class Device
@@ -401,7 +430,7 @@ internal class Implementation : IInterface
 }
 ```
 
-This **Implementations** type has a public **Implicit** method with the same signature as the **IInterface**’s **Implicit** method, so C# compiler takes **Implementations.**Implicit method as the implementation of **IInterface.**Implicit method. This syntax is called implicit interface implementation. The other method Explicit, is implemented explicitly as a interface member, not as a member method of Implementations type. The following example demonstrates how to use these interface members:
+This `Implementations` type has a public `Implicit` method with the same signature as the `IInterface`’s `Implicit` method, so C# compiler takes `Implementations.Implicit` method as the implementation of `IInterface.Implicit` method. This syntax is called implicit interface implementation. The other method Explicit, is implemented explicitly as a interface member, not as a member method of Implementations type. The following example demonstrates how to use these interface members:
 
 ```csharp
 internal static void InterfaceMembers()
@@ -415,7 +444,7 @@ internal static void InterfaceMembers()
 }
 ```
 
-An implicitly implemented interface member can be accessed from the instance of the implementation type and interface type, but an explicitly implemented interface member can only be accessed from the instance of the interface type. Here the variable name **@object** and **@interface** are prefixed with special character @, because **object** and **interface** are C# language keywords, and cannot be directly used as identifier.
+An implicitly implemented interface member can be accessed from the instance of the implementation type and interface type, but an explicitly implemented interface member can only be accessed from the instance of the interface type. Here the variable name `@object` and `@interface` are prefixed with special character @, because `object` and `interface` are C# language keywords, and cannot be directly used as identifier.
 
 ### IDisposable interface and using statement
 
@@ -471,7 +500,7 @@ This is more declarative at design time, and the try-finally is generated at com
 
 ## Generic type
 
-C# 2.0 introduces generic programming. Generic programming is a paradigm that supports type parameters, so that type information are allowed to be provided later. The following stack data structure of **int** values is non generic:
+C# 2.0 introduces generic programming. Generic programming is a paradigm that supports type parameters, so that type information are allowed to be provided later. The following stack data structure of `int` values is non generic:
 
 ```csharp
 internal interface IInt32Stack
@@ -506,8 +535,8 @@ internal class Int32Stack : IInt32Stack
 
 This code is not very reusable. Later, if stacks are needed for values of other data types, like string, decimal, etc., then there are some options:
 
--   For each new data type, make a copy of above code and modify the int type information. So **IStringStack** and **StringStack** can be defined for **string**, **IDecimalStack** and Decimal**Stack** for **decimal**, and so on and on. Apparently this way is not feasible.
--   Since every type is derived from **object**, a general stack for **object** can be defined, which is **IObjectStack** and **ObjectStack**. The **Push** method accepts **object**, and **Pop** method returns **object**, so the stack can be used for values of any data type. However, this design loses the compile time type checking. Calling **Push** with any argument can be compiled. Also, at runtime, whenever **Pop** is called, the returned object has to be casted to the expected type, which is a performance overhead and a chance to fail.
+-   For each new data type, make a copy of above code and modify the int type information. So `IStringStack` and `StringStack` can be defined for `string`, `IDecimalStack` and Decimal`Stack` for `decimal`, and so on and on. Apparently this way is not feasible.
+-   Since every type is derived from `object`, a general stack for `object` can be defined, which is `IObjectStack` and `ObjectStack`. The `Push` method accepts `object`, and `Pop` method returns `object`, so the stack can be used for values of any data type. However, this design loses the compile time type checking. Calling `Push` with any argument can be compiled. Also, at runtime, whenever `Pop` is called, the returned object has to be casted to the expected type, which is a performance overhead and a chance to fail.
 
 ### Type parameter
 
@@ -563,9 +592,9 @@ internal static void Stack()
 }
 ```
 
-So generics enables code reuse with type safety. **IStack<T>** and **Stack<T>** are strong typed, where **IStack<T>.****Push**/**Stack<T>.Push** accept a value of type **T**, and **IStack<T>****Pop**/**IStack<T>.Pop** return a value of type **T**. For example, When **T** is **int**, **IStack<int>**.**Push**/**Stack<int>.Push** accept an **int** value; When **T** is **string**, **IStack<string>.Pop**/**Stack<int>.Pop** returns a **string** value; etc. So **IStack<T>** and **Stack<T>** are polymorphic types, and this is called parametric polymorphism.
+So generics enables code reuse with type safety. `IStack<T>` and `Stack<T>` are strong typed, where `IStack<T>.``Push`/`Stack<T>.Push` accept a value of type `T`, and `IStack<T>``Pop`/`IStack<T>.Pop` return a value of type `T`. For example, When `T` is `int`, `IStack<int>.Push`/`Stack<int>.Push` accept an `int` value; When `T` is `string`, `IStack<string>.Pop`/`Stack<int>.Pop` returns a `string` value; etc. So `IStack<T>` and `Stack<T>` are polymorphic types, and this is called parametric polymorphism.
 
-In .NET, a generic type with type parameters are called open type (or open constructed type). If generic type’s all type parameters are specified with concrete types, then it is called closed type (or closed constructed type). Here **Stack<T>** is open type, and **Stack<int>**, **Stack<string>**, **Stack<Uri>** are closed types.
+In .NET, a generic type with type parameters are called open type (or open constructed type). If generic type’s all type parameters are specified with concrete types, then it is called closed type (or closed constructed type). Here `Stack<T>` is open type, and ``Stack<int>``, `Stack<string>`, `Stack<Uri>` are closed types.
 
 The syntax for generic structure is the same as above generic class. Generic delegate and generic method will be discussed later.
 
@@ -583,7 +612,7 @@ internal class Constraint<T>
 }
 ```
 
-Above code cannot be compiled, with error CS0403: Cannot convert null to type parameter 'T' because it could be a non-nullable value type. The reason is, as fore mentioned, only values of reference types (instances of classes) can be **null**, but here **T** is allowed be structure type too. For this kind of scenario, C# supports constraints for type parameters, with the where keyword:
+Above code cannot be compiled, with error CS0403: Cannot convert null to type parameter 'T' because it could be a non-nullable value type. The reason is, as fore mentioned, only values of reference types (instances of classes) can be `null`, but here `T` is allowed be structure type too. For this kind of scenario, C# supports constraints for type parameters, with the where keyword:
 
 ```csharp
 internal class Constraint<T> where T: class
@@ -595,7 +624,7 @@ internal class Constraint<T> where T: class
 }
 ```
 
-Here T must be reference type, for example, **Constraint<string>** is allowed by compiler, and **Constraint<int>** causes a compiler error. Here are some more examples of constraints syntax:
+Here T must be reference type, for example, `Constraint<string>` is allowed by compiler, and `Constraint<int>` causes a compiler error. Here are some more examples of constraints syntax:
 
 ```csharp
 internal partial class Constraints<T1, T2, T3, T4, T5, T6, T7>
@@ -610,15 +639,15 @@ internal partial class Constraints<T1, T2, T3, T4, T5, T6, T7>
 
 The above generic type has 7 type parameters:
 
--   **T1** must be value type (structure)
--   **T2** must be reference type (class)
--   **T3** must be the specified type, or derive from the specified type
--   **T4** must be the specified interface, or implement the specified interface
--   **T5** must be value type (structure), and must implement all the specified interfaces
--   **T6** must have a public parameterless constructor
--   **T7** must be or derive from or implement **T2**, **T3**, **T4**, and must implement the specified interface, and must have a public parameterless constructor
+-   `T1` must be value type (structure)
+-   `T2` must be reference type (class)
+-   `T3` must be the specified type, or derive from the specified type
+-   `T4` must be the specified interface, or implement the specified interface
+-   `T5` must be value type (structure), and must implement all the specified interfaces
+-   `T6` must have a public parameterless constructor
+-   `T7` must be or derive from or implement `T2`, `T3`, `T4`, and must implement the specified interface, and must have a public parameterless constructor
 
-Take **T3** as example:
+Take `T3` as example:
 
 ```csharp
 internal partial class Constraints<T1, T2, T3, T4, T5, T6, T7>
@@ -633,9 +662,9 @@ internal partial class Constraints<T1, T2, T3, T4, T5, T6, T7>
 }
 ```
 
-Regarding **System.Data.Common.DbConnection** implements **System.IDisposable**, and has a **CreateCommand** method, so the above t3 object can be used with using statement, and the **CreateCommand** call can be compiled too.
+Regarding `System.Data.Common.DbConnection` implements `System.IDisposable`, and has a `CreateCommand` method, so the above t3 object can be used with using statement, and the `CreateCommand` call can be compiled too.
 
-The following is an example closed type of **Constraints<T1, T2, T3, T4, T5, T6, T7>**:
+The following is an example closed type of `Constraints<T1, T2, T3, T4, T5, T6, T7>`:
 
 ```csharp
 internal static void CloseType()
@@ -650,13 +679,13 @@ Here:
 -   object is reference type
 -   DbConnection is DbConnection
 -   System.Data.Common.IDbConnection implements IDisposable
--   int is value type, implements System.IComparable, and implements System.IComparable<int> too
+-   int is value type, implements System.IComparable, and implements `System.IComparable<int>` too
 -   System.Exception has a public parameterless constructor
 -   System.Data.SqlClient.SqlConnection derives from object, derives from DbConnection, implements IDbConnection, and has a public parameterless constructor
 
 ## Nullable value type
 
-As fore mentioned, In C#/.NET, instance of type cannot be null. However, there are still some scenarios for value type to represent logical null. A typical example is database table. A value retrieved from a nullable integer column can be either integer value, or null. C# 2.0 introduces a nullable value type syntax T?, for example int? reads nullable int. T? is just a shortcut of the System.Nullable<T> generic structure:
+As fore mentioned, In C#/.NET, instance of type cannot be null. However, there are still some scenarios for value type to represent logical null. A typical example is database table. A value retrieved from a nullable integer column can be either integer value, or null. C# 2.0 introduces a nullable value type syntax T?, for example int? reads nullable int. T? is just a shortcut of the `System.Nullable<T>` generic structure:
 
 ```csharp
 namespace System
@@ -709,7 +738,7 @@ internal static void Nullable()
 }
 ```
 
-Apparently, int? is the Nullable<int> structure, and cannot be real null. Above code is syntactic sugar and compiled to normal structure usage:
+Apparently, int? is the `Nullable<int>` structure, and cannot be real null. Above code is syntactic sugar and compiled to normal structure usage:
 
 ```csharp
 internal static void CompiledNullable()
@@ -723,7 +752,7 @@ internal static void CompiledNullable()
 }
 ```
 
-When nullable is assigned with null, it is actually assigned with a instance of Nullable<int> instance. Here the structure’s default parameterless constructor is called, so a Nullable<int> instance is initialized, with each data field is initialized with its default value. So nullable’s hasValue field is false, indicating this instance logically represents null. Then nullable is reassigned with normal int value, it is actually assigned with another Nullable<int> instance, where hasValue field is set to true and value field is set to the specified int value. The non null check is compiled to HasValue property call. And the type conversion from int? to int is compiled to the Value property call.
+When nullable is assigned with null, it is actually assigned with a instance of `Nullable<int>` instance. Here the structure’s default parameterless constructor is called, so a `Nullable<int>` instance is initialized, with each data field is initialized with its default value. So nullable’s hasValue field is false, indicating this instance logically represents null. Then nullable is reassigned with normal int value, it is actually assigned with another `Nullable<int>` instance, where hasValue field is set to true and value field is set to the specified int value. The non null check is compiled to HasValue property call. And the type conversion from int? to int is compiled to the Value property call.
 
 ## Auto property
 
@@ -990,7 +1019,7 @@ internal static void NullCheck(Category category, Device[] devices)
 }
 ```
 
-C# 6.0 introduces null conditional operators (also called null propagation operators), ?. for member access and ?\[\] for indexer access, to simplify this:
+C# 6.0 introduces null conditional operators (also called null propagation operators), `?.` for member access and `?[]` for indexer access, to simplify this:
 
 ```csharp
 internal static void NullCheckWithNullConditional(Category category, Device[] devices)

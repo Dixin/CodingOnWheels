@@ -9,17 +9,16 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core (EF Core) series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework (EF) series](/archive/?tag=Entity%20Framework)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
 
 Besides LINQ to Entities queries, EF Core also provides rich APIs for data changes, with imperative paradigm.
 
 ## Repository pattern and unit of work pattern
 
-In EF Core, DbSet<T> implements repository pattern. Repositories can centralize data access for applications, and connect between the data source and the business logic. A DbSet<T> instance can be mapped to a database table, which is a repository for data CRUD (create, read, update and delete):
+In EF Core, `DbSet<T>` implements repository pattern. Repositories can centralize data access for applications, and connect between the data source and the business logic. A `DbSet<T>` instance can be mapped to a database table, which is a repository for data CRUD (create, read, update and delete):
 
 ```csharp
 namespace Microsoft.EntityFrameworkCore
@@ -42,7 +41,7 @@ public virtual void RemoveRange(IEnumerable<TEntity> entities);
 }
 ```
 
-DbSet<T> implements IQueryable<T>, so that DbSet<T> can represent the data source to read from. DbSet<T>.Find is also provided to read entity by the primary keys. After reading, the retrieved data can be changed. Add and AddRange methods track the specified entities as to be created in the repository. Remove and RemoveRange methods track the specified entities as to be deleted in the repository.
+`DbSet<T>` implements `IQueryable<T>`, so that `DbSet<T>` can represent the data source to read from. `DbSet<T>.Find` is also provided to read entity by the primary keys. After reading, the retrieved data can be changed. Add and AddRange methods track the specified entities as to be created in the repository. Remove and RemoveRange methods track the specified entities as to be deleted in the repository.
 
 As fore mentioned, a unit of work is a collection of data operations that should together or fail together as a unit. DbContext implements unit of work pattern:
 
@@ -62,7 +61,7 @@ public virtual void Dispose();
 }
 ```
 
-As the mapping of database, DbContext’s Set method returns the specified entity’s repositories. For example, calling AdventureWorks.Products is equivalent to calling AdventureWorks.Set<Product>. The entities tracking is done at the DbContext level, by its ChangeTracker. When DbContext.Submit is called, the tracked changes are submitted to database. When a unit of work is done, DbContext should be disposed.
+As the mapping of database, DbContext’s Set method returns the specified entity’s repositories. For example, calling AdventureWorks.Products is equivalent to calling `AdventureWorks.Set<Product>`. The entities tracking is done at the DbContext level, by its ChangeTracker. When DbContext.Submit is called, the tracked changes are submitted to database. When a unit of work is done, DbContext should be disposed.
 
 ## Track entities and changes
 
@@ -86,7 +85,7 @@ public virtual bool HasChanges();
 }
 ```
 
-Each entity’s loading and tracking information is represented by Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry or Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<TEntity>. The following is the non generic EntityEntry:
+Each entity’s loading and tracking information is represented by Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry or `Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<TEntity>`. The following is the non generic EntityEntry:
 
 ```csharp
 namespace Microsoft.EntityFrameworkCore.ChangeTracking
@@ -122,7 +121,7 @@ Besides the loading information APIs discussed in previous part, EntityEntry als
 -   GetDatabaseValues instantly execute a SQL query to read entity’s property values from database, without updating current entity’s property values and tracking information.
 -   Reload also executes a SQL query to read the database values, and also update current entity’s property values, and all tracking information
 
-The generic EntityEntry<TEntity> is just stronger typing:
+The generic `EntityEntry<TEntity>` is just stronger typing:
 
 ```csharp
 namespace Microsoft.EntityFrameworkCore.ChangeTracking
@@ -136,7 +135,7 @@ public virtual TEntity Entity { get; }
 }
 ```
 
-As fore mentioned in data loading part, DbContext.Entry also accepts an entity and return its EntityEntry<TEntity>/EntityEntry.
+As fore mentioned in data loading part, DbContext.Entry also accepts an entity and return its `EntityEntry<TEntity>`/`EntityEntry`.
 
 ### Track entities
 
@@ -239,7 +238,7 @@ break;
 }
 ```
 
-If an entity is not read from a DbContext instance’s repositories, then it has nothing to do with that unit of work, and apparently is not tracked by that DbContext instance. DbSet<T> provides an Attach method to place an entity to the repository, and the DbContext tracks the entity as the Unchanged state:
+If an entity is not read from a DbContext instance’s repositories, then it has nothing to do with that unit of work, and apparently is not tracked by that DbContext instance. `DbSet<T>` provides an Attach method to place an entity to the repository, and the DbContext tracks the entity as the Unchanged state:
 
 ```csharp
 internal static void Attach(AdventureWorks adventureWorks)
@@ -289,7 +288,7 @@ $"{tracking.State}: {(original.ProductID, original.Name, original.ProductSubcate
 
 ### Enable and disable tracking
 
-DbContext’s default behavior is to track all changes automatically. This can be turned off if not needed. To disable tracking for specific entities queried from repository, call the EntityFrameworkQueryableExtensions.AsNoTracking extension method for IQueryable<T> query:
+DbContext’s default behavior is to track all changes automatically. This can be turned off if not needed. To disable tracking for specific entities queried from repository, call the EntityFrameworkQueryableExtensions.AsNoTracking extension method for `IQueryable<T>` query:
 
 ```csharp
 internal static void AsNoTracking(AdventureWorks adventureWorks)
@@ -321,7 +320,7 @@ To change the data in the database, just create a DbContext instance, change the
 
 ### Create
 
-To create new entities into the repository, call DbSet<T>.Add or DbSet<T>.AddRange. The following example creates a new category, and a new related subcategory, and add to repositories:
+To create new entities into the repository, call `DbSet<T>.Add` or `DbSet<T>.AddRange`. The following example creates a new category, and a new related subcategory, and add to repositories:
 
 ```csharp
 internal static ProductCategory Create()
@@ -373,11 +372,11 @@ return category;
 }
 ```
 
-Here DbSet<T>.Add is called only once with 1 subcategory entity. Internally, Add triggers change detection, and tracks this subcategory as Added state. Since this subcategory is related with another category entity with navigation property, the related category is also tracked, as the Added state too. So in total there are 2 entity changes tracked. When DbContext.SaveChanges is called, EF Core translates these 2 changes to 2 SQL INSERT statements:
+Here `DbSet<T>.Add` is called only once with 1 subcategory entity. Internally, Add triggers change detection, and tracks this subcategory as Added state. Since this subcategory is related with another category entity with navigation property, the related category is also tracked, as the Added state too. So in total there are 2 entity changes tracked. When DbContext.SaveChanges is called, EF Core translates these 2 changes to 2 SQL INSERT statements:
 
-The category’s key is identity key, with value generated by database, so is subcategory. So in the translated INSERT statements, the new category’s ProductCategoryID and the new subcategory’s ProductSubcategory are ignored. After the each new row is created, a SELECT statement calls SCOPE\_IDENTITY metadata function to read the last generated identity value, which is the primary key of the inserted row. As a result, since there are 2 row changes in total, SaveChanges returns 2, And the 2 changes are submitted in a transaction, so that all changes can succeed or fail as a unit.
+The category’s key is identity key, with value generated by database, so is subcategory. So in the translated INSERT statements, the new category’s ProductCategoryID and the new subcategory’s ProductSubcategory are ignored. After the each new row is created, a SELECT statement calls `SCOPE_IDENTITY` metadata function to read the last generated identity value, which is the primary key of the inserted row. As a result, since there are 2 row changes in total, SaveChanges returns 2, And the 2 changes are submitted in a transaction, so that all changes can succeed or fail as a unit.
 
-DbSet<T>.AddRange can be called with multiple entities. AddRange only triggers change detection once for all the entities, so it can have better performance than multiple Add calls,
+`DbSet<T>.AddRange` can be called with multiple entities. AddRange only triggers change detection once for all the entities, so it can have better performance than multiple Add calls,
 
 ### Update
 
@@ -461,7 +460,7 @@ adventureWorks.SaveChanges().WriteLine(); // 0
 
 ### Delete
 
-To delete entities from the repositories, call DbSet<T>.Remove or DbSet<T>.RemoveRange. The following example read an entity then delete it:
+To delete entities from the repositories, call `DbSet<T>.Remove` or `DbSet<T>.RemoveRange`. The following example read an entity then delete it:
 
 ```csharp
 internal static void Delete(int subcategoryId)
@@ -597,7 +596,7 @@ throw;
 }
 ```
 
-EF Core transaction wraps ADO.NET transaction. When the EF Core transaction begins, The specified isolation level is written to a packet (represented by System.Data.SqlClient.SNIPacket type), and sent to SQL database via TDS protocol. There is no SQL statement like SET TRANSACTION ISOLATION LEVEL executed, so the actual isolation level cannot be logged by EF Core, or traced by SQL Profiler. In above example, CurrentIsolationLevel is called to verify the current transaction’s isolation level. It is an extension method of DbContext. It queries the dynamic management view sys.dm\_exec\_sessions with current session id, which can be retrieved with @@SPID function:
+EF Core transaction wraps ADO.NET transaction. When the EF Core transaction begins, The specified isolation level is written to a packet (represented by System.Data.SqlClient.SNIPacket type), and sent to SQL database via TDS protocol. There is no SQL statement like SET TRANSACTION ISOLATION LEVEL executed, so the actual isolation level cannot be logged by EF Core, or traced by SQL Profiler. In above example, CurrentIsolationLevel is called to verify the current transaction’s isolation level. It is an extension method of DbContext. It queries the dynamic management view `sys.dm_exec_sessions` with current session id, which can be retrieved with @@SPID function:
 
 ```csharp
 internal static IsolationLevel CurrentIsolationLevel(this DbConnection connection,
@@ -791,7 +790,7 @@ In this example, multiple DbReaderWriter instances read and write data concurren
 
 ### Detect Concurrency conflicts
 
-Concurrency conflicts can be detected by checking entities’ property values besides primary keys. To required EF Core to check a certain property, just add a System.ComponentModel.DataAnnotations.ConcurrencyCheckAttribute to it. Remember when defining ProductPhoto entity, its ModifiedDate has a \[ConcurrencyCheck\] attribute:
+Concurrency conflicts can be detected by checking entities’ property values besides primary keys. To required EF Core to check a certain property, just add a System.ComponentModel.DataAnnotations.ConcurrencyCheckAttribute to it. Remember when defining ProductPhoto entity, its ModifiedDate has a `[ConcurrencyCheck]` attribute:
 
 ```csharp
 public partial class ProductPhoto
@@ -844,13 +843,15 @@ In the translated SQL statement, the WHERE clause contains primary key and the o
 1.  In database the photo’s modified date is no longer the original value “2008-04-30 00:00:00”
 1.  readerWriter2 tries to locate the photo with primary key and original modified date. However the provided modified date is outdated. EF Core detect that 0 row is updated by the translated SQL, and throws DbUpdateConcurrencyException: Database operation expected to affect 1 row(s) but actually affected 0 row(s). Data may have been modified or deleted since entities were loaded.
 
-Another option for concurrency check is System.ComponentModel.DataAnnotations.TimestampAttribute. It can only be used for a byte\[\] property, which is mapped from a rowversion (timestamp) column. For SQL database, these 2 terms, rowversion and timestamp, are the same thing. timestamp is just a synonym of rowversion data type. A row’s non-nullable rowversion column is a 8 bytes (binary(8)) counter maintained by database, its value increases for each change of the row.
+Another option for concurrency check is System.ComponentModel.DataAnnotations.TimestampAttribute. It can only be used for a `byte[]` property, which is mapped from a rowversion (timestamp) column. For SQL database, these 2 terms, rowversion and timestamp, are the same thing. timestamp is just a synonym of rowversion data type. A row’s non-nullable rowversion column is a 8 bytes (binary(8)) counter maintained by database, its value increases for each change of the row.
 
 Microsoft’s AdventureWorks sample database does not have such a rowversion column, so create one for the Production.Product table:
 
-ALTER TABLE \[Production\].\[Product\] ADD \[RowVersion\] rowversion NOT NULL
+```sql
+ALTER TABLE [Production].[Product] ADD [RowVersion] rowversion NOT NULL
 
 GO
+```
 
 Then define the mapping property for Product entity:
 
@@ -867,7 +868,7 @@ $"0x{BitConverter.ToUInt64(this.RowVersion.Reverse().ToArray(), 0).ToString("X16
 }
 ```
 
-Now RowVersion property is the concurrency token. Regarding database automatically increases the RowVersion value, Rowversion also has the \[DatabaseGenerated(DatabaseGeneratedOption.Computed)\] attribute. The other RowVersionString property returns a readable representation of the byte array returned by RowVersion. It is not a part of the object-relational mapping, so it has a \[NotMapped\] attribute. The following example updates and and deletes the same product concurrently:
+Now RowVersion property is the concurrency token. Regarding database automatically increases the RowVersion value, Rowversion also has the `[DatabaseGenerated(DatabaseGeneratedOption.Computed)]` attribute. The other RowVersionString property returns a readable representation of the byte array returned by RowVersion. It is not a part of the object-relational mapping, so it has a `[NotMapped]` attribute. The following example updates and and deletes the same product concurrently:
 
 ```csharp
 internal static void RowVersion(DbReaderWriter readerWriter1, DbReaderWriter readerWriter2)
@@ -902,7 +903,7 @@ When updating and deleting photo entities, its auto generated RowVersion propert
 
 1.  readerWriter1 reads product with primary key 995 and row version 0x0000000000000803
 1.  readerWriter2 reads product with the same primary key 995 and row version 0x0000000000000803
-1.  readerWriter1 locates the photo with primary key and original row version, and update its name. Database automatically increases the photo’s row version. Since the row version is specified as \[DatabaseGenerated(DatabaseGeneratedOption.Computed)\], EF Core also locate the photo with the primary key to query the increased row version, and update the entity at client side.
+1.  readerWriter1 locates the photo with primary key and original row version, and update its name. Database automatically increases the photo’s row version. Since the row version is specified as `[DatabaseGenerated(DatabaseGeneratedOption.Computed)]`, EF Core also locate the photo with the primary key to query the increased row version, and update the entity at client side.
 1.  In database the product’s row version is no longer 0x0000000000000803.
 1.  Then readerWriter2 tries to locate the product with primary key and original row version, and delete it. No product can be found with outdated row version, EF Core detect that 0 row is deleted, and throws DbUpdateConcurrencyException.
 

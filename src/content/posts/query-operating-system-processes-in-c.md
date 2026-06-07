@@ -9,9 +9,9 @@ draft: false
 lang: ""
 ---
 
-.NET framework provides some process APIs in [System.Diagnostics.Process](https://msdn.microsoft.com/en-us/library/system.diagnostics.process.aspx) class. Only some basic information of process can be queried with these APIs. .NET does not have APIS for other information, for example, a process’s parent process/child processes. There are some options to query process informations, like performance counter, P/Invoke, etc. Querying [Win32\_Process](// https://msdn.microsoft.com/en-us/library/windows/desktop/aa394372.aspx) class of [WMI](https://en.wikipedia.org/wiki/Windows_Management_Instrumentation) could be an easier way.
+.NET framework provides some process APIs in [System.Diagnostics.Process](https://msdn.microsoft.com/en-us/library/system.diagnostics.process.aspx) class. Only some basic information of process can be queried with these APIs. .NET does not have APIS for other information, for example, a process’s parent process/child processes. There are some options to query process informations, like performance counter, P/Invoke, etc. Querying [`Win32_Process`](// <https://msdn.microsoft.com/en-us/library/windows/desktop/aa394372.aspx>) class of [WMI](https://en.wikipedia.org/wiki/Windows_Management_Instrumentation) could be an easier way.
 
-The definition of Win32\_Process class can be translated to C# class:
+The definition of `Win32_Process` class can be translated to C# class:
 
 ```csharp
 public partial class Win32Process
@@ -118,11 +118,11 @@ public partial class Win32Process
 }
 ```
 
-This is much more information then .NET built-in Process class. It is tagged with \[[DebuggerDisplay](https://msdn.microsoft.com/en-us/library/ms228992.aspx)\] attribute to be friendly at debugging time:
+This is much more information then .NET built-in Process class. It is tagged with [`[DebuggerDisplay]`](https://msdn.microsoft.com/en-us/library/ms228992.aspx) attribute to be friendly at debugging time:
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Query-Operating-System-Processes-in-C_9DCE/image_thumb.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Query-Operating-System-Processes-in-C_9DCE/image_2.png)
 
-To query Win32\_Process class from WMI, the following Wmi.Query method can be defined:
+To query `Win32_Process` class from WMI, the following Wmi.Query method can be defined:
 
 ```csharp
 public static class Wmi
@@ -208,7 +208,6 @@ public partial class Win32Process
 }
 ```
 
-
 Now it is to define methods to query process information from MWI:
 
 ```csharp
@@ -234,7 +233,6 @@ public static partial class ProcessHelper
             .Select(process => new Win32Process(process));
 }
 ```
-
 
 The All method queries all processes in the specified ManagementScope. ById/ByName queries by process id/name.
 

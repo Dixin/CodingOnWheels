@@ -9,19 +9,20 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework series](/archive/?tag=Entity%20Framework)\]
-
-## EF Core version of this article: [https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries](/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries "https://CodingOnWheels.com/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries")
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
+>
+> [Entity Framework](/archive/?tag=Entity%20Framework) Series
+>
+> This post explains EF, [here is the EF Core version](/posts/entity-framework-core-and-linq-to-entities-3-logging-and-tracing-queries).
 
 As fore mentioned, this tutorial will use SQL Profiler to trace the remote SQL queries, which are translated from the LINQ to Entities queries. This is most close the the truth, because the tracing uncovers the actual SQL query executed in SQL database. Entity Framework also provides several options to log the translated SQL database operations programmatically.
 
-## DbQuery<T>.ToString
+## `DbQuery<T>.ToString`
 
-For queries, the easiest way is to call ToString method on the IQueryable<T> object. In LINQ to Entities query, the IQueryable<T> is actually implemented with System.Data.Entity.Infrastructure.DbQuery<T>. DbQuery<T>.ToString returns its SQL translation:
+For queries, the easiest way is to call ToString method on the `IQueryable<T>` object. In LINQ to Entities query, the `IQueryable<T>` is actually implemented with `System.Data.Entity.Infrastructure.DbQuery<T>`. `DbQuery<T>.ToString` returns its SQL translation:
 
 ```csharp
 internal static partial class Log

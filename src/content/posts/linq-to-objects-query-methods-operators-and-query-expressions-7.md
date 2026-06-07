@@ -9,15 +9,16 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
 
-## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
+## Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-query-methods-operators-and-query-expressions](/posts/linq-to-objects-query-methods-operators-and-query-expressions "https://CodingOnWheels.com/posts/linq-to-objects-query-methods-operators-and-query-expressions")
 
-## **Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-query-methods-operators-and-query-expressions](/posts/linq-to-objects-query-methods-operators-and-query-expressions "https://CodingOnWheels.com/posts/linq-to-objects-query-methods-operators-and-query-expressions")**
+This part discusses the usages of built-in LINQ to Objects query methods and query expressions. As fore mentioned, these query methods (also called [standard query operators](http://msdn.microsoft.com/en-us/library/bb397896.aspx)) are provided in System.Linq.Enumerable type, most of which are `IEnumerable<T>` extension methods. They can be categorized by return type:
 
-This part discusses the usages of built-in LINQ to Objects query methods and query expressions. As fore mentioned, these query methods (also called [standard query operators](http://msdn.microsoft.com/en-us/library/bb397896.aspx)) are provided in System.Linq.Enumerable type, most of which are IEnumerable<T> extension methods. They can be categorized by return type:
-
-1.  Sequence queries: return a new IEnumerable<T> sequence:
+1.  Sequence queries: return a new `IEnumerable<T>` sequence:
     -   Generation: Empty , Range, Repeat, DefaultIfEmpty
     -   Filtering (restriction): Where\*, OfType
     -   Mapping (projection): Select\*, SelectMany\*
@@ -37,17 +38,29 @@ This part discusses the usages of built-in LINQ to Objects query methods and que
     -   Quantifier: All, Any, Contains
     -   Equality: SequenceEqual
 
-These LINQ query methods are very functional. They are functions that can be composed by fluent chaining. Many of them are higher-order functions accepting function parameters, so that anonymous functions (lambda expressions) or named functions can be passed to them. The query methods returning IEnumerable<T> are pure functions. They are referential transparency and side effect free. When they are called, they only create and return a new sequence wrapping the input sequence and the query logic, with the query logic not executed, so there is no state changes, data mutation, I/O, etc. The query logic execution is deferred until the result values are pulled from the returned sequence. The other query methods (returning a new collection or a single value) are impure functions. When they are called, they immediately evaluate the values of the input source sequence, and execute the query logic.
+These LINQ query methods are very functional. They are functions that can be composed by fluent chaining. Many of them are higher-order functions accepting function parameters, so that anonymous functions (lambda expressions) or named functions can be passed to them. The query methods returning `IEnumerable<T>` are pure functions. They are referential transparency and side effect free. When they are called, they only create and return a new sequence wrapping the input sequence and the query logic, with the query logic not executed, so there is no state changes, data mutation, I/O, etc. The query logic execution is deferred until the result values are pulled from the returned sequence. The other query methods (returning a new collection or a single value) are impure functions. When they are called, they immediately evaluate the values of the input source sequence, and execute the query logic.
 
 As discussed in the Functional Programming chapter, The query methods marked with \* are supported with query expressions syntax.
 
-<table border="0" cellpadding="2" cellspacing="0" width="577"><tbody><tr><td valign="top" width="297">Query expression</td><td valign="top" width="278">Query method</td></tr><tr><td valign="top" width="297">single from clause with select clause</td><td valign="top" width="278">Select</td></tr><tr><td valign="top" width="297">multiple from clauses with select clause</td><td valign="top" width="278">SelectMany</td></tr><tr><td valign="top" width="297">Type in from/join clauses</td><td valign="top" width="278">Cast</td></tr><tr><td valign="top" width="297">join clause without into</td><td valign="top" width="278">Join</td></tr><tr><td valign="top" width="297">join clause with into</td><td valign="top" width="278">GroupJoin</td></tr><tr><td valign="top" width="297">let clause</td><td valign="top" width="278">Select</td></tr><tr><td valign="top" width="297">where clauses</td><td valign="top" width="278">Where</td></tr><tr><td valign="top" width="297">orderby clause with or without ascending</td><td valign="top" width="278">OrderBy, ThenBy</td></tr><tr><td valign="top" width="297">orderby clause with descending</td><td valign="top" width="278">OrderByDescending, ThenByDescending</td></tr><tr><td valign="top" width="297">group clause</td><td valign="top" width="278">GroupBy</td></tr><tr><td valign="top" width="297">into with continuation</td><td valign="top" width="278">Nested query</td></tr></tbody></table>
+| Query expression                         | Query method                        |
+|------------------------------------------|-------------------------------------|
+| single from clause with select clause    | Select                              |
+| multiple from clauses with select clause | SelectMany                          |
+| Type in from/join clauses                | Cast                                |
+| join clause without into                 | Join                                |
+| join clause with into                    | GroupJoin                           |
+| let clause                               | Select                              |
+| where clauses                            | Where                               |
+| orderby clause with or without ascending | OrderBy, ThenBy                     |
+| orderby clause with descending           | OrderByDescending, ThenByDescending |
+| group clause                             | GroupBy                             |
+| into with continuation                   | Nested query                        |
 
 ## Sequence queries
 
 ### Generation
 
-Enumerable type’s Empty , Range, Repeat methods can generate an IEnumerable<T> sequence. They are just normal static methods instead of extension methods:
+Enumerable type’s Empty , Range, Repeat methods can generate an `IEnumerable<T>` sequence. They are just normal static methods instead of extension methods:
 
 ```csharp
 namespace System.Linq
@@ -63,7 +76,7 @@ namespace System.Linq
 }
 ```
 
-Empty just generates an IEnumerable<T> sequence, which contains no value:
+Empty just generates an `IEnumerable<T>` sequence, which contains no value:
 
 ```csharp
 internal static partial class QueryMethods
@@ -310,7 +323,7 @@ public static IEnumerable<TResult> SelectMany<TSource, TResult>(
     this IEnumerable<TSource> source, Func<TSource, int, IEnumerable<TResult>> selector);
 ```
 
-In contrast with Select, SelectMany’s selector is a one to many mapping. If there are N values from the source sequence, then they are mapped to N sequences. And eventually, SelectMany concatenates these N sequences into one single sequence. The following example calls SelectMany to query all members of all types in .NET core library, then filter the obsolete members (members with \[Obsolete\]):
+In contrast with Select, SelectMany’s selector is a one to many mapping. If there are N values from the source sequence, then they are mapped to N sequences. And eventually, SelectMany concatenates these N sequences into one single sequence. The following example calls SelectMany to query all members of all types in .NET core library, then filter the obsolete members (members with `[Obsolete]`):
 
 ```csharp
 internal static MemberInfo[] GetDeclaredMembers(this Type type) =>
@@ -338,7 +351,7 @@ internal static void SelectMany()
 }
 ```
 
-Apparently, the above SelectMany, Where, and are both extension methods for IEnumerable<T>, and they both return IEnumerable<T>, so that above LINQ query can be fluent, as expected:
+Apparently, the above SelectMany, Where, and are both extension methods for `IEnumerable<T>`, and they both return `IEnumerable<T>`, so that above LINQ query can be fluent, as expected:
 
 ```csharp
 internal static void FluentSelectMany()
@@ -380,7 +393,7 @@ public static IEnumerable<TResult> SelectMany<TSource, TCollection, TResult>(
     Func<TSource, TCollection, TResult> resultSelector);
 ```
 
-They accept 2 selector functions. The collection selector (non indexed and index) maps source sequence’s each TSource value to many TCollection values (a IEnumerable<TCollection> sequence), and the result selector maps each TCollection value and its original TSource value to a TResult value. So eventually they still return a sequence of TResult values. For example, the following example use result selector to map type and member to string representation:
+They accept 2 selector functions. The collection selector (non indexed and index) maps source sequence’s each TSource value to many TCollection values (a `IEnumerable<TCollection>` sequence), and the result selector maps each TCollection value and its original TSource value to a TResult value. So eventually they still return a sequence of TResult values. For example, the following example use result selector to map type and member to string representation:
 
 ```csharp
 internal static void SelectManyWithResultSelector()
@@ -500,7 +513,7 @@ internal static void GroupBy()
 }
 ```
 
-GroupBy returns IEnumerable<IGrouping<TKey, TSource>>. The following is the definition of IGrouping<TKey, TElement> interface:
+GroupBy returns `IEnumerable<IGrouping<TKey, TSource>>`. The following is the definition of `IGrouping<TKey, TElement>` interface:
 
 ```csharp
 namespace System.Linq
@@ -512,7 +525,7 @@ namespace System.Linq
 }
 ```
 
-It is just an IEnumerable<T> sequence with an additional Key property. So, above GroupBy returns a hierarchical sequence. It is a sequence of groups, where each group is a sequence of values. The equivalent query expression is a group clause:
+It is just an `IEnumerable<T>` sequence with an additional Key property. So, above GroupBy returns a hierarchical sequence. It is a sequence of groups, where each group is a sequence of values. The equivalent query expression is a group clause:
 
 ```csharp
 internal static void GroupBy()
@@ -678,7 +691,7 @@ internal static void GroupByWithElementSelectorAndSelect()
 }
 ```
 
-The rest 4 overloads accept an IEqualityComparer<TKey> interface:
+The rest 4 overloads accept an `IEqualityComparer<TKey>` interface:
 
 ```csharp
 public static IEnumerable<IGrouping<TKey, TSource>> GroupBy<TSource, TKey>(
@@ -703,7 +716,7 @@ public static IEnumerable<TResult> GroupBy<TSource, TKey, TElement, TResult>(
     IEqualityComparer<TKey> comparer);
 ```
 
-IEqualityComparer<TKey> provides the methods to determine whether 2 keys are equal when grouping all keys:
+`IEqualityComparer<TKey>` provides the methods to determine whether 2 keys are equal when grouping all keys:
 
 ```csharp
 namespace System.Collections.Generic
@@ -1564,9 +1577,9 @@ internal static void OrderByWithComparer()
 }
 ```
 
-Here StringComparer.Ordinal provides a case-sensitive comparison. “Zero” comes to the first position of the result sequence, because upper case letter is less than lower case letter. This overload with comparer is not supported in query expression. When using the other overload without comparer, OrderBy/OrderByDescending uses System.Collections.Generic.Comparer<TKey>.Default. In the first OrderBy example, Comparer<string>.Default is used, which is equivalent to StringComparer.CurrentCulture.
+Here StringComparer.Ordinal provides a case-sensitive comparison. “Zero” comes to the first position of the result sequence, because upper case letter is less than lower case letter. This overload with comparer is not supported in query expression. When using the other overload without comparer, OrderBy/OrderByDescending uses `System.Collections.Generic.Comparer<TKey>.Default`. In the first OrderBy example, `Comparer<string>.Default` is used, which is equivalent to StringComparer.CurrentCulture.
 
-As fore mentioned, ThenBy/ThenByDescending are extension methods of IOrderedEnumerable<T>, not IEnumerable<T>:
+As fore mentioned, ThenBy/ThenByDescending are extension methods of `IOrderedEnumerable<T>`, not `IEnumerable<T>`:
 
 ```csharp
 IOrderedEnumerable<TSource> ThenBy<TSource, TKey>(
@@ -1700,7 +1713,7 @@ Cast converts each value in source sequence to the specified type:
 public static IEnumerable<TResult> Cast<TResult>(this IEnumerable source);
 ```
 
-Unlike other query methods, Cast is an extension method of non-generic sequence, so it can work with types implementing either IEnumerable or IEnumerable<T>. So it can enable LINQ query for legacy types. The following example calls Microsoft Team Foundation Service (TFS) client APIs to query work items, where Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection is returned. WorkItemCollection is a collection of Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem, but it only implements IEnumerable, so it can be casted to a generic IEnumerable<WorkItem> safely, and further LINQ query can be applied. The following example execute a WIQL (Work Item Query Language of TFS) statement to query work items from TFS. Since WIQL does not support GROUP BY clause, the work items can be grouped locally with LINQ:
+Unlike other query methods, Cast is an extension method of non-generic sequence, so it can work with types implementing either IEnumerable or `IEnumerable<T>`. So it can enable LINQ query for legacy types. The following example calls Microsoft Team Foundation Service (TFS) client APIs to query work items, where Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItemCollection is returned. WorkItemCollection is a collection of Microsoft.TeamFoundation.WorkItemTracking.Client.WorkItem, but it only implements IEnumerable, so it can be casted to a generic `IEnumerable<WorkItem>` safely, and further LINQ query can be applied. The following example execute a WIQL (Work Item Query Language of TFS) statement to query work items from TFS. Since WIQL does not support GROUP BY clause, the work items can be grouped locally with LINQ:
 
 ```csharp
 #if NETFX
@@ -1786,7 +1799,7 @@ internal static void CastMoreNonGenericI()
 }
 ```
 
-And of course Cast can be used to generic IEnumerable<T>:
+And of course Cast can be used to generic `IEnumerable<T>`:
 
 ```csharp
 internal static void CastGenericIEnumerable()
@@ -1858,7 +1871,7 @@ AsEnumerable is a query method doing nothing. It accepts a source sequence, then
 public static IEnumerable<TSource> AsEnumerable<TSource>(this IEnumerable<TSource> source);
 ```
 
-Its purpose is to make more derived type be visible only as IEnumerable<T>, and hide additional members of that more derived type:
+Its purpose is to make more derived type be visible only as `IEnumerable<T>`, and hide additional members of that more derived type:
 
 ```csharp
 internal static void AsEnumerable()
@@ -1869,7 +1882,7 @@ internal static void AsEnumerable()
 }
 ```
 
-If the more derived source has method with the same signature as IEnumerable<T>’s extension method, after calling AsEnumerable, that IEnumerable<T> extension method is called:
+If the more derived source has method with the same signature as `IEnumerable<T>`’s extension method, after calling AsEnumerable, that `IEnumerable<T>` extension method is called:
 
 ```csharp
 internal static void AsEnumerableReverse()
@@ -1902,9 +1915,9 @@ internal static void AsEnumerableReverse()
 }
 ```
 
-AsEnumerable will be revisited when introducing IQueryable<T> in the LINQ to Entities chapter.
+AsEnumerable will be revisited when introducing `IQueryable<T>` in the LINQ to Entities chapter.
 
-As fore mentioned, local parallel LINQ queries are represented by ParallelQuery<T> and remote LINQ queries are represented by IQueryable<T>. They both implement IEnumerable<T>, so they both have AsEnumerable available. Since AsEnumerable returns IEnumerable<T>, it opt-out local parallel query and remote query back to local sequential query. These scenarios are discussed in Parallel LINQ chapter and LINQ to Entities chapter.
+As fore mentioned, local parallel LINQ queries are represented by `ParallelQuery<T>` and remote LINQ queries are represented by `IQueryable<T>`. They both implement `IEnumerable<T>`, so they both have AsEnumerable available. Since AsEnumerable returns `IEnumerable<T>`, it opt-out local parallel query and remote query back to local sequential query. These scenarios are discussed in Parallel LINQ chapter and LINQ to Entities chapter.
 
 ## Collection queries
 
@@ -1933,7 +1946,7 @@ internal static void ToArrayToList()
 }
 ```
 
-Apparently, when collection query methods are called for an IEnumerable<T> sequence representing LINQ query, that LINQ query is executed immediately. Similarly, ToDictionary/ToLookup also pulls all values from source sequence, and store those values into a new dictionary/lookup:
+Apparently, when collection query methods are called for an `IEnumerable<T>` sequence representing LINQ query, that LINQ query is executed immediately. Similarly, ToDictionary/ToLookup also pulls all values from source sequence, and store those values into a new dictionary/lookup:
 
 ```csharp
 public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey>(
@@ -2527,7 +2540,7 @@ public static TSource Max<TSource>(this IEnumerable<TSource> source);
 public static TSource Min<TSource>(this IEnumerable<TSource> source);
 ```
 
-They use Comparer<TSource>.Default to compare values in source sequence to determine the minimum/maximum value. Comparer<TSource>.Default requires TSource to implement at least one of IComparable and IComparable<TSource>; otherwise ArgumentException is thrown at runtime. Still take Character type as example:
+They use `Comparer<TSource>.Default` to compare values in source sequence to determine the minimum/maximum value. `Comparer<TSource>`.Default requires TSource to implement at least one of IComparable and `IComparable<TSource>`; otherwise ArgumentException is thrown at runtime. Still take Character type as example:
 
 ```csharp
 internal partial class Character : IComparable<Character>
@@ -2702,23 +2715,23 @@ internal static void ContainsWithComparer()
 }
 ```
 
-Similar to other query methods, the first overload without comparer uses EqualityComparer<TSource>.Default.
+Similar to other query methods, the first overload without comparer uses `EqualityComparer<TSource>.Default`.
 
 ### Equality
 
 .NET has many ways to determine equality for objects:
 
 -   [Reference equality](https://msdn.microsoft.com/en-us/library/dd183759.aspx)/identity: object.ReferenceEquals, == operator without override
--   [Value equality](https://msdn.microsoft.com/en-us/library/dd183755.aspx)/equivalence: static object.Equals, instance object.Equals, object.GetHashCode, overridden == operator, IEquatable<T>.Equals, IEqualityComparer.Equals, IEqualityComparer<T>.Equals, IComparable.Compare, IComparable<T>.Compare, IComparer.Compare, IComparer<T>.Compare
+-   [Value equality](https://msdn.microsoft.com/en-us/library/dd183755.aspx)/equivalence: static object.Equals, instance object.Equals, object.GetHashCode, overridden == operator, `IEquatable<T>.Equals`, `IEqualityComparer.Equals`, `IEqualityComparer<T>.Equals`, `IComparable.Compare`, `IComparable<T>.Compare`, `IComparer.Compare`, `IComparer<T>.Compare`
 -   Sequential equality: Enumerable.SequentialEqual
 
-SequentialEqual query method is provided to compares the sequential equality of 2 IEnumerable<T> sequences:
+SequentialEqual query method is provided to compares the sequential equality of 2 `IEnumerable<T>` sequences:
 
 ```csharp
 public static bool SequenceEqual<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second);
 ```
 
-2 sequences are sequentially equal if their length are equal, and for each index, 2 values from both sequences are equal (determined by EqualityComparer<TSource>.Default).
+2 sequences are sequentially equal if their length are equal, and for each index, 2 values from both sequences are equal (determined by `EqualityComparer<TSource>.Default`).
 
 ```csharp
 internal static void SequentialEqual()
@@ -2762,7 +2775,7 @@ internal static void SequentialEqualWithComparer()
 }
 ```
 
-Again, the first overload without comparer uses EqualityComparer<TSource>.Default.
+Again, the first overload without comparer uses `EqualityComparer<TSource>.Default`.
 
 ## Queries in other languages
 
@@ -2776,7 +2789,54 @@ The following table compares similar APIs/language features of
 
 Please notice JavaScript methods are not deferred.
 
-<table border="0" cellpadding="0" cellspacing="0" width="922"><tbody><tr><td valign="top" width="135">Enumerable</td><td valign="top" width="165">C#</td><td valign="top" width="150">F# Seq</td><td valign="top" width="183">F# query builder</td><td valign="top" width="179">Haskell</td><td valign="top" width="108">JavaScript</td></tr><tr><td valign="top" width="135">Aggregate</td><td valign="top" width="165"></td><td valign="top" width="150">fold, reduce</td><td valign="top" width="183"></td><td valign="top" width="179">foldl</td><td valign="top" width="108">reduce</td></tr><tr><td valign="top" width="135"></td><td valign="top" width="165"></td><td valign="top" width="150"></td><td valign="top" width="183"></td><td valign="top" width="179">foldr</td><td valign="top" width="108">reduceRight</td></tr><tr><td valign="top" width="135">All</td><td valign="top" width="165"></td><td valign="top" width="150">forAll</td><td valign="top" width="183">all</td><td valign="top" width="179">all</td><td valign="top" width="108">every</td></tr><tr><td valign="top" width="135">Any</td><td valign="top" width="165"></td><td valign="top" width="150">exists</td><td valign="top" width="183">exists</td><td valign="top" width="179">null, any</td><td valign="top" width="108">some</td></tr><tr><td valign="top" width="135">Average</td><td valign="top" width="165"></td><td valign="top" width="150">average, averageBy</td><td valign="top" width="183">averageBy</td><td valign="top" width="179"></td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Cast</td><td valign="top" width="165">from/join T … in …</td><td valign="top" width="150">cast</td><td valign="top" width="183"></td><td valign="top" width="179"></td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Concat</td><td valign="top" width="165"></td><td valign="top" width="150">append</td><td valign="top" width="183"></td><td valign="top" width="179">++</td><td valign="top" width="108">concat</td></tr><tr><td valign="top" width="135">Contains</td><td valign="top" width="165"></td><td valign="top" width="150"></td><td valign="top" width="183">contains</td><td valign="top" width="179">elem</td><td valign="top" width="108">includes</td></tr><tr><td valign="top" width="135">Count</td><td valign="top" width="165"></td><td valign="top" width="150">length</td><td valign="top" width="183">count</td><td valign="top" width="179">length</td><td valign="top" width="108">length</td></tr><tr><td valign="top" width="135">Distinct</td><td valign="top" width="165"></td><td valign="top" width="150">dictinct, dictinctBy</td><td valign="top" width="183">distinct</td><td valign="top" width="179">nub, nubBy</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">ElementAt</td><td valign="top" width="165"></td><td valign="top" width="150">nth</td><td valign="top" width="183">nth</td><td valign="top" width="179">!!</td><td valign="top" width="108">[]</td></tr><tr><td valign="top" width="135">Empty</td><td valign="top" width="165"></td><td valign="top" width="150">empty</td><td valign="top" width="183"></td><td valign="top" width="179">[]</td><td valign="top" width="108">[]</td></tr><tr><td valign="top" width="135">Except</td><td valign="top" width="165"></td><td valign="top" width="150"></td><td valign="top" width="183"></td><td valign="top" width="179">\\</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">First</td><td valign="top" width="165"></td><td valign="top" width="150">find, head, pick</td><td valign="top" width="183">find, head</td><td valign="top" width="179">head</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">FirstOrDefault</td><td valign="top" width="165"></td><td valign="top" width="150">tryFind, tryPick</td><td valign="top" width="183">headOrDefault</td><td valign="top" width="179">find</td><td valign="top" width="108">find</td></tr><tr><td valign="top" width="135">GroupBy</td><td valign="top" width="165">group … by</td><td valign="top" width="150">groupBy</td><td valign="top" width="183">groupBy, groupValBy</td><td valign="top" width="179">groupBy</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">GroupJoin</td><td valign="top" width="165">join … into</td><td valign="top" width="150"></td><td valign="top" width="183">groupJoin, leftOuterJoin</td><td valign="top" width="179"></td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Intersect</td><td valign="top" width="165"></td><td valign="top" width="150"></td><td valign="top" width="183"></td><td valign="top" width="179">intersect, intersectBy</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Join</td><td valign="top" width="165">join</td><td valign="top" width="150"></td><td valign="top" width="183">join</td><td valign="top" width="179"></td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Last</td><td valign="top" width="165"></td><td valign="top" width="150">last</td><td valign="top" width="183">last</td><td valign="top" width="179">last</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">LastOrDefault</td><td valign="top" width="165"></td><td valign="top" width="150"></td><td valign="top" width="183">lastOrDefault</td><td valign="top" width="179"></td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Max</td><td valign="top" width="165"></td><td valign="top" width="150">max, maxBy</td><td valign="top" width="183">maxBy</td><td valign="top" width="179">maximum, maximumBy</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Min</td><td valign="top" width="165"></td><td valign="top" width="150">min, minBy</td><td valign="top" width="183">minBy</td><td valign="top" width="179">minimum, minimumBy</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">OrderBy</td><td valign="top" width="165">orderby … (ascending)</td><td valign="top" width="150">sort, sortBy</td><td valign="top" width="183">sortBy</td><td valign="top" width="179">sort, sortOn, sortBy</td><td valign="top" width="108">sort</td></tr><tr><td valign="top" width="135">OrferByDescending</td><td valign="top" width="165">orderby … descending</td><td valign="top" width="150"></td><td valign="top" width="183">sortByDescending</td><td valign="top" width="179"></td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Range</td><td valign="top" width="165"></td><td valign="top" width="150"></td><td valign="top" width="183">..</td><td valign="top" width="179">…</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Repeat</td><td valign="top" width="165"></td><td valign="top" width="150"></td><td valign="top" width="183"></td><td valign="top" width="179">replicate</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Reverse</td><td valign="top" width="165"></td><td valign="top" width="150"></td><td valign="top" width="183"></td><td valign="top" width="179">reverse</td><td valign="top" width="108">reverse</td></tr><tr><td valign="top" width="135">Select</td><td valign="top" width="165">from … select, let</td><td valign="top" width="150">map</td><td valign="top" width="183">select</td><td valign="top" width="179">map</td><td valign="top" width="108">map</td></tr><tr><td valign="top" width="135">SelectMany</td><td valign="top" width="165">from … from … select</td><td valign="top" width="150">collect</td><td valign="top" width="183"></td><td valign="top" width="179">bind, &gt;&gt;=</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">SequenceEqual</td><td valign="top" width="165"></td><td valign="top" width="150"></td><td valign="top" width="183"></td><td valign="top" width="179"></td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Single</td><td valign="top" width="165"></td><td valign="top" width="150">exactlyOne</td><td valign="top" width="183">exactlyOne</td><td valign="top" width="179"></td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">SingleOrDefault</td><td valign="top" width="165"></td><td valign="top" width="150"></td><td valign="top" width="183">exactlyOneOrDefault</td><td valign="top" width="179"></td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Skip</td><td valign="top" width="165"></td><td valign="top" width="150">skip</td><td valign="top" width="183">skip</td><td valign="top" width="179">drop</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">SkipWhile</td><td valign="top" width="165"></td><td valign="top" width="150">skipWhile</td><td valign="top" width="183">skipWhile</td><td valign="top" width="179">dropWhile</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Sum</td><td valign="top" width="165"></td><td valign="top" width="150">sum, sumBy</td><td valign="top" width="183"></td><td valign="top" width="179">sum</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Take</td><td valign="top" width="165"></td><td valign="top" width="150">take, truncate</td><td valign="top" width="183">take</td><td valign="top" width="179">take</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">TakeWhile</td><td valign="top" width="165"></td><td valign="top" width="150">takeWhile</td><td valign="top" width="183">takeWhile</td><td valign="top" width="179">takeWhile</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">ThenBy</td><td valign="top" width="165">orderby … (ascending)</td><td valign="top" width="150"></td><td valign="top" width="183">thenBy</td><td valign="top" width="179"></td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">ThenByDescending</td><td valign="top" width="165">orderby … descending</td><td valign="top" width="150"></td><td valign="top" width="183">thenByDescending</td><td valign="top" width="179"></td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">ToArray</td><td valign="top" width="165"></td><td valign="top" width="150">toArray</td><td valign="top" width="183"></td><td valign="top" width="179"></td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">ToDictionary</td><td valign="top" width="165"></td><td valign="top" width="150"></td><td valign="top" width="183"></td><td valign="top" width="179"></td><td valign="top" width="108">entries</td></tr><tr><td valign="top" width="135">ToList</td><td valign="top" width="165"></td><td valign="top" width="150">toList</td><td valign="top" width="183"></td><td valign="top" width="179"></td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Union</td><td valign="top" width="165"></td><td valign="top" width="150"></td><td valign="top" width="183"></td><td valign="top" width="179">union, unionBy</td><td valign="top" width="108"></td></tr><tr><td valign="top" width="135">Where</td><td valign="top" width="165">where</td><td valign="top" width="150">filter, where</td><td valign="top" width="183">where</td><td valign="top" width="179">filter</td><td valign="top" width="108">filter</td></tr><tr><td valign="top" width="135">Zip</td><td valign="top" width="165"></td><td valign="top" width="150">zip</td><td valign="top" width="183"></td><td valign="top" width="179">zipWith</td><td valign="top" width="108"></td></tr></tbody></table>
+| Enumerable        | C#                    | F# Seq               | F# query builder         | Haskell                | JavaScript  |
+|-------------------|-----------------------|----------------------|--------------------------|------------------------|-------------|
+| Aggregate         |                       | fold, reduce         |                          | foldl                  | reduce      |
+|                   |                       |                      |                          | foldr                  | reduceRight |
+| All               |                       | forAll               | all                      | all                    | every       |
+| Any               |                       | exists               | exists                   | null, any              | some        |
+| Average           |                       | average, averageBy   | averageBy                |                        |             |
+| Cast              | from/join T … in …    | cast                 |                          |                        |             |
+| Concat            |                       | append               |                          | ++                     | concat      |
+| Contains          |                       |                      | contains                 | elem                   | includes    |
+| Count             |                       | length               | count                    | length                 | length      |
+| Distinct          |                       | dictinct, dictinctBy | distinct                 | nub, nubBy             |             |
+| ElementAt         |                       | nth                  | nth                      | !!                     | []          |
+| Empty             |                       | empty                |                          | []                     | []          |
+| Except            |                       |                      |                          | `\\`                   |             |
+| First             |                       | find, head, pick     | find, head               | head                   |             |
+| FirstOrDefault    |                       | tryFind, tryPick     | headOrDefault            | find                   | find        |
+| GroupBy           | group … by            | groupBy              | groupBy, groupValBy      | groupBy                |             |
+| GroupJoin         | join … into           |                      | groupJoin, leftOuterJoin |                        |             |
+| Intersect         |                       |                      |                          | intersect, intersectBy |             |
+| Join              | join                  |                      | join                     |                        |             |
+| Last              |                       | last                 | last                     | last                   |             |
+| LastOrDefault     |                       |                      | lastOrDefault            |                        |             |
+| Max               |                       | max, maxBy           | maxBy                    | maximum, maximumBy     |             |
+| Min               |                       | min, minBy           | minBy                    | minimum, minimumBy     |             |
+| OrderBy           | orderby … (ascending) | sort, sortBy         | sortBy                   | sort, sortOn, sortBy   | sort        |
+| OrferByDescending | orderby … descending  |                      | sortByDescending         |                        |             |
+| Range             |                       |                      | ..                       | …                      |             |
+| Repeat            |                       |                      |                          | replicate              |             |
+| Reverse           |                       |                      |                          | reverse                | reverse     |
+| Select            | from … select, let    | map                  | select                   | map                    | map         |
+| SelectMany        | from … from … select  | collect              |                          | bind, >>=              |             |
+| SequenceEqual     |                       |                      |                          |                        |             |
+| Single            |                       | exactlyOne           | exactlyOne               |                        |             |
+| SingleOrDefault   |                       |                      | exactlyOneOrDefault      |                        |             |
+| Skip              |                       | skip                 | skip                     | drop                   |             |
+| SkipWhile         |                       | skipWhile            | skipWhile                | dropWhile              |             |
+| Sum               |                       | sum, sumBy           |                          | sum                    |             |
+| Take              |                       | take, truncate       | take                     | take                   |             |
+| TakeWhile         |                       | takeWhile            | takeWhile                | takeWhile              |             |
+| ThenBy            | orderby … (ascending) |                      | thenBy                   |                        |             |
+| ThenByDescending  | orderby … descending  |                      | thenByDescending         |                        |             |
+| ToArray           |                       | toArray              |                          |                        |             |
+| ToDictionary      |                       |                      |                          |                        | entries     |
+| ToList            |                       | toList               |                          |                        |             |
+| Union             |                       |                      |                          | union, unionBy         |             |
+| Where             | where                 | filter, where        | where                    | filter                 | filter      |
+| Zip               |                       | zip                  |                          | zipWith                |             |
 
 There are connections among LINQ, C#, F#, and Haskell. As [Eric Lippert](http://ericlippert.com/) [said](http://stackoverflow.com/questions/4683506/are-there-any-connections-between-haskell-and-linq):
 

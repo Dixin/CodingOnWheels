@@ -1,7 +1,7 @@
 ---
 title: "Understanding C# Features (9) Partial Method"
 published: 2009-12-16
-description: "\\] - \\]"
+description: "The partial keyword is introduced since C# 2.0. It enables class/struct/interface definition to be split to multiple code files at design time."
 image: ""
 tags: [".NET", "C#", "C# 3.0", "C# Features", "LINQ", "LINQ via C#"]
 category: "C#"
@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C#](/posts/linq-via-csharp)\] - \[[C# Features](/archive/?tag=C%23%20Features)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## The partial keyword
 

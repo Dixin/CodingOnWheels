@@ -9,11 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Entity Framework Core (EF Core) series](/archive/?tag=Entity%20Framework%20Core)\]
-
-## \[[Entity Framework (EF) series](/archive/?tag=Entity%20Framework)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Entity Framework Core](/archive/?tag=Entity%20Framework%20Core) Series
 
 Conflicts can occur if the same data is read and changed concurrently. Generally, there are 2 [concurrency control](https://en.wikipedia.org/wiki/Concurrency_control) approaches:
 
@@ -86,7 +85,7 @@ In this example, multiple DbReaderWriter instances read and write data concurren
 
 ## Detect Concurrency conflicts
 
-Concurrency conflicts can be detected by checking entities’ property values besides primary keys. To required EF/Core to check a certain property, just add a System.ComponentModel.DataAnnotations.ConcurrencyCheckAttribute to it. Remember when defining ProductPhoto entity, its ModifiedDate has a \[ConcurrencyCheck\] attribute:
+Concurrency conflicts can be detected by checking entities’ property values besides primary keys. To required EF/Core to check a certain property, just add a System.ComponentModel.DataAnnotations.ConcurrencyCheckAttribute to it. Remember when defining ProductPhoto entity, its ModifiedDate has a `[ConcurrencyCheck]` attribute:
 
 ```csharp
 public partial class ProductPhoto
@@ -136,7 +135,7 @@ In the translated SQL statement, the WHERE clause contains primary key and the o
 1.  In database the photo’s modified date is no longer the original value “2008-04-30 00:00:00”
 1.  readerWriter2 tries to locate the photo with primary key and original modified date. However the provided modified date is outdated. EF/Core detect that 0 row is updated by the translated SQL, and throws DbUpdateConcurrencyException: Database operation expected to affect 1 row(s) but actually affected 0 row(s). Data may have been modified or deleted since entities were loaded. See [http://go.microsoft.com/fwlink/?LinkId=527962](http://go.microsoft.com/fwlink/?LinkId=527962) for information on understanding and handling optimistic concurrency exceptions.
 
-Another option for concurrency check is System.ComponentModel.DataAnnotations.TimestampAttribute. It can only be used for a byte\[\] property, which is mapped from a [rowversion](https://technet.microsoft.com/en-us/library/ms182776.aspx) (timestamp) column. For SQL database, these 2 terms, rowversion and timestamp, are the same thing. timestamp is just a [synonym](https://technet.microsoft.com/en-us/library/ms177566.aspx) of rowversion data type. A row’s non-nullable rowversion column is a 8 bytes (binary(8)) counter maintained by database, its value increases for each change of the row.
+Another option for concurrency check is System.ComponentModel.DataAnnotations.TimestampAttribute. It can only be used for a `byte[]` property, which is mapped from a [rowversion](https://technet.microsoft.com/en-us/library/ms182776.aspx) (timestamp) column. For SQL database, these 2 terms, rowversion and timestamp, are the same thing. timestamp is just a [synonym](https://technet.microsoft.com/en-us/library/ms177566.aspx) of rowversion data type. A row’s non-nullable rowversion column is a 8 bytes (binary(8)) counter maintained by database, its value increases for each change of the row.
 
 Microsoft’s AdventureWorks sample database does not have such a rowversion column, so create one for the Production.Product table:
 
@@ -160,7 +159,7 @@ public partial class Product
 }
 ```
 
-Now RowVersion property is the concurrency token. Regarding database automatically increases the RowVersion value, Rowversion also has the \[DatabaseGenerated(DatabaseGeneratedOption.Computed)\] attribute. The other RowVersionString property returns a readable representation of the byte array returned by RowVersion. It is not a part of the object-relational mapping, so it has a \[NotMapped\] attribute. The following example updates and and deletes the same product concurrently:
+Now RowVersion property is the concurrency token. Regarding database automatically increases the RowVersion value, Rowversion also has the `[DatabaseGenerated(DatabaseGeneratedOption.Computed)]` attribute. The other RowVersionString property returns a readable representation of the byte array returned by RowVersion. It is not a part of the object-relational mapping, so it has a `[NotMapped]` attribute. The following example updates and and deletes the same product concurrently:
 
 ```csharp
 internal static void RowVersion(DbReaderWriter readerWriter1, DbReaderWriter readerWriter2)
@@ -194,7 +193,7 @@ When updating and deleting photo entities, its auto generated RowVersion propert
 
 1.  readerWriter1 reads product with primary key 995 and row version 0x0000000000000803
 1.  readerWriter2 reads product with the same primary key 995 and row version 0x0000000000000803
-1.  readerWriter1 locates the photo with primary key and original row version, and update its name. Database automatically increases the photo’s row version. Since the row version is specified as \[DatabaseGenerated(DatabaseGeneratedOption.Computed)\], EF/Core also locate the photo with the primary key to query the increased row version, and update the entity at client side.
+1.  readerWriter1 locates the photo with primary key and original row version, and update its name. Database automatically increases the photo’s row version. Since the row version is specified as `[DatabaseGenerated(DatabaseGeneratedOption.Computed)]`, EF/Core also locate the photo with the primary key to query the increased row version, and update the entity at client side.
 1.  In database the product’s row version is no longer 0x0000000000000803.
 1.  Then readerWriter2 tries to locate the product with primary key and original row version, and delete it. No product can be found with outdated row version, EF/Core detect that 0 row is deleted, and throws DbUpdateConcurrencyException.
 

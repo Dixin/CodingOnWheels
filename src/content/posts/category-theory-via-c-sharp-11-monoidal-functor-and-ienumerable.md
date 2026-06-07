@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-6-monoidal-functor-and-applicative-functor](/posts/category-theory-via-csharp-6-monoidal-functor-and-applicative-functor "https://CodingOnWheels.com/posts/category-theory-via-csharp-6-monoidal-functor-and-applicative-functor")**
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
+>
+> This post is updated, [here is the latest version](/posts/category-theory-via-csharp-6-monoidal-functor-and-applicative-functor).
 
 ## Monoidal functor
 
@@ -59,9 +60,9 @@ Once again, the extension method approach will be used.
 
 Again, dealing with one single monoidal category - DotNet is much easier. According to the definition, A (lax) monoidal functor in monoidal category DotNet is a (lax) monoidal endofunctor F : DotNet → DotNet, equipped with:
 
--   Bifunctor Lazy< , > : DotNet → DotNet
--   Natural transformation (binary operation) φ: Lazy<F<X>, F<Y>> ⇒ F<Lazy<X, Y>>, since Lazy< , > is the bifunctor ⊗, and ⊛ too
--   Morphism (unit) ι: Unit → F<Unit>, since Unit is IDotNet
+-   Bifunctor `Lazy< , > : DotNet → DotNet`
+-   Natural transformation (binary operation) `φ: Lazy<F<X>, F<Y>> ⇒ F<Lazy<X, Y>>`, since Lazy< , > is the bifunctor ⊗, and ⊛ too
+-   Morphism (unit) `ι: Unit → F<Unit>`, since Unit is IDotNet
 
 Lax monoidal endofunctor is a little long for a name. In the rest of this post, monoidal functor will be used for it.
 
@@ -91,7 +92,7 @@ IDotNetMonoidalFunctor<Lazy<T1, T2>> Binary<T1, T2>(
     IDotNetMonoidalFunctor<T1> functor1, IDotNetMonoidalFunctor<T2> functor2);
 ```
 
-which clearly shows monoidal functor F<>’s monoidal structure: (F<X>, F<Y>>) ⇒ F<Z>.
+which clearly shows monoidal functor F<>’s monoidal structure: `(F<X>, F<Y>>) ⇒ F<Z>`.
 
 ## IEnumerable<> monoidal functor
 
@@ -195,7 +196,7 @@ public static IEnumerable<Lazy<Func<T2, T1>, T2>> Binary<T1, T2>(
 }
 ```
 
-In the return type IEnumerable<Lazy<Func<T2, T1>, T2>>, Lazy<…> will be dismantled to Func<T2, T1> and T2, then Func<T2, T1> will be applied with T2 and return T1, so eventually the return type will be IEnumerable<T1>:
+In the return type `IEnumerable<Lazy<Func<T2, T1>, T2>>`, Lazy<…> will be dismantled to Func<T2, T1> and T2, then Func<T2, T1> will be applied with T2 and return T1, so eventually the return type will be `IEnumerable<T1>`:
 
 ```csharp
 public static IEnumerable<T1> Binary<T1, T2>(
@@ -243,7 +244,7 @@ Apply is also called Merge, because this function merges 2 monoidal functors int
 
 ### Binary vs. Apply
 
-Actually, monoidal functor IEnumerable<T> is functor and already has a Select function, its (Apply + Enumerable) is equivalent to (Binary + Unit). These 2 groups of functions express each other.
+Actually, monoidal functor `IEnumerable<T>` is functor and already has a Select function, its (Apply + Enumerable) is equivalent to (Binary + Unit). These 2 groups of functions express each other.
 
 This is how (Binary + Unit) can implement (Apply + Enumerable):
 
@@ -371,7 +372,7 @@ In applicative functor (monoidal functor) definition:
 
 ## Applicative laws, and unit tests
 
-IEnumerable<T> is like the [List Appliative in Haskell](https://hackage.haskell.org/package/base-4.8.0.0/docs/src/GHC-Base.html#line-717). The following unit tests are following the [applicative laws of Haskell](http://learnyouahaskell.com/functors-applicative-functors-and-monoids#applicative-functors):
+`IEnumerable<T>` is like the [List Appliative in Haskell](https://hackage.haskell.org/package/base-4.8.0.0/docs/src/GHC-Base.html#line-717). The following unit tests are following the [applicative laws of Haskell](http://learnyouahaskell.com/functors-applicative-functors-and-monoids#applicative-functors):
 
 -   f.Functor().Apply(F) == F.Select(f)
 -   Id.Functor().Apply(F) == F

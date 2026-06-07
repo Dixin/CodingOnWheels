@@ -3,15 +3,27 @@ title: "Category Theory via C# (4) Natural Transformation"
 published: 2025-12-14
 description: "If F: C → D and G: C → D are both functors from categories C to category D, the mapping from F to G is called  and denoted"
 image: ""
-tags: [".NET", "C#", "Categories", "Category Theory", "Functional Programming", "Functors", "LINQ", "LINQ via C#", "Natural Transformation"]
+tags:
+    [
+        ".NET",
+        "C#",
+        "Categories",
+        "Category Theory",
+        "Functional Programming",
+        "Functors",
+        "LINQ",
+        "LINQ via C#",
+        "Natural Transformation",
+    ]
 category: "Category Theory"
 draft: false
 lang: ""
 ---
 
-## \[[FP & LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
 
 ## Natural transformation and naturality
 
@@ -33,15 +45,15 @@ public static partial class NaturalTransformations
 
 Apparently, for above natural transformation: ToLazy<>: Func<> ⇒ Lazy<>:
 
--   for each specific object T, there is an object Func<T>, an object Lazy<T>, and a morphism ToFunc<T>: Func<T> → Lazy<T>.
+-   for each specific object T, there is an object `Func<T>`, an object `Lazy<T>`, and a morphism `ToFunc<T>: Func<T> → Lazy<T>`.
 -   For each specific morphism selector: TSource → TResult, there is a naturality square, which consists of 4 morphisms:
 
--   ToLazy<TResult>: Func<TResult> → Lazy<TResult>, which is the component of ToLazy<> at TResult
--   FuncExtensions.Select(selector): Func<TSource> → Func<TResult>
--   LazyExtensions.Select(selector): Lazy<TSource> → Lazy<TResult>
--   ToLazy<TSource>: Func<TSource> → Lazy<TSource>, which is the component of ToLazy<> at TSource
+-   `ToLazy<TResult>: Func<TResult> → Lazy<TResult>`, which is the component of ToLazy<> at TResult
+-   `FuncExtensions.Select(selector): Func<TSource> → Func<TResult>`
+-   `LazyExtensions.Select(selector): Lazy<TSource> → Lazy<TResult>`
+-   `ToLazy<TSource>: Func<TSource> → Lazy<TSource>`, which is the component of ToLazy<> at TSource
 
-[![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/public-static-partial-class-Optio.------_E2EC/image_thumb_1.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/public-static-partial-class-Optio.------_E2EC/image_4.png)
+![Natural transformation](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/public-static-partial-class-Optio.------_E2EC/image_thumb_1.png)
 
 The following example is a simple naturality square that commutes for ToLazy<>:
 
@@ -124,6 +136,6 @@ public static Optional<T> ToOptional<T>(this Lazy<T> lazy) =>
 
 Given category C, there is a endofunctors category, denoted CC, or End(C), where the objects are the endofunctors from category C to C itself, and the morphisms are the natural transformations between those endofunctors.
 
-![image3_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/public-static-partial-class-Optio.------_E2EC/image3_thumb_thumb.png "image3_thumb")
+![Endofunctor category](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/public-static-partial-class-Optio.------_E2EC/image3_thumb_thumb.png)
 
 All the functors in C# are endofunctors from DotNet category to DotNet. They are the objects of endofunctor category DotNetDotNet or End(DotNet).

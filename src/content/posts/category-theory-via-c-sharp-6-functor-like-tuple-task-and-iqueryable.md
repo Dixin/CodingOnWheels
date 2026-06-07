@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-3-functor-and-linq-to-functors](/posts/category-theory-via-csharp-3-functor-and-linq-to-functors "https://CodingOnWheels.com/posts/category-theory-via-csharp-3-functor-and-linq-to-functors")**
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
+>
+> This post is updated, [here is the latest version](/posts/category-theory-via-csharp-3-functor-and-linq-to-functors).
 
 ## Tuple<> is like a functor
 
@@ -127,11 +128,11 @@ public partial class FunctorTests
 }
 ```
 
-Comparing to functors in previous part, Lazy<T> is a lazy version of Tuple<T>.
+Comparing to functors in previous part, `Lazy<T>` is a lazy version of `Tuple<T>`.
 
-## Task<T> is like a functor too
+## `Task<T>` is like a functor too
 
-With the [async/await](/archive/?tag=Async) feature of C# 5.0, Select is easy to implement for Task<T>:
+With the [async/await](/archive/?tag=Async) feature of C# 5.0, Select is easy to implement for `Task<T>`:
 
 ```csharp
 // Impure.
@@ -142,7 +143,7 @@ public static partial class TaskExtensions
 }
 ```
 
-Unlike any previous Select implementations, the \[Pure\] tag is missing. Yes, this Select is impure. As explained in [another post](/posts/understanding-c-sharp-async-await-1-compilation), the await keyword will be compiled to a state machine, and executing this Select function will start the state machine. This Select function cannot be considered to be a pure function.
+Unlike any previous Select implementations, the `[Pure]` tag is missing. Yes, this Select is impure. As explained in [another post](/posts/understanding-c-sharp-async-await-1-compilation), the await keyword will be compiled to a state machine, and executing this Select function will start the state machine. This Select function cannot be considered to be a pure function.
 
 ## Purity vs. impurity
 
@@ -156,7 +157,7 @@ Here are some examples of pure functions:
 
 -   All functions/lambda expressions in the [lambda calculus](/archive/?tag=Lambda%20Calculus) posts.
 -   [Math.Sin](https://msdn.microsoft.com/en-us/library/system.math.sin.aspx)
--   Func<int> zero = () => 0
+-   `Func<int>` zero = () => 0
 -   Func<int, bool> isPositive = x => x > 0
 -   The Select functions for IEnumerable<>, Tuple<>, Lazy<>, Func<>, Nullable<>
 -   The [built-in query methods](/posts/understanding-linq-to-objects-3-query-methods) for IEnumerable<>
@@ -166,9 +167,9 @@ and examples of impure functions:
 -   [Random.Next](https://msdn.microsoft.com/en-us/library/9b3ta19y.aspx), which may return different value for each application
 -   IO: [File.ReadAllText](https://msdn.microsoft.com/en-us/library/ms143368.aspx)/[File.WriteAllText](https://msdn.microsoft.com/en-us/library/ms143375.aspx), [WebClient.DownloadStringTaskAsync](https://msdn.microsoft.com/en-us/library/hh138332.aspx). [Console.Write](https://msdn.microsoft.com/en-us/library/hebffx2d.aspx)/[Console.Read](https://msdn.microsoft.com/en-us/library/system.console.read.aspx) for console application, [MessageBox.Show](https://msdn.microsoft.com/en-us/library/ms598674.aspx) for WPF, …
 -   async method with await keyword, which [creates a state machine and start it](/posts/understanding-c-sharp-async-await-1-compilation)
--   EnumerableEx.ForEach, and [foreach iteration](https://msdn.microsoft.com/en-us/library/vstudio/ttw7t8t6.aspx) on a IEnumerable<T>, which changes that IEnumerable<T>’s state.
+-   EnumerableEx.ForEach, and [foreach iteration](https://msdn.microsoft.com/en-us/library/vstudio/ttw7t8t6.aspx) on a `IEnumerable<T>`, which changes that `IEnumerable<T>`’s state.
 -   [Task.Start](https://msdn.microsoft.com/en-us/library/dd270682.aspx)/[CancellationTokenSource.Cancel](https://msdn.microsoft.com/en-us/library/dd321703.aspx), which can change the state of Task.
-    
+
 -   [DataContext.SubmitChanges](https://msdn.microsoft.com/en-us/library/system.data.linq.datacontext.submitchanges.aspx) in [LINQ to SQL](/posts/understanding-linq-to-sql-7-data-changing)
 
 ### Purity and category theory
@@ -220,14 +221,14 @@ public static partial class ReflectionHelper
 }
 ```
 
-can be used to query pure methods of a library, that is, how many methods are tagged with \[Pure\] attribute in its contract reference assembly. For mscorlib.all, just query mscorlib.contracts.dll:
+can be used to query pure methods of a library, that is, how many methods are tagged with `[Pure]` attribute in its contract reference assembly. For mscorlib.all, just query mscorlib.contracts.dll:
 
 ```csharp
 const string mscorlibContracts = @"C:\Program Files (x86)\Microsoft\Contracts\Contracts\.NETFramework\v4.5\mscorlib.Contracts.dll";
 int pureMethodsCount = ReflectionHelper.GetMethods<PureAttribute>(mscorlibContracts, true).Count();
 ```
 
-The result is, in mscorlib.dll, only 1202 (about 8%) public methods are pure (attributed with \[Pure\] in mscorlib.contracts.dll).
+The result is, in mscorlib.dll, only 1202 (about 8%) public methods are pure (attributed with `[Pure]` in mscorlib.contracts.dll).
 
 Here Mono.Cecil’s AssemblyDefinition.ReadAssembly is used instead of .NET built in Assembly.Load:
 
@@ -257,7 +258,7 @@ Assembly.GetTypes() throws exception:
 
 This is a demonstration of Linq to Object
 
-One last thing to notice: in C#/.NET world, there is no analysis tools to identify the purity of any API. \[Pure\] is used based on manual analysis.
+One last thing to notice: in C#/.NET world, there is no analysis tools to identify the purity of any API. `[Pure]` is used based on manual analysis.
 
 ## Purity, laziness and LINQ
 
@@ -270,7 +271,7 @@ IEnumerable<int> query = from x in functor where x > 0 select selector(x);
 // At runtime, here execution of query is deferred, the selector function is guaranteed not applied.
 ```
 
-Here the query is a cold IEnumerable<T>. selector’s application is guaranteed to be deferred because the query methods (Select/Where/… functions) are pure functions. Such purity and laziness are expected in LINQ query.
+Here the query is a cold `IEnumerable<T>`. selector’s application is guaranteed to be deferred because the query methods (Select/Where/… functions) are pure functions. Such purity and laziness are expected in LINQ query.
 
 ### Functor vs. functor-like
 
@@ -285,7 +286,7 @@ Tuple<int> query = from x in functor select selector(x);
 
 Theoretically, Tuple<> is a functor (again, just like the Identity functor in Haskell). However, in these C# posts, because its unexpected behavior (lack of laziness) in LINQ query, it will only be called functor-like.
 
-At compile time, C# compiler does not have knowledge about side effect or purity either. With the help of above (impure) Select extension method, the LINQ syntax still works with Task<T>:
+At compile time, C# compiler does not have knowledge about side effect or purity either. With the help of above (impure) Select extension method, the LINQ syntax still works with `Task<T>`:
 
 ```csharp
 Task<int> functorial = Task.Run(() => 0);
@@ -294,7 +295,7 @@ Task<int> query = from x in functorial select selector(x);
 // At runtime, here query is not used yet, but the selector function may be already applied, or not.
 ```
 
-This usage looks as “functorial” as any other LINQ to Objects examples. The big difference is, this query can be a hot Task<int>, and the application of selector is unpredictable. When query is created, selector may be not applied, being applied, or already applied.
+This usage looks as “functorial” as any other LINQ to Objects examples. The big difference is, this query can be a hot `Task<int>`, and the application of selector is unpredictable. When query is created, selector may be not applied, being applied, or already applied.
 
 Also consider the equivalent selecting/mapping of morphisms in DotNet category:
 
@@ -307,7 +308,7 @@ public static IMorphism<Task<TSource>, Task<TResult>, DotNet> _Select<TSource, T
 }
 ```
 
-The new impure DotNetMorphism in DotNet category becomes an invalid morphism because of the impurity. So Task<T> is not a functor. Just like in the lambda calculus posts, this function is prefixed with a underscore, meaning it is syntactically legal in C#, but semantically invalid in category theory.
+The new impure DotNetMorphism in DotNet category becomes an invalid morphism because of the impurity. So `Task<T>` is not a functor. Just like in the lambda calculus posts, this function is prefixed with a underscore, meaning it is syntactically legal in C#, but semantically invalid in category theory.
 
 In these posts, the term “functor”, “functorial”, “functor-like” will be carefully used:
 
@@ -365,7 +366,7 @@ public static partial class QueryableExtensions
 }
 ```
 
-As [discussed before](/posts/understanding-csharp-3-0-features-6-lambda-expression), when working with IQueryable<T>, the lambda expressions are not functions but [data structure - an abstract syntax tree](/posts/understanding-linq-to-sql-3-expression-tree). So that a lambda-like expression trees in the query can be compiled to something else - here a T-SQL query:
+As [discussed before](/posts/understanding-csharp-3-0-features-6-lambda-expression), when working with `IQueryable<T>`, the lambda expressions are not functions but [data structure - an abstract syntax tree](/posts/understanding-linq-to-sql-3-expression-tree). So that a lambda-like expression trees in the query can be compiled to something else - here a T-SQL query:
 
 ```sql
 SELECT [t0].[ProductName], [t0].[UnitPrice]
@@ -376,7 +377,7 @@ This is a very powerful feature of C# language and LINQ.
 
 ## Hot task vs. cold task, and unit tests
 
-The following unit tests demonstrate above Select function for Task<T> works for both hot (already started) and cold (not yet started) tasks:
+The following unit tests demonstrate above Select function for `Task<T>` works for both hot (already started) and cold (not yet started) tasks:
 
 ```csharp
 [TestClass()]

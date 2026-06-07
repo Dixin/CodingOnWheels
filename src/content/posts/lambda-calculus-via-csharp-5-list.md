@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[FP & LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Lambda Calculus via C# series](/archive/?tag=Lambda%20Calculus)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Lambda Calculus via C#](/archive/?tag=Lambda%20Calculus) Series
 
 In lambda calculus and Church encoding, there are various ways to represent a list with anonymous functions.
 
@@ -31,7 +32,7 @@ Value := Item1 = λl.l (λv.λn.v)
 Next := Item2 = λl.l (λv.λn.n)
 ```
 
-Here variable l is the list node. The C# implementation is similar to tuple and signed numeral, except ListNode<T> function type now has 1 type parameter, which is the type of its value:
+Here variable l is the list node. The C# implementation is similar to tuple and signed numeral, except `ListNode<T>` function type now has 1 type parameter, which is the type of its value:
 
 ```csharp
 // ListNode<T> is the alias of Tuple<T, ListNode<T>>.

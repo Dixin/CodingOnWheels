@@ -9,13 +9,14 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
 
-## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
+## Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-deferred-execution-lazy-evaluation-and-eager-evaluation](/posts/linq-to-objects-deferred-execution-lazy-evaluation-and-eager-evaluation "https://CodingOnWheels.com/posts/linq-to-objects-deferred-execution-lazy-evaluation-and-eager-evaluation")
 
-## **Latest version: [https://CodingOnWheels.com/posts/linq-to-objects-deferred-execution-lazy-evaluation-and-eager-evaluation](/posts/linq-to-objects-deferred-execution-lazy-evaluation-and-eager-evaluation "https://CodingOnWheels.com/posts/linq-to-objects-deferred-execution-lazy-evaluation-and-eager-evaluation")**
-
-As fore mentioned, when a generator method (method contains yield statement and returns IEnumerable<T>) is compiled to a pure function, which constructs a generator and return it to caller. So at runtime, when a generator method is called, the values in output sequence is not pulled or evaluated. This is called deferred execution.
+As fore mentioned, when a generator method (method contains yield statement and returns `IEnumerable<T>`) is compiled to a pure function, which constructs a generator and return it to caller. So at runtime, when a generator method is called, the values in output sequence is not pulled or evaluated. This is called deferred execution.
 
 ## Deferred execution vs. immediate execution
 
@@ -158,7 +159,7 @@ internal static void ForEachSelect()
 
 When SelectorGenerator is called, its query logic of mapping is not executed, and its result values are not available yet. Later when trying to pull result values from the returned sequence, the query logic of mapping is executed, and each result value is evaluated sequentially. When SelectList is called, its query logic of mapping is executed, and its result values are evaluated and stored in the returned sequence, which is a list. Since any method with yield statement is compiled to construct and return a generator, any method with yield statement implements deferred execution.
 
-In LINQ to Objects, the query methods returning IEnumerable<T> sequence all implement deferred execution. Apparently, the other query methods returning a collection (like ToArray, ToList, etc.) or a single value (like Single, First, etc.) must implement immediate execution to start result value evaluation All the query methods implementation will be discussed later in this chapter.
+In LINQ to Objects, the query methods returning `IEnumerable<T>` sequence all implement deferred execution. Apparently, the other query methods returning a collection (like ToArray, ToList, etc.) or a single value (like Single, First, etc.) must implement immediate execution to start result value evaluation All the query methods implementation will be discussed later in this chapter.
 
 ### Cold sequence vs. hot sequence
 

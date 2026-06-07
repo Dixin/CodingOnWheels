@@ -9,15 +9,16 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[LINQ to Objects in Depth series](/archive/?tag=LINQ%20to%20Objects)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to Objects in Depth](/archive/?tag=LINQ%20to%20Objects) Series
 
 After understanding how to use LINQ to Objects queries, this chapter starts to discuss how these queries work internally, including how they execute and how they are implemented. These insights help developer mastering LINQ to Objects.
 
 ## Generator
 
-Most LINQ to Objects queries has an IEnumerable<T> output. They can be easily implemented with “brute force”. Take the simple query Repeat as example:
+Most LINQ to Objects queries has an `IEnumerable<T>` output. They can be easily implemented with “brute force”. Take the simple query Repeat as example:
 
 ```csharp
 internal static IEnumerable<TSource> RepeatArray<TSource>(TSource value, int count)
@@ -36,7 +37,7 @@ The problem is, when the above Repeat query is called, it immediately generates 
 
 ### Implement iterator pattern
 
-The iterator pattern is imperative and object-oriented. It has a sequence represented by IEnumerable<T>, and an iterator represented by IEnumerator<T>. According to the definition of IEnumerator<T>, apparently the iterator is stateful. The following is a general-purpose iterator implemented as a finite-state machine:
+The iterator pattern is imperative and object-oriented. It has a sequence represented by `IEnumerable<T>`, and an iterator represented by `IEnumerator<T>`. According to the definition of `IEnumerator<T>`, apparently the iterator is stateful. The following is a general-purpose iterator implemented as a finite-state machine:
 
 ```csharp
 public enum IteratorState
@@ -163,7 +164,7 @@ The above iterator encapsulates 5 functions (start, moveNext, getCurrent, end, d
 -   End: if its MoveNext method is called and the state is End, false is directly returned to indicate caller that the sequential traversal ended, there is no value available to pull.
 -   Error: if its MoveNext method throws an exception, the state changes to Error. Then its Dispose method is called to do the cleanup work, and eventually its state is changed to End.
 
-Now Sequence<T> and Iterator<T> can be used to implement Repeat with improved performance:
+Now `Sequence<T>` and `Iterator<T>` can be used to implement Repeat with improved performance:
 
 ```csharp
 internal static IEnumerable<TSource> RepeatSequence<TSource>(
@@ -406,9 +407,11 @@ finally { }
 }
 ```
 
-With the yield statement, the start, moveNext, getCurrent, end, dispose functions for iteration are merged into a fluent and intuitive control flow. The yield statement is a syntactic sugar. The compilation of RepeatYield is just slightly different from the previous RepeatSequence implementation with the standard iteration pattern. C# compiler generates a generator type for each named function with yield statement and IEnumerable/IEnumerable<T> output. A generator is both a sequence and an iterator, which can be virtually viewed as:
+With the yield statement, the start, moveNext, getCurrent, end, dispose functions for iteration are merged into a fluent and intuitive control flow. The yield statement is a syntactic sugar. The compilation of RepeatYield is just slightly different from the previous RepeatSequence implementation with the standard iteration pattern. C# compiler generates a generator type for each named function with yield statement and `IEnumerable`/`IEnumerable<T>` output. A generator is both a sequence and an iterator, which can be virtually viewed as:
 
-public interface IGenerator<out T\> : IEnumerable<T\>, IEnumerator<T\> { }
+```csharp
+public interface IGenerator<out T> : IEnumerable<T>, IEnumerator<T> { }
+```
 
 In another word, a generator is an iterator with an additional factory method GetEnumerator, which does a little more work:
 
@@ -600,7 +603,7 @@ yield return value;
 }
 ```
 
-A named function with yield statement must have an IEnumerable/IEnumerable<T> output, or an IEnumerator/IEnumerator<T> output. As demonstrated above, when it outputs a sequence, it is compiled to generator construction. When it outputs an iterator, it is compiled to iterator construction. Take Repeat as example, its output can also be IEnumerator<T>:
+A named function with yield statement must have an `IEnumerable`/`IEnumerable<T>` output, or an `IEnumerator`/`IEnumerator<T>` output. As demonstrated above, when it outputs a sequence, it is compiled to generator construction. When it outputs an iterator, it is compiled to iterator construction. Take Repeat as example, its output can also be `IEnumerator<T>`:
 
 ```csharp
 internal static IEnumerator<TSource> RepeatIterator<TSource>(TSource value, int count)

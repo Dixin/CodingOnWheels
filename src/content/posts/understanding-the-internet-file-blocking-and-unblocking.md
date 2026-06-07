@@ -21,7 +21,7 @@ The message is:
 
 ![file-block-2](https://aspblogs.z22.web.core.windows.net/dixin/Media/fileblock2_39B5496B.gif "file-block-2")
 
-> Failed to queue test run 'Administrator@DIXIN-LAPTOP 2009-03-14 14:05:49': Test Run deployment issue: The location of the file or directory 'e:\\work\\webos\\source\\test.website.models\\bin\\debug\\test.website.models.dll.config' is not trusted.
+> Failed to queue test run 'Administrator@DIXIN-LAPTOP 2009-03-14 14:05:49': Test Run deployment issue: The location of the file or directory 'e:\work\webos\source\test.website.models\bin\debug\test.website.models.dll.config' is not trusted.
 
 To resolve this problem, right click the “not trusted” file, choose “Property”:
 
@@ -54,8 +54,8 @@ And marking the file / directory as blocked / unblocked is implemented via alter
 
 In the above scenarios (My machine is Windows Vista + IE 7), since the file WebOS.zip is downloaded from the Gmail attachment, the file is marked by set such key-value pair:
 
--   key (data stream name): Zone.Identifier;
--   value (data stream content): \[ZoneTransfer\] ZoneId=3
+-   key (data stream name): `Zone.Identifier`;
+-   value (data stream content): `[ZoneTransfer] ZoneId=3`
 
 Here
 

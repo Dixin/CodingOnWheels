@@ -9,11 +9,12 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[Category Theory via C# series](/archive/?tag=Category%20Theory)\]
-
-## **Latest version: [https://CodingOnWheels.com/posts/category-theory-via-csharp-3-functor-and-linq-to-functors](/posts/category-theory-via-csharp-3-functor-and-linq-to-functors "https://CodingOnWheels.com/posts/category-theory-via-csharp-3-functor-and-linq-to-functors")**
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Category Theory via C#](/archive/?tag=Category%20Theory) Series
+>
+> This post is updated, [here is the latest version](/posts/category-theory-via-csharp-3-functor-and-linq-to-functors).
 
 ## Functor and functor laws
 
@@ -46,7 +47,7 @@ public interface IFunctor<in TSourceCategory, out TTargetCategory, TFunctor<>>
 }
 ```
 
-A TFunctor<>, which implements IFunctor<…> interface, should have a method Select, which takes a morphism from TSource to TResult in TFromCategory, and returns a morphism from TFunctor<TSource> to TFunctor<TResult> in TToCategory.
+A TFunctor<>, which implements IFunctor<…> interface, should have a method Select, which takes a morphism from TSource to TResult in TFromCategory, and returns a morphism from `TFunctor<TSource>` to `TFunctor<TResult>` in TToCategory.
 
 ## C#/.NET functors
 
@@ -68,7 +69,7 @@ public interface IEndofunctor<TCategory, TEndofunctor<>>
 }
 ```
 
-So an endofunctor in DotNet category, e.g. EnumerableFunctor<T>, should be implemented as:
+So an endofunctor in DotNet category, e.g. `EnumerableFunctor<T>`, should be implemented as:
 
 ```csharp
 // Cannot be compiled.
@@ -89,10 +90,10 @@ Unfortunately, all the above code cannot be compiled, because C# does not suppor
 
 [Kind](http://en.wikipedia.org/wiki/Kind_\(type_theory\)) is the (meta) type of a type. In another word, a type’s kind is like a function’s type. For example:
 
--   int’s kind is \*, where \* can be read as a concrete type or closed type. This is like function (() => 0)’s type is Func<int>.
--   IEnumerable<int> is a closed type, its kind is also \*.
--   IEnumerable<> is a open type, its kind is \* → \*, which can be read as taking a closed type (e.g. int) and constructs another closed type (IEnumerable<int>). This is like function ((int x) => x)’s type is Func<int, int>.
--   In above IFunctor<TFromCategory, TToCategory, TFunctor<>\> definition, its type parameter TFunctor<> has a kind \* → \*, which makes IFunctor<TFromCategory, TToCategory, TFunctor<>\> having a higher order kind: \* → \* → (\* → \*) → \*. This is like a function become a higher order function if its parameter is a function.
+-   int’s kind is \*, where \* can be read as a concrete type or closed type. This is like function (() => 0)’s type is `Func<int>`.
+-   `IEnumerable<int>` is a closed type, its kind is also \*.
+-   IEnumerable<> is a open type, its kind is \* → \*, which can be read as taking a closed type (e.g. int) and constructs another closed type (`IEnumerable<int>`). This is like function ((int x) => x)’s type is `Func<int, int>`.
+-   In above `IFunctor<TFromCategory, TToCategory, TFunctor<>>` definition, its type parameter TFunctor<> has a kind \* → \*, which makes `IFunctor<TFromCategory, TToCategory, TFunctor<>>` having a higher order kind: \* → \* → (\* → \*) → \*. This is like a function become a higher order function if its parameter is a function.
 
 Unfortunately, C# does not support type with higher order kind. As [Erik Meijer](http://en.wikipedia.org/wiki/Erik_Meijer_\(computer_scientist\)) mentioned in [this video](https://channel9.msdn.com/Shows/Going+Deep/Erik-Meijer-Functional-Programming), the reasons are:
 
@@ -103,7 +104,7 @@ So, instead of higher-kinded polymorphism, C# [recognizes the functor pattern](h
 
 ### The built-in IEnumerable<> functor
 
-IEnumerable<T> is the a built-in functor in C#/.NET. Why it is a functor and How is this implemented? First, in DotNet category, if IEnumerable<> is a functor, it should be an endofunctor IEnumerable<>: DotNet → DotNet.
+`IEnumerable<T>` is the a built-in functor in C#/.NET. Why it is a functor and How is this implemented? First, in DotNet category, if IEnumerable<> is a functor, it should be an endofunctor IEnumerable<>: DotNet → DotNet.
 
 ```csharp
 public static IMorphism<IEnumerable<TSource>, IEnumerable<TResult>, DotNet> Select<TSource, TResult>(
@@ -113,7 +114,7 @@ public static IMorphism<IEnumerable<TSource>, IEnumerable<TResult>, DotNet> Sele
 }
 ```
 
-IEnumerable<T> should be able to do the above select/map from DotNet category to DotNet category.
+`IEnumerable<T>` should be able to do the above select/map from DotNet category to DotNet category.
 
 Second, in DotNet category, morphisms are functions. That is, IMorphism<TSouece, TResult, DotNet> and Func<TSouece, TResult> can convert to each other. So above select/map is equivalent to:
 
@@ -162,9 +163,9 @@ public static IEnumerable<TResult> Select<TSource, TResult>( // Extension method
 which is just [a syntactic sugar](/posts/understanding-csharp-3-0-features-5-extension-method) and does not change anything. The above transformation shows:
 
 -   In DotNet category, IEnumerable<>’s functoriality is equivalent to a simple familiar extension method Select
--   If the last Select version above can be implemented, then IEnumerable<T> is a functor.
+-   If the last Select version above can be implemented, then `IEnumerable<T>` is a functor.
 
-IEnumerable<T>’s Select extension method is already implemented as System.Linq.Enumerable.Select. But it is easy to implement manually:
+`IEnumerable<T>`’s Select extension method is already implemented as System.Linq.Enumerable.Select. But it is easy to implement manually:
 
 ```csharp
 [Pure]
@@ -188,19 +189,19 @@ public static partial class EnumerableExtensions
 }
 ```
 
-So IEnumerable<T> is a functor, The both Select functions are implemented as extension method for convenience.
+So `IEnumerable<T>` is a functor, The both Select functions are implemented as extension method for convenience.
 
 ## Functor pattern of LINQ
 
-Generally in C#, if a type F<TSource>:
+Generally in C#, if a type `F<TSource>`:
 
--   have a instance method or extension method Select, taking a Func<TSource, TResult> parameter and returning a F<TResult>
+-   have a instance method or extension method Select, taking a Func<TSource, TResult> parameter and returning a `F<TResult>`
 
 then:
 
 -   F<> is an endofunctor F<>: DotNet → DotNet
-    -   F<> maps objects TSource, TResult ∈ ob(DotNet) to objects F<TSource>, F<TResult> ∈ ob(DotNet)
-    -   F<> also selects morphism selector : TSource → TResult ∈ hom(DotNet) to new morphism : F<TSource> → F<TResult> ∈ hom(DotNet)
+    -   F<> maps objects TSource, TResult ∈ ob(DotNet) to objects `F<TSource>, F<TResult> ∈ ob(DotNet)`
+    -   F<> also selects morphism selector : TSource → TResult ∈ hom(DotNet) to new morphism : `F<TSource> → F<TResult> ∈ hom(DotNet)`
 -   F<> is a C# functor, its Select method can be recognized by C# compiler, so the LINQ syntax can be used:
 
 ```csharp
@@ -251,7 +252,7 @@ public static partial class Functions
 }
 ```
 
-Finally, an assertion method for IEnumerable<T>:
+Finally, an assertion method for `IEnumerable<T>`:
 
 ```csharp
 // Impure.
@@ -264,7 +265,7 @@ public static class EnumerableAssert
 }
 ```
 
-The following is the tests for IEnumerable<T> as a general functor - selecting/mapping between objects and morphisms:
+The following is the tests for `IEnumerable<T>` as a general functor - selecting/mapping between objects and morphisms:
 
 ```csharp
 [TestClass()]
@@ -289,7 +290,7 @@ public partial class FunctorTests
 }
 ```
 
-And the following is the tests for IEnumerable<T> as a C# functor:
+And the following is the tests for `IEnumerable<T>` as a C# functor:
 
 ```csharp
 public partial class FunctorTests

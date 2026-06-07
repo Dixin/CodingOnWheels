@@ -116,7 +116,7 @@ int[] slice = new int[rangeLength];
 Array.Copy(sourceArray: array, sourceIndex: startIndex, destinationArray: slice, destinationIndex: 0, length: rangeLength);
 ```
 
-## LINQ queries - Index and Range for IEnumerable<T>
+## LINQ queries - Index and Range for `IEnumerable<T>`
 
 Currently (v3.0.0-preview2/SDK 3.0.100-preview-010184), the index and range work with array, and do not work with other types, like `List<T>`. It is natural and convenient to support index and range in LINQ, so they can work with any type that implements `IEnumerable<T>`. The goals of these LINQ APIs are:
 
@@ -582,7 +582,7 @@ private static IEnumerable<TSource> ElementsInIterator<TSource>(IEnumerable<TSou
 
 For `Range(Range)` and `AsEnumerable(Range)`, the question is: what does Range's start Index and end Index mean when the index is from the end? For example, 10..20 can be easily converted to a sequence of 10, 11,12, ... 19, but how about `^20...^10`? In my current implementation, regarding Index's value can be from 0 to `int.MaxValue`, I assume a virtual "full range" 0..2147483648, and any Range instance is a slice of that "full range". So:
 
--   Ranges `..` and `0..` and .`.^0` and `0..^0` are converted to "full sequence" 0, 1, .. 2147483647
+-   Ranges `..` and `0..` and `..^0` and `0..^0` are converted to "full sequence" 0, 1, .. 2147483647
 -   Range `100..^47` is converted to sequence 100, 101, .. 2147483600
 -   Range `^48..^40` is converted to sequence 2147483600, 2147483601 .. 2147483607
 -   Range `10..10` is converted to empty sequence

@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## **Latest version:** https://CodingOnWheels.com/posts/introducing-linq-2-what-is-linq
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> This post is updated, [here is the latest version](https://CodingOnWheels.com/posts/introducing-linq-2-what-is-linq).
 
 As fore mentioned, LINQ consists of syntax in languages and APIs in libraries:
 
@@ -41,7 +42,18 @@ For a certain language, like C#, there is only 1 set of LINQ query syntax, which
 -   LINQ to Twitter, a set of LINQ APIs for Twitter data in Twitter’s services
 -   etc.
 
-<table border="0" cellpadding="2" cellspacing="0" width="849"><tbody><tr><td valign="top" width="131">LINQ APIs</td><td valign="top" width="222">.NET Framework: Nuget package or .dll assembly</td><td valign="top" width="223">.NET Standard: Nuget package</td><td valign="top" width="271">Namespace</td></tr><tr><td valign="top" width="131">LINQ to Objects</td><td valign="top" width="222">System.Core.dll</td><td valign="top" width="223">NETStandard.Library</td><td valign="top" width="271">System.Linq</td></tr><tr><td valign="top" width="131">LINQ to Objects Interactive Extension (Ix)</td><td valign="top" width="222">System.Interactive</td><td valign="top" width="223">System.Interactive</td><td valign="top" width="271">System.Linq</td></tr><tr><td valign="top" width="131">Parallel LINQ</td><td valign="top" width="222">System.Core.dll</td><td valign="top" width="223">NETStandard.Library</td><td valign="top" width="271">System.Linq</td></tr><tr><td valign="top" width="131">LINQ to XML</td><td valign="top" width="222">System.Xml.Linq.dll</td><td valign="top" width="223">NETStandard.Library</td><td valign="top" width="271">System.Xml.Linq</td></tr><tr><td valign="top" width="131">LINQ to Entities</td><td valign="top" width="222">EntityFramework, Microsoft.EntityFrameworkCore</td><td valign="top" width="223">Microsoft.EntityFrameworkCore</td><td valign="top" width="271">System.Data.Entity (EF), Microsoft.EntityFrameworkCore (EF Core)</td></tr><tr><td valign="top" width="131">LINQ to NoSQL</td><td valign="top" width="222">Microsoft.Azure.DocumentDB</td><td valign="top" width="223">Microsoft.Azure.DocumentDB.Core</td><td valign="top" width="271">Microsoft.Azure.Documents.Client</td></tr><tr><td valign="top" width="131">LINQ to SQL</td><td valign="top" width="222">System.Data.Linq.dll</td><td valign="top" width="223">Not available</td><td valign="top" width="271">System.Data.Linq</td></tr><tr><td valign="top" width="131">LINQ to DataSets</td><td valign="top" width="222">System.Data.DataSetExtensions.dll</td><td valign="top" width="223">Not available</td><td valign="top" width="271">System.Data</td></tr><tr><td valign="top" width="131">LINQ to JSON</td><td valign="top" width="222">Newtonsoft.Json</td><td valign="top" width="223">Newtonsoft.Json</td><td valign="top" width="271">Newtonsoft.Json.Linq</td></tr><tr><td valign="top" width="131">LINQ to Twitter</td><td valign="top" width="222">linqtotwitter</td><td valign="top" width="223">linqtotwitter</td><td valign="top" width="271">LinqToTwitter</td></tr></tbody></table>
+| LINQ APIs                                  | .NET Framework: Nuget package or .dll assembly | .NET Standard: Nuget package    | Namespace                                         |
+|--------------------------------------------|------------------------------------------------|---------------------------------|---------------------------------------------------|
+| LINQ to Objects                            | System.Core.dll                                | NETStandard.Library             | System.Linq                                       |
+| LINQ to Objects Interactive Extension (Ix) | System.Interactive                             | System.Interactive              | System.Linq                                       |
+| Parallel LINQ                              | System.Core.dll                                | NETStandard.Library             | System.Linq                                       |
+| LINQ to XML                                | System.Xml.Linq.dll                            | NETStandard.Library             | System.Xml.Linq                                   |
+| LINQ to Entities                           | EntityFramework, Microsoft.EntityFrameworkCore | Microsoft.EntityFrameworkCore   | System.Data.Entity, Microsoft.EntityFrameworkCore |
+| LINQ to NoSQL                              | Microsoft.Azure.DocumentDB                     | Microsoft.Azure.DocumentDB.Core | Microsoft.Azure.Documents.Client                  |
+| LINQ to SQL                                | System.Data.Linq.dll                           | Not available                   | System.Data.Linq                                  |
+| LINQ to DataSets                           | System.Data.DataSetExtensions.dll              | Not available                   | System.Data                                       |
+| LINQ to JSON                               | Newtonsoft.Json                                | Newtonsoft.Json                 | Newtonsoft.Json.Linq                              |
+| LINQ to Twitter                            | linqtotwitter                                  | linqtotwitter                   | LinqToTwitter                                     |
 
 ## One language for different data domains
 
@@ -102,7 +114,7 @@ internal static void LinqToObjectsQueryMethods()
 }
 ```
 
-This time, the query is built by calling **Where**, **OrderBy**, **Select** methods. These 2 versions of query are identical. The query expression is compiled to query method calls, which will be discussed in detail in the Functional Programming and LINQ to Objects chapters.
+This time, the query is built by calling `Where`, `OrderBy`, `Select` methods. These 2 versions of query are identical. The query expression is compiled to query method calls, which will be discussed in detail in the Functional Programming and LINQ to Objects chapters.
 
 ### Parallel LINQ
 
@@ -181,11 +193,11 @@ internal static void LinqToXml()
 }
 ```
 
-In this example, the data source is XML data loaded in memory. It queries all <item> elements in the XML document, filter them and only keep the <item> elements with child <guid> elements, whose isPermaLink attributes have the value true, then sort the <item> element by the time represented by the child <pubDate> elements in descending order; then get <item> elements’ child <title> elements’ values. Again, later when pulling the results from the query with a foreach loop, the query is executed.
+In this example, the data source is XML data loaded in memory. It queries all `<item>` elements in the XML document, filter them and only keep the `<item>` elements with child `<guid>` elements, whose isPermaLink attributes have the value true, then sort the `<item>` element by the time represented by the child `<pubDate>` elements in descending order; then get `<item>` elements’ child `<title>` elements’ values. Again, later when pulling the results from the query with a foreach loop, the query is executed.
 
 ### LINQ to DataSets
 
-.NET Framework provides **System.Data.DataSet** type to cache data in memory. Each **DataSet** instance contains **System.Data.DataTable** instances, and each **DataTable** instance contains **System.Data.DataRow** instances. **DataSet**s are frequently used to cache tabular data from relational database. When working with relational database, this tutorial uses Microsoft SQL database and Microsoft AdventureWorks sample database for demonstration. In the following example, data is read from the **AdventureWorks** database’s **Production.Product** table, and cached in a **DataSet** instance. This LINQ query use this cached data in memory (not the data stored in database) as data source, and queries the products in the specified subcategory, and get the products’ names, in ascending order of products’ list prices.
+.NET Framework provides `System.Data.DataSet` type to cache data in memory. Each `DataSet` instance contains `System.Data.DataTable` instances, and each `DataTable` instance contains `System.Data.DataRow` instances. `DataSet` instances are frequently used to cache tabular data from relational database. When working with relational database, this tutorial uses Microsoft SQL database and Microsoft AdventureWorks sample database for demonstration. In the following example, data is read from the `AdventureWorks` database’s `Production.Product` table, and cached in a `DataSet` instance. This LINQ query use this cached data in memory (not the data stored in database) as data source, and queries the products in the specified subcategory, and get the products’ names, in ascending order of products’ list prices.
 
 ```csharp
 internal static void LinqToDataSets(string connectionString)
@@ -214,7 +226,7 @@ internal static void LinqToDataSets(string connectionString)
 }
 ```
 
-Here the query is created to filter the products in the **DataSet** object, and only keeps the products under the specified subcategory, then sort the products by their list price fields, then get the products’ name fields. Later, when pulling the results from the query with a foreach loop, the query is executed.
+Here the query is created to filter the products in the `DataSet` object, and only keeps the products under the specified subcategory, then sort the products by their list price fields, then get the products’ name fields. Later, when pulling the results from the query with a foreach loop, the query is executed.
 
 ### LINQ to Entities
 
@@ -222,7 +234,7 @@ Microsoft EF/Core providesLINQ to Entities enables LINQ queries directly working
 
 [![image_thumb31_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Functional-Programming-and-LINQ-Paradigm_150FF/image_thumb31_thumb_thumb.png "image_thumb31_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Functional-Programming-and-LINQ-Paradigm_150FF/image_thumb31_thumb_2.png)
 
-The following example queries **Production.Product** table for the products under the specified category, and get the products’ names in the order of their list prices:
+The following example queries `Production.Product` table for the products under the specified category, and get the products’ names in the order of their list prices:
 
 ```csharp
 internal static void LinqToEntities()
@@ -248,7 +260,7 @@ internal static void LinqToEntities()
 }
 ```
 
-Here the data source is the relational data stored in the remote database table, not local .NET objects in memory. The above **AdventureWorks** type is the LINQ to Entities data context and represents the database, and its **Products** property represents the table. The query is created to filter the products in the table, and only keeps the products under the specified category, then sort the products by their list prices, and get the products’ names. Later, when pulling the results from the query with a foreach loop, the query is executed to read from the database.
+Here the data source is the relational data stored in the remote database table, not local .NET objects in memory. The above `AdventureWorks` type is the LINQ to Entities data context and represents the database, and its `Products` property represents the table. The query is created to filter the products in the table, and only keeps the products under the specified category, then sort the products by their list prices, and get the products’ names. Later, when pulling the results from the query with a foreach loop, the query is executed to read from the database.
 
 ### LINQ to SQL
 
@@ -280,7 +292,7 @@ internal static void LinqToSql()
 #endif
 ```
 
-Here the **AdventureWorks** type is a LINQ to SQL data context, which is different from the LINQ to Entities data context. So the pulling execution on the query triggers LINQ to SQL API calls, which read data from the database.
+Here the `AdventureWorks` type is a LINQ to SQL data context, which is different from the LINQ to Entities data context. So the pulling execution on the query triggers LINQ to SQL API calls, which read data from the database.
 
 ### LINQ to NoSQL (LINQ to CosmosDB)
 
@@ -534,7 +546,7 @@ internal static void Sql(string connectionString)
 
 Similarly, for Twitter data, there are network APIs to query Twitter’s REST endpoints, etc. LINQ implements an unified and consistent language syntax and programming model for many different data domains. Above examples demonstrated the same C# syntax builds filter-sort-map query flows for CLR objects, XML data, cached tabular data, SQL database, NoSQL database, JSON, Twitter data. This capability makes LINQ a powerful and productive solution for working with data.
 
-C# is a strongly typed language. In C#, any value has a type, including any value in LINQ query. And any expression is evaluated to a type, including LINQ query expressions. Any method has a type for each parameter and a type for return value, including LINQ query methods. So LINQ queries are checked by compiler and CLR for type safety, which is great help for productivity, unless **dynamic** typing is used to bypass the compiler check:
+C# is a strongly typed language. In C#, any value has a type, including any value in LINQ query. And any expression is evaluated to a type, including LINQ query expressions. Any method has a type for each parameter and a type for return value, including LINQ query methods. So LINQ queries are checked by compiler and CLR for type safety, which is great help for productivity, unless `dynamic` typing is used to bypass the compiler check:
 
 ```csharp
 internal static partial class Linq
@@ -567,7 +579,7 @@ LINQ is not only about data query. Many LINQ libraries provide rich APIs to mani
 
 Generally, there are 2 kinds of LINQ technologies:
 
--   Local query: The data source for local query is .NET objects in local memory of current .NET application or service. Apparently, (sequential) LINQ to Objects queries, and Parallel LINQ (to Objects) queries are local queries. LINQ to XML have XML data loaded to memory as specialized .NET objects representing the XML data structure, then query these objects, so LINQ to XML queries are also local queries too. Similarly, LINQ to DataSets and LINQ to JSON queries are local queries too. As demonstrated above, the local sequential LINQ data source and query is represented by **System.Collections.Generics.IEnumerable<T>** interface, and the local parallel LINQ data source and query is represented by **System.Linq.ParallelQuery<T>** type.
--   Remote query: The data source for remote query is not in the local memory. For example, LINQ to Entities queries the data stored in a relational database, apparently the data source is not available as .NET objects in the memory of current .NET application or service. So LINQ to Entities queries are remote queries. So are LINQ to SQL, LINQ to DocumentDB and LINQ to Twitter. As demonstrated above, the remote LINQ data source and query is represented by **System.Linq.IQueryable<T>** interface.
+-   Local query: The data source for local query is .NET objects in local memory of current .NET application or service. Apparently, (sequential) LINQ to Objects queries, and Parallel LINQ (to Objects) queries are local queries. LINQ to XML have XML data loaded to memory as specialized .NET objects representing the XML data structure, then query these objects, so LINQ to XML queries are also local queries too. Similarly, LINQ to DataSets and LINQ to JSON queries are local queries too. As demonstrated above, the local sequential LINQ data source and query is represented by `System.Collections.Generics.IEnumerable<T>` interface, and the local parallel LINQ data source and query is represented by `System.Linq.ParallelQuery<T>` type.
+-   Remote query: The data source for remote query is not in the local memory. For example, LINQ to Entities queries the data stored in a relational database, apparently the data source is not available as .NET objects in the memory of current .NET application or service. So LINQ to Entities queries are remote queries. So are LINQ to SQL, LINQ to DocumentDB and LINQ to Twitter. As demonstrated above, the remote LINQ data source and query is represented by `System.Linq.IQueryable<T>` interface.
 
 There are so many LINQ technologies, it is infeasible and also unnecessary to have one tutorial for all of them. This tutorial covers C# language's LINQ features, and the most used LINQ APIs: LINQ to Object (sequential local queries), LINQ to XML (specialized local queries), Parallel LINQ (parallel local queries), as well as EF/Core (remote queries). With the unified and consistent LINQ programming model, mastering these LINQ knowledge enables developers working any other local or remote LINQ technologies, understanding the internal implementation of these LINQ technologies also enables developer to build custom LINQ APIs to for other local or remote data scenarios.

@@ -9,19 +9,25 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [Parallel LINQ in Depth](/archive/?tag=Parallel%20LINQ) Series
 
-## \[[Parallel LINQ in Depth series](/archive/?tag=Parallel%20LINQ)\]
+## Latest version: [https://CodingOnWheels.com/posts/parallel-linq-1-local-parallel-query-and-visualization](/posts/parallel-linq-1-local-parallel-query-and-visualization "https://CodingOnWheels.com/posts/parallel-linq-1-local-parallel-query-and-visualization")
 
-## **Latest version: [https://CodingOnWheels.com/posts/parallel-linq-1-local-parallel-query-and-visualization](/posts/parallel-linq-1-local-parallel-query-and-visualization "https://CodingOnWheels.com/posts/parallel-linq-1-local-parallel-query-and-visualization")**
-
-So far, all the discussion for LINQ to Objects/XML does not involve multi-threading, concurrency, or parallel computing. This is by design, because pulling values from an IEnumerable<T> sequence is not thread-safe.When multiple threads simultaneously access one IEnumerable<T> sequence, race condition can occur and lead to unpredictable consequence. As a result, all the LINQ to Objects/XML queries are implemented in a sequential manner with a single thread. To scale LINQ in multi-processor environment, Since .NET Framework4.0, a parallel version of LINQ to Objects is also provided, called Parallel LINQ or PLINQ.
+So far, all the discussion for LINQ to Objects/XML does not involve multi-threading, concurrency, or parallel computing. This is by design, because pulling values from an `IEnumerable<T>` sequence is not thread-safe.When multiple threads simultaneously access one `IEnumerable<T>` sequence, race condition can occur and lead to unpredictable consequence. As a result, all the LINQ to Objects/XML queries are implemented in a sequential manner with a single thread. To scale LINQ in multi-processor environment, Since .NET Framework4.0, a parallel version of LINQ to Objects is also provided, called Parallel LINQ or PLINQ.
 
 ## Parallel LINQ types and methods
 
 Parallel LINQ types are provided as a parity with LINQ to Objects:
 
-<table cellpadding="2" cellspacing="0" width="531"><tbody><tr><td valign="top" width="278">Sequential LINQ</td><td valign="top" width="251">Parallel LINQ</td></tr><tr><td valign="top" width="278">System.Collections.IEnumerable</td><td valign="top" width="251">System.Linq.ParallelQuery</td></tr><tr><td valign="top" width="278">System.Collections.Generic.IEnumerable&lt;T&gt;</td><td valign="top" width="251">System.Linq.ParallelQuery&lt;T&gt;</td></tr><tr><td valign="top" width="278">System.Linq.IOrderedEnumerable&lt;T&gt;</td><td valign="top" width="251">System.Linq.OrderedParallelQuery&lt;T&gt;</td></tr><tr><td valign="top" width="278">System.Linq.Enumerable</td><td valign="top" width="251">System.Linq.ParallelEnumerable</td></tr></tbody></table>
+| Sequential LINQ                             | Parallel LINQ                         |
+|---------------------------------------------|---------------------------------------|
+| `System.Collections.IEnumerable`            | `System.Linq.ParallelQuery`           |
+| `System.Collections.Generic.IEnumerable<T>` | `System.Linq.ParallelQuery<T>`        |
+| `System.Linq.IOrderedEnumerable<T>`         | `System.Linq.OrderedParallelQuery<T>` |
+| `System.Linq.Enumerable`                    | `System.Linq.ParallelEnumerable`      |
 
 As the parity, System.Linq.ParallelEnumerable provides the parallel version of System.Linq.Enumerable query methods. For example, the following is the comparison of the sequential and parallel generation query methods Range/Repeat:
 
@@ -83,7 +89,7 @@ namespace System.Linq
 }
 ```
 
-For each query method, the type of generic source sequence and result sequence is simply replaced by ParallelQuery<T>, the type of non-generic sequence is replaced by ParallelQuery, and other parameter types remain the same. Similarly, the following are the ordering methods side by side, where the type of ordered source sequence and result sequence is replaced by IOrderedQueryable<T>, and, again, the key selector callback function is replaced by expression tree:
+For each query method, the type of generic source sequence and result sequence is simply replaced by `ParallelQuery<T>`, the type of non-generic sequence is replaced by ParallelQuery, and other parameter types remain the same. Similarly, the following are the ordering methods side by side, where the type of ordered source sequence and result sequence is replaced by `IOrderedQueryable<T>`, and, again, the key selector callback function is replaced by expression tree:
 
 ```csharp
 namespace System.Linq
@@ -142,7 +148,7 @@ They are covered in this part and the next parts.
 
 ## Parallel vs. sequential query
 
-A ParallelQuery<T> instance can be created by calling generation methods of ParallelEnumerable, like Range, Repeat, etc., then the parallel query methods can be called fluently:
+A `ParallelQuery<T>` instance can be created by calling generation methods of ParallelEnumerable, like Range, Repeat, etc., then the parallel query methods can be called fluently:
 
 ```csharp
 internal static void Generation()
@@ -161,7 +167,7 @@ internal static void Generation()
 }
 ```
 
-It can also be created by calling ParallelEnumerable.AsParallel for IEnumerable<T> or IEnumerable:
+It can also be created by calling ParallelEnumerable.AsParallel for `IEnumerable<T>` or IEnumerable:
 
 ```csharp
 public static ParallelQuery AsParallel(this IEnumerable source);
@@ -185,7 +191,7 @@ internal static void AsParallel(IEnumerable<int> source1, IEnumerable source2)
 
 AsParallel also has a overload accepting a partitioner, which is discussed later in this chapter.
 
-To apply sequential query methods to a ParallelQuery<T> instance, just call ParallelEnumerable.AsSequential method, which returns \]IEnumerable<T>, from where the sequential query methods can be called:
+To apply sequential query methods to a `ParallelQuery<T>` instance, just call ParallelEnumerable.AsSequential method, which returns `IEnumerable<T>`, from where the sequential query methods can be called:
 
 ```csharp
 public static IEnumerable<TSource> AsSequential<TSource>(this ParallelQuery<TSource> source);
@@ -248,7 +254,7 @@ namespace System.Linq
 }
 ```
 
-FoAll can pull values from ParallelQuery<T> source with multiple threads simultaneously, and call function on those threads in parallel:
+FoAll can pull values from `ParallelQuery<T>` source with multiple threads simultaneously, and call function on those threads in parallel:
 
 ```csharp
 internal static void ForEachForAll()
@@ -279,25 +285,25 @@ public static partial class ParallelEnumerableX
 ### Install and configure Concurrency Visualizer
 
 > It would be nice if the internal execution of sequential/parallel LINQ queries can be visualized. This can be done in variant ways. On Windows, Microsoft has released a tool [Concurrency Visualizer](https://msdn.microsoft.com/en-us/library/dd537632.aspx) for this purpose. It is an extension of Visual Studio. It provides APIs to trace the execution information at the runtime. When the execution is done, it generates charts and diagrams with the collected tracing. After the installation, restart Visual Studio, go to Analyze => Concurrency Visualizer => Advanced Settings:
-> 
+>
 > [![image_thumb4](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb4_thumb.png "image_thumb4")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb4_2.png)
-> 
+>
 > In the Filter tab, check Sample Events only:
-> 
+>
 > [![image_thumb8](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb8_thumb.png "image_thumb8")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb8_2.png)
-> 
+>
 > Then go to Markers tab, check ConcurrencyVisualizer.Markers only:
-> 
+>
 > [![image_thumb9](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb9_thumb.png "image_thumb9")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb9_2.png)
-> 
+>
 > In Files tab, specified a proper directory for trace files. Notice the trace files can be very large, depends on how much information is collected.
-> 
+>
 > [![image_thumb10](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb10_thumb.png "image_thumb10")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb10_2.png)
 
 ### Visualize sequential and parallel LINQ queries
 
 > Next, add a reference to Concurrency Visualizer library. which is a [binary for downloading](https://www.microsoft.com/en-in/download/details.aspx?id=49103). For convenience, a NuGget package ConcurrencyVisualizer has been created for this tutorial. The following APIs are provided to draw timespans on the time line:
-> 
+>
 > ```csharp
 > namespace Microsoft.ConcurrencyVisualizer.Instrumentation
 > {
@@ -312,7 +318,7 @@ public static partial class ParallelEnumerableX
 >     }
 > }
 > ```
-> 
+>
 > The category parameter is used to determine the color of the timespan, and the span parameter becomes the text label for the timespan.
 
 In .NET Core, this tool and SDK library are not available, so manually define these APIs to trace text information:
@@ -419,23 +425,23 @@ internal static void TraceToFile()
 ```
 
 > On Windows, click Visual Studio => Analyze => Concurrency Visualizer => Start with Current Project. When the console application finishes running, a rich trace UI is generated. The first tab Utilization shows that the CPU usage was about 25% for a while, which seems to be the sequential LINQ query executing on the quad core CPU. Then the CPU usage became almost 100%, which seems to be the Parallel LINQ execution.
-> 
+>
 > [![image_thumb3](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb3_thumb.png "image_thumb3")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb3_2.png)
-> 
+>
 > The second tab Threads proves this. In the thread list on the left, right click the threads not working on LINQ queries and hide them, the view becomes:
-> 
+>
 > [![image_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb_thumb.png "image_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb_2.png)
 
 It uncovers how the LINQ queries execute on this quad core CPU. ForEach query pulls the values and call the specified function sequentially, with the main thread. ForAll query does the work with 4 threads (main threads and 3 other threads), each thread processed 2 values. The values 6, 0, 4, 2 is processed before 7, 1, 5, 3, which leads to the trace output: 2 6 4 0 5 3 7 1.
 
 > Click the ForEach timespan, the Current panel shows the execution duration is 4750 milliseconds. Click ForAll, it shows 1314 milliseconds:
-> 
+>
 > [![image_thumb1](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb1_thumb.png "image_thumb1")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb1_2.png)
 
 This is about 27% of ForEach execution time, close a quarter, as expected. It cannot be exactly 25%, because On the device, there are other running processes and threads using CPU, also the parallel query has extra work to manage multithreading, which is covered later in this chapter.
 
 > In the last tab Cores, select the LINQ query threads 9884, 12360, 11696, and 6760. It shows how the workload is distributed in the 4 cores:
-> 
+>
 > [![image_thumb41](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb41_thumb.png "image_thumb41")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb41_2.png)
 
 Above LINQ visualization code looks noisy, because it mixes the LINQ query and the tracing/visualizing. Regarding the Single Responsibility Principle, the tracing/visualizing logics can be encapsulated for reuse. The following methods wraps the tracing calls:
@@ -590,7 +596,7 @@ internal static void WhereSelect()
 ```
 
 > The sequential and parallel queries are visualized as:
-> 
+>
 > [![image_thumb11](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb11_thumb.png "image_thumb11")](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/Parallel-LINQ-1-Local-Parallel-Query-and_8DE9/image_thumb11_2.png)
 
 This visualizing approach will be used for the entire chapter to demonstrate parallel LINQ queries.

@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
+> [!TIP]  
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 ## \[[C# functional programming in-depth series](/archive/?tag=Functional%20C%23)\]
 
@@ -295,7 +296,7 @@ return value;
 }
 ```
 
-The WriteLine and Write extension methods are available for any value, and WriteLines is available for any IEnumerable<T> sequence:
+The WriteLine and Write extension methods are available for any value, and WriteLines is available for any `IEnumerable<T>` sequence:
 
 ```csharp
 internal static void TraceValueAndSequence(Uri value, IEnumerable<Uri> values)
@@ -335,7 +336,7 @@ return new Data(value);
 }
 ```
 
-The + operator overload is compiled to static method with name op\_Addition, the explicit/implicit type conversions are compiled to static op\_Explicit/op\_Implicit methods. These operators’ usage is compiled to static method calls:
+The + operator overload is compiled to static method with name `op_Addition`, the explicit/implicit type conversions are compiled to static `op_Explicit`/`op_Implicit` methods. These operators’ usage is compiled to static method calls:
 
 ```csharp
 internal static void Operators(Data data1, Data data2)
@@ -380,7 +381,7 @@ device.Description = string.Empty; // Compiled to: device.set_Description(string
 }
 ```
 
-Indexer member can be viewed as parameterized property. The indexer getter/setter are always compiled to get\_Item/set\_Item methods:
+Indexer member can be viewed as parameterized property. The indexer getter/setter are always compiled to `get_Item`/`set_Item` methods:
 
 ```csharp
 internal partial class Category
@@ -561,7 +562,7 @@ public DateTime(int year, int month, int day, int hour, int minute, int second, 
 }
 ```
 
-Indexers are essentially get\_Item/set\_Item methods with parameters, so they can be overloaded as well. Take System.Data.DataRow as example:
+Indexers are essentially `get_Item`/`set_Item` methods with parameters, so they can be overloaded as well. Take System.Data.DataRow as example:
 
 ```csharp
 namespace System.Data
@@ -612,7 +613,7 @@ return value.value;
 }
 ```
 
-In the above example, 2 explicit type conversion operators are both compiled to op\_Explicit methods with a single Data parameter. One op\_Explicit method returns long, the other op\_Explicit method returns decimal. This is the only case where C# allows method overload with only different return type.
+In the above example, 2 explicit type conversion operators are both compiled to `op_Explicit` methods with a single Data parameter. One `op_Explicit` method returns long, the other `op_Explicit` method returns decimal. This is the only case where C# allows method overload with only different return type.
 
 ### Parametric polymorphism: generic method
 

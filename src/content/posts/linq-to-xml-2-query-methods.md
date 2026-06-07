@@ -9,9 +9,10 @@ draft: false
 lang: ""
 ---
 
-## \[[LINQ via C# series](/posts/linq-via-csharp)\]
-
-## \[[LINQ to XML in Depth series](/archive/?tag=LINQ%20to%20XML)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
+>
+> [LINQ to XML in Depth](/archive/?tag=LINQ%20to%20XML) Series
 
 As fore mentioned, LINQ to XML is just a specialized LINQ to Objects, so all the LINQ to Objects queries can be used in LINQ to XML queries. LINQ to XML provides many additional functions and queries for XML tree navigation, ordering, XPath querying, etc. The following list shows these functions and their return types:
 
@@ -19,57 +20,57 @@ As fore mentioned, LINQ to XML is just a specialized LINQ to Objects, so all the
     -   Query direct parent element
         -   XObject.Parent -> XElement
     -   Query all ancestor elements:
-        -   XNode.Ancestors -> IEnumerable<XElement>
-        -   XElement.AncestorsAndSelf -> IEnumerable<XElement>
-        -   IEnumerable<T>.Ancestors\* -> IEnumerable<XElement>, where T : XNode
-        -   IEnumerable<XElement>.AncestorsAndSelf\* -> IEnumerable<XElement>
+        -   XNode.Ancestors -> `IEnumerable<XElement>`
+        -   XElement.AncestorsAndSelf -> `IEnumerable<XElement>`
+        -   `IEnumerable<T>.Ancestors`\* -> `IEnumerable<XElement>`, where T : XNode
+        -   `IEnumerable<XElement>.AncestorsAndSelf`\* -> `IEnumerable<XElement>`
     -   Query direct child elements
         -   XDocument.Root-> XElement
         -   XContainer.Element -> XElement
-        -   XContainer.Elements ->IEnumerable<XElement>
-        -   IEnumerable<T>.Elements\* -> IEnumerable<XElement>, where T : XContainer
+        -   XContainer.Elements -> `IEnumerable<XElement>`
+        -   `IEnumerable<T>.Elements`\* -> `IEnumerable<XElement>`, where T : XContainer
     -   Query direct child nodes
         -   XContainer.FirstNode -> XNode
         -   XContainer.LastNode -> XNode
-        -   XContainer.Nodes -> IEnumerable<XNode>
-        -   IEnumerable<T>.Nodes\* -> IEnumerable<XNode>, where T : XContainer
+            -   XContainer.Nodes -> `IEnumerable<XNode>`
+        -   `IEnumerable<T>.Nodes`\* -> `IEnumerable<XNode>`, where T : XContainer
     -   Query all descendant elements
-        -   XContainer.Descendants ->IEnumerable<XElement>
-        -   XElement.DescendantsAndSelf -> IEnumerable<XElement>
-        -   IEnumerable<T>.Descendants\* -> IEnumerable<XElement>, where T : XContainer
-        -   IEnumerable<XElement>.DescendantsAndSelf\* -> IEnumerable<XElement>
+        -   XContainer.Descendants -> `IEnumerable<XElement>`
+        -   XElement.DescendantsAndSelf -> `IEnumerable<XElement>`
+        -   `IEnumerable<T>.Descendants`\* -> `IEnumerable<XElement>`, where T : XContainer
+        -   `IEnumerable<XElement>.DescendantsAndSelf`\* -> `IEnumerable<XElement>`
     -   Query all descendant nodes
-        -   XContainer.DescendantNodes -> IEnumerable<XNode>
-        -   XElement.DescendantNodesAndSelf -> IEnumerable<XNode>
-        -   IEnumerable<T>.DescendantNodes\* -> IEnumerable<XNode>, where T : XContainer
-        -   IEnumerable<XElement>.DescendantNodesAndSelf\* -> IEnumerable<XNode>
+        -   XContainer.DescendantNodes -> `IEnumerable<XNode>`
+        -   XElement.DescendantNodesAndSelf -> `IEnumerable<XNode>`
+        -   `IEnumerable<T>.DescendantNodes`\* -> `IEnumerable<XNode>`, where T : XContainer
+        -   `IEnumerable<XElement>.DescendantNodesAndSelf`\* -> `IEnumerable<XNode>`
     -   Query sibling elements
-        -   XNode.ElementsAfterSelf -> IEnumerable<XElement>
-        -   XNode.ElementsBeforeSelf -> IEnumerable<XElement>
+        -   XNode.ElementsAfterSelf -> `IEnumerable<XElement>`
+        -   XNode.ElementsBeforeSelf -> `IEnumerable<XElement>`
     -   Query sibling nodes
         -   XNode.PreviousNode -> XNode
         -   XNode.NextNode -> XNode
-        -   XNode.NodesBeforeSelf ->IEnumerable<XNode>
-        -   XNode.NodesAfterSelf ->IEnumerable<XNode>
+        -   XNode.NodesBeforeSelf -> `IEnumerable<XNode>`
+        -   XNode.NodesAfterSelf -> `IEnumerable<XNode>`
     -   Query attributes
         -   XAttribute.PreviousAttribute –> XAttribute
         -   XAttribute.NextAttribute -> XAttribute
         -   XElement.FirstAttribute -> XAttribute
         -   XElement.LastAttribute -> XAttribute
         -   XElement.Attribute -> XAttribute
-        -   XElement.Attributes ->IEnumerable<XAttribute>
-        -   IEnumerable<XElement>.Attributes\* -> IEnumerable<XAttribute>
+        -   XElement.Attributes -> `IEnumerable<XAttribute>`
+        -   `IEnumerable<XElement>.Attributes`\* -> `IEnumerable<XAttribute>`
     -   Query document
         -   XObject.Document –> XDocument
     -   Query annotations
-        -   XObject.Annotation<T> –> T, where T : class
-        -   XObject.Annotations –>IEnumerable<object>
+        -   `XObject.Annotation<T>` –> T, where T : class
+        -   XObject.Annotations –> `IEnumerable<object>`
 -   Ordering queries
     -   XNode.CompareDocumentOrder -> int
     -   XNode.IsAfter -> bool
     -   XNode.IsBefore -> bool
     -   XNodeDocumentOrderComparer.Compare -> int
-    -   IEnumerable<T>.InDocumentOrder\* -> IEnumerable<T>, where T : XNode
+    -   `IEnumerable<T>.InDocumentOrder`\* -> `IEnumerable<T>`, where T : XNode
 -   Comparison queries
     -   XNode.DocumentOrderComparer –> XNodeDocumentOrderComparer
     -   XNodeDocumentOrderComparer.Compare –> int
@@ -78,14 +79,14 @@ As fore mentioned, LINQ to XML is just a specialized LINQ to Objects, so all the
 -   XPath queries
     -   XNode.CreateNavigator\*\* –> XPathNavigator
     -   XNode.XPathSelectElement\*\* –> XElement
-    -   XNode.XPathSelectElements\*\* –> IEnumerable<XElement>
+    -   XNode.XPathSelectElements\*\* –> `IEnumerable<XElement>`
     -   XNode.XPathEvaluate\*\* –> object
 
 The functions with \* are extension methods provided in static type System.Xml.Linq.Extensions. The functions with \*\* are extension methods provided in static type System.Xml.XPath.Extensions. The other unmarked methods are instance methods or properties.
 
-### Navigation
+## Navigation
 
-LINQ to XML provides rich APIs for navigation. And the queries with IEnumerable<XObject> output are also called axis methods or axes. The following example queries the parent element and ancestor element, where. ancestors are parent, parent’s parent, …, recursively:
+LINQ to XML provides rich APIs for navigation. And the queries with `IEnumerable<XObject>` output are also called axis methods or axes. The following example queries the parent element and ancestor element, where. ancestors are parent, parent’s parent, …, recursively:
 
 ```csharp
 internal static void ParentAndAncestors()
@@ -108,7 +109,7 @@ object.ReferenceEquals(element.Ancestors().Last(), element.Document.Root).WriteL
 
 Notice AncestorsAndSelf first yields self, then yields ancestors recursively. It could be more intuitive if named as SelfAndAncestors.
 
-The following example queries direct child elements. In RSS feed, each <item> can have 0, 1, or multiple tags. And these tags are <category> elements under each <item> element. The following code queries a given RSS feed to get the items with a permalink, then queries the top 5 tags used by these items:
+The following example queries direct child elements. In RSS feed, each `<item>` can have 0, 1, or multiple tags. And these tags are `<category>` elements under each `<item>` element. The following code queries a given RSS feed to get the items with a permalink, then queries the top 5 tags used by these items:
 
 ```csharp
 internal static void ChildElements()
@@ -297,14 +298,14 @@ new XElement[] { elements.First(), elements.Last(), new XElement("element") }
 }
 ```
 
-Notice in the inline XML string, single quotes are used for attribute values, instead of double quotes. This is for readability of C# code, otherwise "" or \\" has to be used. According to the W3C XML spec, single quote is legal.
+Notice in the inline XML string, single quotes are used for attribute values, instead of double quotes. This is for readability of C# code, otherwise `""` or `\"` has to be used. According to the W3C XML spec, single quote is legal.
 
 ### Comparison
 
-LINQ to Objects provides many queries accepting IComparer<T> or IEqualityComparer<T> parameter. To use those queries with XML, LINQ to XML provides 2 built-in comparers:
+LINQ to Objects provides many queries accepting `IComparer<T>` or `IEqualityComparer<T>` parameter. To use those queries with XML, LINQ to XML provides 2 built-in comparers:
 
--   XNodeDocumentOrderComparer, which implements IComparer<XNode>. Its Compare method simply calls XNode.CompareDocumentOrder. Its instance is provided by XNode.DocumentOrderComparer property.
--   XNodeEqualityComparer, which implements IEqualityComparer<XNode>. Its Equals method simply calls XNode.DeepEquals. Its instance is provided by XNode.EqualityComparer property.
+-   XNodeDocumentOrderComparer, which implements `IComparer<XNode>`. Its Compare method simply calls XNode.CompareDocumentOrder. Its instance is provided by XNode.DocumentOrderComparer property.
+-   XNodeEqualityComparer, which implements `IEqualityComparer<XNode>`. Its Equals method simply calls XNode.DeepEquals. Its instance is provided by XNode.EqualityComparer property.
 
 For example, above InDocumentOrder query simply calls OrderBy with XNodeDocumentOrderComparer. Its implementation is equivalent to:
 
@@ -413,14 +414,14 @@ XPath is a simple query language to select or evaluate objects from an XML tree.
 
 -   axis, e.g.:
     -   / is to select root node (either a document node, or an element node on the fly)
-    -   /rss/channel/item is to select root node, then select root node’s all <rss> direct child elements, then select each < rss> element’s all <channel> child elements, then select each < channel> element’s all <item> child elements
-    -   /rss/@version is to select root node, then select root node’s all <rss> direct child elements, then select each< rss> element’s version attribute
+    -   /rss/channel/item is to select root node, then select root node’s all `<rss>` direct child elements, then select each < rss> element’s all `<channel>` child elements, then select each < channel> element’s all `<item>` child elements
+    -   /rss/@version is to select root node, then select root node’s all `<rss>` direct child elements, then select each< rss> element’s version attribute
 -   node test
     -   text() is to select all text nodes, comment() is to select all comment nodes, etc.
-    -   /element/text() is to select root node, then select all <element> child elements, then select each <element> element’s all child text nodes.
+    -   /element/text() is to select root node, then select all `<element>` child elements, then select each `<element>` element’s all child text nodes.
 -   predicate:
-    -   \[1\] means select the first node, etc.
-    -   /rss\[1\]/text()\[2\] means to select root node, then select the first <rss> child element, then select that <rss> element’s second child text node.
+    -   `[1]` means select the first node, etc.
+    -   `/rss[1]/text()[2]` means to select root node, then select the first `<rss>` child element, then select that `<rss>` element’s second child text node.
 
 LINQ to XML also provides a few extension methods to work with XPath. The latest XPath version is 3.0, .NET Standard and LINQ to XML implements XPath 1.0.
 
@@ -478,7 +479,7 @@ StringComparer.OrdinalIgnoreCase)
 
 And XPathSelectElement is simply a shortcut of calling XPathSelectElements to get a sequence, then call FirstOrDefault.
 
-XPathEvaluate also calls CreateNavigator and then Evaluate, but it is more flexible. When the XPath is evaluated to a single value, it just returns that value. The following example queries the RSS feed for the average tags count of each <item> element, and also the equivalent LINQ query:
+XPathEvaluate also calls CreateNavigator and then Evaluate, but it is more flexible. When the XPath is evaluated to a single value, it just returns that value. The following example queries the RSS feed for the average tags count of each `<item>` element, and also the equivalent LINQ query:
 
 ```csharp
 internal static void XPathEvaluateValue()
@@ -496,7 +497,7 @@ average2.WriteLine(); // 4.65
 }
 ```
 
-When the XPath is evaluated to a sequence of values, XPathEvaluate outputs IEnumerable<object>:
+When the XPath is evaluated to a sequence of values, XPathEvaluate outputs `IEnumerable<object>`:
 
 ```csharp
 internal static void XPathEvaluateSequence()
@@ -520,9 +521,8 @@ StringComparer.OrdinalIgnoreCase)
 
 LINQ to XML also provides overloads for these XPath methods to accept an IXmlNamespaceResolver parameter. When the XPath expression involves namespace, an IXmlNamespaceResolver instance must be provided. Taking another RSS feed from Flickr as an example:
 
-<?xml version\="1.0" encoding\="utf-8"?>
-
 ```csharp
+<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:flickr="urn:flickr:user">
 <channel>
 <item>
@@ -541,9 +541,8 @@ LINQ to XML also provides overloads for these XPath methods to accept an IXmlNam
 </item>
 <!-- Other items. -->
 </channel>
+</rss>
 ```
-
-</rss\>
 
 It contains additional information than the standard RSS format, and these additional elements/attributes are managed by namespaces. The following example calls the overload of XPathSelectElements to query the <media:category> elements:
 
@@ -589,7 +588,7 @@ To leverage LINQ to XML, one example is to generate XPath expression for a speci
     -   elementName if it is an element
     -   node test like text(), comment(), etc., if it is any other type of node.
 1.  a predicate for current object, which can simply be the position:
-    -   For example, \[2\] can be used to identify a comment node, if there is another sibling comment node before itself
+    -   For example, `[2]` can be used to identify a comment node, if there is another sibling comment node before itself
     -   also, the position predicate can be omitted if current object has no ambiguous sibling objects, so that XPath of parent object combining XPath of current object selects one single object. For example, if current node is a comment node with no sibling comment node, then parentElement/comment() without position predicate is good enough
 
 First of all, a helper function is needed to calculate the current element or attribute’s name, which should be in simple localName format if the XName instance is not under any namespace, and should be in prefix:localName format if the XName instance is under a namespace. XName.ToString does not work for this requirement, because it returns the {namespaceUri}localName format, as already demonstrated. So, the following XPath extension method can be defined for name:

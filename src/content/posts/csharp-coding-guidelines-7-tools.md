@@ -37,9 +37,9 @@ After the installation it can be integrated into Visual Studio:
 
 [![image](http://images.cnblogs.com/cnblogs_com/dixin/WindowsLiveWriter/CCodingGuidelines7Tools_12A4B/image_thumb.png "image")](http://images.cnblogs.com/cnblogs_com/dixin/WindowsLiveWriter/CCodingGuidelines7Tools_12A4B/image_2.png)
 
-You can download the latest version from [here](http://code.msdn.microsoft.com/sourceanalysis/Release/ProjectReleases.aspx?ReleaseId=1425). And the StyleCop Team Blog is [here](http://blogs.msdn.com/sourceanalysis/).
+You can download [the latest version from here](http://code.msdn.microsoft.com/sourceanalysis/Release/ProjectReleases.aspx?ReleaseId=1425). And the [StyleCop Team Blog is here](http://blogs.msdn.com/sourceanalysis/).
 
-## Resharper + \[StyleCop For Resharper\]
+## Resharper + StyleCop For Resharper
 
 [Resharper](http://www.jetbrains.com/resharper/index.html) is the most powerful plug-in for Visual Studio I have ever used. Its features include:
 

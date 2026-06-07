@@ -1,7 +1,7 @@
 ---
 title: "Understanding C# Features (2) Object Initializer, Collection Initializer and Index Initializer"
 published: 2009-11-26
-description: "\\] - \\]"
+description: "Object Initializer, Collection Initializer and Index Initializer are very handy syntactic sugars for declarative C#."
 image: ""
 tags: [".NET", "C#", "C# 3.0", "C# Features", "LINQ", "LINQ via C#"]
 category: "C#"
@@ -9,7 +9,8 @@ draft: false
 lang: ""
 ---
 
-\[[LINQ via C#](/posts/linq-via-csharp)\] - \[[C# Features](/archive/?tag=C%23%20Features)\]
+> [!TIP]
+> [Functional Programming and LINQ via C#](/posts/linq-via-csharp) Series
 
 Take this Person type as an example:
 
