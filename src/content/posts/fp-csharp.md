@@ -94,7 +94,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
 
 1.  ## [Functional programming and LINQ paradigm](/archive/?tag=Introducing%20LINQ)
 
-    1.  ### [Cross platform C# and .NET](/posts/linq-via-csharp-introduction)
+    1.  ### [Cross platform C# and .NET](/posts/linq-introduction-1)
 
         -   Introducing cross platform .NET, C# and LINQ
             -   .NET Framework, C#, and LINQ
@@ -108,13 +108,13 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
             -   Start coding with Visual Studio Code (Windows, macOS and Linux)
             -   Start coding with Visual Studio for Mac (macOS)
 
-    1.  ### [Programming paradigms and functional programming](/posts/introducing-linq-3-waht-is-functional-programming)
+    1.  ### [Programming paradigms and functional programming](/posts/linq-introduction-2-what-is-functional-programming)
 
         -   Programming paradigms
         -   Imperative programming vs. declarative programming
         -   Object-oriented programming vs. functional programming
 
-    1.  ### [LINQ to data sources](/posts/introducing-linq-2-what-is-linq)
+    1.  ### [LINQ to data sources](/posts/linq-introduction-3-what-is-linq)
 
         -   One language for different data domains
             -   LINQ to Objects
@@ -131,7 +131,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
 
 1.  ## [Functional programming in depth](/archive/?tag=Functional%20C%23)
 
-    1.  ### [C# language basics](/posts/functional-csharp-fundamentals)
+    1.  ### [C# language basics](/posts/csharp-functional-programming-fundamentals)
 
         -   Types and members
             -   Types and members
@@ -162,7 +162,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
         -   nameof operator
         -   Digit separator and leading underscore
 
-    1.  ### [Named function and function polymorphism](/posts/functional-csharp-function-type-and-delegate)
+    1.  ### [Named function and function polymorphism](/posts/csharp-functional-programming-function-type-and-delegate)
 
         -   Constructor, static constructor and finalizer
         -   Static method and instance method
@@ -175,7 +175,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
         -   Static import
         -   Partial method
 
-    1.  ### [Local function and closure](/posts/functional-csharp-local-function-and-closure)
+    1.  ### [Local function and closure](/posts/csharp-functional-programming-local-function-and-closure)
 
         -   Local function
         -   Closure
@@ -183,7 +183,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
             -   Implicit reference
             -   Static local function
 
-    1.  ### [Function input and output](/posts/functional-csharp-function-parameter-and-return-value)
+    1.  ### [Function input and output](/posts/csharp-functional-programming-function-parameter-and-return-value)
 
         -   Input by copy vs. input by alias (ref parameter)
             -   Input by immutable alias (in parameter)
@@ -196,7 +196,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
         -   Output by copy vs. output by alias
             -   Output by immutable alias
 
-    1.  ### [Delegate: Function type, instance, and group](/posts/functional-csharp-local-function-and-closure)
+    1.  ### [Delegate: Function type, instance, and group](/posts/csharp-functional-programming-local-function-and-closure)
 
         -   Delegate type as function type
             -   Function type
@@ -206,7 +206,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
         -   Delegate instance as function group
             -   Event and event handler
 
-    1.  ### [Anonymous function and lambda expression](/posts/functional-csharp-anonymous-function-and-lambda-expression)
+    1.  ### [Anonymous function and lambda expression](/posts/csharp-functional-programming-anonymous-function-and-lambda-expression)
 
         -   Anonymous method
         -   Lambda expression as anonymous function
@@ -214,7 +214,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
             -   Closure
         -   Expression bodied function member
 
-    1.  ### [Expression tree: Function as data](/posts/functional-csharp-function-as-data-and-expression-tree)
+    1.  ### [Expression tree: Function as data](/posts/csharp-functional-programming-function-as-data-and-expression-tree)
 
         -   Lambda expression as expression tree
             -   Metaprogramming: function as abstract syntax tree
@@ -225,7 +225,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
             -   Expression tree to executable function at runtime
         -   Expression tree and LINQ remote query
 
-    1.  ### [Higher-order function, currying and first class function](/posts/functional-csharp-higher-order-function-currying-and-first-class-function)
+    1.  ### [Higher-order function, currying and first class function](/posts/csharp-functional-programming-higher-order-function-currying-and-first-class-function)
 
         -   First order function vs. higher-order function
             -   Convert first-order function to higher-order function
@@ -235,13 +235,13 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
             -   Partial applying function
         -   First-class function
 
-    1.  ### [Function composition and chaining](/posts/functional-csharp-function-composition-and-method-chaining)
+    1.  ### [Function composition and chaining](/posts/csharp-functional-programming-function-composition-and-method-chaining)
 
         -   Forward composition vs. backward composition
         -   Forward piping
         -   Method chaining and fluent interface
 
-    1.  ### [LINQ query expression](/posts/functional-csharp-query-expression)
+    1.  ### [LINQ query expression](/posts/csharp-functional-programming-query-expression)
 
          -   Syntax and compilation
          -   Query expression pattern
@@ -249,7 +249,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
              -   Forward piping with LINQ
          -   Query expression vs. query method
 
-    1.  ### [Covariance and contravariance](/posts/functional-csharp-covariance-and-contravariance)
+    1.  ### [Covariance and contravariance](/posts/csharp-functional-programming-covariance-and-contravariance)
 
          -   Subtyping and type polymorphism
          -   Variances of non-generic function type
@@ -259,7 +259,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
          -   Covariance of array
          -   Variances in .NET and LINQ
 
-    1.  ### [Immutability, anonymous type and tuple](/posts/functional-csharp-immutability-anonymous-type-and-tuple)
+    1.  ### [Immutability, anonymous type and tuple](/posts/csharp-functional-programming-immutability-anonymous-type-and-tuple)
 
          -   Immutable value
              -   Constant local
@@ -282,14 +282,14 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
              -   Immutable collection vs. readonly collection
              -   Shallow immutability vs. deep immutability
 
-    1.  ### [Pure function](/posts/functional-csharp-pure-function)
+    1.  ### [Pure function](/posts/csharp-functional-programming-pure-function)
 
          -   Pure function vs. impure function
              -   Referential transparency and side effect free
          -   Purity in .NET
          -   Purity in LINQ
 
-    1.  ### [Asynchronous function](/posts/functional-csharp-asynchronous-function)
+    1.  ### [Asynchronous function](/posts/csharp-functional-programming-asynchronous-function)
 
          -   `Task`, `Task<TResult>` and asynchrony
          -   Named async function
@@ -302,7 +302,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
          -   Asynchronous sequence: `IAsyncEnumerable<T>`
          -   async using declaration: IAsyncDispose
 
-    1.  ### [Pattern matching](/posts/functional-csharp-pattern-matching)
+    1.  ### [Pattern matching](/posts/csharp-functional-programming-pattern-matching)
 
          -   Is expression
          -   switch statement and switch expression
@@ -593,7 +593,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
 
 1.  ## [Lambda Calculus via C#: The foundation of all functional programming](/archive/?tag=Lambda%20Calculus)
 
-    1.  ### [Basics](/posts/lambda-calculus-via-c-1-fundamentals)
+    1.  ### [Basics](/posts/lambda-calculus-via-csharp-1-fundamentals)
 
         -   Expression
             -   Bound variable vs. free variable
@@ -607,7 +607,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
             -   Associativity
             -   Unit
 
-    1.  ### [Church encoding: Function as boolean and logic](/posts/lambda-calculus-via-c-2-boolean-and-logic)
+    1.  ### [Church encoding: Function as boolean and logic](/posts/lambda-calculus-via-csharp-2-boolean-and-logic)
 
         -   Church encoding
         -   Church Boolean
@@ -652,7 +652,7 @@ All code examples are available on GitHub: <https://github.com/Dixin/CodeSnippet
         -   Normal order fixed point combinator (Y combinator) and recursion
         -   Applicative order fixed point combinator (Z combinator) and recursion
 
-    1.  ### [Undecidability of equivalence](/posts/lambda-calculus-via-c-sharp-24-undecidability-of-equivalence)
+    1.  ### [Undecidability of equivalence](/posts/lambda-calculus-via-csharp-24-undecidability-of-equivalence-2017)
 
         -   Halting problem
         -   Equivalence problem
