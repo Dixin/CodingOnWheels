@@ -4,9 +4,9 @@ published: 2016-02-22
 description: "As fore mentioned, this tutorial will use SQL Profiler to trace the remote SQL queries, which are translated from the LINQ to Entities queries. This is most close the the truth, because the tracing un"
 image: ""
 tags: [".NET", "C#", "Entity Framework", "LINQ", "LINQ to Entities", "SQL", "SQL Server"]
-category: ".NET"
+category: "Entity Framework"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

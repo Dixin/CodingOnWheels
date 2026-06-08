@@ -4,9 +4,9 @@ published: 2019-07-04
 description: "As fore mentioned, when LINQ to Objects’ collection queries and value queries are called, they start to evaluate query result. When sequence queries are called, they do not evaluate any query result,"
 image: ""
 tags: [".NET", "C#", "Functional Programming", "LINQ", "LINQ to Objects", "LINQ via C#"]
-category: "LINQ"
+category: "LINQ to Objects"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

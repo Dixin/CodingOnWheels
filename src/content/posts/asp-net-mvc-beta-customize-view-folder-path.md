@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "ASP.NET", "ASP.NET MVC", "C#", "Web"]
 category: "ASP.NET"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 By default, in an ASP.NET MVC Web application, all ViewPages and ViewUserControls should be placed in the default ~/Vews/ directory. But today some one needs to place them into a custom location.

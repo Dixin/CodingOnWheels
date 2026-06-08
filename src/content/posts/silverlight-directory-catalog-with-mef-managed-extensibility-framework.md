@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "ASP.NET", "C#", "MEF", "Silverlight"]
 category: "Silverlight"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 In the MEF (Managed Extension Framework) for .NET, there are useful ComposablePartCatalog implementations in System.ComponentModel.Composition.dll, like:

@@ -4,9 +4,9 @@ published: 2010-06-07
 description: "Recently I needed to demonstrate some code with reflection, but I felt it inconvenient and tedious. To simplify the reflection coding, I created a ToDynamic() extension method. The source code can be"
 image: ""
 tags: [".NET", "C#", "C# 4.0", "Dynamic"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Recently I needed to demonstrate some code with reflection, but I felt it inconvenient and tedious. To simplify the reflection coding, I created a `ToDynamic()` extension method. The source code can be [downloaded from here](https://aspblogs.blob.core.windows.net/media/dixin/Media/DynamicWrapper.zip).

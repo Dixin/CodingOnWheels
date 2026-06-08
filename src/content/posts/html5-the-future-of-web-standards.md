@@ -6,7 +6,7 @@ image: ""
 tags: ["HTML", "HTML5", "Web", "XHTML"]
 category: "Web"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 [W3C](http://www.w3.org/) hibernated for years:

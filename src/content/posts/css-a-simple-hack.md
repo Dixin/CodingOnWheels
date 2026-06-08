@@ -6,7 +6,7 @@ image: ""
 tags: ["CSS", "Web"]
 category: "Web"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 This following hack works for IE6 / IE7 / Firefox:

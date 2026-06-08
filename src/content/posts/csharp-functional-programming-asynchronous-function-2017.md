@@ -4,9 +4,9 @@ published: 2018-06-14
 description: "Asynchronous function can improve the responsiveness and scalability of the application and service. C# 5.0 introduces async and await keywords to greatly simplify the async programming model."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

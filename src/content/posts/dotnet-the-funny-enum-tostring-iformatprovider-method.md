@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "C#"]
 category: ".NET"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Here is a ToString(IFormatProvider) method on the System.Enum type. It looks a IformatProvider (like CultureInfo) can be passed to this method:

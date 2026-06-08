@@ -6,7 +6,7 @@ image: ""
 tags: ["Hardware", "Windows"]
 category: "Windows"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 I started to use ATI discrete graphic cards since 2002. At the end of 2009, I got my first pair of NVIDIA cards, [GTX260M SLI](http://www.notebookcheck.net/NVIDIA-GeForce-GTX-260M-SLI.18909.0.html) , and recently I after I upgraded the driver to [the latest 195 release](http://www.nvidia.com/object/notebook_winvista_win7_x64_195.62_whql.html), I encountered the blue screen failure on my laptop with Windows 7.

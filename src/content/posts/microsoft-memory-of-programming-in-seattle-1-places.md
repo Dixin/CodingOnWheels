@@ -6,7 +6,7 @@ image: ""
 tags: ["Microsoft", "Microsoft Redmond Campus", "Seattle"]
 category: "Microsoft"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Long long ago, I was working in Seattle – actually in Microsoft Redmond campus. That experience gave me a lot of beautiful memories:

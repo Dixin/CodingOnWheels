@@ -4,9 +4,9 @@ published: 2018-12-09
 description: "Given 2 categories C and D, functors C → D forms a , denoted DC:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

@@ -6,7 +6,7 @@ image: ""
 tags: ["Microsoft", "Microsoft Redmond Campus"]
 category: "Microsoft"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 [Qi Lu](http://en.wikipedia.org/wiki/Qi_Lu), Microsoft [President](http://www.microsoft.com/presspass/exec/lu/):

@@ -6,7 +6,7 @@ image: ""
 tags: ["Database", "Profiling", "SQL Server", "TSQL"]
 category: "Database"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 [SQL Server Profiler](http://msdn.microsoft.com/en-us/library/ms181091.aspx) does not monitor transaction events by default.

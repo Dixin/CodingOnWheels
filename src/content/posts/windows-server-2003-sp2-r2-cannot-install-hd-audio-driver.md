@@ -6,7 +6,7 @@ image: ""
 tags: ["Hardware", "Windows"]
 category: "Windows"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 On Winodws Server 2003 SP2 / R2, HD (High Definition) audio driver cannot be installed. This happens for both 32 bit and 64 bit versions of Windows.

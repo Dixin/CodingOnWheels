@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", ".NET Core", "C#", "C# 8.0"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 C# 8.0 introduces index and range for array. This part discussed the index and range types, syntax, compilation, and how to apply them with LINQ for any type that implements `IEnumerable<T>`.

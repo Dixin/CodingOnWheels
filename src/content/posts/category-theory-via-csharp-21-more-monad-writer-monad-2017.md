@@ -4,9 +4,9 @@ published: 2018-12-22
 description: "Unlike the Reader< , > monad, the Writer< , > monad output contents with a sequence of functions:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

@@ -4,19 +4,26 @@ published: 2019-02-03
 description: "LINQ operators to enable C# 8.0 index and range new features working with LINQ queries and any type that implements `IEnumerable<T>`."
 image: ""
 tags: [".NET", "C#", "LINQ"]
-category: "LINQ"
+category: ".NET"
 draft: false
-lang: ""
+lang: "en"
 ---
+
+> [!TIP]
+> The APIs are [merged into .NET](https://github.com/dotnet/runtime/pull/48559).
 
 LINQ operators to enable C# 8.0 index and range new features working with LINQ queries and any type that implements `IEnumerable<T>`.
 
+```batch
 dotnet add package Linq.IndexRange
+```
 
+```csharp
 var element = source1.ElementAt(index: \`5);
 var elements = source2.ElementsIn(range: 10..^10); // or Slice(10..^10)
 var query1 = Enumerable.Range(10..20).Select().Where();
 var query2 = (10..20).AsEnumerable().Select().Where();
+```
 
 Proposed these APIs to .NET Core [dotnet/corefx/#35552](https://github.com/dotnet/corefx/issues/35552).
 

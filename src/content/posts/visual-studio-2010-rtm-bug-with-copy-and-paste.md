@@ -6,7 +6,7 @@ image: ""
 tags: ["Testing", "Usability", "Visual Studio"]
 category: "Visual Studio"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 The copy / paste functionality is very buggy in [Visual Studio 2010](http://www.microsoft.com/visualstudio/en-us) Beta and RC. In Beta sometimes this even cause Visual Studio crash. Now after using RTM for a week, I found the bug remains, and greatly affect the experience. I searched the Internet and found this [comment from Microsoft](http://connect.microsoft.com/VisualStudio/feedback/details/533726/copy-paste-issue-in-vs-2010-rc):

@@ -6,7 +6,7 @@ image: ""
 tags: ["Testing", "Windows"]
 category: "Windows"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Today when playing with Windows Server 2008 R2 RTM at home, I noticed a small UI bug from the start menu.

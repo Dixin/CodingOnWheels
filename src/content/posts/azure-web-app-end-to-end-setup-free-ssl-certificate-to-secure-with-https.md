@@ -3,10 +3,10 @@ title: "End-to-End Setup free SSL certificate to secure Azure Web App with HTTPS
 published: 2019-04-09
 description: "It is 2019 now, and HTTP is considered as “not secure”, and HTTPS is the default. This is a end-to-end tutorial of how to setup SSL certificate to secure Azure Web App with HTTPS. It is based on “[Let"
 image: ""
-tags: ["ASP.NET Core", "Azure", "Cloud", "Encrypt", "HTTPS", "PowerShell", "Security", "SSL", "Web", "Website"]
+tags: ["ASP.NET Core", "Azure", "Cloud", "Encrypt", "HTTPS", "PowerShell", "Security", "SSL", "Web"]
 category: "Azure"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 It is 2019 now, and HTTP is considered as “not secure”, and HTTPS is the default. This is a end-to-end tutorial of how to setup SSL certificate to secure Azure Web App with HTTPS. It is based on “[Let’s Encrypt](https://letsencrypt.org/)” and “[letsencrypt-webapp-renewer](https://github.com/ohadschn/letsencrypt-webapp-renewer)”. “Let’s Encrypt” is a free certificate solution, and “letsencrypt-webapp-renewer” is a great automation tool for certificate installation. It is based on another tool “[letsencrypt-siteextension](https://github.com/sjkp/letsencrypt-siteextension)”. The differences are,

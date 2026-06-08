@@ -4,9 +4,9 @@ published: 2018-11-17
 description: "A third way to encode Church list, is to use ) (also called [aggregate in C#/.NET](https://msdn.microsoft.com/en-us/library/v"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

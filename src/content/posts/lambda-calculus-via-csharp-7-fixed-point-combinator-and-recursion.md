@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "C#", "Combinators", "Combinatory Logic", "Fixed Point Combinator", "Functional Programming", "Lambda Calculus", "LINQ via C#", "Y Combinator"]
 category: "Lambda Calculus"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

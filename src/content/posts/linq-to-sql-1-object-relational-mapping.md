@@ -4,9 +4,9 @@ published: 2010-03-28
 description: "The easiest way of modeling is to use Visual Studio IDE. This way works with SQL Server 2000, SQL Server 2005, SQL Server 2008, SQL Server 2008 R2"
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to SQL", "LINQ via C#", "SQL Server", "Visual Studio"]
-category: "LINQ"
+category: "LINQ to SQL"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

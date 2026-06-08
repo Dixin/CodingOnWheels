@@ -6,7 +6,7 @@ image: ""
 tags: ["Windows", "Windows 10", "Windows 11"]
 category: "Windows"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 On last Black Friday, I purchased a 50-inch 4K HDR10 smart TV with only $150. I use it as monitor for my computer. I didn’t find a walk through tutorial for the whole HDR (High Dynamic Range) setup, so here I am sharing the steps.

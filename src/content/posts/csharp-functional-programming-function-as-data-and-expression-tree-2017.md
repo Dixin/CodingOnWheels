@@ -4,9 +4,9 @@ published: 2018-06-07
 description: "C# lambda expression is a powerful syntactic sugar. Besides representing anonymous function, the same syntax can also represent expression tree."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

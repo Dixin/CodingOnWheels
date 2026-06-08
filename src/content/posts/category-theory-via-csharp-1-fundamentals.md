@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "C#", "Categories", "Category Theory", "Functional Programming", "LINQ", "LINQ via C#"]
 category: "Category Theory"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

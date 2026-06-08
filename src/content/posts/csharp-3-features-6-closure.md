@@ -3,10 +3,10 @@ title: "Understanding C# Features (6) Closure"
 published: 2016-01-18
 description: "In a C# class, it is perfectly nature normal thing for a method to access a variable defined inside or outside its body."
 image: ""
-tags: [".NET", "C#", "C# Features", "Closure", "Functional Programming", "LINQ", "LINQ via C#"]
+tags: [".NET", "C#", "C# Features", "Closure", "Functional Programming", "LINQ"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

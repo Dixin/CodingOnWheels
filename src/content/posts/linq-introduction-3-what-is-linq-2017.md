@@ -4,9 +4,9 @@ published: 2018-05-29
 description: "As fore mentioned, LINQ consists of syntax in languages and APIs in libraries:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

@@ -4,9 +4,9 @@ published: 2018-11-06
 description: "The if logic is already built in ."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

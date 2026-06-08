@@ -4,9 +4,9 @@ published: 2010-03-20
 description: "Currently in .NET, iterator pattern is implemented via IEnumerable<T> and IEnumerator<T> (or IEnumerable and IEnumerator)"
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to Objects", "LINQ via C# Series", "Usability"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

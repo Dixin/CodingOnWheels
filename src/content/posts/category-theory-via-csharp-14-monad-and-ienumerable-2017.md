@@ -4,9 +4,9 @@ published: 2018-12-15
 description: "A previous part showed endofunctor category is a monoid (the entire category itself). An endofunctor In the endofunctor category can be monoid too. This kind of endofunctor is called monad. Formally,"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

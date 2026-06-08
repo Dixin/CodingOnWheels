@@ -6,7 +6,7 @@ image: ""
 tags: ["Entity Framework", "SQL Server", "TSQL", "Visual Studio"]
 category: "Visual Studio"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 This post is for the issue that Entity Data Model Wizard becomes not responding. In Visual Studio 2015, when clicking the Finish button to create the entity data model from SQL Server 2014 SP! database, the wizard is frozen:

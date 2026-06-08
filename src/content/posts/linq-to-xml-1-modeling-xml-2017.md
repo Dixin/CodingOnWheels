@@ -4,9 +4,9 @@ published: 2018-08-15
 description: "(eXtensible Markup Language) is widely used to represent, store, and transfer data. Since .NET 3.5, the built in LINQ to XML APIs are provided to enable LINQ q"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

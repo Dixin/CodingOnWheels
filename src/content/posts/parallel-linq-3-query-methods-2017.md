@@ -4,9 +4,9 @@ published: 2018-09-29
 description: "Parallel LINQ provides additional query methods and additional overrides for Aggregate method:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

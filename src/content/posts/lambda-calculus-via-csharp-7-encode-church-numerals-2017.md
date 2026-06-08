@@ -4,9 +4,9 @@ published: 2018-11-07
 description: "Previous parts showed that , , and [if logic](/posts/l"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

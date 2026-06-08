@@ -6,7 +6,7 @@ image: ""
 tags: ["Windows", "Windows 10", "Windows PE", "WinPE"]
 category: "Windows"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Windows PE (WinPE) is a small version of Windows, which can be used to boot up computers from CD or USB disk drive. It is very useful to deploy or repair the desktop or server edition of Windows. For many years I have tried many options to build a WinPE image and create a bootable media, including [the Microsoft official approach](https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-intro). The easiest way I found, is to use a third party tool called “[Win10PE SE project](http://win10se.cwcodes.net/)”. I am sharing this tool with a post, because it is not easy to be found when searching WinPE related keywords.

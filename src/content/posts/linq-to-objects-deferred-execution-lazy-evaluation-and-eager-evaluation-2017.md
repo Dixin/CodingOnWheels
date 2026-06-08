@@ -4,9 +4,9 @@ published: 2018-07-07
 description: "As fore mentioned, when a generator method (method contains yield statement and returns IEnumerable<T>) is compiled to a pure function, which constructs a generator and return it to caller. So at runt"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

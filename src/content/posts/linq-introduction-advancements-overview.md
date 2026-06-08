@@ -4,9 +4,9 @@ published: 2009-11-24
 description: "LINQ is one of Microsoft’s most exciting, powerful new development technologies."
 image: ""
 tags: [".NET", "C#", "Functional Programming", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

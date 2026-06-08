@@ -4,9 +4,9 @@ published: 2018-12-23
 description: "In C#, callback is frequently used. For example, a very simple Add function, without asynchrony:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

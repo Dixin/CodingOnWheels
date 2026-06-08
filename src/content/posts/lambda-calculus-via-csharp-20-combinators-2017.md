@@ -4,9 +4,9 @@ published: 2018-11-20
 description: "As mentioned in , combinator is a special kind of lambda expression without free variables"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

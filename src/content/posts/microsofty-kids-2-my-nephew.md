@@ -6,7 +6,7 @@ image: ""
 tags: ["Microsoft"]
 category: "Microsoft"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 This is my nephew is very cute. And he is even cuter with this Microsofty T-shirt:

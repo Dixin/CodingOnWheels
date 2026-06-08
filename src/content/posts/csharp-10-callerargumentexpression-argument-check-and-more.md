@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "C# 10.0", "C# Features"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 The CallerArgumentExpression has been discussed for years, it was supposed to a part of C# 8.0 but got delayed. Finally this month it is delivered along with C# 10 and .NET 6.

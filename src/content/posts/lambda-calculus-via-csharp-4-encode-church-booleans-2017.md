@@ -4,9 +4,9 @@ published: 2018-11-04
 description: "After clarifying the concepts and terms, a lot of implementation coding starts from this part."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

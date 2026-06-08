@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "C#", "Coding Guidelines"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 C# Coding Guidelines:

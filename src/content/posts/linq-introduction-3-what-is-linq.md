@@ -4,9 +4,9 @@ published: 2019-05-30
 description: "As fore mentioned, LINQ is a functional programming model, consists of syntax in languages and APIs in libraries:"
 image: ""
 tags: [".NET", "C#", "Introducing LINQ", "LINQ"]
-category: "LINQ"
+category: "LINQ via C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

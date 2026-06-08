@@ -4,9 +4,9 @@ published: 2018-12-21
 description: "Sometimes there are functions work with a shared environment. Typical examples are:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

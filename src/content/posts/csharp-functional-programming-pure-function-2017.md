@@ -4,9 +4,9 @@ published: 2018-06-13
 description: "Functional programming encourages modeling operations with pure functions."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

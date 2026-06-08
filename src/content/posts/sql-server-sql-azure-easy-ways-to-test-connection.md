@@ -6,7 +6,7 @@ image: ""
 tags: ["Database", "Azure SQL Database", "SQL Azure", "SQL Server"]
 category: "Database"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 It is incredibly easy to test the SQL Server/Azure SQL Database connectivity or firewall settings from Windows, even without SSMS ([SQL Server Management Studio](https://en.wikipedia.org/wiki/SQL_Server_Management_Studio)) or coding.

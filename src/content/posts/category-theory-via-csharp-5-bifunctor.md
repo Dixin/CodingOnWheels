@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "Bifunctors", "C#", "Categories", "Category Theory", "Functional Programming", "LINQ", "LINQ via C#", "Monadal Categories"]
 category: "Category Theory"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

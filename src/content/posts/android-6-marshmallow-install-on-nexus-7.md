@@ -6,7 +6,7 @@ image: ""
 tags: ["Android", "Hardware", "Nexus"]
 category: "Android"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 I got a [Nexus 7](https://en.wikipedia.org/wiki/Nexus_7_\(2013\)) in 2013. In 2014 it was upgraded to [Android 5.0 Lollipop](https://en.wikipedia.org/wiki/Android_Lollipop), and then became way slower. This month, Google released [Android 6.0.0 factory images - build MRA58K](https://developers.google.com/android/nexus/images), Nexus 7 2013 included. So maybe it is time to refresh the device.

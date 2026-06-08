@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "C#", "Functional Programming", "Introducing LINQ", "LINQ", "LINQ via C#", "SQL Server", "XML"]
 category: "LINQ via C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

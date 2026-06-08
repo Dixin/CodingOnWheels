@@ -6,7 +6,7 @@ image: ""
 tags: ["Microsoft"]
 category: "Microsoft"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Actually this baby is not so Microsofty currently, but his father [Mark](http://www.markzhou.com/blog/) is so Microsoftily crazy, so everyone believes that he will become so very soon.

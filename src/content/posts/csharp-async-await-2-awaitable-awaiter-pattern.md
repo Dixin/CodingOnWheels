@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "Async", "Await", "C#", "C# 5.0", "Observable", "Reactive Extensions", "Rx"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Understanding C# async / await:

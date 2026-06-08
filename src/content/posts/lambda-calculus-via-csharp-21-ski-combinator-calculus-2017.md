@@ -4,9 +4,9 @@ published: 2018-11-21
 description: "The  shows SKI calculus is untyped and strongly typed C# implementation does not work. So here comes the SKI in untyped C#:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

@@ -4,9 +4,9 @@ published: 2019-03-11
 description: "The previous chapters discussed LINQ to Objects, LINQ to XML (objects), and Parallel LINQ (to Objects). All of these LINQ technologies query local in-memory objects managed by .NET. This chapter discu"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

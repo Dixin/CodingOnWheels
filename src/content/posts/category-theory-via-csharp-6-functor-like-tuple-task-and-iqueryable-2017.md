@@ -4,9 +4,9 @@ published: 2018-12-07
 description: "Tuple<> looks like the simplest functor by just wrapping a value. It is most close to the [Identity functor of Haskell](http://hackage.haskell.org/package/transformers-0.4.3.0/docs/Data-Functor-Identi"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

@@ -6,7 +6,7 @@ image: ""
 tags: ["C#", "C# 6.0", "Code Analysis", "Coding Guidelines", "FxCop", "String Interpolation"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 C# 6.0 introduces a syntactic sugar [string interpolation](https://en.wikipedia.org/wiki/String_interpolation#C.23.NET), it is safer and more readable than [composite formatting](https://msdn.microsoft.com/en-us/library/txafckwd.aspx). Here is a small example:

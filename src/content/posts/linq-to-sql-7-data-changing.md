@@ -4,9 +4,9 @@ published: 2010-04-20
 description: "After understanding how to retrieve data with LINQ to SQL, now take a look at data change (create (insert) / update / delete)."
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to SQL", "LINQ via C# Series", "TSQL", "Visual Studio"]
-category: "LINQ"
+category: "LINQ to SQL"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

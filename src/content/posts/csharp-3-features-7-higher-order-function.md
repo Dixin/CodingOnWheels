@@ -3,10 +3,10 @@ title: "Understanding C# Features (7) Higher-Order Function"
 published: 2016-01-18
 description: "Higher-order function is a function taking one or more function parameters as input, or returning a function as output."
 image: ""
-tags: [".NET", "C#", "C# Features", "Functional Programming", "Higher-Order", "LINQ", "LINQ via C#"]
+tags: [".NET", "C#", "C# Features", "Functional Programming", "Higher-Order", "LINQ"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

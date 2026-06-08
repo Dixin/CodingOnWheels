@@ -3,10 +3,10 @@ title: "Anti-Forgery Request Recipes For ASP.NET MVC And AJAX"
 published: 2010-05-22
 description: "This post discusses solutions for anti-forgery request scenarios in ASP.NET MVC and AJAX:"
 image: ""
-tags: [".NET", "ASP.NET", "ASP.NET MVC", "JavaScript", "jQuery", "Web"]
+tags: [".NET", "ASP.NET", "ASP.NET MVC", "C#", "JavaScript", "jQuery", "Web"]
 category: "ASP.NET"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 -   [Background (Normal scenario of form submitting)](#background-normal-scenario-of-form-submitting)

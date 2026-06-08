@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "Exception Handling", "Functional Programming", "Retry"]
 category: ".NET"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 TransientFaultHandling.Core is retry library for transient error handling. It is ported from Microsoft Enterprise Library’s TransientFaultHandling library, a library widely used with .NET Framework. The retry pattern APIs are ported to .NET Core/.NET Standard, with outdated configuration API updated, and new retry APIs added for convenience.

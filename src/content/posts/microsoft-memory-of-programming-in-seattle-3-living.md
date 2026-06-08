@@ -6,7 +6,7 @@ image: ""
 tags: ["Microsoft", "Microsoft Redmond Campus", "Seattle"]
 category: "Microsoft"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 The Memory of Programming in Seattle:

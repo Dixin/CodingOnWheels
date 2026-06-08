@@ -4,9 +4,9 @@ published: 2018-07-20
 description: "After discussing the query methods provided by .NET, this part demonstrates how to define custom query methods:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

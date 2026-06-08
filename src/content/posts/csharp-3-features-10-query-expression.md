@@ -3,10 +3,10 @@ title: "Understanding C# Features (10) Query Expression"
 published: 2009-12-16
 description: "C# query expression defines a SQL-like query. The following is a query expression working on an IEnumerable<int> sequence"
 image: ""
-tags: [".NET", "C#", "C# 3.0", "C# Features", "LINQ", "LINQ via C#"]
+tags: [".NET", "C#", "C# 3.0", "C# Features", "LINQ"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

@@ -4,9 +4,9 @@ published: 2010-03-14
 description: "LINQ to Objects provides fluent query methods in a functional paradigm. All these queries work with IEnumerable<T> sequence, and the values in the sequence will be processed with either deferred execution or immediate execution."
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to Objects", "LINQ via C#"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

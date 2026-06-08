@@ -4,9 +4,9 @@ published: 2018-11-19
 description: "So far a ton has been encoded. Here is a summary."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

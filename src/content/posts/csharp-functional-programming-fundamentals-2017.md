@@ -4,9 +4,9 @@ published: 2018-06-01
 description: "C# 1.0 was initially released in 2002, as its first language specification says at the beginning, C# is a “simple, modern, object oriented, and type-safe” programming language for general purpose. Now"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

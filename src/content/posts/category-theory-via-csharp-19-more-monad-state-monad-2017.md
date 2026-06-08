@@ -4,9 +4,9 @@ published: 2018-12-20
 description: "represents a abstract machine with one state or a number of state. C# use state machine a lot. For example:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

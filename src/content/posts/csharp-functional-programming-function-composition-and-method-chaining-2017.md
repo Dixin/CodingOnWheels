@@ -4,9 +4,9 @@ published: 2018-06-09
 description: "In object-oriented programming, objects can be composed to build more complex object. Similarly, in functional programming. functions can be composed to build more complex function."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

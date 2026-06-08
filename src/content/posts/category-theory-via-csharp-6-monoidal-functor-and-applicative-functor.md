@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "Applicative Functors", "C#", "Category Theory", "Functional Programming", "LINQ", "LINQ via C#", "Monadal Functors"]
 category: "Category Theory"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

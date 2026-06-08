@@ -6,7 +6,7 @@ image: ""
 tags: ["Windows Live", "Windows Live Writer"]
 category: "Windows Live"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Today I am setting up a new PC. I use Windows Live Writer to write for this blog for years, and found the new installation can no longer work for my blog. I tried Open Live Writer. Fortunately Open Live Writer works.

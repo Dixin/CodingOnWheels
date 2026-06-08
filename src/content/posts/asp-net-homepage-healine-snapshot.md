@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "AJAX", "ASP.NET", "ASP.NET MVC", "C#", "Web"]
 category: "ASP.NET"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 First time to appear on [ASP.NET](https://asp.net/) homepage as top headline!

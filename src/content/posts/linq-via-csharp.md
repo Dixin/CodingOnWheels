@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "C# 8.0", "Functional Programming", "LINQ", "LINQ via C#"]
 category: "LINQ via C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 ![ezgif-1-93576e9d87](https://aspblogs.z22.web.core.windows.net/dixin/Open-Live-Writer/LINQ-via-C_955C/ezgif-1-93576e9d87_3.jpg "ezgif-1-93576e9d87")

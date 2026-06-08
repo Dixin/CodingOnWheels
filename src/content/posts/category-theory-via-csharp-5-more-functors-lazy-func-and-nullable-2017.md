@@ -4,9 +4,9 @@ published: 2018-12-06
 description: "A simple functor in DotNet category is Lazy<>. Its Select functions can be easily implemented:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

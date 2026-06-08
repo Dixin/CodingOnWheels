@@ -4,9 +4,9 @@ published: 2018-11-15
 description: "This part will demonstrate how to use lambda expressions to encode another data structure - list (Church list in  or [LinkedList<T>](http"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

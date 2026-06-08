@@ -4,9 +4,9 @@ published: 2019-08-27
 description: "Besides creating and querying XML, LINQ to XML also provides APIs for other XML manipulations, including cloning, deleting, replacing, and updating XML structures:"
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to XML", "LINQ via C#", "XML"]
-category: "LINQ"
+category: "LINQ to XML"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

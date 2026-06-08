@@ -6,7 +6,7 @@ image: ""
 tags: ["Office", "Windows"]
 category: "Office"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Today my [Outlook 2010](http://office.microsoft.com/en-us/outlook/) crashed while I am writing an email. When I restart I got this error:

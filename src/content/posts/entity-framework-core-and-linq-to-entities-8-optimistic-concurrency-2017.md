@@ -4,9 +4,9 @@ published: 2019-03-30
 description: "Conflicts can occur if the same data is read and changed concurrently. Generally, there are 2  approaches:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

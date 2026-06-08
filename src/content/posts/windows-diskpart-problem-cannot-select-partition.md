@@ -6,7 +6,7 @@ image: ""
 tags: ["Storage", "Windows"]
 category: "Windows"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 When working with USB drive, the DiskPart command cannot select the partition of the USB disk:

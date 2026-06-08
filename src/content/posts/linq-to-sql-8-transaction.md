@@ -4,9 +4,9 @@ published: 2010-04-22
 description: "The previous post has shown that, when invoking SubmitChanges(), the translated SQL (INSERT / UPDATE / DELETE) are always executed within a TRANSACTION."
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to SQL", "LINQ via C# Series", "SQL Server", "TSQL"]
-category: "LINQ"
+category: "LINQ to SQL"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

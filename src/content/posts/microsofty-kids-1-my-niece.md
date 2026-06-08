@@ -6,7 +6,7 @@ image: ""
 tags: ["Microsoft"]
 category: "Microsoft"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 I am very glad to introduce my nominal daughter (or “dry daughter” in Chinese). This is a kind of Chinese culture. Her parents are my very good friends so she could be treated just like my daughter:

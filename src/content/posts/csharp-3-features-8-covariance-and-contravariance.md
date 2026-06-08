@@ -3,10 +3,10 @@ title: "Understanding C# Features (8) Covariance and Contravariance"
 published: 2016-02-06
 description: "In covariance/contravariance, variance is the capability to replace a type with a less-derived type or a more-derived type in a context."
 image: ""
-tags: [".NET", "C#", "C# 4.0", "C# Features", "Covariance And Contravariance", "LINQ", "LINQ via C#"]
+tags: [".NET", "C#", "C# 4.0", "C# Features", "Covariance And Contravariance", "LINQ"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

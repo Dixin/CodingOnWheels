@@ -4,9 +4,9 @@ published: 2018-09-30
 description: "Parallel LINQ is powerful, but also can be more complex. This part discusses Parallel LINQ query performance in different cases."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

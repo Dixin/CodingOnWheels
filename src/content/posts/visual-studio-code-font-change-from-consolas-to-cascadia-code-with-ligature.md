@@ -6,7 +6,7 @@ image: ""
 tags: ["Font", "Visual Studio", "Visual Studio Code", "Windows Terminal"]
 category: "Visual Studio"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 A decade ago, I [blogged that I switched my code font from Courier New to Consolas](/posts/blog-code-font-change-from-courier-new-to-consolas). They are both monospaced. The difference is:

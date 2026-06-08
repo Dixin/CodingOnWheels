@@ -4,9 +4,9 @@ published: 2019-07-07
 description: "With the understanding of standard queries in .NET Standard and the additional queries provided by Microsoft, it is easy to define custom LINQ queries for objects. This chapter demonstrates how to def"
 image: ""
 tags: [".NET", "C#", "Functional Programming", "LINQ", "LINQ to Objects", "LINQ via C#"]
-category: "LINQ"
+category: "LINQ to Objects"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

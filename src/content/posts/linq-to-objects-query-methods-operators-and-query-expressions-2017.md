@@ -4,9 +4,9 @@ published: 2018-07-03
 description: "This part discusses the usages of built-in LINQ to Objects query methods and query expressions. As fore mentioned, these query methods (also called [standard query operators](http://msdn.microsoft.com"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

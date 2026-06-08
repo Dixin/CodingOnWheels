@@ -6,7 +6,7 @@ image: ""
 tags: ["JavaScript", "Node.js", "Tumblr", "Visual Studio", "Web"]
 category: "JavaScript"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 After using tumblr.com for years, a lot of posts have been liked. It would be easier to look up if the contents of these posts are stored to local. Fortunately, tumblr has provided [a set of APIs](https://www.tumblr.com/docs/en/api/v2) to make this easy, and even an [API console](https://api.tumblr.com/console) to play with these APIs. The API client is also provided in:

@@ -4,9 +4,9 @@ published: 2010-04-19
 description: "Similar with LINQ to Objects, LINQ to SQL supports deferred execution when possible."
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to SQL", "LINQ via C# Series", "SQL Server", "TSQL"]
-category: "LINQ"
+category: "LINQ to SQL"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

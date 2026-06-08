@@ -4,9 +4,9 @@ published: 2018-12-19
 description: "As mentioned in a previous part, in purely functional programming, functions cannot have side effects. For example, when defining LINQ queries, laziness and purity are expected. So, how should the imp"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

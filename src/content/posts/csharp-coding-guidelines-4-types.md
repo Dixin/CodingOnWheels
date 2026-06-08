@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "C#", "C# 4.0", "Coding Guidelines", "Dynamic"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 C# Coding Guidelines:

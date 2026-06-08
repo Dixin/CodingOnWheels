@@ -6,7 +6,7 @@ image: ""
 tags: ["Microsoft", "Microsoft Redmond Campus"]
 category: "Microsoft"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 I got this from the local dealership. These photos were taken at Microsoft Building 35:

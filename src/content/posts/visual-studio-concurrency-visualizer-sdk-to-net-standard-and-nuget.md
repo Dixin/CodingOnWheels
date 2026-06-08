@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "Concurrency Visualizer", "NuGet", "SDK", "Visual Studio"]
 category: "Visual Studio"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 I uploaded a NuGet package of Microsoft Concurrency Visualizer SDK: [ConcurrencyVisualizer](https://www.nuget.org/packages/ConcurrencyVisualizer/). [Microsoft Concurrency Visualizer](https://docs.microsoft.com/en-us/visualstudio/profiling/concurrency-visualizer) is an extension tool for Visual Studio. It is a great tool for performance profiling and multithreading execution visualization. It also has a [SDK library](https://docs.microsoft.com/en-us/visualstudio/profiling/concurrency-visualizer-sdk) to be invoked by code and draw markers and spans in the timeline. I used it to visualize sequential LINQ and Parallel LINQ (PLINQ) execution in my Functional Programming and LINQ tutorials. For example, array.Where(…).Select(…) sequential LINQ query and array.AsParallel().Where(…).Select(…) Parallel LINQ query can be visualized as following spans:

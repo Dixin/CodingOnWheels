@@ -4,9 +4,9 @@ published: 2018-11-22
 description: "is an  with minimum elements but still [Turing-complete](ht"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

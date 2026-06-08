@@ -4,9 +4,9 @@ published: 2018-07-05
 description: "After understanding how to use LINQ to Objects, starting from this part, the implementation of query methods is discussed. Most LINQ to Object query methods are implemented with iteration pattern and"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

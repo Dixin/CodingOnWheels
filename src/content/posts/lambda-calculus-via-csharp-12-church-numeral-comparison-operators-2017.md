@@ -4,9 +4,9 @@ published: 2018-11-12
 description: "With the predicates defined in previous part, operators can be defined in _Numeral class"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

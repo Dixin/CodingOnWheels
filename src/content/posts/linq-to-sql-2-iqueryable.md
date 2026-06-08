@@ -4,9 +4,9 @@ published: 2010-03-29
 description: "In contrast, the core of LINQ to SQL is IQueryable<T>."
 image: ""
 tags: [".NET", "C#", "Functional Programming", "LINQ", "LINQ to SQL", "LINQ via C# Series", "SQL Server"]
-category: "LINQ"
+category: "LINQ to SQL"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

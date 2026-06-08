@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
 category: ".NET"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

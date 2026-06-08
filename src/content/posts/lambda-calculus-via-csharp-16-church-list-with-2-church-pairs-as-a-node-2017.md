@@ -4,9 +4,9 @@ published: 2018-11-16
 description: "Previous part encoded Church list with one  (2-tuple) as a list node. An alternative way"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

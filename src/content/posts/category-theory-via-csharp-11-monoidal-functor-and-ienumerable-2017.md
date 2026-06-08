@@ -4,9 +4,9 @@ published: 2018-12-12
 description: "Given monoidal categories (C, ⊗, IC) and (D, ⊛, ID), a  (or lax monoidal functors) is a functor F: C → D equipped with:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

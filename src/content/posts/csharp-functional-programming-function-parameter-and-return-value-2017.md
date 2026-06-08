@@ -4,9 +4,9 @@ published: 2018-06-04
 description: "In C#, by default, arguments are passed to parameters by value. In the following example, the PassByValue function has a Uri parameter and a int type parameter. Uri is class so it is reference type, a"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

@@ -6,7 +6,7 @@ image: ""
 tags: ["Hyper-v", "Virtual Machine", "VMware", "Windows", "Windows 10"]
 category: "Windows"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 I use Windows’ Hyper-V to run virtual machines for long time. Recently I need to run a VMware virtual machine to test something. I installed VMware Player, which is free for non-commercial usage. However, the virtual machine cannot started, with an error:

@@ -6,7 +6,7 @@ image: ""
 tags: ["Microsoft", "Microsoft Redmond Campus", "Seattle"]
 category: "Microsoft"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 In this year, I was rewarded as an [MVP on C# of Year 2010](/posts/microsoft-most-valuable-professional-kit-unboxing); at the same time, 3 different groups of Microsoft offered me 3 SDE II positions, and I made my choice. Now, with the help of Microsoft, I just relocated from China to Redmond.

@@ -4,9 +4,9 @@ published: 2016-02-20
 description: "The previous part discussed what SQL queries are the LINQ to Entities queries translated to. This part discusses how the LINQ to Entities queries are translated to SQL queries. As fore mentioned, IQue"
 image: ""
 tags: [".NET", "C#", "Entity Framework", "LINQ", "LINQ to Entities", "SQL", "SQL Server"]
-category: ".NET"
+category: "Entity Framework"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

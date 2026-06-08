@@ -4,9 +4,9 @@ published: 2018-11-09
 description: "In , the Decrease function was a Func<Numeral<Func<Func<T, T>, T>>, Numeral<T>>:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

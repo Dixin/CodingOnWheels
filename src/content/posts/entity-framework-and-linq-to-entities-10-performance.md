@@ -4,9 +4,9 @@ published: 2016-02-17
 description: "The previous parts has discussed a few aspects that can impact the performance of Entity Framework and LINQ to Entities, and here is a summary:"
 image: ""
 tags: [".NET", "C#", "Entity Framework", "LINQ", "LINQ to Entities", "SQL", "SQL Server"]
-category: ".NET"
+category: "Entity Framework"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

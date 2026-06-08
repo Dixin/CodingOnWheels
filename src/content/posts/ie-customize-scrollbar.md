@@ -6,7 +6,7 @@ image: ""
 tags: ["CSS", "HTML", "Web", "XHTML"]
 category: "Web"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Today someone is asking how to customize the color of IE scrollbar. The following code works for HTML:

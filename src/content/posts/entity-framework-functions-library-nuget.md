@@ -6,7 +6,7 @@ image: ""
 tags: ["Code First", "Entity Framework", "LINQ", "LINQ to Entities", "SQL Functions", "SQL Server", "SQL Stored Procedure"]
 category: "Entity Framework"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 EntityFramework.Functions library implements [Entity Framework](https://en.wikipedia.org/wiki/Entity_Framework) code first support for:

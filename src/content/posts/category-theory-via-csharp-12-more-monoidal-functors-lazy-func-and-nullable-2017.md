@@ -4,9 +4,9 @@ published: 2018-12-13
 description: "Lazy<> should be the simplest monoid functor - it is just the lazy version of Tuple<>. And in these posts it will be considered as the Id<> monoidal functor."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

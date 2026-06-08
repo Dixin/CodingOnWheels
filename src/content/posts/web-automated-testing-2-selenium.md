@@ -6,7 +6,7 @@ image: ""
 tags: ["JavaScript", "Testing", "Web"]
 category: "Web"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 [Selenium](http://seleniumhq.org/) is another automated web application testing framework. Unlike [WatiN](http://www.cnblogs.com/dixin/archive/2009/02/07/Automated-web-testing-2-Using-Selenium.html), which has only 3 developers, Selenium is developed by a team of programmers and testers in [ThoughtWorks](http://www.thoughtworks.com/), so that it could be more powerful:

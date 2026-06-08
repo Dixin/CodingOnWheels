@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "C#", "LINQ", "Parallel Computing", "Parallel LINQ", "PLINQ"]
 category: "Parallel LINQ"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

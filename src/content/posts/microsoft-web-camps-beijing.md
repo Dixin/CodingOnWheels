@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "ASP.NET MVC", "jQuery", "Microsoft", "Web", "WebOS"]
 category: "Microsoft"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 I am just back from [Microsoft Web Camps](http://www.webcamps.ms/), where Web developers in Beijing had a good time for 2 days with 2 fantastic speakers, [Scott Hanselman](http://www.hanselman.com/) and [James Senior](http://www.jamessenior.com/).

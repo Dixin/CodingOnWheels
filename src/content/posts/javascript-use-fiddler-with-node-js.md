@@ -6,7 +6,7 @@ image: ""
 tags: ["Fiddler", "HTTP", "JavaScript", "Node.js", "Web"]
 category: "JavaScript"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 [Fiddler](https://en.wikipedia.org/wiki/Fiddler_\(software\)) is an useful HTTP proxy debugger on Windows. It would be nice if it can work with [Node.js](https://en.wikipedia.org/wiki/Node.js) applications. To do this, just need to proxy Node.js requests through Fiddler. The default proxy is 127.0.0.1:8888. This can be viewed in Fiddler Tools –> WInINET Options –> LAN settings –> Advanced:

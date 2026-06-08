@@ -4,9 +4,9 @@ published: 2010-04-06
 description: "In LINQ to Objects, lamda expressions are used everywhere as anonymous method, like Where()."
 image: ""
 tags: [".NET", "C#", "Functional Programming", "LINQ", "LINQ to SQL", "LINQ via C# Series", "SQL Server", "TSQL", "Visual Studio"]
-category: "LINQ"
+category: "LINQ to SQL"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

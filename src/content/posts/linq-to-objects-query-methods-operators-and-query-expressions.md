@@ -4,9 +4,9 @@ published: 2019-07-02
 description: "As fore mentioned, LINQ to Objects standard query methods (also called standard query operators) are provided as static methods of System.Linq.Enumerable type, most of which are IEnumerable<T> extensi"
 image: ""
 tags: [".NET", "C#", "F#", "Functional Programming", "Haskell", "JavaScript", "LINQ", "LINQ to Objects", "LINQ via C#"]
-category: "LINQ"
+category: "LINQ to Objects"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

@@ -4,9 +4,9 @@ published: 2019-03-25
 description: "The previous part demonstrated what are the SQL translations of the LINQ to Entities queries. This part discusses how the translation is implemented. Regarding different database systems can have diff"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

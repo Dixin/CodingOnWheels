@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", ".NET Core", "C#", "C# 8.0", "Visual Studio Code"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Currently, Microsoft has the second preview of C# 8.0 and .NET Core 3.0, with a lot of new features and new APIs. This part of C# 8.0 series demonstrates how to setup the environment.

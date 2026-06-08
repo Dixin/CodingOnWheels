@@ -6,7 +6,7 @@ image: ""
 tags: ["Silverlight", "Web"]
 category: "Silverlight"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 When programming Silverlight, it is neccessary to pay attention to the order of the XAML element’s attributes. Here is a simple example.

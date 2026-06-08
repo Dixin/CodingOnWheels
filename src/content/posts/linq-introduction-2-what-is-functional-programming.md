@@ -4,9 +4,9 @@ published: 2018-05-30
 description: "Programming paradigm is the fundamental style of programming. There are , for example:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "LINQ via C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

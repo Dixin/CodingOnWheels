@@ -4,9 +4,9 @@ published: 2018-11-05
 description: "After defining Boolean values True and False with functions, now the Boolean logics can be encoded, by functions too."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

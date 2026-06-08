@@ -6,7 +6,7 @@ image: ""
 tags: ["Visual Studio", "Windows Live", "Windows Live Writer"]
 category: "Visual Studio"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Now it is close to the end of 2015, but [Windows Live Writer 2012](http://windows.microsoft.com/en-us/windows-live/essentials) is still the best Windows blogging tool. For years I use a Windows Live Writer plugin called [VSPaste](http://www.11011.net/software/vs2html) for code snippets. With VSPaste, any code in any language can be copied from Visual Studio, and paste into Windows Live Writer with 100% accurate syntax highlighting.

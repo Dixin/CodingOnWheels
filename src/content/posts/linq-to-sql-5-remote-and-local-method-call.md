@@ -4,9 +4,9 @@ published: 2010-04-18
 description: "Since LINQ to SQL is translating C# methods into SQL, all the C# methods are required to make sense in SQL."
 image: ""
 tags: [".NET", "C#", "Functional Programming", "LINQ", "LINQ to SQL", "LINQ via C# Series", "SQL Server", "TSQL"]
-category: "LINQ"
+category: "LINQ to SQL"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

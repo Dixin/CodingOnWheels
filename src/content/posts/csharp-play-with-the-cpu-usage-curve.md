@@ -4,9 +4,9 @@ published: 2010-04-11
 description: "In the book “”, which talks about Microsoft interview questions, there is a interesting section: Control the CPU curve of [Windows Task Manag"
 image: ""
 tags: [".NET", "C#", "Hardware", "Microsoft", "Windows"]
-category: "Windows"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 In the book “[The Beauty Of Programming](http://www.china-pub.com/38070)”, which talks about Microsoft interview questions, there is a interesting section: Control the CPU curve of [Windows Task Manager](http://en.wikipedia.org/wiki/Windows_Task_Manager).

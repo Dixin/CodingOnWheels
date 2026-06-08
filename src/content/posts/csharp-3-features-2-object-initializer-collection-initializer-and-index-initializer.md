@@ -3,10 +3,10 @@ title: "Understanding C# Features (2) Object Initializer, Collection Initializer
 published: 2009-11-26
 description: "Object Initializer, Collection Initializer and Index Initializer are very handy syntactic sugars for declarative C#."
 image: ""
-tags: [".NET", "C#", "C# 3.0", "C# Features", "LINQ", "LINQ via C#"]
+tags: [".NET", "C#", "C# 3.0", "C# Features", "LINQ"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "C#", "Church Booleans", "Church Encoding", "Functional Programming", "Lambda Calculus", "LINQ via C#"]
 category: "Lambda Calculus"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

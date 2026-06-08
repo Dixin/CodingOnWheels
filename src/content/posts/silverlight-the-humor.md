@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "Silverlight", "Web"]
 category: "Silverlight"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 ![image](https://aspblogs.z22.web.core.windows.net/dixin/Media/image_0E82AE99.png)

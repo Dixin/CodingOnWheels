@@ -4,9 +4,9 @@ published: 2016-02-10
 description: "Conflicts can occur if the same piece of data is read and changed concurrently. Generally, there are 2  approaches:"
 image: ""
 tags: [".NET", "C#", "Entity Framework", "LINQ", "LINQ to Entities", "SQL", "SQL Server"]
-category: ".NET"
+category: "Entity Framework"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

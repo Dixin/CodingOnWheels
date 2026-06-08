@@ -4,9 +4,9 @@ published: 2018-09-26
 description: "The first step of Parallel LINQ is partitioning. The source values is split into several partitions, so that multiple threads can execute the query logic in parallel."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

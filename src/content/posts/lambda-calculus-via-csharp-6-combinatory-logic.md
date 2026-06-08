@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "C#", "Combinators", "Combinatory Logic", "Functional Programming", "Iota", "Lambda Calculus", "LINQ via C#", "SKI"]
 category: "Lambda Calculus"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

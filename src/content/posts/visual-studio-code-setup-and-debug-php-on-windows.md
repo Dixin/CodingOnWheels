@@ -6,7 +6,7 @@ image: ""
 tags: ["Apache", "PHP", "Visual Studio Code", "XDebug"]
 category: "Visual Studio Code"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 This is a quick tutorial of minimum installation and configurations of development environment for PHP programming, including Apache, PHP, and Visual Studio Code (VSCode) on 64 bit Windows.

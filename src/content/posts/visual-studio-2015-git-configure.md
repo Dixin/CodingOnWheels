@@ -6,7 +6,7 @@ image: ""
 tags: ["Git", "GitHub", "Visual Studio"]
 category: "Visual Studio"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 After installing [Git](https://git-scm.com/download/win), the initial Git configurations can be viewed with git config –list:

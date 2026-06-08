@@ -3,10 +3,10 @@ title: "Understanding C# Features (5) Lambda Expression, Anonymous Function and 
 published: 2009-11-29
 description: "C# lambda expression is a syntax to create delegates or expression trees."
 image: ""
-tags: [".NET", "C#", "C# 3.0", "C# Features", "F#", "Functional Programming", "Haskell", "JavaScript", "LINQ", "LINQ via C#"]
+tags: [".NET", "C#", "C# 3.0", "C# Features", "F#", "Functional Programming", "Haskell", "JavaScript", "LINQ"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

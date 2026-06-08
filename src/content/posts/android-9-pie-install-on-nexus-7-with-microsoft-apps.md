@@ -6,7 +6,7 @@ image: ""
 tags: ["Android", "Hardware", "Nexus"]
 category: "Android"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Years ago I blogged about [installing Android 6](/posts/installing-android-6-marshmallow-on-nexus-7) on my old Nexus 7 tablet. Now Android 9 is there. This post shows how to install latest Android 9 with latest Microsoft apps.

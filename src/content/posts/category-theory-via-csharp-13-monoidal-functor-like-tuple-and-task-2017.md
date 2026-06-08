@@ -4,9 +4,9 @@ published: 2018-12-14
 description: "Theoretically, Tuple<> should be counted as the Id<> monoidal functor. However, as previously mentioned, it is lack of laziness."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

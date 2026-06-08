@@ -4,9 +4,9 @@ published: 2018-12-05
 description: "A  F: C → D is a structure-preserving ) from category C to category D:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

@@ -4,9 +4,9 @@ published: 2018-11-02
 description: "The C# lambda expression . This post will explain lambda expression and other concepts in lambda calculus."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

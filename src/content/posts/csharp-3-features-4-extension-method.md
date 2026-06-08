@@ -3,10 +3,10 @@ title: "Understanding C# Features (4) Extension Method"
 published: 2009-11-28
 description: "Extension method is a powerful syntactic sugar in C# 3.0+, which enables fluent LINQ query."
 image: ""
-tags: [".NET", "C#", "C# 3.0", "C# Features", "Functional Programming", "LINQ", "LINQ via C#"]
+tags: [".NET", "C#", "C# 3.0", "C# Features", "Functional Programming", "LINQ"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

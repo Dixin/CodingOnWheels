@@ -4,9 +4,9 @@ published: 2018-12-10
 description: "As discussed in all the previous functor parts, a functor is a wrapper of a object with a “Select” ability to preserve a morphism to another‘"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

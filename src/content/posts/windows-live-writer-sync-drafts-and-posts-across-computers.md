@@ -6,7 +6,7 @@ image: ""
 tags: ["Windows Live", "Windows Live Writer"]
 category: "Windows Live"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 ## Sync files through OneDrive

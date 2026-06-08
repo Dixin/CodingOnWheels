@@ -4,9 +4,9 @@ published: 2018-12-04
 description: "An individual monoid (T, ⊙, I) can be a category M:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

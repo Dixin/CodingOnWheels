@@ -4,9 +4,9 @@ published: 2018-12-03
 description: "A monoid, denoted a 3-tuple (M, ⊙, I), is a set M with"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

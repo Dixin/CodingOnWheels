@@ -6,7 +6,7 @@ image: ""
 tags: ["ASP.NET", "ASP.NET MVC", "C#", "Visual Studio", "Web"]
 category: "ASP.NET"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 ## Developing ASP.NET MVC website in normal Web project

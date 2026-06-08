@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "C#"]
 category: ".NET"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Sometimes symbols like “int” and “Int32” can be confusing for developers beginning to use C# / .NET.

@@ -6,7 +6,7 @@ image: ""
 tags: ["CSS", "Web"]
 category: "Web"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Everyone knows IE 6 does not like PNG images. When a transparent PNG is created as a background image,

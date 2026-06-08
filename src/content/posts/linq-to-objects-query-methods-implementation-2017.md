@@ -4,9 +4,9 @@ published: 2018-07-10
 description: "Understanding of internals of query methods is very helpful for using them accurately and effectively, and is also helpful for defining custom query methods, which is discussed later in this chapter."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

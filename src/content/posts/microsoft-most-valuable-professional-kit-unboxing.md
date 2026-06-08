@@ -6,7 +6,7 @@ image: ""
 tags: ["C#", "C# 3.0", "C# 4.0", "Microsoft"]
 category: "Microsoft"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 I am very happy to receive the [Microsoft Most Valuable Professional](http://mvp.support.microsoft.com/) Kit:

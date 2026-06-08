@@ -6,7 +6,7 @@ image: ""
 tags: ["Usability", "Windows", "Windows Media Center"]
 category: "Windows"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 I developed a tool for [Windows Media Center](http://en.wikipedia.org/wiki/Windows_Media_Center) in 2008 in [Redmond](/posts/default), and I got a very cool Windows Media Center remote controller. Since then I became a fun of it. Windows Media Center + remote controller makes my [Alienware](http://en.wikipedia.org/wiki/Alienware) [M17x](http://www.dell.com/us/en/home/notebooks/laptop-alienware-m17x/pd.aspx?refid=laptop-alienware-m17x&cs=19&s=dhs) into a powerful [home theatre](http://en.wikipedia.org/wiki/Home_cinema).

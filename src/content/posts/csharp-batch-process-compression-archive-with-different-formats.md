@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "7-Zip", "7z", "C#", "Conpression", "Extraction", "ISO", "RAR", "Zip"]
 category: ".NET"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 [![compress](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Batch-processing-RAR-and-Zip_13247/compress_89982e7a-0617-49d7-af84-f4364e62426c.jpg "compress")](http://techheavy.s3.amazonaws.com/wp-content/uploads/2014/02/compress.jpg)

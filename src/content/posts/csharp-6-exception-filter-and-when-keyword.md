@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "C#", "C# 6.0"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 C# 6.0 introduces a new feature exception filter and a new keyword when. [Many C# features/keywords are syntactic sugars](/archive/?tag=C%23%20Features), but exception filter/`when` keyword is not.

@@ -6,7 +6,7 @@ image: ""
 tags: ["HTML", "Web", "XHTML"]
 category: "Web"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 For the same HTML:

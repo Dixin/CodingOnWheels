@@ -4,9 +4,9 @@ published: 2016-05-31
 description: "This part discusses how to query SQL database with the defined mapping classes. Entity Framework and LINQ to Entities supports most of the extension methods provided by Queryable class:"
 image: ""
 tags: [".NET", "C#", "Entity Framework", "LINQ", "LINQ to Entities", "SQL", "SQL Server"]
-category: ".NET"
+category: "Entity Framework"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

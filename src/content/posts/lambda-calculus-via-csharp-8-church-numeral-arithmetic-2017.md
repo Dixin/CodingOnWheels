@@ -4,9 +4,9 @@ published: 2018-11-08
 description: "The previous part defined Church numerals in  and implemented 0, 1, 2, 3 in 2 different ways. By observing the definition and code, there are some pat"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

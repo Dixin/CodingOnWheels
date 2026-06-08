@@ -4,9 +4,9 @@ published: 2019-03-12
 description: ".NET and SQL database and have 2 different data type systems. For example, .NET has System.Int64 and System.String, while SQL database has bigint and nvarchar; .NET has sequences and objects, while SQ"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

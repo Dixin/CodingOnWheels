@@ -4,9 +4,9 @@ published: 2018-11-11
 description: "A  is a function that returns a Boolean value. In Church encoding of lambda calculus, a predicate is a lambda expression that return"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

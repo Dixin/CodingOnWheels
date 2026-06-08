@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "C#", "C# 3.0", "C# Features", "Functional C#", "Functional Programming", "LINQ", "LINQ via C#"]
 category: "Functional Programming"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

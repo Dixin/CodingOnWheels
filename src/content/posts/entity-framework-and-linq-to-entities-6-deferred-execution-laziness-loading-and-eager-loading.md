@@ -4,9 +4,9 @@ published: 2016-02-26
 description: "In LINQ to Objects, query methods returning IEnumerable<T> implements deferred execution. Similarly, in LINQ to Entities, query methods returning IQueryable<T> implements deferred execution too."
 image: ""
 tags: [".NET", "C#", "Entity Framework", "LINQ", "LINQ to Entities", "SQL", "SQL Server"]
-category: ".NET"
+category: "Entity Framework"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

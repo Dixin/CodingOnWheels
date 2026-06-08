@@ -3,10 +3,10 @@ title: "Understanding C# Features (3) Implicit Type and Immutable Anonymous Type
 published: 2009-11-26
 description: "The var keyword is introduced since C# 3.0. Consider the local variable declaration and initialization"
 image: ""
-tags: [".NET", "C#", "C# 3.0", "C# 4.0", "C# Features", "Dynamic", "Functional Programming", "LINQ", "LINQ via C#"]
+tags: [".NET", "C#", "C# 3.0", "C# 4.0", "C# Features", "Dynamic", "Functional Programming", "LINQ"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

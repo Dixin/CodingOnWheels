@@ -6,7 +6,7 @@ image: ""
 tags: ["C#", "C# 3.0", "Functional Programming", "Lambda Calculus", "LINQ via C# Series"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

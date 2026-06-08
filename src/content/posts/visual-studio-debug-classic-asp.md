@@ -6,7 +6,7 @@ image: ""
 tags: ["ASP", "Debug", "IIS", "Visual Studio"]
 category: "Visual Studio"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Recently I tried to show my Mom some websites I built when I was a kid. Those [ASP code](http://en.wikipedia.org/wiki/Active_Server_Pages), some in [VBScript](http://en.wikipedia.org/wiki/VBScript) while some in [JavaScript](http://en.wikipedia.org/wiki/JavaScript), are more than 10 years old. They were running fine in [PWS](http://en.wikipedia.org/wiki/Microsoft_Personal_Web_Server), but now they didn’t run in [IIS 8.5](http://en.wikipedia.org/wiki/Internet_Information_Services). I have no idea what’s the problem. It seems a little debugging has to be done.

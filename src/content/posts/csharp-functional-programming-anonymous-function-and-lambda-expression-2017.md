@@ -4,9 +4,9 @@ published: 2018-06-06
 description: "Besides named function represented by method members, C# also supports anonymous functions, represented by anonymous method or lambda expression with no name at design time. This part discussed lambda"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

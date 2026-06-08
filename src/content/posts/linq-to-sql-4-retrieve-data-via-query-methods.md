@@ -4,9 +4,9 @@ published: 2010-04-14
 description: "now it is time to take a deeper look at the detail of SQL Server data CRUD manipulation. This post will focus on how to retrieve (SELECT) data from SQL Server via LINQ to SQL."
 image: ""
 tags: [".NET", "C#", "Functional Programming", "LINQ", "LINQ to SQL", "LINQ via C#", "SQL Server", "TSQL", "Visual Studio"]
-category: "LINQ"
+category: "LINQ to SQL"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

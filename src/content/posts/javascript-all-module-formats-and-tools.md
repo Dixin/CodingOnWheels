@@ -6,7 +6,7 @@ image: ""
 tags: ["AMD", "Babel", "CommonJS", "JavaScript", "Node.js", "TypeScript", "UMD", "Web", "Webpack"]
 category: "JavaScript"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 When you build an application with JavaScript, you always want to modularize your code. However, JavaScript language was initially invented for simple form manipulation, with no built-in features like module or namespace. In years, tons of technologies are invented to modularize JavaScript. This article discusses all mainstream terms, patterns, libraries, syntax, and tools for JavaScript modules.

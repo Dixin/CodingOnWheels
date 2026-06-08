@@ -4,9 +4,9 @@ published: 2018-11-10
 description: "Another benefits of introducing (cheating with)  into lambda calculus is - it provides a place to define"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

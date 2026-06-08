@@ -6,7 +6,7 @@ image: ""
 tags: ["ASP.NET", "Visual Studio", "Web"]
 category: "Visual Studio"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Recently the ASP.NET development server on my machine could not work. When F5 is pressed in Visual Studio 2008, IE started and displayed “Internet Explorer cannot display the webpage”. This problem nagged me for a couple of days. I checked a lot of things, including logs, firewall, anti-virus software, project settings, the webdev.webserver.exe process, etc. They did not work. Finally I find my hosts file was somehow modified:

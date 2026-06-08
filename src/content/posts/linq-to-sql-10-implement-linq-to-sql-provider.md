@@ -4,9 +4,9 @@ published: 2010-05-11
 description: "So far LINQ to SQL data CRUD (Creating / Retrieving / Updating / Deleting) has been explained. This post takes a deeper look at the internal implementation of LINQ to SQL query."
 image: ""
 tags: [".NET", "C#", "LINQ", "LINQ to SQL", "LINQ via C# Series", "TSQL"]
-category: "LINQ"
+category: "LINQ to SQL"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

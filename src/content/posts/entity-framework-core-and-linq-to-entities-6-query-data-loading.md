@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", ".NET Core", "C#", "EF Core", "Entity Framework Core", "LINQ", "LINQ to Entities", "SQL", "SQL Server"]
 category: "Entity Framework Core"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

@@ -4,9 +4,9 @@ published: 2019-01-31
 description: "Microsoft has a C# example of uploading file to FTP server in MSDN .aspx"
 image: ""
 tags: [".NET", "C#"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Microsoft has a C# example of uploading file to FTP server in MSDN [https://msdn.microsoft.com/en-us/library/ms229715(v=vs.100).aspx](https://msdn.microsoft.com/en-us/library/ms229715\(v=vs.100\).aspx "https://msdn.microsoft.com/en-us/library/ms229715(v=vs.100).aspx") and Microsoft docs [https://docs.microsoft.com/en-us/dotnet/framework/network-programming/how-to-upload-files-with-ftp](https://docs.microsoft.com/en-us/dotnet/framework/network-programming/how-to-upload-files-with-ftp "https://docs.microsoft.com/en-us/dotnet/framework/network-programming/how-to-upload-files-with-ftp"):

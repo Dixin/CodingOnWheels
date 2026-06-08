@@ -4,9 +4,9 @@ published: 2018-11-13
 description: "is the Church encoding of the  type, aka 2-"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

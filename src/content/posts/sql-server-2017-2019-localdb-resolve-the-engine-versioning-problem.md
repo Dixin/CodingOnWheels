@@ -6,7 +6,7 @@ image: ""
 tags: ["Database", "LocalDB", "SQL Server"]
 category: "Database"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 SQL Server LocalDB is a minimal SQL Server database engine, it can be installed and used with zero configuration.

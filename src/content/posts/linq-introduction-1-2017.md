@@ -4,9 +4,9 @@ published: 2018-05-28
 description: "This is a tutorial of functional programming and LINQ in C# language. The contents was initially based on my . Hope it helps."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

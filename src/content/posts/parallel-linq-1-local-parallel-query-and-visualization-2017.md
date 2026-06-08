@@ -4,9 +4,9 @@ published: 2018-09-01
 description: "So far, all the discussion for LINQ to Objects/XML does not involve multi-threading, concurrency, or parallel computing. This is by design, because pulling values from an IEnumerable<T> sequence is no"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

@@ -4,9 +4,9 @@ published: 2018-06-05
 description: "In C#, functions are represented by methods of types, and other function members of types. In C#, just like just objects have types, methods/functions have types too, which are represented by delegate"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

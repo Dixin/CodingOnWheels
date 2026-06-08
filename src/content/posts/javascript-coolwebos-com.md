@@ -4,9 +4,9 @@ published: 2009-09-20
 description: "This post is supposed to introduce the so-called WebOS – , as well as to have your important feedback."
 image: ""
 tags: [".NET", "ASP.NET", "ASP.NET MVC", "C#", "CSS", "HTML", "JavaScript", "jQuery", "LINQ", "Web", "WebOS", "XHTML"]
-category: "Web"
+category: "JavaScript"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 This post is supposed to introduce the so-called WebOS – [http://www.CoolWebOS.com/](http://www.CoolWebOS.com/), as well as to have your important feedback.

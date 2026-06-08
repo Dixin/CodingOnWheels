@@ -6,7 +6,7 @@ image: ""
 tags: ["Microsoft", "UI Design", "Visual Studio", "Web", "Windows"]
 category: "Visual Studio"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 [Courier New](http://en.wikipedia.org/wiki/Courier_New#Courier_New) is an excellent [monospaced](http://en.wikipedia.org/wiki/Monospaced_font) (non-proportional) [typeface](http://en.wikipedia.org/wiki/Typeface) introduced with [Windows 3.1](http://en.wikipedia.org/wiki/Windows_3.1). As a UI designer, I cannot tell how many year I have worked with Courier New. As the release of Visual Studio 2010 and the new MSDN, [Consolas](http://en.wikipedia.org/wiki/Consolas) becomes the default font of code.

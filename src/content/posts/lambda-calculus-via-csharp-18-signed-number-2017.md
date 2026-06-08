@@ -4,9 +4,9 @@ published: 2018-11-18
 description: "In lambda calculus, a signed number (integer) can be represented by a  of [Chur"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

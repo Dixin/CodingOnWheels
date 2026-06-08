@@ -4,9 +4,9 @@ published: 2018-12-11
 description: "A previous part demonstrated endofunctor category is monoidal. Now with the help of bifunctor, the general abstract  can be defined."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

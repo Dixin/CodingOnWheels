@@ -6,7 +6,7 @@ image: ""
 tags: [".NET"]
 category: ".NET"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Today when installing .NET Framework 3.5 SP1 Beta, the installer need to close itself to continue.

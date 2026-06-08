@@ -4,9 +4,9 @@ published: 2010-03-02
 description: "Programming paradigm is the fundamental style of programming."
 image: ""
 tags: [".NET", "C#", "Functional Programming", "Haskell", "JavaScript", "LINQ", "Ruby", "TSQL"]
-category: "LINQ"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

@@ -4,9 +4,9 @@ published: 2018-12-08
 description: "If F: C -> D and G: C -> D are both functors from categories C to category D, a mapping can be constructed between F and G, called [natural transformation](http://en.wikipedia.org/wiki/Natural_transfo"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

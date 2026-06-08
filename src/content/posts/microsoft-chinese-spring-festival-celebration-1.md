@@ -6,7 +6,7 @@ image: ""
 tags: ["Microsoft", "Microsoft Redmond Campus"]
 category: "Microsoft"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Last night there was a big party in Redmond: [Microsoft Spring Festival Celebration](http://www.microsoftchime.org/?q=node/4). It is organized by [Chime](http://www.microsoftchime.org/) (an employee network group in Microsoft), and it is also the biggest [Chinese new year](http://en.wikipedia.org/wiki/Chinese_New_Year) celebration in Seattle area. Thousands of people attended the party, including [Steve Ballmer](http://en.wikipedia.org/wiki/Steve_Ballmer). I also brought my [Nikon D700](http://en.wikipedia.org/wiki/Nikon_D700) there.

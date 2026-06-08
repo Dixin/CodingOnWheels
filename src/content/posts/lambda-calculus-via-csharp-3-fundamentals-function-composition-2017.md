@@ -4,9 +4,9 @@ published: 2018-11-03
 description: "It may not be the best place to discuss function composition in the lambda calculus series. However, function composition will be used a lot in later articles, so here is a brief introduction."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

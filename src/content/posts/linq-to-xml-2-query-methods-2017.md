@@ -4,9 +4,9 @@ published: 2018-08-26
 description: "As fore mentioned, LINQ to XML is just a specialized LINQ to Objects, so all the LINQ to Objects query methods can be used in LINQ to XML queries. LINQ to XML provides many function members and other"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

@@ -4,9 +4,9 @@ published: 2007-10-26
 description: "For non-form elements, like <div>, etc., document.getElementById() usually works stably, except Opera:"
 image: ""
 tags: ["HTML", "JavaScript", "Web", "XHTML"]
-category: "Web"
+category: "JavaScript"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 For non-form elements, like `<div>`, etc., document.getElementById() usually works stably, except Opera:

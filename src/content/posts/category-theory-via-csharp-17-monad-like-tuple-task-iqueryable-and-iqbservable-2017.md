@@ -4,9 +4,9 @@ published: 2018-12-18
 description: "Theoretically, Tuple<> should be counted as the Id<> monad. However, it is lack of laziness. In the context of C# and LINQ, it is only monad-like."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

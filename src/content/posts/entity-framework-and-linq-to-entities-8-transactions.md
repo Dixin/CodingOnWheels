@@ -4,9 +4,9 @@ published: 2016-02-10
 description: "As discussed above, by default DbContext.SaveChanges execute all data creation, update and deletion in a transaction, so that all the work can succeed or fail as a unit. The following example tries to"
 image: ""
 tags: [".NET", "C#", "Entity Framework", "LINQ", "LINQ to Entities", "SQL", "SQL Server"]
-category: ".NET"
+category: "Entity Framework"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

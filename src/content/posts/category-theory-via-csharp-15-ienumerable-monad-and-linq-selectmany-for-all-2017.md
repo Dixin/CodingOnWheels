@@ -4,9 +4,9 @@ published: 2018-12-16
 description: "Previous part introduced SelectMany for monad IEnumerable<>. Actually SelectMany is more than meets the eye, and can be used to implement other LINQ queries."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

@@ -4,9 +4,9 @@ published: 2011-01-31
 description: "Because LINQ to SQL is based on O/R mapping, one obvious overhead is, data changing usually requires data retrieving."
 image: ""
 tags: [".NET", "C#", "C# 3.0", "LINQ", "LINQ to SQL", "LINQ via C# Series", "SQL Server", "TSQL"]
-category: "LINQ"
+category: "LINQ to SQL"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

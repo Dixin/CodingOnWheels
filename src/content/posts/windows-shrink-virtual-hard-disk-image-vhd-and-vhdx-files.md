@@ -6,7 +6,7 @@ image: ""
 tags: ["Hyper-v", "OneDrive", "VHD", "VHDX", "Virtual Hard Disk", "Virtual Machine", "Windows"]
 category: "Windows"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Virtual hard disk image files ([VHD and VHDX files](https://technet.microsoft.com/en-us/library/hh831446.aspx)) grow bigger during the usage. For instance, this is a 20G virtual disk file for a Windows XP virtual machine:

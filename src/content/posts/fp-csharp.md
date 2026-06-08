@@ -4,9 +4,9 @@ published: 2025-03-02
 description: "!"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "C# 8.0", "Functional Programming", "LINQ", "LINQ via C#"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

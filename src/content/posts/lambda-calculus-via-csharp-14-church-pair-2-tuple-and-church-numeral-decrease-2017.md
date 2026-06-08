@@ -4,9 +4,9 @@ published: 2018-11-14
 description: "In the  part, the Decrease was defined as:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

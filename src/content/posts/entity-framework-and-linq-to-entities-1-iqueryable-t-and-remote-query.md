@@ -4,9 +4,9 @@ published: 2016-01-16
 description: "The previous chapters discussed LINQ to Objects, LINQ to XML (objects), and Parallel LINQ (to Objects). All of these APIs query in memory objects managed by .NET. This chapter discusses Entity Framewo"
 image: ""
 tags: [".NET", "C#", "Entity Framework", "LINQ", "LINQ to Entities", "SQL", "SQL Server"]
-category: ".NET"
+category: "Entity Framework"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

@@ -6,7 +6,7 @@ image: ""
 tags: ["JavaScript", "jQuery"]
 category: "JavaScript"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Today when using [interface](http://interface.eyecon.ro/) in [WebOS](http://www.coolwebos.com/), an error occured in both IE an Firefox. [Firebug](http://www.getfirebug.com/) displayed such error message: jQuery.dequeue is not a function.

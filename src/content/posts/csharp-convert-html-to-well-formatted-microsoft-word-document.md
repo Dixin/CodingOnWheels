@@ -4,9 +4,9 @@ published: 2016-02-23
 description: "Recently I wanted to convert my  into a Word document (.doc). The tasks are:"
 image: ""
 tags: [".NET", "C#", "C# 6.0", "HTML", "LINQ", "LINQ to Objects", "Office", "OneDrive", "Open XML", "VSTO", "XML"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Recently I wanted to convert my [LINQ via C# tutorial](/posts/linq-via-csharp) into a Word document (.doc). The tasks are:

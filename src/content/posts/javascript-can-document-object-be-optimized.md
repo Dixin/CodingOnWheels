@@ -6,7 +6,7 @@ image: ""
 tags: ["HTML", "JavaScript", "Web", "XHTML"]
 category: "JavaScript"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 In JavaScript, document is a property of window. When access document directly, window.document is accessed. Recently, a colleague demonstrated a way to optimize document, which looks weird:

@@ -4,9 +4,9 @@ published: 2018-06-12
 description: "Immutability is an important aspect of functional paradigm. As fore mentioned, imperative/object-oriented programming is usually stateful, and functional programming encourages immutability without st"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

@@ -4,9 +4,9 @@ published: 2016-02-20
 description: ".NET and SQL database and have 2 different data type systems. For example:"
 image: ""
 tags: [".NET", "C#", "Entity Framework", "LINQ", "LINQ to Entities", "Object-Relational Mapping", "SQL", "SQL Server"]
-category: ".NET"
+category: "Entity Framework"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

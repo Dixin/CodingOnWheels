@@ -4,9 +4,9 @@ published: 2018-12-17
 description: "Again, Lazy<> is the simplest monad, it is just the lazy version of Tuple<>, and should be considered as the Id<> monad. This is the implementation of its SelectMany:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

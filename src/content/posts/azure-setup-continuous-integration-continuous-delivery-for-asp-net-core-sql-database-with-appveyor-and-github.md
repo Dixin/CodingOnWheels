@@ -3,10 +3,10 @@ title: "End-to-end: Setup continuous integration/continuous delivery for ASP.NET
 published: 2016-01-14
 description: "I have a web project “Chinese Etymology ()” for searching Chinese character’s etymologies and ancient Chinese characters. It is developed with Microsoft tec"
 image: ""
-tags: [".NET Core", "AppVeyor", "ASP.NET Core", "Azure", "Azure SQL Database", "CD", "CI", "Continuous Delivery", "Continuous Integration", "Debug", "Deployment", "DevOps", "GitHub", "Node.js", "SQL Server", "YAML", "YML"]
+tags: [".NET Core", "AppVeyor", "ASP.NET Core", "Azure", "Azure SQL Database", "Continuous Delivery", "Continuous Integration", "Debug", "Deployment", "DevOps", "GitHub", "Node.js", "SQL Server"]
 category: "Azure"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 I have a web project “Chinese Etymology ([http://hanziyuan.net](http://hanziyuan.net))” for searching Chinese character’s etymologies and ancient Chinese characters. It is developed with Microsoft tech stack – ASP.NET Core + SQL database. It is open source on GitHub. Its database is deployed to Azure SQL Database, and the website is deployed to Azure App Service. I will use this project to demonstrate the end-to-end workflow and setup for continuous integration/continuous delivery with AppVeyor. After these steps, when you commit code and push to your repository

@@ -4,9 +4,9 @@ published: 2016-04-02
 description: ".NET framework provides some process APIs in  class. Only some basic information of process can be"
 image: ""
 tags: ["C#", "Process", "Windows", "WMI"]
-category: "Windows"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 .NET framework provides some process APIs in [System.Diagnostics.Process](https://msdn.microsoft.com/en-us/library/system.diagnostics.process.aspx) class. Only some basic information of process can be queried with these APIs. .NET does not have APIS for other information, for example, a process’s parent process/child processes. There are some options to query process informations, like performance counter, P/Invoke, etc. Querying [`Win32_Process`](// <https://msdn.microsoft.com/en-us/library/windows/desktop/aa394372.aspx>) class of [WMI](https://en.wikipedia.org/wiki/Windows_Management_Instrumentation) could be an easier way.

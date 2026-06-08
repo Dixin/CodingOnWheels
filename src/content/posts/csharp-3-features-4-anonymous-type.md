@@ -3,10 +3,10 @@ title: "Understanding C# 3.0 Features (4) Anonymous Type"
 published: 2009-11-27
 description: "This feature provides a way to create an instance without declare the type."
 image: ""
-tags: [".NET", "C#", "C# 3.0", "LINQ", "LINQ via C#"]
+tags: [".NET", "C#", "C# 3.0", "LINQ"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

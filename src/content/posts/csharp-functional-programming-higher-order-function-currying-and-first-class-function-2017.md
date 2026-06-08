@@ -4,9 +4,9 @@ published: 2018-06-08
 description: "is a function accepting one or more function parameters as input, or returning a function as output. The other functions are"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

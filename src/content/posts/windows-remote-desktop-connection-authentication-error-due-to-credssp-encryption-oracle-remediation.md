@@ -6,7 +6,7 @@ image: ""
 tags: ["Security", "Windows"]
 category: "Windows"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Recently, when connecting to another Windows machine with RD, I got the following RDP authentication error due to CredSSP encryption oracle remediation:

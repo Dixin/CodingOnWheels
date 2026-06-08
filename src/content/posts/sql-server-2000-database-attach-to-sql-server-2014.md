@@ -6,7 +6,7 @@ image: ""
 tags: ["Database", "SQL Server", "TSQL"]
 category: "Database"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 In the [MSDN introduction for LINQ to SQL](https://msdn.microsoft.com/en-us/library/bb399398.aspx), the [Northwind sample database](https://msdn.microsoft.com/en-us/library/bb399411.aspx) is used. It is a 15 years old database for SQL Server 2000. After [downloading](http://go.microsoft.com/fwlink?linkid=64296) the database files, it cannot be [attached](https://msdn.microsoft.com/en-us/library/ff851969\(v=vs.110\).aspx) to the latest SQL Server 2014 or 2016. trying to do so results an error:

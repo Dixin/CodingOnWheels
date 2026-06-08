@@ -4,9 +4,9 @@ published: 2018-07-12
 description: "Besides the built-in query methods (standard query operators) provided by System.Linq.Enumerable, Microsoft also provides additional query methods through the System.Interactive NuGet package (aka [In"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

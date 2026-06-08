@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "Testing", "Web"]
 category: "Web"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 [WatiN](http://watin.sourceforge.net/) (what-in), stands for Web Application Testing In .NET, is a very easy automated web application testing framework. WatiN is developed in C# for web testing with Internet Explorer and [FireFox](http://www.firefox.com). According to [Scott Guthrie](http://weblogs.asp.net/scottgu/):

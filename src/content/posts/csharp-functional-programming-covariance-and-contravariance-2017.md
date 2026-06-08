@@ -4,9 +4,9 @@ published: 2018-06-11
 description: "In ), variance means the capability to substitute a type with a more derived type or les"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

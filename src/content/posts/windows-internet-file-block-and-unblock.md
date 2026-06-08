@@ -6,7 +6,7 @@ image: ""
 tags: ["C#", "File System", "NTFS", "Visual Studio", "Windows"]
 category: "Windows"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 On Windows XP SP2 + IE 7 and later Windows, files from Internet are marked. Sometimes this feature causes problems.

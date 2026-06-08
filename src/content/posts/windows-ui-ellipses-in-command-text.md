@@ -6,7 +6,7 @@ image: ""
 tags: ["Usability", "Windows"]
 category: "Windows"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Some times, command text is followed by ellipsis (…) or not:

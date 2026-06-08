@@ -4,9 +4,9 @@ published: 2018-06-03
 description: "C# 7.0 introduces local function, which allows defining and calling a named, inline function inside a function member’s body. Unlike a local variable, which has to be used after being defined, a local"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

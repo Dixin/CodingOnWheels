@@ -4,9 +4,9 @@ published: 2018-07-01
 description: "LINQ to Objects queries sequences of .NET objects in local memory of current .NET application or service. Its data source and the queries are represented by IEnumerable<T>."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]

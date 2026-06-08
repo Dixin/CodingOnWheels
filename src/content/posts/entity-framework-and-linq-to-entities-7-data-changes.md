@@ -4,9 +4,9 @@ published: 2016-01-10
 description: "Besides LINQ to Entities queries, Entity Framework also provides rich APIs for data changes."
 image: ""
 tags: [".NET", "C#", "Entity Framework", "LINQ", "LINQ to Entities", "SQL", "SQL Server"]
-category: ".NET"
+category: "Entity Framework"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

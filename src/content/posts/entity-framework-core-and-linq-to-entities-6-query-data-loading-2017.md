@@ -4,9 +4,9 @@ published: 2019-03-27
 description: "After translated to SQL, in LINQ to Entities, sequence queries returning IQueryable<T> implements deferred execution too."
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

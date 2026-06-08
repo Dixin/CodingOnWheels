@@ -4,9 +4,9 @@ published: 2018-06-02
 description: "In C#, the most intuitive functions are method members of class and structure, including static method, instance method, and extension method, etc. These methods have names at design and are called by"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

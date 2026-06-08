@@ -4,9 +4,9 @@ published: 2019-03-15
 description: "This part discusses how to query SQL database with the defined mapping entities. In EF/Core, LINQ to Entities supports most of the methods provided by Queryable:"
 image: ""
 tags: [".NET", ".NET Core", ".NET Standard", "C#", "LINQ"]
-category: ".NET"
+category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 > [!TIP]  

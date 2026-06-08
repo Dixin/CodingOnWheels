@@ -6,7 +6,7 @@ image: ""
 tags: [".NET", "C#", "C# 4.0", "Covariance And Contravariance"]
 category: "C#"
 draft: false
-lang: ""
+lang: "en"
 ---
 
 Understanding C# covariance and contravariance:
