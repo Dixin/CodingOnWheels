@@ -58,13 +58,13 @@ flowchart TD
     style FY stroke:#ff6666
 ```
 
--   F maps objects in C to objects in D, for example, X, Y, Z, … ∈ ob(C) are mapped to F(X), F(Y), F(Z), … ∈ in ob(D)
--   F also maps morphisms in C to morphisms in D, for example, m: X → Y ∈ hom(C) is mapped to morphism F(m): F(X) → F(Y) ∈ hom(D). In this tutorial, to align to C#/.NET terms, this morphism mapping capability of functor is also called “select”. so F(m) is also denoted SelectF(m).
+-   F maps objects in C to objects in D, for example, X, Y, Z, … ∈ ob(C) are mapped to F(X), F(Y), F(Z), … ∈ ob(D)
+-   F also maps morphisms in C to morphisms in D, for example, m: X → Y ∈ hom(C) is mapped to morphism F(m): F(X) → F(Y) ∈ hom(D). In this tutorial, to align to C#/.NET terms, this morphism mapping capability of functor is also called “select”. so F(m) is also denoted $Select_F(m)$.
 
 And F must satisfy the following functor laws:
 
--   Composition preservation: F(m2 ∘ m1) ≡ F(m2) ∘ F(m1), or SelectF(m2 ∘ m1) ≡ SelectF(m2) ∘ SelectF(m1), F maps composition in C to composition in D
--   Identity preservation: F(idX) ≡ idF(X), or SelectF(idX) ≡ idF(X), F maps each identity morphism in C to identity morphism in D [![image3_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-3-Functor_DC22/image3_thumb_thumb.png "image3_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-3-Functor_DC22/image3_thumb_2.png)
+-   Composition preservation: $F(m_2 ∘ m_1) ≡ F(m_2) ∘ F(m_1)$, or $Select_F(m_2 ∘ m_1) ≡ Select_F(m_2) ∘ Select_F(m_1)$, F maps composition in C to composition in D
+-   Identity preservation: $F(id_X) ≡ id_F(X)$, or $Select_F(id_X) ≡ id_{F(X)}$, F maps each identity morphism in C to identity morphism in D [![image3_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-3-Functor_DC22/image3_thumb_thumb.png "image3_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-3-Functor_DC22/image3_thumb_2.png)
 
 ```mermaid
 flowchart TD

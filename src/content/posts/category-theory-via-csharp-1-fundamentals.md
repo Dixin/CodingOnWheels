@@ -21,8 +21,8 @@ Category theory is a theoretical framework to describe abstract structures and r
 In category theory, a [category](http://en.wikipedia.org/wiki/Category_\(mathematics\)) C is a [algebraic structure](https://en.wikipedia.org/wiki/Algebraic_structure) consists of the following 3 kinds of mathematical entities:
 
 -   A collection of objects, denoted ob(C). This is not the [objects](http://en.wikipedia.org/wiki/Object_\(computer_science\)) in [object-oriented programming paradigm](http://en.wikipedia.org/wiki/Object-oriented_programming).
--   A collection of morphisms (relations, aka arrows or maps) between objects, denoted hom(C). A morphism m from source object X to target object Y is denoted m: X → Y.
--   A composition operation of morphisms, denoted ∘. For m1: X → Y and m2: Y → Z, their composition is also a morphism (m2∘ m1): Y → Z. Here the name of m1 of m2 also implies the order. m2 ∘ m1 can be read as m2 after m1. [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb_1.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_4.png)[![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_2.png)
+-   A collection of morphisms (relations, aka arrows or maps) between objects, denoted $hom(C)$. A morphism m from source object X to target object Y is denoted $m: X → Y$.
+-   A composition operation of morphisms, denoted ∘. For $m_{1}: X → Y$ and $m_{2}: Y → Z$, their composition is also a morphism $(m_{2} ∘ m_{1}): Y → Z$. Here the name of $m_{1}$ and $m_{2}$ also implies the order. $m_2 ∘ m_1$ can be read as m2 after m1. [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb_1.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_4.png)[![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_2.png)
 
     ```mermaid
     flowchart LR
@@ -41,7 +41,7 @@ In category theory, a [category](http://en.wikipedia.org/wiki/Category_\(mathema
 
 And these entities must satisfy the following 2 category laws:
 
--   Associative law: the composition of morphisms [associative](http://en.wikipedia.org/wiki/Associativity): For m1: W → X, m2: X → Y and m3: Y → Z, there is (m3 ∘ m2) ∘ m1≡ ≡ m3 ∘ (m2 ∘ m1).
+-   Associative law: the composition of morphisms [associative](http://en.wikipedia.org/wiki/Associativity): For $m_1: W → X$, $m_2: X → Y$ and $m_3: Y → Z$, there is $(m_3 ∘ m_2) ∘ m_1 ≡ m_3 ∘ (m_2 ∘ m_1)$.
 
     ```mermaid
     flowchart LR
@@ -63,7 +63,7 @@ And these entities must satisfy the following 2 category laws:
         style D stroke:#ffff66
     ```
 
--   Identity law: for each object X, there is an [identity](http://en.wikipedia.org/wiki/Identity_function) morphism: idx : X → X, and identity morphism is neutral for morphism composition. For m: X → Y, there is idY ∘ m ≡ m ≡ m ∘ idX. [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb_3.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_9.png)
+-   Identity law: for each object X, there is an [identity](http://en.wikipedia.org/wiki/Identity_function) morphism: $id_{x} : X → X$, and identity morphism is neutral for morphism composition. For $m: X → Y$, there is $id_{Y} ∘ m ≡ m ≡ m ∘ id_{X}$. [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb_3.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_9.png)
 
 ```mermaid
 flowchart LR
@@ -94,7 +94,7 @@ public interface ICategory<TObject, TMorphism>
 }
 ```
 
-A simple example of category is the category of integers, where the collection of objects are all integers, and the collection of morphisms are ≤ (less than or equal to) relations, from an integer either to itself, or to another integer greater than or equal to it, for example: m1: 0 → 1 (0 ≤ 1), m2: 1 → 10 (1 ≤ 10), etc. Regarding the transitivity of inequality, the ≤ morphisms can be composed, for example, m1: 0 → 1 (0 ≤ 1) and m2: 1 → 10 (1 ≤ 10) can be composed to another morphism (m2 ∘ m1): 0 → 10 (0 ≤ 10).
+A simple example of category is the category of integers, where the collection of objects are all integers, and the collection of morphisms are ≤ (less than or equal to) relations, from an integer either to itself, or to another integer greater than or equal to it, for example: $m_1: 0 → 1$ (0 ≤ 1), $m_2: 1 → 10$ (1 ≤ 10), etc. Regarding the transitivity of inequality, the ≤ morphisms can be composed, for example, $m_1: 0 → 1$ (0 ≤ 1) and $m_2: 1 → 10$ (1 ≤ 10) can be composed to another morphism $(m_2 ∘ m_1): 0 → 10$ (0 ≤ 10).
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/248e0c9c0941_E1F4/image_thumb.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/248e0c9c0941_E1F4/image_2.png)
 
@@ -147,7 +147,7 @@ flowchart LR
     style B stroke:#ff6666
 ```
 
-Apparently, the above composition is associative, foe example: ((1 ≤ 10) ∘ (0 ≤ 1)) ∘ (-1 ≤ 0) ≡ -1 ≤ 10 ≡ (1 ≤ 10) ∘ ((0 ≤ 1) ∘ (-1 ≤ 0)). And for each integer X, there is an identity morphism idX: X → X (X ≤ X), and (Y ≤ Y) ∘ (X ≤ Y) ≡ X ≤ Y ≡ (X ≤ Y) ∘ (X ≤ X). So the category laws are satisfied. In C#, integer can be represented by int, and the morphism of ≤ relation can be represented by a BinaryExpression of node type LessThanOrEqual, so the category can be represented as:
+Apparently, the above composition is associative, foe example: ((1 ≤ 10) ∘ (0 ≤ 1)) ∘ (-1 ≤ 0) ≡ -1 ≤ 10 ≡ (1 ≤ 10) ∘ ((0 ≤ 1) ∘ (-1 ≤ 0)). And for each integer X, there is an identity morphism $id_X: X → X$ (X ≤ X), and (Y ≤ Y) ∘ (X ≤ Y) ≡ X ≤ Y ≡ (X ≤ Y) ∘ (X ≤ X). So the category laws are satisfied. In C#, integer can be represented by int, and the morphism of ≤ relation can be represented by a BinaryExpression of node type LessThanOrEqual, so the category can be represented as:
 
 ```csharp
 public class Int32Category : ICategory<int, BinaryExpression>

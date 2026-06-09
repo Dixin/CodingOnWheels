@@ -24,8 +24,8 @@ lang: "en"
 
 And the binary operator and the unit element must satisfy the following monoid laws:
 
--   associative law αX, Y, Z: (X ⊙ Y) ⊙ Z ≡ X ⊙ (Y ⊙ Z), where X ∈ M, Y ∈ M, Z ∈ M
--   left unit law λX: I ⊙ X ≡ X, where X ∈ M; and right unit law ρX: X ≡ X ⊙ I, where X ∈ M
+-   associative law $α_{X, Y, Z}: (X ⊙ Y) ⊙ Z ≡ X ⊙ (Y ⊙ Z)$, where X ∈ M, Y ∈ M, Z ∈ M
+-   left unit law $λ_X: I ⊙ X ≡ X$, where X ∈ M; and right unit law $ρ_X: X ≡ X ⊙ I$, where X ∈ M
 
 so that:
 

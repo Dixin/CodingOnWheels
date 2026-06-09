@@ -19,11 +19,11 @@ lang: "en"
 Given monoidal categories (C, ⊗, IC) and (D, ⊛, ID), a strong lax monoidal functor is a functor F: C → D equipped with:
 
 -   Monoid binary multiplication operation, which is a natural transformation φ: F(X) ⊛ F(Y) ⇒ F(X ⊗ Y)
--   Monoid unit, which is a morphism ι: ID → F(IC)
+-   Monoid unit, which is a morphism $ι: I_D → F(I_C)$
 
 F preserves the monoid laws in D:
 
--   Associativity law is preserved with D’s associator αD: [![Untitled-4.fw_thumb1](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-4.fw_thumb1_thumb_1.png "Untitled-4.fw_thumb1")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-4.fw_thumb1_4.png)
+-   Associativity law is preserved with D’s associator $α_D$: [![Untitled-4.fw_thumb1](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-4.fw_thumb1_thumb_1.png "Untitled-4.fw_thumb1")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-4.fw_thumb1_4.png)
 
     ```mermaid
     flowchart TD
@@ -61,7 +61,7 @@ F preserves the monoid laws in D:
         style F stroke:#ff66ff
     ```
 
--   Left unit law is preserved with D’s left unitor λD: [![image_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/image_thumb_thumb.png "image_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/image_thumb_2.png)
+-   Left unit law is preserved with D’s left unitor $λ_D$: [![image_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/image_thumb_thumb.png "image_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/image_thumb_2.png)
 
     ```mermaid
     flowchart LR
@@ -89,7 +89,7 @@ F preserves the monoid laws in D:
         style D stroke:#ffff66
     ```
 
--   Right unit law is preserved with D’s right unitor ρD: [![Untitled-3..fw_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-3..fw_thumb_thumb.png "Untitled-3..fw_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-3..fw_thumb_2.png)
+-   Right unit law is preserved with D’s right unitor $ρ_D$: [![Untitled-3..fw_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-3..fw_thumb_thumb.png "Untitled-3..fw_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-3..fw_thumb_2.png)
 
     ```mermaid
     flowchart LR
@@ -117,7 +117,7 @@ F preserves the monoid laws in D:
         style D stroke:#ffff66
     ```
 
-In this tutorial, strong lax monoidal functor is called monoidal functor for short. In DotNet category, monoidal functors are monoidal endofunctors. In the definition, (C, ⊗, IC) and (D, ⊛, ID) are both (DotNet, ValueTuple<,>, Unit), so monoidal functor can be defined as:
+In this tutorial, strong lax monoidal functor is called monoidal functor for short. In DotNet category, monoidal functors are monoidal endofunctors. In the definition, $(C, ⊗, I_C)$ and $(D, ⊛, I_D)$ are both (DotNet, ValueTuple<,>, Unit), so monoidal functor can be defined as:
 
 ```csharp
 public interface IMonoidalFunctor<TMonoidalFunctor<>> : IFunctor<TMonoidalFunctor<>>

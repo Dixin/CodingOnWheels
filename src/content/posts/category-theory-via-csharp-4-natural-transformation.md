@@ -59,7 +59,7 @@ flowchart TD
     style GY stroke:#66ff66
 ```
 
-In another word, for m: X → Y in category C, there must be αY ∘ F(m) ≡ G(m) ∘ αX , or equivalently αY ∘ SelectF(m) ≡ SelectG(m) ∘ αX in category D.
+In another word, for m: X → Y in category C, there must be $α_Y ∘ F(m) ≡ G(m) ∘ αX$ , or equivalently $α_Y ∘ Select_F(m) ≡ Select_G(m) ∘ α_X$ in category D.
 
 In DotNet category, the following ToLazy<> generic method transforms Func<> functor to Lazy<> functor:
 
@@ -179,7 +179,7 @@ Now there are functors, and mappings between functors, which are natural transfo
 -   Its objects ob(DC) are the functors from category C to D .
 -   Its morphisms hom(DC) are the natural transformations between those functors.
 -   The composition of natural transformations α: F ⇒ G and β: G ⇒ H, is natural transformations (β ∘ α): F ⇒ H.
--   The identity natural transformation idF: F ⇒ F maps each functor to itself
+-   The identity natural transformation $id_F: F ⇒ F$ maps each functor to itself
 
 [![image_thumb1](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/public-static-partial-class-Optio.------_E2EC/image_thumb1_thumb.png "image_thumb1")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/public-static-partial-class-Optio.------_E2EC/image_thumb1_2.png)
 
@@ -226,8 +226,8 @@ flowchart TD
 
 Regarding the category laws:
 
--   Associativity law: As fore mentioned, natural transformation’s components are morphisms in D, so natural transformation composition in DC can be viewed as morphism composition in D: (β ∘ α)X: F(X) → H(X) = (βX: G(X) → H(X)) ∘ (αX: F(X) → G(X)). Natural transformations’ composition in DC is associative, since all component morphisms’ composition in D is associative
--   Identity law: similarly, identity natural transform’s components are the id morphisms idF(X): F(X) → F(X) in D. Identity natural transform satisfy identity law, since all its components satisfy identity law.
+-   Associativity law: As fore mentioned, natural transformation’s components are morphisms in D, so natural transformation composition in DC can be viewed as morphism composition in D: $(β ∘ α)_X: F(X) → H(X) = (β_X: G(X) → H(X)) ∘ (α_X: F(X) → G(X))$. Natural transformations’ composition in $D^C$ is associative, since all component morphisms’ composition in D is associative
+-   Identity law: similarly, identity natural transform’s components are the id morphisms $id_{F(X)}: F(X) → F(X)$ in D. Identity natural transform satisfy identity law, since all its components satisfy identity law.
 
 Here is an example of natural transformations composition:
 
@@ -249,7 +249,7 @@ public static Optional<T> ToOptional<T>(this Lazy<T> lazy) =>
 
 ### Endofunctor category
 
-Given category C, there is a endofunctors category, denoted CC, or End(C), where the objects are the endofunctors from category C to C itself, and the morphisms are the natural transformations between those endofunctors.
+Given category C, there is a endofunctors category, denoted $C^C$, or End(C), where the objects are the endofunctors from category C to C itself, and the morphisms are the natural transformations between those endofunctors.
 
 ![Endofunctor category](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/public-static-partial-class-Optio.------_E2EC/image3_thumb_thumb.png)
 
@@ -292,4 +292,4 @@ flowchart TD
     style HX stroke:#66ff66
 ```
 
-All the functors in C# are endofunctors from DotNet category to DotNet. They are the objects of endofunctor category DotNetDotNet or End(DotNet).
+All the functors in C# are endofunctors from DotNet category to DotNet. They are the objects of endofunctor category $DotNet^{DotNet}$ or End(DotNet).

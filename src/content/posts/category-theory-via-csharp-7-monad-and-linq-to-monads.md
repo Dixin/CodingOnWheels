@@ -368,10 +368,10 @@ internal static void KleisliComposition()
 
 With monad and Kleisli composition, a new kind of category called Kleisli category can be defined. Given a monad (F, ◎, η) in category C, there is a Kleisli category of F, denoted CF:
 
--   Its objects ob(CF) are ob(C), all objects in C.
+-   Its objects $ob(C_F)$ are ob(C), all objects in C.
 -   Its morphisms hom(CF) are Kleisli morphisms. A Kleisli morphisms m from object X to object Y is m: X → F(Y). In DotNet, the Kleisli morphisms are above monadic selector functions.
 -   The composition of Kleisli morphisms is the above Kleisli composition.
--   The identity Kleisli morphism is η of the monad, so that ηX: X → F(X).
+-   The identity Kleisli morphism is η of the monad, so that $η_X: X → F(X)$.
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-6-Monad-and-LINQ-t_1486B/image_thumb_1.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-6-Monad-and-LINQ-t_1486B/image_4.png)
 

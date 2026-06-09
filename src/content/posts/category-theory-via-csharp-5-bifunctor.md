@@ -21,7 +21,7 @@ A functor is the mapping from 1 object to another object, with a “Select” ab
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-9-Functor-Category_8A55/image1_thumb.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-9-Functor-Category_8A55/image1.png)
 
 -   F maps objects X ∈ ob(C), Y ∈ ob(D) to object F(X, Y) ∈ ob(E)
--   F also maps morphisms mC: X → X’ ∈ hom(C), mD: Y → Y’ ∈ hom(D) to morphism mE: F(X, Y) → F(X’, Y’) ∈ hom(E)
+-   F also maps morphisms $m_C: X → X’ ∈ hom(C)$, $m_D: Y → Y’ ∈ hom(D)$ to morphism $m_E: F(X, Y) → F(X’, Y’) ∈ hom(E)$
 
 ```mermaid
 flowchart TB
@@ -138,8 +138,8 @@ With the help of bifunctor, [monoidal category](http://en.wikipedia.org/wiki/Mon
 
 For (C, ⊗, I) to be a monoid, it also needs to be equipped with the following natural transformations, so that the monoid laws are satisfied:
 
--   Associator αX, Y, Z: (X ⊗ Y) ⊗ Z ⇒ X ⊗ (Y ⊗ Z) for the associativity law, where X, Y, Z ∈ ob(C)
--   Left unitor λX: I ⊗ X ⇒ X for the left unit law, and right unitor ρX: X ⊗ I ⇒ X for the right unit law, where X ∈ ob(C)
+-   Associator $α_{X, Y, Z}: (X ⊗ Y) ⊗ Z ⇒ X ⊗ (Y ⊗ Z)$ for the associativity law, where X, Y, Z ∈ ob(C)
+-   Left unitor $λ_X: I ⊗ X ⇒ X$ for the left unit law, and right unitor $ρ_X: X ⊗ I ⇒ X$ for the right unit law, where X ∈ ob(C)
 
 The following monoid triangle identity and pentagon identity diagrams still commute for monoidal category:
 
