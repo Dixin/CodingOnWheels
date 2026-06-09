@@ -24,7 +24,98 @@ Given monoidal categories (C, ⊗, IC) and (D, ⊛, ID), a strong lax monoidal f
 F preserves the monoid laws in D:
 
 -   Associativity law is preserved with D’s associator αD: [![Untitled-4.fw_thumb1](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-4.fw_thumb1_thumb_1.png "Untitled-4.fw_thumb1")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-4.fw_thumb1_4.png)
--   Left unit law is preserved with D’s left unitor λD: [![image_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/image_thumb_thumb.png "image_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/image_thumb_2.png) and right unit law is preserved with D’s right unitor ρD: [![Untitled-3..fw_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-3..fw_thumb_thumb.png "Untitled-3..fw_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-3..fw_thumb_2.png)
+
+    ```mermaid
+    flowchart TD
+        subgraph X[" "]
+            A{"(F(X) ⊛ F(Y)) ⊛ F(Z)"}
+            B{"F(X) ⊛ (F(Y) ⊛ F(Z))"}
+        end
+
+        subgraph Y[" "]
+            C{"F(X ⊗ Y) ⊛ F(Z)"}
+            D{"F(X) ⊛ F(Y ⊗ Z)"}
+        end
+
+        subgraph Z[" "]
+            E{"F((X ⊗ Y) ⊗ Z)"}
+            F{"F(X ⊗ (Y ⊗ Z))"}
+        end
+
+        A-->|"α<sub>D</sub>"|B
+        A-->|"φ<sub>X, Y</sub> ⊛ id<sub>D</sub>"|C
+        B-->|"id<sub>D</sub> ⊛ φ<sub>Y, Z</sub>"|D
+        C-->|"φ<sub>X ⊗ Y, Z</sub>"|E
+        D-->|"φ<sub>X, Y ⊗ Z</sub>"|F
+        E-->|"F(α<sub>C</sub>)"|F
+
+        style X stroke-width:0px
+        style Y stroke-width:0px
+        style Z stroke-width:0px
+
+        style A stroke:#6666ff
+        style B stroke:#ff6666
+        style C stroke:#66ff66
+        style D stroke:#ffff66
+        style E stroke:#66ffff
+        style F stroke:#ff66ff
+    ```
+
+-   Left unit law is preserved with D’s left unitor λD: [![image_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/image_thumb_thumb.png "image_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/image_thumb_2.png)
+
+    ```mermaid
+    flowchart LR
+        subgraph X[" "]
+            A("I<sub>D</sub> ⊛ F(X)")
+            B("F(I<sub>C</sub>) ⊛ F(X)")
+        end
+
+        subgraph Y[" "]
+            C("F(X)")
+            D("F(I<sub>C</sub> ⊗ X)")
+        end
+        
+        A-->|"ι ⊛ id<sub>D</sub>"|B
+        A-->|"λ<sub>D</sub>"|C
+        B-->|"φ<sub>I<sub>C</sub>, X</sub>"|D
+        C-->|"F(λ<sub>C</sub>)"|D
+
+        style X stroke-width:0px
+        style Y stroke-width:0px
+
+        style A stroke:#6666ff
+        style B stroke:#ff6666
+        style C stroke:#66ff66
+        style D stroke:#ffff66
+    ```
+
+-   Right unit law is preserved with D’s right unitor ρD: [![Untitled-3..fw_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-3..fw_thumb_thumb.png "Untitled-3..fw_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/8aeb52ea4130_CA43/Untitled-3..fw_thumb_2.png)
+
+    ```mermaid
+    flowchart LR
+        subgraph X[" "]
+            A{"F(X) ⊛ I<sub>D</sub>"}
+            B{"F(X) ⊛ F(I<sub>C</sub>)"}
+        end
+
+        subgraph Y[" "]
+            C{"F(X)"}
+            D{"F(X ⊗ I<sub>C</sub>)"}
+        end
+        
+        A-->|"id<sub>D</sub> ⊛ ι"|B
+        A-->|"ρ<sub>D</sub>"|C
+        B-->|"φ<sub>X, I<sub>C</sub></sub>"|D
+        C-->|"F(ρ<sub>C</sub>)"|D
+
+        style X stroke-width:0px
+        style Y stroke-width:0px
+
+        style A stroke:#6666ff
+        style B stroke:#ff6666
+        style C stroke:#66ff66
+        style D stroke:#ffff66
+    ```
 
 In this tutorial, strong lax monoidal functor is called monoidal functor for short. In DotNet category, monoidal functors are monoidal endofunctors. In the definition, (C, ⊗, IC) and (D, ⊛, ID) are both (DotNet, ValueTuple<,>, Unit), so monoidal functor can be defined as:
 

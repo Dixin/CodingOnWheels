@@ -30,6 +30,32 @@ So that, the following diagram commutes:
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-6-Monad-and-LINQ-t_1486B/image_thumb.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-6-Monad-and-LINQ-t_1486B/image_2.png)
 
+```mermaid
+flowchart LR
+    subgraph X[" "]
+        A{"F(X)"}
+        B{"F(F(X))"}
+    end
+
+    subgraph Y[" "]
+        C{"F(F(X))"}
+        D{"F(X)"}
+    end
+    
+    A-->|"η<sub>F(X)</sub>"|B
+    A-->|"F(η<sub>X</sub>)"|C
+    B-->|"◎ <br /> μ<sub>X<sub>"|D
+    C-->|"◎ <br /> μ<sub>X<sub>"|D
+
+    style X stroke-width:0px
+    style Y stroke-width:0px
+
+    style A stroke:#6666ff
+    style B stroke:#ff6666
+    style C stroke:#66ff66
+    style D stroke:#ffff66
+```
+
 In DotNet category, monad can be defined as:
 
 ```csharp
@@ -348,6 +374,29 @@ With monad and Kleisli composition, a new kind of category called Kleisli catego
 -   The identity Kleisli morphism is η of the monad, so that ηX: X → F(X).
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-6-Monad-and-LINQ-t_1486B/image_thumb_1.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-6-Monad-and-LINQ-t_1486B/image_4.png)
+
+```mermaid
+flowchart LR
+    A{"X"}
+    B{"Y"}
+    C{"Z"}
+
+    IDA@{shape: stadium, label: "id<sub>X</sub> <br /> η<sub>X</sub>: X -> F(X)"}
+    IDB@{shape: stadium, label: "id<sub>Y</sub> <br /> η<sub>Y</sub>: Y -> F(Y)"}
+    IDC@{shape: stadium, label: "id<sub>Z</sub> <br /> η<sub>Z</sub>: Z -> F(Z)"}
+    
+    A-->|"m<sub>1</sub>: X -> F(Y)"|B
+    B-->|"m<sub>2</sub>: Y -> F(Z)"|C
+    A-->|"m<sub>1</sub> ∘ m<sub>2</sub>: X -> F(Z)"|C
+
+    A-.-IDA-.->A
+    B-.-IDB-.->B
+    C-.-IDC-.->C
+
+    style A stroke:#6666ff
+    style B stroke:#ff6666
+    style C stroke:#66ff66
+```
 
 As already demonstrated, Kleisli composition and η satisfy the category associativity law and identity law.
 

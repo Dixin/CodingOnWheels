@@ -47,7 +47,7 @@ Besides creating and querying XML, LINQ to XML also provides APIs for other XML 
 
 The APIs with \* are extension methods provided by System.Xml.Schema.Extensions.
 
-### Clone
+## Clone
 
 Most structures can be cloned by calling their constructors with the source instance:
 

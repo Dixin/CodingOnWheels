@@ -23,6 +23,46 @@ A functor is the mapping from 1 object to another object, with a “Select” ab
 -   F maps objects X ∈ ob(C), Y ∈ ob(D) to object F(X, Y) ∈ ob(E)
 -   F also maps morphisms mC: X → X’ ∈ hom(C), mD: Y → Y’ ∈ hom(D) to morphism mE: F(X, Y) → F(X’, Y’) ∈ hom(E)
 
+```mermaid
+flowchart TB
+    subgraph C["C"]
+        X{"X"}
+        XP{"X'"}
+
+        X-->|"m<sub>C</sub>"|XP
+    end
+
+    subgraph D["D"]
+        Y{"Y"}
+        YP{"YP"}
+
+        Y-->|"m<sub>D</sub>"|YP
+    end
+
+    subgraph E["E"]
+        FXY{"F(X, Y)"}
+        FXPYP{"F(X', Y')"}
+
+        FXY-->|"m<sub>E</sub> <br /> Select(m<sub>C</sub>, m<sub>D</sub>)"|FXPYP
+    end
+
+    X---Y-->FXY
+    XP---YP-->FXPYP
+
+    style C stroke:#6666ff
+    style D stroke:#ff6666
+    style E stroke:#66ff66
+
+    style X stroke:#6666ff
+    style XP stroke:#6666ff
+
+    style Y stroke:#ff6666
+    style YP stroke:#ff6666
+
+    style FXY stroke:#66ff66
+    style FXPYP stroke:#66ff66
+```
+
 In DotNet category, bifunctors are binary endofunctors, and can be defined as:
 
 ```csharp
@@ -105,7 +145,64 @@ The following monoid triangle identity and pentagon identity diagrams still comm
 
 [![image_thumb12_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-5-Bifunctor_548F/image_thumb12_thumb_thumb.png "image_thumb12_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-5-Bifunctor_548F/image_thumb12_thumb_2.png)
 
+```mermaid
+flowchart TD
+    subgraph X[" "]
+        A{"(X ⊗ I) ⊗ Y"}
+        B{"X ⊗ (I ⊗ Y)"}
+    end
+
+    subgraph Y[" "]
+        C{"X ⊗ Y"}
+    end
+
+    A-->|"α<sub>X, I, Y</sub>"|B
+    A-->|"ρ<sub>X</sub> ⊗ id<sub>Y</sub>"|C
+    B-->|"id<sub>X</sub> ⊗ λ<sub>Y</sub>"|C
+
+    style X stroke-width:0px
+    style Y stroke-width:0px
+
+    style A stroke:#6666ff
+    style B stroke:#ff6666
+    style C stroke:#66ff66
+```
+
 [![Untitled-2.fw_thumb_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-5-Bifunctor_548F/Untitled-2.fw_thumb_thumb_thumb.png "Untitled-2.fw_thumb_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-5-Bifunctor_548F/Untitled-2.fw_thumb_thumb_2.png)
+
+```mermaid
+flowchart LR
+    subgraph X[" "]
+        A{"(W ⊗ X) ⊗ (Y ⊗ Z)"}
+    end
+
+    subgraph Y[" "]
+        B{"((W ⊗ X) ⊗ Y) ⊗ Z"}
+        C{"W ⊗ (X ⊗ (Y ⊗ Z))"}
+    end
+
+    subgraph Z[" "]
+        D{"(W ⊗ (X ⊗ Y)) ⊗ Z"}
+        E{"W ⊗ ((X ⊗ Y) ⊗ Z)"}
+    end
+    
+
+    B-->|"α<sub>W ⊗ X, Y, Z</sub>"|A
+    A-->|"α<sub>W, X, Y ⊗ Z</sub>"|C
+    B-->|"α<sub>W, X, Y</sub> ⊗ id<sub>Z</sub>"|D
+    C-->|"id<sub>W</sub> ⊗ α<sub>X, Y, Z</sub>"|E
+    D-->|"α<sub>W, X ⊗ Y, Z</sub>"|E
+
+    style X stroke-width:0px
+    style Y stroke-width:0px
+    style Z stroke-width:0px
+
+    style A stroke:#6666ff
+    style B stroke:#ff6666
+    style C stroke:#66ff66
+    style D stroke:#ffff66
+    style E stroke:#66ffff
+```
 
 Here for monoidal category, the above ⊙ (general multiplication operator) becomes ⊗ (bifunctor).
 

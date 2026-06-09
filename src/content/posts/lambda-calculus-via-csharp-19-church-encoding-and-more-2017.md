@@ -192,31 +192,35 @@ DivideBySigned := λa.λb.FormatWithZero (CreateTuple (Add (DivideByIgnoreZero a
 
 ### From signed number to complex integer and rational number
 
-With signed number, [complex integer](http://en.wikipedia.org/wiki/Gaussian_integer) can be [encoded](http://cs.stackexchange.com/questions/2272/representing-negative-and-complex-numbers-using-lambda-calculus) by a Church pair of signed numbers: (sreal, simaginary), which represents complex integer z = sreal + simaginary \* i.
+With signed number, [complex integer](http://en.wikipedia.org/wiki/Gaussian_integer) can be [encoded](http://cs.stackexchange.com/questions/2272/representing-negative-and-complex-numbers-using-lambda-calculus) by a Church pair of signed numbers: $(s_{real}, s_{imaginary})$, which represents complex integer $z = s_{real} + s_{imaginary} * i$.
 
-With signed number, [rational number](http://en.wikipedia.org/wiki/Rational_number) can also be encoded by a Church pair of a signed number and a Church numeral: (snumerator, ndenominator), which represents rational number q = snumerator / (1 + ndenominator).
+With signed number, [rational number](http://en.wikipedia.org/wiki/Rational_number) can also be encoded by a Church pair of a signed number and a Church numeral: $(s_{numerator}, n_{denominator})$, which represents rational number:
 
-[Dyadic rational number](http://en.wikipedia.org/wiki/Dyadic_rational) can be encoded by (snumerator, nexponent) as well, which represents d = snumerator / (2 ^ nexponent).
+$$q = \frac{s_{numerator}}{1 + n_{denominator}}$$
+
+[Dyadic rational number](http://en.wikipedia.org/wiki/Dyadic_rational) can be encoded by $(s_{numerator}, n_{exponent})$ as well, which represents:
+
+$$d = \frac{s_{numerator}}{2 ^ {n_{exponent}}}$$
 
 ### From rational number to real number and complex number
 
 Then with rational number, a [real number](http://en.wikipedia.org/wiki/Real_number) r can be [encoded](https://users.dimi.uniud.it/~pietro.digianantonio/papers/copy_pdf/thesis.pdf) in many different ways:
 
--   r can be represented by a sequence of Church pair of 2 rational numbers p0 = (q0, q0’), p1 = (q1, q1’), p2 = (q2, q2’), …, such that:
-    -   pn represents a rational interval, since qn and qn’ are both rational numbers.
-    -   pn + 1 ⊆ pn
-    -   limn → ∞ qn’ − qn = 0
-    -   r = ∩n ∈ N pn
+-   r can be represented by a sequence of Church pair of 2 rational numbers $p_{0} = (q_{0}, q_{0}')$, $p_{1} = (q_{1}, q_{1}')$, $p_{2} = (q_{2}, q_{2}')$, …, such that:
+    -   $p_{n}$ represents a rational interval, since $q_{n}$ and $q_{n}'$ are both rational numbers.
+    -   $p_{n + 1} \subseteq p_{n}$
+    -   $\lim \limits_{n \to \infty} q_{n}' - q_{n} = 0$
+    -   $r = \bigcap_{n ∈ N}p_{n}$
 -   r can be represented by a [Cauchy sequence](http://en.wikipedia.org/wiki/Cauchy_sequence) of rational numbers q0, q1, q2, …, and a function f of type `Func<_Numeral, _Numeral>`, defining the convergence rate of the Cauchy sequence such that:
-    -   ∀i.j.k. | qf(i) + j - qf(i) + k | ≤ 2-i
-    -   r = limn → ∞ qn
+    -   $\forall i.j.k. | q_{f(i) + j} - q_{f(i) + k} | ≤ 2 ^ {-i}$
+    -   $r = \lim \limits_{n \to \infty} q_{n}$
 -   r can be represented by a Cauchy sequence of rational numbers q0, q1, q2, … with a fixed convergence rate, such that:
-    -   ∀i.j. | qi - qi + j | ≤ 1 / i
-    -   r = limn → ∞ qn
+    -   $\forall i.j. | q_{i} - q_{i + j} | ≤ \frac{1}{i}$
+    -   $r = \lim \limits_{n \to \infty} q_{n}$
 
 etc.. An example in [Haskell](http://en.wikipedia.org/wiki/Haskell_\(programming_language\)) can be found [on Github](https://github.com/andrejbauer/marshall/blob/master/etc/haskell/Reals.hs).
 
-With real number, [complex number](http://en.wikipedia.org/wiki/Complex_number) can be naturally encoded by a Church pair of 2 real numbers (rreal, rimaginary), which represents complex number z = rreal + rimaginary \* i.
+With real number, [complex number](http://en.wikipedia.org/wiki/Complex_number) can be naturally encoded by a Church pair of 2 real numbers $(r_{real}, r_{imaginary})$, which represents complex number $z = r_{real} + r_{imaginary} * i$.
 
 ### And much more
 

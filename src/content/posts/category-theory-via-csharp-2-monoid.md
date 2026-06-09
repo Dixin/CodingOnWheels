@@ -30,7 +30,65 @@ And the binary operator and the unit element must satisfy the following monoid l
 so that:
 
 -   the triangle identity commutes: [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/LINQ-via-C-Series-C-Functional-Programmi_921F/image_thumb_2.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/LINQ-via-C-Series-C-Functional-Programmi_921F/image_6.png)
+
+    ```mermaid
+    flowchart TD
+        subgraph X[" "]
+            A{"(X ⊙ I) ⊙ Y"}
+            B{"X ⊙ (I ⊙ Y)"}
+        end
+
+        subgraph Y[" "]
+            C{"X ⊙ Y"}
+        end
+
+        A-->|"α<sub>X, I, Y</sub>"|B
+        A-->|"ρ<sub>X</sub> ⊙ id<sub>Y</sub>"|C
+        B-->|"id<sub>X</sub> ⊙ λ<sub>Y</sub>"|C
+
+        style X stroke-width:0px
+        style Y stroke-width:0px
+
+        style A stroke:#6666ff
+        style B stroke:#ff6666
+        style C stroke:#66ff66
+    ```
+
 -   and the pentagon identity commutes:: [![Untitled-2.fw](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/LINQ-via-C-Series-C-Functional-Programmi_921F/Untitled-2.fw_thumb.png "Untitled-2.fw")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/LINQ-via-C-Series-C-Functional-Programmi_921F/Untitled-2.fw_2.png)
+
+    ```mermaid
+    flowchart LR
+        subgraph X[" "]
+            A{"(W ⊙ X) ⊙ (Y ⊙ Z)"}
+        end
+
+        subgraph Y[" "]
+            B{"((W ⊙ X) ⊙ Y) ⊙ Z"}
+            C{"W ⊙ (X ⊙ (Y ⊙ Z))"}
+        end
+
+        subgraph Z[" "]
+            D{"(W ⊙ (X ⊙ Y)) ⊙ Z"}
+            E{"W ⊙ ((X ⊙ Y) ⊙ Z)"}
+        end
+        
+
+        B-->|"α<sub>W ⊙ X, Y, Z</sub>"|A
+        A-->|"α<sub>W, X, Y ⊙ Z</sub>"|C
+        B-->|"α<sub>W, X, Y</sub> ⊙ id<sub>Z</sub>"|D
+        C-->|"id<sub>W</sub> ⊙ α<sub>X, Y, Z</sub>"|E
+        D-->|"α<sub>W, X ⊙ Y, Z</sub>"| E
+
+        style X stroke-width:0px
+        style Y stroke-width:0px
+        style Z stroke-width:0px
+
+        style A stroke:#6666ff
+        style B stroke:#ff6666
+        style C stroke:#66ff66
+        style D stroke:#ffff66
+        style E stroke:#66ffff
+    ```
 
 In C#, the monoid definition can be represented as:
 

@@ -20,6 +20,44 @@ In category theory, [functor](http://en.wikipedia.org/wiki/Functor) is a [mappin
 
 [![image6_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-3-Functor_DC22/image6_thumb_thumb.png "image6_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-3-Functor_DC22/image6_thumb_2.png)
 
+```mermaid
+flowchart TD
+    subgraph C["C"]
+        X{"X"}
+        Y{"Y"}
+        IDX@{shape: stadium, label: "id<sub>X</sub>"}
+        IDY@{shape: stadium, label: "id<sub>Y</sub>"}
+
+        X-->|"m<sub>C</sub>"|Y
+
+        X-.-IDX-.->X
+        Y-.-IDY-.->Y
+    end
+
+    subgraph D["D"]
+        FX{"F(X)"}
+        FY{"F(Y)"}
+        IDFX@{shape: stadium, label: "id<sub>F(X)</sub>"}
+        IDFY@{shape: stadium, label: "id<sub>F(Y)</sub>"}
+
+        FX -->|"m<sub>D</sub> <br /> Select(m<sub>C</sub>)"| FY
+
+        FX-.-IDFX-.->FX
+        FY-.-IDFY-.->FY
+    end
+
+    X -->|"F"| FX
+    Y -->|"F"| FY
+
+    style C stroke:#6666ff
+    style D stroke:#ff6666
+
+    style X stroke:#6666ff
+    style Y stroke:#6666ff
+    style FX stroke:#ff6666
+    style FY stroke:#ff6666
+```
+
 -   F maps objects in C to objects in D, for example, X, Y, Z, … ∈ ob(C) are mapped to F(X), F(Y), F(Z), … ∈ in ob(D)
 -   F also maps morphisms in C to morphisms in D, for example, m: X → Y ∈ hom(C) is mapped to morphism F(m): F(X) → F(Y) ∈ hom(D). In this tutorial, to align to C#/.NET terms, this morphism mapping capability of functor is also called “select”. so F(m) is also denoted SelectF(m).
 
@@ -27,6 +65,43 @@ And F must satisfy the following functor laws:
 
 -   Composition preservation: F(m2 ∘ m1) ≡ F(m2) ∘ F(m1), or SelectF(m2 ∘ m1) ≡ SelectF(m2) ∘ SelectF(m1), F maps composition in C to composition in D
 -   Identity preservation: F(idX) ≡ idF(X), or SelectF(idX) ≡ idF(X), F maps each identity morphism in C to identity morphism in D [![image3_thumb](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-3-Functor_DC22/image3_thumb_thumb.png "image3_thumb")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-3-Functor_DC22/image3_thumb_2.png)
+
+```mermaid
+flowchart TD
+    subgraph C["C"]
+        X{"X"}
+        Y{"Y"}
+        Z{"Z"}
+
+        X-->|"m<sub>1</sub>"|Y
+        Y-->|"m<sub>2</sub>"|Z
+        X-->|"m<sub>2</sub> ∘ m<sub>1</sub>"|Z
+    end
+
+    subgraph D["D"]
+        FX{"F(X)"}
+        FY{"F(Y)"}
+        FZ{"F(Z)"}
+
+        FX-->|"Select(m<sub>1</sub>)"|FY
+        FY-->|"Select(m<sub>2</sub>)"|FZ
+        FX-->|"Select(m<sub>2</sub> ∘ m<sub>1</sub>) <br /> Select(m<sub>2</sub>) ∘ Select(m<sub>1</sub>)"|FZ
+    end
+
+    X-->|"F"|FX
+    Y-->|"F"|FY
+    Z-->|"F"|FZ
+
+    style C stroke:#6666ff
+    style D stroke:#ff6666
+
+    style X stroke:#6666ff
+    style Y stroke:#6666ff
+    style Z stroke:#6666ff
+    style FX stroke:#ff6666
+    style FY stroke:#ff6666
+    style FZ stroke:#ff6666
+```
 
 ### Endofunctor
 

@@ -24,10 +24,62 @@ In category theory, a [category](http://en.wikipedia.org/wiki/Category_\(mathema
 -   A collection of morphisms (relations, aka arrows or maps) between objects, denoted hom(C). A morphism m from source object X to target object Y is denoted m: X → Y.
 -   A composition operation of morphisms, denoted ∘. For m1: X → Y and m2: Y → Z, their composition is also a morphism (m2∘ m1): Y → Z. Here the name of m1 of m2 also implies the order. m2 ∘ m1 can be read as m2 after m1. [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb_1.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_4.png)[![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_2.png)
 
+    ```mermaid
+    flowchart LR
+        A{"X"}
+        B{"Y"}
+        C{"Z"}
+        
+        A-->|"m<sub>1</sub>"|B
+        B-->|"m<sub>2</sub>"|C
+        A-->|"m<sub>2</sub> ∘ m<sub>1</sub>"|C
+
+        style A stroke:#6666ff
+        style B stroke:#ff6666
+        style C stroke:#66ff66
+    ```
+
 And these entities must satisfy the following 2 category laws:
 
 -   Associative law: the composition of morphisms [associative](http://en.wikipedia.org/wiki/Associativity): For m1: W → X, m2: X → Y and m3: Y → Z, there is (m3 ∘ m2) ∘ m1≡ ≡ m3 ∘ (m2 ∘ m1).
+
+    ```mermaid
+    flowchart LR
+        A{"W"}
+        B{"X"}
+        C{"Y"}
+        D{"Z"}
+        
+        A -->|"m<sub>1</sub>"| B
+        B -->|"m<sub>2</sub>"| C
+        C -->|"m<sub>3</sub>"| D
+        A -->|"m<sub>2</sub> ∘ m<sub>1</sub>"| C
+        B -->|"m<sub>3</sub> ∘ m<sub>2</sub>"| D
+        A -->|"(m<sub>3</sub> ∘ m<sub>2</sub>) ∘ m<sub>1</sub> <br /> m<sub>3</sub> ∘ (m<sub>2</sub> ∘ m<sub>1</sub>)"| D
+
+        style A stroke:#6666ff
+        style B stroke:#ff6666
+        style C stroke:#66ff66
+        style D stroke:#ffff66
+    ```
+
 -   Identity law: for each object X, there is an [identity](http://en.wikipedia.org/wiki/Identity_function) morphism: idx : X → X, and identity morphism is neutral for morphism composition. For m: X → Y, there is idY ∘ m ≡ m ≡ m ∘ idX. [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb_3.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_9.png)
+
+```mermaid
+flowchart LR
+    A{"X"}
+    B{"Y"}
+    
+    IDX@{shape: stadium, label: "id<sub>X</sub>"}
+    IDY@{shape: stadium, label: "id<sub>Y</sub>"}
+    
+    A-->|"id<sub>Y</sub> ∘ m <br /> m <br /> m ∘ id<sub>X</sub>"|B
+    A-.-IDX-.->A
+    B-.-IDY-.->B
+
+    style A stroke:#6666ff
+    style B stroke:#ff6666
+```
 
 To make above abstract definitions intuitive, a category can be represented by the following interface:
 
@@ -46,7 +98,54 @@ A simple example of category is the category of integers, where the collection o
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/248e0c9c0941_E1F4/image_thumb.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/248e0c9c0941_E1F4/image_2.png)
 
+```mermaid
+flowchart LR
+    A{"0"}
+    B{"1"}
+    C{"2"}
+    D{"10"}
+
+    IDA@{shape: stadium, label: "id<sub>0</sub> <br /> 0 ≤ 0"}
+    IDB@{shape: stadium, label: "id<sub>1</sub> <br /> 1 ≤ 1"}
+    IDC@{shape: stadium, label: "id<sub>2</sub> <br /> 2 ≤ 2"}
+    IDD@{shape: stadium, label: "id<sub>10</sub> <br /> 10 ≤ 10"}
+    
+    A-->|"0 ≤ 1"|B
+    B-->|"1 ≤ 2"|C
+    C-->|"2 ≤ 10"|D
+    
+    A-.-IDA-.->A
+    B-.-IDB-.->B
+    C-.-IDC-.->C
+    D-.-IDD-.->D
+
+    A-->|"(1 ≤ 2) ∘ (0 ≤ 1) <br /> 0 ≤ 2"|C
+    B-->|"(2 ≤ 10) ∘ (1 ≤ 2) <br /> 1 ≤ 10"|D
+    A-->|"((2 ≤ 10) ∘ (1 ≤ 2)) ∘ (0 ≤ 1) <br /> (2 ≤ 10) ∘ ((1 ≤ 2) ∘ (0 ≤ 1))"|D
+
+    style A stroke:#6666ff
+    style B stroke:#ff6666
+    style C stroke:#66ff66
+    style D stroke:#ffff66
+```
+
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/248e0c9c0941_E1F4/image_thumb_1.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/248e0c9c0941_E1F4/image_4.png)
+
+```mermaid
+flowchart LR
+    A{"0"}
+    B{"1"}
+
+    IDA@{shape: stadium, label: "id<sub>0</sub> <br /> 0 ≤ 0"}
+    IDB@{shape: stadium, label: "id<sub>1</sub> <br /> 1 ≤ 1"}
+    
+    A-->|"(1 ≤ 1) ∘ (0 ≤ 1) <br /> 0 ≤ 1 <br /> (0 ≤ 1) ∘ (0 ≤ 0)"|B
+    A-.-IDA-.->A
+    B-.-IDB-.->B
+
+    style A stroke:#6666ff
+    style B stroke:#ff6666
+```
 
 Apparently, the above composition is associative, foe example: ((1 ≤ 10) ∘ (0 ≤ 1)) ∘ (-1 ≤ 0) ≡ -1 ≤ 10 ≡ (1 ≤ 10) ∘ ((0 ≤ 1) ∘ (-1 ≤ 0)). And for each integer X, there is an identity morphism idX: X → X (X ≤ X), and (Y ≤ Y) ∘ (X ≤ Y) ≡ X ≤ Y ≡ (X ≤ Y) ∘ (X ≤ X). So the category laws are satisfied. In C#, integer can be represented by int, and the morphism of ≤ relation can be represented by a BinaryExpression of node type LessThanOrEqual, so the category can be represented as:
 
@@ -96,6 +195,29 @@ public static partial class Functions
 So that the category laws are satisfied.
 
 [![image](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_thumb_4.png "image")](https://aspblogs.z22.web.core.windows.net/dixin/Windows-Live-Writer/Category-Theory-via-C-1-Fundamentals_6A3A/image_11.png)
+
+```mermaid
+flowchart LR
+    A{"string"}
+    B{"int"}
+    C{"bool"}
+
+    IDA@{shape: stadium, label: "Id&lt;string>"}
+    IDB@{shape: stadium, label: "Id&lt;int>"}
+    IDC@{shape: stadium, label: "Id&lt;bool>"}
+    
+    A-->|"f<sub>1</sub>"|B
+    B-->|"f<sub>2</sub>"|C
+    A-->|"f<sub>2</sub> ∘ f<sub>1</sub>"|C
+    
+    A-.-IDA-.->A
+    B-.-IDB-.->B
+    C-.-IDC-.->C
+
+    style A stroke:#6666ff
+    style B stroke:#ff6666
+    style C stroke:#66ff66
+```
 
 The DotNet category can be represented as:
 
