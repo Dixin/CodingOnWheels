@@ -1,10 +1,11 @@
+import { unified } from "@astrojs/markdown-remark";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import tailwind from "@astrojs/tailwind";
 import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections";
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 import swup from "@swup/astro";
-import { defineConfig } from "astro/config";
+import { defineConfig, memoryCache } from "astro/config";
 import expressiveCode from "astro-expressive-code";
 import icon from "astro-icon";
 import mermaid from "astro-mermaid";
@@ -27,6 +28,9 @@ import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
 
 // https://astro.build/config
 export default defineConfig({
+    cache: {
+        provider: memoryCache(),
+    },
 	site: "https://CodingOnWheels.com/",
 	base: "/",
 	trailingSlash: "always",
@@ -110,6 +114,7 @@ export default defineConfig({
 		sitemap(),
 	],
 	markdown: {
+        processor: unified(),
 		remarkPlugins: [
 			remarkMath,
 			remarkReadingTime,
